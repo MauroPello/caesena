@@ -15,9 +15,9 @@ public class TileImpl implements Tile {
 
     public TileImpl(String imagePath) {
         this.sections = new HashMap<>();
-        this.currentPosition = Optional.empty();
         this.imagePath = imagePath;
-        //a ogni tile impl genero l'immagine
+
+        this.currentPosition = Optional.empty();
     }
 
     @Override
@@ -48,7 +48,6 @@ public class TileImpl implements Tile {
 
     @Override
     public void putSection(TileSection section, GameSet gameSet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'putSection'");
+        this.sections.put(section, gameSet);
     }
 }
