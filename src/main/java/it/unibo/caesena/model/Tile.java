@@ -9,9 +9,13 @@ public interface Tile {
     public void rotateClockwise();
 
     public Optional<Position> getPosition();
+    
     public void setPosition(Position pos);
 
     public boolean isPlaced();
 
     public String getImagePath();
+
+    public void putSection(TileSection section, GameSet gameSet);
+
 }

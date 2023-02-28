@@ -45,4 +45,10 @@ public class TileImpl implements Tile {
     public String getImagePath() {
         return this.imagePath;
     }
+
+    @Override
+    public void putSection(TileSection section, GameSet gameSet) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'putSection'");
+    }
 }
