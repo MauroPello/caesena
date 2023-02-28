@@ -2,6 +2,8 @@ package it.unibo.caesena.model;
 
 import java.util.Optional;
 
+import it.unibo.caesena.utils.ToStringBuilder;
+
 public class NormalMeeple implements Meeple {
 
     private static final int STRENGTH = 1;
@@ -69,17 +71,11 @@ public class NormalMeeple implements Meeple {
 
     @Override
     public String toString() {
-        return new StringBuilder()
-            .append("[ OWNER NAME: ")
-            .append(this.owner.getName())
-            .append("; STRENGTH: ")
-            .append(this.getStrength())
-            .append("; TILE: ")
-            .append(this.tile.toString())
-            .append("; SECTION: ")
-            .append(this.section.get().name())
-            .append(" ]")
-            .toString();
+        return new ToStringBuilder()
+            .add("OWNER", this.owner)
+            .add("TILE", this.tile.orElse(null))
+            .add("SECTION", this.section.orElse(null))
+            .build();
     }
 
     
