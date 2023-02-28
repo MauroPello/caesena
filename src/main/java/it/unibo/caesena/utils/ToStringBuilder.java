@@ -1,7 +1,6 @@
 package it.unibo.caesena.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ToStringBuilder {
