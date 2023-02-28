@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import it.unibo.caesena.utils.Position;
 
-public class TileWithBuilder implements Tile {
+public class TileImpl implements Tile {
 
     @Override
     public void rotateClockwise() {
@@ -35,6 +35,4 @@ public class TileWithBuilder implements Tile {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getImagePath'");
     }
-    
-    public static class Builder {}
 }
