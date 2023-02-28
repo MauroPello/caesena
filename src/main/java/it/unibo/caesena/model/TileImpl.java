@@ -8,14 +8,15 @@ import it.unibo.caesena.utils.Position;
 
 public class TileImpl implements Tile {
 
-    private final String imagePath;
+    private final String imageName;
 
     private Map<TileSection, GameSet> sections;
     private Optional<Position> currentPosition;
     private int rotationCount;
+    private static final String ROOT = "it/unibo/caesena/images/";
 
-    public TileImpl(String imagePath) {
-        this.imagePath = imagePath;
+    public TileImpl(String imageName) {
+        this.imageName = imageName;
         
         this.currentPosition = Optional.empty();
         this.sections = new HashMap<>();
@@ -66,7 +67,7 @@ public class TileImpl implements Tile {
 
     @Override
     public String getImagePath() {
-        return this.imagePath;
+        return ROOT + this.imageName + ".png";
     }
 
     @Override
