@@ -18,4 +18,5 @@ public interface Tile {
 
     public void putSection(TileSection section, GameSet gameSet);
 
+    public int getRotationCount();
 }
