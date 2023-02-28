@@ -1,6 +1,7 @@
 package it.unibo.caesena.model;
 
 import it.unibo.caesena.utils.Color;
+import it.unibo.caesena.utils.ToStringBuilder;
 
 public class PlayerImpl implements Player{
 
@@ -53,18 +54,12 @@ public class PlayerImpl implements Player{
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        ToStringBuilder builder = new ToStringBuilder();
         builder
-            .append("[")
-            .append("Name: ")
-            .append(this.name)
-            .append(", ")
-            .append("Color: ")
-            .append(this.color.toString())
-            .append(", ")
-            .append("Current score: ")
-            .append(this.score)
-            .append("]");
-        return builder.toString();
+            .add("Name", name)
+            .add("Color", color.toString())
+            .add("Score", String.valueOf(score));
+
+        return builder.build();
     }
 }

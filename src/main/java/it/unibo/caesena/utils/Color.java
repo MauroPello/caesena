@@ -42,16 +42,14 @@ public class Color {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder
-            .append("[")
-            .append("Name: ")
-            .append(this.name)
-            .append(", ")
-            .append("Hex: ")
-            .append(this.hex)
-            .append("]");
-        return builder.toString();
+        ToStringBuilder builder = new ToStringBuilder();
+        if (name.isPresent()) {
+            builder
+                .add("Name", name.get());
+        }
+
+        builder.add("Hex", hex);
+        return builder.build();
     }
 
 

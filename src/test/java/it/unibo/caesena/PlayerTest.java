@@ -42,6 +42,6 @@ final class PlayerTest {
     @Test
     public void testToString() {
         String string = player.toString();
-        assertEquals("[Name: Giocatore1, Color: [Name: Optional[Red], Hex: FF0000], Current score: 0]", string);
+        assertEquals("[Name: Giocatore1, Color: [Name: Red, Hex: FF0000], Score: 0]", string);
     }
 }
