@@ -10,10 +10,13 @@ public class TileImpl implements Tile {
 
     private final String imageName;
 
+    private static final String ROOT = "it/unibo/caesena/images/";
+    private static final String IMAGE_FORMAT = "png";
+    private static final Integer MAX_ROTATIONS = 4;
+
     private Map<TileSection, GameSet> sections;
     private Optional<Position> currentPosition;
     private int rotationCount;
-    private static final String ROOT = "it/unibo/caesena/images/";
 
     public TileImpl(String imageName) {
         this.imageName = imageName;
@@ -46,7 +49,7 @@ public class TileImpl implements Tile {
         rotateSections.put(TileSection.RightCenter, this.sections.get(TileSection.UpCenter));
         rotateSections.put(TileSection.RightUp, this.sections.get(TileSection.UpLeft));
 
-        this.rotationCount = (this.rotationCount + 1) % 4;
+        this.rotationCount = (this.rotationCount + 1) % MAX_ROTATIONS;
         this.sections = rotateSections;
     }
 
@@ -66,8 +69,8 @@ public class TileImpl implements Tile {
     }
 
     @Override
-    public String getImagePath() {
-        return ROOT + this.imageName + ".png";
+    public String getImageResourcesPath() {
+        return ROOT + this.imageName + "." + IMAGE_FORMAT;
     }
 
     @Override

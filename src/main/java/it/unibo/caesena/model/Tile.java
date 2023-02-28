@@ -14,7 +14,7 @@ public interface Tile {
 
     public boolean isPlaced();
 
-    public String getImagePath();
+    public String getImageResourcesPath();
 
     public void putSection(TileSection section, GameSet gameSet);
 
