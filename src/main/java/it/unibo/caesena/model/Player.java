@@ -10,5 +10,7 @@ public interface Player {
 
     int getScore();
 
-    void setScore();
+    void setScore(int newScore);
+
+    void addScore(int amount);
 }

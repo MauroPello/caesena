@@ -1,19 +1,58 @@
 package it.unibo.caesena.utils;
 
+import java.util.Optional;
+
 public class Color {
 
-    public String getHex() {
-        //TODO
-        return null;
+    private Optional<String> name;
+    private String hex;
+
+    private Color() {};
+
+    public static Color createCustomColor(String hex) {
+        final Color playerColor = new Color();
+        playerColor.hex = hex;
+        return playerColor;
     }
 
-    public int getHexAsDecimal() {
-        //TODO
-        return 0;
+    public static Color createColor(String hex, String name) {
+        final Color playerColor = new Color();
+        playerColor.hex = hex;
+        playerColor.name = Optional.of(name);
+        return playerColor;
+    }
+
+    public String getHex() {
+        return this.hex;
+    }
+
+    public int getHexAsInteger() {
+        return Integer.parseInt(hex, 16);
     }
 
     public String getName() {
-        //TODO
-        return null;
+        return this.name.isEmpty() ? "Custom Color" : this.name.get();
     }
+
+    @Override
+    public boolean equals(final Object arg0) {
+        Color otherColor = (Color)arg0;
+        return this.hex == otherColor.hex;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder
+            .append("[")
+            .append("Name: ")
+            .append(this.name)
+            .append(", ")
+            .append("Hex: ")
+            .append(this.hex)
+            .append("]");
+        return builder.toString();
+    }
+
+
 }
