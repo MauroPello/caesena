@@ -10,18 +10,6 @@ public class ToStringBuilder {
         this.elements = new ArrayList<>();
     }
 
-    public ToStringBuilder add(final String field, final String value) {
-        String actualValue = String.valueOf("");
-        if (value == null) {
-            actualValue = "null";
-        } else {
-            actualValue = value;
-        }
-        Pair<String, String> definitivePair = new Pair<String,String>(capitalize(field), capitalize(actualValue));
-        elements.add(definitivePair);
-        return this;
-    }
-
     public ToStringBuilder add(final String field, final Object value) {
         String actualValue = String.valueOf("");
         if (value == null) {
@@ -29,7 +17,7 @@ public class ToStringBuilder {
         } else {
             actualValue = value.toString();
         }
-        Pair<String, String> definitivePair = new Pair<String,String>(capitalize(field), capitalize(actualValue));
+        Pair<String, String> definitivePair = new Pair<String,String>(capitalize(field), actualValue);
         elements.add(definitivePair);
         return this;
     }
