@@ -1,10 +1,21 @@
 package it.unibo.caesena.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import it.unibo.caesena.utils.Position;
 
 public class TileImpl implements Tile {
+
+    private final Map<TileSection, GameSet> sections;
+    
+    private Optional<Position> currentPosition;
+
+    public TileImpl() {
+        this.sections = new HashMap<>();
+        this.currentPosition = Optional.empty();
+    }
 
     @Override
     public void rotateClockwise() {
@@ -14,20 +25,17 @@ public class TileImpl implements Tile {
 
     @Override
     public Optional<Position> getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+        return this.currentPosition;
     }
 
     @Override
     public void setPosition(Position pos) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setPosition'");
+        this.currentPosition = Optional.of(pos);
     }
 
     @Override
     public boolean isPlaced() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isPlaced'");
+        return this.currentPosition.isPresent();
     }
 
     @Override
