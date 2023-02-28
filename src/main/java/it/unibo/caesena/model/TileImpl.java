@@ -9,12 +9,15 @@ import it.unibo.caesena.utils.Position;
 public class TileImpl implements Tile {
 
     private final Map<TileSection, GameSet> sections;
-    
+    private final String imagePath;
+
     private Optional<Position> currentPosition;
 
-    public TileImpl() {
+    public TileImpl(String imagePath) {
         this.sections = new HashMap<>();
         this.currentPosition = Optional.empty();
+        this.imagePath = imagePath;
+        //a ogni tile impl genero l'immagine
     }
 
     @Override
@@ -40,7 +43,6 @@ public class TileImpl implements Tile {
 
     @Override
     public String getImagePath() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getImagePath'");
+        return this.imagePath;
     }
 }
