@@ -16,7 +16,7 @@ final class PlayerTest {
 
     @BeforeAll
     public static void init() {
-        player = new PlayerImpl("Giocatore1", Color.createColor("FF0000", "Red"));
+        player = new PlayerImpl("Giocatore1", Color.createCustomColor("FF0000"));
     }
 
     @Test
@@ -24,7 +24,7 @@ final class PlayerTest {
         String name = player.getName();
         assertEquals("Giocatore1", name);
         Color color = player.getColor();
-        assertEquals(Color.createColor("FF0000", "Red"), color);
+        assertEquals(Color.createCustomColor("FF0000"), color);
         int score = player.getScore();
         assertEquals(0, score);
     }
@@ -42,6 +42,6 @@ final class PlayerTest {
     @Test
     public void testToString() {
         String string = player.toString();
-        assertEquals("[Name: Giocatore1, Color: [Name: Red, Hex: FF0000], Score: 0]", string);
+        assertEquals("[Color: [Hex: FF0000, Hex as integer: 16711680, Name: Custom Color], Name: Giocatore1, Prova parole dai vediamo: ciao, Score: 0]", string);
     }
 }

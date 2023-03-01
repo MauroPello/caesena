@@ -30,6 +30,10 @@ public class PlayerImpl implements Player{
         return this.score;
     }
 
+    public String getProvaParoleDaiVediamo() {
+        return "ciao";
+    }
+
     @Override
     public void setScore(int newScore) {
         if (newScore <= this.score) {
@@ -54,12 +58,6 @@ public class PlayerImpl implements Player{
 
     @Override
     public String toString() {
-        ToStringBuilder builder = new ToStringBuilder();
-        builder
-            .add("Name", name)
-            .add("Color", color.toString())
-            .add("Score", String.valueOf(score));
-
-        return builder.build();
+        return new ToStringBuilder().addFromObjectGetters(this).build();
     }
 }

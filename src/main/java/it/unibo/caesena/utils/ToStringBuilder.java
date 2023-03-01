@@ -1,9 +1,13 @@
 package it.unibo.caesena.utils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ToStringBuilder {
+    private final static String EMPTY_STRING = "";
+    private final static String SPACE_STRING = " ";
     private final List<Pair<String, String>> elements;
 
     public ToStringBuilder() {
@@ -11,13 +15,11 @@ public class ToStringBuilder {
     }
 
     public ToStringBuilder add(final String field, final Object value) {
-        String actualValue = String.valueOf("");
-        if (value == null) {
-            actualValue = "null";
-        } else {
+        String actualValue = "null";
+        if (value != null) {
             actualValue = value.toString();
         }
-        Pair<String, String> definitivePair = new Pair<String,String>(capitalize(field), actualValue);
+        Pair<String, String> definitivePair = new Pair<>(capitalize(field), actualValue);
         elements.add(definitivePair);
         return this;
     }
@@ -28,8 +30,64 @@ public class ToStringBuilder {
         return String.valueOf(charArray);
     }
 
+    private String getNameFromMethod(Method method) {
+        String result = ToStringBuilder.EMPTY_STRING;
+        String name = method.getName().replace("get", ToStringBuilder.EMPTY_STRING);
+        List<String> words = getWordsFromUppercaseChar(name);
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                result += result.isEmpty() ? word : ToStringBuilder.SPACE_STRING + word;
+            }
+        }
+        return result;
+    }
+
+    private List<String> getWordsFromUppercaseChar(String name) {
+        List<String> result = new ArrayList<>();
+        String currentString = ToStringBuilder.EMPTY_STRING;
+        char[] charArray = name.toCharArray();
+        for (char c : charArray) {
+            String currentCharAsString = String.valueOf(c);
+            if (!(result.isEmpty() && currentString.isEmpty()) && isUppercase(currentCharAsString)) {
+                result.add(result.isEmpty() ? currentString : currentString.toLowerCase());
+                currentString = ToStringBuilder.EMPTY_STRING;
+            }
+            currentString += currentCharAsString;
+        }
+        result.add(currentString);
+        return result;
+    }
+
+    private boolean isUppercase(String currentCharAsString) {
+        return currentCharAsString == currentCharAsString.toUpperCase();
+    }
+
+    private boolean isGetter(Method method) {
+        return method.getName().contains("get") && !method.getName().equals("getClass");
+    }
+
+    public ToStringBuilder addFromObjectGetters(Object obj)
+    {
+        var methods = obj.getClass().getMethods();
+        for (Method method : methods) {
+            if (isGetter(method)) {
+                String name = getNameFromMethod(method);
+                String value = "null";
+                try {
+                    var getterResult = method.invoke(obj);
+                    if (getterResult != null) {
+                        value = getterResult.toString();
+                    }
+                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {}
+                this.add(name, value);
+            }
+        }
+        return this;
+    }
+
     public String build()
     {
+        elements.sort((p1, p2) -> p1.getX().compareTo(p2.getX()));
         final StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[");
         for (int i = 0; i < elements.size() - 1; i++) {

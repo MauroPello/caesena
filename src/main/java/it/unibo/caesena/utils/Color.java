@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class Color {
 
-    private Optional<String> name;
+    private Optional<String> name = Optional.empty();
     private String hex;
 
     private Color() {};
@@ -42,14 +42,7 @@ public class Color {
 
     @Override
     public String toString() {
-        ToStringBuilder builder = new ToStringBuilder();
-        if (name.isPresent()) {
-            builder
-                .add("Name", name.get());
-        }
-
-        builder.add("Hex", hex);
-        return builder.build();
+        return new ToStringBuilder().addFromObjectGetters(this).build();
     }
 
 
