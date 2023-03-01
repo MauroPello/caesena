@@ -2,7 +2,9 @@ package it.unibo.caesena.controller;
 
 import java.util.List;
 
-import it.unibo.caesena.model.*;
+import it.unibo.caesena.model.meeple.*;
+import it.unibo.caesena.model.tile.*;
+import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.*;
 
 public interface Controller {

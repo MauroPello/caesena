@@ -1,9 +1,10 @@
-package it.unibo.caesena.model;
+package it.unibo.caesena.model.tile;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.utils.Position;
 
 public class TileImpl implements Tile {

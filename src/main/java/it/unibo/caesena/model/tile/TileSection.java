@@ -1,4 +1,4 @@
-package it.unibo.caesena.model;
+package it.unibo.caesena.model.tile;
 
 public enum TileSection {
     UpLeft,

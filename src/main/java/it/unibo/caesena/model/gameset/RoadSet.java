@@ -1,6 +1,8 @@
-package it.unibo.caesena.model;
+package it.unibo.caesena.model.gameset;
 
-public class CitySet implements GameSet {
+import it.unibo.caesena.model.meeple.Meeple;
+
+public class RoadSet implements GameSet {
 
     @Override
     public boolean addMeeple(Meeple meeple) {

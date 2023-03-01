@@ -1,4 +1,6 @@
-package it.unibo.caesena.model;
+package it.unibo.caesena.model.gameset;
+
+import it.unibo.caesena.model.meeple.Meeple;
 
 public interface GameSet {
     

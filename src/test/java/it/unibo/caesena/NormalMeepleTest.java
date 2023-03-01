@@ -9,12 +9,12 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.caesena.model.NormalMeeple;
+import it.unibo.caesena.model.meeple.NormalMeeple;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.PlayerImpl;
-import it.unibo.caesena.model.Tile;
-import it.unibo.caesena.model.TileFactoryWithBuilder;
-import it.unibo.caesena.model.TileSection;
+import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
+import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Color;
 
 final class NormalMeepleTest {

@@ -1,6 +1,12 @@
-package it.unibo.caesena.model;
+package it.unibo.caesena.model.tile;
 
 import java.util.List;
+
+import it.unibo.caesena.model.gameset.CitySet;
+import it.unibo.caesena.model.gameset.FieldSet;
+import it.unibo.caesena.model.gameset.GameSet;
+import it.unibo.caesena.model.gameset.MonasterySet;
+import it.unibo.caesena.model.gameset.RoadSet;
 
 public class TileBuilder {
     
