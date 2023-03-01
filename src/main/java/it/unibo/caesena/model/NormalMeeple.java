@@ -36,12 +36,13 @@ public class NormalMeeple implements Meeple {
 
     @Override
     public boolean place(TileSection section, Tile tile) {
-        if (isPlaced()) {
+        if (isPlaced() || !tile.getGameSet(section).get().isMeepleFree()) {
             return false;
         }
 
         this.section = Optional.of(section);
         this.tile = Optional.of(tile);
+        this.tile.get().getGameSet(this.section.get()).get().addMeeple(this);
         return true;
     }
 
@@ -87,6 +88,7 @@ public class NormalMeeple implements Meeple {
             return false;
         }
 
+        this.tile.get().getGameSet(this.section.get()).get().removeMeeple(this);
         this.section = Optional.empty();
         this.tile = Optional.empty();
         return true;
