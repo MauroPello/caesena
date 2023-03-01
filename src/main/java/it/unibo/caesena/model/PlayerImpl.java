@@ -30,10 +30,6 @@ public class PlayerImpl implements Player{
         return this.score;
     }
 
-    public String getProvaParoleDaiVediamo() {
-        return "ciao";
-    }
-
     @Override
     public void setScore(int newScore) {
         if (newScore <= this.score) {

@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,15 +27,18 @@ import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
     private static final String FILE_TILES_PATH = "it/unibo/caesena/tile.conf";
+    private static final int MEEPLES_PER_PLAYER = 8; //TODO guardare le regole del gioco
     private final List<Meeple> meeples = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
     private final List<Tile> tiles = new ArrayList<>();
     private Tile currentTile;
     private Player currentPlayer;
+    private int turn;
 
     @Override
     public void startGame() {
-        //currentPlayer = players.get(0);
+        Collections.shuffle(players);
+        currentPlayer = players.get(0);
         try {
             buildAllTiles();
         } catch (Exception e) {}
@@ -84,24 +89,21 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void addPlayer(String name, Color color) {
-        players.add(new PlayerImpl(name, color));
+        Player newPlayer = new PlayerImpl(name, color);
+        players.add(newPlayer);
+        for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
+            meeples.add(new NormalMeeple(newPlayer));
+        }
     }
 
     @Override
     public Tile getCurrentTile() {
-        drawNewTile();
         return currentTile;
-    }
-
-    private void drawNewTile() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rotateCurrentTile'");
     }
 
     @Override
     public void rotateCurrentTile() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rotateCurrentTile'");
+        currentTile.rotateClockwise();
     }
 
     @Override
@@ -112,31 +114,29 @@ public class ControllerImpl implements Controller {
 
     @Override
     public List<Player> getPlayers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPlayers'");
+        return Collections.unmodifiableList(players);
     }
 
     @Override
     public List<Tile> getPlacedTiles() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPlacedTiles'");
+        return tiles.stream()
+            .filter(x -> x.isPlaced())
+            .toList();
     }
 
     @Override
     public List<Meeple> getMeeples() {
-        return new ArrayList<>(meeples);
+        return Collections.unmodifiableList(meeples);
     }
 
     @Override
     public boolean isGameOver() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isGameOver'");
+        return getPlacedTiles().size() == tiles.size();
     }
 
     @Override
     public void endTurn() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'endTurn'");
+
     }
 
     @Override
@@ -152,15 +152,8 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void saveGame() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveGame'");
-    }
-
-    @Override
     public Player getCurrentPlayer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCurrentPlayer'");
+        return currentPlayer;
     }
 
     @Override
