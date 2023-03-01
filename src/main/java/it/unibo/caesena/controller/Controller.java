@@ -9,13 +9,15 @@ import it.unibo.caesena.utils.*;
 
 public interface Controller {
 
-    int startGame();
+    void startGame();
 
     void addPlayer(String name, Color color);
 
     boolean placeMeeple(Meeple meeple);
 
     Tile getCurrentTile();
+
+    Player getCurrentPlayer();
 
     void rotateCurrentTile();
 
