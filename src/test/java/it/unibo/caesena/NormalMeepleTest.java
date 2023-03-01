@@ -31,10 +31,12 @@ final class NormalMeepleTest {
     @Test
     public void testGetters() {
         assertEquals(1, meeple.getStrength());
+
         assertEquals(Optional.empty(), meeple.getTileSection());
         assertEquals(Optional.empty(), meeple.getTile());
+        
         assertFalse(meeple.isPlaced());
-        assertFalse(meeple.removeFromTile());
+
         assertEquals(owner, meeple.getOwner());
     }
 
@@ -48,9 +50,13 @@ final class NormalMeepleTest {
     public void testPlace() {
         final Tile tile = new TileFactoryWithBuilder().createMonastery();
         assertTrue(meeple.place(TileSection.Center, tile));
+        assertTrue(meeple.isPlaced());
+        
         assertEquals(TileSection.Center, meeple.getTileSection().get());
         assertEquals(tile, meeple.getTile().get());
+        
         assertTrue(meeple.removeFromTile());
+        assertFalse(meeple.isPlaced());
     }
 
 }
