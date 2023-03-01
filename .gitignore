@@ -1,0 +1,16 @@
+# Ignore Latex Files
+*.toc
+*.synctex.gz
+*.synctex.bbl
+*.synctex.blg
+*.log
+*.out
+*.aux
+*.bbl
+*.blg
+bin/
+*.eps
+*.kate-swp
+*.dvi
+*.fdb_latexmk
+*.fls
