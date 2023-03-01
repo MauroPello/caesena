@@ -1,14 +1,20 @@
 package it.unibo.caesena.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import it.unibo.caesena.model.*;
@@ -18,35 +24,62 @@ import it.unibo.caesena.model.gameset.*;
 import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
-
-    private static final String FILE_TILES_PATH = "it/unibo/getresource/tile.conf";
-    
+    private static final String FILE_TILES_PATH = "it/unibo/caesena/tile.conf";
     private final List<Meeple> meeples = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
-    private final List<Pair<Tile, Boolean>> tiles = new ArrayList<>();
-    
+    private final List<Tile> tiles = new ArrayList<>();
     private Tile currentTile;
     private Player currentPlayer;
 
     @Override
     public void startGame() {
-        currentPlayer = players.get(0);
+        //currentPlayer = players.get(0);
         try {
             buildAllTiles();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
     }
 
     private void buildAllTiles() throws IOException {
-        final InputStream in = Objects.requireNonNull(
-            ClassLoader.getSystemResourceAsStream(FILE_TILES_PATH)
-        );
-        String line;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-            line = br.readLine();
+        List<String> lines;
+        try {
+            lines = Files.readAllLines(Paths.get(ClassLoader.getSystemResource(FILE_TILES_PATH).toURI()));
+            for (String line : lines) {
+                String imageName = line.split(";")[0];
+                int cardinality = Integer.parseInt(line.split(";")[1]);
+                for (int i = 0; i < cardinality; i++) {
+                    tiles.add(makeTileFromImagePath(imageName));
+                }
+            }
+        } catch (Exception e) { }
+    }
+
+    private Tile makeTileFromImagePath(String imageName) {
+        TileFactory tileFactory = new TileFactoryWithBuilder();
+        try {
+            Method method = TileFactory.class.getMethod(getMethodNameFromString(imageName));
+            return (Tile)method.invoke(tileFactory);
+        } catch (Exception e) {}
+        return null;
+    }
+
+    private String getMethodNameFromString(String string) {
+        String methodName = "create";
+        char[] charArray = string.toCharArray();
+        boolean nextIsUpperCase = true;
+        for (char c : charArray) {
+            String currentCharAString = String.valueOf(c);
+            if (nextIsUpperCase) {
+                currentCharAString = currentCharAString.toUpperCase();
+                nextIsUpperCase = false;
+            }
+            if (c == '-') {
+                nextIsUpperCase = true;
+            }
+            else {
+                methodName += currentCharAString;
+            }
         }
+        return methodName;
     }
 
     @Override
