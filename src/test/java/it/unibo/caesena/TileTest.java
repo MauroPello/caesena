@@ -1,55 +1,43 @@
 package it.unibo.caesena;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-
-import it.unibo.caesena.model.PlayerImpl;
-import it.unibo.caesena.model.Tile;
-import it.unibo.caesena.model.TileImpl;
-import it.unibo.caesena.utils.Color;
+import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
+import it.unibo.caesena.utils.Pair;
 
 final class TileTest {
 
     private static Tile tile;
+    private static Pair<Integer, Integer> position;
 
     @BeforeAll
     public static void init() {
-        tile = new TileImpl("OOP22-caesena/src/main/resources/it/unibo/caesena/images/tiles/city-large.png");
+        tile = new TileFactoryWithBuilder().createCity();
+        position = new Pair<>(1, 1);
     }
 
     @Test
     public void testGetters() {
+        String path = tile.getImageResourcesPath();
+        assertEquals("it/unibo/caesena/images/tiles/city.png", path);
 
-        String path = tile.getImagePath();
-        String  tile.getPosition();
-        tile.getRotationCount();
-        
-        
-        String name = player.getName();
-        assertEquals("Giocatore1", name);
-        Color color = player.getColor();
-        assertEquals(Color.createColor("FF0000", "Red"), color);
-        int score = player.getScore();
-        assertEquals(0, score);
+        assertFalse(tile.isPlaced());
+        tile.setPosition(position);
+        assertTrue(tile.isPlaced());
+        assertEquals(position, tile.getPosition().get());
     }
 
     @Test
-    public void testScore() {
-        player.setScore(10);
-        assertEquals(10, player.getScore());
-        player.addScore(10);
-        assertEquals(20, player.getScore());
-        assertThrows(IllegalStateException.class, () -> player.addScore(-10));
-        assertThrows(IllegalStateException.class, () -> player.setScore(10));
-    }
+    public void testRotation() {
+        assertEquals(tile.getRotationCount(), 0);
 
-    @Test
-    public void testToString() {
-        String string = player.toString();
-        assertEquals("[Name: Giocatore1, Color: [Name: Red, Hex: FF0000], Score: 0]", string);
+        tile.rotateClockwise();
+        //TODO controllare rotazione 
+
+        assertEquals(tile.getRotationCount(), 1);
     }
 }

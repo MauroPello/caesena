@@ -12,7 +12,7 @@ public class TileImpl implements Tile {
 
     private final String imageName;
 
-    private static final String ROOT = "it/unibo/caesena/images/";
+    private static final String ROOT = "it/unibo/caesena/images/tiles/";
     private static final String IMAGE_FORMAT = "png";
     private static final Integer MAX_ROTATIONS = 4;
 
