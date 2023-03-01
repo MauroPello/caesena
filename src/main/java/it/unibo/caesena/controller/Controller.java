@@ -13,7 +13,7 @@ public interface Controller {
 
     void addPlayer(String name, Color color);
 
-    boolean placeMeeple(Meeple meeple);
+    boolean placeMeeple(Meeple meeple, TileSection section);
 
     Tile getCurrentTile();
 
@@ -27,7 +27,7 @@ public interface Controller {
 
     List<Tile> getPlacedTiles();
 
-    List<Meeple> getMeeples();
+    List<Meeple> getCurrentPlayerMeeples();
 
     boolean isGameOver();
 

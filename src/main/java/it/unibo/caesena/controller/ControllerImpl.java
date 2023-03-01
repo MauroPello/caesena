@@ -18,10 +18,13 @@ import it.unibo.caesena.model.gameset.*;
 import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
+
     private static final String FILE_TILES_PATH = "it/unibo/getresource/tile.conf";
+    
     private final List<Meeple> meeples = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
     private final List<Pair<Tile, Boolean>> tiles = new ArrayList<>();
+    
     private Tile currentTile;
     private Player currentPlayer;
 
@@ -87,8 +90,8 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public List<Meeple> getMeeples() {
-        return new ArrayList<>(meeples);
+    public List<Meeple> getCurrentPlayerMeeples() {
+        return meeples.stream().filter(m -> m.getOwner().equals(currentPlayer)).toList();
     }
 
     @Override
@@ -128,9 +131,8 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public boolean placeMeeple(Meeple meeple) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeMeeple'");
+    public boolean placeMeeple(Meeple meeple, TileSection section) {
+        return meeple.isPlaced() ? false : meeple.place(section, currentTile);
     }
 
 }
