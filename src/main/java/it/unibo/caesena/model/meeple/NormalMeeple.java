@@ -78,11 +78,7 @@ public class NormalMeeple implements Meeple {
 
     @Override
     public String toString() {
-        return new ToStringBuilder()
-            .add("OWNER", this.owner)
-            .add("TILE", this.tile.orElse(null))
-            .add("SECTION", this.section.orElse(null))
-            .build();
+        return new ToStringBuilder().addFromObjectGetters(this).build();
     }
 
     @Override
@@ -96,6 +92,5 @@ public class NormalMeeple implements Meeple {
         this.tile = Optional.empty();
         return true;
     }
-
     
 }

@@ -125,8 +125,8 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public List<Meeple> getMeeples() {
-        return Collections.unmodifiableList(meeples);
+    public List<Meeple> getCurrentPlayerMeeples() {
+        return meeples.stream().filter(m -> m.getOwner().equals(currentPlayer)).toList();
     }
 
     @Override
@@ -157,9 +157,8 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public boolean placeMeeple(Meeple meeple) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeMeeple'");
+    public boolean placeMeeple(Meeple meeple, TileSection section) {
+        return meeple.isPlaced() ? false : meeple.place(section, currentTile);
     }
 
 }
