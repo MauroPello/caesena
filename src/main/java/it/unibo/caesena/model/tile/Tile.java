@@ -3,15 +3,15 @@ package it.unibo.caesena.model.tile;
 import java.util.Optional;
 
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.utils.Position;
+import it.unibo.caesena.utils.Pair;
 
 public interface Tile {
 
     public void rotateClockwise();
 
-    public Optional<Position> getPosition();
+    public Optional<Pair<Integer, Integer>> getPosition();
     
-    public void setPosition(Position pos);
+    public void setPosition(Pair<Integer, Integer> pos);
 
     public boolean isPlaced();
 

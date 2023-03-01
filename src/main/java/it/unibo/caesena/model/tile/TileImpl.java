@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.utils.Position;
+import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.ToStringBuilder;
 
 public class TileImpl implements Tile {
@@ -17,7 +17,7 @@ public class TileImpl implements Tile {
     private static final Integer MAX_ROTATIONS = 4;
 
     private Map<TileSection, GameSet> sections;
-    private Optional<Position> currentPosition;
+    private Optional<Pair<Integer, Integer>> currentPosition;
     private int rotationCount;
 
     public TileImpl(String imageName) {
@@ -60,12 +60,12 @@ public class TileImpl implements Tile {
     }
 
     @Override
-    public Optional<Position> getPosition() {
+    public Optional<Pair<Integer, Integer>> getPosition() {
         return this.currentPosition;
     }
 
     @Override
-    public void setPosition(Position pos) {
+    public void setPosition(Pair<Integer, Integer> pos) {
         this.currentPosition = Optional.of(pos);
     }
 
