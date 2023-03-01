@@ -14,6 +14,9 @@ public class NormalMeeple implements Meeple {
 
     public NormalMeeple(Player owner) {
         this.owner = owner;
+
+        this.section = Optional.empty();
+        this.tile = Optional.empty();
     }
 
     @Override
@@ -76,6 +79,17 @@ public class NormalMeeple implements Meeple {
             .add("TILE", this.tile.orElse(null))
             .add("SECTION", this.section.orElse(null))
             .build();
+    }
+
+    @Override
+    public boolean removeFromTile() {
+        if (!isPlaced()) {
+            return false;
+        }
+
+        this.section = Optional.empty();
+        this.tile = Optional.empty();
+        return true;
     }
 
     

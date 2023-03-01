@@ -16,4 +16,6 @@ public interface Meeple {
 
     public boolean place(TileSection section, Tile tile);
 
+    public boolean removeFromTile();
+
 }
