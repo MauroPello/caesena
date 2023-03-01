@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.utils.Position;
+import it.unibo.caesena.utils.ToStringBuilder;
 
 public class TileImpl implements Tile {
 
@@ -93,4 +94,33 @@ public class TileImpl implements Tile {
         return Optional.ofNullable(this.sections.getOrDefault(section, null));
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Tile other = (Tile) obj;
+        boolean equal = true;
+
+        for (TileSection section : TileSection.values()) {
+            if (!this.getGameSet(section).equals(other.getGameSet(section)))
+            {
+                equal = false;
+            }
+        }
+
+        return equal;
+    }
+    
+    @Override
+    public String toString() {
+        return new ToStringBuilder().addFromObjectGetters(this).build();
+    }
 }
