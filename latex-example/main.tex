@@ -1,0 +1,108 @@
+\documentclass[italian, a4paper, 12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{subfiles}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{subfigure}
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{lightgrey}{RGB}{245, 245, 245}
+\definecolor{deepgreen}{RGB}{0, 180, 0}
+\lstdefinestyle{csharp}{
+    language=[Sharp]C,
+    columns=flexible,
+    breaklines=true,
+    breakatwhitespace=true,
+    backgroundcolor=\color{lightgrey},
+    commentstyle=\color{deepgreen},
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{red},
+    basicstyle=\ttfamily
+}
+\lstdefinestyle{dos}{
+    language=bash,
+    backgroundcolor=\color{black},
+    breaklines=true,
+    breakatwhitespace=true,
+    columns=flexible,
+    basicstyle=\small\color{white}\ttfamily
+}
+\lstdefinestyle{json}{
+    columns=flexible,
+    breaklines=true,
+    breakatwhitespace=true,
+    backgroundcolor=\color{lightgrey},
+    string=[s]{"}{"},
+    stringstyle=\color{blue},
+    comment=[l]{:},
+    commentstyle=\color{black},
+    basicstyle=\ttfamily
+}
+
+\bibliographystyle{bib.bst}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle={Rius.Co.: L'e-commerce per il RIUSo COllaborativo}
+}
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \textbf{\Huge Rius.Co.}
+
+        \vspace{1cm}
+
+        {\LARGE L'e-commerce per il RIUSo COllaborativo}
+
+        \vfill
+
+        {\includegraphics[scale=.42]{images/logo.png}}
+
+        \vfill
+
+        \textbf{\Large Mauro Pellonara}
+        
+        \vspace{1cm}
+        
+        {\large Elaborato di Informatica e Sistemi e Reti}
+        
+        \vspace{0.3cm}
+
+        {\large I.I.S. Volterra Elia}
+        
+        \vspace{0.3cm}
+        
+        {\large 31/05/2021}
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\subfile{content/01.introduzione.tex}
+\clearpage
+\subfile{content/02.analisi-requisti.tex}
+\clearpage
+\subfile{content/03.analisi-funzionale.tex}
+\clearpage
+\subfile{content/04.database.tex}
+\clearpage
+\subfile{content/05.infrastruttura.tex}
+\clearpage
+\subfile{content/06.sicurezza.tex}
+\clearpage
+\bibliography{content/main.bib}
+
+\end{document}

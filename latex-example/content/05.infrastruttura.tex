@@ -1,0 +1,54 @@
+\section{Infrastruttura di rete}
+L'infrastruttura di rete dell'azienda Rius.Co. comprende ben due reti diverse: la rete aziendale, della quale fanno parte le sottoreti degli uffici amministrativi, operativi e di segreteria, e la rete dei server che comprende i 4 server sulla quale è costruito il Marketplace. La rete dei server sarà esterna in quanto collocata all'interno di una rete VPC (Virtual Private Cloud) disponibile tramite il Google Cloud \cite{VPC}. 
+\medskip
+
+L'affitto di reti VPC è uno dei tanti servizi che offre Google per ospitare server e applicazioni web, in particolare questo servizio consiste nella creazione di una rete basata su la topologia virtuale fornita dagli utenti. Ho scelto questo servizio in quanto in passato avevo già avuto esperienze pratiche con la piattaforma cloud di Google; proprio grazie ai corsi online offerti dal programma Qwiklabs ho acquistato familiarità con le reti VPC e tutti i dispositivi che ne fanno parte \cite{Qwiklabs}. Google inoltre fornisce una grande quantità di strumenti che permettono ai programmatori di concentrarsi più sui servizi che stanno sviluppando che sull'infrastruttura che li circonda. Un esempio importante è la tecnologia HA Cloud VPN che permette di collegare tramite un tunnel VPN ad alta affidabilità (99.99\% garantito) la rete locale di un'azienda alle reti VPC collocate sul cloud \cite{CloudVPN}. La tecnologia HA Cloud VPN si basa sul protocollo IPSec ed implementa una Secure VPN di tipo site-to-site che non richiede una complessa configurazione manuale dell'utente. Le reti VPC fanno parte del nuovo approccio alle architetture di rete chiamato Software-defined networking (SDN) \cite{SDN}, si basano quindi sulla virtualizzazione delle reti e se ne guadagna perciò in termini di affidabilità, scalabilità, flessibilità e riduzione dei costi.
+\medskip
+
+Attraverso l'HA Cloud VPN i dipendenti dell'azienda potranno collegarsi da remoto alla rete VPC che contiene i server, la sede aziendale sarà quindi collegata ad Internet tramite un ISP e il traffico dei dipendenti collegati dall'azienda passerà per un Firewall che filtrerà i messaggi in entrata ed uscita. Nella sede aziendale saranno presenti un Campus Distributor che si interfaccerà con la rete pubblica dell'ISP per ottenere l'accesso ad Internet, sarà poi presente un Building Distributor in quanto si prevede la presenza di un solo edificio e infine ci saranno due Floor Distributor, uno per il piano che ospiterà l'ufficio amministrativo e un altro per il piano che ospiterà la segreteria e l'ufficio operativo. I collegamenti saranno costruiti con cavi ethernet di categoria 6A con schermatura completa SFTP che garantiscono la stabilità della connessione grazie alla doppia schermatura, un buon bandwidth (circa 10Gbps su 100 metri) e un risparmio considerevole visto il prezzo di circa 1 euro al metro \cite{Cables}. 
+\subsection{Apparati di rete}
+All'interno della rete aziendale saranno presenti un numero contenuto di apparati di rete fisici in quanto la parte più importante ed esposta dell'infrastruttura è contenuta nella rete VPC. L'infrastruttura sarà formata dai seguenti apparati di rete: 
+\begin{itemize}
+    \item \textbf{Due router di bordo con Firewall}, il primo sarà un router virtuale posto all'interno della rete dei server nella quale regolerà il traffico con regole statiche molto rigide implementate attraverso il Packet Filter Firewall. Il secondo sarà invece fisicamente collocato nella rete aziendale e si occuperà di ricevere la connessione dal Campus Distributor per poi filtrare i messaggi implementando delle politiche intelligenti che comprendono l'analisi dei pacchetti che attraversano la rete. Per fare ciò viene quindi implementato un Stateful Packet Inspection Firewall, in questo caso i messaggi ritenuti validi verranno inoltrati al router interno che si occuperà di recapitarli alla destinazione;
+    \item \textbf{Un router con DHCP} che si occuperà dell'instradare i pacchetti all'interno della rete aziendale e di assegnare automaticamente gli indirizzi IP ai dispositivi. Ho scelto di non includere un server DHCP per ragioni economiche e di manutenzione, l'azienda non dispone di numerose postazioni perciò un semplice router è in grado di gestire l'instradamento dei pacchetti e il servizio DHCP senza grossi problemi;
+    \item \textbf{Quattro switch} con ventiquattro porte ciascuno necessari in vista di futuri aggiornamenti della rete o l'acquisizione di ulteriore personale. 
+\end{itemize}
+Non ho incluso nessun access point in quanto offrire la copertura totale di un edificio di due piani comporta una spesa non indifferente e difficile da giustificare per l'azienda che può comunque essere operativa anche senza una rete Wi-Fi, in questo caso è quindi preferibile non disporre di connettività wireless ma concentrare le spese sullo sviluppo di un'infrastruttura robusta ed espandibile. È qua riportata la tabella contenente tutte le sottoreti previste nell'infrastruttura di rete. 
+\begin{center}
+    \addtolength{\leftskip} {-0.5cm}
+    \begin{tabular}{ |p{2.1cm}|p{1cm}|p{2.1cm}|p{2.1cm}|p{2.7cm}|p{2.1cm}| } 
+    \hline
+    \multicolumn{6}{|c|}{\large\textbf{Sottoreti}} \\
+    \hline
+    \textbf{Nome} & \textbf{N. Host} & \textbf{Indirizzo di rete} & \textbf{Gateway} & \textbf{Subnet Mask} & \textbf{Broadcast} \\
+    \hline
+    Segreteria & 16 & 192.168.0.0 & 192.168.0.1 & 255.255.255.240 & 192.168.0.15 \\
+    Sede Amm. & 16 & 192.168.0.16 & 192.168.0.17 & 255.255.255.240 & 192.168.0.31 \\
+    Sede Op. & 16 & 192.168.0.32 & 192.168.0.33 & 255.255.255.240 & 192.168.0.47 \\
+    Server & 16 & 192.168.1.0 & 192.168.1.1 & 255.255.255.240 & 192.168.1.15 \\
+    \hline
+    \end{tabular}
+\end{center}
+\subsection{Server}
+L'infrastruttura prevede l'implementazione di ben 4 diversi tipi di server divisi su 3 strati o tier, ogni strato è in grado di comunicare esclusivamente con lo strato direttamente superiore o inferiore al proprio. Questa architettura è considerata ottimale in quanto rispetta i principi di scalabilità verticale ed orizzontale delle applicazioni, è inoltre alla base dei sistemi distribuiti con interfaccia web. L'architettura a 3 tier è particolarmente adatta per l'ambiente web in quanto è molto comune avere diversi componenti slegati tra loro che concorrono e cooperano per il funzionamento della web app \cite{3Tier}. 
+\medskip
+
+Il primo strato è chiamato Presentation Layer e comprende sia il Web server che l'API server, questo è l'unico strato in cui i dispositivi sono esposti all'esterno e raggiungibili direttamente tramite il proprio indirizzo IP. Gli utenti nel richiedere una pagina web o fare una richiesta all'API interagiscono direttamente con questo strato che si occupa di eseguire una prima elaborazione di queste richieste prima di inoltrare i dati al livello sottostante. Sono presenti due diversi tipi di server in questo strato in quanto entrambi si occupano di rispondere alle richieste dei client che sono però di tipo diverso. L'API server è stato inserito anche per rendere più facile il futuro sviluppo dell'applicazione mobile che potrebbe essere sviluppata come un semplice front-end che dialoga con l'API tramite le richieste HTTPS. 
+\medskip
+
+Subito dopo troviamo invece l'Application Layer, anche chiamato Business Logic Layer, questo contiene l'Application server nel quale sono presenti tutti i programmi e i processi che rappresentano e rispettano la logica dell'applicazione o sito web. Le funzioni appartenenti all'Application Layer vengono invocate direttamente dal Presentation Layer che invia anche i dati necessari per completare l'elaborazione delle richieste degli utenti. Dopo aver elaborato i dati, l'Application server ha il compito di decretare cosa farne, nel caso fosse necessario salvarli localmente li invierà allo strato inferiore, altrimenti saranno inviati al Presentation Layer che si occupa di rispondere alle richieste degli utenti. Questo è forse lo strato più importante perché senza di esso il resto sarebbe totalmente inutile in quanto non conterrebbe nulla della logica con la quale è stata ideata la web app. 
+\medskip
+
+Abbiamo infine lo Storage Layer che comprende il data server, quest'ultimo conserva e gestisce l'accesso a tutti i dati relativi al programma e salvati all'interno di database o cartelle locali. Nel caso di Rius.Co. oltre al database il data server contiene anche le immagini di profilo degli utenti e quelle legate ai prodotti. In questo strato viene condotta un ulteriore rifinitura dei dati per accertarsi che gli utenti non stiano provando a danneggiare l'infrastruttura attraverso attacchi come l'SQL injection. 
+
+\begin{figure}[ht]
+    \centering\includegraphics[scale=0.24]{images/3tier.png}
+    \caption{Rappresentazione grafica dell'architettura a 3 tier.}
+\end{figure}
+
+Questi server non esistono fisicamente all'interno dell'infrastruttura in quanto sono delle macchine virtuali generate tramite il Google Kubernetes Engine e collocate all'interno della rete VPC, ciò offre numerosi vantaggi in quanto è possibile affidare alla piattaforma Google la scalabilità delle risorse, la manutenzione dei server e la gestione dei dati. Il Google Kubernetes Engine consiste in un servizio cloud di virtualizzazione a metà tra l'Iaas (Infrastructure-as-a-Service) e il Paas (Platform-as-a-Service) attraverso il quale gli utenti possono creare dei cluster di container Docker all'interno dei quali viene eseguito del codice fornito dagli sviluppatori \cite{Kubernetes}. Questi container di fatto lavorano come delle macchine virtuali ma garantiscono maggiore virtualizzazione e quindi più efficienza e versatilità. Tramite il Google Kubernetes Engine è possibile creare dei cluster di container identici (stesso sistema operativo e hardware) che vengono replicati a seconda del workload globale e dei criteri impostati dall'amministratore. È anche possibile inserire dei Load Balancer che si occupino di dividere equamente la mole di lavoro all'interno dei cluster di macchine virtuali, insieme a questi è consigliato integrare anche degli Health Checks che in caso di disservizi eseguono azioni predefinite come l'invio istantaneo di un email di notifica all'amministratore. 
+\subsection{Progetto di rete} 
+Ho progettato la rete aziendale insieme alla rete VPC usando il programma di simulazione Cisco Packet Tracer 8.0, nelle etichette da me inserite sono riportati gli indirizzi IP degni di nota e le informazioni relative alle 4 sottoreti create. Il file è stato caricato assieme a tutto il progetto nell'apposita repository creata su GitHub e \href{https://github.com/MauroPello/elaborato}{raggiungibile qui} \cite{GitHub}. 
+\begin{figure}[ht]
+    \centering\includegraphics[scale=.5]{images/rete.png}
+\end{figure}

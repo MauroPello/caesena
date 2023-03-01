@@ -1,0 +1,26 @@
+[
+    {
+        "transactionID": 8,
+        "productID": 12,
+        "ownerID": 9,
+        "buyerID": 10,
+        "lastUpdate": "2021-05-26T21:53:52.5569413",
+        "state": "Completed"
+    },
+    {
+        "transactionID": 7,
+        "productID": 2,
+        "ownerID": 10,
+        "buyerID": 9,
+        "lastUpdate": "2021-05-18T11:51:42.1961266",
+        "state": "Pending"
+    },
+    {
+        "transactionID": 4,
+        "productID": 13,
+        "ownerID": 9,
+        "buyerID": 10,
+        "lastUpdate": "2021-05-17T12:42:48.5219505",
+        "state": "Closed"
+    }
+]
