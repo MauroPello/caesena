@@ -86,4 +86,10 @@ public class TileImpl implements Tile {
     public int getRotationCount() {
         return this.rotationCount;
     }
+
+    @Override
+    public Optional<GameSet> getGameSet(TileSection section) {
+        return Optional.ofNullable(this.sections.getOrDefault(section, null));
+    }
+
 }
