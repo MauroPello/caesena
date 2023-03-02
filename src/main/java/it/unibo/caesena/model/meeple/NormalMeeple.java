@@ -5,7 +5,7 @@ import java.util.Optional;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.utils.ToStringBuilder;
+import it.unibo.caesena.utils.*;
 
 public class NormalMeeple implements Meeple {
 
@@ -31,7 +31,7 @@ public class NormalMeeple implements Meeple {
     public Player getOwner() {
         return this.owner;
     }
-    
+
     @Override
     public Optional<TileSection> getTileSection() {
         return this.section;
@@ -81,14 +81,14 @@ public class NormalMeeple implements Meeple {
 			return false;
 		}
 		NormalMeeple other = (NormalMeeple) obj;
-		return owner.equals(other.getOwner()) && 
+		return owner.equals(other.getOwner()) &&
             section.equals(other.getTileSection()) &&
             tile.equals(other.getTile());
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder().addFromObjectGetters(this).build();
+        return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
-    
+
 }

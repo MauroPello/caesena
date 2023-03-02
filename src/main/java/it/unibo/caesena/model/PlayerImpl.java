@@ -1,7 +1,6 @@
 package it.unibo.caesena.model;
 
-import it.unibo.caesena.utils.Color;
-import it.unibo.caesena.utils.ToStringBuilder;
+import it.unibo.caesena.utils.*;
 
 public class PlayerImpl implements Player{
 
@@ -54,6 +53,6 @@ public class PlayerImpl implements Player{
 
     @Override
     public String toString() {
-        return new ToStringBuilder().addFromObjectGetters(this).build();
+        return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
 }

@@ -6,8 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.utils.Pair;
-import it.unibo.caesena.utils.ToStringBuilder;
+import it.unibo.caesena.utils.*;
 
 public class TileImpl implements Tile {
 
@@ -122,6 +121,6 @@ public class TileImpl implements Tile {
 
     @Override
     public String toString() {
-        return new ToStringBuilder().addFromObjectGetters(this).build();
+        return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
 }

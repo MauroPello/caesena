@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 
 import it.unibo.caesena.model.PlayerImpl;
-import it.unibo.caesena.utils.Color;
-import it.unibo.caesena.utils.ToStringBuilder;
+import it.unibo.caesena.utils.*;
 
 final class ToStringBuilderTest {
 
@@ -20,7 +19,7 @@ final class ToStringBuilderTest {
 
     @Test
     public void testToStringCoherence() {
-        assertEquals(new ToStringBuilder().addFromObjectGetters(player).build(), player.toString());
+        assertEquals(new StringUtil.ToStringBuilder().addFromObjectGetters(player).build(), player.toString());
     }
 
 
@@ -34,11 +33,11 @@ final class ToStringBuilderTest {
 
     @Test
     public void testAutomaticAddCoherenceWithCustomElement() {
-        ToStringBuilder builder = new ToStringBuilder().addFromObjectGetters(player);
+        var builder = new StringUtil.ToStringBuilder().addFromObjectGetters(player);
         builder.add("Prova aggiunta", "Ciao");
         String firstResult = builder.build();
         for (int i = 0; i < 1000; i++) {
-            builder = new ToStringBuilder().addFromObjectGetters(player);
+            builder = new StringUtil.ToStringBuilder().addFromObjectGetters(player);
             builder.add("Prova aggiunta", "Ciao");
             assertEquals(firstResult, builder.build());
         }

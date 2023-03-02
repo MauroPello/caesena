@@ -42,7 +42,7 @@ public class Color {
 
     @Override
     public String toString() {
-        return new ToStringBuilder().addFromObjectGetters(this).build();
+        return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
 
 

@@ -42,10 +42,10 @@ public class ControllerImpl implements Controller {
         try {
             URI uri = ClassLoader.getSystemResource(FILE_TILES_PATH).toURI();
             lines = Files.readAllLines(Paths.get(uri));
-            for (String line : lines) {
+            for (var line : lines) {
                 String imageName = line.split(";")[0];
-                int cardinality = Integer.parseInt(line.split(";")[1]);
-                for (int i = 0; i < cardinality; i++) {
+                int numberOfTiles = Integer.parseInt(line.split(";")[1]);
+                for (int i = 0; i < numberOfTiles; i++) {
                     tiles.add(makeTileFromImagePath(imageName));
                 }
             }
@@ -67,20 +67,9 @@ public class ControllerImpl implements Controller {
 
     private String getMethodNameFromString(String string) {
         String methodName = "create";
-        char[] charArray = string.toCharArray();
-        boolean nextIsUpperCase = true;
-        for (char c : charArray) {
-            String currentCharAString = String.valueOf(c);
-            if (nextIsUpperCase) {
-                currentCharAString = currentCharAString.toUpperCase();
-                nextIsUpperCase = false;
-            }
-            if (c == '-') {
-                nextIsUpperCase = true;
-            }
-            else {
-                methodName += currentCharAString;
-            }
+        String[] words = string.split("-");
+        for (String word : words) {
+            methodName += StringUtil.capitalize(word);
         }
         return methodName;
     }
