@@ -2,7 +2,6 @@ package it.unibo.caesena;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
@@ -10,7 +9,6 @@ import it.unibo.caesena.model.PlayerImpl;
 import it.unibo.caesena.utils.Color;
 
 final class PlayerTest {
-
     private static PlayerImpl player;
 
     @Test

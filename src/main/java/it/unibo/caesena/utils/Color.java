@@ -31,7 +31,7 @@ public class Color {
     }
 
     public String getName() {
-        return this.name.isEmpty() ? "Custom Color" : this.name.get();
+        return this.name.orElse(hex);
     }
 
     @Override
