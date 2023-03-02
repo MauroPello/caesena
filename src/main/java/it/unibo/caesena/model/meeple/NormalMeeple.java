@@ -28,6 +28,11 @@ public class NormalMeeple implements Meeple {
     }
 
     @Override
+    public Player getOwner() {
+        return this.owner;
+    }
+    
+    @Override
     public Optional<TileSection> getTileSection() {
         return this.section;
     }
@@ -39,24 +44,29 @@ public class NormalMeeple implements Meeple {
 
     @Override
     public boolean place(TileSection section, Tile tile) {
-        if (isPlaced() || !tile.getGameSet(section).get().isMeepleFree()) {
+        if (isPlaced()) {
             return false;
         }
 
         this.section = Optional.of(section);
         this.tile = Optional.of(tile);
-        this.tile.get().getGameSet(this.section.get()).get().addMeeple(this);
+        return true;
+    }
+
+    @Override
+    public boolean removeFromTile() {
+        if (!isPlaced()) {
+            return false;
+        }
+
+        this.section = Optional.empty();
+        this.tile = Optional.empty();
         return true;
     }
 
     @Override
     public boolean isPlaced() {
         return this.section.isPresent() && this.tile.isPresent();
-    }
-
-    @Override
-    public Player getOwner() {
-        return this.owner;
     }
 
     @Override
@@ -79,18 +89,6 @@ public class NormalMeeple implements Meeple {
     @Override
     public String toString() {
         return new ToStringBuilder().addFromObjectGetters(this).build();
-    }
-
-    @Override
-    public boolean removeFromTile() {
-        if (!isPlaced()) {
-            return false;
-        }
-
-        this.tile.get().getGameSet(this.section.get()).get().removeMeeple(this);
-        this.section = Optional.empty();
-        this.tile = Optional.empty();
-        return true;
     }
     
 }

@@ -16,10 +16,10 @@ public interface Meeple {
 
     public Player getOwner();
 
-    public boolean isPlaced();
-
     public boolean place(TileSection section, Tile tile);
-
+    
     public boolean removeFromTile();
-
+    
+    public boolean isPlaced();
+    
 }
