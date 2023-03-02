@@ -1,9 +1,7 @@
 package it.unibo.caesena.model.gameset;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.Pair;
 
@@ -21,20 +19,26 @@ public class GameSetImpl implements GameSet{
 
     @Override
     public boolean addMeeple(Meeple meeple) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addMeeple'");
+        this.meeples.add(meeple);
+        return meeple.placeOnTile();
     }
 
     @Override
     public boolean isMeepleFree() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isMeepleFree'");
+        return this.meeples.isEmpty();
     }
 
     @Override
-    public Pair<List<Meeple>, Integer> close() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'close'");
+    public Pair<Set<Meeple>, Integer> close() {
+        for (Meeple meeple : meeples) {
+            meeple.removeFromTile();
+        }
+        return new Pair<>(this.meeples, this.points);
     }
+
+	@Override
+	public GameSetType getType() {
+		return this.type;
+	}
     
 }

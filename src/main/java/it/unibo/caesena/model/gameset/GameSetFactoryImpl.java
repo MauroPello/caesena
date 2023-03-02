@@ -28,4 +28,23 @@ public class GameSetFactoryImpl implements GameSetFactory {
     public GameSet createFieldSet() {
         return new GameSetImpl(GameSetType.FIELD, POINT_FIELD);
     }
+
+    @Override
+    public GameSet createJoinedSet(GameSet gs1, GameSet gs2) {
+        var firstPair = gs1.close();
+        var secondPair = gs2.close();
+        GameSetType newTipe = gs1.getType();
+        int comulativePoints = firstPair.getY() + secondPair.getY();
+        GameSet joinedGameset = new GameSetImpl(newTipe, comulativePoints);
+        
+        for (var meeple : firstPair.getX()) {
+            joinedGameset.addMeeple(meeple);
+        }
+       
+        for (var meeple : secondPair.getX()) {
+            joinedGameset.addMeeple(meeple);
+        }
+        
+        return joinedGameset;
+    }
 }
