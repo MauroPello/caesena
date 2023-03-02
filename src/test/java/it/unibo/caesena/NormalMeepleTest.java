@@ -4,17 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.meeple.NormalMeeple;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.PlayerImpl;
-import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
-import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Color;
 
 final class NormalMeepleTest {
@@ -32,9 +27,6 @@ final class NormalMeepleTest {
     public void testGetters() {
         assertEquals(1, meeple.getStrength());
 
-        assertEquals(Optional.empty(), meeple.getTileSection());
-        assertEquals(Optional.empty(), meeple.getTile());
-        
         assertFalse(meeple.isPlaced());
 
         assertEquals(owner, meeple.getOwner());
@@ -48,12 +40,10 @@ final class NormalMeepleTest {
 
     @Test
     public void testPlace() {
-        final Tile tile = new TileFactoryWithBuilder().createMonastery();
-        assertTrue(meeple.place(TileSection.Center, tile));
+        assertFalse(meeple.isPlaced());
+        assertTrue(meeple.placeOnTile());
+
         assertTrue(meeple.isPlaced());
-        
-        assertEquals(TileSection.Center, meeple.getTileSection().get());
-        assertEquals(tile, meeple.getTile().get());
         
         assertTrue(meeple.removeFromTile());
         assertFalse(meeple.isPlaced());
