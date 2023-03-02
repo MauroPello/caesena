@@ -1,10 +1,6 @@
 package it.unibo.caesena.model.meeple;
 
-import java.util.Optional;
-
 import it.unibo.caesena.model.Player;
-import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.*;
 
 public class NormalMeeple implements Meeple {
@@ -12,14 +8,12 @@ public class NormalMeeple implements Meeple {
     private static final int STRENGTH = 1;
     private final Player owner;
 
-    private Optional<TileSection> section;
-    private Optional<Tile> tile;
+    private boolean placed;
 
     public NormalMeeple(final Player owner) {
         this.owner = owner;
 
-        this.section = Optional.empty();
-        this.tile = Optional.empty();
+        this.placed = false;
     }
 
     @Override
@@ -33,23 +27,12 @@ public class NormalMeeple implements Meeple {
     }
 
     @Override
-    public Optional<TileSection> getTileSection() {
-        return this.section;
-    }
-
-    @Override
-    public Optional<Tile> getTile() {
-        return this.tile;
-    }
-
-    @Override
-    public boolean place(final TileSection section, final Tile tile) {
+    public boolean placeOnTile() {
         if (isPlaced()) {
             return false;
         }
 
-        this.section = Optional.of(section);
-        this.tile = Optional.of(tile);
+        this.placed = true;
         return true;
     }
 
@@ -59,14 +42,13 @@ public class NormalMeeple implements Meeple {
             return false;
         }
 
-        this.section = Optional.empty();
-        this.tile = Optional.empty();
+        this.placed = false;
         return true;
     }
 
     @Override
     public boolean isPlaced() {
-        return this.section.isPresent() && this.tile.isPresent();
+        return this.placed;
     }
 
     @Override
@@ -82,8 +64,7 @@ public class NormalMeeple implements Meeple {
 		}
 		NormalMeeple other = (NormalMeeple) obj;
 		return owner.equals(other.getOwner()) &&
-            section.equals(other.getTileSection()) &&
-            tile.equals(other.getTile());
+            placed == other.isPlaced();
     }
 
     @Override

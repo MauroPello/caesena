@@ -10,13 +10,9 @@ public interface Meeple {
 
     public int getStrength();
 
-    public Optional<TileSection> getTileSection();
-
-    public Optional<Tile> getTile();
-
     public Player getOwner();
 
-    public boolean place(TileSection section, Tile tile);
+    public boolean placeOnTile();
     
     public boolean removeFromTile();
     
