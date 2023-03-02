@@ -43,11 +43,6 @@ public class GameSetImpl implements GameSet{
 	}
 
     @Override
-    public boolean equals(Object obj) {
-       return false;
-    }
-
-    @Override
     public String toString() {
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
