@@ -1,5 +1,7 @@
 package it.unibo.caesena.model.gameset;
 
+import java.util.List;
+
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.Pair;
 
@@ -18,9 +20,10 @@ public class RoadSet implements GameSet {
     }
 
     @Override
-    public Pair<List<Meeple>, Integer> getFinalPoints() {
+    public Pair<List<Meeple>, Integer> close() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFinalPoints'");
+        throw new UnsupportedOperationException("Unimplemented method 'close'");
     }
+
 
 }
