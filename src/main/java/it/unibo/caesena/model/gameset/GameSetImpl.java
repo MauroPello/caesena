@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.utils.StringUtil;
 
 public class GameSetImpl implements GameSet{
 
@@ -40,5 +41,15 @@ public class GameSetImpl implements GameSet{
 	public GameSetType getType() {
 		return this.type;
 	}
-    
+
+    @Override
+    public boolean equals(Object obj) {
+       return false;
+    }
+
+    @Override
+    public String toString() {
+        return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
+    }
+
 }

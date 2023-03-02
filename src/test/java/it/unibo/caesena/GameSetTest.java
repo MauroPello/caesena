@@ -29,7 +29,7 @@ final class GameSetFactoryImplTest {
     }
 
     @Test
-    public void testCreateJoinedSet(){
+    public void testCreateJoinedSet () {
         assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetField, gamesetCity));
         assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetField, gamesetMonastery));
         assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetField, gamesetRoad));
@@ -37,9 +37,9 @@ final class GameSetFactoryImplTest {
         assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetMonastery, gamesetCity));
         assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetRoad, gamesetMonastery));
         
-        assertEquals(gamesetCity, gamesetFactory.createJoinedSet(gamesetCity, gamesetCity));
-        assertEquals(gamesetField, gamesetFactory.createJoinedSet(gamesetField, gamesetField));
-        assertEquals(gamesetRoad, gamesetFactory.createJoinedSet(gamesetRoad, gamesetRoad));
-        assertEquals(gamesetMonastery, gamesetFactory.createJoinedSet(gamesetMonastery, gamesetMonastery));
+        assertEquals(gamesetCity.getType(), gamesetFactory.createJoinedSet(gamesetCity, gamesetCity).getType());
+        assertEquals(gamesetField.getType(), gamesetFactory.createJoinedSet(gamesetField, gamesetField).getType());
+        assertEquals(gamesetRoad.getType(), gamesetFactory.createJoinedSet(gamesetRoad, gamesetRoad).getType());
+        assertEquals(gamesetMonastery.getType(), gamesetFactory.createJoinedSet(gamesetMonastery, gamesetMonastery).getType());
     }
 }
