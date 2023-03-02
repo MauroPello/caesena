@@ -6,6 +6,13 @@ import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.Pair;
 
 public interface GameSet {
+
+    enum GameSetType {
+        FIELD,
+        CITY,
+        MONASTERY,
+        ROAD
+    }
     
     public boolean addMeeple(Meeple meeple);
 
@@ -14,3 +21,4 @@ public interface GameSet {
     public Pair<List<Meeple>, Integer> close();
 
 }
+
