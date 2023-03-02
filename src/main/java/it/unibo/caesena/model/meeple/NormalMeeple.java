@@ -15,7 +15,7 @@ public class NormalMeeple implements Meeple {
     private Optional<TileSection> section;
     private Optional<Tile> tile;
 
-    public NormalMeeple(Player owner) {
+    public NormalMeeple(final Player owner) {
         this.owner = owner;
 
         this.section = Optional.empty();
@@ -43,7 +43,7 @@ public class NormalMeeple implements Meeple {
     }
 
     @Override
-    public boolean place(TileSection section, Tile tile) {
+    public boolean place(final TileSection section, final Tile tile) {
         if (isPlaced()) {
             return false;
         }
@@ -70,7 +70,7 @@ public class NormalMeeple implements Meeple {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
 			return true;
 		}

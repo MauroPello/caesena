@@ -16,11 +16,11 @@ public class TileImpl implements Tile {
     private static final String IMAGE_FORMAT = "png";
     private static final Integer MAX_ROTATIONS = 4;
 
-    private Map<TileSection, GameSet> sections;
     private Optional<Pair<Integer, Integer>> currentPosition;
+    private Map<TileSection, GameSet> sections;
     private int rotationCount;
 
-    public TileImpl(String imageName) {
+    public TileImpl(final String imageName) {
         this.imageName = imageName;
         
         this.currentPosition = Optional.empty();
@@ -65,7 +65,7 @@ public class TileImpl implements Tile {
     }
 
     @Override
-    public void setPosition(Pair<Integer, Integer> pos) {
+    public void setPosition(final Pair<Integer, Integer> pos) {
         this.currentPosition = Optional.of(pos);
     }
 
@@ -80,7 +80,7 @@ public class TileImpl implements Tile {
     }
 
     @Override
-    public void putSection(TileSection section, GameSet gameSet) {
+    public void putSection(final TileSection section, final GameSet gameSet) {
         this.sections.put(section, gameSet);
     }
 
@@ -90,12 +90,12 @@ public class TileImpl implements Tile {
     }
 
     @Override
-    public Optional<GameSet> getGameSet(TileSection section) {
+    public Optional<GameSet> getGameSet(final TileSection section) {
         return Optional.ofNullable(this.sections.getOrDefault(section, null));
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
 
         if (this == obj) {
 			return true;

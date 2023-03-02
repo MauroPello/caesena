@@ -12,31 +12,31 @@ public class TileBuilder {
     
     private final Tile tile;
 
-    public TileBuilder(String imagePath) {
+    public TileBuilder(final String imagePath) {
         this.tile = new TileImpl(imagePath);
     }
 
-    public TileBuilder city(List<TileSection> sections) {
+    public TileBuilder city(final List<TileSection> sections) {
         applySet(sections, new CitySet());
         return this;
     }
 
-    public TileBuilder road(List<TileSection> sections) {
+    public TileBuilder road(final List<TileSection> sections) {
         applySet(sections, new RoadSet());
         return this;
     }
 
-    public TileBuilder field(List<TileSection> sections) {
+    public TileBuilder field(final List<TileSection> sections) {
         applySet(sections, new FieldSet());
         return this;
     }
 
-    public TileBuilder monastery(List<TileSection> sections) {
+    public TileBuilder monastery(final List<TileSection> sections) {
         applySet(sections, new MonasterySet());
         return this;
     }
 
-    private void applySet(List<TileSection> sections, GameSet gameSet) {
+    private void applySet(final List<TileSection> sections, final GameSet gameSet) {
         for (var section : sections) {
             this.tile.putSection(section, gameSet);
         }

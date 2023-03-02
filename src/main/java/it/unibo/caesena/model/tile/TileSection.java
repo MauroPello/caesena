@@ -19,7 +19,7 @@ public enum TileSection {
         return 3;
     }
 
-    public static TileSection rotateClockwise(TileSection section) {
+    public static TileSection rotateClockwise(final TileSection section) {
         int index = (section.ordinal() + getSectionsInSide()) % values().length;
         if (values()[index].equals(TileSection.Center)) {
             index = (index + 1) % values().length;
