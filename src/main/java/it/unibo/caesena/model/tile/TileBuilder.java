@@ -2,37 +2,38 @@ package it.unibo.caesena.model.tile;
 
 import java.util.List;
 
-import it.unibo.caesena.model.gameset.CitySet;
-import it.unibo.caesena.model.gameset.FieldSet;
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.model.gameset.MonasterySet;
-import it.unibo.caesena.model.gameset.RoadSet;
+import it.unibo.caesena.model.gameset.GameSetFactory;
+import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 
 public class TileBuilder {
     
+    private final GameSetFactory factory;
     private final Tile tile;
 
     public TileBuilder(final String imagePath) {
+        this.factory = new GameSetFactoryImpl();
+
         this.tile = new TileImpl(imagePath);
     }
 
     public TileBuilder city(final List<TileSection> sections) {
-        applySet(sections, new CitySet());
+        applySet(sections, this.factory.createCitySet());
         return this;
     }
 
     public TileBuilder road(final List<TileSection> sections) {
-        applySet(sections, new RoadSet());
+        applySet(sections, this.factory.createRoadSet());
         return this;
     }
 
     public TileBuilder field(final List<TileSection> sections) {
-        applySet(sections, new FieldSet());
+        applySet(sections, this.factory.createFieldSet());
         return this;
     }
 
     public TileBuilder monastery(final List<TileSection> sections) {
-        applySet(sections, new MonasterySet());
+        applySet(sections, this.factory.createMonasterySet());
         return this;
     }
 
