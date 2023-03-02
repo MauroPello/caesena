@@ -27,6 +27,8 @@ public interface Controller {
 
     List<Tile> getPlacedTiles();
 
+    List<Tile> getNotPlacedTiles();
+
     List<Meeple> getCurrentPlayerMeeples();
 
     boolean isGameOver();

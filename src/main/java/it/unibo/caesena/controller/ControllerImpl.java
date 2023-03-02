@@ -1,23 +1,13 @@
 package it.unibo.caesena.controller;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URISyntaxException;
+import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.meeple.*;
@@ -36,18 +26,21 @@ public class ControllerImpl implements Controller {
     private int turn;
 
     @Override
-    public void startGame() {
+    public void startGame() throws IllegalStateException {
+        if (players.isEmpty()) {
+            //TODO sti controlli son da fare per tutti i metodi
+            throw new IllegalStateException("Can't start the game without players");
+        }
         Collections.shuffle(players);
         currentPlayer = players.get(0);
-        try {
-            buildAllTiles();
-        } catch (Exception e) {}
+        buildAllTiles();
     }
 
-    private void buildAllTiles() throws IOException {
+    private void buildAllTiles() {
         List<String> lines;
         try {
-            lines = Files.readAllLines(Paths.get(ClassLoader.getSystemResource(FILE_TILES_PATH).toURI()));
+            URI uri = ClassLoader.getSystemResource(FILE_TILES_PATH).toURI();
+            lines = Files.readAllLines(Paths.get(uri));
             for (String line : lines) {
                 String imageName = line.split(";")[0];
                 int cardinality = Integer.parseInt(line.split(";")[1]);
@@ -55,16 +48,20 @@ public class ControllerImpl implements Controller {
                     tiles.add(makeTileFromImagePath(imageName));
                 }
             }
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            throw new IllegalStateException("Error reading tiles from file, maybe it's missing");
+        }
     }
 
     private Tile makeTileFromImagePath(String imageName) {
         TileFactory tileFactory = new TileFactoryWithBuilder();
         try {
-            Method method = TileFactory.class.getMethod(getMethodNameFromString(imageName));
+            String methodName = getMethodNameFromString(imageName);
+            Method method = TileFactory.class.getMethod(methodName);
             return (Tile)method.invoke(tileFactory);
-        } catch (Exception e) {}
-        return null;
+        } catch (Exception e) {
+            throw new IllegalStateException("Error using reflection, devs fault");
+        }
     }
 
     private String getMethodNameFromString(String string) {
@@ -108,7 +105,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public boolean placeCurrentTile() {
-        // TODO Auto-generated method stub
+        // TODO JANKA
         throw new UnsupportedOperationException("Unimplemented method 'placeCurrentTile'");
     }
 
@@ -125,6 +122,13 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
+    public List<Tile> getNotPlacedTiles() {
+        return tiles.stream()
+            .filter(x -> !x.isPlaced())
+            .toList();
+    }
+
+    @Override
     public List<Meeple> getCurrentPlayerMeeples() {
         return meeples.stream().filter(m -> m.getOwner().equals(currentPlayer)).toList();
     }
@@ -136,18 +140,19 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void endTurn() {
-
+        // TODO ALE
+        throw new UnsupportedOperationException("Unimplemented method 'endGame'");
     }
 
     @Override
     public void endGame() {
-        // TODO Auto-generated method stub
+        // TODO ALE
         throw new UnsupportedOperationException("Unimplemented method 'endGame'");
     }
 
     @Override
     public void exitGame() {
-        // TODO Auto-generated method stub
+        // TODO ALE
         throw new UnsupportedOperationException("Unimplemented method 'exitGame'");
     }
 
