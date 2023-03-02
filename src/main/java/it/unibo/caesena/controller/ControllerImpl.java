@@ -1,6 +1,6 @@
 package it.unibo.caesena.controller;
 
-import java.io.IOException;
+import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.nio.file.Files;
@@ -16,7 +16,8 @@ import it.unibo.caesena.model.gameset.*;
 import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
-    private static final String FILE_TILES_PATH = "it/unibo/caesena/tile.conf";
+    private static final String SEP = File.separator; //TODO far testare a janka
+    private static final String FILE_TILES_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "tile.conf";
     private static final int MEEPLES_PER_PLAYER = 8; //TODO guardare le regole del gioco
     private final List<Meeple> meeples = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();

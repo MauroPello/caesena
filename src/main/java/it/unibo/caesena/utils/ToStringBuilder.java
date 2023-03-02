@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToStringBuilder {
+    private final static String NULL_STRING = "null";
     private final static String EMPTY_STRING = "";
     private final static String SPACE_STRING = " ";
     private final List<Pair<String, String>> elements;
@@ -15,7 +16,7 @@ public class ToStringBuilder {
     }
 
     public ToStringBuilder add(final String field, final Object value) {
-        String actualValue = "null";
+        String actualValue = NULL_STRING;
         if (value != null) {
             actualValue = value.toString();
         }
@@ -72,13 +73,13 @@ public class ToStringBuilder {
         for (Method method : methods) {
             if (isGetter(method)) {
                 String name = getNameFromMethod(method);
-                String value = "null";
+                String value = NULL_STRING;
                 try {
                     var getterResult = method.invoke(obj);
                     if (getterResult != null) {
                         value = getterResult.toString();
                     }
-                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {}
+                } catch (Exception e) { }
                 this.add(name, value);
             }
         }

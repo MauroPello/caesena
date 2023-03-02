@@ -1,5 +1,6 @@
 package it.unibo.caesena.model.tile;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -11,8 +12,8 @@ import it.unibo.caesena.utils.ToStringBuilder;
 public class TileImpl implements Tile {
 
     private final String imageName;
-
-    private static final String ROOT = "it/unibo/caesena/images/tiles/";
+    private static final String SEP = File.separator;
+    private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
     private static final String IMAGE_FORMAT = "png";
     private static final Integer MAX_ROTATIONS = 4;
 
@@ -22,7 +23,7 @@ public class TileImpl implements Tile {
 
     public TileImpl(final String imageName) {
         this.imageName = imageName;
-        
+
         this.currentPosition = Optional.empty();
         this.sections = new HashMap<>();
         this.rotationCount = 0;
@@ -35,12 +36,12 @@ public class TileImpl implements Tile {
         // rotateSections.put(TileSection.UpRight, this.sections.get(TileSection.LeftUp));
         // rotateSections.put(TileSection.UpCenter, this.sections.get(TileSection.LeftCenter));
         // rotateSections.put(TileSection.UpLeft, this.sections.get(TileSection.LeftDown));
-        
+
         // //metto in left i down
         // rotateSections.put(TileSection.LeftDown, this.sections.get(TileSection.DownRight));
         // rotateSections.put(TileSection.LeftCenter, this.sections.get(TileSection.DownCenter));
         // rotateSections.put(TileSection.LeftUp, this.sections.get(TileSection.DownLeft));
-        
+
         // //metto in down i right
         // rotateSections.put(TileSection.DownRight, this.sections.get(TileSection.RightUp));
         // rotateSections.put(TileSection.DownCenter, this.sections.get(TileSection.RightCenter));
@@ -118,7 +119,7 @@ public class TileImpl implements Tile {
 
         return equal;
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder().addFromObjectGetters(this).build();
