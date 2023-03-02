@@ -1,10 +1,6 @@
 package it.unibo.caesena.model.meeple;
 
-import java.util.Optional;
-
 import it.unibo.caesena.model.Player;
-import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileSection;
 
 public interface Meeple {
 
