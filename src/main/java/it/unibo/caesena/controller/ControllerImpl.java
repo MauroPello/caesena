@@ -107,7 +107,7 @@ public class ControllerImpl implements Controller {
     @Override
     public List<Tile> getPlacedTiles() {
         return tiles.stream()
-            .filter(x -> x.isPlaced())
+            .filter(Tile::isPlaced)
             .toList();
     }
 
@@ -152,8 +152,9 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public boolean placeMeeple(Meeple meeple, TileSection section) {
-        return meeple.isPlaced() ? false : meeple.place(section, currentTile);
+    public boolean placeMeeple(final Meeple meeple, final TileSection section) {
+        var gameSet = this.currentTile.getGameSet(section);
+        return gameSet.isPresent() ? gameSet.get().addMeeple(meeple) : false;
     }
 
 }
