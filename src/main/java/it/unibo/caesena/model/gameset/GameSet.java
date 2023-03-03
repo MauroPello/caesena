@@ -1,5 +1,6 @@
 package it.unibo.caesena.model.gameset;
 
+import java.util.Optional;
 import java.util.Set;
 
 import it.unibo.caesena.model.meeple.Meeple;
@@ -18,8 +19,10 @@ public interface GameSet {
 
     public boolean isMeepleFree();
 
-    public Pair<Set<Meeple>, Integer> close();
+    public Optional<Pair<Set<Meeple>, Integer>> close();
 
     public GameSetType getType();
+
+    public boolean isClosed();
 
 }
