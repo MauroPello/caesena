@@ -34,8 +34,8 @@ public class GameSetFactoryImpl implements GameSetFactory {
         
         if (gs1.getType().equals(gs2.getType())) {
             
-            var firstPair = gs1.close();
-            var secondPair = gs2.close();
+            var firstPair = gs1.close().get();
+            var secondPair = gs2.close().get();
             GameSetType newTipe = gs1.getType();
             int comulativePoints = firstPair.getY() + secondPair.getY();
             GameSet joinedGameset = new GameSetImpl(newTipe, comulativePoints);

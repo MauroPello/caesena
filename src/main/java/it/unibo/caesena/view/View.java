@@ -1,9 +1,13 @@
 package it.unibo.caesena.view;
 
-public interface View {
-    
-    public void show();
+import javax.swing.JPanel;
 
-    public void hide();
+public class View extends JPanel {
+
+    private final UserInterface userInterface;
+
+    public View(final UserInterface userInterface) {
+        this.userInterface = userInterface;
+    }
 
 }

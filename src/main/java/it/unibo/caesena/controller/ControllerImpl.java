@@ -127,17 +127,17 @@ public class ControllerImpl implements Controller {
         return getPlacedTiles().size() == tiles.size();
     }
 
+    //PUNTEGGIO PROGRESSIVO MANCANTE!!!
+    //DA ASSEGNARE IL RELATIVO PUNTEGGIO AL RELATIVO PLAYER
     @Override
     public void endTurn() {
         this.turn++;
-        if(this.players.size() == this.turn){
+        if (this.players.size() == this.turn) {
             this.turn = 0;
         }
         this.currentPlayer = this.players.get(this.turn);
         
-        this.currentTile = this.tiles.stream().filter(x -> !x.isPlaced())
-            .findFirst()
-            .get();
+        this.currentTile = this.getNotPlacedTiles().get(0);
     }
 
     @Override
@@ -147,7 +147,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void exitGame() {
-        
+        this.endGame();
     }
 
     @Override

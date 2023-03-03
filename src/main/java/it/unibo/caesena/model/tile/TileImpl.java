@@ -31,36 +31,37 @@ public class TileImpl implements Tile {
     @Override
     public void rotateClockwise() {
         final Map<TileSection, GameSet> rotateSections = new HashMap<>();
-        //metto in up i left
-        rotateSections.put(TileSection.UpRight, this.sections.get(TileSection.LeftUp));
-        rotateSections.put(TileSection.UpCenter, this.sections.get(TileSection.LeftCenter));
-        rotateSections.put(TileSection.UpLeft, this.sections.get(TileSection.LeftDown));
+        // //metto in up i left
+        // rotateSections.put(TileSection.UpRight, this.sections.get(TileSection.LeftUp));
+        // rotateSections.put(TileSection.UpCenter, this.sections.get(TileSection.LeftCenter));
+        // rotateSections.put(TileSection.UpLeft, this.sections.get(TileSection.LeftDown));
 
-        //metto in left i down
-        rotateSections.put(TileSection.LeftDown, this.sections.get(TileSection.DownRight));
-        rotateSections.put(TileSection.LeftCenter, this.sections.get(TileSection.DownCenter));
-        rotateSections.put(TileSection.LeftUp, this.sections.get(TileSection.DownLeft));
+        // //metto in left i down
+        // rotateSections.put(TileSection.LeftDown, this.sections.get(TileSection.DownRight));
+        // rotateSections.put(TileSection.LeftCenter, this.sections.get(TileSection.DownCenter));
+        // rotateSections.put(TileSection.LeftUp, this.sections.get(TileSection.DownLeft));
 
-        //metto in down i right
-        rotateSections.put(TileSection.DownRight, this.sections.get(TileSection.RightUp));
-        rotateSections.put(TileSection.DownCenter, this.sections.get(TileSection.RightCenter));
-        rotateSections.put(TileSection.DownLeft, this.sections.get(TileSection.RightDown));
+        // //metto in down i right
+        // rotateSections.put(TileSection.DownRight, this.sections.get(TileSection.RightUp));
+        // rotateSections.put(TileSection.DownCenter, this.sections.get(TileSection.RightCenter));
+        // rotateSections.put(TileSection.DownLeft, this.sections.get(TileSection.RightDown));
 
-        //metto in right gli up
-        rotateSections.put(TileSection.RightDown, this.sections.get(TileSection.UpRight));
-        rotateSections.put(TileSection.RightCenter, this.sections.get(TileSection.UpCenter));
-        rotateSections.put(TileSection.RightUp, this.sections.get(TileSection.UpLeft));
+        // //metto in right gli up
+        // rotateSections.put(TileSection.RightDown, this.sections.get(TileSection.UpRight));
+        // rotateSections.put(TileSection.RightCenter, this.sections.get(TileSection.UpCenter));
+        // rotateSections.put(TileSection.RightUp, this.sections.get(TileSection.UpLeft));
 
-        if(this.rotationCount == 4) {
-            this.rotationCount = 0;
-        }
-        this.rotationCount++;
-
-        // for (var entry : this.sections.entrySet()) {
-        //     rotateSections.put(TileSection.rotateClockwise(entry.getKey()), entry.getValue());
+        // if(this.rotationCount == 4) {
+        //     this.rotationCount = 0;
         // }
+        // this.rotationCount++;
+        //
+        for (var entry : this.sections.entrySet()) {
+            rotateSections.put(TileSection.rotateClockwise(entry.getKey()), entry.getValue());
+        }
 
-        // this.rotationCount = (this.rotationCount + 1) % MAX_ROTATIONS;
+        this.rotationCount = (this.rotationCount + 1) % MAX_ROTATIONS;
+        //
         this.sections = rotateSections;
     }
 
