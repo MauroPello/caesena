@@ -12,7 +12,6 @@ import java.util.List;
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.meeple.*;
 import it.unibo.caesena.model.tile.*;
-import it.unibo.caesena.model.gameset.*;
 import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
@@ -24,7 +23,7 @@ public class ControllerImpl implements Controller {
     private final List<Tile> tiles = new ArrayList<>();
     private Tile currentTile;
     private Player currentPlayer;
-    private int turn;
+    private int turn; //indice di scorrimento Liste 
 
     @Override
     public void startGame() throws IllegalStateException {
@@ -130,20 +129,25 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void endTurn() {
-        // TODO ALE
-        throw new UnsupportedOperationException("Unimplemented method 'endGame'");
+        this.turn++;
+        if(this.players.size() == this.turn){
+            this.turn = 0;
+        }
+        this.currentPlayer = this.players.get(this.turn);
+        
+        this.currentTile = this.tiles.stream().filter(x -> !x.isPlaced())
+            .findFirst()
+            .get();
     }
 
     @Override
     public void endGame() {
-        // TODO ALE
-        throw new UnsupportedOperationException("Unimplemented method 'endGame'");
+        
     }
 
     @Override
     public void exitGame() {
-        // TODO ALE
-        throw new UnsupportedOperationException("Unimplemented method 'exitGame'");
+        
     }
 
     @Override
