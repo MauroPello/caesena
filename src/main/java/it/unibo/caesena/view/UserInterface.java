@@ -24,7 +24,8 @@ public class UserInterface extends JFrame {
         this.pauseView = new PauseView(this);
         this.gameOverView = new GameOverView(this);
         
-        // Default options for userInterface
+        // TODO background and size options
+        // TODO default options
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
@@ -66,5 +67,10 @@ public class UserInterface extends JFrame {
         gameView.setVisible(false);
         pauseView.setVisible(false);
         gameOverView.setVisible(false);
+    }
+
+    public void exit() {
+        this.controller.exitGame();
+        // chiudi app
     }
 }
