@@ -1,17 +1,9 @@
 package it.unibo.caesena.view;
 
-public class PauseView implements View {
+public class PauseView extends View {
 
-    @Override
-    public void show() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'show'");
-    }
-
-    @Override
-    public void hide() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hide'");
+    public PauseView(UserInterface userInterface) {
+        super(userInterface);
     }
 
 }
