@@ -18,15 +18,13 @@ public class UserInterface extends JFrame {
     public UserInterface(final Controller controller) {
         super();
         this.controller = controller;
-        // TODO set options for JFrame
-
+        
         this.startView = new StartView(this);
         this.gameView = new GameView(this);
         this.pauseView = new PauseView(this);
         this.gameOverView = new GameOverView(this);
-
-        this.getContentPane().add(startView);
-
+        
+        // Default options for userInterface
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
@@ -36,31 +34,31 @@ public class UserInterface extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
-        showStartView();
+        showGameOverView();
     }
 
     public void showStartView() {
         hideAllViews();
         startView.setVisible(true);
-
+        this.setContentPane(startView);
     }
 
     public void showGameView() {
         hideAllViews();
         gameView.setVisible(true);
-
+        this.setContentPane(gameView);
     }
 
     public void showPauseView() {
         hideAllViews();
         pauseView.setVisible(true);
-
+        this.setContentPane(pauseView);
     }
 
     public void showGameOverView() {
         hideAllViews();
         gameOverView.setVisible(true);
-
+        this.setContentPane(gameOverView);
     }
 
     private void hideAllViews() {
