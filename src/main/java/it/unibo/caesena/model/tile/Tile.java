@@ -13,8 +13,6 @@ public interface Tile {
     
     public void setPosition(Pair<Integer, Integer> pos);
 
-    public void setRotationCount(int count);
-
     public boolean isPlaced();
 
     public String getImageResourcesPath();

@@ -61,7 +61,7 @@ public class TileImpl implements Tile {
         // }
 
         // this.rotationCount = (this.rotationCount + 1) % MAX_ROTATIONS;
-        // this.sections = rotateSections;
+        this.sections = rotateSections;
     }
 
     @Override
@@ -100,12 +100,6 @@ public class TileImpl implements Tile {
     }
 
     @Override
-    public void setRotationCount(int count)
-    {
-        this.rotationCount = count;
-    }
-
-    @Override
     public boolean equals(final Object obj) {
 
         if (this == obj) {
@@ -121,7 +115,11 @@ public class TileImpl implements Tile {
         boolean equal = true;
 
         for (TileSection section : TileSection.values()) {
-            if (!this.getGameSet(section).equals(other.getGameSet(section)))
+            // if (!this.getGameSet(section).equals(other.getGameSet(section)))
+            if (this.getGameSet(section).isEmpty() || other.getGameSet(section).isEmpty())
+                continue;
+
+            if (!this.getGameSet(section).get().getType().equals(other.getGameSet(section).get().getType()))
             {
                 equal = false;
             }
@@ -132,6 +130,7 @@ public class TileImpl implements Tile {
 
     @Override
     public String toString() {
+        System.out.println(this.sections);
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
 }
