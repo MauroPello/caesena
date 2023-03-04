@@ -21,7 +21,7 @@ public interface Controller {
 
     void rotateCurrentTile();
 
-    boolean placeCurrentTile();
+    boolean placeCurrentTile(Pair<Integer, Integer> position);
 
     List<Player> getPlayers();
 

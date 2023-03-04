@@ -8,6 +8,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
+import javax.swing.text.Position;
 
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.meeple.*;
@@ -93,9 +96,14 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public boolean placeCurrentTile() {
-        // TODO JANKA
-        throw new UnsupportedOperationException("Unimplemented method 'placeCurrentTile'");
+    public boolean placeCurrentTile(Pair<Integer, Integer> position) {
+        for (var entry : getPlacedTiles()) {
+            if(entry.getPosition().equals(position)){
+                return false;
+            }
+        }
+        this.currentTile.setPosition(position);
+        return true;
     }
 
     @Override
