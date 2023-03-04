@@ -131,6 +131,7 @@ public class TileImpl implements Tile {
 
     @Override
     public String toString() {
+        System.out.println(this.currentPosition);
         System.out.println(this.sections);
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }

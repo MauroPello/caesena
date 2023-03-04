@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.swing.text.Position;
 
@@ -98,7 +99,9 @@ public class ControllerImpl implements Controller {
     @Override
     public boolean placeCurrentTile(Pair<Integer, Integer> position) {
         for (var entry : getPlacedTiles()) {
-            if(entry.getPosition().equals(position)){
+            if(entry.getPosition().get().getX() == position.getX()
+                &&
+                entry.getPosition().get().getY() == position.getY()) {
                 return false;
             }
         }
@@ -123,6 +126,13 @@ public class ControllerImpl implements Controller {
         return tiles.stream()
             .filter(x -> !x.isPlaced())
             .toList();
+    }
+
+    @Override
+    public void DrawTile()
+    {
+        Random random = new Random();
+        this.currentTile = getNotPlacedTiles().get(random.nextInt(getNotPlacedTiles().size()));
     }
 
     @Override
