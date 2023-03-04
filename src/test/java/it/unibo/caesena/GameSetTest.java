@@ -59,6 +59,6 @@ final class GameSetTest {
 
         assertFalse(gamesetCity.isMeepleFree());
 
-        assertTrue(gamesetCity.close().getX().contains(meeple));
+        assertTrue(gamesetCity.close().get().getX().contains(meeple));
     }
 }
