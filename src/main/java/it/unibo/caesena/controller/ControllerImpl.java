@@ -10,13 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
-<<<<<<< HEAD
-
-import javax.swing.text.Position;
-=======
->>>>>>> ef40b1127c0ddf149a13989131c3e6edbd8a1115
 
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.gameset.GameSet;
