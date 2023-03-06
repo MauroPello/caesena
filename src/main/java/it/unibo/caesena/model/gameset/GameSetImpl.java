@@ -59,4 +59,9 @@ public class GameSetImpl implements GameSet{
         return this.closed;
     }
 
+    @Override
+    public Set<Meeple> getMeeple() {
+        
+    }
+
 }

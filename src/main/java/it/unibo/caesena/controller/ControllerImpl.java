@@ -183,8 +183,15 @@ public class ControllerImpl implements Controller {
          * Se la Section nella quale stiamo piazzando il Meeple è parte di un GameSet closed allora
          * distribuiamo i punti tra i giocatori 
          */
+
         var gameSet = this.currentTile.getGameSet(section);
         return gameSet.isPresent() ? gameSet.get().addMeeple(meeple) : false;
+    }
+
+    private void distributePoints (final GameSet gameset) {
+        if (!gameset.isMeepleFree()) {
+            
+        }
     }
 
 }
