@@ -1,7 +1,5 @@
 package it.unibo.caesena.model.tile;
 
-import java.util.Set;
-
 public enum TileSection {
     UpLeft,
     UpCenter,
@@ -16,6 +14,18 @@ public enum TileSection {
     LeftCenter,
     LeftUp,
     Center;
+
+    // TODO cercare nome migliore
+    // se combacia con un altro pezzo (match)
+    private boolean closed = false;
+
+    public void close() {
+        this.closed = true;
+    }
+
+    public boolean isClosed() {
+        return this.closed;
+    }
 
     private static int getSectionsInSide() {
         return 3;
