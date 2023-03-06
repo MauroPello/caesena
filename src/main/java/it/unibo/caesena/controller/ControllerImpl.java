@@ -43,6 +43,7 @@ public class ControllerImpl implements Controller {
         Collections.shuffle(players);
         currentPlayer = players.get(0);
         buildAllTiles();
+        currentTile = tiles.get(0);
     }
 
     private void buildAllTiles() {
@@ -119,7 +120,7 @@ public class ControllerImpl implements Controller {
 
             if (neighbour.getPosition().get().getX()+Direction.UP.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.UP.getY() == position.getY()) {
                 //se il vicino è sopra alla tile che vogliamo piazzare:
-                //controllo tutti e tre i TileSection    
+                //controllo tutti e tre i TileSection
                 if (neighbour.getGameSet(TileSection.DownCenter).getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).getType())
                     && neighbour.getGameSet(TileSection.DownLeft).getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).getType())
                     && neighbour.getGameSet(TileSection.DownRight).getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).getType())) {}
@@ -138,7 +139,7 @@ public class ControllerImpl implements Controller {
                     && neighbour.getGameSet(TileSection.RightDown).getType().equals(getCurrentTile().getGameSet(TileSection.LeftDown).getType()))) {
                     return false;}
             }
-            
+
             if (neighbour.getPosition().get().getX()+Direction.RIGHT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.RIGHT.getY() == position.getY()){
                 if (!(neighbour.getGameSet(TileSection.LeftUp).getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).getType())
                     && neighbour.getGameSet(TileSection.LeftCenter).getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).getType())
@@ -148,7 +149,7 @@ public class ControllerImpl implements Controller {
 
             this.currentTile.setPosition(position);
         }
-    
+
         return true;
     }
 
@@ -228,7 +229,7 @@ public class ControllerImpl implements Controller {
 
         if (gameSet.isClosed()) {
             this.distributePoints(gameSet);
-        } 
+        }
 
         return true;
     }
@@ -239,16 +240,16 @@ public class ControllerImpl implements Controller {
 
         if (!gameset.isMeepleFree()) {
             Set<Meeple> meeples = gameset.getMeeples();
-            
+
             for (Meeple playerMeeple : meeples) {
                 Player currentPlayer = playerMeeple.getOwner();
-                
+
                 if (playerPoints.containsKey(currentPlayer)) {
                     value = playerPoints.get(currentPlayer);
                     value++;
                 }
                 playerPoints.put(currentPlayer, value);
-                
+
             }
             Player maxPlayer = playerPoints.entrySet().stream().max(new Comparator<Entry<Player, Integer>>() {
 
