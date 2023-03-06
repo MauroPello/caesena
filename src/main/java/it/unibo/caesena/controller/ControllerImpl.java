@@ -107,34 +107,44 @@ public class ControllerImpl implements Controller {
             }
         }
 
-        Set<Tile> neighborns = null;
+        Set<Tile> neighbours = null;
+
+        for (Tile neighbour : neighbours) {
+
+            //Direction.values()
+
+            if (neighbour.getPosition().get().getX()+Direction.UP.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.UP.getY() == position.getY()
+                //se il vicino è sopra alla tile che vogliamo piazzare:
+                //controllo tutti e tre i TileSection    
+                && neighbour.getGameSet(TileSection.DownCenter).isPresent() && getCurrentTile().getGameSet(TileSection.UpCenter).isPresent()
+                && neighbour.getGameSet(TileSection.DownLeft).isPresent() && getCurrentTile().getGameSet(TileSection.UpLeft).isPresent()
+                && neighbour.getGameSet(TileSection.DownRight).isPresent() && getCurrentTile().getGameSet(TileSection.UpRight).isPresent()) {
+                if (neighbour.getGameSet(TileSection.DownCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).get().getType())
+                    && neighbour.getGameSet(TileSection.DownLeft).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).get().getType())
+                    && neighbour.getGameSet(TileSection.DownRight).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).get().getType())) {}
+            }
+
+            if (neighbour.getPosition().get().getX()+Direction.DOWN.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.DOWN.getY() == position.getY()){
+                
+            }
+
+            if (neighbour.getPosition().get().getX()+Direction.LEFT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.LEFT.getY() == position.getY()){
+                
+            }
+
+            if (neighbour.getPosition().get().getX()+Direction.RIGHT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.RIGHT.getY() == position.getY()){
+                
+            }
+
+            this.currentTile.setPosition(position);
+        }
         
         /*
             devo controllare che la current tile sia posizionabile in posizione position
             la tile deve essere vicino alla position di almeno una tile già posizionata.
             devo controllare tutte tutti i lati della tile
         */
-        boolean near = false;
-        /*for (var entry : getPlacedTiles()) {
-            /*
-                UP = y-1
-                DOWN = y+1
-                LEFT = x-1
-                RIGHT = x+1
-            */
-            /*if( entry.getPosition().get().getX() == position.getX() && entry.getPosition().get().getY()-1 == position.getY() ||
-                entry.getPosition().get().getX() == position.getX() && entry.getPosition().get().getY()+1 == position.getY() ||
-                entry.getPosition().get().getX()-1 == position.getX() && entry.getPosition().get().getY() == position.getY() ||
-                entry.getPosition().get().getX()+1 == position.getX() && entry.getPosition().get().getY() == position.getY()) {
-                near = true;
-            }
-        }*/
-
-        this.currentTile.setPosition(position);
-        /*
-         * Se piazzando la Tile abbiamo chiuso un GameSet, che conteneva dei Meeples, allora distribuiamo i
-         * punti ai giocatori
-         */
+    
         return true;
     }
 
