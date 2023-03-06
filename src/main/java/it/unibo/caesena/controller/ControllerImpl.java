@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import it.unibo.caesena.model.*;
@@ -20,15 +19,15 @@ import it.unibo.caesena.model.tile.*;
 import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
-    private static final String SEP = File.separator; //TODO far testare a janka
+    private static final String SEP = File.separator;
     private static final String FILE_TILES_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "tile.conf";
-    private static final int MEEPLES_PER_PLAYER = 8; //TODO guardare le regole del gioco
+    private static final int MEEPLES_PER_PLAYER = 8;
     private final List<Meeple> meeples = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
     private final List<Tile> tiles = new ArrayList<>();
     private Tile currentTile;
     private Player currentPlayer;
-    private int turn; //indice di scorrimento Liste 
+    private int turn; //indice di scorrimento Liste
     private final Map<GameSet, Set<Tile>> gameSets =  new HashMap<>();
 
     @Override
@@ -90,12 +89,12 @@ public class ControllerImpl implements Controller {
 
     @Override
     public Tile getCurrentTile() {
-        return currentTile;
+        return this.currentTile;
     }
 
     @Override
     public void rotateCurrentTile() {
-        currentTile.rotateClockwise();
+        this.currentTile.rotateClockwise();
     }
 
     @Override
@@ -107,6 +106,30 @@ public class ControllerImpl implements Controller {
                 return false;
             }
         }
+
+        Set<Tile> neighborns = null;
+        
+        /*
+            devo controllare che la current tile sia posizionabile in posizione position
+            la tile deve essere vicino alla position di almeno una tile già posizionata.
+            devo controllare tutte tutti i lati della tile
+        */
+        boolean near = false;
+        /*for (var entry : getPlacedTiles()) {
+            /*
+                UP = y-1
+                DOWN = y+1
+                LEFT = x-1
+                RIGHT = x+1
+            */
+            /*if( entry.getPosition().get().getX() == position.getX() && entry.getPosition().get().getY()-1 == position.getY() ||
+                entry.getPosition().get().getX() == position.getX() && entry.getPosition().get().getY()+1 == position.getY() ||
+                entry.getPosition().get().getX()-1 == position.getX() && entry.getPosition().get().getY() == position.getY() ||
+                entry.getPosition().get().getX()+1 == position.getX() && entry.getPosition().get().getY() == position.getY()) {
+                near = true;
+            }
+        }*/
+
         this.currentTile.setPosition(position);
         /*
          * Se piazzando la Tile abbiamo chiuso un GameSet, che conteneva dei Meeples, allora distribuiamo i
@@ -135,13 +158,6 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void DrawTile()
-    {
-        Random random = new Random();
-        this.currentTile = getNotPlacedTiles().get(random.nextInt(getNotPlacedTiles().size()));
-    }
-
-    @Override
     public List<Meeple> getCurrentPlayerMeeples() {
         return meeples.stream().filter(m -> m.getOwner().equals(currentPlayer)).toList();
     }
@@ -158,13 +174,13 @@ public class ControllerImpl implements Controller {
             this.turn = 0;
         }
         this.currentPlayer = this.players.get(this.turn);
-        
+
         this.currentTile = this.getNotPlacedTiles().get(0);
     }
 
     @Override
     public void endGame() {
-        
+
     }
 
     @Override
@@ -181,7 +197,7 @@ public class ControllerImpl implements Controller {
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
         /*
          * Se la Section nella quale stiamo piazzando il Meeple è parte di un GameSet closed allora
-         * distribuiamo i punti tra i giocatori 
+         * distribuiamo i punti tra i giocatori
          */
 
         var gameSet = this.currentTile.getGameSet(section);

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.controller.*;
-import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Color;
 import it.unibo.caesena.utils.Pair;
 
@@ -55,11 +54,11 @@ final class ControllerTest {
 
     @Test
     public void testPlaceCurrentTile() {
-        controller.DrawTile();
+        controller.startGame();
         assertTrue(controller.placeCurrentTile(new Pair<Integer,Integer>(0, 0)));
         controller.getCurrentTile().toString();
 
-        controller.DrawTile();
+        controller.endTurn();
         controller.getCurrentTile().toString();
 
         assertFalse(controller.placeCurrentTile(new Pair<Integer,Integer>(0, 0)));

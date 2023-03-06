@@ -38,6 +38,4 @@ public interface Controller {
     void endGame();
 
     void exitGame();
-
-    void DrawTile();
 }
