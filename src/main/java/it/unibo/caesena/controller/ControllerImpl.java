@@ -126,35 +126,23 @@ public class ControllerImpl implements Controller {
             }
 
             if (neighbour.getPosition().get().getX()+Direction.DOWN.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.DOWN.getY() == position.getY()){
-                if(!(neighbour.getGameSet(TileSection.UpCenter).isPresent() && getCurrentTile().getGameSet(TileSection.DownCenter).isPresent()
-                    && neighbour.getGameSet(TileSection.UpLeft).isPresent() && getCurrentTile().getGameSet(TileSection.DownLeft).isPresent()
-                    && neighbour.getGameSet(TileSection.UpRight).isPresent() && getCurrentTile().getGameSet(TileSection.DownRight).isPresent())) {
-                    return false;}
-                else if (!(neighbour.getGameSet(TileSection.UpCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.DownCenter).get().getType())
-                    && neighbour.getGameSet(TileSection.UpLeft).get().getType().equals(getCurrentTile().getGameSet(TileSection.DownLeft).get().getType())
-                    && neighbour.getGameSet(TileSection.UpRight).get().getType().equals(getCurrentTile().getGameSet(TileSection.DownRight).get().getType()))) {
+                if (!(neighbour.getGameSet(TileSection.UpCenter).getType().equals(getCurrentTile().getGameSet(TileSection.DownCenter).getType())
+                    && neighbour.getGameSet(TileSection.UpLeft).getType().equals(getCurrentTile().getGameSet(TileSection.DownLeft).getType())
+                    && neighbour.getGameSet(TileSection.UpRight).getType().equals(getCurrentTile().getGameSet(TileSection.DownRight).getType()))) {
                     return false;}
             }
 
             if (neighbour.getPosition().get().getX()+Direction.LEFT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.LEFT.getY() == position.getY()){
-                if(!(neighbour.getGameSet(TileSection.RightUp).isPresent() && getCurrentTile().getGameSet(TileSection.LeftUp).isPresent()
-                    && neighbour.getGameSet(TileSection.RightCenter).isPresent() && getCurrentTile().getGameSet(TileSection.LeftCenter).isPresent()
-                    && neighbour.getGameSet(TileSection.RightDown).isPresent() && getCurrentTile().getGameSet(TileSection.LeftDown).isPresent())) {
-                    return false;}
-                else if (!(neighbour.getGameSet(TileSection.RightUp).get().getType().equals(getCurrentTile().getGameSet(TileSection.LeftUp).get().getType())
-                    && neighbour.getGameSet(TileSection.RightCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.LeftCenter).get().getType())
-                    && neighbour.getGameSet(TileSection.RightDown).get().getType().equals(getCurrentTile().getGameSet(TileSection.LeftDown).get().getType()))) {
+                if (!(neighbour.getGameSet(TileSection.RightUp).getType().equals(getCurrentTile().getGameSet(TileSection.LeftUp).getType())
+                    && neighbour.getGameSet(TileSection.RightCenter).getType().equals(getCurrentTile().getGameSet(TileSection.LeftCenter).getType())
+                    && neighbour.getGameSet(TileSection.RightDown).getType().equals(getCurrentTile().getGameSet(TileSection.LeftDown).getType()))) {
                     return false;}
             }
             
             if (neighbour.getPosition().get().getX()+Direction.RIGHT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.RIGHT.getY() == position.getY()){
-                if(!(neighbour.getGameSet(TileSection.LeftUp).isPresent() && getCurrentTile().getGameSet(TileSection.UpCenter).isPresent()
-                    && neighbour.getGameSet(TileSection.LeftCenter).isPresent() && getCurrentTile().getGameSet(TileSection.UpLeft).isPresent()
-                    && neighbour.getGameSet(TileSection.LeftDown).isPresent() && getCurrentTile().getGameSet(TileSection.UpRight).isPresent())) {
-                    return false;}
-                else if (!(neighbour.getGameSet(TileSection.LeftUp).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).get().getType())
-                    && neighbour.getGameSet(TileSection.LeftCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).get().getType())
-                    && neighbour.getGameSet(TileSection.LeftDown).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).get().getType()))) {
+                if (!(neighbour.getGameSet(TileSection.LeftUp).getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).getType())
+                    && neighbour.getGameSet(TileSection.LeftCenter).getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).getType())
+                    && neighbour.getGameSet(TileSection.LeftDown).getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).getType()))) {
                     return false;}
             }
 
