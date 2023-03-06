@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 
 import javax.swing.text.Position;
 
@@ -88,12 +89,12 @@ public class ControllerImpl implements Controller {
 
     @Override
     public Tile getCurrentTile() {
-        return currentTile;
+        return this.currentTile;
     }
 
     @Override
     public void rotateCurrentTile() {
-        currentTile.rotateClockwise();
+        this.currentTile.rotateClockwise();
     }
 
     @Override
@@ -105,6 +106,30 @@ public class ControllerImpl implements Controller {
                 return false;
             }
         }
+
+        Set<Tile> neighborns = null;
+        
+        /*
+            devo controllare che la current tile sia posizionabile in posizione position
+            la tile deve essere vicino alla position di almeno una tile già posizionata.
+            devo controllare tutte tutti i lati della tile
+        */
+        boolean near = false;
+        /*for (var entry : getPlacedTiles()) {
+            /*
+                UP = y-1
+                DOWN = y+1
+                LEFT = x-1
+                RIGHT = x+1
+            */
+            /*if( entry.getPosition().get().getX() == position.getX() && entry.getPosition().get().getY()-1 == position.getY() ||
+                entry.getPosition().get().getX() == position.getX() && entry.getPosition().get().getY()+1 == position.getY() ||
+                entry.getPosition().get().getX()-1 == position.getX() && entry.getPosition().get().getY() == position.getY() ||
+                entry.getPosition().get().getX()+1 == position.getX() && entry.getPosition().get().getY() == position.getY()) {
+                near = true;
+            }
+        }*/
+
         this.currentTile.setPosition(position);
         return true;
     }
@@ -126,13 +151,6 @@ public class ControllerImpl implements Controller {
         return tiles.stream()
             .filter(x -> !x.isPlaced())
             .toList();
-    }
-
-    @Override
-    public void DrawTile()
-    {
-        Random random = new Random();
-        this.currentTile = getNotPlacedTiles().get(random.nextInt(getNotPlacedTiles().size()));
     }
 
     @Override
