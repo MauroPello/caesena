@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -118,18 +117,12 @@ public class ControllerImpl implements Controller {
 
             //Direction.values()
 
-            if (neighbour.getPosition().get().getX()+Direction.UP.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.UP.getY() == position.getY()){
-                if( //se il vicino è sopra alla tile che vogliamo piazzare:
-                    //controllo che i tre TileSection delle due Tile siano diversi   
-                    !(neighbour.getGameSet(TileSection.DownCenter).isPresent() && getCurrentTile().getGameSet(TileSection.UpCenter).isPresent()
-                    && neighbour.getGameSet(TileSection.DownLeft).isPresent() && getCurrentTile().getGameSet(TileSection.UpLeft).isPresent()
-                    && neighbour.getGameSet(TileSection.DownRight).isPresent() && getCurrentTile().getGameSet(TileSection.UpRight).isPresent())) {
-                    return false;}
-                else //controllo che i gameset siano diversi per entrambe le tiles:
-                    if (!(neighbour.getGameSet(TileSection.DownCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).get().getType())
-                    && neighbour.getGameSet(TileSection.DownLeft).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).get().getType())
-                    && neighbour.getGameSet(TileSection.DownRight).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).get().getType()))) {
-                    return false;}
+            if (neighbour.getPosition().get().getX()+Direction.UP.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.UP.getY() == position.getY()) {
+                //se il vicino è sopra alla tile che vogliamo piazzare:
+                //controllo tutti e tre i TileSection    
+                if (neighbour.getGameSet(TileSection.DownCenter).getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).getType())
+                    && neighbour.getGameSet(TileSection.DownLeft).getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).getType())
+                    && neighbour.getGameSet(TileSection.DownRight).getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).getType())) {}
             }
 
             if (neighbour.getPosition().get().getX()+Direction.DOWN.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.DOWN.getY() == position.getY()){
@@ -242,12 +235,7 @@ public class ControllerImpl implements Controller {
          * Se la Section nella quale stiamo piazzando il Meeple è parte di un GameSet closed allora
          * distribuiamo i punti tra i giocatori
          */
-        if (this.currentTile.getGameSet(section).isEmpty()){
-            return false;
-        }
-
-        var gameSet = this.currentTile.getGameSet(section).get();
-
+        var gameSet = this.currentTile.getGameSet(section);
         gameSet.addMeeple(meeple);
 
         if (gameSet.isClosed()) {

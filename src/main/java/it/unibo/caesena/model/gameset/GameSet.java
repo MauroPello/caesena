@@ -12,7 +12,8 @@ public interface GameSet {
         FIELD,
         CITY,
         MONASTERY,
-        ROAD
+        ROAD,
+        JUNCTION
     }
     
     public boolean addMeeple(Meeple meeple);
