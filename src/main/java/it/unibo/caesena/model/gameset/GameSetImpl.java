@@ -1,5 +1,6 @@
 package it.unibo.caesena.model.gameset;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -60,8 +61,13 @@ public class GameSetImpl implements GameSet{
     }
 
     @Override
-    public Set<Meeple> getMeeple() {
-        
+    public Set<Meeple> getMeeples() {
+        return Collections.unmodifiableSet(this.meeples);
+    }
+
+    @Override
+    public int getPoints() {
+        return this.points;
     }
 
 }
