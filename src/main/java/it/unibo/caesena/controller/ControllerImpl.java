@@ -7,13 +7,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Random;
-
-import javax.swing.text.Position;
+import java.util.Set;
 
 import it.unibo.caesena.model.*;
+import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.*;
 import it.unibo.caesena.model.tile.*;
 import it.unibo.caesena.utils.*;
@@ -28,6 +29,7 @@ public class ControllerImpl implements Controller {
     private Tile currentTile;
     private Player currentPlayer;
     private int turn; //indice di scorrimento Liste 
+    private final Map<GameSet, Set<Tile>> gameSets =  new HashMap<>();
 
     @Override
     public void startGame() throws IllegalStateException {
@@ -106,6 +108,10 @@ public class ControllerImpl implements Controller {
             }
         }
         this.currentTile.setPosition(position);
+        /*
+         * Se piazzando la Tile abbiamo chiuso un GameSet, che conteneva dei Meeples, allora distribuiamo i
+         * punti ai giocatori
+         */
         return true;
     }
 
@@ -145,8 +151,6 @@ public class ControllerImpl implements Controller {
         return getPlacedTiles().size() == tiles.size();
     }
 
-    //PUNTEGGIO PROGRESSIVO MANCANTE!!!
-    //DA ASSEGNARE IL RELATIVO PUNTEGGIO AL RELATIVO PLAYER
     @Override
     public void endTurn() {
         this.turn++;
@@ -175,6 +179,10 @@ public class ControllerImpl implements Controller {
 
     @Override
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
+        /*
+         * Se la Section nella quale stiamo piazzando il Meeple è parte di un GameSet closed allora
+         * distribuiamo i punti tra i giocatori 
+         */
         var gameSet = this.currentTile.getGameSet(section);
         return gameSet.isPresent() ? gameSet.get().addMeeple(meeple) : false;
     }
