@@ -112,43 +112,61 @@ public class ControllerImpl implements Controller {
             }
         }
 
-        Set<Tile> neighbours = null;
+        Set<Tile> neighbours = getTileNeighbours(position);
 
         for (Tile neighbour : neighbours) {
 
             //Direction.values()
 
-            if (neighbour.getPosition().get().getX()+Direction.UP.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.UP.getY() == position.getY()
-                //se il vicino è sopra alla tile che vogliamo piazzare:
-                //controllo tutti e tre i TileSection    
-                && neighbour.getGameSet(TileSection.DownCenter).isPresent() && getCurrentTile().getGameSet(TileSection.UpCenter).isPresent()
-                && neighbour.getGameSet(TileSection.DownLeft).isPresent() && getCurrentTile().getGameSet(TileSection.UpLeft).isPresent()
-                && neighbour.getGameSet(TileSection.DownRight).isPresent() && getCurrentTile().getGameSet(TileSection.UpRight).isPresent()) {
-                if (neighbour.getGameSet(TileSection.DownCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).get().getType())
+            if (neighbour.getPosition().get().getX()+Direction.UP.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.UP.getY() == position.getY()){
+                if( //se il vicino è sopra alla tile che vogliamo piazzare:
+                    //controllo che i tre TileSection delle due Tile siano diversi   
+                    !(neighbour.getGameSet(TileSection.DownCenter).isPresent() && getCurrentTile().getGameSet(TileSection.UpCenter).isPresent()
+                    && neighbour.getGameSet(TileSection.DownLeft).isPresent() && getCurrentTile().getGameSet(TileSection.UpLeft).isPresent()
+                    && neighbour.getGameSet(TileSection.DownRight).isPresent() && getCurrentTile().getGameSet(TileSection.UpRight).isPresent())) {
+                    return false;}
+                else //controllo che i gameset siano diversi per entrambe le tiles:
+                    if (!(neighbour.getGameSet(TileSection.DownCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).get().getType())
                     && neighbour.getGameSet(TileSection.DownLeft).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).get().getType())
-                    && neighbour.getGameSet(TileSection.DownRight).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).get().getType())) {}
+                    && neighbour.getGameSet(TileSection.DownRight).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).get().getType()))) {
+                    return false;}
             }
 
             if (neighbour.getPosition().get().getX()+Direction.DOWN.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.DOWN.getY() == position.getY()){
-                
+                if(!(neighbour.getGameSet(TileSection.UpCenter).isPresent() && getCurrentTile().getGameSet(TileSection.DownCenter).isPresent()
+                    && neighbour.getGameSet(TileSection.UpLeft).isPresent() && getCurrentTile().getGameSet(TileSection.DownLeft).isPresent()
+                    && neighbour.getGameSet(TileSection.UpRight).isPresent() && getCurrentTile().getGameSet(TileSection.DownRight).isPresent())) {
+                    return false;}
+                else if (!(neighbour.getGameSet(TileSection.UpCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.DownCenter).get().getType())
+                    && neighbour.getGameSet(TileSection.UpLeft).get().getType().equals(getCurrentTile().getGameSet(TileSection.DownLeft).get().getType())
+                    && neighbour.getGameSet(TileSection.UpRight).get().getType().equals(getCurrentTile().getGameSet(TileSection.DownRight).get().getType()))) {
+                    return false;}
             }
 
             if (neighbour.getPosition().get().getX()+Direction.LEFT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.LEFT.getY() == position.getY()){
-                
+                if(!(neighbour.getGameSet(TileSection.RightUp).isPresent() && getCurrentTile().getGameSet(TileSection.LeftUp).isPresent()
+                    && neighbour.getGameSet(TileSection.RightCenter).isPresent() && getCurrentTile().getGameSet(TileSection.LeftCenter).isPresent()
+                    && neighbour.getGameSet(TileSection.RightDown).isPresent() && getCurrentTile().getGameSet(TileSection.LeftDown).isPresent())) {
+                    return false;}
+                else if (!(neighbour.getGameSet(TileSection.RightUp).get().getType().equals(getCurrentTile().getGameSet(TileSection.LeftUp).get().getType())
+                    && neighbour.getGameSet(TileSection.RightCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.LeftCenter).get().getType())
+                    && neighbour.getGameSet(TileSection.RightDown).get().getType().equals(getCurrentTile().getGameSet(TileSection.LeftDown).get().getType()))) {
+                    return false;}
             }
-
+            
             if (neighbour.getPosition().get().getX()+Direction.RIGHT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.RIGHT.getY() == position.getY()){
-                
+                if(!(neighbour.getGameSet(TileSection.LeftUp).isPresent() && getCurrentTile().getGameSet(TileSection.UpCenter).isPresent()
+                    && neighbour.getGameSet(TileSection.LeftCenter).isPresent() && getCurrentTile().getGameSet(TileSection.UpLeft).isPresent()
+                    && neighbour.getGameSet(TileSection.LeftDown).isPresent() && getCurrentTile().getGameSet(TileSection.UpRight).isPresent())) {
+                    return false;}
+                else if (!(neighbour.getGameSet(TileSection.LeftUp).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).get().getType())
+                    && neighbour.getGameSet(TileSection.LeftCenter).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).get().getType())
+                    && neighbour.getGameSet(TileSection.LeftDown).get().getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).get().getType()))) {
+                    return false;}
             }
 
             this.currentTile.setPosition(position);
         }
-        
-        /*
-            devo controllare che la current tile sia posizionabile in posizione position
-            la tile deve essere vicino alla position di almeno una tile già posizionata.
-            devo controllare tutte tutti i lati della tile
-        */
     
         return true;
     }
