@@ -20,15 +20,15 @@ import it.unibo.caesena.model.tile.*;
 import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
-    private static final String SEP = File.separator; //TODO far testare a janka
+    private static final String SEP = File.separator;
     private static final String FILE_TILES_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "tile.conf";
-    private static final int MEEPLES_PER_PLAYER = 8; //TODO guardare le regole del gioco
+    private static final int MEEPLES_PER_PLAYER = 8;
     private final List<Meeple> meeples = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
     private final List<Tile> tiles = new ArrayList<>();
     private Tile currentTile;
     private Player currentPlayer;
-    private int turn; //indice di scorrimento Liste 
+    private int turn; //indice di scorrimento Liste
     private final Map<GameSet, Set<Tile>> gameSets =  new HashMap<>();
 
     @Override
@@ -158,13 +158,13 @@ public class ControllerImpl implements Controller {
             this.turn = 0;
         }
         this.currentPlayer = this.players.get(this.turn);
-        
+
         this.currentTile = this.getNotPlacedTiles().get(0);
     }
 
     @Override
     public void endGame() {
-        
+
     }
 
     @Override
@@ -181,7 +181,7 @@ public class ControllerImpl implements Controller {
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
         /*
          * Se la Section nella quale stiamo piazzando il Meeple è parte di un GameSet closed allora
-         * distribuiamo i punti tra i giocatori 
+         * distribuiamo i punti tra i giocatori
          */
         var gameSet = this.currentTile.getGameSet(section);
         return gameSet.isPresent() ? gameSet.get().addMeeple(meeple) : false;
