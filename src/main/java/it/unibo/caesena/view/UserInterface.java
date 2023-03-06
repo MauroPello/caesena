@@ -35,7 +35,7 @@ public class UserInterface extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
-        showGameOverView();
+        showGameView();
     }
 
     public void showStartView() {
@@ -72,5 +72,9 @@ public class UserInterface extends JFrame {
     public void exit() {
         this.controller.exitGame();
         // chiudi app
+    }
+
+    public Controller getController() {
+        return this.controller;
     }
 }

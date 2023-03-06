@@ -10,4 +10,8 @@ public class View extends JPanel {
         this.userInterface = userInterface;
     }
 
+    protected UserInterface getUserInterface() {        
+        return userInterface;
+    }
+
 }
