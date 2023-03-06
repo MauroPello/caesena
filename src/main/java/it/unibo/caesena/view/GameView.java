@@ -10,9 +10,11 @@ import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Color;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.components.TileButton;
+import java.awt.event.*;
 
 public class GameView extends View {
     private final static int DEFAULT_ZOOM_LEVEL = 5;
+    private final static int DEFAULT_TILE_SIZE = 60;
 
     private int currentZoomLevel = DEFAULT_ZOOM_LEVEL;
     private Controller controller;
@@ -32,7 +34,6 @@ public class GameView extends View {
         this.controller.addPlayer("Giocatore1", color1);
         this.controller.addPlayer("Giocatore2", color2);
         //FINE DEBUG
-
         this.controller.startGame();
         getFirstTile();
    }
@@ -51,7 +52,7 @@ public class GameView extends View {
         return new Pair<Integer,Integer>(value, value);
     }
 
-    private Component getField() {
+    private Component getField() { // c'è tutta la questione delle immagini storte ecc.
         JPanel OuterPanel = new JPanel();
         JPanel field = new JPanel() {
             private static final long serialVersionUID = 1L;
@@ -68,18 +69,39 @@ public class GameView extends View {
         field.setLayout(new GridLayout(getHorizontalNumber(), getVerticalNumber()));
         for (int i = 0; i < currentZoomLevel; i++) {
             for (int j = 0; j < currentZoomLevel; j++) {
-                TileButton fieldCell = new TileButton(j, i);
+                TileButton fieldCell = new TileButton(j, i);//trovare altro valore
                 field.add(fieldCell);
                 tileButtons.add(fieldCell);
-                fieldCell.addActionListener( (e) -> {
-                    Tile tile = controller.getCurrentTile();
-                    TileButton tileButton = (TileButton)e.getSource();
-                    setTile(tileButton, tile.getImageResourcesPath());
-                    repaint();
-                });
+                fieldCell.addActionListener(OnSelection());
+                fieldCell.addComponentListener(OnResizeOrShown());
             }
         }
         return OuterPanel;
+    }
+
+    private ComponentListener OnResizeOrShown() {
+        return new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                TileButton tileButton = (TileButton)e.getSource();
+                tileButton.resize();
+            }
+            @Override
+            public void componentShown(ComponentEvent e) {
+                TileButton tileButton = (TileButton)e.getSource();
+                tileButton.resize();
+            }
+        };
+    }
+
+    private ActionListener OnSelection() {
+        return (e) -> {
+            Tile tile = controller.getCurrentTile();
+            TileButton tileButton = (TileButton)e.getSource();
+            setTile(tileButton, tile.getImageResourcesPath());
+            tileButton.resize();
+            repaint();
+        };
     }
 
     private int getVerticalNumber() {
