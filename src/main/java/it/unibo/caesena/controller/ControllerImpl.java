@@ -7,10 +7,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.Map.Entry;
 
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.gameset.GameSet;
@@ -167,6 +172,16 @@ public class ControllerImpl implements Controller {
             .toList();
     }
 
+    private Set<Tile> getTileNeighbours(Pair<Integer, Integer> position) {
+        var neighboursDirections = Stream.of(Direction.values())
+            .map(d -> new Pair<Integer, Integer>(position.getX() + d.getX(), position.getY() + d.getY()))
+            .collect(Collectors.toSet());
+
+        return getPlacedTiles().stream()
+            .filter(t -> neighboursDirections.contains(t.getPosition().get()))
+            .collect(Collectors.toSet());
+    }
+
     @Override
     public List<Meeple> getCurrentPlayerMeeples() {
         return meeples.stream().filter(m -> m.getOwner().equals(currentPlayer)).toList();
@@ -209,15 +224,49 @@ public class ControllerImpl implements Controller {
          * Se la Section nella quale stiamo piazzando il Meeple è parte di un GameSet closed allora
          * distribuiamo i punti tra i giocatori
          */
+        if (this.currentTile.getGameSet(section).isEmpty()){
+            return false;
+        }
 
-        var gameSet = this.currentTile.getGameSet(section);
-        return gameSet.isPresent() ? gameSet.get().addMeeple(meeple) : false;
+        var gameSet = this.currentTile.getGameSet(section).get();
+
+        gameSet.addMeeple(meeple);
+
+        if (gameSet.isClosed()) {
+            this.distributePoints(gameSet);
+        } 
+
+        return true;
     }
 
     private void distributePoints (final GameSet gameset) {
+        Map<Player, Integer> playerPoints = new HashMap<>();
+        int value = 1;
+
         if (!gameset.isMeepleFree()) {
+            Set<Meeple> meeples = gameset.getMeeples();
             
+            for (Meeple playerMeeple : meeples) {
+                Player currentPlayer = playerMeeple.getOwner();
+                
+                if (playerPoints.containsKey(currentPlayer)) {
+                    value = playerPoints.get(currentPlayer);
+                    value++;
+                }
+                playerPoints.put(currentPlayer, value);
+                
+            }
+            Player maxPlayer = playerPoints.entrySet().stream().max(new Comparator<Entry<Player, Integer>>() {
+
+                @Override
+                public int compare(Entry<Player, Integer> o1, Entry<Player, Integer> o2) {
+                    return o1.getValue().compareTo(o2.getValue());
+                }
+            }).get().getKey();
+
+            maxPlayer.addScore(gameset.getPoints());
         }
+
     }
 
 }

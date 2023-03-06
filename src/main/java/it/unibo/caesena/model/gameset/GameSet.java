@@ -25,6 +25,8 @@ public interface GameSet {
 
     public boolean isClosed();
 
-    public Set<Meeple> getMeeple(); 
+    public Set<Meeple> getMeeples(); 
+
+    public int getPoints();
 
 }
