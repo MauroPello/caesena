@@ -8,9 +8,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.gameset.GameSet;
@@ -155,6 +158,16 @@ public class ControllerImpl implements Controller {
         return tiles.stream()
             .filter(x -> !x.isPlaced())
             .toList();
+    }
+
+    private Set<Tile> getTileNeighbours(Pair<Integer, Integer> position) {
+        var neighboursDirections = Stream.of(Direction.values())
+            .map(d -> new Pair<Integer, Integer>(position.getX() + d.getX(), position.getY() + d.getY()))
+            .collect(Collectors.toSet());
+
+        return getPlacedTiles().stream()
+            .filter(t -> neighboursDirections.contains(t.getPosition().get()))
+            .collect(Collectors.toSet());
     }
 
     @Override
