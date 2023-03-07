@@ -1,18 +1,19 @@
 package it.unibo.caesena.model.tile;
 
 public enum TileSection {
-    UpLeft,
-    UpCenter,
-    UpRight,
-    RightUp,
-    RightCenter,
-    RightDown,
-    DownRight,
-    DownCenter,
-    DownLeft,
-    LeftDown,
-    LeftCenter,
-    LeftUp,
+    UpLeft,     //8->DownLeft
+    UpCenter,   //6->DownCenter
+    UpRight,    //4->DownRight
+    RightUp,    //8->LeftUp
+    RightCenter,//6->LeftCenter
+    RightDown,  //4->LeftDown
+
+    DownRight,  //4->UpRight
+    DownCenter, //6->UpCenter
+    DownLeft,   //8->UpLeft
+    LeftDown,   //4->RightDown
+    LeftCenter, //6->RightCenter
+    LeftUp,     //8->RightUp
     Center;
 
     // TODO cercare nome migliore
@@ -41,6 +42,40 @@ public enum TileSection {
         }
         
         return values()[index];
+    }
+
+    public static TileSection getOppposite(final TileSection section) {
+        if(section == TileSection.Center) {
+            return TileSection.Center;
+        }
+
+        if(section.ordinal()<=TileSection.RightDown.ordinal()) {
+            switch(section.ordinal()%3) {
+                case 0:
+                shiftTileSection(section, 8);
+                    break;
+                case 1:
+                shiftTileSection(section, 6);
+                    break;
+                case 2:
+                shiftTileSection(section, 4);
+                    break;
+            }
+        } else {
+            switch(section.ordinal()%3) {
+                case 0:
+                shiftTileSection(section, -4);
+                    break;
+                case 1:
+                shiftTileSection(section, -6);
+                    break;
+                case 2:
+                shiftTileSection(section, -8);
+                    break;
+            }
+        }
+
+        return section;
     }
 
     public static TileSection rotateClockwise(final TileSection section) {
