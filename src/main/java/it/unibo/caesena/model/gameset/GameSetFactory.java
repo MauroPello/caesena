@@ -10,6 +10,8 @@ public interface GameSetFactory {
 
     public GameSet createFieldSet();
 
+    public GameSet createJunctionSet();
+
     public GameSet createJoinedSet(GameSet gs1, GameSet gs2);
 
 }

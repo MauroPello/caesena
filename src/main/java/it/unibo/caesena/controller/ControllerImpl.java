@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,6 +43,7 @@ public class ControllerImpl implements Controller {
         Collections.shuffle(players);
         currentPlayer = players.get(0);
         buildAllTiles();
+        currentTile = tiles.get(0);
     }
 
     private void buildAllTiles() {
@@ -112,34 +112,44 @@ public class ControllerImpl implements Controller {
             }
         }
 
-        Set<Tile> neighborns = null;
-        
-        /*
-            devo controllare che la current tile sia posizionabile in posizione position
-            la tile deve essere vicino alla position di almeno una tile già posizionata.
-            devo controllare tutte tutti i lati della tile
-        */
-        boolean near = false;
-        /*for (var entry : getPlacedTiles()) {
-            /*
-                UP = y-1
-                DOWN = y+1
-                LEFT = x-1
-                RIGHT = x+1
-            */
-            /*if( entry.getPosition().get().getX() == position.getX() && entry.getPosition().get().getY()-1 == position.getY() ||
-                entry.getPosition().get().getX() == position.getX() && entry.getPosition().get().getY()+1 == position.getY() ||
-                entry.getPosition().get().getX()-1 == position.getX() && entry.getPosition().get().getY() == position.getY() ||
-                entry.getPosition().get().getX()+1 == position.getX() && entry.getPosition().get().getY() == position.getY()) {
-                near = true;
-            }
-        }*/
+        Set<Tile> neighbours = getTileNeighbours(position);
 
-        this.currentTile.setPosition(position);
-        /*
-         * Se piazzando la Tile abbiamo chiuso un GameSet, che conteneva dei Meeples, allora distribuiamo i
-         * punti ai giocatori
-         */
+        for (Tile neighbour : neighbours) {
+
+            //Direction.values()
+
+            if (neighbour.getPosition().get().getX()+Direction.UP.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.UP.getY() == position.getY()) {
+                //se il vicino è sopra alla tile che vogliamo piazzare:
+                //controllo tutti e tre i TileSection
+                if (neighbour.getGameSet(TileSection.DownCenter).getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).getType())
+                    && neighbour.getGameSet(TileSection.DownLeft).getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).getType())
+                    && neighbour.getGameSet(TileSection.DownRight).getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).getType())) {}
+            }
+
+            if (neighbour.getPosition().get().getX()+Direction.DOWN.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.DOWN.getY() == position.getY()){
+                if (!(neighbour.getGameSet(TileSection.UpCenter).getType().equals(getCurrentTile().getGameSet(TileSection.DownCenter).getType())
+                    && neighbour.getGameSet(TileSection.UpLeft).getType().equals(getCurrentTile().getGameSet(TileSection.DownLeft).getType())
+                    && neighbour.getGameSet(TileSection.UpRight).getType().equals(getCurrentTile().getGameSet(TileSection.DownRight).getType()))) {
+                    return false;}
+            }
+
+            if (neighbour.getPosition().get().getX()+Direction.LEFT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.LEFT.getY() == position.getY()){
+                if (!(neighbour.getGameSet(TileSection.RightUp).getType().equals(getCurrentTile().getGameSet(TileSection.LeftUp).getType())
+                    && neighbour.getGameSet(TileSection.RightCenter).getType().equals(getCurrentTile().getGameSet(TileSection.LeftCenter).getType())
+                    && neighbour.getGameSet(TileSection.RightDown).getType().equals(getCurrentTile().getGameSet(TileSection.LeftDown).getType()))) {
+                    return false;}
+            }
+
+            if (neighbour.getPosition().get().getX()+Direction.RIGHT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.RIGHT.getY() == position.getY()){
+                if (!(neighbour.getGameSet(TileSection.LeftUp).getType().equals(getCurrentTile().getGameSet(TileSection.UpCenter).getType())
+                    && neighbour.getGameSet(TileSection.LeftCenter).getType().equals(getCurrentTile().getGameSet(TileSection.UpLeft).getType())
+                    && neighbour.getGameSet(TileSection.LeftDown).getType().equals(getCurrentTile().getGameSet(TileSection.UpRight).getType()))) {
+                    return false;}
+            }
+
+            this.currentTile.setPosition(position);
+        }
+
         return true;
     }
 
@@ -210,17 +220,16 @@ public class ControllerImpl implements Controller {
 
     @Override
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
-        if (this.currentTile.getGameSet(section).isEmpty()){
-            return false;
-        }
-
-        var gameSet = this.currentTile.getGameSet(section).get();
-
+        /*
+         * Se la Section nella quale stiamo piazzando il Meeple è parte di un GameSet closed allora
+         * distribuiamo i punti tra i giocatori
+         */
+        var gameSet = this.currentTile.getGameSet(section);
         gameSet.addMeeple(meeple);
 
         if (gameSet.isClosed()) {
             this.distributePoints(gameSet);
-        } 
+        }
 
         return true;
     }
@@ -231,16 +240,16 @@ public class ControllerImpl implements Controller {
 
         if (!gameset.isMeepleFree()) {
             Set<Meeple> meeples = gameset.getMeeples();
-            
+
             for (Meeple playerMeeple : meeples) {
                 Player currentPlayer = playerMeeple.getOwner();
-                
+
                 if (playerPoints.containsKey(currentPlayer)) {
                     value = playerPoints.get(currentPlayer);
                     value++;
                 }
                 playerPoints.put(currentPlayer, value);
-                
+
             }
             Player maxPlayer = playerPoints.entrySet().stream().max(new Comparator<Entry<Player, Integer>>() {
 

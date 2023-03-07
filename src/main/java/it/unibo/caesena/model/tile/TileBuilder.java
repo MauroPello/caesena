@@ -37,6 +37,11 @@ public class TileBuilder {
         return this;
     }
 
+    public TileBuilder junction(final List<TileSection> sections) {
+        applySet(sections, this.factory.createJunctionSet());
+        return this;
+    }
+
     private void applySet(final List<TileSection> sections, final GameSet gameSet) {
         for (var section : sections) {
             this.tile.putSection(section, gameSet);

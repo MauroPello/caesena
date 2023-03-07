@@ -1,6 +1,5 @@
 package it.unibo.caesena.model.tile;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -96,8 +95,8 @@ public class TileImpl implements Tile {
     }
 
     @Override
-    public Optional<GameSet> getGameSet(final TileSection section) {
-        return Optional.ofNullable(this.sections.getOrDefault(section, null));
+    public GameSet getGameSet(final TileSection section) {
+        return this.sections.get(section);
     }
 
     @Override
@@ -117,10 +116,7 @@ public class TileImpl implements Tile {
 
         for (TileSection section : TileSection.values()) {
             // if (!this.getGameSet(section).equals(other.getGameSet(section)))
-            if (this.getGameSet(section).isEmpty() || other.getGameSet(section).isEmpty())
-                continue;
-
-            if (!this.getGameSet(section).get().getType().equals(other.getGameSet(section).get().getType()))
+            if (!this.getGameSet(section).getType().equals(other.getGameSet(section).getType()))
             {
                 equal = false;
             }

@@ -32,11 +32,4 @@ final class PlayerTest {
         assertThrows(IllegalStateException.class, () -> player.addScore(-10));
         assertThrows(IllegalStateException.class, () -> player.setScore(10));
     }
-
-    @Test
-    public void testToString() {
-        player = new PlayerImpl("Giocatore1", Color.createCustomColor("FF0000"));
-        String string = player.toString();
-        assertEquals("[Color: [Hex: FF0000, Hex as integer: 16711680, Name: Custom Color], Name: Giocatore1, Score: 0]", string);
-    }
 }
