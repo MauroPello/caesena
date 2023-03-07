@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringUtil {//TODO controllare se ha da fare argomenti reflection hai capito
+public class StringUtil {
 
     public static String capitalize(String string) {
         char[] charArray = string.toLowerCase().toCharArray();
@@ -72,7 +72,7 @@ public class StringUtil {//TODO controllare se ha da fare argomenti reflection h
         {
             var methods = obj.getClass().getMethods();
             for (Method method : methods) {
-                if (isGetter(method) && hasArguments(method)) {
+                if (isGetter(method) && !hasArguments(method)) {
                     String name = getNameFromMethod(method);
                     String value = NULL_STRING;
                     try {
@@ -88,7 +88,7 @@ public class StringUtil {//TODO controllare se ha da fare argomenti reflection h
         }
 
         private boolean hasArguments(Method method) {
-            return method.getParameterCount() == 0;
+            return method.getParameterCount() != 0;
         }
 
         public String build()
