@@ -23,5 +23,7 @@ public interface Tile {
 
     public GameSet getGameSet(TileSection section);
 
+    public void closeSection(TileSection section);
+
     public int getRotationCount();
 }

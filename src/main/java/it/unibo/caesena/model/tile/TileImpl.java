@@ -135,4 +135,9 @@ public class TileImpl implements Tile {
         System.out.println(this.sections);
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
+
+    @Override
+    public void closeSection(final TileSection section) {
+        
+    }
 }
