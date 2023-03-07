@@ -7,14 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.Map.Entry;
 
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.gameset.GameSet;
@@ -23,6 +22,7 @@ import it.unibo.caesena.model.tile.*;
 import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
+    private static final int POINTS_CLOSED_CITY = 2;
     private static final String SEP = File.separator;
     private static final String FILE_TILES_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "tile.conf";
     private static final int MEEPLES_PER_PLAYER = 8;
@@ -206,6 +206,25 @@ public class ControllerImpl implements Controller {
     @Override
     public void endGame() {
 
+         for (var gameset : gameSets.keySet()) {
+            if (gameset.getType().equals(GameSet.GameSetType.CITY) && gameset.isClosed()) {
+                Set<GameSet> foundFields = new HashSet<>();
+                
+                for (var tile : gameSets.get(gameset)) {
+                    for (var tileSection : TileSection.values()) {
+                        /*
+                         * Bisogna controllare che il GameSet nella TileSection sia vicino alla città chiusa che
+                         * stiamo controllando
+                         */
+                        if (tile.getGameSet(tileSection).getType().equals(GameSet.GameSetType.FIELD)) {
+                            foundFields.add(tile.getGameSet(tileSection));
+                        }
+                    }
+                }
+
+                foundFields.forEach(x -> x.addPoints(POINTS_CLOSED_CITY));
+            }
+         }
     }
 
     @Override
@@ -220,11 +239,13 @@ public class ControllerImpl implements Controller {
 
     @Override
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
-        /*
-         * Se la Section nella quale stiamo piazzando il Meeple è parte di un GameSet closed allora
-         * distribuiamo i punti tra i giocatori
-         */
+
         var gameSet = this.currentTile.getGameSet(section);
+
+        if (!gameSet.isMeepleFree() || meeple.isPlaced()) {
+            return false;
+        }
+
         gameSet.addMeeple(meeple);
 
         if (gameSet.isClosed()) {
@@ -235,7 +256,7 @@ public class ControllerImpl implements Controller {
     }
 
     private void distributePoints (final GameSet gameset) {
-        Map<Player, Integer> playerPoints = new HashMap<>();
+        Map<Player, Integer> playerMeeples = new HashMap<>();
         int value = 1;
 
         if (!gameset.isMeepleFree()) {
@@ -244,26 +265,21 @@ public class ControllerImpl implements Controller {
             for (Meeple playerMeeple : meeples) {
                 Player currentPlayer = playerMeeple.getOwner();
 
-                if (playerPoints.containsKey(currentPlayer)) {
-                    value = playerPoints.get(currentPlayer);
+                if (playerMeeples.containsKey(currentPlayer)) {
+                    value = playerMeeples.get(currentPlayer);
                     value++;
                 }
-                playerPoints.put(currentPlayer, value);
+                playerMeeples.put(currentPlayer, value);
 
             }
-            Player maxPlayer = playerPoints.entrySet().stream().max(new Comparator<Entry<Player, Integer>>() {
 
-                @Override
-                public int compare(Entry<Player, Integer> o1, Entry<Player, Integer> o2) {
-                    return o1.getValue().compareTo(o2.getValue());
-                }
-            }).get().getKey();
+            int maxValueMeeple = playerMeeples.values().stream().mapToInt(x -> x)
+                .max().getAsInt();
 
-            maxPlayer.addScore(gameset.getPoints());
+            playerMeeples.entrySet().stream().filter(x -> x.getValue().equals(maxValueMeeple))
+                .peek(x -> x.getKey().addScore(gameset.getPoints()));
 
-            for (Meeple currentMeeple : meeples) {
-                currentMeeple.removeFromTile();
-            }
+            meeples.forEach(Meeple::removeFromTile);
         }
     }
 

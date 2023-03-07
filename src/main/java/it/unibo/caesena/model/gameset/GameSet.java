@@ -30,4 +30,6 @@ public interface GameSet {
 
     public int getPoints();
 
+    public void addPoints(int points);
+
 }
