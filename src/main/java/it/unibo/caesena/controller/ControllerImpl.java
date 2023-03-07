@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.gameset.GameSet;
+import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.*;
 import it.unibo.caesena.model.tile.*;
 import it.unibo.caesena.utils.*;
@@ -207,14 +208,14 @@ public class ControllerImpl implements Controller {
     public void endGame() {
 
          for (var cityGameSet : gameSets.keySet()) {
-            if (cityGameSet.getType().equals(GameSet.GameSetType.CITY) && cityGameSet.isClosed()) {
+            if (cityGameSet.getType().equals(GameSetType.CITY) && cityGameSet.isClosed()) {
                 Set<GameSet> foundFields = new HashSet<>();
                 
                 for (var tile : gameSets.get(cityGameSet)) {
                     for (var tileSection : TileSection.values()) {
                         GameSet fieldGameSet = tile.getGameSet(tileSection);
 
-                        if (fieldGameSet.getType().equals(GameSet.GameSetType.FIELD) &&
+                        if (fieldGameSet.getType().equals(GameSetType.FIELD) &&
                             tile.isSectionNearToGameset(tileSection, cityGameSet)) {
                             foundFields.add(fieldGameSet);
                         }

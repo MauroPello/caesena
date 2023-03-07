@@ -1,7 +1,5 @@
 package it.unibo.caesena.model.gameset;
 
-import it.unibo.caesena.model.gameset.GameSet.GameSetType;
-
 public class GameSetFactoryImpl implements GameSetFactory {
 
     private static final int POINT_FIELD = 0;
@@ -36,21 +34,21 @@ public class GameSetFactoryImpl implements GameSetFactory {
     }
 
     @Override
-    public GameSet createJoinedSet(GameSet gs1, GameSet gs2) {
+    public GameSet createJoinedSet(final GameSet gs1, final GameSet gs2) {
         
         if (gs1.getType().equals(gs2.getType())) {
             
-            var firstPair = gs1.close().get();
-            var secondPair = gs2.close().get();
-            GameSetType newTipe = gs1.getType();
-            int comulativePoints = firstPair.getY() + secondPair.getY();
-            GameSet joinedGameset = new GameSetImpl(newTipe, comulativePoints);
+            final var firstPair = gs1.close().get();
+            final var secondPair = gs2.close().get();
+            final GameSetType newTipe = gs1.getType();
+            final int comulativePoints = firstPair.getY() + secondPair.getY();
+            final GameSet joinedGameset = new GameSetImpl(newTipe, comulativePoints);
             
-            for (var meeple : firstPair.getX()) {
+            for (final var meeple : firstPair.getX()) {
                 joinedGameset.addMeeple(meeple);
             }
         
-            for (var meeple : secondPair.getX()) {
+            for (final var meeple : secondPair.getX()) {
                 joinedGameset.addMeeple(meeple);
             }
             

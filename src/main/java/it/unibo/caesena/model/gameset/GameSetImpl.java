@@ -10,10 +10,10 @@ import it.unibo.caesena.utils.StringUtil;
 
 public class GameSetImpl implements GameSet{
 
-    private GameSetType type;
-    private Set<Meeple> meeples;
+    private final GameSetType type;
+    private final Set<Meeple> meeples;
     private int points;
-    private boolean closed;
+    private final boolean closed;
 
     public GameSetImpl (final GameSetType typeOfSet, final int point) {
         this.type = typeOfSet;
@@ -23,7 +23,7 @@ public class GameSetImpl implements GameSet{
     }
 
     @Override
-    public boolean addMeeple(Meeple meeple) {
+    public boolean addMeeple(final Meeple meeple) {
         this.meeples.add(meeple);
         return meeple.placeOnTile();
     }
@@ -39,7 +39,7 @@ public class GameSetImpl implements GameSet{
             return Optional.empty();
         }
 
-        for (Meeple meeple : meeples) {
+        for (final Meeple meeple : meeples) {
             meeple.removeFromTile();
         }
         return Optional.of(new Pair<>(this.meeples, this.points));
@@ -71,12 +71,12 @@ public class GameSetImpl implements GameSet{
     }
 
     @Override
-    public void addPoints(int points) {
+    public void addPoints(final int points) {
         this.points += points;
     }
 
     @Override
-    public boolean equals (Object obj) {
+    public boolean equals (final Object obj) {
         return this == obj;
     }
 

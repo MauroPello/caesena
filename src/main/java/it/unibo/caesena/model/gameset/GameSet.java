@@ -8,14 +8,6 @@ import it.unibo.caesena.utils.Pair;
 
 public interface GameSet {
 
-    enum GameSetType {
-        FIELD,
-        CITY,
-        MONASTERY,
-        ROAD,
-        JUNCTION
-    }
-
     public boolean addMeeple(Meeple meeple);
 
     public boolean isMeepleFree();
