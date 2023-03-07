@@ -210,10 +210,6 @@ public class ControllerImpl implements Controller {
 
     @Override
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
-        /*
-         * Se la Section nella quale stiamo piazzando il Meeple è parte di un GameSet closed allora
-         * distribuiamo i punti tra i giocatori
-         */
         if (this.currentTile.getGameSet(section).isEmpty()){
             return false;
         }
