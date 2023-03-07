@@ -4,13 +4,13 @@ import javax.swing.JPanel;
 
 public class View extends JPanel {
 
-    private final UserInterface userInterface;
+    private final GUI userInterface;
 
-    public View(final UserInterface userInterface) {
+    public View(final GUI userInterface) {
         this.userInterface = userInterface;
     }
 
-    protected UserInterface getUserInterface() {        
+    protected GUI getUserInterface() {        
         return userInterface;
     }
 

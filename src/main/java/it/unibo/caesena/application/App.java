@@ -1,10 +1,10 @@
 package it.unibo.caesena.application;
 
 import it.unibo.caesena.controller.ControllerImpl;
-import it.unibo.caesena.view.UserInterface;
+import it.unibo.caesena.view.GUI;
 
 public class App {
     public static void main(final String[] args) {
-        new UserInterface(new ControllerImpl());
+        new GUI(new ControllerImpl());
     }
 }

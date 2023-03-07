@@ -20,7 +20,7 @@ public class GameView extends View {
     private Controller controller;
     private Set<TileButton> tileButtons = new HashSet<>();
 
-    public GameView(UserInterface userInterface) {
+    public GameView(GUI userInterface) {
         super(userInterface);
         this.controller = getUserInterface().getController();
 
