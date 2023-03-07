@@ -1,10 +1,6 @@
 package it.unibo.caesena.view;
 
 import javax.swing.*;
-import javax.swing.text.Position;
-import javax.swing.text.StyleConstants.ColorConstants;
-import javax.swing.text.StyledEditorKit.BoldAction;
-
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +14,7 @@ import it.unibo.caesena.view.components.TileButton;
 import java.awt.event.*;
 
 public class GameView extends View {
-    private final static int DEFAULT_ZOOM_LEVEL = 11;
+    private final static int DEFAULT_ZOOM_LEVEL = 5;
     private int currentZoomOffset = (DEFAULT_ZOOM_LEVEL/2)+1;
     private int currentZoomLevel = DEFAULT_ZOOM_LEVEL;
     private Controller controller;
@@ -160,34 +156,54 @@ public class GameView extends View {
 
     private ActionListener zoomInEventListener() {
         return (e) -> {
-            currentZoomOffset--;
-            var centerRowOrCol = getCenterPosition().getX();
-            var firstRowOrCol = centerRowOrCol + currentZoomOffset;
-            var lastRowOrCol = centerRowOrCol - currentZoomOffset;
+            var border = getBorderAtOffest(currentZoomOffset);
             tileButtons.stream()
-                .filter(x -> x.getPosition().getX().equals(Integer.valueOf(firstRowOrCol))
-                    || x.getPosition().getY().equals(Integer.valueOf(firstRowOrCol))
-                    || x.getPosition().getX().equals(Integer.valueOf(lastRowOrCol))
-                    || x.getPosition().getY().equals(Integer.valueOf(lastRowOrCol)))
+                .filter(x -> x.isVisible())
+                .filter(x -> border.contains(x.getPosition()))
                 .forEach(x -> x.setVisible(false));
+            currentZoomOffset--;
             //repaint();
         };
     }
 
+
     private ActionListener zoomOutEventListener() {
-        return (e) -> {
-            var centerRowOrCol = getCenterPosition().getX();
-            var firstRowOrCol = centerRowOrCol + currentZoomOffset;
-            var lastRowOrCol = centerRowOrCol - currentZoomOffset;
-            var borders = getNewVisibleCells();
-            tileButtons.stream()
-                .filter(x -> borders.contains(x.getPosition()))
-                .forEach(x -> x.setVisible(true));
+    return (e) -> {
+        tileButtons.stream()
+            .filter(x -> !x.isVisible())
+            .filter(x -> getBorderAtOffest(currentZoomOffset+1).contains(x.getPosition()))
+            .forEach(x -> x.setVisible(true));
             currentZoomOffset++;
             //repaint();
         };
     }
 
+    private Set<Pair<Integer, Integer>> getBorderAtOffest(int offset) {
+        Set<Pair<Integer, Integer>> border = new HashSet<>();
+        var centerRowOrCol = getCenterPosition().getX();
+        var firstRowOrCol = centerRowOrCol - (offset - 1);
+        var lastRowOrCol = centerRowOrCol + (offset - 1);
+        for (int i = firstRowOrCol; i < lastRowOrCol+1; i++) {
+            border.add(new Pair<Integer, Integer>(i, firstRowOrCol));
+            border.add(new Pair<Integer, Integer>(i, lastRowOrCol));
+        }
+        for (int i = firstRowOrCol; i < lastRowOrCol+1; i++) {
+            border.add(new Pair<Integer, Integer>(firstRowOrCol, i));
+            border.add(new Pair<Integer, Integer>(lastRowOrCol, i));
+        }
+        return border;
+    }
+
+    private boolean tileButtonIsInBound(TileButton tileButton) {
+        var centerRowOrCol = getCenterPosition().getX();
+        var firstRowOrCol = centerRowOrCol - (currentZoomOffset);
+        var lastRowOrCol = centerRowOrCol + (currentZoomOffset);
+        var position = tileButton.getPosition();
+        return position.getX().intValue() >= firstRowOrCol
+            && position.getY().intValue() >= firstRowOrCol
+            && position.getX().intValue() <= lastRowOrCol
+            && position.getY().intValue() <= lastRowOrCol;
+    }
 
     private Set<Pair<Integer,Integer>> getNewVisibleCells() {
         var centerRowOrCol = getCenterPosition().getX();
