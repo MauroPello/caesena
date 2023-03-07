@@ -55,4 +55,11 @@ final class TileTest {
         
         assertEquals(tile.getRotationCount(), 1);
     }
+
+    @Test
+    public void TestSectionClose() {
+        var section1 = TileSection.UpCenter;
+        section1.close();
+        assertEquals(section1, TileSection.UpCenter);
+    }
 }

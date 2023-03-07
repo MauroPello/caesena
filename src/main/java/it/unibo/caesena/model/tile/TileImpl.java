@@ -138,6 +138,8 @@ public class TileImpl implements Tile {
 
     @Override
     public void closeSection(final TileSection section) {
-        
+        var value = this.sections.remove(section);
+        section.close();
+        this.sections.put(section, value);
     }
 }
