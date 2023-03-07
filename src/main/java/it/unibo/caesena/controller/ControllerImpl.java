@@ -215,7 +215,7 @@ public class ControllerImpl implements Controller {
                         GameSet fieldGameSet = tile.getGameSet(tileSection);
 
                         if (fieldGameSet.getType().equals(GameSet.GameSetType.FIELD) &&
-                            fieldGameSet.getNearGameSets().contains(cityGameSet)) {
+                            tile.isSectionNearToGameset(tileSection, cityGameSet)) {
                             foundFields.add(fieldGameSet);
                         }
                     }

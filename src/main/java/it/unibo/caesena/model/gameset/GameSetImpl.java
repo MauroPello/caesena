@@ -75,4 +75,9 @@ public class GameSetImpl implements GameSet{
         this.points += points;
     }
 
+    @Override
+    public boolean equals (Object obj) {
+        return this == obj;
+    }
+
 }
