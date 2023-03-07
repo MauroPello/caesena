@@ -206,18 +206,17 @@ public class ControllerImpl implements Controller {
     @Override
     public void endGame() {
 
-         for (var gameset : gameSets.keySet()) {
-            if (gameset.getType().equals(GameSet.GameSetType.CITY) && gameset.isClosed()) {
+         for (var cityGameSet : gameSets.keySet()) {
+            if (cityGameSet.getType().equals(GameSet.GameSetType.CITY) && cityGameSet.isClosed()) {
                 Set<GameSet> foundFields = new HashSet<>();
                 
-                for (var tile : gameSets.get(gameset)) {
+                for (var tile : gameSets.get(cityGameSet)) {
                     for (var tileSection : TileSection.values()) {
-                        /*
-                         * Bisogna controllare che il GameSet nella TileSection sia vicino alla città chiusa che
-                         * stiamo controllando
-                         */
-                        if (tile.getGameSet(tileSection).getType().equals(GameSet.GameSetType.FIELD)) {
-                            foundFields.add(tile.getGameSet(tileSection));
+                        GameSet fieldGameSet = tile.getGameSet(tileSection);
+
+                        if (fieldGameSet.getType().equals(GameSet.GameSetType.FIELD) &&
+                            fieldGameSet.getNearGameSets().contains(cityGameSet)) {
+                            foundFields.add(fieldGameSet);
                         }
                     }
                 }

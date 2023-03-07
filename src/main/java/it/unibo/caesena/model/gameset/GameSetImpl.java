@@ -15,11 +15,22 @@ public class GameSetImpl implements GameSet{
     private int points;
     private boolean closed;
 
+    private final Set<GameSet> nearGameSets;
+
     public GameSetImpl (final GameSetType typeOfSet, final int point) {
         this.type = typeOfSet;
         this.points = point;
         this.meeples = new HashSet<>();
         this.closed = false;
+        this.nearGameSets = new HashSet<>();
+    }
+
+    public void addNearGameSet(final GameSet gameSet) {
+        this.nearGameSets.add(gameSet);
+    }
+
+    public Set<GameSet> getNearGameSets() {
+        return Collections.unmodifiableSet(this.nearGameSets);
     }
 
     @Override

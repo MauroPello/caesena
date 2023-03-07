@@ -15,6 +15,10 @@ public interface GameSet {
         ROAD,
         JUNCTION
     }
+
+    public void addNearGameSet(final GameSet gameSet);
+    
+    public Set<GameSet> getNearGameSets();
     
     public boolean addMeeple(Meeple meeple);
 
