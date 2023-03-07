@@ -260,8 +260,11 @@ public class ControllerImpl implements Controller {
             }).get().getKey();
 
             maxPlayer.addScore(gameset.getPoints());
-        }
 
+            for (Meeple currentMeeple : meeples) {
+                currentMeeple.removeFromTile();
+            }
+        }
     }
 
 }
