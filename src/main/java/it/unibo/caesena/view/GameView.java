@@ -1,11 +1,14 @@
 package it.unibo.caesena.view;
 
 import javax.swing.*;
+import javax.swing.text.Position;
 import javax.swing.text.StyleConstants.ColorConstants;
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.Tile;
@@ -15,8 +18,8 @@ import it.unibo.caesena.view.components.TileButton;
 import java.awt.event.*;
 
 public class GameView extends View {
-    private final static int DEFAULT_ZOOM_LEVEL = 5;
-
+    private final static int DEFAULT_ZOOM_LEVEL = 11;
+    private int currentZoomOffset = (DEFAULT_ZOOM_LEVEL/2)+1;
     private int currentZoomLevel = DEFAULT_ZOOM_LEVEL;
     private Controller controller;
     private Set<TileButton> tileButtons = new HashSet<>();
@@ -67,9 +70,9 @@ public class GameView extends View {
         };
         OuterPanel.add(field);
         field.setSize(10, 10);
-        field.setLayout(new GridLayout(getHorizontalNumber(), getVerticalNumber()));
-        for (int i = 0; i < currentZoomLevel; i++) {
-            for (int j = 0; j < currentZoomLevel; j++) {
+        field.setLayout(new GridLayout(DEFAULT_ZOOM_LEVEL, DEFAULT_ZOOM_LEVEL));
+        for (int i = 0; i < DEFAULT_ZOOM_LEVEL; i++) {
+            for (int j = 0; j < DEFAULT_ZOOM_LEVEL; j++) {
                 TileButton fieldCell = new TileButton(j, i);//trovare altro valore
                 field.add(fieldCell);
                 tileButtons.add(fieldCell);
@@ -103,14 +106,6 @@ public class GameView extends View {
             tileButton.resize();
             repaint();
         };
-    }
-
-    private int getVerticalNumber() {
-        return currentZoomLevel;
-    }
-
-    private int getHorizontalNumber() {
-        return currentZoomLevel;
     }
 
     private Component getMapControls() {
@@ -156,10 +151,53 @@ public class GameView extends View {
         innerPanel.add(endTurnButton, constraints);
         constraints.gridy ++;
 
-
+        zoomInButton.addActionListener(zoomInEventListener());
+        zoomOutButton.addActionListener(zoomOutEventListener());
 
         OuterPanel.add(innerPanel);
         return OuterPanel;
+    }
+
+    private ActionListener zoomInEventListener() {
+        return (e) -> {
+            currentZoomOffset--;
+            var centerRowOrCol = getCenterPosition().getX();
+            var firstRowOrCol = centerRowOrCol + currentZoomOffset;
+            var lastRowOrCol = centerRowOrCol - currentZoomOffset;
+            tileButtons.stream()
+                .filter(x -> x.getPosition().getX().equals(Integer.valueOf(firstRowOrCol))
+                    || x.getPosition().getY().equals(Integer.valueOf(firstRowOrCol))
+                    || x.getPosition().getX().equals(Integer.valueOf(lastRowOrCol))
+                    || x.getPosition().getY().equals(Integer.valueOf(lastRowOrCol)))
+                .forEach(x -> x.setVisible(false));
+            //repaint();
+        };
+    }
+
+    private ActionListener zoomOutEventListener() {
+        return (e) -> {
+            var centerRowOrCol = getCenterPosition().getX();
+            var firstRowOrCol = centerRowOrCol + currentZoomOffset;
+            var lastRowOrCol = centerRowOrCol - currentZoomOffset;
+            var borders = getNewVisibleCells();
+            tileButtons.stream()
+                .filter(x -> borders.contains(x.getPosition()))
+                .forEach(x -> x.setVisible(true));
+            currentZoomOffset++;
+            //repaint();
+        };
+    }
+
+
+    private Set<Pair<Integer,Integer>> getNewVisibleCells() {
+        var centerRowOrCol = getCenterPosition().getX();
+        var firstRowOrCol = centerRowOrCol - (currentZoomOffset);
+        var lastRowOrCol = centerRowOrCol + (currentZoomOffset);
+        return tileButtons.stream()
+            .map(x -> x.getPosition())
+            .filter(x -> x.getX().intValue() >= firstRowOrCol && x.getY().intValue() >= firstRowOrCol)
+            .filter(x -> x.getX().intValue() <= lastRowOrCol && x.getY().intValue() <= lastRowOrCol)
+            .collect(Collectors.toSet());
     }
 
     private void getTableTop() {
