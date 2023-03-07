@@ -16,10 +16,6 @@ public interface GameSet {
         JUNCTION
     }
 
-    public void addNearGameSet(final GameSet gameSet);
-    
-    public Set<GameSet> getNearGameSets();
-    
     public boolean addMeeple(Meeple meeple);
 
     public boolean isMeepleFree();
