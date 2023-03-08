@@ -9,18 +9,19 @@ import it.unibo.caesena.utils.*;
 
 public class TileImpl implements Tile {
 
-    private final String imageName;
     private static final String SEP = "/";//File.separator;
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
     private static final String IMAGE_FORMAT = "png";
     private static final Integer MAX_ROTATIONS = 4;
+    
+    private final TileType type;
 
     private Optional<Pair<Integer, Integer>> currentPosition;
     private Map<TileSection, GameSet> sections;
     private int rotationCount;
 
-    public TileImpl(final String imageName) {
-        this.imageName = imageName;
+    public TileImpl(final TileType type) {
+        this.type = type;
 
         this.currentPosition = Optional.empty();
         this.sections = new HashMap<>();
@@ -81,7 +82,7 @@ public class TileImpl implements Tile {
 
     @Override
     public String getImageResourcesPath() {
-        return ROOT + this.imageName + "." + IMAGE_FORMAT;
+        return ROOT + this.type.name() + "." + IMAGE_FORMAT;
     }
 
     @Override

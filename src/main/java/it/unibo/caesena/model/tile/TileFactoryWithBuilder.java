@@ -6,7 +6,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityEdge() {
-        return new TileBuilder("city-edge")
+        return new TileBuilder(TileType.CITY_EDGE)
             .city(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown, 
                 TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .field(List.of(TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight, 
@@ -16,7 +16,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityEdgeRoad() {
-        return new TileBuilder("city-edge-road")
+        return new TileBuilder(TileType.CITY_EDGE_ROAD)
             .city(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown, 
                 TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .field(List.of(TileSection.DownLeft, TileSection.LeftDown)) 
@@ -27,7 +27,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityLarge() {
-        return new TileBuilder("city-large")
+        return new TileBuilder(TileType.CITY_LARGE)
             .city(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown, 
                 TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight, TileSection.Center,
                 TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown))
@@ -37,7 +37,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityLargeRoad() {
-        return new TileBuilder("city-large-road")
+        return new TileBuilder(TileType.CITY_LARGE_ROAD)
             .city(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown, 
                 TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight, TileSection.Center,
                 TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown))
@@ -49,7 +49,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCity() {
-        return new TileBuilder("city")
+        return new TileBuilder(TileType.CITY)
             .city(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown, 
                 TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight, TileSection.Center,
                 TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown,
@@ -59,7 +59,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideDoubleNext() {
-        return new TileBuilder("city-side-double-next")
+        return new TileBuilder(TileType.CITY_SIDE_DOUBLE_NEXT)
             .city(List.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .city(List.of(TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown))
             .field(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown,
@@ -69,7 +69,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideDouble() {
-        return new TileBuilder("city-side-double")
+        return new TileBuilder(TileType.CITY_SIDE_DOUBLE)
             .city(List.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .city(List.of(TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight))
             .field(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown,
@@ -79,7 +79,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideJunction() {
-        return new TileBuilder("city-side-junction")
+        return new TileBuilder(TileType.CITY_SIDE_JUNCTION)
             .city(List.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .field(List.of(TileSection.DownLeft, TileSection.LeftDown))
             .field(List.of(TileSection.DownRight, TileSection.RightDown))
@@ -93,7 +93,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySide() {
-        return new TileBuilder("city-side")
+        return new TileBuilder(TileType.CITY_SIDE)
             .city(List.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .field(List.of(TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown,
                 TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown, TileSection.Center,
@@ -103,7 +103,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideRoad() {
-        return new TileBuilder("city-side-road")
+        return new TileBuilder(TileType.CITY_SIDE_ROAD)
             .city(List.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .field(List.of(TileSection.LeftDown, TileSection.RightDown,
                 TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight))
@@ -114,7 +114,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideTurnLeft() {
-        return new TileBuilder("city-side-turn-left")
+        return new TileBuilder(TileType.CITY_SIDE_TURN_LEFT)
             .city(List.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .field(List.of(TileSection.LeftUp, TileSection.DownRight,
                 TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown))
@@ -125,7 +125,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideTurnRight() {
-        return new TileBuilder("city-side-turn-right")
+        return new TileBuilder(TileType.CITY_SIDE_TURN_RIGHT)
             .city(List.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .field(List.of(TileSection.RightUp, TileSection.DownLeft,
                 TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown))
@@ -136,7 +136,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityTube() {
-        return new TileBuilder("city-tube")
+        return new TileBuilder(TileType.CITY_TUBE)
             .city(List.of(TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown,
                 TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown, TileSection.Center))
             .field(List.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
@@ -146,7 +146,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createMonastery() {
-        return new TileBuilder("monastery")
+        return new TileBuilder(TileType.MONASTERY)
             .field(List.of(TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown,
                 TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown,
                 TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight,
@@ -157,7 +157,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createMonasteryRoad() {
-        return new TileBuilder("monastery-road")
+        return new TileBuilder(TileType.MONASTERY_ROAD)
             .field(List.of(TileSection.DownLeft, TileSection.DownRight, 
                 TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown,
                 TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown,
@@ -169,7 +169,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createRoadJunctionLarge() {
-        return new TileBuilder("road-junction-large")
+        return new TileBuilder(TileType.ROAD_JUNCTION_LARGE)
             .road(List.of(TileSection.UpCenter))
             .road(List.of(TileSection.DownCenter))
             .road(List.of(TileSection.LeftCenter))
@@ -184,7 +184,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createRoadJunctionSmall() {
-        return new TileBuilder("road-junction-small")
+        return new TileBuilder(TileType.ROAD_JUNCTION_SMALL)
             .road(List.of(TileSection.DownCenter))
             .road(List.of(TileSection.LeftCenter))
             .road(List.of(TileSection.RightCenter))
@@ -198,7 +198,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createRoadStraight() {
-        return new TileBuilder("road-straight")
+        return new TileBuilder(TileType.ROAD_STRAIGHT)
             .road(List.of(TileSection.DownCenter, TileSection.Center, TileSection.UpCenter))
             .field(List.of(TileSection.UpLeft, TileSection.DownLeft, 
                 TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown))
@@ -209,7 +209,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createRoadTurn() {
-        return new TileBuilder("road-turn")
+        return new TileBuilder(TileType.ROAD_TURN)
             .field(List.of(TileSection.DownRight, TileSection.LeftUp,
                 TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown,
                 TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
