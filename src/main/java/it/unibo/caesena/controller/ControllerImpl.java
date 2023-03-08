@@ -272,25 +272,29 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void endGame() {
+        Set<GameSet> fieldsWithPoints = new HashSet<>();
 
-         for (var cityGameSet : gameSets.keySet()) {
+        for (var cityGameSet : gameSets.keySet()) {
             if (cityGameSet.getType().equals(GameSetType.CITY) && cityGameSet.isClosed()) {
-                Set<GameSet> foundFields = new HashSet<>();
-                
+                Set<GameSet> fieldsNearCity = new HashSet<>();
+
                 for (var tile : gameSets.get(cityGameSet)) {
                     for (var tileSection : TileSection.values()) {
                         GameSet fieldGameSet = tile.getGameSet(tileSection);
 
                         if (fieldGameSet.getType().equals(GameSetType.FIELD) &&
                             tile.isSectionNearToGameset(tileSection, cityGameSet)) {
-                            foundFields.add(fieldGameSet);
+                            fieldsNearCity.add(fieldGameSet);
                         }
                     }
                 }
-
-                foundFields.forEach(x -> x.addPoints(POINTS_CLOSED_CITY));
+                
+                fieldsNearCity.forEach(x -> x.addPoints(POINTS_CLOSED_CITY));
+                fieldsWithPoints.addAll(fieldsNearCity);
             }
-         }
+        }
+
+        fieldsWithPoints.forEach(f -> distributePoints(f));
     }
 
     @Override
@@ -305,7 +309,6 @@ public class ControllerImpl implements Controller {
 
     @Override
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
-
         var gameSet = this.currentTile.getGameSet(section);
 
         if (!gameSet.isMeepleFree() || meeple.isPlaced()) {
