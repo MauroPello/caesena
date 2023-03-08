@@ -1,6 +1,6 @@
 package it.unibo.caesena.view.components;
 
-public interface BoardComponent {
+public interface BoardComponent<X> {
 
     void zoomIn();
 
@@ -13,4 +13,18 @@ public interface BoardComponent {
     void moveLeft();
 
     void moveRight();
+
+    boolean canZoomIn();
+
+    boolean canZoomOut();
+
+    boolean canMoveUp();
+
+    boolean canMoveDown();
+
+    boolean canMoveLeft();
+
+    boolean canMoveRight();
+
+    X getComponent();
 }

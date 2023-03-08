@@ -5,11 +5,13 @@ import java.awt.*;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Color;
+import it.unibo.caesena.view.components.BoardComponent;
 import it.unibo.caesena.view.components.BoardComponentImpl;
+import java.awt.event.*;
 
 public class GameView extends View {
     private final Controller controller;
-    private final BoardComponentImpl board;
+    private final BoardComponent<JPanel> board;
 
     public GameView(GUI userInterface) {
         super(userInterface);
@@ -21,7 +23,7 @@ public class GameView extends View {
 
 
         this.setLayout(new BorderLayout());
-        this.add(board, BorderLayout.CENTER);
+        this.add(board.getComponent(), BorderLayout.CENTER);
         this.add(getTableTop(), BorderLayout.SOUTH);
         this.add(getMapControls(), BorderLayout.EAST);
    }
@@ -77,8 +79,12 @@ public class GameView extends View {
         innerPanel.add(endTurnButton, constraints);
         constraints.gridy ++;
 
-        zoomInButton.addActionListener(board.zoomInEventListener());
-        zoomOutButton.addActionListener(board.zoomOutEventListener());
+        zoomInButton.addActionListener(zoomInEventListener());
+        zoomOutButton.addActionListener(zoomOutEventListener());
+        moveUpButton.addActionListener(moveUpEventListener());
+        moveLeftButton.addActionListener(moveLeftEventListener());
+        moveDownButton.addActionListener(moveDownEventListener());
+        moveRightButton.addActionListener(moveRightEventListener());
 
         OuterPanel.add(innerPanel);
         return OuterPanel;
@@ -89,4 +95,27 @@ public class GameView extends View {
         return new JButton("South");
     }
 
+    public ActionListener zoomInEventListener() {
+        return (e) -> this.board.zoomIn();
+    }
+
+    public ActionListener zoomOutEventListener() {
+        return (e) -> this.board.zoomOut();
+    }
+
+    public ActionListener moveUpEventListener() {
+        return (e) -> this.board.moveUp();
+    }
+
+    public ActionListener moveLeftEventListener() {
+        return (e) -> this.board.moveLeft();
+    }
+
+    public ActionListener moveDownEventListener() {
+        return (e) -> this.board.moveDown();
+    }
+
+    public ActionListener moveRightEventListener() {
+        return (e) -> this.board.moveRight();
+    }
 }

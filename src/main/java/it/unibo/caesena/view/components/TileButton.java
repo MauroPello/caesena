@@ -1,12 +1,13 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.event.*;
 import java.awt.Image;
 import java.io.File;
 import java.net.URL;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import it.unibo.caesena.utils.Pair;
 
@@ -15,16 +16,19 @@ public class TileButton extends JButton {
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
     private static final URL DEFAULT_IMAGE_PATH = ClassLoader.getSystemResource(ROOT + "tile-back.png");
     private final Pair<Integer, Integer> position;
+    private final BoardComponentImpl parent;
     private ImageIcon icon;
     private boolean hasTile;
     private boolean hasMeeple;
 
-    public TileButton(int x, int y) {
+    public TileButton(int x, int y, BoardComponentImpl parent) {
         super();
         this.icon = new ImageIcon(DEFAULT_IMAGE_PATH);
         this.hasTile = false;
         this.hasMeeple = false;
         this.position = new Pair<Integer,Integer>(x, y);
+        this.parent = parent;
+        this.addActionListener(this.OnSelection());
         this.setContentAreaFilled(false);
     }
 
@@ -63,5 +67,14 @@ public class TileButton extends JButton {
 
     public void resize() {
         this.setIcon(resizeIcon(icon, this.getHeight(), this.getWidth()));
+    }
+
+    private ActionListener OnSelection() {
+        return (e) -> {
+            String imagePath = this.parent.getCurrentTileImageResourcePath();
+            setImage(imagePath);
+            this.resize();
+            repaint();
+        };
     }
 }
