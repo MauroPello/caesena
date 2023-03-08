@@ -161,62 +161,6 @@ public class ControllerImpl implements Controller {
             }
         }
 
-        
-            //Direction.values()
-            /* 
-            if (Direction.isUP(neighbour.getPosition().get(), position)) {
-                //se il vicino è sopra alla tile che vogliamo piazzare:
-                //controllo tutti e tre i TileSection
-                if (neighbour.getGameSet(TileSection.DownCenter).getType().equals(getCurrentTile().getGameSet(TileSection.getOpposite(TileSection.DownCenter)).getType())
-                    && neighbour.getGameSet(TileSection.DownLeft).getType().equals(getCurrentTile().getGameSet(TileSection.getOpposite(TileSection.DownLeft)).getType())
-                    && neighbour.getGameSet(TileSection.DownRight).getType().equals(getCurrentTile().getGameSet(TileSection.getOpposite(TileSection.DownRight)).getType())) {
-                    return false;
-                }
-            }
-           
-            // if (neighbour.getPosition().get().getX()+Direction.UP.getX() == position.getX() &&
-            //     neighbour.getPosition().get().getY()+Direction.UP.getY() == position.getY()) {
-            //     //se il vicino è sopra alla tile che vogliamo piazzare:
-            //     //controllo tutti e tre i TileSection
-            //     if (neighbour.getGameSet(TileSection.DownCenter).getType().equals(getCurrentTile().getGameSet(TileSection.getOpposite(TileSection.DownCenter)).getType())
-            //         && neighbour.getGameSet(TileSection.DownLeft).getType().equals(getCurrentTile().getGameSet(TileSection.getOpposite(TileSection.DownLeft)).getType())
-            //         && neighbour.getGameSet(TileSection.DownRight).getType().equals(getCurrentTile().getGameSet(TileSection.getOpposite(TileSection.DownRight)).getType())) {
-            //         return false;}
-            // }
-
-            if (neighbour.getPosition().get().getX()+Direction.DOWN.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.DOWN.getY() == position.getY()) {
-                if (!(neighbour.getGameSet(TileSection.UpCenter).getType().equals(getCurrentTile().getGameSet(TileSection.DownCenter).getType())
-                    && neighbour.getGameSet(TileSection.UpLeft).getType().equals(getCurrentTile().getGameSet(TileSection.DownLeft).getType())
-                    && neighbour.getGameSet(TileSection.UpRight).getType().equals(getCurrentTile().getGameSet(TileSection.DownRight).getType()))) {
-                    return false;
-                }
-            }
-
-            if (neighbour.getPosition().get().getX()+Direction.LEFT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.LEFT.getY() == position.getY()) {
-                if (!(neighbour.getGameSet(TileSection.RightUp).getType().equals(getCurrentTile().getGameSet(TileSection.LeftUp).getType())
-                    && neighbour.getGameSet(TileSection.RightCenter).getType().equals(getCurrentTile().getGameSet(TileSection.LeftCenter).getType())
-                    && neighbour.getGameSet(TileSection.RightDown).getType().equals(getCurrentTile().getGameSet(TileSection.LeftDown).getType()))) {
-                    return false;
-                }
-            }
-
-            if (neighbour.getPosition().get().getX()+Direction.RIGHT.getX() == position.getX() && neighbour.getPosition().get().getY()+Direction.RIGHT.getY() == position.getY()) {
-                if (!(neighbour.getGameSet(TileSection.LeftUp).getType().equals(getCurrentTile().getGameSet(TileSection.RightUp).getType())
-                    && neighbour.getGameSet(TileSection.LeftCenter).getType().equals(getCurrentTile().getGameSet(TileSection.RightCenter).getType())
-                    && neighbour.getGameSet(TileSection.LeftDown).getType().equals(getCurrentTile().getGameSet(TileSection.RightDown).getType()))) {
-                    return false; 
-                }
-            }
-
-            /*
-             * contorllare se tile fitti
-             * settare a closed tutte le section che compabiano
-             * unire i gameset -> tramite factory
-             * aggiungere i gameset alla mappa gamesets
-             * aggiungere la tile ai vari set di tiles per ogni gameset/unito
-             * controllare se i gameset sono chisi -> distibuzione punti
-             */
-
         return true;
     }
 
