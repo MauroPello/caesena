@@ -2,108 +2,38 @@ package it.unibo.caesena.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Color;
-import it.unibo.caesena.utils.Pair;
-import it.unibo.caesena.view.components.TileButton;
-import java.awt.event.*;
+import it.unibo.caesena.view.components.BoardComponentImpl;
 
 public class GameView extends View {
-    private final static int DEFAULT_ZOOM_LEVEL = 5;
-    private int currentZoomOffset = (DEFAULT_ZOOM_LEVEL/2)+1;
-    private int currentZoomLevel = DEFAULT_ZOOM_LEVEL;
-    private Controller controller;
-    private Set<TileButton> tileButtons = new HashSet<>();
+    private final Controller controller;
+    private final BoardComponentImpl board;
 
     public GameView(GUI userInterface) {
         super(userInterface);
         this.controller = getUserInterface().getController();
+        this.gameSetupDebug();
+        this.controller.startGame();
+        Tile firstTile = controller.getCurrentTile();
+        this.board = new BoardComponentImpl(controller, firstTile);
+
 
         this.setLayout(new BorderLayout());
-        this.add(getField(),BorderLayout.CENTER);
-        this.add(new JButton("South"),BorderLayout.SOUTH);
-        this.add(getMapControls(),BorderLayout.EAST);
-        //DEBUG IN ATTESA DELLE ALTRE VIEW
+        this.add(board, BorderLayout.CENTER);
+        this.add(getTableTop(), BorderLayout.SOUTH);
+        this.add(getMapControls(), BorderLayout.EAST);
+   }
+
+    private void gameSetupDebug() {
         Color color1 = Color.createColor("FF0000", "Red");
         Color color2 = Color.createColor("00FF00", "Green");
         this.controller.addPlayer("Giocatore1", color1);
         this.controller.addPlayer("Giocatore2", color2);
-        //FINE DEBUG
-        this.controller.startGame();
-        getFirstTile();
-   }
-
-    private void getFirstTile() {
-        Tile firstTile = controller.getCurrentTile();
-        TileButton firstTileButton = tileButtons.stream()
-            .filter(x -> x.getPosition().equals(getCenterPosition()))
-            .findFirst()
-            .get();
-        setTile(firstTileButton, firstTile.getImageResourcesPath());
     }
 
-    private Pair<Integer, Integer> getCenterPosition() {
-        final int value = DEFAULT_ZOOM_LEVEL/2;
-        return new Pair<Integer,Integer>(value, value);
-    }
-
-    private Component getField() { // c'è tutta la questione delle immagini storte ecc.
-        JPanel OuterPanel = new JPanel();
-        JPanel field = new JPanel() {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public Dimension getPreferredSize() {
-                Dimension d = this.getParent().getSize();
-                int newSize = d.width > d.height ? d.height : d.width;
-                newSize = newSize == 0 ? 100 : newSize;
-                return new Dimension(newSize, newSize);
-            }
-        };
-        OuterPanel.add(field);
-        field.setSize(10, 10);
-        field.setLayout(new GridLayout(DEFAULT_ZOOM_LEVEL, DEFAULT_ZOOM_LEVEL));
-        for (int i = 0; i < DEFAULT_ZOOM_LEVEL; i++) {
-            for (int j = 0; j < DEFAULT_ZOOM_LEVEL; j++) {
-                TileButton fieldCell = new TileButton(j, i);//trovare altro valore
-                field.add(fieldCell);
-                tileButtons.add(fieldCell);
-                fieldCell.addActionListener(OnSelection());
-                fieldCell.addComponentListener(OnResizeOrShown());
-            }
-        }
-        return OuterPanel;
-    }
-
-    private ComponentListener OnResizeOrShown() {
-        return new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                TileButton tileButton = (TileButton)e.getSource();
-                tileButton.resize();
-            }
-            @Override
-            public void componentShown(ComponentEvent e) {
-                TileButton tileButton = (TileButton)e.getSource();
-                tileButton.resize();
-            }
-        };
-    }
-
-    private ActionListener OnSelection() {
-        return (e) -> {
-            Tile tile = controller.getCurrentTile();
-            TileButton tileButton = (TileButton)e.getSource();
-            setTile(tileButton, tile.getImageResourcesPath());
-            tileButton.resize();
-            repaint();
-        };
-    }
-
+    //TODO implementare component getMapControls
     private Component getMapControls() {
         JPanel OuterPanel = new JPanel();
         JPanel innerPanel = new JPanel();
@@ -147,85 +77,16 @@ public class GameView extends View {
         innerPanel.add(endTurnButton, constraints);
         constraints.gridy ++;
 
-        zoomInButton.addActionListener(zoomInEventListener());
-        zoomOutButton.addActionListener(zoomOutEventListener());
+        zoomInButton.addActionListener(board.zoomInEventListener());
+        zoomOutButton.addActionListener(board.zoomOutEventListener());
 
         OuterPanel.add(innerPanel);
         return OuterPanel;
     }
 
-    private ActionListener zoomInEventListener() {
-        return (e) -> {
-            var border = getBorderAtOffest(currentZoomOffset);
-            tileButtons.stream()
-                .filter(x -> x.isVisible())
-                .filter(x -> border.contains(x.getPosition()))
-                .forEach(x -> x.setVisible(false));
-            currentZoomOffset--;
-            //repaint();
-        };
-    }
-
-
-    private ActionListener zoomOutEventListener() {
-    return (e) -> {
-        tileButtons.stream()
-            .filter(x -> !x.isVisible())
-            .filter(x -> getBorderAtOffest(currentZoomOffset+1).contains(x.getPosition()))
-            .forEach(x -> x.setVisible(true));
-            currentZoomOffset++;
-            //repaint();
-        };
-    }
-
-    private Set<Pair<Integer, Integer>> getBorderAtOffest(int offset) {
-        Set<Pair<Integer, Integer>> border = new HashSet<>();
-        var centerRowOrCol = getCenterPosition().getX();
-        var firstRowOrCol = centerRowOrCol - (offset - 1);
-        var lastRowOrCol = centerRowOrCol + (offset - 1);
-        for (int i = firstRowOrCol; i < lastRowOrCol+1; i++) {
-            border.add(new Pair<Integer, Integer>(i, firstRowOrCol));
-            border.add(new Pair<Integer, Integer>(i, lastRowOrCol));
-        }
-        for (int i = firstRowOrCol; i < lastRowOrCol+1; i++) {
-            border.add(new Pair<Integer, Integer>(firstRowOrCol, i));
-            border.add(new Pair<Integer, Integer>(lastRowOrCol, i));
-        }
-        return border;
-    }
-
-    private boolean tileButtonIsInBound(TileButton tileButton) {
-        var centerRowOrCol = getCenterPosition().getX();
-        var firstRowOrCol = centerRowOrCol - (currentZoomOffset);
-        var lastRowOrCol = centerRowOrCol + (currentZoomOffset);
-        var position = tileButton.getPosition();
-        return position.getX().intValue() >= firstRowOrCol
-            && position.getY().intValue() >= firstRowOrCol
-            && position.getX().intValue() <= lastRowOrCol
-            && position.getY().intValue() <= lastRowOrCol;
-    }
-
-    private Set<Pair<Integer,Integer>> getNewVisibleCells() {
-        var centerRowOrCol = getCenterPosition().getX();
-        var firstRowOrCol = centerRowOrCol - (currentZoomOffset);
-        var lastRowOrCol = centerRowOrCol + (currentZoomOffset);
-        return tileButtons.stream()
-            .map(x -> x.getPosition())
-            .filter(x -> x.getX().intValue() >= firstRowOrCol && x.getY().intValue() >= firstRowOrCol)
-            .filter(x -> x.getX().intValue() <= lastRowOrCol && x.getY().intValue() <= lastRowOrCol)
-            .collect(Collectors.toSet());
-    }
-
-    private void getTableTop() {
-
-    }
-
-    private void setTile(TileButton tileButton, String Image) {
-        tileButton.setActualTile(Image);
-    }
-
-    private void setMeeple(TileButton tileButton) {
-        tileButton.setMeeple();
+    //TODO implementare component getTableTop
+    private Component getTableTop() {
+        return new JButton("South");
     }
 
 }
