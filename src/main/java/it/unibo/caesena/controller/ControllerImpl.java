@@ -57,32 +57,12 @@ public class ControllerImpl implements Controller {
                 String imageName = line.split(";")[0];
                 int numberOfTiles = Integer.parseInt(line.split(";")[1]);
                 for (int i = 0; i < numberOfTiles; i++) {
-                    tiles.add(makeTileFromImagePath(imageName));
+                    tiles.add(TileType.valueOf(imageName).createTile(new TileFactoryWithBuilder()));
                 }
             }
         } catch (Exception e) {
             throw new IllegalStateException("Error reading tiles from file, maybe it's missing");
         }
-    }
-
-    private Tile makeTileFromImagePath(String imageName) {
-        TileFactory tileFactory = new TileFactoryWithBuilder();
-        try {
-            String methodName = getMethodNameFromString(imageName);
-            Method method = TileFactory.class.getMethod(methodName);
-            return (Tile)method.invoke(tileFactory);
-        } catch (Exception e) {
-            throw new IllegalStateException("Error using reflection, devs fault");
-        }
-    }
-
-    private String getMethodNameFromString(String string) {
-        String methodName = "create";
-        String[] words = string.split("-");
-        for (String word : words) {
-            methodName += StringUtil.capitalize(word);
-        }
-        return methodName;
     }
 
     @Override
