@@ -12,6 +12,7 @@ import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileBuilder;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.model.tile.TileType;
 import it.unibo.caesena.utils.Pair;
 
 final class TileTest {
@@ -28,7 +29,7 @@ final class TileTest {
     @Test
     public void testGetters() {
         String path = tile.getImageResourcesPath();
-        assertEquals("it/unibo/caesena/images/tiles/city-edge.png", path);
+        assertEquals("it/unibo/caesena/images/tiles/CITY_EDGE.png", path);
 
         assertFalse(tile.isPlaced());
         tile.setPosition(position);
@@ -42,16 +43,19 @@ final class TileTest {
 
         tile.rotateClockwise();
         //TODO controllare rotazione
-        Tile tile2 = new TileBuilder("city-edge")
+        Tile tile2 = new TileBuilder(TileType.CITY_EDGE)
             .city(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown,
             TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight))
             .field(List.of(TileSection.UpRight, TileSection.UpCenter, TileSection.UpLeft,
-            TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown))
+            TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown, TileSection.Center))
             .build();
 
         System.out.println(tile.toString());
         System.out.println(tile2.toString());
-        assertTrue(tile.equals(tile2));
+        
+        for (TileSection section : TileSection.values()) {
+            assertTrue(tile.getGameSet(section).getType().equals(tile2.getGameSet(section).getType()));
+        }
         
         assertEquals(tile.getRotationCount(), 1);
     }
