@@ -1,5 +1,7 @@
 package it.unibo.caesena.utils;
 
+import java.util.Optional;
+
 public enum Direction {
     UP(0,-1), 
     RIGHT(1,0), 
@@ -19,5 +21,11 @@ public enum Direction {
 
     public int getY(){
         return this.y;
+    }
+
+    public static boolean match(Direction direction, Pair<Integer, Integer> p1, Pair<Integer, Integer> p2)
+    {
+        return p1.getX()+direction.getX() == p2.getX() &&
+            p1.getY()+direction.getY() == p2.getY();
     }
 }

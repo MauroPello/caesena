@@ -44,7 +44,7 @@ public enum TileSection {
         return values()[index];
     }
 
-    public static TileSection getOppposite(final TileSection section) {
+    public static TileSection getOpposite(final TileSection section) {
         if(section == TileSection.Center) {
             return TileSection.Center;
         }
