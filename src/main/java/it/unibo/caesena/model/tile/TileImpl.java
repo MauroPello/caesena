@@ -61,7 +61,6 @@ public class TileImpl implements Tile {
         }
 
         this.rotationCount = (this.rotationCount + 1) % MAX_ROTATIONS;
-        //
         this.sections = rotateSections;
     }
 
@@ -117,18 +116,16 @@ public class TileImpl implements Tile {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
+        
 		Tile other = (Tile) obj;
-        boolean equal = true;
-
         for (TileSection section : TileSection.values()) {
-            // if (!this.getGameSet(section).equals(other.getGameSet(section)))
-            if (!this.getGameSet(section).getType().equals(other.getGameSet(section).getType()))
+            if (!this.getGameSet(section).equals(other.getGameSet(section)))
             {
-                equal = false;
+                return false;
             }
         }
 
-        return equal;
+        return true;
     }
 
     @Override
