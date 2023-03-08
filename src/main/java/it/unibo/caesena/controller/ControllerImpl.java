@@ -1,7 +1,6 @@
 package it.unibo.caesena.controller;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -144,9 +143,9 @@ public class ControllerImpl implements Controller {
                             boolean isGameSetClosed = true;
                             for (Tile tile : tiles) {
                                 for (TileSection tileSection : TileSection.values()) {
-                                    //if (tile.getGameSet(tileSection).equals(gameSet) && !tile.isSectionClosed(tileSection)) {
+                                    if (tile.getGameSet(tileSection).equals(gameSet) && !tile.isSectionClosed(tileSection)) {
                                         isGameSetClosed = false;
-                                    //}
+                                    }
                                 }
                             }
 
