@@ -37,7 +37,12 @@ public enum TileSection {
             return TileSection.Center;
         }
         int index = Math.floorMod(section.ordinal() + offset, values().length);
-        if (values()[index].equals(TileSection.Center)) {
+        if (offset > 0 && section.ordinal() < TileSection.Center.ordinal() &&
+            section.ordinal() + offset >= TileSection.Center.ordinal()) {
+            index = (index + 1) % values().length;
+        }
+        if (offset < 0 && section.ordinal() > TileSection.Center.ordinal() &&
+            section.ordinal() + offset <= TileSection.Center.ordinal()) {
             index = (index + 1) % values().length;
         }
         
