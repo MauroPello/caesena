@@ -73,7 +73,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             .findFirst();
         if (searchedTileOptional.isEmpty()) { //TODO non va
             searchedTile = new TileButton(horizontalCoordinate, verticalCoordinate, this);
-            searchedTile.addComponentListener(OnResizeOrShown());
             allTileButtons.add(searchedTile);
         } else {
             searchedTile = searchedTileOptional.get();
@@ -86,7 +85,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             for (int j = 0; j < DEFAULT_ZOOM_LEVEL; j++) {
                 TileButton fieldCell = new TileButton(j, i, this);
                 allTileButtons.add(fieldCell);
-                fieldCell.addComponentListener(OnResizeOrShown());
             }
         }
         setVisibleField();
@@ -112,22 +110,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     public String getCurrentTileImageResourcePath() {
         return this.controller.getCurrentTile().getImageResourcesPath();
-    }
-
-    //TODO guardare shrink icon che diceva pello
-    private ComponentListener OnResizeOrShown() {
-        return new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                TileButton tileButton = (TileButton)e.getSource();
-                tileButton.resize();
-            }
-            @Override
-            public void componentShown(ComponentEvent e) {
-                TileButton tileButton = (TileButton)e.getSource();
-                tileButton.resize();
-            }
-        };
     }
 
     private void setTile(TileButton tileButton, String Image) {

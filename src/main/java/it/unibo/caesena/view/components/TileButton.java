@@ -29,6 +29,7 @@ public class TileButton extends JButton {
         this.position = new Pair<Integer,Integer>(x, y);
         this.parent = parent;
         this.addActionListener(this.OnSelection());
+        this.addComponentListener(this.OnResizeOrShown());
         this.setContentAreaFilled(false);
     }
 
@@ -75,6 +76,21 @@ public class TileButton extends JButton {
             setImage(imagePath);
             this.resize();
             repaint();
+        };
+    }
+
+    private ComponentListener OnResizeOrShown() {
+        return new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                TileButton tileButton = (TileButton)e.getSource();
+                tileButton.resize();
+            }
+            @Override
+            public void componentShown(ComponentEvent e) {
+                TileButton tileButton = (TileButton)e.getSource();
+                tileButton.resize();
+            }
         };
     }
 }
