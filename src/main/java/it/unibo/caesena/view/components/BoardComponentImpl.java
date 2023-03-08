@@ -1,7 +1,6 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -11,7 +10,6 @@ import javax.swing.JPanel;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
-import java.awt.event.*;
 
 public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private final static int DEFAULT_ZOOM_LEVEL = 11;

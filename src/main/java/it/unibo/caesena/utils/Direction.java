@@ -1,7 +1,5 @@
 package it.unibo.caesena.utils;
 
-import java.util.Optional;
-
 public enum Direction {
     UP(0,-1), 
     RIGHT(1,0), 

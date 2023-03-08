@@ -7,14 +7,13 @@ import java.net.URL;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import it.unibo.caesena.utils.Pair;
 
 public class TileButton extends JButton {
     private static final String SEP = File.separator;
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
-    private static final URL DEFAULT_IMAGE_PATH = ClassLoader.getSystemResource(ROOT + "tile-back.png");
+    private static final URL DEFAULT_IMAGE_PATH = ClassLoader.getSystemResource(ROOT + "TILE_BACK.png");
     private final Pair<Integer, Integer> position;
     private final BoardComponentImpl parent;
     private ImageIcon icon;
