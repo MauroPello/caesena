@@ -25,5 +25,7 @@ public interface Tile {
 
     public void closeSection(TileSection section);
 
+    public boolean isSectionClosed(TileSection section);
+
     public int getRotationCount();
 }

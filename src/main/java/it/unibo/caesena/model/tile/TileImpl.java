@@ -138,8 +138,11 @@ public class TileImpl implements Tile {
 
     @Override
     public void closeSection(final TileSection section) {
-        var value = this.sections.remove(section);
-        section.close();
-        this.sections.put(section, value);
+        this.sections.keySet().stream().filter(s -> s.equals(section)).peek(TileSection::close);
+    }
+
+    @Override
+    public boolean isSectionClosed(TileSection section) {
+        return this.sections.keySet().stream().filter(s -> s.equals(section)).findFirst().get().isClosed();
     }
 }
