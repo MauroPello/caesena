@@ -1,6 +1,7 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
@@ -29,6 +30,11 @@ public class Spinner extends JSpinner {
 
     public JFormattedTextField getTextField() {
         return editor.getTextField();
+    }
+
+    public void setSize(Dimension d) {
+        this.setPreferredSize(d);
+        this.setMinimumSize(d);
     }
 
 }
