@@ -113,11 +113,15 @@ public class TileImpl implements Tile {
 
     @Override
     public void closeSection(final TileSection section) {
-        this.sections.keySet().stream().filter(s -> s.equals(section)).peek(TileSection::close);
+        this.sections.keySet().stream()
+            .filter(s -> s.equals(section))
+            .peek(TileSection::close);
     }
 
     @Override
     public boolean isSectionClosed(TileSection section) {
-        return this.sections.keySet().stream().filter(s -> s.equals(section)).findFirst().get().isClosed();
+        return this.sections.keySet().stream()
+            .filter(s -> s.equals(section))
+            .allMatch(TileSection::isClosed);
     }
 }
