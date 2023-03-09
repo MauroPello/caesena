@@ -1,6 +1,5 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JFormattedTextField;
@@ -19,8 +18,7 @@ public class NumericUpDown extends JSpinner {
         this.setModel(model);
 
         editor = new DefaultEditor(this);
-        getTextField().setEnabled(false);
-        getTextField().setDisabledTextColor(Color.BLACK);
+        getTextField().setEditable(false);
         this.setEditor(editor);
     }
 
