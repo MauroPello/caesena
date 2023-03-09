@@ -11,22 +11,23 @@ import java.awt.event.*;
 
 public class GameView extends View {
     private final Controller controller;
-    private final BoardComponent<JPanel> board;
+    private BoardComponent<JPanel> board;
 
     public GameView(GUI userInterface) {
         super(userInterface);
         this.controller = getUserInterface().getController();
+        this.setLayout(new BorderLayout());
+    }
+
+    public void start() {
         this.gameSetupDebug();
         this.controller.startGame();
         Tile firstTile = controller.getCurrentTile();
         this.board = new BoardComponentImpl(controller, firstTile);
-
-
-        this.setLayout(new BorderLayout());
         this.add(board.getComponent(), BorderLayout.CENTER);
         this.add(getTableTop(), BorderLayout.SOUTH);
         this.add(getMapControls(), BorderLayout.EAST);
-   }
+    }
 
     private void gameSetupDebug() {
         Color color1 = Color.createColor("FF0000", "Red");

@@ -31,7 +31,7 @@ public class StartView extends View {
         super(userInterface);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.playerPanels = new ArrayList<>();
-        
+
         this.mainFont = new Font("SansSerif", Font.BOLD, 20);
 
         playersNumPanel = new JPanel();
@@ -57,7 +57,7 @@ public class StartView extends View {
         });
         playersNum.getTextField().setFont(mainFont);
         playersNumPanel.add(playersNum);
-        
+
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(playersNumPanel);
 

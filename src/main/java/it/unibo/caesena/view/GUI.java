@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import it.unibo.caesena.controller.Controller;
 
 public class GUI extends JFrame implements UserInterface {
-    
+
     private final Controller controller;
     private final View startView;
     private final View gameView;
@@ -18,12 +18,12 @@ public class GUI extends JFrame implements UserInterface {
     public GUI(final Controller controller) {
         super();
         this.controller = controller;
-        
+
         this.startView = new StartView(this);
         this.gameView = new GameView(this);
         this.pauseView = new PauseView(this);
         this.gameOverView = new GameOverView(this);
-        
+
         // TODO background and size options
         // TODO default options
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -46,6 +46,8 @@ public class GUI extends JFrame implements UserInterface {
 
     public void showGameView() {
         hideAllViews();
+        // TODO cambia sta roba
+        ((GameView)gameView).start();
         gameView.setVisible(true);
         this.setContentPane(gameView);
     }
