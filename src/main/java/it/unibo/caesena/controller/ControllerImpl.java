@@ -132,9 +132,9 @@ public class ControllerImpl implements Controller {
             if (!gameSets.containsKey(currentTile.getGameSet(section))) {
                 gameSets.put(currentTile.getGameSet(section), Set.of(currentTile));
             } else {
-                var tiles = new HashSet<>(gameSets.get(currentTile.getGameSet(section)));
-                tiles.add(currentTile);
-                gameSets.put(currentTile.getGameSet(section), tiles);
+                var gameSetTiles = new HashSet<>(gameSets.get(currentTile.getGameSet(section)));
+                gameSetTiles.add(currentTile);
+                gameSets.put(currentTile.getGameSet(section), gameSetTiles);
             }
         }
 
