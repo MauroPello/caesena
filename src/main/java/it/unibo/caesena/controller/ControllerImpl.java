@@ -93,10 +93,11 @@ public class ControllerImpl implements Controller {
                 return false;
             }
         }
-        //in caso negativo,
+        //in caso negativo:
 
         Set<Tile> neighbours = getTileNeighbours(position);
         //neighbours sono le MAX 4 pedine adiacenti
+        //se neighbourn è vuoto termino
         if (neighbours.isEmpty()) {
             return false;
         }
@@ -108,6 +109,11 @@ public class ControllerImpl implements Controller {
         toCheck.put(Direction.LEFT, Set.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown));
         toCheck.put(Direction.RIGHT, Set.of(TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown));
 
+        //per ogni neighbour in neighbours
+        //controllo in ognuna delle direzioni possibili
+        //per ogni direzione controllo che le tile siano adiacenti
+        //per ogni section della direzione poi controllo che abbia lo stesso tipo di Gameset
+        //in caso contrario ritorna false
         for (Tile neighbour : neighbours) {
             for (var entry : toCheck.entrySet()) {
                 if (Direction.match(entry.getKey(), position, neighbour.getPosition().get())) {
@@ -122,12 +128,30 @@ public class ControllerImpl implements Controller {
 
         this.currentTile.setPosition(position);
 
+        //per ogni neighbour
+        //controllo ognuna delle direzioni possibili
+        //per ogni direzione controllo che le tile siano adiacenti
+        //--
+        //per ogni section della direzione di neighbour poi controllo che abbia lo stesso tipo
+        //di Gameset con la direzione opposta di currentTile
+        //e che il Gameset delle due tile non sia lo stesso
+        //sempre per ogni section:
+        //in caso positivo chiudo le section di entrambe le tile
+        //creao un nuovo gameset composto dai due gameset di neighbour e currentTile
+        //metto nella mappa sections i gameset di entrambe le tile con chiave section e sectionOpposite
+        //creo un nuovo set tile a cui unisco il gameset del vicino con quello di current tile
+        //elimino da gamesets il set con la chiave gameset in quanto ne aggiungo un altro con gameset joined
+        //creato prima e il set tile ampliato della tile correnteù
+        //--
+        //
+
         for (Tile neighbour : neighbours) {
             for (var entry : toCheck.entrySet()) {
                 if (Direction.match(entry.getKey(), position, neighbour.getPosition().get())) {
                     for (var section : entry.getValue()) {
                         if (neighbour.getGameSet(section).getType().equals(currentTile.getGameSet(TileSection.getOpposite(section)).getType()) &&
                             !neighbour.getGameSet(section).equals(currentTile.getGameSet(TileSection.getOpposite(section)))) {
+                            
                             neighbour.closeSection(section);
                             currentTile.closeSection(TileSection.getOpposite(section));
 
