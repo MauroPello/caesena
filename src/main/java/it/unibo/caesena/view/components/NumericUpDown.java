@@ -7,12 +7,12 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-public class Spinner extends JSpinner {
+public class NumericUpDown extends JSpinner {
     
     private final SpinnerNumberModel model;
     private final DefaultEditor editor;
 
-    public Spinner(int start, int min, int max, int step) {
+    public NumericUpDown(final int start, final int min, final int max, final int step) {
         super();
 
         model = new SpinnerNumberModel(start, min, max, step);
@@ -32,7 +32,7 @@ public class Spinner extends JSpinner {
         return editor.getTextField();
     }
 
-    public void setSize(Dimension d) {
+    public void setSize(final Dimension d) {
         this.setPreferredSize(d);
         this.setMinimumSize(d);
     }
