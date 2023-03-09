@@ -11,10 +11,10 @@ public class TileBuilder {
     private final GameSetFactory factory;
     private final Tile tile;
 
-    public TileBuilder(final String imagePath) {
+    public TileBuilder(final TileType type) {
         this.factory = new GameSetFactoryImpl();
 
-        this.tile = new TileImpl(imagePath);
+        this.tile = new TileImpl(type);
     }
 
     public TileBuilder city(final List<TileSection> sections) {

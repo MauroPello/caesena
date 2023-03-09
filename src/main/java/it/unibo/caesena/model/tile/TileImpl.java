@@ -1,5 +1,6 @@
 package it.unibo.caesena.model.tile;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -9,18 +10,19 @@ import it.unibo.caesena.utils.*;
 
 public class TileImpl implements Tile {
 
-    private final String imageName;
-    private static final String SEP = "/";//File.separator;
+    private static final String SEP = File.separator;
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
     private static final String IMAGE_FORMAT = "png";
     private static final Integer MAX_ROTATIONS = 4;
+    
+    private final TileType type;
 
     private Optional<Pair<Integer, Integer>> currentPosition;
     private Map<TileSection, GameSet> sections;
     private int rotationCount;
 
-    public TileImpl(final String imageName) {
-        this.imageName = imageName;
+    public TileImpl(final TileType type) {
+        this.type = type;
 
         this.currentPosition = Optional.empty();
         this.sections = new HashMap<>();
@@ -30,37 +32,12 @@ public class TileImpl implements Tile {
     @Override
     public void rotateClockwise() {
         final Map<TileSection, GameSet> rotateSections = new HashMap<>();
-        // //metto in up i left
-        // rotateSections.put(TileSection.UpRight, this.sections.get(TileSection.LeftUp));
-        // rotateSections.put(TileSection.UpCenter, this.sections.get(TileSection.LeftCenter));
-        // rotateSections.put(TileSection.UpLeft, this.sections.get(TileSection.LeftDown));
 
-        // //metto in left i down
-        // rotateSections.put(TileSection.LeftDown, this.sections.get(TileSection.DownRight));
-        // rotateSections.put(TileSection.LeftCenter, this.sections.get(TileSection.DownCenter));
-        // rotateSections.put(TileSection.LeftUp, this.sections.get(TileSection.DownLeft));
-
-        // //metto in down i right
-        // rotateSections.put(TileSection.DownRight, this.sections.get(TileSection.RightUp));
-        // rotateSections.put(TileSection.DownCenter, this.sections.get(TileSection.RightCenter));
-        // rotateSections.put(TileSection.DownLeft, this.sections.get(TileSection.RightDown));
-
-        // //metto in right gli up
-        // rotateSections.put(TileSection.RightDown, this.sections.get(TileSection.UpRight));
-        // rotateSections.put(TileSection.RightCenter, this.sections.get(TileSection.UpCenter));
-        // rotateSections.put(TileSection.RightUp, this.sections.get(TileSection.UpLeft));
-
-        // if(this.rotationCount == 4) {
-        //     this.rotationCount = 0;
-        // }
-        // this.rotationCount++;
-        //
         for (var entry : this.sections.entrySet()) {
             rotateSections.put(TileSection.rotateClockwise(entry.getKey()), entry.getValue());
         }
 
         this.rotationCount = (this.rotationCount + 1) % MAX_ROTATIONS;
-        //
         this.sections = rotateSections;
     }
 
@@ -81,7 +58,7 @@ public class TileImpl implements Tile {
 
     @Override
     public String getImageResourcesPath() {
-        return ROOT + this.imageName + "." + IMAGE_FORMAT;
+        return ROOT + this.type.name() + "." + IMAGE_FORMAT;
     }
 
     @Override
@@ -116,18 +93,16 @@ public class TileImpl implements Tile {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
+        
 		Tile other = (Tile) obj;
-        boolean equal = true;
-
         for (TileSection section : TileSection.values()) {
-            // if (!this.getGameSet(section).equals(other.getGameSet(section)))
-            if (!this.getGameSet(section).getType().equals(other.getGameSet(section).getType()))
+            if (!this.getGameSet(section).equals(other.getGameSet(section))) 
             {
-                equal = false;
+                return false;
             }
         }
 
-        return equal;
+        return true;
     }
 
     @Override
@@ -138,8 +113,11 @@ public class TileImpl implements Tile {
 
     @Override
     public void closeSection(final TileSection section) {
-        var value = this.sections.remove(section);
-        section.close();
-        this.sections.put(section, value);
+        this.sections.keySet().stream().filter(s -> s.equals(section)).peek(TileSection::close);
+    }
+
+    @Override
+    public boolean isSectionClosed(TileSection section) {
+        return this.sections.keySet().stream().filter(s -> s.equals(section)).findFirst().get().isClosed();
     }
 }

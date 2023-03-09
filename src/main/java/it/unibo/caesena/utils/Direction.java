@@ -20,4 +20,10 @@ public enum Direction {
     public int getY(){
         return this.y;
     }
+
+    public static boolean match(Direction direction, Pair<Integer, Integer> p1, Pair<Integer, Integer> p2)
+    {
+        return p1.getX()+direction.getX() == p2.getX() &&
+            p1.getY()+direction.getY() == p2.getY();
+    }
 }

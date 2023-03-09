@@ -37,14 +37,19 @@ public enum TileSection {
             return TileSection.Center;
         }
         int index = Math.floorMod(section.ordinal() + offset, values().length);
-        if (values()[index].equals(TileSection.Center)) {
+        if (offset > 0 && section.ordinal() < TileSection.Center.ordinal() &&
+            section.ordinal() + offset >= TileSection.Center.ordinal()) {
+            index = (index + 1) % values().length;
+        }
+        if (offset < 0 && section.ordinal() > TileSection.Center.ordinal() &&
+            section.ordinal() + offset <= TileSection.Center.ordinal()) {
             index = (index + 1) % values().length;
         }
         
         return values()[index];
     }
 
-    public static TileSection getOppposite(final TileSection section) {
+    public static TileSection getOpposite(final TileSection section) {
         if(section == TileSection.Center) {
             return TileSection.Center;
         }
