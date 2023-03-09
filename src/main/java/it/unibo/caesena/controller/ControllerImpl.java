@@ -98,7 +98,7 @@ public class ControllerImpl implements Controller {
         Set<Tile> neighbours = getTileNeighbours(position);
         //neighbours sono le MAX 4 pedine adiacenti
         //se neighbourn è vuoto termino
-        if (neighbours.isEmpty()) {
+        if (neighbours.isEmpty() && !getPlacedTiles().isEmpty()) {
             return false;
         }
 
@@ -159,6 +159,7 @@ public class ControllerImpl implements Controller {
             for (var entry : toCheck.entrySet()) {
                 if (Direction.match(entry.getKey(), position, neighbour.getPosition().get())) {
                     for (var section : entry.getValue()) {
+                        // TODO join gameSets correctly
                         if (neighbour.getGameSet(section).getType().equals(currentTile.getGameSet(TileSection.getOpposite(section)).getType()) &&
                             !neighbour.getGameSet(section).equals(currentTile.getGameSet(TileSection.getOpposite(section)))) {
                             
@@ -173,22 +174,6 @@ public class ControllerImpl implements Controller {
                             tiles.addAll(gameSets.remove(neighbour.getGameSet(section)));
                             tiles.add(currentTile);
                             gameSets.put(gameSet, tiles);
-
-                            boolean isGameSetClosed = true;
-                            for (Tile tile : tiles) {
-                                for (TileSection tileSection : TileSection.values()) {
-                                    if (tile.getGameSet(tileSection).equals(gameSet) && !tile.isSectionClosed(tileSection)) {
-                                        isGameSetClosed = false;
-                                    }
-                                }
-                            }
-
-                            if (isGameSetClosed) {
-                                // calcoliamo punti
-                                // gameSet.close()
-                                // distributePoints()
-                                //08/03/23 15:00-17:30
-                            }
                         }
                     }
                 }
@@ -239,12 +224,15 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void endTurn() {
-        this.turn++;
-        if (this.players.size() == this.turn) {
-            this.turn = 0;
+        Set<GameSet> gameSetsToCheck = new HashSet<>();
+        for (var section : TileSection.values()) {
+            gameSetsToCheck.add(currentTile.getGameSet(section));
         }
-        this.currentPlayer = this.players.get(this.turn);
+        gameSetsToCheck.stream().filter(this::isGameSetClosed).peek(this::distributePoints);
 
+
+        this.turn = (this.turn + 1) % this.players.size();
+        this.currentPlayer = this.players.get(this.turn);
         this.currentTile = this.getNotPlacedTiles().get(0);
     }
 
@@ -295,11 +283,20 @@ public class ControllerImpl implements Controller {
 
         gameSet.addMeeple(meeple);
 
-        if (gameSet.isClosed()) {
-            this.distributePoints(gameSet);
+        return true;
+    }
+
+    private boolean isGameSetClosed(final GameSet gameSet) {
+        boolean flag = true;
+        for (Tile tile : tiles) {
+            for (TileSection tileSection : TileSection.values()) {
+                if (tile.getGameSet(tileSection).equals(gameSet) && !tile.isSectionClosed(tileSection)) {
+                    flag = false;
+                }
+            }
         }
 
-        return true;
+        return flag;
     }
 
     private void distributePoints (final GameSet gameset) {
