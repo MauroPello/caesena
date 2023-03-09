@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -19,17 +20,19 @@ final class TileTest {
 
     private static Tile tile;
     private static Pair<Integer, Integer> position;
+    static String SEP;
 
     @BeforeAll
     public static void init() {
         tile = new TileFactoryWithBuilder().createCityEdge();
         position = new Pair<>(1, 1);
+        SEP = File.separator;
     }
 
     @Test
     public void testGetters() {
         String path = tile.getImageResourcesPath();
-        assertEquals("it/unibo/caesena/images/tiles/CITY_EDGE.png", path);
+        assertEquals("it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP + "CITY_EDGE.png", path);
 
         assertFalse(tile.isPlaced());
         tile.setPosition(position);
