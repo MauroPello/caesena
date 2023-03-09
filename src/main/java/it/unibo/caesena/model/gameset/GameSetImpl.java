@@ -1,6 +1,5 @@
 package it.unibo.caesena.model.gameset;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -58,11 +57,6 @@ public class GameSetImpl implements GameSet{
     @Override
     public boolean isClosed() {
         return this.closed;
-    }
-
-    @Override
-    public Set<Meeple> getMeeples() {
-        return Collections.unmodifiableSet(this.meeples);
     }
 
     @Override

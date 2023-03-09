@@ -307,7 +307,13 @@ public class ControllerImpl implements Controller {
         int value = 1;
 
         if (!gameset.isMeepleFree()) {
-            Set<Meeple> meeples = gameset.getMeeples();
+            
+            var checkOptional = gameset.close();
+            if (checkOptional.isEmpty()) {
+                return ;
+            }
+
+            Set<Meeple> meeples = checkOptional.get().getX();
 
             for (Meeple playerMeeple : meeples) {
                 Player currentPlayer = playerMeeple.getOwner();
@@ -324,9 +330,7 @@ public class ControllerImpl implements Controller {
                 .max().getAsInt();
 
             playerMeeples.entrySet().stream().filter(x -> x.getValue().equals(maxValueMeeple))
-                .peek(x -> x.getKey().addScore(gameset.getPoints()));
-
-            meeples.forEach(Meeple::removeFromTile);
+                .peek(x -> x.getKey().addScore(checkOptional.get().getY()));
         }
     }
 
