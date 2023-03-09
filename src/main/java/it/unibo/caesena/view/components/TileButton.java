@@ -7,8 +7,6 @@ import java.net.URL;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import it.unibo.caesena.utils.Pair;
 
 public class TileButton extends JButton {
