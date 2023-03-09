@@ -126,7 +126,17 @@ public class ControllerImpl implements Controller {
             }
         }
 
+        // place tile and for every section add the corresponding gameset to gamesets
         this.currentTile.setPosition(position);
+        for (var section : TileSection.values()) {
+            if (!gameSets.containsKey(currentTile.getGameSet(section))) {
+                gameSets.put(currentTile.getGameSet(section), Set.of(currentTile));
+            } else {
+                var tiles = new HashSet<>(gameSets.get(currentTile.getGameSet(section)));
+                tiles.add(currentTile);
+                gameSets.put(currentTile.getGameSet(section), tiles);
+            }
+        }
 
         //per ogni neighbour
         //controllo ognuna delle direzioni possibili
