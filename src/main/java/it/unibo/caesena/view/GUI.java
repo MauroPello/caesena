@@ -35,7 +35,7 @@ public class GUI extends JFrame implements UserInterface {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
-        showGameView();
+        showStartView();
     }
 
     public void showStartView() {
