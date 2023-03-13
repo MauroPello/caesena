@@ -75,7 +75,7 @@ public class StartView extends View {
                 userInterface.getController().addPlayer(player.getX(), Color.createCustomColor(player.getY()));
             }
 
-            userInterface.showGameView();
+            userInterface.showGameOverView();
         });
         this.add(startButton);
     }

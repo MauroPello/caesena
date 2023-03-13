@@ -4,26 +4,20 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import it.unibo.caesena.controller.Controller;
 
 public class GUI extends JFrame implements UserInterface {
 
-    private final Controller controller;
-    private final View startView;
-    private final View gameView;
-    private final View pauseView;
-    private final View gameOverView;
+    private  Controller controller;
+    private View startView;
+    private View gameView;
+    private View pauseView;
+    private View gameOverView;
 
     public GUI(final Controller controller) {
         super();
         this.controller = controller;
-
-        this.startView = new StartView(this);
-        this.gameView = new GameView(this);
-        this.pauseView = new PauseView(this);
-        this.gameOverView = new GameOverView(this);
 
         // TODO background and size options
         // TODO default options
@@ -40,6 +34,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showStartView() {
+        this.startView = new StartView(this);
         hideAllViews();
         startView.setVisible(true);
         this.setContentPane(startView);
@@ -48,6 +43,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showGameView() {
+        this.gameView = new GameView(this);
         hideAllViews();
         // TODO cambia sta roba
         ((GameView)gameView).start();
@@ -58,6 +54,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showPauseView() {
+        this.pauseView = new PauseView(this);
         hideAllViews();
         pauseView.setVisible(true);
         this.setContentPane(pauseView);
@@ -66,6 +63,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showGameOverView() {
+        this.gameOverView = new GameOverView(this);
         hideAllViews();
         gameOverView.setVisible(true);
         this.setContentPane(gameOverView);
@@ -74,10 +72,10 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     private void hideAllViews() {
-        startView.setVisible(false);
-        gameView.setVisible(false);
-        pauseView.setVisible(false);
-        gameOverView.setVisible(false);
+        // startView.setVisible(false);
+        // gameView.setVisible(false);
+        // pauseView.setVisible(false);
+        // gameOverView.setVisible(false);
     }
 
     public void exit() {
