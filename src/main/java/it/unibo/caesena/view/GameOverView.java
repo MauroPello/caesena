@@ -31,13 +31,7 @@ public class GameOverView extends View{
         PriorityQueue<Player> queue = new PriorityQueue<>(
             new Comparator<Player>() {
                 public int compare (Player a, Player b) {
-                    if (a.getScore() > b.getScore()) {
-                        return -1;
-                    } else if (a.getScore() < b.getScore()) {    
-                        return 1;
-                    } else {
-                        return 0;
-                    }
+                    return Integer.compare(a.getScore(), b.getScore());
                 }
             }
         );
