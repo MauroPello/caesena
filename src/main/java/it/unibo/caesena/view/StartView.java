@@ -3,6 +3,7 @@ package it.unibo.caesena.view;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import it.unibo.caesena.utils.Color;
 import it.unibo.caesena.view.components.NumericUpDown;
@@ -20,34 +22,33 @@ public class StartView extends View {
     private final static int MIN_PLAYERS = 2;
     private final static int MAX_PLAYERS = 8;
 
-    private final JPanel playersNumPanel;
-    private final NumericUpDown playersNum;
-    private final JPanel playerSelectionPanel;
-    private final List<PlayerInput> playerPanels;
-
-    private Font mainFont;
+    private final List<PlayerInput> playerInputs;
+    private final JPanel playersPanel;
 
     public StartView(GUI userInterface) {
         super(userInterface);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.playerPanels = new ArrayList<>();
+        this.playerInputs = new ArrayList<>();
+        this.setLayout(new BorderLayout());
 
-        this.mainFont = new Font("SansSerif", Font.BOLD, 20);
-
-        this.playersNumPanel = new JPanel();
+        Font mainFont = new Font("SansSerif", Font.BOLD, 20);
+        
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        
+        JPanel playersNumPanel = new JPanel();
         JLabel playersLabel = new JLabel("Players:");
         playersLabel.setFont(mainFont);
-        this.playersNumPanel.add(playersLabel);
+        playersNumPanel.add(playersLabel);
 
-        this.playersNum = new NumericUpDown(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
-        this.playersNum.setSize(new Dimension(50, 50));
-        this.playersNum.addChangeListener((e) -> {
-            if (this.playersNum.getNumberAsInt() < this.playerPanels.size()) {
-                while(this.playerPanels.size() > this.playersNum.getNumberAsInt()) {
+        NumericUpDown playersNum = new NumericUpDown(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
+        playersNum.setSize(new Dimension(50, 50));
+        playersNum.addChangeListener((e) -> {
+            if (playersNum.getNumberAsInt() < this.playerInputs.size()) {
+                while(this.playerInputs.size() > playersNum.getNumberAsInt()) {
                     removePlayerInput();
                 }
             } else {
-                while(this.playerPanels.size() < this.playersNum.getNumberAsInt()) {
+                while(this.playerInputs.size() < playersNum.getNumberAsInt()) {
                     addPlayerInput();
                 }
             }
@@ -55,39 +56,48 @@ public class StartView extends View {
             this.repaint();
             this.validate();
         });
-        this.playersNum.getTextField().setFont(mainFont);
-        this.playersNumPanel.add(this.playersNum);
+        playersNum.getTextField().setFont(mainFont);
+        playersNumPanel.add(playersNum);
 
-        this.playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(playersNumPanel);
+        playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(playersNumPanel);
 
-        this.playerSelectionPanel = new JPanel();
-        this.playerSelectionPanel.setLayout(new BoxLayout(this.playerSelectionPanel, BoxLayout.Y_AXIS));
+        this.playersPanel = new JPanel();
+        this.playersPanel.setLayout(new BoxLayout(this.playersPanel, BoxLayout.Y_AXIS));
         for (int i = 0; i < MIN_PLAYERS; i++) {
             addPlayerInput();
         }
-        this.add(this.playerSelectionPanel);
+        // TODO scrolling panel (JScrollPane???)
+        JScrollPane playersScrollPane = new JScrollPane(playersPanel);
+        playersScrollPane.setAutoscrolls(true);
+        playersScrollPane.setBorder(null);
+        mainPanel.add(playersScrollPane);
 
         JButton startButton = new JButton("Start Game");
         startButton.addActionListener((e) -> {
-            for (var playerInput : this.playerPanels) {
+            for (var playerInput : this.playerInputs) {
                 var player = playerInput.getPlayerData();
                 userInterface.getController().addPlayer(player.getX(), Color.createCustomColor(player.getY()));
             }
 
             userInterface.showGameOverView();
         });
-        this.add(startButton);
+        var startGamePanel = new JPanel();
+        startGamePanel.add(startButton);
+        startGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(startGamePanel);
+
+        this.add(mainPanel);
     }
 
     private void addPlayerInput() {
         var playerPanel = new PlayerInput();
 
-        playerSelectionPanel.add(playerPanel);
-        this.playerPanels.add(playerPanel);
+        this.playersPanel.add(playerPanel);
+        this.playerInputs.add(playerPanel);
     }
 
     private void removePlayerInput() {
-        playerSelectionPanel.remove(playerPanels.remove(this.playerPanels.size() - 1));
+        this.playersPanel.remove(this.playerInputs.remove(this.playerInputs.size() - 1));
     }
 }
