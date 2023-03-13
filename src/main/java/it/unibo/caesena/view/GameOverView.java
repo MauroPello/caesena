@@ -24,7 +24,7 @@ public class GameOverView extends View{
         this.finalPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         for (int i = 0; i < this.numberOfPlayers.size(); i++) {
-            JLabel newLabel = new JLabel("" + this.numberOfPlayers.get(i).getName() + " " + this.numberOfPlayers.get(i).getScore() + " " + this.numberOfPlayers.get(i).getColor());
+            JLabel newLabel = new JLabel(this.numberOfPlayers.get(i).toString());
             this.finalPanel.add(newLabel);
         }
         
