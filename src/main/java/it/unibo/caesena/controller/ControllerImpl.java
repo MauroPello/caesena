@@ -155,7 +155,7 @@ public class ControllerImpl implements Controller {
         //--
         //
 
-        for (Tile neighbour : neighbours) {
+        /*for (Tile neighbour : neighbours) {
             for (var entry : toCheck.entrySet()) {
                 if (Direction.match(entry.getKey(), position, neighbour.getPosition().get())) {
                     for (var section : entry.getValue()) {
@@ -175,6 +175,43 @@ public class ControllerImpl implements Controller {
                             tiles.add(currentTile);
                             gameSets.put(gameSet, tiles);
                         }
+                    }
+                }
+            }
+        }*/
+
+        for (Tile neighbour : neighbours) {
+            for (var entry : toCheck.entrySet()) {
+                if (Direction.match(entry.getKey(), position, neighbour.getPosition().get())) {
+                    for (var section : entry.getValue()) {
+                        GameSet neighbourGameSet = neighbour.getGameSet(section);
+                        GameSet currentTileGameSet = currentTile.getGameSet(TileSection.getOpposite(section));
+                        GameSet joinedGameSet = new GameSetFactoryImpl().createJoinedSet(neighbourGameSet, currentTileGameSet);
+
+                        for (Tile tile : gameSets.get(neighbourGameSet)) {
+                            for (var tileSection : TileSection.values()) {
+                                if(tile.getGameSet(tileSection).equals(neighbourGameSet)) {
+                                    tile.putSection(tileSection, joinedGameSet);
+                                }
+                            }
+                        }
+                        neighbour.closeSection(section);
+                        neighbour.putSection(section, joinedGameSet);
+
+                        for (Tile tile : gameSets.get(currentTileGameSet)) {
+                            for (var tileSection : TileSection.values()) {
+                                if(tile.getGameSet(tileSection).equals(currentTileGameSet)) {
+                                    tile.putSection(tileSection, joinedGameSet);
+                                }
+                            }
+                        }
+                        currentTile.closeSection(TileSection.getOpposite(section));
+                        currentTile.putSection(TileSection.getOpposite(section), joinedGameSet);
+
+                        Set<Tile> tiles = new HashSet<>();
+                        tiles.addAll(gameSets.remove(neighbourGameSet));
+                        tiles.addAll(gameSets.remove(currentTileGameSet));
+                        gameSets.put(joinedGameSet, neighbours);
                     }
                 }
             }
