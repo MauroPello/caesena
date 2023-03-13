@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import it.unibo.caesena.controller.Controller;
 
@@ -34,7 +35,7 @@ public class GUI extends JFrame implements UserInterface {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-
+        
         showStartView();
     }
 
@@ -42,6 +43,8 @@ public class GUI extends JFrame implements UserInterface {
         hideAllViews();
         startView.setVisible(true);
         this.setContentPane(startView);
+        this.validate();
+        this.repaint();
     }
 
     public void showGameView() {
@@ -50,18 +53,24 @@ public class GUI extends JFrame implements UserInterface {
         ((GameView)gameView).start();
         gameView.setVisible(true);
         this.setContentPane(gameView);
+        this.validate();
+        this.repaint();
     }
 
     public void showPauseView() {
         hideAllViews();
         pauseView.setVisible(true);
         this.setContentPane(pauseView);
+        this.validate();
+        this.repaint();
     }
 
     public void showGameOverView() {
         hideAllViews();
         gameOverView.setVisible(true);
         this.setContentPane(gameOverView);
+        this.validate();
+        this.repaint();
     }
 
     private void hideAllViews() {
