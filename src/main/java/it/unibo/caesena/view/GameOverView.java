@@ -1,6 +1,9 @@
 package it.unibo.caesena.view;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
+
 import javax.swing.*;
 import java.awt.Component;
 import java.awt.Font;
@@ -24,9 +27,27 @@ public class GameOverView extends View{
         playersLabel.setFont(mainFont);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.finalPanel.add(playersLabel);
+
+        PriorityQueue<Player> queue = new PriorityQueue<>(
+            new Comparator<Player>() {
+                public int compare (Player a, Player b) {
+                    if (a.getScore() > b.getScore()) {
+                        return -1;
+                    } else if (a.getScore() < b.getScore()) {    
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            }
+        );
+
+        for (Player player : numberOfPlayers) {
+            queue.add(player);
+        }
         
-        for (int i = 0; i < this.numberOfPlayers.size(); i++) {
-            JLabel newLabel = new JLabel(this.numberOfPlayers.get(i).toString());
+        for (var player : queue) {
+            JLabel newLabel = new JLabel(player.toString());
             newLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             this.finalPanel.add(newLabel);
         }
