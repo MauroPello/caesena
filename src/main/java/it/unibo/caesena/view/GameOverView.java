@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
 import javax.swing.*;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import it.unibo.caesena.model.Player;
 
 public class GameOverView extends View{
@@ -18,9 +19,10 @@ public class GameOverView extends View{
     public GameOverView (GUI userInterface) {
         super(userInterface);
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new GridBagLayout());
         this.mainFont = new Font("SansSerif", Font.BOLD, 20);        
         this.finalPanel = new JPanel();
+        this.finalPanel.setLayout(new BoxLayout(this.finalPanel, BoxLayout.Y_AXIS));
         this.players = userInterface.getController().getPlayers();
 
         JLabel playersLabel = new JLabel("Game Over: ");
