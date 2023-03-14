@@ -7,11 +7,15 @@ import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Color;
 import it.unibo.caesena.view.components.BoardComponent;
 import it.unibo.caesena.view.components.BoardComponentImpl;
+import it.unibo.caesena.view.components.FooterComponent;
+import it.unibo.caesena.view.components.FooterComponentImpl;
+
 import java.awt.event.*;
 
 public class GameView extends View {
     private final Controller controller;
     private BoardComponent<JPanel> board;
+    private FooterComponent<JPanel> footer;
 
     public GameView(GUI userInterface) {
         super(userInterface);
@@ -24,8 +28,9 @@ public class GameView extends View {
         this.controller.startGame();
         Tile firstTile = controller.getCurrentTile();
         this.board = new BoardComponentImpl(controller, firstTile);
+        this.footer = new FooterComponentImpl(controller);
         this.add(board.getComponent(), BorderLayout.CENTER);
-        this.add(getTableTop(), BorderLayout.SOUTH);
+        this.add(footer.getComponent(), BorderLayout.SOUTH);
         this.add(getMapControls(), BorderLayout.EAST);
     }
 
@@ -94,6 +99,7 @@ public class GameView extends View {
     //TODO implementare component getTableTop
     private Component getTableTop() {
         return new JButton("South");
+        //return new FooterComponentImpl(controller);
     }
 
     public ActionListener zoomInEventListener() {

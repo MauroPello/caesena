@@ -12,9 +12,7 @@ import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
 
-public class FooterComponentImpl implements FooterComponent{
-    
-    private JPanel footer = new JPanel();
+public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
 
     JButton playerColorButton = new JButton();
     JLabel playerMeepleLabel = new JLabel();
@@ -26,21 +24,23 @@ public class FooterComponentImpl implements FooterComponent{
 
     public FooterComponentImpl(final Controller Controller)
     {
+        super();
+
         playerColorButton.setSize(new Dimension(40, 40));
         tileImageButton.setSize(new Dimension(40, 40));
         rotateButton.setSize(new Dimension(40, 40));
 
-        footer.setLayout(new BoxLayout(footer, BoxLayout.X_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         
         playerColorButton.setEnabled(false);
-        footer.add(playerColorButton);
+        this.add(playerColorButton);
 
-        footer.add(playerMeepleLabel);
-        footer.add(playerNameLabel);
-        footer.add(playerScoreLabel);
+        this.add(playerMeepleLabel);
+        this.add(playerNameLabel);
+        this.add(playerScoreLabel);
 
         tileImageButton.setEnabled(false);
-        footer.add(tileImageButton);
+        this.add(tileImageButton);
         
         rotateButton.addActionListener(new ActionListener(){
 
@@ -50,7 +50,14 @@ public class FooterComponentImpl implements FooterComponent{
             }
             
         });
-        footer.add(rotateButton);
-        footer.add(remainingTilesLabel);
+        this.add(rotateButton);
+        this.add(remainingTilesLabel);
+
+        this.setVisible(true);
+    }
+
+    @Override
+    public JPanel getComponent() {
+       return this;
     }
 }
