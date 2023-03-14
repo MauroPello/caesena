@@ -32,10 +32,10 @@ public class StartView extends View {
         this.setBackground(java.awt.Color.BLACK);
 
         Font mainFont = new Font("SansSerif", Font.BOLD, 20);
-        
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        
+
         JPanel playersNumPanel = new JPanel();
         JLabel playersLabel = new JLabel("Players:");
         playersLabel.setFont(mainFont);
@@ -80,7 +80,7 @@ public class StartView extends View {
                 userInterface.getController().addPlayer(player.getX(), Color.createCustomColor(player.getY()));
             }
 
-            userInterface.showGameOverView();
+            userInterface.showGameView();
         });
         JPanel startGamePanel = new JPanel();
         startGamePanel.add(startButton);
