@@ -3,7 +3,7 @@ package it.unibo.caesena.view;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,8 @@ public class StartView extends View {
     public StartView(GUI userInterface) {
         super(userInterface);
         this.playerInputs = new ArrayList<>();
-        this.setLayout(new BorderLayout());
+        this.setLayout(new GridBagLayout());
+        this.setBackground(java.awt.Color.BLACK);
 
         Font mainFont = new Font("SansSerif", Font.BOLD, 20);
         
@@ -67,7 +68,6 @@ public class StartView extends View {
         for (int i = 0; i < MIN_PLAYERS; i++) {
             addPlayerInput();
         }
-        // TODO scrolling panel (JScrollPane???)
         JScrollPane playersScrollPane = new JScrollPane(playersPanel);
         playersScrollPane.setAutoscrolls(true);
         playersScrollPane.setBorder(null);
@@ -82,7 +82,7 @@ public class StartView extends View {
 
             userInterface.showGameOverView();
         });
-        var startGamePanel = new JPanel();
+        JPanel startGamePanel = new JPanel();
         startGamePanel.add(startButton);
         startGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(startGamePanel);
