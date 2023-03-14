@@ -12,7 +12,7 @@ import it.unibo.caesena.model.Player;
 public class GameOverView extends View{
 
     private final JPanel finalPanel;
-    private final List<Player> numberOfPlayers;
+    private final List<Player> players;
     private Font mainFont;
 
     public GameOverView (GUI userInterface) {
@@ -21,22 +21,22 @@ public class GameOverView extends View{
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.mainFont = new Font("SansSerif", Font.BOLD, 20);        
         this.finalPanel = new JPanel();
-        this.numberOfPlayers = userInterface.getController().getPlayers();
+        this.players = userInterface.getController().getPlayers();
 
         JLabel playersLabel = new JLabel("Game Over: ");
         playersLabel.setFont(mainFont);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.finalPanel.add(playersLabel);
 
-        PriorityQueue<Player> queue = new PriorityQueue<>(
+        PriorityQueue<Player> queue = new PriorityQueue<> (
             new Comparator<Player>() {
                 public int compare (Player a, Player b) {
-                    return Integer.compare(a.getScore(), b.getScore());
+                    return Integer.compare(b.getScore(), a.getScore());
                 }
             }
         );
 
-        for (Player player : numberOfPlayers) {
+        for (Player player : players) {
             queue.add(player);
         }
         
