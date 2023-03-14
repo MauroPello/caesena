@@ -184,34 +184,38 @@ public class ControllerImpl implements Controller {
             for (var entry : toCheck.entrySet()) {
                 if (Direction.match(entry.getKey(), position, neighbour.getPosition().get())) {
                     for (var section : entry.getValue()) {
-                        GameSet neighbourGameSet = neighbour.getGameSet(section);
-                        GameSet currentTileGameSet = currentTile.getGameSet(TileSection.getOpposite(section));
-                        GameSet joinedGameSet = new GameSetFactoryImpl().createJoinedSet(neighbourGameSet, currentTileGameSet);
+                        if (neighbour.getGameSet(section).getType().equals(currentTile.getGameSet(TileSection.getOpposite(section)).getType()) &&
+                        !neighbour.getGameSet(section).equals(currentTile.getGameSet(TileSection.getOpposite(section)))) {
 
-                        for (Tile tile : gameSets.get(neighbourGameSet)) {
-                            for (var tileSection : TileSection.values()) {
-                                if(tile.getGameSet(tileSection).equals(neighbourGameSet)) {
-                                    tile.putSection(tileSection, joinedGameSet);
+                            GameSet neighbourGameSet = neighbour.getGameSet(section);
+                            GameSet currentTileGameSet = currentTile.getGameSet(TileSection.getOpposite(section));
+                            GameSet joinedGameSet = new GameSetFactoryImpl().createJoinedSet(neighbourGameSet, currentTileGameSet);
+
+                            for (Tile tile : gameSets.get(neighbourGameSet)) {
+                                for (var tileSection : TileSection.values()) {
+                                    if(tile.getGameSet(tileSection).equals(neighbourGameSet)) {
+                                        tile.putSection(tileSection, joinedGameSet);
+                                    }
                                 }
                             }
-                        }
-                        neighbour.closeSection(section);
-                        neighbour.putSection(section, joinedGameSet);
+                            neighbour.closeSection(section);
+                            neighbour.putSection(section, joinedGameSet);
 
-                        for (Tile tile : gameSets.get(currentTileGameSet)) {
-                            for (var tileSection : TileSection.values()) {
-                                if(tile.getGameSet(tileSection).equals(currentTileGameSet)) {
-                                    tile.putSection(tileSection, joinedGameSet);
+                            for (Tile tile : gameSets.get(currentTileGameSet)) {
+                                for (var tileSection : TileSection.values()) {
+                                    if(tile.getGameSet(tileSection).equals(currentTileGameSet)) {
+                                        tile.putSection(tileSection, joinedGameSet);
+                                    }
                                 }
                             }
-                        }
-                        currentTile.closeSection(TileSection.getOpposite(section));
-                        currentTile.putSection(TileSection.getOpposite(section), joinedGameSet);
+                            currentTile.closeSection(TileSection.getOpposite(section));
+                            currentTile.putSection(TileSection.getOpposite(section), joinedGameSet);
 
-                        Set<Tile> tiles = new HashSet<>();
-                        tiles.addAll(gameSets.remove(neighbourGameSet));
-                        tiles.addAll(gameSets.remove(currentTileGameSet));
-                        gameSets.put(joinedGameSet, neighbours);
+                            Set<Tile> tiles = new HashSet<>();
+                            tiles.addAll(gameSets.remove(neighbourGameSet));
+                            tiles.addAll(gameSets.remove(currentTileGameSet));
+                            gameSets.put(joinedGameSet, neighbours);
+                        }
                     }
                 }
             }
