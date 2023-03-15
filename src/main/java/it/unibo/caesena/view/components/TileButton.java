@@ -58,16 +58,19 @@ public class TileButton extends JButton {
     }
 
     private void redraw() {
-        String imagePath = DEFAULT_IMAGE_PATH.toString();
-        if (containedTile.isPresent()){
+        String imagePath = "";
+
+        if (containedTile.isPresent()) {
+            imagePath = containedTile.get().getImageResourcesPath();
+        } else {
             try {
-                imagePath = Paths.get(ClassLoader.getSystemResource(containedTile.get().getImageResourcesPath()).toURI()).toString();
+                imagePath = Paths.get(DEFAULT_IMAGE_PATH.toURI()).toString();
             } catch (URISyntaxException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        } else {
-            imagePath = DEFAULT_IMAGE_PATH.getPath();
         }
+
         ImageIcon icon = new ImageIcon(imagePath);
         if (this.getHeight()!=0 && this.getWidth()!=0 ) {
             this.setIcon(resizeIcon(icon, this.getHeight(), this.getWidth()));

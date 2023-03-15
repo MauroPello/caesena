@@ -31,9 +31,6 @@ final class TileTest {
 
     @Test
     public void testGetters() {
-        String path = tile.getImageResourcesPath();
-        assertEquals("it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP + "CITY_EDGE.png", path);
-
         assertFalse(tile.isPlaced());
         tile.setPosition(position);
         assertTrue(tile.isPlaced());

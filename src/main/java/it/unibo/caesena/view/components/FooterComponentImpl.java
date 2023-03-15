@@ -6,13 +6,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.awt.Image;
 //import java.awt.Color;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.Player;
-import it.unibo.caesena.utils.Color;
 
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
 
@@ -34,8 +28,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     JLabel playerScoreLabel = new JLabel("score");
     JButton rotateButton = new JButton("Rotate");
     JLabel remainingTilesLabel = new JLabel("N° tile");
-
-    private Color playerColor;
 
     public FooterComponentImpl(final Controller Controller)
     {
@@ -59,20 +51,11 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.playerColorPanel.addPropertyChangeListener("background", (p) -> {
             // playerColor = (Color)p.getNewValue();
             // playerColorPanel.setBackground((Color)Color.createCustomColor(Controller.getCurrentPlayer().getColor().getHex()));
-            Player ciao = Controller.getCurrentPlayer();
+            // Player ciao = Controller.getCurrentPlayer();
             //playerColorPanel.setBackground();
         });
         
-        String imagePath = "";
-        try {
-            imagePath = Paths.get(ClassLoader.getSystemResource(Controller.getCurrentTile().getImageResourcesPath()).toURI()).toString();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        ImageIcon icon = new ImageIcon(imagePath);
-        //Image img = icon.getImage();
-        //img = img.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
-
+        ImageIcon icon = new ImageIcon(Controller.getCurrentTile().getImageResourcesPath());
         this.tileImageLabel = new JLabel(icon);
         tileImageLabel.setPreferredSize(new Dimension(40, 40));
         tileImageLabel.setMinimumSize(new Dimension(40, 40));

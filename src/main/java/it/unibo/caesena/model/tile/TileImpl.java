@@ -1,6 +1,8 @@
 package it.unibo.caesena.model.tile;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -58,7 +60,11 @@ public class TileImpl implements Tile {
 
     @Override
     public String getImageResourcesPath() {
-        return ROOT + this.type.name() + "." + IMAGE_FORMAT;
+        try {
+            return Paths.get(ClassLoader.getSystemResource(ROOT + this.type.name() + "." + IMAGE_FORMAT).toURI()).toString();
+        } catch (URISyntaxException e) {
+            return ROOT + "TILE_BACK" + "." + IMAGE_FORMAT;
+        }
     }
 
     @Override

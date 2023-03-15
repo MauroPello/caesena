@@ -78,12 +78,6 @@ public class MapControlsComponentImpl extends JPanel implements MapControlsCompo
         currentMapControlsComponent.add(EndTurn);
     }
 
-    
-    
-    
-    private void ciao() {
-
-    }
     /*
      * pulsante zoom
      * pulsante dezoom
