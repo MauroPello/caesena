@@ -2,8 +2,11 @@ package it.unibo.caesena.view;
 
 import java.awt.Toolkit;
 import java.awt.Dimension;
+import java.awt.Container;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.OverlayLayout;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.utils.Color;
@@ -18,6 +21,7 @@ public class GUI extends JFrame implements UserInterface {
     private View gameView;
     private View pauseView;
     private View gameOverView;
+    private JPanel gamePanel;
 
     public GUI(final Controller controller) {
         super();
@@ -54,6 +58,7 @@ public class GUI extends JFrame implements UserInterface {
         this.pauseView = null;
         this.gameView = null;
         this.gameOverView = null;
+        this.gamePanel = null;
 
         this.startView.setVisible(true);
         this.setContentPane(startView);
@@ -67,29 +72,35 @@ public class GUI extends JFrame implements UserInterface {
         this.startView = null;
         this.gameView = new GameView(this);
         this.pauseView = new PauseView(this);
+        this.gamePanel = new JPanel();
+        this.gamePanel.setLayout(new OverlayLayout(this.gamePanel));
 
         // TODO cambia sta roba
         ((GameView)gameView).start();
         this.gameView.setVisible(true);
-        this.setContentPane(gameView);
+        this.pauseView.setVisible(false);
+        this.gamePanel.add(this.pauseView);
+        this.gamePanel.add(this.gameView);
+
+        this.setContentPane(gamePanel);
         this.validate();
         this.repaint();
     }
 
     public void showPauseView() {
-        this.gameView.setVisible(false);
         this.pauseView.setVisible(true);
+        setEnabledAllComponents(gameView, false);
+        setEnabledAllComponents(pauseView, true);
 
-        this.setContentPane(pauseView);
         this.validate();
         this.repaint();
     }
 
     public void hidePauseView() {
         this.pauseView.setVisible(false);
-        this.gameView.setVisible(true);
+        setEnabledAllComponents(gameView, true);
+        setEnabledAllComponents(pauseView, false);
 
-        this.setContentPane(gameView);
         this.validate();
         this.repaint();
     }
@@ -113,5 +124,14 @@ public class GUI extends JFrame implements UserInterface {
 
     public Controller getController() {
         return this.controller;
+    }
+
+    private void setEnabledAllComponents(Container container, boolean enabled) {
+        for (var component : container.getComponents()) {
+            component.setEnabled(enabled);
+            if (component instanceof Container) {
+                setEnabledAllComponents(((Container)component), enabled);
+            }
+        }   
     }
 }
