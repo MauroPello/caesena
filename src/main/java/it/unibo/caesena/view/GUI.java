@@ -6,10 +6,14 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.utils.Color;
 
 public class GUI extends JFrame implements UserInterface {
-
-    private  Controller controller;
+    // TODO rimuovere
+    // RAGA È SOLO PER DEBUG, SE ATTIVO UNO DISATTIVATE GLI ALTRI!!
+    private static boolean DEBUG_GAME_VIEW = true;
+    private static boolean DEBUG_GAME_OVER_VIEW = false;
+    private Controller controller;
     private View startView;
     private View gameView;
     private View pauseView;
@@ -29,8 +33,20 @@ public class GUI extends JFrame implements UserInterface {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        
-        showStartView();
+
+        //TODO rimuovere
+        if (DEBUG_GAME_VIEW || DEBUG_GAME_OVER_VIEW) {
+            Color color1 = Color.createColor("FF0000", "Red");
+            Color color2 = Color.createColor("00FF00", "Green");
+            this.controller.addPlayer("Giocatore1", color1);
+            this.controller.addPlayer("Giocatore2", color2);
+            this.startGame();
+            if (DEBUG_GAME_OVER_VIEW) {
+                this.showGameOverView();
+            }
+        } else {
+            this.showStartView();
+        }
     }
 
     public void showStartView() {
@@ -38,7 +54,7 @@ public class GUI extends JFrame implements UserInterface {
         this.pauseView = null;
         this.gameView = null;
         this.gameOverView = null;
-        
+
         this.startView.setVisible(true);
         this.setContentPane(startView);
         this.validate();
@@ -46,12 +62,12 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void startGame() {
-        this.startView.setVisible(false);
+        //this.startView.setVisible(false);
 
         this.startView = null;
         this.gameView = new GameView(this);
         this.pauseView = new PauseView(this);
-        
+
         // TODO cambia sta roba
         ((GameView)gameView).start();
         this.gameView.setVisible(true);
@@ -84,7 +100,7 @@ public class GUI extends JFrame implements UserInterface {
         this.gameView.setVisible(false);
         this.pauseView.setVisible(false);
         this.gameOverView.setVisible(true);
-        
+
         this.setContentPane(gameOverView);
         this.validate();
         this.repaint();

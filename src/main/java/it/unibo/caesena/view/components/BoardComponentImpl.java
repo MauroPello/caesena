@@ -139,7 +139,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public void moveUp() {
         if(canMoveUp()) {
-            currentHorizontalOffset--;
+            currentVerticalOffset--;
             drawBoard();
             repaint();
         } else {
@@ -150,7 +150,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public void moveDown() {
         if(canMoveUp()) {
-            currentHorizontalOffset++;
+            currentVerticalOffset++;
             drawBoard();
             repaint();
         } else {
@@ -161,7 +161,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public void moveLeft() {
         if(canMoveUp()) {
-            currentVerticalOffset--;
+            currentHorizontalOffset--;
             drawBoard();
             repaint();
         } else {
@@ -172,7 +172,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public void moveRight() {
         if(canMoveUp()) {
-            currentVerticalOffset++;
+            currentHorizontalOffset++;
             drawBoard();
             repaint();
         } else {

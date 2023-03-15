@@ -3,7 +3,6 @@ package it.unibo.caesena.view;
 import javax.swing.*;
 import java.awt.*;
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.utils.Color;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.components.BoardComponent;
 import it.unibo.caesena.view.components.BoardComponentImpl;
@@ -23,7 +22,6 @@ public class GameView extends View {
     }
 
     public void start() {
-        this.gameSetupDebug();
         this.controller.startGame();
         this.board = new BoardComponentImpl(controller);
         this.setLayout(new BorderLayout());
@@ -31,13 +29,6 @@ public class GameView extends View {
         this.add(board.getComponent(), BorderLayout.CENTER);
         this.add(footer.getComponent(), BorderLayout.SOUTH);
         this.add(getMapControls(), BorderLayout.EAST);
-    }
-
-    private void gameSetupDebug() {
-        Color color1 = Color.createColor("FF0000", "Red");
-        Color color2 = Color.createColor("00FF00", "Green");
-        this.controller.addPlayer("Giocatore1", color1);
-        this.controller.addPlayer("Giocatore2", color2);
     }
 
     //TODO implementare component getMapControls
