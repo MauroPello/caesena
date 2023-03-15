@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.JPanel;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.Tile;
@@ -12,33 +13,29 @@ import it.unibo.caesena.utils.Pair;
 public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private final static int DEFAULT_ZOOM_LEVEL = 11;
     private final Controller controller;
-    private final Set<TileButton> visibleTileButtons;
+    //private final Set<TileButton> visibleTileButtons;
     private final Set<TileButton> allTileButtons;
     private JPanel currentTileButtonsContainer;
     private int currentFieldSize = DEFAULT_ZOOM_LEVEL;
     private int currentZoom = 0;
     private int currentHorizontalOffset = 0;
     private int currentVerticalOffset = 0;
+    private TileButton currentTileButtonPlaced;
 
-    //TODO capire se ha senso avere Tile, un'interfaccia del model, direttamente nella view.
-    public BoardComponentImpl(Controller controller, Tile tile) {
+    public BoardComponentImpl(Controller controller) {
         this.controller = controller;
-        this.visibleTileButtons = new HashSet<>();
+        //this.visibleTileButtons = new HashSet<>();
         this.allTileButtons = new HashSet<>();
-        this.initField();
-        this.setFirstTile(tile);
+        this.init();
     }
 
-    private void setFirstTile(Tile tile) {
-        Pair<Integer, Integer> centerPosition = getCenterPosition();
-        TileButton firstTileButton = allTileButtons.stream()
-            .filter(x -> x.getPosition().equals(centerPosition))
-            .findFirst().get();
-        setTile(firstTileButton, tile.getImageResourcesPath());
+    private void init() {
+        drawBoard();
+        setFirstTile();
     }
 
-    private void setVisibleField() {
-        visibleTileButtons.clear();
+    private void drawBoard() {
+        //visibleTileButtons.clear();
         this.removeAll();
         this.currentTileButtonsContainer = getSquareJPanel();
 
@@ -52,7 +49,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
                 int horizontalCoordinate = currentHorizontalOffset + i;
                 int verticalCoordinate = currentVerticalOffset + j;
                 TileButton fieldCell = findTileButton(horizontalCoordinate, verticalCoordinate);
-                visibleTileButtons.add(fieldCell);
+                //visibleTileButtons.add(fieldCell);
                 currentTileButtonsContainer.add(fieldCell);
             }
         }
@@ -68,7 +65,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             .filter(x -> x.getPosition().equals(coordinatesAsPair))
             .findFirst();
         if (searchedTileOptional.isEmpty()) {
-            searchedTile = new TileButton(horizontalCoordinate, verticalCoordinate, this);
+            searchedTile = new TileButton(horizontalCoordinate, verticalCoordinate, getTileButtonActionListener());    //, this);
             allTileButtons.add(searchedTile);
         } else {
             searchedTile = searchedTileOptional.get();
@@ -76,14 +73,13 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return searchedTile;
     }
 
-    private void initField() {
-        for (int i = 0; i < DEFAULT_ZOOM_LEVEL; i++) {
-            for (int j = 0; j < DEFAULT_ZOOM_LEVEL; j++) {
-                TileButton fieldCell = new TileButton(j, i, this);
-                allTileButtons.add(fieldCell);
-            }
-        }
-        setVisibleField();
+    private void setFirstTile() {
+        Pair<Integer, Integer> centerPosition = getCenterPosition();
+        Tile tile = this.controller.getCurrentTile();
+        TileButton firstTileButton = allTileButtons.stream()
+            .filter(x -> x.getPosition().equals(centerPosition))
+            .findFirst().get();
+        firstTileButton.setImage(tile.getImageResourcesPath());
     }
 
     private JPanel getSquareJPanel() {
@@ -108,8 +104,26 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return this.controller.getCurrentTile().getImageResourcesPath();
     }
 
-    private void setTile(TileButton tileButton, String Image) {
-        tileButton.setActualTile(Image);
+    public TileButton getCurrentlyPlacedTileButton() {
+        return currentTileButtonPlaced;
+    }
+
+    public void setCurrentlyPlacedTileButton(TileButton tileButton) {
+        currentTileButtonPlaced = tileButton;
+    }
+
+    private ActionListener getTileButtonActionListener() {
+        return (e) -> {
+            TileButton selectedTileButton = (TileButton)e.getSource();
+            if (currentTileButtonPlaced.equals(selectedTileButton)) {
+                
+            }
+
+            // String imagePath = getCurrentTileImageResourcePath();
+            // setImage(imagePath);
+            // this.resize();
+            // repaint();
+        };
     }
 
     //TODO implementare
@@ -121,7 +135,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void zoomIn() {
         if (canZoomIn()) {
             currentZoom++;
-            setVisibleField();
+            drawBoard();
             repaint();
         }
         else {
@@ -133,7 +147,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void zoomOut() {
         if(canZoomOut()) {
             currentZoom--;
-            setVisibleField();
+            drawBoard();
             repaint();
         } else {
             throw new IllegalStateException("Tried to zoom out but was not allowed");
@@ -144,7 +158,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void moveUp() {
         if(canMoveUp()) {
             currentHorizontalOffset--;
-            setVisibleField();
+            drawBoard();
             repaint();
         } else {
             throw new IllegalStateException("Tried to move up but was not allowed");
@@ -155,7 +169,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void moveDown() {
         if(canMoveUp()) {
             currentHorizontalOffset++;
-            setVisibleField();
+            drawBoard();
             repaint();
         } else {
             throw new IllegalStateException("Tried to move down but was not allowed");
@@ -166,7 +180,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void moveLeft() {
         if(canMoveUp()) {
             currentVerticalOffset--;
-            setVisibleField();
+            drawBoard();
             repaint();
         } else {
             throw new IllegalStateException("Tried to move laft but was not allowed");
@@ -177,7 +191,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void moveRight() {
         if(canMoveUp()) {
             currentVerticalOffset++;
-            setVisibleField();
+            drawBoard();
             repaint();
         } else {
             throw new IllegalStateException("Tried to move laft but was not allowed");
@@ -186,7 +200,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public boolean canZoomIn() {
-        return visibleTileButtons.size() != 1;
+        return true;
     }
     //TODO tutti sti controlli
     @Override
@@ -217,6 +231,12 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public JPanel getComponent() {
        return this;
+    }
+
+    @Override
+    public void placeTile() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'placeTile'");
     }
 
 }

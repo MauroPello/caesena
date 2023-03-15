@@ -14,6 +14,8 @@ public interface BoardComponent<X> {
 
     void moveRight();
 
+    void placeTile();
+
     boolean canZoomIn();
 
     boolean canZoomOut();

@@ -14,19 +14,19 @@ public class TileButton extends JButton {
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
     private static final URL DEFAULT_IMAGE_PATH = ClassLoader.getSystemResource(ROOT + "TILE_BACK.png");
     private final Pair<Integer, Integer> position;
-    private final BoardComponentImpl parent;
+    //private BoardComponentImpl parent;
     private ImageIcon icon;
     private boolean hasTile;
     private boolean hasMeeple;
 
-    public TileButton(int x, int y, BoardComponentImpl parent) {
+    public TileButton(int x, int y, ActionListener onSelection) {//, BoardComponentImpl parent) {
         super();
         this.icon = new ImageIcon(DEFAULT_IMAGE_PATH);
         this.hasTile = false;
         this.hasMeeple = false;
         this.position = new Pair<Integer,Integer>(x, y);
-        this.parent = parent;
-        this.addActionListener(this.OnSelection());
+        // this.parent = parent;
+        this.addActionListener(onSelection);
         this.addComponentListener(this.OnResizeOrShown());
         this.setContentAreaFilled(false);
     }
@@ -35,18 +35,14 @@ public class TileButton extends JButton {
         return position;
     }
 
-    public void setActualTile(String imagePath) {
-        setImage(imagePath);
+    public void setImage(String imagePath) {
+        URL url = ClassLoader.getSystemResource(imagePath);
+        this.icon = new ImageIcon(url);
         hasTile = true;
     }
 
     public void setMeeple() {
         hasMeeple = true;
-    }
-
-    private void setImage(String imagePath) {
-        URL url = ClassLoader.getSystemResource(imagePath);
-        this.icon = new ImageIcon(url);
     }
 
     public boolean containsTile(){
@@ -66,15 +62,6 @@ public class TileButton extends JButton {
 
     public void resize() {
         this.setIcon(resizeIcon(icon, this.getHeight(), this.getWidth()));
-    }
-
-    private ActionListener OnSelection() {
-        return (e) -> {
-            String imagePath = this.parent.getCurrentTileImageResourcePath();
-            setImage(imagePath);
-            this.resize();
-            repaint();
-        };
     }
 
     private ComponentListener OnResizeOrShown() {
