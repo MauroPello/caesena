@@ -44,8 +44,12 @@ public class ControllerImpl implements Controller {
         Collections.shuffle(players);
         currentPlayer = players.get(0);
         buildAllTiles();
-        currentTile = tiles.get(0);
+        Collections.shuffle(tiles);
+        drawNewTile();
+
     }
+
+
 
     private void buildAllTiles() {
         List<String> lines;
@@ -83,37 +87,26 @@ public class ControllerImpl implements Controller {
         this.currentTile.rotateClockwise();
     }
 
-    @Override
-    public boolean placeCurrentTile(Pair<Integer, Integer> position) {
-        //controllo che in position ci sia già stata piazzata un'altra tile
+    //TODO mettere in interfaccia
+    public boolean isValidPositionForCurrentTile(Pair<Integer, Integer> position) {
         for (var entry : getPlacedTiles()) {
-            if (entry.getPosition().get().getX() == position.getX()
-                &&
-                entry.getPosition().get().getY() == position.getY()) {
+            if (entry.getPosition().get().equals(position)) {
                 return false;
             }
         }
-        //in caso negativo:
 
         Set<Tile> neighbours = getTileNeighbours(position);
-        //neighbours sono le MAX 4 pedine adiacenti
-        //se neighbourn è vuoto termino
+
         if (neighbours.isEmpty() && !getPlacedTiles().isEmpty()) {
             return false;
         }
 
-        //ogni Elemento della mappa è un set di valori da controllare
         Map<Direction, Set<TileSection>> toCheck = new HashMap<>();
         toCheck.put(Direction.UP, Set.of(TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight));
         toCheck.put(Direction.DOWN, Set.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight));
         toCheck.put(Direction.LEFT, Set.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown));
         toCheck.put(Direction.RIGHT, Set.of(TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown));
 
-        //per ogni neighbour in neighbours
-        //controllo in ognuna delle direzioni possibili
-        //per ogni direzione controllo che le tile siano adiacenti
-        //per ogni section della direzione poi controllo che abbia lo stesso tipo di Gameset
-        //in caso contrario ritorna false
         for (Tile neighbour : neighbours) {
             for (var entry : toCheck.entrySet()) {
                 if (Direction.match(entry.getKey(), position, neighbour.getPosition().get())) {
@@ -126,7 +119,16 @@ public class ControllerImpl implements Controller {
             }
         }
 
-        // place tile and for every section add the corresponding gameset to gamesets
+        return true;
+    }
+
+    @Override
+    public boolean placeCurrentTile(Pair<Integer, Integer> position) {
+
+        if (!isValidPositionForCurrentTile(position)) {
+            return false;
+        }
+
         this.currentTile.setPosition(position);
         for (var section : TileSection.values()) {
             if (!gameSets.containsKey(currentTile.getGameSet(section))) {
@@ -138,47 +140,12 @@ public class ControllerImpl implements Controller {
             }
         }
 
-        //per ogni neighbour
-        //controllo ognuna delle direzioni possibili
-        //per ogni direzione controllo che le tile siano adiacenti
-        //--
-        //per ogni section della direzione di neighbour poi controllo che abbia lo stesso tipo
-        //di Gameset con la direzione opposta di currentTile
-        //e che il Gameset delle due tile non sia lo stesso
-        //sempre per ogni section:
-        //in caso positivo chiudo le section di entrambe le tile
-        //creao un nuovo gameset composto dai due gameset di neighbour e currentTile
-        //metto nella mappa sections i gameset di entrambe le tile con chiave section e sectionOpposite
-        //creo un nuovo set tile a cui unisco il gameset del vicino con quello di current tile
-        //elimino da gamesets il set con la chiave gameset in quanto ne aggiungo un altro con gameset joined
-        //creato prima e il set tile ampliato della tile correnteù
-        //--
-        //
-
-        /*for (Tile neighbour : neighbours) {
-            for (var entry : toCheck.entrySet()) {
-                if (Direction.match(entry.getKey(), position, neighbour.getPosition().get())) {
-                    for (var section : entry.getValue()) {
-                        // TODO join gameSets correctly
-                        if (neighbour.getGameSet(section).getType().equals(currentTile.getGameSet(TileSection.getOpposite(section)).getType()) &&
-                            !neighbour.getGameSet(section).equals(currentTile.getGameSet(TileSection.getOpposite(section)))) {
-                            
-                            neighbour.closeSection(section);
-                            currentTile.closeSection(TileSection.getOpposite(section));
-
-                            GameSet gameSet = new GameSetFactoryImpl().createJoinedSet(neighbour.getGameSet(section), currentTile.getGameSet(TileSection.getOpposite(section)));
-                            neighbour.putSection(section, gameSet);
-                            currentTile.putSection(TileSection.getOpposite(section), gameSet);
-
-                            Set<Tile> tiles = new HashSet<>();
-                            tiles.addAll(gameSets.remove(neighbour.getGameSet(section)));
-                            tiles.add(currentTile);
-                            gameSets.put(gameSet, tiles);
-                        }
-                    }
-                }
-            }
-        }*/
+        Set<Tile> neighbours = getTileNeighbours(position);
+        Map<Direction, Set<TileSection>> toCheck = new HashMap<>();
+        toCheck.put(Direction.UP, Set.of(TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight));
+        toCheck.put(Direction.DOWN, Set.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight));
+        toCheck.put(Direction.LEFT, Set.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown));
+        toCheck.put(Direction.RIGHT, Set.of(TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown));
 
         for (Tile neighbour : neighbours) {
             for (var entry : toCheck.entrySet()) {
@@ -274,6 +241,10 @@ public class ControllerImpl implements Controller {
 
         this.turn = (this.turn + 1) % this.players.size();
         this.currentPlayer = this.players.get(this.turn);
+        drawNewTile();
+    }
+
+    private void drawNewTile() {
         this.currentTile = this.getNotPlacedTiles().get(0);
     }
 
@@ -295,7 +266,7 @@ public class ControllerImpl implements Controller {
                         }
                     }
                 }
-                
+
                 fieldsNearCity.forEach(x -> x.addPoints(POINTS_CLOSED_CITY));
                 fieldsWithPoints.addAll(fieldsNearCity);
             }
@@ -345,7 +316,7 @@ public class ControllerImpl implements Controller {
         int value = 1;
 
         if (!gameset.isMeepleFree()) {
-            
+
             var checkOptional = gameset.close();
             if (checkOptional.isEmpty()) {
                 return ;
