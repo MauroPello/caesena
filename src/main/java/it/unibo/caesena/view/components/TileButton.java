@@ -3,7 +3,9 @@ package it.unibo.caesena.view.components;
 import java.awt.event.*;
 import java.awt.Image;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import javax.swing.Icon;
@@ -56,9 +58,13 @@ public class TileButton extends JButton {
     }
 
     private void redraw() {
-        String imagePath;
+        String imagePath = DEFAULT_IMAGE_PATH.toString();
         if (containedTile.isPresent()){
-            imagePath = ClassLoader.getSystemResource(containedTile.get().getImageResourcesPath()).getPath();
+            try {
+                imagePath = Paths.get(ClassLoader.getSystemResource(containedTile.get().getImageResourcesPath()).toURI()).toString();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         } else {
             imagePath = DEFAULT_IMAGE_PATH.getPath();
         }
