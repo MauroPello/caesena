@@ -46,10 +46,9 @@ public class ControllerImpl implements Controller {
         buildAllTiles();
         Collections.shuffle(tiles);
         drawNewTile();
-
+        this.placeCurrentTile(new Pair<Integer,Integer>(0, 0));
+        drawNewTile();
     }
-
-
 
     private void buildAllTiles() {
         List<String> lines;
@@ -87,7 +86,7 @@ public class ControllerImpl implements Controller {
         this.currentTile.rotateClockwise();
     }
 
-    //TODO mettere in interfaccia
+    @Override
     public boolean isValidPositionForCurrentTile(Pair<Integer, Integer> position) {
         for (var entry : getPlacedTiles()) {
             if (entry.getPosition().get().equals(position)) {

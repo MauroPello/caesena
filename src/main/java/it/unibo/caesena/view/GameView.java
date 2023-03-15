@@ -3,9 +3,8 @@ package it.unibo.caesena.view;
 import javax.swing.*;
 import java.awt.*;
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileBuilder;
 import it.unibo.caesena.utils.Color;
+import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.components.BoardComponent;
 import it.unibo.caesena.view.components.BoardComponentImpl;
 import it.unibo.caesena.view.components.FooterComponent;
@@ -60,7 +59,7 @@ public class GameView extends View {
         JButton moveRightButton = new JButton("RIGHT");
         JButton moveDownButton = new JButton("DOWN");
         JButton placeTile = new JButton("PLACETILE");
-        JButton placeMeeple = new JButton("PLACEMEEPLE");
+        JButton placeMeepleOrTile = new JButton("PLACEMEEPLE/PLACETILE");
         JButton endTurnButton = new JButton("ENDTURN");
 
         innerPanel.add(zoomInButton, constraints);
@@ -80,7 +79,7 @@ public class GameView extends View {
         constraints.gridy ++;
         innerPanel.add(placeTile, constraints);
         constraints.gridy ++;
-        innerPanel.add(placeMeeple, constraints);
+        innerPanel.add(placeMeepleOrTile, constraints);
         constraints.gridy ++;
         innerPanel.add(endTurnButton, constraints);
         constraints.gridy ++;
@@ -91,15 +90,27 @@ public class GameView extends View {
         moveLeftButton.addActionListener(moveLeftEventListener());
         moveDownButton.addActionListener(moveDownEventListener());
         moveRightButton.addActionListener(moveRightEventListener());
+        placeMeepleOrTile.addActionListener(placeMeepleOrTileEventListener());
+        endTurnButton.addActionListener(endTurnEventListener());
 
         OuterPanel.add(innerPanel);
         return OuterPanel;
     }
 
-    //TODO implementare component getTableTop
-    private Component getTableTop() {
-        return new JButton("South");
-        //return new FooterComponentImpl(controller);
+    private ActionListener placeMeepleOrTileEventListener() {
+        return (e) -> {
+            Pair<Integer, Integer> position = board.getCurrentlySelectedTileButton().getPosition();
+            if (this.controller.isValidPositionForCurrentTile(position)){
+                this.controller.placeCurrentTile(position);
+                this.board.lockTile();
+            } else {
+                throw new IllegalStateException("Tried to place tile in a not valid position");
+            }
+        };
+    }
+
+    private ActionListener endTurnEventListener() {
+        return (e) -> this.controller.endTurn();
     }
 
     public ActionListener zoomInEventListener() {

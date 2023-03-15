@@ -14,7 +14,7 @@ public interface BoardComponent<X> {
 
     void moveRight();
 
-    void placeTile();
+    void lockTile();
 
     boolean canZoomIn();
 
@@ -27,6 +27,8 @@ public interface BoardComponent<X> {
     boolean canMoveLeft();
 
     boolean canMoveRight();
+
+    TileButton getCurrentlySelectedTileButton();
 
     X getComponent();
 }

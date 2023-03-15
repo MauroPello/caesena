@@ -3,9 +3,11 @@ package it.unibo.caesena.view.components;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JPanel;
+
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
@@ -13,49 +15,48 @@ import it.unibo.caesena.utils.Pair;
 public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private final static int DEFAULT_ZOOM_LEVEL = 5;
     private final Controller controller;
-    //private final Set<TileButton> visibleTileButtons;
     private final Set<TileButton> allTileButtons;
     private JPanel currentTileButtonsContainer;
     private int currentFieldSize = DEFAULT_ZOOM_LEVEL;
     private int currentZoom = 0;
     private int currentHorizontalOffset = 0;
     private int currentVerticalOffset = 0;
-    private TileButton currentTileButtonPlaced;
+    private Optional<TileButton> currentTileButtonPlaced = Optional.empty();
 
     public BoardComponentImpl(Controller controller) {
         this.controller = controller;
-        //this.visibleTileButtons = new HashSet<>();
         this.allTileButtons = new HashSet<>();
-        this.init();
-    }
-
-    private void init() {
-        drawBoard();
-        setFirstTile();
+        this.drawBoard();
     }
 
     private void drawBoard() {
-        //visibleTileButtons.clear();
         this.removeAll();
         this.currentTileButtonsContainer = getSquareJPanel();
-
-        int minimum = this.currentZoom;
-        int maximum = DEFAULT_ZOOM_LEVEL - currentZoom;
+        int minimum = this.currentZoom - DEFAULT_ZOOM_LEVEL/2;
+        int maximum = DEFAULT_ZOOM_LEVEL - currentZoom - DEFAULT_ZOOM_LEVEL/2;
         this.currentFieldSize = DEFAULT_ZOOM_LEVEL - (currentZoom * 2);
-
         this.currentTileButtonsContainer.setLayout(new GridLayout(this.currentFieldSize, this.currentFieldSize));
+        updateTileButtonList();
         for (int i = minimum; i < maximum; i++) {
             for (int j = minimum; j < maximum; j++) {
                 int horizontalCoordinate = currentHorizontalOffset + i;
                 int verticalCoordinate = currentVerticalOffset + j;
                 TileButton fieldCell = findTileButton(horizontalCoordinate, verticalCoordinate);
-                //visibleTileButtons.add(fieldCell);
                 currentTileButtonsContainer.add(fieldCell);
             }
         }
         this.add(currentTileButtonsContainer);
         this.repaint();
         this.validate();
+    }
+
+    private void updateTileButtonList() {
+        List<Tile> placedTiles = controller.getPlacedTiles();
+        for (Tile tile : placedTiles) {
+            TileButton button = findTileButton(tile);
+            button.addTile(tile);
+            button.lockTile();
+        }
     }
 
     private TileButton findTileButton(int horizontalCoordinate, int verticalCoordinate) {
@@ -65,7 +66,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             .filter(x -> x.getPosition().equals(coordinatesAsPair))
             .findFirst();
         if (searchedTileOptional.isEmpty()) {
-            searchedTile = new TileButton(horizontalCoordinate, verticalCoordinate, getTileButtonActionListener());    //, this);
+            searchedTile = new TileButton(horizontalCoordinate, verticalCoordinate, getTileButtonActionListener());
             allTileButtons.add(searchedTile);
         } else {
             searchedTile = searchedTileOptional.get();
@@ -73,16 +74,9 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return searchedTile;
     }
 
-    private void setFirstTile() {
-        Pair<Integer, Integer> centerPosition = getCenterPosition();
-        Tile tile = this.controller.getCurrentTile();
-        TileButton firstTileButton = allTileButtons.stream()
-            .filter(x -> x.getPosition().equals(centerPosition))
-            .findFirst().get();
-        firstTileButton.addTile(tile);
-        firstTileButton.lockTile();
-        currentTileButtonPlaced = firstTileButton;
-        this.controller.placeCurrentTile(centerPosition);
+    private TileButton findTileButton(Tile tile) {
+        Pair<Integer, Integer> tilePosition = tile.getPosition().get();
+        return findTileButton(tilePosition.getX(), tilePosition.getY());
     }
 
     private JPanel getSquareJPanel() {
@@ -98,39 +92,31 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         };
     }
 
-    private Pair<Integer, Integer> getCenterPosition() {
-        final int value = DEFAULT_ZOOM_LEVEL/2;
-        return new Pair<Integer,Integer>(value, value);
-    }
-
     public String getCurrentTileImageResourcePath() {
         return this.controller.getCurrentTile().getImageResourcesPath();
     }
 
     public TileButton getCurrentlyPlacedTileButton() {
-        return currentTileButtonPlaced;
+        return currentTileButtonPlaced.get();
     }
 
     public void setCurrentlyPlacedTileButton(TileButton tileButton) {
-        currentTileButtonPlaced = tileButton;
+        currentTileButtonPlaced = Optional.of(tileButton);
     }
 
     private ActionListener getTileButtonActionListener() {
         return (e) -> {
             TileButton selectedTileButton = (TileButton)e.getSource();
-            //scusa pello devo fare commenti che sono stanco e non mi funziona il cervello
-            //l'idea è che una volta premuta una tilebutton nella board devo verificare se la tile precedentemente premuta
-            // è diversa da quella premuta ora. In tal caso bisgna deselezionare quella precedente.
-            if (!currentTileButtonPlaced.equals(selectedTileButton) && !currentTileButtonPlaced.isLocked()) {
-                currentTileButtonPlaced.removeTile();
+            if (this.controller.isValidPositionForCurrentTile(selectedTileButton.getPosition())) {
+                if (currentTileButtonPlaced.isPresent()){
+                    TileButton lastTileButtonPlaced = currentTileButtonPlaced.get();
+                    if (!currentTileButtonPlaced.equals(selectedTileButton) && !lastTileButtonPlaced.isLocked()) {
+                        lastTileButtonPlaced.removeTile();
+                    }
+                }
+                currentTileButtonPlaced = Optional.of(selectedTileButton);
+                currentTileButtonPlaced.get().addTile(this.controller.getCurrentTile());
             }
-            currentTileButtonPlaced = selectedTileButton;
-            currentTileButtonPlaced.addTile(this.controller.getCurrentTile());
-
-            // String imagePath = getCurrentTileImageResourcePath();
-            // setImage(imagePath);
-            // this.resize();
-            // repaint();
         };
     }
 
@@ -242,9 +228,13 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     @Override
-    public void placeTile() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'placeTile'");
+    public void lockTile() {
+        currentTileButtonPlaced.get().lockTile();
+    }
+
+    @Override
+    public TileButton getCurrentlySelectedTileButton() {
+        return currentTileButtonPlaced.get();
     }
 
 }
