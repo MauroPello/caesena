@@ -29,7 +29,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     JButton rotateButton = new JButton("Rotate");
     JLabel remainingTilesLabel = new JLabel("N° tile");
 
-    public FooterComponentImpl(final Controller Controller)
+    Controller controller;
+
+    public FooterComponentImpl(final Controller controller)
     {
         super();
         JPanel innerPanel = new JPanel();
@@ -55,7 +57,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             //playerColorPanel.setBackground();
         });
         
-        ImageIcon icon = new ImageIcon(Controller.getCurrentTile().getImageResourcesPath());
+        this.controller = controller;
+
+        ImageIcon icon = new ImageIcon(controller.getCurrentTile().getImageResourcesPath());
         this.tileImageLabel = new JLabel(icon);
         tileImageLabel.setPreferredSize(new Dimension(40, 40));
         tileImageLabel.setMinimumSize(new Dimension(40, 40));
@@ -87,7 +91,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.rotateCurrentTile();
+                controller.rotateCurrentTile();
             }
             
         });
@@ -132,5 +136,11 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     @Override
     public JPanel getComponent() {
        return this;
+    }
+
+    @Override
+    public void updateCurrentTile() {
+        ImageIcon icon = new ImageIcon(controller.getCurrentTile().getImageResourcesPath());
+        tileImageLabel.setIcon(new ImageIcon(icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
     }
 }

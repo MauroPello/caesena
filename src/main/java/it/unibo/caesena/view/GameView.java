@@ -101,7 +101,10 @@ public class GameView extends View {
     }
 
     private ActionListener endTurnEventListener() {
-        return (e) -> this.controller.endTurn();
+        return (e) -> { 
+            this.controller.endTurn();
+            footer.updateCurrentTile();
+        };
     }
 
     public ActionListener zoomInEventListener() {
