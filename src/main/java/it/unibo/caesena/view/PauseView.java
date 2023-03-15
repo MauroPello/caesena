@@ -3,11 +3,16 @@ package it.unibo.caesena.view;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 public class PauseView extends View {
 
@@ -15,6 +20,7 @@ public class PauseView extends View {
         super(userInterface);
         this.setLayout(new GridBagLayout());
         this.setBackground(java.awt.Color.BLACK);
+        this.setOpaque(false);
         
         Font mainFont = new Font("SansSerif", Font.BOLD, 20);
         
@@ -46,5 +52,12 @@ public class PauseView extends View {
         mainPanel.add(btn3);
 
         this.add(mainPanel);
+        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "hidePauseView");
+        this.getActionMap().put("hidePauseView", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                userInterface.hidePauseView();
+            }
+        });
     }
 }

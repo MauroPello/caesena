@@ -19,6 +19,14 @@ public class GameView extends View {
     public GameView(GUI userInterface) {
         super(userInterface);
         this.controller = getUserInterface().getController();
+
+        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "showPauseView");
+        this.getActionMap().put("showPauseView", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                userInterface.showPauseView();
+            }
+        });
     }
 
     public void start() {
