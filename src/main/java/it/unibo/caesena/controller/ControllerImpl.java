@@ -180,7 +180,7 @@ public class ControllerImpl implements Controller {
                             Set<Tile> tiles = new HashSet<>();
                             tiles.addAll(gameSets.remove(neighbourGameSet));
                             tiles.addAll(gameSets.remove(currentTileGameSet));
-                            gameSets.put(joinedGameSet, neighbours);
+                            gameSets.put(joinedGameSet, tiles);
                         }
                     }
                 }
