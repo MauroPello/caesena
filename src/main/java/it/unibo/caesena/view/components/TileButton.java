@@ -4,9 +4,14 @@ import java.awt.event.*;
 import java.awt.Image;
 import java.io.File;
 import java.net.URL;
+import java.util.Optional;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
 
 public class TileButton extends JButton {
@@ -14,18 +19,16 @@ public class TileButton extends JButton {
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
     private static final URL DEFAULT_IMAGE_PATH = ClassLoader.getSystemResource(ROOT + "TILE_BACK.png");
     private final Pair<Integer, Integer> position;
-    //private BoardComponentImpl parent;
-    private ImageIcon icon;
-    private boolean hasTile;
-    private boolean hasMeeple;
+    private Optional<Tile> containedTile;//TODO considerare la possibilità di avere un implementazione di tile e meeple che contenga solo cose inerenti alla view
+    private Optional<Meeple> placedMeeple;
+    private boolean locked = false;
 
-    public TileButton(int x, int y, ActionListener onSelection) {//, BoardComponentImpl parent) {
+
+    public TileButton(int x, int y, ActionListener onSelection) {
         super();
-        this.icon = new ImageIcon(DEFAULT_IMAGE_PATH);
-        this.hasTile = false;
-        this.hasMeeple = false;
+        this.containedTile = Optional.empty();
+        this.placedMeeple = Optional.empty();
         this.position = new Pair<Integer,Integer>(x, y);
-        // this.parent = parent;
         this.addActionListener(onSelection);
         this.addComponentListener(this.OnResizeOrShown());
         this.setContentAreaFilled(false);
@@ -35,22 +38,57 @@ public class TileButton extends JButton {
         return position;
     }
 
-    public void setImage(String imagePath) {
-        URL url = ClassLoader.getSystemResource(imagePath);
-        this.icon = new ImageIcon(url);
-        hasTile = true;
+    public void addTile(Tile tile) {
+        this.containedTile = Optional.of(tile);
+        redraw();
     }
 
-    public void setMeeple() {
-        hasMeeple = true;
+    public void lockTile() {
+        if (containedTile.isPresent()) {
+            locked = true;
+        } else {
+            throw new IllegalStateException("Can't lock tile since it's not present");
+        }
     }
 
-    public boolean containsTile(){
-        return this.hasTile;
+    public boolean isLocked() {
+        return locked;
+    }
+
+    private void redraw() {
+        String imagePath;
+        if (containedTile.isPresent()){
+            imagePath = ClassLoader.getSystemResource(containedTile.get().getImageResourcesPath()).getPath();
+        } else {
+            imagePath = DEFAULT_IMAGE_PATH.getPath();
+        }
+        ImageIcon icon = new ImageIcon(imagePath);
+        if (this.getHeight()!=0 && this.getWidth()!=0 ) {
+            this.setIcon(resizeIcon(icon, this.getHeight(), this.getWidth()));
+        } else {
+            this.setIcon(icon);
+        }
+    }
+
+    public void addMeeple() {
+        //TODO implementa
+    }
+
+    public void removeTile() {
+        this.containedTile = Optional.empty();
+        redraw();
+    }
+
+    public void removeMeeple() {
+        //TODO implementa
+    }
+
+    public boolean containsTile() {
+        return this.containedTile.isPresent();
     }
 
     public boolean containsMeeple(){
-        return this.hasMeeple;
+        return this.placedMeeple.isPresent();
     }
 
     //Courtesy of StackOverflow
@@ -60,21 +98,17 @@ public class TileButton extends JButton {
         return new ImageIcon(resizedImage);
     }
 
-    public void resize() {
-        this.setIcon(resizeIcon(icon, this.getHeight(), this.getWidth()));
-    }
-
     private ComponentListener OnResizeOrShown() {
         return new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 TileButton tileButton = (TileButton)e.getSource();
-                tileButton.resize();
+                tileButton.redraw();
             }
             @Override
             public void componentShown(ComponentEvent e) {
                 TileButton tileButton = (TileButton)e.getSource();
-                tileButton.resize();
+                tileButton.redraw();
             }
         };
     }

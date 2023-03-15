@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileBuilder;
 import it.unibo.caesena.utils.Color;
 import it.unibo.caesena.view.components.BoardComponent;
 import it.unibo.caesena.view.components.BoardComponentImpl;
@@ -26,7 +27,6 @@ public class GameView extends View {
         this.gameSetupDebug();
         this.controller.startGame();
         this.board = new BoardComponentImpl(controller);
-
         this.setLayout(new BorderLayout());
         this.footer = new FooterComponentImpl(controller);
         this.add(board.getComponent(), BorderLayout.CENTER);

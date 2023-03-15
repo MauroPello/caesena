@@ -11,7 +11,7 @@ import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
 
 public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
-    private final static int DEFAULT_ZOOM_LEVEL = 11;
+    private final static int DEFAULT_ZOOM_LEVEL = 5;
     private final Controller controller;
     //private final Set<TileButton> visibleTileButtons;
     private final Set<TileButton> allTileButtons;
@@ -79,7 +79,10 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         TileButton firstTileButton = allTileButtons.stream()
             .filter(x -> x.getPosition().equals(centerPosition))
             .findFirst().get();
-        firstTileButton.setImage(tile.getImageResourcesPath());
+        firstTileButton.addTile(tile);
+        firstTileButton.lockTile();
+        currentTileButtonPlaced = firstTileButton;
+        this.controller.placeCurrentTile(centerPosition);
     }
 
     private JPanel getSquareJPanel() {
@@ -115,9 +118,14 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     private ActionListener getTileButtonActionListener() {
         return (e) -> {
             TileButton selectedTileButton = (TileButton)e.getSource();
-            if (currentTileButtonPlaced.equals(selectedTileButton)) {
-                
+            //scusa pello devo fare commenti che sono stanco e non mi funziona il cervello
+            //l'idea è che una volta premuta una tilebutton nella board devo verificare se la tile precedentemente premuta
+            // è diversa da quella premuta ora. In tal caso bisgna deselezionare quella precedente.
+            if (!currentTileButtonPlaced.equals(selectedTileButton) && !currentTileButtonPlaced.isLocked()) {
+                currentTileButtonPlaced.removeTile();
             }
+            currentTileButtonPlaced = selectedTileButton;
+            currentTileButtonPlaced.addTile(this.controller.getCurrentTile());
 
             // String imagePath = getCurrentTileImageResourcePath();
             // setImage(imagePath);
