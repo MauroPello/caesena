@@ -1,46 +1,70 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Dimension;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
 
-public class FooterComponentImpl implements FooterComponent{
-    
-    private JPanel footer = new JPanel();
+public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
 
-    JButton playerColorButton = new JButton();
-    JLabel playerMeepleLabel = new JLabel();
-    JLabel playerNameLabel = new JLabel();
-    JLabel playerScoreLabel = new JLabel();
-    JButton tileImageButton = new JButton();
+    JButton playerColorButton = new JButton("color");
+    JLabel playerMeepleLabel = new JLabel("N° meeple");
+    JLabel playerNameLabel = new JLabel("name");
+    JLabel playerScoreLabel = new JLabel("score");
+    JButton tileImageButton = new JButton("tile");
     JButton rotateButton = new JButton("Rotate");
-    JLabel remainingTilesLabel = new JLabel();
+    JLabel remainingTilesLabel = new JLabel("N° tile");
 
     public FooterComponentImpl(final Controller Controller)
     {
+        super();
+        JPanel innerPanel = new JPanel();
+        this.setBackground(java.awt.Color.BLACK);
+        //innerPanel.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        innerPanel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.gridy = 0;
+        constraints.gridx = 1;
+        constraints.insets = new Insets(20, 10, 20, 10);
+        //constraints.gridwidth = GridBagConstraints.REMAINDER;
+
+        this.setSize(400, 400);
         playerColorButton.setSize(new Dimension(40, 40));
         tileImageButton.setSize(new Dimension(40, 40));
-        rotateButton.setSize(new Dimension(40, 40));
-
-        footer.setLayout(new BoxLayout(footer, BoxLayout.X_AXIS));
+        rotateButton.setSize(200, 200);
+        rotateButton.setBounds(100,100,100,100);
         
-        playerColorButton.setEnabled(false);
-        footer.add(playerColorButton);
+        innerPanel.add(playerColorButton, constraints);
+        constraints.gridx ++;
+        innerPanel.add(playerMeepleLabel, constraints);
+        constraints.gridx ++;
+        innerPanel.add(playerNameLabel, constraints);
+        constraints.gridx ++;
+        innerPanel.add(playerScoreLabel, constraints);
+        constraints.gridx ++;
+        innerPanel.add(tileImageButton, constraints);
+        constraints.gridx ++;
+        innerPanel.add(rotateButton, constraints);
+        constraints.gridx ++;
+        innerPanel.add(remainingTilesLabel, constraints);
 
-        footer.add(playerMeepleLabel);
-        footer.add(playerNameLabel);
-        footer.add(playerScoreLabel);
+        this.add(innerPanel);
+        /*playerColorButton.setEnabled(false);
+        this.add(playerColorButton);
+
+        this.add(playerMeepleLabel);
+        this.add(playerNameLabel);
+        this.add(playerScoreLabel);
 
         tileImageButton.setEnabled(false);
-        footer.add(tileImageButton);
+        this.add(tileImageButton);
         
         rotateButton.addActionListener(new ActionListener(){
 
@@ -50,7 +74,15 @@ public class FooterComponentImpl implements FooterComponent{
             }
             
         });
-        footer.add(rotateButton);
-        footer.add(remainingTilesLabel);
+        this.add(rotateButton);
+        this.add(remainingTilesLabel);*/
+
+        this.setVisible(true);
+        innerPanel.setVisible(true);
+    }
+
+    @Override
+    public JPanel getComponent() {
+       return this;
     }
 }
