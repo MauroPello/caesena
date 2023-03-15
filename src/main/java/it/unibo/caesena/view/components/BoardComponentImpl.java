@@ -92,25 +92,13 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         };
     }
 
-    public String getCurrentTileImageResourcePath() {
-        return this.controller.getCurrentTile().getImageResourcesPath();
-    }
-
-    public TileButton getCurrentlyPlacedTileButton() {
-        return currentTileButtonPlaced.get();
-    }
-
-    public void setCurrentlyPlacedTileButton(TileButton tileButton) {
-        currentTileButtonPlaced = Optional.of(tileButton);
-    }
-
     private ActionListener getTileButtonActionListener() {
         return (e) -> {
             TileButton selectedTileButton = (TileButton)e.getSource();
             if (this.controller.isValidPositionForCurrentTile(selectedTileButton.getPosition())) {
                 if (currentTileButtonPlaced.isPresent()){
                     TileButton lastTileButtonPlaced = currentTileButtonPlaced.get();
-                    if (!currentTileButtonPlaced.equals(selectedTileButton) && !lastTileButtonPlaced.isLocked()) {
+                    if (!lastTileButtonPlaced.isLocked()) {
                         lastTileButtonPlaced.removeTile();
                     }
                 }
