@@ -39,8 +39,8 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         updateTileButtonList();
         for (int i = minimum; i < maximum; i++) {
             for (int j = minimum; j < maximum; j++) {
-                int horizontalCoordinate = currentHorizontalOffset + i;
-                int verticalCoordinate = currentVerticalOffset + j;
+                int horizontalCoordinate = currentHorizontalOffset + j;
+                int verticalCoordinate = currentVerticalOffset + i;
                 TileButton fieldCell = findTileButton(horizontalCoordinate, verticalCoordinate);
                 currentTileButtonsContainer.add(fieldCell);
             }
