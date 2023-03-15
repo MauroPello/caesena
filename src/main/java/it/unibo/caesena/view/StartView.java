@@ -80,7 +80,7 @@ public class StartView extends View {
                 userInterface.getController().addPlayer(player.getX(), Color.createCustomColor(player.getY()));
             }
 
-            userInterface.showGameView();
+            userInterface.startGame();
         });
         JPanel startGamePanel = new JPanel();
         startGamePanel.add(startButton);

@@ -35,47 +35,59 @@ public class GUI extends JFrame implements UserInterface {
 
     public void showStartView() {
         this.startView = new StartView(this);
-        hideAllViews();
-        startView.setVisible(true);
+        this.pauseView = null;
+        this.gameView = null;
+        this.gameOverView = null;
+        
+        this.startView.setVisible(true);
         this.setContentPane(startView);
         this.validate();
         this.repaint();
     }
 
-    public void showGameView() {
+    public void startGame() {
+        this.startView.setVisible(false);
+
+        this.startView = null;
         this.gameView = new GameView(this);
-        hideAllViews();
+        this.pauseView = new PauseView(this);
+        
         // TODO cambia sta roba
         ((GameView)gameView).start();
-        gameView.setVisible(true);
+        this.gameView.setVisible(true);
         this.setContentPane(gameView);
         this.validate();
         this.repaint();
     }
 
     public void showPauseView() {
-        this.pauseView = new PauseView(this);
-        hideAllViews();
-        pauseView.setVisible(true);
+        this.gameView.setVisible(false);
+        this.pauseView.setVisible(true);
+
         this.setContentPane(pauseView);
+        this.validate();
+        this.repaint();
+    }
+
+    public void hidePauseView() {
+        this.pauseView.setVisible(false);
+        this.gameView.setVisible(true);
+
+        this.setContentPane(gameView);
         this.validate();
         this.repaint();
     }
 
     public void showGameOverView() {
         this.gameOverView = new GameOverView(this);
-        hideAllViews();
-        gameOverView.setVisible(true);
+
+        this.gameView.setVisible(false);
+        this.pauseView.setVisible(false);
+        this.gameOverView.setVisible(true);
+        
         this.setContentPane(gameOverView);
         this.validate();
         this.repaint();
-    }
-
-    private void hideAllViews() {
-        // startView.setVisible(false);
-        // gameView.setVisible(false);
-        // pauseView.setVisible(false);
-        // gameOverView.setVisible(false);
     }
 
     public void exit() {
