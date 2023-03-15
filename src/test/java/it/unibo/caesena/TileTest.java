@@ -69,4 +69,10 @@ final class TileTest {
         section1.close();
         assertEquals(section1, TileSection.UpCenter);
     }
+
+    @Test
+    public void TestOppositeSection() {
+        TileSection section = TileSection.DownLeft;
+        assertEquals(TileSection.getOpposite(section), TileSection.UpLeft);
+    }
 }

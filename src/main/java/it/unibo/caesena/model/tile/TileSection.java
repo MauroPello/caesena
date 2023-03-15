@@ -57,26 +57,20 @@ public enum TileSection {
         if(section.ordinal()<=TileSection.RightDown.ordinal()) {
             switch(section.ordinal()%3) {
                 case 0:
-                shiftTileSection(section, 8);
-                    break;
+                    return shiftTileSection(section, 8);
                 case 1:
-                shiftTileSection(section, 6);
-                    break;
+                    return shiftTileSection(section, 6);
                 case 2:
-                shiftTileSection(section, 4);
-                    break;
+                    return shiftTileSection(section, 4);
             }
         } else {
             switch(section.ordinal()%3) {
                 case 0:
-                shiftTileSection(section, -4);
-                    break;
+                    return shiftTileSection(section, -4);
                 case 1:
-                shiftTileSection(section, -6);
-                    break;
+                    return shiftTileSection(section, -6);
                 case 2:
-                shiftTileSection(section, -8);
-                    break;
+                    return shiftTileSection(section, -8);
             }
         }
 
