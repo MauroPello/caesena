@@ -3,9 +3,14 @@ package it.unibo.caesena.view;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.OverlayLayout;
 
 import it.unibo.caesena.controller.Controller;
@@ -14,7 +19,7 @@ import it.unibo.caesena.utils.Color;
 public class GUI extends JFrame implements UserInterface {
     // TODO rimuovere
     // RAGA È SOLO PER DEBUG, SE ATTIVO UNO DISATTIVATE GLI ALTRI!!
-    private static boolean DEBUG_GAME_VIEW = true;
+    private static boolean DEBUG_GAME_VIEW = false;
     private static boolean DEBUG_GAME_OVER_VIEW = false;
     private Controller controller;
     private View startView;
@@ -75,6 +80,14 @@ public class GUI extends JFrame implements UserInterface {
         this.gamePanel = new JPanel();
         this.gamePanel.setLayout(new OverlayLayout(this.gamePanel));
 
+        this.gamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "togglePauseView");
+        this.gamePanel.getActionMap().put("togglePauseView", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                togglePauseView();
+            }
+        });
+
         // TODO cambia sta roba
         ((GameView)gameView).start();
         this.gameView.setVisible(true);
@@ -87,19 +100,10 @@ public class GUI extends JFrame implements UserInterface {
         this.repaint();
     }
 
-    public void showPauseView() {
-        this.pauseView.setVisible(true);
-        setEnabledAllComponents(gameView, false);
-        setEnabledAllComponents(pauseView, true);
-
-        this.validate();
-        this.repaint();
-    }
-
-    public void hidePauseView() {
-        this.pauseView.setVisible(false);
-        setEnabledAllComponents(gameView, true);
-        setEnabledAllComponents(pauseView, false);
+    public void togglePauseView() {
+        this.pauseView.setVisible(!this.pauseView.isVisible());
+        setEnabledAllComponents(gameView, !this.pauseView.isVisible());
+        setEnabledAllComponents(pauseView, this.pauseView.isVisible());
 
         this.validate();
         this.repaint();
