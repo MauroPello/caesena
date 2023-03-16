@@ -130,4 +130,9 @@ public class TileImpl implements Tile {
             .filter(s -> s.equals(section))
             .allMatch(TileSection::isClosed);
     }
+
+    @Override
+    public TileType getTileType() {
+        return this.type;
+    }
 }

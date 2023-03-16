@@ -27,7 +27,7 @@ import it.unibo.caesena.utils.*;
 public class ControllerImpl implements Controller {
     private static final int POINTS_CLOSED_CITY = 2;
     private static final String SEP = File.separator;
-    private static final String FILE_TILES_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
+    private static final String CONFIG_FILE_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
     private static final int MEEPLES_PER_PLAYER = 8;
     private final List<Meeple> meeples = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
@@ -46,7 +46,6 @@ public class ControllerImpl implements Controller {
         Collections.shuffle(players);
         currentPlayer = players.get(0);
         buildAllTiles();
-        Collections.shuffle(tiles);
         drawNewTile();
         this.placeCurrentTile(new Pair<Integer,Integer>(0, 0));
         drawNewTile();
@@ -54,7 +53,7 @@ public class ControllerImpl implements Controller {
 
     private void buildAllTiles() {
         try {
-            Object fileJson = new JSONParser().parse(new InputStreamReader(ClassLoader.getSystemResourceAsStream(FILE_TILES_PATH)));
+            Object fileJson = new JSONParser().parse(new InputStreamReader(ClassLoader.getSystemResourceAsStream(CONFIG_FILE_PATH)));
             JSONObject jsonObject =  (JSONObject) fileJson;
             JSONArray array = (JSONArray) jsonObject.get("Tiles");
             for (int i = 0; i < array.size(); i++) {
@@ -65,6 +64,18 @@ public class ControllerImpl implements Controller {
                     }
                 }
             }
+            
+            Collections.shuffle(tiles);
+            
+            for (int i = 0; i < tiles.size(); i++) {
+                if (tiles.get(i).getTileType().equals(TileType.valueOf("CITY_EDGE_ROAD"))) {
+                    Tile firsTile = tiles.get(i);
+                    Tile currenTile = tiles.get(0);
+                    tiles.set(i, currenTile);
+                    tiles.set(0, firsTile);
+                }
+            }
+
         } catch (Exception e) {
             throw new IllegalStateException("Error reading tiles from file, maybe it's missing");
         }

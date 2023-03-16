@@ -28,4 +28,6 @@ public interface Tile {
     public boolean isSectionClosed(TileSection section);
 
     public int getRotationCount();
+
+    public TileType getTileType();
 }
