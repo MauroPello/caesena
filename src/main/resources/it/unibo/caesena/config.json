@@ -1,5 +1,5 @@
 {
-    "Starting Tile": "CITY_EDGE_ROAD",
+    "Starting Tile": "CITY_SIDE_ROAD",
     "Tiles": [
         {
             "CITY_EDGE": 3
