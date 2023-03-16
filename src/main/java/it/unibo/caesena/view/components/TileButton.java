@@ -8,6 +8,10 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.geom.AffineTransform;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -72,7 +76,9 @@ public class TileButton extends JButton {
             }
         }
 
-        ImageIcon icon = new ImageIcon(imagePath);
+        double angle = this.containedTile.isPresent() ? 90 * containedTile.get().getRotationCount() : 0;
+        ImageIcon icon = rotateImageIcon(new ImageIcon(imagePath), angle);
+
         if (this.getHeight()!=0 && this.getWidth()!=0 ) {
             this.setIcon(resizeIcon(icon, this.getHeight(), this.getWidth()));
         } else {
@@ -105,11 +111,29 @@ public class TileButton extends JButton {
         return this.placedMeeple.isPresent();
     }
 
-    //Courtesy of StackOverflow
+    // https://stackoverflow.com/questions/36957450/fit-size-of-an-imageicon-to-a-jbutton
     private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
         Image img = icon.getImage();
         Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
+    }
+
+    // https://coderanch.com/t/467131/java/Rotating-ImageIcon
+    static private ImageIcon rotateImageIcon(ImageIcon picture, double angle) {
+        int w = picture.getIconWidth();
+        int h = picture.getIconHeight();
+        int type = BufferedImage.TYPE_INT_RGB;  // other options, see api
+        BufferedImage image = new BufferedImage(h, w, type);
+        Graphics2D g2 = image.createGraphics();
+        double x = (h - w)/2.0;
+        double y = (w - h)/2.0;
+        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
+        at.rotate(Math.toRadians(angle), w/2.0, h/2.0);
+        g2.drawImage(picture.getImage(), at, null);
+        g2.dispose();
+        picture = new ImageIcon(image);
+
+        return picture;
     }
 
     private ComponentListener OnResizeOrShown() {
