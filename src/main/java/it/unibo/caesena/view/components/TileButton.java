@@ -34,6 +34,7 @@ public class TileButton extends JButton {
         this.addActionListener(onSelection);
         this.addComponentListener(this.OnResizeOrShown());
         this.setContentAreaFilled(false);
+        this.setFocusable(false);
     }
 
     public Pair<Integer, Integer> getPosition() {

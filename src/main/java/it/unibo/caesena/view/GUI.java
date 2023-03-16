@@ -72,8 +72,6 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void startGame() {
-        //this.startView.setVisible(false);
-
         this.startView = null;
         this.gameView = new GameView(this);
         this.pauseView = new PauseView(this);
@@ -104,9 +102,6 @@ public class GUI extends JFrame implements UserInterface {
         this.pauseView.setVisible(!this.pauseView.isVisible());
         setEnabledAllComponents(gameView, !this.pauseView.isVisible());
         setEnabledAllComponents(pauseView, this.pauseView.isVisible());
-
-        this.validate();
-        this.repaint();
     }
 
     public void showGameOverView() {
