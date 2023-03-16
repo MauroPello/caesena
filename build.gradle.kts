@@ -28,6 +28,9 @@ dependencies {
     // when dependencies share the same version, grouping in a val helps to keep them in sync
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
+
+    // to import JSON 
+    compileOnly("com.googlecode.json-simple:json-simple:1.1.1")
 }
 
 application {

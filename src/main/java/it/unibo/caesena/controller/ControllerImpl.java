@@ -1,9 +1,7 @@
 package it.unibo.caesena.controller;
 
 import java.io.File;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,6 +11,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.gameset.GameSet;
@@ -25,7 +27,7 @@ import it.unibo.caesena.utils.*;
 public class ControllerImpl implements Controller {
     private static final int POINTS_CLOSED_CITY = 2;
     private static final String SEP = File.separator;
-    private static final String FILE_TILES_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "tile.conf";
+    private static final String FILE_TILES_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
     private static final int MEEPLES_PER_PLAYER = 8;
     private final List<Meeple> meeples = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
@@ -51,15 +53,16 @@ public class ControllerImpl implements Controller {
     }
 
     private void buildAllTiles() {
-        List<String> lines;
         try {
-            URI uri = ClassLoader.getSystemResource(FILE_TILES_PATH).toURI();
-            lines = Files.readAllLines(Paths.get(uri));
-            for (var line : lines) {
-                String imageName = line.split(";")[0];
-                int numberOfTiles = Integer.parseInt(line.split(";")[1]);
-                for (int i = 0; i < numberOfTiles; i++) {
-                    tiles.add(TileType.valueOf(imageName).createTile(new TileFactoryWithBuilder()));
+            Object fileJson = new JSONParser().parse(new InputStreamReader(ClassLoader.getSystemResourceAsStream(FILE_TILES_PATH)));
+            JSONObject jsonObject =  (JSONObject) fileJson;
+            JSONArray array = (JSONArray) jsonObject.get("Tiles");
+            for (int i = 0; i < array.size(); i++) {
+                JSONObject object = (JSONObject) array.get(i);
+                for (var key : object.keySet()) {
+                    for (int j = 0; j < Integer.parseInt(object.get(key).toString()); j++) {
+                        tiles.add(TileType.valueOf(key.toString()).createTile(new TileFactoryWithBuilder()));
+                    }
                 }
             }
         } catch (Exception e) {
