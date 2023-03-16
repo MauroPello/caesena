@@ -21,7 +21,7 @@ public class TileButton extends JButton {
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
     private static final URL DEFAULT_IMAGE_PATH = ClassLoader.getSystemResource(ROOT + "TILE_BACK.png");
     private final Pair<Integer, Integer> position;
-    private Optional<Tile> containedTile;//TODO considerare la possibilità di avere un implementazione di tile e meeple che contenga solo cose inerenti alla view
+    private Optional<Tile> containedTile;
     private Optional<Meeple> placedMeeple;
     private boolean locked = false;
 
@@ -78,6 +78,10 @@ public class TileButton extends JButton {
         } else {
             this.setIcon(icon);
         }
+    }
+
+    public Tile getConteinedTile() {
+        return containedTile.orElseThrow(() -> new IllegalStateException("tried to get contained tile but there was none"));
     }
 
     public void addMeeple() {

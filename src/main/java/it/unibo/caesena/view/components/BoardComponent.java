@@ -1,5 +1,7 @@
 package it.unibo.caesena.view.components;
 
+import it.unibo.caesena.model.tile.Tile;
+
 public interface BoardComponent<X> {
 
     void zoomIn();
@@ -15,6 +17,8 @@ public interface BoardComponent<X> {
     void moveRight();
 
     void lockTile();
+
+    void placeMeeple(Tile tile);
 
     boolean canZoomIn();
 

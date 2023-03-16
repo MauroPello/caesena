@@ -3,6 +3,7 @@ package it.unibo.caesena.view;
 import javax.swing.*;
 import java.awt.*;
 import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.components.BoardComponent;
 import it.unibo.caesena.view.components.BoardComponentImpl;
@@ -50,7 +51,7 @@ public class GameView extends View {
         JButton moveRightButton = new JButton("RIGHT");
         JButton moveDownButton = new JButton("DOWN");
         JButton placeTile = new JButton("PLACETILE");
-        JButton placeMeepleOrTile = new JButton("PLACEMEEPLE/PLACETILE");
+        JButton placeMeeple = new JButton("PLACEMEEPLE");
         JButton endTurnButton = new JButton("ENDTURN");
 
         innerPanel.add(zoomInButton, constraints);
@@ -70,7 +71,7 @@ public class GameView extends View {
         constraints.gridy ++;
         innerPanel.add(placeTile, constraints);
         constraints.gridy ++;
-        innerPanel.add(placeMeepleOrTile, constraints);
+        innerPanel.add(placeMeeple, constraints);
         constraints.gridy ++;
         innerPanel.add(endTurnButton, constraints);
         constraints.gridy ++;
@@ -81,17 +82,25 @@ public class GameView extends View {
         moveLeftButton.addActionListener(moveLeftEventListener());
         moveDownButton.addActionListener(moveDownEventListener());
         moveRightButton.addActionListener(moveRightEventListener());
-        placeMeepleOrTile.addActionListener(placeMeepleOrTileEventListener());
+        placeTile.addActionListener(placeTileEventListener());
+        placeMeeple.addActionListener(placeMeepleEventListener());
         endTurnButton.addActionListener(endTurnEventListener());
 
         OuterPanel.add(innerPanel);
         return OuterPanel;
     }
 
-    private ActionListener placeMeepleOrTileEventListener() {
+    private ActionListener placeMeepleEventListener() {
+        return (e) -> {
+            Tile tile = board.getCurrentlySelectedTileButton().getConteinedTile();
+            board.placeMeeple(tile);
+        };
+    }
+
+    private ActionListener placeTileEventListener() {
         return (e) -> {
             Pair<Integer, Integer> position = board.getCurrentlySelectedTileButton().getPosition();
-            if (this.controller.isValidPositionForCurrentTile(position)){
+            if (this.controller.isValidPositionForCurrentTile(position)) {
                 this.controller.placeCurrentTile(position);
                 this.board.lockTile();
             } else {
@@ -101,7 +110,7 @@ public class GameView extends View {
     }
 
     private ActionListener endTurnEventListener() {
-        return (e) -> { 
+        return (e) -> {
             this.controller.endTurn();
             footer.updateCurrentTile();
         };

@@ -50,6 +50,14 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         this.validate();
     }
 
+
+
+    private void undrawBoard() {
+        this.removeAll();
+        this.repaint();
+        this.validate();
+    }
+
     private void updateTileButtonList() {
         List<Tile> placedTiles = controller.getPlacedTiles();
         for (Tile tile : placedTiles) {
@@ -223,6 +231,12 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public TileButton getCurrentlySelectedTileButton() {
         return currentTileButtonPlaced.get();
+    }
+
+    @Override
+    public void placeMeeple(Tile tile) {
+        undrawBoard();
+        //drawBoard();
     }
 
 }
