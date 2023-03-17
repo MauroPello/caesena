@@ -8,8 +8,6 @@ import it.unibo.caesena.model.tile.TileSection;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.event.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
@@ -21,7 +19,6 @@ public class OverlayedTileComponent extends JPanel{
         super();
         this.currentTile = tile;
         this.setSize(dimension);
-        this.addComponentListener(this.OnResizeOrShown());
         redraw();
         this.setVisible(true);
     }
@@ -64,13 +61,6 @@ public class OverlayedTileComponent extends JPanel{
         return new Dimension(newSize, newSize);
     }
 
-    // https://stackoverflow.com/questions/36957450/fit-size-of-an-imageicon-to-a-jbutton
-    private static ImageIcon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
-        Image img = icon.getImage();
-        Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);
-        return new ImageIcon(resizedImage);
-    }
-
     // https://coderanch.com/t/467131/java/Rotating-ImageIcon
     static private BufferedImage rotateImageIcon(ImageIcon picture, double angle) {
         int w = picture.getIconWidth();
@@ -87,21 +77,6 @@ public class OverlayedTileComponent extends JPanel{
         picture = new ImageIcon(image);
 
         return image;
-    }
-
-    private ComponentListener OnResizeOrShown() {
-        return new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                OverlayedTileComponent tile = (OverlayedTileComponent)e.getSource();
-                tile.redraw();
-            }
-            @Override
-            public void componentShown(ComponentEvent e) {
-                OverlayedTileComponent tile = (OverlayedTileComponent)e.getSource();
-                tile.redraw();
-            }
-        };
     }
 
     private class SectionButton extends JButton {
