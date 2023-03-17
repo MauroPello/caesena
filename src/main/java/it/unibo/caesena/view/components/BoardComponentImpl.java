@@ -237,13 +237,17 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void placeMeeple(Tile tile) {
         undrawBoard();
         drawOverlayedTile();
-        //drawBoard();
     }
 
     private void drawOverlayedTile() {
         this.add(new OverlayedTileComponent(this.controller.getCurrentTile(), this.currentTileButtonsContainer.getSize()));
         this.validate();
         this.repaint();
+    }
+
+    @Override
+    public void endTurn() {
+        drawBoard();
     }
 
 }

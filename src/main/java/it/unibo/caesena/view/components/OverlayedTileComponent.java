@@ -40,6 +40,7 @@ public class OverlayedTileComponent extends JPanel{
         this.repaint();
     }
 
+
     private void redraw() {
         this.removeAll();
         JLabel thumb = new JLabel();

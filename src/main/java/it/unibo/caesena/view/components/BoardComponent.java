@@ -20,6 +20,8 @@ public interface BoardComponent<X> {
 
     void placeMeeple(Tile tile);
 
+    void endTurn();
+
     boolean canZoomIn();
 
     boolean canZoomOut();

@@ -113,6 +113,7 @@ public class GameView extends View {
         return (e) -> {
             this.controller.endTurn();
             footer.updateCurrentTile();
+            board.endTurn();
         };
     }
 
