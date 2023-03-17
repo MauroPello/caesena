@@ -2,27 +2,17 @@ package it.unibo.caesena.view.components;
 
 import javax.swing.JPanel;
 
+import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileSection;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
-
 import java.awt.event.*;
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.Optional;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
-
-import javax.swing.JButton;
-
-import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.utils.Pair;
 
 public class OverlayedTileComponent extends JPanel{
     private final Tile currentTile;
@@ -31,18 +21,36 @@ public class OverlayedTileComponent extends JPanel{
         super();
         this.currentTile = tile;
         this.setSize(dimension);
-
         this.addComponentListener(this.OnResizeOrShown());
         redraw();
-
         this.setVisible(true);
-        this.validate();
-        this.repaint();
     }
 
 
     private void redraw() {
         this.removeAll();
+        //this.drawBackground();
+        this.drawSections();
+
+        this.validate();
+        this.repaint();
+    }
+
+    private void drawSections() {
+
+        for (TileSection section : TileSection.values()) {
+            JButton button = new SectionButton(section);
+            this.add(button);
+        }
+    }
+
+
+    private String getLabelFromSection(GameSet gameSet) {
+        return gameSet.getType().name();
+    }
+
+
+    private void drawBackground() {
         JLabel thumb = new JLabel();
         double angle = 90 * this.currentTile.getRotationCount();
         ImageIcon icon = rotateImageIcon(new ImageIcon(this.currentTile.getImageResourcesPath()), angle);
@@ -54,6 +62,7 @@ public class OverlayedTileComponent extends JPanel{
         thumb.setIcon(icon);
         this.add(thumb);
     }
+
 
     @Override
     public Dimension getPreferredSize() {
@@ -101,5 +110,16 @@ public class OverlayedTileComponent extends JPanel{
                 tile.redraw();
             }
         };
+    }
+
+    private class SectionButton extends JButton {
+        private final TileSection section;
+
+        public SectionButton(TileSection section) {
+            super();
+            this.section = section;
+            String buttonLabel = getLabelFromSection(currentTile.getGameSet(section));
+            this.setText(buttonLabel);
+        }
     }
 }
