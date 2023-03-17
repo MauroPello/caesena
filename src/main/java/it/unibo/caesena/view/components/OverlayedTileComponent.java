@@ -29,9 +29,7 @@ public class OverlayedTileComponent extends JPanel{
 
     private void redraw() {
         this.removeAll();
-        //this.drawBackground();
         this.drawSections();
-
         this.validate();
         this.repaint();
     }
@@ -49,20 +47,14 @@ public class OverlayedTileComponent extends JPanel{
         return gameSet.getType().name();
     }
 
-
-    private void drawBackground() {
-        JLabel thumb = new JLabel();
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
         double angle = 90 * this.currentTile.getRotationCount();
-        ImageIcon icon = rotateImageIcon(new ImageIcon(this.currentTile.getImageResourcesPath()), angle);
-
-        if (this.getHeight()!=0 && this.getWidth()!=0 ) {
-            icon = resizeIcon(icon, (this.getHeight()), (this.getWidth()));
-        }
-
-        thumb.setIcon(icon);
-        this.add(thumb);
+        Image image = rotateImageIcon(new ImageIcon(this.currentTile.getImageResourcesPath()), angle);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
     }
-
 
     @Override
     public Dimension getPreferredSize() {
@@ -80,7 +72,7 @@ public class OverlayedTileComponent extends JPanel{
     }
 
     // https://coderanch.com/t/467131/java/Rotating-ImageIcon
-    static private ImageIcon rotateImageIcon(ImageIcon picture, double angle) {
+    static private BufferedImage rotateImageIcon(ImageIcon picture, double angle) {
         int w = picture.getIconWidth();
         int h = picture.getIconHeight();
         int type = BufferedImage.TYPE_INT_RGB;  // other options, see api
@@ -94,7 +86,7 @@ public class OverlayedTileComponent extends JPanel{
         g2.dispose();
         picture = new ImageIcon(image);
 
-        return picture;
+        return image;
     }
 
     private ComponentListener OnResizeOrShown() {
