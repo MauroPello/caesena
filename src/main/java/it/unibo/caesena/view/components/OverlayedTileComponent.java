@@ -88,5 +88,14 @@ public class OverlayedTileComponent extends JPanel{
             String buttonLabel = getLabelFromSection(currentTile.getGameSet(section));
             this.setText(buttonLabel);
         }
+
+        @Override
+        protected void paintComponent(Graphics g)
+        {
+            super.paintComponent(g);
+            double angle = 90 * currentTile.getRotationCount();
+            Image image = rotateImageIcon(new ImageIcon(currentTile.getImageResourcesPath()), angle);
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        }
     }
 }
