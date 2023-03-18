@@ -6,8 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -87,7 +90,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     static private BufferedImage rotateImageIcon(ImageIcon picture, double angle) {
         int w = picture.getIconWidth();
         int h = picture.getIconHeight();
-        int type = BufferedImage.TYPE_INT_RGB;  // other options, see api
+        int type = BufferedImage.TYPE_INT_RGB;
         BufferedImage image = new BufferedImage(h, w, type);
         Graphics2D g2 = image.createGraphics();
         double x = (h - w)/2.0;
@@ -95,6 +98,18 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         AffineTransform at = AffineTransform.getTranslateInstance(x, y);
         at.rotate(Math.toRadians(angle), w/2.0, h/2.0);
         g2.drawImage(picture.getImage(), at, null);
+        BufferedImage overlay = new BufferedImage(h, w, type);
+
+        //TODO imbellisci sto schifo
+        String SEP = File.separator;
+        String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
+        try {
+            overlay = ImageIO.read(ClassLoader.getSystemResource(ROOT + "tileOverlay.png"));
+        } catch (IOException e) {
+        }
+
+
+        g2.drawImage(overlay, at, null);
         g2.dispose();
         picture = new ImageIcon(image);
 
