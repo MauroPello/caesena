@@ -64,11 +64,11 @@ public class ControllerImpl implements Controller {
                     }
                 }
             }
-            
+
             Collections.shuffle(tiles);
             
             for (int i = 0; i < tiles.size(); i++) {
-                if (tiles.get(i).getTileType().equals(TileType.valueOf("CITY_SIDE_ROAD"))) {
+                if (tiles.get(i).getTileType().equals(TileType.valueOf(jsonObject.get("Starting Tile").toString()))) {
                     Tile firstTile = tiles.get(i);
                     Tile currentTile = tiles.get(0);
                     tiles.set(i, currentTile);
