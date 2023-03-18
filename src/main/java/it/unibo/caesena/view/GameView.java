@@ -92,7 +92,7 @@ public class GameView extends View {
 
     private ActionListener placeMeepleEventListener() {
         return (e) -> {
-            Tile tile = board.getCurrentlySelectedTileButton().getConteinedTile();
+            Tile tile = board.getCurrentlySelectedTileButton().getContainedTile();
             board.placeMeeple(tile);
         };
     }

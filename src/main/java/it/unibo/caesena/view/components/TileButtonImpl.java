@@ -56,7 +56,7 @@ public class TileButtonImpl extends JButton implements TileButton {
     }
 
     @Override
-    public Tile getConteinedTile() {
+    public Tile getContainedTile() {
         return containedTile.orElseThrow(() -> new IllegalStateException("tried to get contained tile but there was none"));
     }
 

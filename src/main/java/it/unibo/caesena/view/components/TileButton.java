@@ -14,7 +14,7 @@ public interface TileButton {
 
     boolean isLocked();
 
-    Tile getConteinedTile();
+    Tile getContainedTile();
 
     void addMeeple(Meeple meeple);
 
