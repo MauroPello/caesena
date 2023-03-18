@@ -16,14 +16,14 @@ import it.unibo.caesena.utils.Pair;
 public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private final static int DEFAULT_ZOOM_LEVEL = 5;
     private final Controller controller;
-    private final Set<TileButton> allTileButtons;
+    private final Set<TileButtonImpl> allTileButtons;
     private JPanel currentTileButtonsContainer;
     private int currentFieldSize = DEFAULT_ZOOM_LEVEL;
     private int currentZoom = 0;
     private int currentHorizontalOffset = 0;
     private int currentVerticalOffset = 0;
-    private Optional<OverlayedTileComponent> currentOverlayedTile = Optional.empty();
-    private Optional<TileButton> currentTileButtonPlaced = Optional.empty();
+    private Optional<SectionSelectorComponentImpl> currentOverlayedTile = Optional.empty();
+    private Optional<TileButtonImpl> currentTileButtonPlaced = Optional.empty();
 
     public BoardComponentImpl(Controller controller) {
         this.controller = controller;
@@ -44,7 +44,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             for (int j = minimum; j < maximum; j++) {
                 int horizontalCoordinate = currentHorizontalOffset + j;
                 int verticalCoordinate = currentVerticalOffset + i;
-                TileButton fieldCell = findTileButton(horizontalCoordinate, verticalCoordinate);
+                TileButtonImpl fieldCell = findTileButton(horizontalCoordinate, verticalCoordinate);
                 currentTileButtonsContainer.add(fieldCell);
             }
         }
@@ -70,14 +70,14 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         }
     }
 
-    private TileButton findTileButton(int horizontalCoordinate, int verticalCoordinate) {
-        TileButton searchedTile;
+    private TileButtonImpl findTileButton(int horizontalCoordinate, int verticalCoordinate) {
+        TileButtonImpl searchedTile;
         Pair<Integer, Integer> coordinatesAsPair = new Pair<Integer,Integer>(horizontalCoordinate, verticalCoordinate);
-        Optional<TileButton> searchedTileOptional = allTileButtons.stream()
+        Optional<TileButtonImpl> searchedTileOptional = allTileButtons.stream()
             .filter(x -> x.getPosition().equals(coordinatesAsPair))
             .findFirst();
         if (searchedTileOptional.isEmpty()) {
-            searchedTile = new TileButton(horizontalCoordinate, verticalCoordinate, getTileButtonActionListener());
+            searchedTile = new TileButtonImpl(horizontalCoordinate, verticalCoordinate, getTileButtonActionListener());
             allTileButtons.add(searchedTile);
         } else {
             searchedTile = searchedTileOptional.get();
@@ -105,10 +105,10 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     private ActionListener getTileButtonActionListener() {
         return (e) -> {
-            TileButton selectedTileButton = (TileButton)e.getSource();
+            TileButtonImpl selectedTileButton = (TileButtonImpl)e.getSource();
             if (this.controller.isValidPositionForCurrentTile(selectedTileButton.getPosition())) {
                 if (currentTileButtonPlaced.isPresent()){
-                    TileButton lastTileButtonPlaced = currentTileButtonPlaced.get();
+                    TileButtonImpl lastTileButtonPlaced = currentTileButtonPlaced.get();
                     if (!lastTileButtonPlaced.isLocked()) {
                         lastTileButtonPlaced.removeTile();
                     }
@@ -238,7 +238,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     private void drawOverlayedTile() {
-        var overlayedTile = new OverlayedTileComponent(this.controller.getCurrentTile(), this.currentTileButtonsContainer.getSize());
+        var overlayedTile = new SectionSelectorComponentImpl(this.controller.getCurrentTile(), this.currentTileButtonsContainer.getSize());
         this.currentOverlayedTile = Optional.of(overlayedTile);
         this.add(overlayedTile);
         this.validate();

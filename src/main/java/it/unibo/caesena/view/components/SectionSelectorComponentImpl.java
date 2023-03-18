@@ -16,11 +16,11 @@ import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 
-public class OverlayedTileComponent extends JPanel{
+public class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent {
     private final Tile currentTile;
     private Optional<TileSection> currentSectionSelected = Optional.empty();
 
-    public OverlayedTileComponent(Tile tile, Dimension dimension) {
+    public SectionSelectorComponentImpl(Tile tile, Dimension dimension) {
         super();
         this.currentTile = tile;
         this.setSize(dimension);
@@ -28,6 +28,7 @@ public class OverlayedTileComponent extends JPanel{
         this.setVisible(true);
     }
 
+    @Override
     public TileSection getSelectedSection() {
         return currentSectionSelected.orElseThrow(()->new IllegalStateException("Tried to get section but none was selected"));
     }
