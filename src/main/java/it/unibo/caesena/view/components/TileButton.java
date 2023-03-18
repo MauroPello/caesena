@@ -1,13 +1,13 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.event.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
-import java.util.Optional;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.URL;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.util.Optional;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -16,14 +16,10 @@ import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
 
 public class TileButton extends JButton {
-    // private static final String SEP = File.separator;
-    // private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
-    // private static final URL DEFAULT_IMAGE_PATH = ClassLoader.getSystemResource(ROOT + "TILE_BACK.png");
     private final Pair<Integer, Integer> position;
     private Optional<Tile> containedTile;
     private Optional<Meeple> placedMeeple;
     private boolean locked = false;
-
 
     public TileButton(int x, int y, ActionListener onSelection) {
         super();
@@ -33,18 +29,6 @@ public class TileButton extends JButton {
         this.addActionListener(onSelection);
         this.setContentAreaFilled(false);
         this.setFocusable(false);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-        if (containedTile.isPresent()) {
-            Image image;
-            double angle = 90 * containedTile.get().getRotationCount();
-            image = rotateImageIcon(new ImageIcon(containedTile.get().getImageResourcesPath()), angle);
-            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-        }
     }
 
     public Pair<Integer, Integer> getPosition() {
@@ -71,8 +55,8 @@ public class TileButton extends JButton {
         return containedTile.orElseThrow(() -> new IllegalStateException("tried to get contained tile but there was none"));
     }
 
-    public void addMeeple() {
-        //TODO implementa
+    public void addMeeple(Meeple meeple) {
+        this.placedMeeple = Optional.of(meeple);
     }
 
     public void removeTile() {
@@ -80,7 +64,7 @@ public class TileButton extends JButton {
     }
 
     public void removeMeeple() {
-        //TODO implementa
+        this.placedMeeple = Optional.empty();
     }
 
     public boolean containsTile() {
@@ -89,6 +73,18 @@ public class TileButton extends JButton {
 
     public boolean containsMeeple(){
         return this.placedMeeple.isPresent();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        if (containedTile.isPresent()) {
+            Image image;
+            double angle = 90 * containedTile.get().getRotationCount();
+            image = rotateImageIcon(new ImageIcon(containedTile.get().getImageResourcesPath()), angle);
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        }
     }
 
     // https://coderanch.com/t/467131/java/Rotating-ImageIcon

@@ -1,19 +1,24 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.util.Optional;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.geom.AffineTransform;
-
 public class OverlayedTileComponent extends JPanel{
     private final Tile currentTile;
+    private Optional<TileSection> currentSectionSelected = Optional.empty();
 
     public OverlayedTileComponent(Tile tile, Dimension dimension) {
         super();
@@ -23,6 +28,26 @@ public class OverlayedTileComponent extends JPanel{
         this.setVisible(true);
     }
 
+    public TileSection getSelectedSection() {
+        return currentSectionSelected.orElseThrow(()->new IllegalStateException("Tried to get section but none was selected"));
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        Dimension d = this.getParent().getSize();
+        int newSize = d.width > d.height ? d.height : d.width;
+        newSize = newSize == 0 ? 100 : newSize;
+        return new Dimension(newSize, newSize);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        double angle = 90 * this.currentTile.getRotationCount();
+        Image image = rotateImageIcon(new ImageIcon(this.currentTile.getImageResourcesPath()), angle);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+    }
 
     private void redraw() {
         this.removeAll();
@@ -39,28 +64,24 @@ public class OverlayedTileComponent extends JPanel{
         }
     }
 
-
     private String getLabelFromSection(GameSet gameSet) {
         return gameSet.getType().name();
     }
 
-    @Override
-    protected void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-        double angle = 90 * this.currentTile.getRotationCount();
-        Image image = rotateImageIcon(new ImageIcon(this.currentTile.getImageResourcesPath()), angle);
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-    }
+    private class SectionButton extends JButton {
+        private final TileSection section;
 
-    @Override
-    public Dimension getPreferredSize() {
-        Dimension d = this.getParent().getSize();
-        int newSize = d.width > d.height ? d.height : d.width;
-        newSize = newSize == 0 ? 100 : newSize;
-        return new Dimension(newSize, newSize);
+        public SectionButton(TileSection section) {
+            super();
+            this.section = section;
+            String buttonLabel = getLabelFromSection(currentTile.getGameSet(section));
+            this.setText(buttonLabel);
+            this.addActionListener((e) ->
+            {
+                currentSectionSelected = Optional.of(this.section);
+            });
+        }
     }
-
     // https://coderanch.com/t/467131/java/Rotating-ImageIcon
     static private BufferedImage rotateImageIcon(ImageIcon picture, double angle) {
         int w = picture.getIconWidth();
@@ -77,25 +98,5 @@ public class OverlayedTileComponent extends JPanel{
         picture = new ImageIcon(image);
 
         return image;
-    }
-
-    private class SectionButton extends JButton {
-        private final TileSection section;
-
-        public SectionButton(TileSection section) {
-            super();
-            this.section = section;
-            String buttonLabel = getLabelFromSection(currentTile.getGameSet(section));
-            this.setText(buttonLabel);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-            double angle = 90 * currentTile.getRotationCount();
-            Image image = rotateImageIcon(new ImageIcon(currentTile.getImageResourcesPath()), angle);
-            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-        }
     }
 }

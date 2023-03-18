@@ -9,6 +9,7 @@ import java.awt.event.*;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
 
@@ -21,6 +22,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     private int currentZoom = 0;
     private int currentHorizontalOffset = 0;
     private int currentVerticalOffset = 0;
+    private Optional<OverlayedTileComponent> currentOverlayedTile = Optional.empty();
     private Optional<TileButton> currentTileButtonPlaced = Optional.empty();
 
     public BoardComponentImpl(Controller controller) {
@@ -30,6 +32,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     private void drawBoard() {
+        currentOverlayedTile = Optional.empty();
         this.removeAll();
         this.currentTileButtonsContainer = getSquareJPanel();
         int minimum = this.currentZoom - DEFAULT_ZOOM_LEVEL/2;
@@ -115,11 +118,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             }
         };
     }
-
-    //TODO implementare
-    // private void setMeeple(TileButton tileButton) {
-    //     tileButton.setMeeple();
-    // }
 
     @Override
     public void zoomIn() {
@@ -240,14 +238,25 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     private void drawOverlayedTile() {
-        this.add(new OverlayedTileComponent(this.controller.getCurrentTile(), this.currentTileButtonsContainer.getSize()));
+        var overlayedTile = new OverlayedTileComponent(this.controller.getCurrentTile(), this.currentTileButtonsContainer.getSize());
+        this.currentOverlayedTile = Optional.of(overlayedTile);
+        this.add(overlayedTile);
         this.validate();
         this.repaint();
     }
 
     @Override
     public void endTurn() {
+        if (this.currentOverlayedTile.isPresent()) {
+            var section = this.currentOverlayedTile.get().getSelectedSection();
+            Optional<Meeple> meeple = this.controller.getCurrentPlayerMeeples().stream().filter(m -> !m.isPlaced()).findFirst();
+            if (meeple.isPresent()) {
+                this.controller.placeMeeple(meeple.get(), section);
+                this.currentTileButtonPlaced.get().addMeeple(meeple.get());
+            } else {
+                throw new IllegalStateException("Tried to add meeple but run out of them");
+            }
+        }
         drawBoard();
     }
-
 }
