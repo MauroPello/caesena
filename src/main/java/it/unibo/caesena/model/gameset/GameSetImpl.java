@@ -11,8 +11,9 @@ public class GameSetImpl implements GameSet{
 
     private final GameSetType type;
     private final Set<Meeple> meeples;
+    
     private int points;
-    private final boolean closed;
+    private boolean closed;
 
     public GameSetImpl (final GameSetType typeOfSet, final int point) {
         this.type = typeOfSet;
@@ -41,6 +42,7 @@ public class GameSetImpl implements GameSet{
         for (final Meeple meeple : meeples) {
             meeple.removeFromTile();
         }
+        this.closed = true;
         return Optional.of(new Pair<>(this.meeples, this.points));
     }
 
