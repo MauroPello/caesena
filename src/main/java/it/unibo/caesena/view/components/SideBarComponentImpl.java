@@ -1,10 +1,8 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JButton;
