@@ -87,6 +87,8 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.setVisible(true);
         innerPanel.setVisible(true);
 
+        updateFooter();
+
         //playerColorButton.setBackground(Controller.getCurrentPlayer().getColor());
 
         rotateButton.addActionListener(new ActionListener(){
@@ -142,5 +144,25 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     public void updateCurrentTile() {
         ImageIcon icon = new ImageIcon(controller.getCurrentTile().getImageResourcesPath());
         tileImageLabel.setIcon(new ImageIcon(icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
+    }
+
+    @Override
+    public void updateCurrentPlayerMeeples() {
+        playerMeepleLabel.setText("M: "+controller.getCurrentPlayerMeeples().size());
+    }
+
+    @Override
+    public void updateRemainingTiles() {
+        remainingTilesLabel.setText(controller.getNotPlacedTiles().size()+"");
+    }
+
+    @Override
+    public void updateFooter() {
+        updateCurrentTile();
+        playerNameLabel.setText(controller.getCurrentPlayer().getName());
+        playerScoreLabel.setText("S: "+controller.getCurrentPlayer().getScore()+"");
+        //playerColorPanel ??
+        updateCurrentPlayerMeeples();
+        updateRemainingTiles();
     }
 }

@@ -110,7 +110,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         return (e) -> {
             this.board.endTurn();
             this.controller.endTurn();
-            this.footer.updateCurrentTile();
+            this.footer.updateFooter();
         };
     }
 
