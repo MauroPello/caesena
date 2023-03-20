@@ -63,7 +63,7 @@ public class TileImpl implements Tile {
         try {
             return Paths.get(ClassLoader.getSystemResource(ROOT + this.type.name() + "." + IMAGE_FORMAT).toURI()).toString();
         } catch (URISyntaxException e) {
-            return ROOT + "TILE_BACK" + "." + IMAGE_FORMAT;
+            throw new IllegalStateException();
         }
     }
 
