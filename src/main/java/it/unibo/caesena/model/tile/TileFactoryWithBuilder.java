@@ -32,6 +32,7 @@ public class TileFactoryWithBuilder implements TileFactory {
                 TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight, TileSection.Center,
                 TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown))
             .field(List.of(TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight))
+            .close(List.of(TileSection.Center))
             .build();
     }
 
@@ -44,6 +45,7 @@ public class TileFactoryWithBuilder implements TileFactory {
             .field(List.of(TileSection.DownLeft))
             .field(List.of(TileSection.DownRight))
             .road(List.of(TileSection.DownCenter))
+            .close(List.of(TileSection.Center))
             .build();
     }
 
@@ -54,6 +56,7 @@ public class TileFactoryWithBuilder implements TileFactory {
                 TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight, TileSection.Center,
                 TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown,
                 TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight))
+            .close(List.of(TileSection.Center))
             .build();
     }
 
@@ -141,6 +144,7 @@ public class TileFactoryWithBuilder implements TileFactory {
                 TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown, TileSection.Center))
             .field(List.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight))
             .field(List.of(TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight))
+            .close(List.of(TileSection.Center))
             .build();
     }
 

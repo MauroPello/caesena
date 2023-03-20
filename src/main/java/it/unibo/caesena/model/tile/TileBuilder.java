@@ -42,6 +42,11 @@ public class TileBuilder {
         return this;
     }
 
+    public TileBuilder close(final List<TileSection> sections) {
+        sections.forEach(tile::closeSection);
+        return this;
+    }
+
     private void applySet(final List<TileSection> sections, final GameSet gameSet) {
         for (var section : sections) {
             this.tile.putSection(section, gameSet);
