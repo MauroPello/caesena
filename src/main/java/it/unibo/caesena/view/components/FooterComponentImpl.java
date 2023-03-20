@@ -31,8 +31,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     Controller controller;
 
-    public FooterComponentImpl(final Controller controller)
-    {
+    public FooterComponentImpl(final Controller controller) {
         super();
         JPanel innerPanel = new JPanel();
         this.setBackground(java.awt.Color.BLACK);
@@ -85,6 +84,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.add(innerPanel);
 
+        this.setVisible(true);
+        innerPanel.setVisible(true);
+
         //playerColorButton.setBackground(Controller.getCurrentPlayer().getColor());
 
         rotateButton.addActionListener(new ActionListener(){
@@ -129,8 +131,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.add(rotateButton);
         this.add(remainingTilesLabel);*/
 
-        this.setVisible(true);
-        innerPanel.setVisible(true);
     }
 
     @Override
