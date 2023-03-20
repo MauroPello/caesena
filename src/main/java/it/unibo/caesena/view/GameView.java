@@ -7,6 +7,7 @@ import it.unibo.caesena.view.components.BoardComponent;
 import it.unibo.caesena.view.components.BoardComponentImpl;
 import it.unibo.caesena.view.components.FooterComponent;
 import it.unibo.caesena.view.components.FooterComponentImpl;
+import it.unibo.caesena.view.components.LeaderBoardComponentImpl;
 import it.unibo.caesena.view.components.SideBarComponent;
 import it.unibo.caesena.view.components.SideBarComponentImpl;
 
@@ -30,5 +31,6 @@ public class GameView extends View {
         this.add(sidebar.getComponent(), BorderLayout.EAST);
         this.add(board.getComponent(), BorderLayout.CENTER);
         this.add(footer.getComponent(), BorderLayout.SOUTH);
+        sidebar.getComponent().add(new LeaderBoardComponentImpl(controller));
     }
 }
