@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -164,37 +165,40 @@ public class ControllerImpl implements Controller {
             for (var entry : toCheck.entrySet()) {
                 if (Direction.match(entry.getKey(), position, neighbour.getPosition().get())) {
                     for (var section : entry.getValue()) {
-                        if (neighbour.getGameSet(section).getType().equals(currentTile.getGameSet(TileSection.getOpposite(section)).getType()) &&
-                        !neighbour.getGameSet(section).equals(currentTile.getGameSet(TileSection.getOpposite(section)))) {
-
-                            GameSet neighbourGameSet = neighbour.getGameSet(section);
-                            GameSet currentTileGameSet = currentTile.getGameSet(TileSection.getOpposite(section));
-                            GameSet joinedGameSet = new GameSetFactoryImpl().createJoinedSet(neighbourGameSet, currentTileGameSet);
-
-                            for (Tile tile : gameSets.get(neighbourGameSet)) {
-                                for (var tileSection : TileSection.values()) {
-                                    if(tile.getGameSet(tileSection).equals(neighbourGameSet)) {
-                                        tile.putSection(tileSection, joinedGameSet);
-                                    }
-                                }
-                            }
+                        if (neighbour.getGameSet(section).getType().equals(currentTile.getGameSet(TileSection.getOpposite(section)).getType())) {
+                            // se matchano le chiudo
                             neighbour.closeSection(section);
-                            neighbour.putSection(section, joinedGameSet);
+                            currentTile.closeSection(TileSection.getOpposite(section));
 
-                            for (Tile tile : gameSets.get(currentTileGameSet)) {
-                                for (var tileSection : TileSection.values()) {
-                                    if(tile.getGameSet(tileSection).equals(currentTileGameSet)) {
-                                        tile.putSection(tileSection, joinedGameSet);
+                            if (!neighbour.getGameSet(section).equals(currentTile.getGameSet(TileSection.getOpposite(section)))) {
+                                // se però non sono nello stesso gameSet unisco i due diversi gameSet
+                                GameSet neighbourGameSet = neighbour.getGameSet(section);
+                                GameSet currentTileGameSet = currentTile.getGameSet(TileSection.getOpposite(section));
+                                GameSet joinedGameSet = new GameSetFactoryImpl().createJoinedSet(neighbourGameSet, currentTileGameSet);
+                                
+                                for (Tile tile : gameSets.get(neighbourGameSet)) {
+                                    for (var tileSection : TileSection.values()) {
+                                        if(tile.getGameSet(tileSection).equals(neighbourGameSet)) {
+                                            tile.putSection(tileSection, joinedGameSet);
+                                        }
                                     }
                                 }
+                                neighbour.putSection(section, joinedGameSet);
+                                
+                                for (Tile tile : gameSets.get(currentTileGameSet)) {
+                                    for (var tileSection : TileSection.values()) {
+                                        if(tile.getGameSet(tileSection).equals(currentTileGameSet)) {
+                                            tile.putSection(tileSection, joinedGameSet);
+                                        }
+                                    }
+                                }
+                                currentTile.putSection(TileSection.getOpposite(section), joinedGameSet);
+                                
+                                Set<Tile> tiles = new HashSet<>();
+                                tiles.addAll(gameSets.remove(neighbourGameSet));
+                                tiles.addAll(gameSets.remove(currentTileGameSet));
+                                gameSets.put(joinedGameSet, tiles);
                             }
-                            currentTile.closeSection(TileSection.getOpposite(section));
-                            currentTile.putSection(TileSection.getOpposite(section), joinedGameSet);
-
-                            Set<Tile> tiles = new HashSet<>();
-                            tiles.addAll(gameSets.remove(neighbourGameSet));
-                            tiles.addAll(gameSets.remove(currentTileGameSet));
-                            gameSets.put(joinedGameSet, tiles);
                         }
                     }
                 }
@@ -249,7 +253,10 @@ public class ControllerImpl implements Controller {
         for (var section : TileSection.values()) {
             gameSetsToCheck.add(currentTile.getGameSet(section));
         }
-        gameSetsToCheck.stream().filter(this::isGameSetClosed).peek(this::distributePoints);
+
+        gameSetsToCheck.stream()
+            .filter(this::isGameSetClosed)
+            .forEach(this::distributePoints);
 
 
         this.turn = (this.turn + 1) % this.players.size();
@@ -351,8 +358,10 @@ public class ControllerImpl implements Controller {
             int maxValueMeeple = playerMeeples.values().stream().mapToInt(x -> x)
                 .max().getAsInt();
 
-            playerMeeples.entrySet().stream().filter(x -> x.getValue().equals(maxValueMeeple))
-                .peek(x -> x.getKey().addScore(checkOptional.get().getY()));
+            playerMeeples.entrySet().stream()
+                .filter(x -> x.getValue().equals(maxValueMeeple))
+                .map(Entry::getKey)
+                .forEach(p -> p.addScore(checkOptional.get().getY()));
         }
     }
 
