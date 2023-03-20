@@ -65,6 +65,8 @@ final class TileTest {
         var section = TileSection.UpCenter;
         tile.closeSection(section);
         assertTrue(tile.isSectionClosed(section));
+        var section2 = TileSection.UpCenter;
+        assertTrue(tile.isSectionClosed(section2));
     }
 
     @Test

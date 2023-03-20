@@ -20,7 +20,7 @@ public class TileImpl implements Tile {
     private final TileType type;
 
     private Optional<Pair<Integer, Integer>> currentPosition;
-    private Map<TileSection, GameSet> sections;
+    private Map<TileSection, Pair<GameSet, Boolean>> sections;
     private int rotationCount;
 
     public TileImpl(final TileType type) {
@@ -33,7 +33,7 @@ public class TileImpl implements Tile {
 
     @Override
     public void rotateClockwise() {
-        final Map<TileSection, GameSet> rotateSections = new HashMap<>();
+        final Map<TileSection, Pair<GameSet, Boolean>> rotateSections = new HashMap<>();
 
         for (var entry : this.sections.entrySet()) {
             rotateSections.put(TileSection.rotateClockwise(entry.getKey()), entry.getValue());
@@ -69,7 +69,11 @@ public class TileImpl implements Tile {
 
     @Override
     public void putSection(final TileSection section, final GameSet gameSet) {
-        this.sections.put(section, gameSet);
+        if (this.sections.containsKey(section)) {
+            this.sections.put(section, new Pair<>(gameSet, sections.remove(section).getY()));
+        } else {
+            this.sections.put(section, new Pair<>(gameSet, false));
+        }
     }
 
     @Override
@@ -79,7 +83,7 @@ public class TileImpl implements Tile {
 
     @Override
     public GameSet getGameSet(final TileSection section) {
-        return this.sections.get(section);
+        return this.sections.get(section).getX();
     }
 
     public boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet) {
@@ -113,21 +117,17 @@ public class TileImpl implements Tile {
 
     @Override
     public String toString() {
-        System.out.println(this.sections);
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
 
     @Override
     public void closeSection(final TileSection section) {
-        section.close();
-        this.sections.put(section, this.sections.remove(section));
+        this.sections.put(section, new Pair<>(sections.remove(section).getX(), true));
     }
 
     @Override
     public boolean isSectionClosed(TileSection section) {
-        return this.sections.keySet().stream()
-            .filter(s -> s.equals(section))
-            .allMatch(TileSection::isClosed);
+        return this.sections.get(section).getY();
     }
 
     @Override

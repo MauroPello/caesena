@@ -16,18 +16,6 @@ public enum TileSection {
     LeftUp,     //8->RightUp
     Center;
 
-    // TODO cercare nome migliore
-    // se combacia con un altro pezzo (match)
-    private boolean closed = false;
-
-    public void close() {
-        this.closed = true;
-    }
-
-    public boolean isClosed() {
-        return this.closed;
-    }
-
     private static int getSectionsInSide() {
         return 3;
     }
