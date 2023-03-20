@@ -111,9 +111,9 @@ public class GameView extends View {
 
     private ActionListener endTurnEventListener() {
         return (e) -> {
+            board.endTurn();
             this.controller.endTurn();
             footer.updateCurrentTile();
-            board.endTurn();
         };
     }
 
