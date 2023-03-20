@@ -30,10 +30,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     JButton endTurnButton = new JButton("ENDTURN");
 
     Controller controller;
-    BoardComponent board;
-    FooterComponent footer;
+    BoardComponent<JPanel> board;
+    FooterComponent<JPanel> footer;
 
-    public SideBarComponentImpl(final Controller controller, final BoardComponent board, final FooterComponent footer) {
+    public SideBarComponentImpl(final Controller controller, final BoardComponent<JPanel> board, final FooterComponent<JPanel> footer) {
         super();
         JPanel innerPanel = new JPanel();
         this.board = board;
