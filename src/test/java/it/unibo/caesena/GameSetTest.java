@@ -42,12 +42,12 @@ final class GameSetTest {
 
     @Test
     public void testMeeple () {
-        assertTrue(gamesetCity.isMeepleFree());
+        assertTrue(gamesetField.isMeepleFree());
 
-        assertTrue(gamesetCity.addMeeple(meeple));
+        assertTrue(gamesetField.addMeeple(meeple));
 
-        assertFalse(gamesetCity.isMeepleFree());
+        assertFalse(gamesetField.isMeepleFree());
 
-        assertTrue(gamesetCity.close().get().getX().contains(meeple));
+        assertTrue(gamesetField.close().get().getX().contains(meeple));
     }
 }
