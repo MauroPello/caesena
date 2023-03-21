@@ -32,13 +32,15 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     Controller controller;
     BoardComponent<JPanel> board;
     FooterComponent<JPanel> footer;
+    LeaderBoardComponent<JPanel> leaderBoard;
 
-    public SideBarComponentImpl(final Controller controller, final BoardComponent<JPanel> board, final FooterComponent<JPanel> footer) {
+    public SideBarComponentImpl(final Controller controller, final BoardComponent<JPanel> board, final FooterComponent<JPanel> footer, final LeaderBoardComponent<JPanel> leaderBoard) {
         super();
         JPanel innerPanel = new JPanel();
         this.board = board;
         this.footer = footer;
         this.controller = controller;
+        this.leaderBoard = leaderBoard;
 
         this.setBackground(java.awt.Color.BLACK);
         innerPanel.setLayout(new GridBagLayout());
@@ -112,6 +114,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
             this.board.endTurn();
             this.controller.endTurn();
             this.footer.updateFooter();
+            this.leaderBoard.updateLeaderBoard();
         };
     }
 

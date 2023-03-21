@@ -47,10 +47,10 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
         this.setVisible(true);
     }
 
+    @Override
     public void updateLeaderBoard()
     {
-
-        testLeaderBoard();
+        //testLeaderBoard();
 
         this.playerList = this.controller.getPlayers();
         playerList = playerList.stream().sorted((x, y) -> x.getScore() - y.getScore()).toList();
@@ -66,5 +66,10 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
         for (Player player : controller.getPlayers()) {
             player.setScore(new Random().nextInt(100000));
         }
+    }
+
+    @Override
+    public JPanel getComponent() {
+        return this;
     }
 }
