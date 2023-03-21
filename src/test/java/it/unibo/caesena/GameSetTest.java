@@ -14,7 +14,6 @@ import it.unibo.caesena.model.gameset.GameSetFactory;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.NormalMeeple;
-import it.unibo.caesena.utils.Color;
 
 final class GameSetTest {
 
@@ -33,7 +32,7 @@ final class GameSetTest {
         gamesetMonastery =  gamesetFactory.createMonasterySet();
         gamesetRoad =  gamesetFactory.createRoadSet();
 
-        meeple = new NormalMeeple(new PlayerImpl("Giocatore1", Color.createCustomColor("000000")));
+        meeple = new NormalMeeple(new PlayerImpl("Giocatore1"));
     }
 
     @Test

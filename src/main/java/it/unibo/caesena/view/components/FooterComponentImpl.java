@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.ImageIconUtil;
 
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{

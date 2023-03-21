@@ -85,8 +85,8 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void addPlayer(String name, Color color) {
-        Player newPlayer = new PlayerImpl(name, color);
+    public void addPlayer(String name) {
+        Player newPlayer = new PlayerImpl(name);
         players.add(newPlayer);
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
             meeples.add(new NormalMeeple(newPlayer));

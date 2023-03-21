@@ -14,12 +14,11 @@ import javax.swing.KeyStroke;
 import javax.swing.OverlayLayout;
 
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.utils.Color;
 
 public class GUI extends JFrame implements UserInterface {
     // TODO rimuovere
     // RAGA È SOLO PER DEBUG, SE ATTIVO UNO DISATTIVATE GLI ALTRI!!
-    private static boolean DEBUG_GAME_VIEW = true;
+    private static boolean DEBUG_GAME_VIEW = false;
     private static boolean DEBUG_GAME_OVER_VIEW = false;
     private Controller controller;
     private View startView;
@@ -45,10 +44,8 @@ public class GUI extends JFrame implements UserInterface {
 
         //TODO rimuovere
         if (DEBUG_GAME_VIEW || DEBUG_GAME_OVER_VIEW) {
-            Color color1 = Color.createColor("FF0000", "Red");
-            Color color2 = Color.createColor("00FF00", "Green");
-            this.controller.addPlayer("Giocatore1", color1);
-            this.controller.addPlayer("Giocatore2", color2);
+            this.controller.addPlayer("Giocatore1");
+            this.controller.addPlayer("Giocatore2");
             this.startGame();
             if (DEBUG_GAME_OVER_VIEW) {
                 this.showGameOverView();

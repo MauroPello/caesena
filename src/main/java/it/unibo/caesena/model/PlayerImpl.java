@@ -5,23 +5,16 @@ import it.unibo.caesena.utils.*;
 public class PlayerImpl implements Player{
 
     private final String name;
-    private final Color color;
     private int score;
 
-    public PlayerImpl(String name, Color color) {
+    public PlayerImpl(String name) {
         this.name = name;
-        this.color = color;
         this.score = 0;
     }
 
     @Override
     public String getName() {
         return this.name;
-    }
-
-    @Override
-    public Color getColor() {
-        return this.color;
     }
 
     @Override
@@ -48,7 +41,7 @@ public class PlayerImpl implements Player{
     @Override
     public boolean equals(Object arg0) {
         PlayerImpl otherPlayer = (PlayerImpl) arg0;
-        return otherPlayer.name == this.name && otherPlayer.color == this.color;
+        return otherPlayer.name == this.name;
     }
 
     @Override
