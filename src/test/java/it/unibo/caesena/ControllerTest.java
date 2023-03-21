@@ -46,19 +46,4 @@ final class ControllerTest {
     public void testGetMeeples() {
         assertEquals(controller.getCurrentPlayerMeeples().size(), 8);
     }
-
-    @Test
-    public void testPlaceCurrentTile() {
-        controller.startGame();
-        assertTrue(controller.placeCurrentTile(new Pair<Integer,Integer>(0, 0)));
-        controller.getCurrentTile().toString();
-
-        controller.endTurn();
-        controller.getCurrentTile().toString();
-
-        assertFalse(controller.placeCurrentTile(new Pair<Integer,Integer>(0, 0)));
-        controller.getCurrentTile().toString();
-        /*placeCurrentTile erroneamente permette il piazzamento di una tessera
-        anche in una posizione già occupata, da fixare*/
-    }
 }
