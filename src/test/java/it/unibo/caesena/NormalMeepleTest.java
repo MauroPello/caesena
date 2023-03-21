@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import it.unibo.caesena.model.meeple.NormalMeeple;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.PlayerImpl;
-import it.unibo.caesena.utils.Color;
 
 final class NormalMeepleTest {
 
@@ -19,7 +18,7 @@ final class NormalMeepleTest {
 
     @BeforeAll
     public static void init() {
-        owner = new PlayerImpl("Giocatore1", Color.createColor("FF0000", "Red"));
+        owner = new PlayerImpl("Giocatore1");
         meeple = new NormalMeeple(owner);
     }
 

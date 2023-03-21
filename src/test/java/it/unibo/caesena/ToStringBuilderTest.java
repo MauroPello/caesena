@@ -14,7 +14,7 @@ final class ToStringBuilderTest {
 
     @BeforeAll
     public static void init() {
-        player = new PlayerImpl("Giocatore1", Color.createCustomColor("FF0000"));
+        player = new PlayerImpl("Giocatore1");
     }
 
     @Test

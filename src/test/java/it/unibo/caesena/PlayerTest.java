@@ -6,25 +6,22 @@ import org.junit.jupiter.api.Test;
 
 
 import it.unibo.caesena.model.PlayerImpl;
-import it.unibo.caesena.utils.Color;
 
 final class PlayerTest {
     private static PlayerImpl player;
 
     @Test
     public void testGetters() {
-        player = new PlayerImpl("Giocatore1", Color.createCustomColor("FF0000"));
+        player = new PlayerImpl("Giocatore1");
         String name = player.getName();
         assertEquals("Giocatore1", name);
-        Color color = player.getColor();
-        assertEquals(Color.createCustomColor("FF0000"), color);
         int score = player.getScore();
         assertEquals(0, score);
     }
 
     @Test
     public void testScore() {
-        player = new PlayerImpl("Giocatore1", Color.createCustomColor("FF0000"));
+        player = new PlayerImpl("Giocatore1");
         player.setScore(10);
         assertEquals(10, player.getScore());
         player.addScore(10);

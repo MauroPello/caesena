@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import it.unibo.caesena.utils.Color;
 import it.unibo.caesena.view.components.NumericUpDown;
 import it.unibo.caesena.view.components.PlayerInput;
 
@@ -77,7 +76,7 @@ public class StartView extends View {
         startButton.addActionListener((e) -> {
             for (var playerInput : this.playerInputs) {
                 var player = playerInput.getPlayerData();
-                userInterface.getController().addPlayer(player.getX(), Color.createCustomColor(player.getY()));
+                userInterface.getController().addPlayer(player.getX());
             }
 
             userInterface.startGame();
