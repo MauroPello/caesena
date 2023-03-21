@@ -27,7 +27,7 @@ import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
     private static final int POINT_MONASTERY = 1;
-    private static final int POINTS_CLOSED_MONASTERY = 8;
+    private static final int POINTS_CLOSED_MONASTERY = 9;
     private static final int POINTS_CLOSED_CITY = 2;
     private static final String SEP = File.separator;
     private static final String CONFIG_FILE_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
@@ -146,6 +146,19 @@ public class ControllerImpl implements Controller {
             return false;
         }
 
+        for (var tile : getPlacedTiles()) {
+            if ((tile.getPosition().get().getX() >= position.getX()-1 && tile.getPosition().get().getY() >= position.getY()-1) &&
+                (tile.getPosition().get().getX() <= position.getX()+1 && tile.getPosition().get().getY() <= position.getY()+1)) {
+                GameSet centerGameSet = tile.getGameSet(TileSection.Center);
+                if (centerGameSet.getType().equals(GameSetType.MONASTERY) && !centerGameSet.isMeepleFree()) {
+                    centerGameSet.addPoints(POINT_MONASTERY);
+                    if (centerGameSet.getPoints() == POINTS_CLOSED_MONASTERY) {
+                        distributePoints(centerGameSet);
+                    }
+                }
+            }
+        }
+
         this.currentTile.setPosition(position);
         for (var section : TileSection.values()) {
             if (!gameSets.containsKey(currentTile.getGameSet(section))) {
@@ -155,6 +168,18 @@ public class ControllerImpl implements Controller {
                 gameSetTiles.add(currentTile);
                 gameSets.put(currentTile.getGameSet(section), gameSetTiles);
             }
+        }
+
+        if (this.currentTile.getGameSet(TileSection.Center).getType().equals(GameSetType.MONASTERY)) {
+            int nearMonasteryTilesNum = 0;
+            for (var nearTile : getPlacedTiles()) {
+                if ((nearTile.getPosition().get().getX() >= position.getX()-1 && nearTile.getPosition().get().getY() >= position.getY()-1) &&
+                    (nearTile.getPosition().get().getX() <= position.getX()+1 && nearTile.getPosition().get().getY() <= position.getY()+1) &&
+                    !nearTile.getPosition().get().equals(position)) {
+                    nearMonasteryTilesNum++;
+                }
+            }
+            this.currentTile.getGameSet(TileSection.Center).addPoints(nearMonasteryTilesNum * POINT_MONASTERY);
         }
 
         Set<Tile> neighbours = getTileNeighbours(position);
@@ -203,19 +228,6 @@ public class ControllerImpl implements Controller {
                                 gameSets.put(joinedGameSet, tiles);
                             }
                         }
-                    }
-                }
-            }
-        }
-
-        for (var tile : getPlacedTiles()) {
-            if ((tile.getPosition().get().getX() >= position.getX()-1 && tile.getPosition().get().getY() >= position.getY()-1) &&
-                (tile.getPosition().get().getX() <= position.getX()+1 && tile.getPosition().get().getY() <= position.getY()+1)) {
-                GameSet centerGameSet = tile.getGameSet(TileSection.Center);
-                if (centerGameSet.getType().equals(GameSetType.MONASTERY) && !centerGameSet.isMeepleFree()) {
-                    centerGameSet.addPoints(POINT_MONASTERY);
-                    if (centerGameSet.getPoints() == POINTS_CLOSED_MONASTERY) {
-                        distributePoints(centerGameSet);
                     }
                 }
             }
