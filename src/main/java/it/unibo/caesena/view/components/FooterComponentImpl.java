@@ -1,5 +1,6 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,24 +15,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.utils.ImageIconUtil;
+import it.unibo.caesena.view.GUI;
 
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
 
     JPanel playerColorPanel = new JPanel();
     JLabel tileImageLabel;
-
     JLabel playerMeepleLabel = new JLabel("N° meeple");
     JLabel playerNameLabel = new JLabel("name");
     JLabel playerScoreLabel = new JLabel("score");
     JButton rotateButton = new JButton("Rotate");
     JLabel remainingTilesLabel = new JLabel("N° tile");
 
-    Controller controller;
+    GUI userinterface;
 
-    public FooterComponentImpl(final Controller controller) {
+    public FooterComponentImpl(final GUI userInterface) {
         super();
+        this.userinterface = userInterface;
         JPanel innerPanel = new JPanel();
         this.setBackground(java.awt.Color.BLACK);
         innerPanel.setLayout(new GridBagLayout());
@@ -46,13 +47,19 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         rotateButton.setSize(200, 200);
         rotateButton.setBounds(100,100,100,100);
         
-        this.controller = controller;
-
-        ImageIcon icon = new ImageIcon(controller.getCurrentTile().getImageResourcesPath());
+        ImageIcon icon = new ImageIcon(userInterface.getController().getCurrentTile().getImageResourcesPath());
         this.tileImageLabel = new JLabel(icon);
         tileImageLabel.setPreferredSize(new Dimension(40, 40));
         tileImageLabel.setMinimumSize(new Dimension(40, 40));
         this.tileImageLabel.setBorder(new LineBorder(java.awt.Color.BLACK));
+
+        //
+        playerColorPanel.setPreferredSize(new Dimension(40, 40));
+        playerColorPanel.setMinimumSize(new Dimension(40, 40));
+        //this.playerColorPanel.setBorder(new LineBorder(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer())));
+        this.playerColorPanel.setBackground(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
+        //this.playerColorPanel.setBorder(new LineBorder(Color.GREEN));
+        //
 
         Image resized = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
         tileImageLabel.setIcon(new ImageIcon(resized));
@@ -82,7 +89,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.rotateCurrentTile();
+                userInterface.getController().rotateCurrentTile();
                 updateCurrentTile();
             }
             
@@ -97,9 +104,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentTile() {
-        ImageIcon icon = new ImageIcon(controller.getCurrentTile().getImageResourcesPath());
+        ImageIcon icon = new ImageIcon(userinterface.getController().getCurrentTile().getImageResourcesPath());
         
-        double angle = 90 * controller.getCurrentTile().getRotationCount();
+        double angle = 90 * userinterface.getController().getCurrentTile().getRotationCount();
 
         ImageIcon newIcon = ImageIconUtil.rotate(icon, angle);
 
@@ -108,19 +115,19 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentPlayerMeeples() {
-        playerMeepleLabel.setText("M: "+controller.getCurrentPlayerMeeples().stream().filter(m -> !m.isPlaced()).count());
+        playerMeepleLabel.setText("M: "+userinterface.getController().getCurrentPlayerMeeples().stream().filter(m -> !m.isPlaced()).count());
     }
 
     @Override
     public void updateRemainingTiles() {
-        remainingTilesLabel.setText(controller.getNotPlacedTiles().size()+"");
+        remainingTilesLabel.setText(userinterface.getController().getNotPlacedTiles().size()+"");
     }
 
     @Override
     public void updateFooter() {
         updateCurrentTile();
-        playerNameLabel.setText(controller.getCurrentPlayer().getName());
-        playerScoreLabel.setText("S: "+controller.getCurrentPlayer().getScore()+"");
+        playerNameLabel.setText(userinterface.getController().getCurrentPlayer().getName());
+        playerScoreLabel.setText("S: "+userinterface.getController().getCurrentPlayer().getScore()+"");
         updateCurrentPlayerMeeples();
         updateRemainingTiles();
     }

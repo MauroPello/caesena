@@ -11,7 +11,7 @@ public interface Controller {
 
     void startGame();
 
-    void addPlayer(String name);
+    Player addPlayer(String name);
 
     boolean placeMeeple(Meeple meeple, TileSection section);
 

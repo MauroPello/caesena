@@ -16,17 +16,19 @@ public class GameView extends View {
     private BoardComponent<JPanel> board;
     private FooterComponent<JPanel> footer;
     private SideBarComponent<JPanel> sidebar;
+    GUI userInterface;
 
     public GameView(GUI userInterface) {
         super(userInterface);
         this.controller = getUserInterface().getController();
+        this.userInterface = userInterface;
     }
 
     public void start() {
         this.controller.startGame();
         this.board = new BoardComponentImpl(controller);
         this.setLayout(new BorderLayout());
-        this.footer = new FooterComponentImpl(controller);
+        this.footer = new FooterComponentImpl(userInterface);
         this.sidebar = new SideBarComponentImpl(controller, this);
         this.add(sidebar.getComponent(), BorderLayout.EAST);
         this.add(board.getComponent(), BorderLayout.CENTER);

@@ -2,9 +2,12 @@ package it.unibo.caesena.view;
 
 import java.awt.Toolkit;
 import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -14,6 +17,7 @@ import javax.swing.KeyStroke;
 import javax.swing.OverlayLayout;
 
 import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.model.Player;
 
 public class GUI extends JFrame implements UserInterface {
     // TODO rimuovere
@@ -26,10 +30,12 @@ public class GUI extends JFrame implements UserInterface {
     private View pauseView;
     private View gameOverView;
     private JPanel gamePanel;
+    private Map<Player, Color> players;
 
     public GUI(final Controller controller) {
         super();
         this.controller = controller;
+        this.players = new HashMap<>();
 
         // TODO background and size options
         // TODO default options
@@ -44,8 +50,8 @@ public class GUI extends JFrame implements UserInterface {
 
         //TODO rimuovere
         if (DEBUG_GAME_VIEW || DEBUG_GAME_OVER_VIEW) {
-            this.controller.addPlayer("Giocatore1");
-            this.controller.addPlayer("Giocatore2");
+            this.addPlayer("Giocatore1", Color.RED);
+            this.addPlayer("Giocatore2", Color.GREEN);
             this.startGame();
             if (DEBUG_GAME_OVER_VIEW) {
                 this.showGameOverView();
@@ -115,7 +121,7 @@ public class GUI extends JFrame implements UserInterface {
 
     public void exit() {
         this.controller.exitGame();
-        // chiudi app
+        // TODO chiudi app
     }
 
     public Controller getController() {
@@ -129,5 +135,13 @@ public class GUI extends JFrame implements UserInterface {
                 setEnabledAllComponents(((Container)component), enabled);
             }
         }
+    }
+
+    public void addPlayer(String name, Color color) {
+        this.players.put(this.controller.addPlayer(name), color);
+    }
+
+    public Color getPlayerColor(final Player player) {
+        return this.players.get(player);
     }
 }

@@ -85,12 +85,13 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public void addPlayer(String name) {
+    public Player addPlayer(String name) {
         Player newPlayer = new PlayerImpl(name);
         players.add(newPlayer);
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
             meeples.add(new NormalMeeple(newPlayer));
         }
+        return newPlayer;
     }
 
     @Override

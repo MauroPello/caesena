@@ -56,8 +56,8 @@ public class PlayerInput extends JPanel {
         this.add(playerColorBtn);
     }
 
-    public Pair<String, String> getPlayerData() {
-        return new Pair<>(playerName.getText(), Integer.toHexString((playerColor.getRGB() & 0xffffff) | 0x1000000).substring(1));
+    public Pair<String, Color> getPlayerData() {
+        return new Pair<>(playerName.getText(), playerColor);
     }
 
 }
