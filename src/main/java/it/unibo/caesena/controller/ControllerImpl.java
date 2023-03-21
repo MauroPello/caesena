@@ -272,7 +272,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public boolean isGameOver() {
-        return getPlacedTiles().size() == tiles.size();
+        return getNotPlacedTiles().isEmpty();
     }
 
     @Override
@@ -293,7 +293,11 @@ public class ControllerImpl implements Controller {
     }
 
     private void drawNewTile() {
-        this.currentTile = this.getNotPlacedTiles().get(0);
+        if (isGameOver()) {
+            endGame();
+        } else {
+            this.currentTile = this.getNotPlacedTiles().get(0);
+        }
     }
 
     @Override
