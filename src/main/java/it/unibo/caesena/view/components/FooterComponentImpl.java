@@ -56,7 +56,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         //
         playerColorPanel.setPreferredSize(new Dimension(40, 40));
         playerColorPanel.setMinimumSize(new Dimension(40, 40));
-        //this.playerColorPanel.setBorder(new LineBorder(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer())));
+        this.playerColorPanel.setBorder(new LineBorder(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer())));
         this.playerColorPanel.setBackground(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         //this.playerColorPanel.setBorder(new LineBorder(Color.GREEN));
         //
