@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Image;
 //import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -96,6 +99,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             @Override
             public void actionPerformed(ActionEvent e) {
                 controller.rotateCurrentTile();
+                updateCurrentTile();
             }
             
         });
@@ -143,7 +147,30 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     @Override
     public void updateCurrentTile() {
         ImageIcon icon = new ImageIcon(controller.getCurrentTile().getImageResourcesPath());
-        tileImageLabel.setIcon(new ImageIcon(icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
+        
+        double angle = 90 * controller.getCurrentTile().getRotationCount();
+
+        ImageIcon newIcon = new ImageIcon(rotateImageIcon(icon, angle));
+
+        tileImageLabel.setIcon(new ImageIcon(newIcon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
+    }
+
+    // https://coderanch.com/t/467131/java/Rotating-ImageIcon
+    static private BufferedImage rotateImageIcon(ImageIcon picture, double angle) {
+        int w = picture.getIconWidth();
+        int h = picture.getIconHeight();
+        int type = BufferedImage.TYPE_INT_RGB;  // other options, see api
+        BufferedImage image = new BufferedImage(h, w, type);
+        Graphics2D g2 = image.createGraphics();
+        double x = (h - w)/2.0;
+        double y = (w - h)/2.0;
+        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
+        at.rotate(Math.toRadians(angle), w/2.0, h/2.0);
+        g2.drawImage(picture.getImage(), at, null);
+        g2.dispose();
+        picture = new ImageIcon(image);
+
+        return image;
     }
 
     @Override

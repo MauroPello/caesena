@@ -38,6 +38,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         JPanel innerPanel = new JPanel();
         this.board = board;
         this.footer = footer;
+        this.controller = controller;
 
         this.setBackground(java.awt.Color.BLACK);
         innerPanel.setLayout(new GridBagLayout());
