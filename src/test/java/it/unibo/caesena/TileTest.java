@@ -75,5 +75,7 @@ final class TileTest {
     public void TestSectionShift() {
         TileSection section = TileSection.UpLeft;
         assertEquals(TileSection.LeftUp, TileSection.previous(section));
+        section = TileSection.LeftUp;
+        assertEquals(TileSection.UpLeft, TileSection.next(section));
     }
 }

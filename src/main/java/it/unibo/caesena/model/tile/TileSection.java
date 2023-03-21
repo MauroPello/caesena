@@ -20,18 +20,19 @@ public enum TileSection {
         return 3;
     }
 
-    private static TileSection shiftTileSection(final TileSection section, final int offset) {
-        if(section == TileSection.Center) {
+    private static TileSection shiftAroundBorders(final TileSection section, final int offset) {
+        if (section == TileSection.Center) {
             return TileSection.Center;
         }
+
         int index = Math.floorMod(section.ordinal() + offset, values().length);
-        if (offset > 0 && section.ordinal() < TileSection.Center.ordinal() &&
-            section.ordinal() + offset >= TileSection.Center.ordinal()) {
-            index = (index + 1) % values().length;
+        if (offset > 0 && (values()[index].equals(TileSection.Center) || 
+            (section.ordinal() < TileSection.Center.ordinal() && section.ordinal() + offset >= TileSection.Center.ordinal()))) {
+            index = Math.floorMod(index + 1, values().length);
         }
-        if (offset < 0 && section.ordinal() > TileSection.Center.ordinal() &&
-            section.ordinal() + offset <= TileSection.Center.ordinal()) {
-            index = (index + 1) % values().length;
+        if (offset < 0 && (values()[index].equals(TileSection.Center) || 
+            (section.ordinal() > TileSection.Center.ordinal() && section.ordinal() + offset <= TileSection.Center.ordinal()))) {
+            index = Math.floorMod(index - 1, values().length);
         }
         
         return values()[index];
@@ -45,20 +46,20 @@ public enum TileSection {
         if(section.ordinal()<=TileSection.RightDown.ordinal()) {
             switch(section.ordinal()%3) {
                 case 0:
-                    return shiftTileSection(section, 8);
+                    return shiftAroundBorders(section, 8);
                 case 1:
-                    return shiftTileSection(section, 6);
+                    return shiftAroundBorders(section, 6);
                 case 2:
-                    return shiftTileSection(section, 4);
+                    return shiftAroundBorders(section, 4);
             }
         } else {
             switch(section.ordinal()%3) {
                 case 0:
-                    return shiftTileSection(section, -4);
+                    return shiftAroundBorders(section, -4);
                 case 1:
-                    return shiftTileSection(section, -6);
+                    return shiftAroundBorders(section, -6);
                 case 2:
-                    return shiftTileSection(section, -8);
+                    return shiftAroundBorders(section, -8);
             }
         }
 
@@ -66,14 +67,14 @@ public enum TileSection {
     }
 
     public static TileSection rotateClockwise(final TileSection section) {
-        return shiftTileSection(section, getSectionsInSide());
+        return shiftAroundBorders(section, getSectionsInSide());
     }
 
     public static TileSection next(final TileSection section) {
-        return shiftTileSection(section, 1);
+        return shiftAroundBorders(section, 1);
     }
 
     public static TileSection previous(final TileSection section) {
-        return shiftTileSection(section, -1);
+        return shiftAroundBorders(section, -1);
     }
 }
