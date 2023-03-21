@@ -26,6 +26,8 @@ import it.unibo.caesena.model.tile.*;
 import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
+    private static final int POINT_MONASTERY = 1;
+    private static final int POINTS_CLOSED_MONASTERY = 8;
     private static final int POINTS_CLOSED_CITY = 2;
     private static final String SEP = File.separator;
     private static final String CONFIG_FILE_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
@@ -205,6 +207,19 @@ public class ControllerImpl implements Controller {
             }
         }
 
+        for (var tile : getPlacedTiles()) {
+            if ((tile.getPosition().get().getX() >= position.getX()-1 && tile.getPosition().get().getY() >= position.getY()-1) &&
+                (tile.getPosition().get().getX() <= position.getX()+1 && tile.getPosition().get().getY() <= position.getY()+1)) {
+                GameSet centerGameSet = tile.getGameSet(TileSection.Center);
+                if (centerGameSet.getType().equals(GameSetType.MONASTERY) && !centerGameSet.isMeepleFree()) {
+                    centerGameSet.addPoints(POINT_MONASTERY);
+                    if (centerGameSet.getPoints() == POINTS_CLOSED_MONASTERY) {
+                        distributePoints(centerGameSet);
+                    }
+                }
+            }
+        }
+                     
         return true;
     }
 
