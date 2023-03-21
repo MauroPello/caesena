@@ -19,7 +19,6 @@ import it.unibo.caesena.utils.ImageIconUtil;
 
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
 
-    //JButton playerColorButton = new JButton("color");
     JPanel playerColorPanel = new JPanel();
     JLabel tileImageLabel;
 
@@ -35,26 +34,17 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         super();
         JPanel innerPanel = new JPanel();
         this.setBackground(java.awt.Color.BLACK);
-        //innerPanel.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         innerPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridy = 0;
         constraints.gridx = 1;
         constraints.insets = new Insets(20, 10, 20, 10);
-        //constraints.gridwidth = GridBagConstraints.REMAINDER;
 
         this.setSize(400, 400);
         playerColorPanel.setSize(new Dimension(40, 40));
         rotateButton.setSize(200, 200);
         rotateButton.setBounds(100,100,100,100);
-        
-        this.playerColorPanel.addPropertyChangeListener("background", (p) -> {
-            // playerColor = (Color)p.getNewValue();
-            // playerColorPanel.setBackground((Color)Color.createCustomColor(Controller.getCurrentPlayer().getColor().getHex()));
-            // Player ciao = Controller.getCurrentPlayer();
-            //playerColorPanel.setBackground();
-        });
         
         this.controller = controller;
 
@@ -66,7 +56,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         Image resized = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
         tileImageLabel.setIcon(new ImageIcon(resized));
-        //System.out.println(icon.toString());
 
         innerPanel.add(playerColorPanel, constraints);
         constraints.gridx ++;
@@ -89,8 +78,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         updateFooter();
 
-        //playerColorButton.setBackground(Controller.getCurrentPlayer().getColor());
-
         rotateButton.addActionListener(new ActionListener(){
 
             @Override
@@ -100,39 +87,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             }
             
         });
-
-        /*
-         * 
-            private void gameSetupDebug() {
-            Color color1 = Color.createColor("FF0000", "Red");
-            Color color2 = Color.createColor("00FF00", "Green");
-            this.controller.addPlayer("Giocatore1", color1);
-            this.controller.addPlayer("Giocatore2", color2);
-    }
-         * 
-         */
-
-
-        /*playerColorButton.setEnabled(false);
-        this.add(playerColorButton);
-
-        this.add(playerMeepleLabel);
-        this.add(playerNameLabel);
-        this.add(playerScoreLabel);
-
-        tileImageButton.setEnabled(false);
-        this.add(tileImageButton);
-        
-        rotateButton.addActionListener(new ActionListener(){
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Controller.rotateCurrentTile();
-            }
-            
-        });
-        this.add(rotateButton);
-        this.add(remainingTilesLabel);*/
 
     }
 
@@ -167,7 +121,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         updateCurrentTile();
         playerNameLabel.setText(controller.getCurrentPlayer().getName());
         playerScoreLabel.setText("S: "+controller.getCurrentPlayer().getScore()+"");
-        //playerColorPanel ??
         updateCurrentPlayerMeeples();
         updateRemainingTiles();
     }

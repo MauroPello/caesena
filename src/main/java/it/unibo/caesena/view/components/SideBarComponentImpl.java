@@ -9,8 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.view.GameView;
 
 public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPanel>{
 
@@ -30,17 +29,15 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     JButton endTurnButton = new JButton("ENDTURN");
 
     Controller controller;
-    BoardComponent<JPanel> board;
-    FooterComponent<JPanel> footer;
+    GameView gameView;
     LeaderBoardComponent<JPanel> leaderBoard;
 
-    public SideBarComponentImpl(final Controller controller, final BoardComponent<JPanel> board, final FooterComponent<JPanel> footer, final LeaderBoardComponent<JPanel> leaderBoard) {
+    public SideBarComponentImpl(final Controller controller, final GameView gameView) {
         super();
         JPanel innerPanel = new JPanel();
-        this.board = board;
-        this.footer = footer;
         this.controller = controller;
-        this.leaderBoard = leaderBoard;
+        this.gameView = gameView;
+        this.leaderBoard = new LeaderBoardComponentImpl(controller);
 
         this.setBackground(java.awt.Color.BLACK);
         innerPanel.setLayout(new GridBagLayout());
@@ -68,6 +65,8 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         innerPanel.add(placeMeepleButton, constraints);
         constraints.gridy ++;
         innerPanel.add(endTurnButton, constraints);
+        constraints.gridy ++;
+        innerPanel.add(leaderBoard.getComponent(), constraints);
 
         this.add(innerPanel);
 
@@ -91,62 +90,43 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     }
 
     private ActionListener placeMeepleEventListener() {
-        return (e) -> {
-            Tile tile = board.getCurrentlySelectedTileButton().getContainedTile();
-            board.placeMeeple(tile);
-        };
+        return (e) -> this.gameView.placeMeeple();
     }
 
     private ActionListener placeTileEventListener() {
-        return (e) -> {
-            Pair<Integer, Integer> position = board.getCurrentlySelectedTileButton().getPosition();
-            if (this.controller.isValidPositionForCurrentTile(position)) {
-                this.controller.placeCurrentTile(position);
-                this.board.lockTile();
-            } else {
-                throw new IllegalStateException("Tried to place tile in a not valid position");
-            }
-        };
+        return (e) -> this.gameView.placeTile();
     }
 
     private ActionListener endTurnEventListener() {
-        return (e) -> {
-            this.board.endTurn();
-            this.controller.endTurn();
-            this.footer.updateFooter();
-            this.leaderBoard.updateLeaderBoard();
-        };
+        return (e) -> this.gameView.endTurn();
     }
 
-    public ActionListener zoomInEventListener() {
-        return (e) -> this.board.zoomIn();
+    private ActionListener zoomInEventListener() {
+        return (e) -> this.gameView.zoomIn();
     }
 
-    public ActionListener zoomOutEventListener() {
-        return (e) -> this.board.zoomOut();
+    private ActionListener zoomOutEventListener() {
+        return (e) -> this.gameView.zoomOut();
     }
 
-    public ActionListener moveUpEventListener() {
-        return (e) -> this.board.moveUp();
+    private ActionListener moveUpEventListener() {
+        return (e) -> this.gameView.moveUp();
     }
 
-    public ActionListener moveLeftEventListener() {
-        return (e) -> this.board.moveLeft();
+    private ActionListener moveLeftEventListener() {
+        return (e) -> this.gameView.moveLeft();
     }
 
-    public ActionListener moveDownEventListener() {
-        return (e) -> this.board.moveDown();
+    private ActionListener moveDownEventListener() {
+        return (e) -> this.gameView.moveDown();
     }
 
-    public ActionListener moveRightEventListener() {
-        return (e) -> this.board.moveRight();
+    private ActionListener moveRightEventListener() {
+        return (e) -> this.gameView.moveRight();
     }
 
-    /*
-     * pulsante zoom
-     * pulsante dezoom
-     * 
-     * pulsante conferma
-     * pulsante fine turno
-     */
+    @Override
+    public void update() {
+        this.leaderBoard.updateLeaderBoard();
+    }
 }
