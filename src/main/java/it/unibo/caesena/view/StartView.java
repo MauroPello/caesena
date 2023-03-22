@@ -76,7 +76,7 @@ public class StartView extends View {
         startButton.addActionListener((e) -> {
             for (var playerInput : this.playerInputs) {
                 var player = playerInput.getPlayerData();
-                userInterface.getController().addPlayer(player.getX());
+                userInterface.addPlayer(player.getX(), player.getY());
             }
 
             userInterface.startGame();

@@ -27,11 +27,11 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     JButton rotateButton = new JButton("Rotate");
     JLabel remainingTilesLabel = new JLabel("N° tile");
 
-    GUI userinterface;
+    GUI userInterface;
 
     public FooterComponentImpl(final GUI userInterface) {
         super();
-        this.userinterface = userInterface;
+        this.userInterface = userInterface;
         JPanel innerPanel = new JPanel();
         this.setBackground(java.awt.Color.BLACK);
         innerPanel.setLayout(new GridBagLayout());
@@ -103,9 +103,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentTile() {
-        ImageIcon icon = new ImageIcon(userinterface.getController().getCurrentTile().getImageResourcesPath());
+        ImageIcon icon = new ImageIcon(userInterface.getController().getCurrentTile().getImageResourcesPath());
         
-        double angle = 90 * userinterface.getController().getCurrentTile().getRotationCount();
+        double angle = 90 * userInterface.getController().getCurrentTile().getRotationCount();
 
         ImageIcon newIcon = ImageIconUtil.rotate(icon, angle);
 
@@ -114,20 +114,22 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentPlayerMeeples() {
-        playerMeepleLabel.setText("M: "+userinterface.getController().getCurrentPlayerMeeples().stream().filter(m -> !m.isPlaced()).count());
+        playerMeepleLabel.setText("M: "+userInterface.getController().getCurrentPlayerMeeples().stream().filter(m -> !m.isPlaced()).count());
     }
 
     @Override
     public void updateRemainingTiles() {
-        remainingTilesLabel.setText(userinterface.getController().getNotPlacedTiles().size()+"");
+        remainingTilesLabel.setText(userInterface.getController().getNotPlacedTiles().size()+"");
     }
 
     @Override
     public void updateFooter() {
         updateCurrentTile();
-        playerNameLabel.setText(userinterface.getController().getCurrentPlayer().getName());
-        playerScoreLabel.setText("S: "+userinterface.getController().getCurrentPlayer().getScore()+"");
+        playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
+        playerScoreLabel.setText("S: "+userInterface.getController().getCurrentPlayer().getScore()+"");
         updateCurrentPlayerMeeples();
         updateRemainingTiles();
+        this.playerColorPanel.setBorder(new LineBorder(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer())));
+        this.playerColorPanel.setBackground(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
     }
 }
