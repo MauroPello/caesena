@@ -42,7 +42,6 @@ final class TileTest {
         assertEquals(tile.getRotationCount(), 0);
 
         tile.rotateClockwise();
-        //TODO controllare rotazione
         Tile tile2 = new TileBuilder(TileType.CITY_EDGE)
             .city(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown,
             TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight))
@@ -50,11 +49,8 @@ final class TileTest {
             TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown, TileSection.Center))
             .build();
 
-        System.out.println(tile.toString());
-        System.out.println(tile2.toString());
-        
         for (TileSection section : TileSection.values()) {
-            assertTrue(tile.getGameSet(section).getType().equals(tile2.getGameSet(section).getType()));
+            assertEquals(tile2.getGameSet(section).getType(), tile.getGameSet(section).getType());
         }
         
         assertEquals(tile.getRotationCount(), 1);
@@ -72,6 +68,14 @@ final class TileTest {
     @Test
     public void TestOppositeSection() {
         TileSection section = TileSection.DownLeft;
-        assertEquals(TileSection.getOpposite(section), TileSection.UpLeft);
+        assertEquals(TileSection.UpLeft, TileSection.getOpposite(section));
+    }
+
+    @Test
+    public void TestSectionShift() {
+        TileSection section = TileSection.UpLeft;
+        assertEquals(TileSection.LeftUp, TileSection.previous(section));
+        section = TileSection.LeftUp;
+        assertEquals(TileSection.UpLeft, TileSection.next(section));
     }
 }

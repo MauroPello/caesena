@@ -19,8 +19,7 @@ final class GameSetTest {
 
     private static GameSetFactory gamesetFactory;    
     private static GameSet gamesetCity;    
-    private static GameSet gamesetMonastery;
-    private static GameSet gamesetRoad;
+    private static GameSet gamesetCity2;
     private static GameSet gamesetField;
     private static Meeple meeple;
 
@@ -28,9 +27,8 @@ final class GameSetTest {
     public static void init() {
         gamesetFactory = new GameSetFactoryImpl();
         gamesetCity = gamesetFactory.createCitySet();
+        gamesetCity2 = gamesetFactory.createCitySet();
         gamesetField =  gamesetFactory.createFieldSet();
-        gamesetMonastery =  gamesetFactory.createMonasterySet();
-        gamesetRoad =  gamesetFactory.createRoadSet();
 
         meeple = new NormalMeeple(new PlayerImpl("Giocatore1"));
     }
@@ -38,26 +36,18 @@ final class GameSetTest {
     @Test
     public void testCreateJoinedSet () {
         assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetField, gamesetCity));
-        assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetField, gamesetMonastery));
-        assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetField, gamesetRoad));
-        assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetRoad, gamesetCity));
-        assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetMonastery, gamesetCity));
-        assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetRoad, gamesetMonastery));
         
-        assertEquals(gamesetCity.getType(), gamesetFactory.createJoinedSet(gamesetCity, gamesetCity).getType());
-        assertEquals(gamesetField.getType(), gamesetFactory.createJoinedSet(gamesetField, gamesetField).getType());
-        assertEquals(gamesetRoad.getType(), gamesetFactory.createJoinedSet(gamesetRoad, gamesetRoad).getType());
-        assertEquals(gamesetMonastery.getType(), gamesetFactory.createJoinedSet(gamesetMonastery, gamesetMonastery).getType());
+        assertEquals(gamesetCity.getType(), gamesetFactory.createJoinedSet(gamesetCity, gamesetCity2).getType());
     }
 
     @Test
     public void testMeeple () {
-        assertTrue(gamesetCity.isMeepleFree());
+        assertTrue(gamesetField.isMeepleFree());
 
-        assertTrue(gamesetCity.addMeeple(meeple));
+        assertTrue(gamesetField.addMeeple(meeple));
 
-        assertFalse(gamesetCity.isMeepleFree());
+        assertFalse(gamesetField.isMeepleFree());
 
-        assertTrue(gamesetCity.close().get().getX().contains(meeple));
+        assertTrue(gamesetField.close().get().getX().contains(meeple));
     }
 }

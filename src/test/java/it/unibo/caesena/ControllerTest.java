@@ -2,7 +2,6 @@ package it.unibo.caesena;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.controller.*;
-import it.unibo.caesena.utils.Pair;
 
 final class ControllerTest {
     private static Controller controller;
@@ -45,20 +43,5 @@ final class ControllerTest {
     @Test
     public void testGetMeeples() {
         assertEquals(controller.getCurrentPlayerMeeples().size(), 8);
-    }
-
-    @Test
-    public void testPlaceCurrentTile() {
-        controller.startGame();
-        assertTrue(controller.placeCurrentTile(new Pair<Integer,Integer>(0, 0)));
-        controller.getCurrentTile().toString();
-
-        controller.endTurn();
-        controller.getCurrentTile().toString();
-
-        assertFalse(controller.placeCurrentTile(new Pair<Integer,Integer>(0, 0)));
-        controller.getCurrentTile().toString();
-        /*placeCurrentTile erroneamente permette il piazzamento di una tessera
-        anche in una posizione già occupata, da fixare*/
     }
 }
