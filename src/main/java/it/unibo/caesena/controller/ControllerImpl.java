@@ -26,9 +26,10 @@ import it.unibo.caesena.model.tile.*;
 import it.unibo.caesena.utils.*;
 
 public class ControllerImpl implements Controller {
-    private static final int POINT_MONASTERY = 1;
+    private static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
+    private static final int POINTS_TILE_NEARBY_MONASTERY = 1;
     private static final int POINTS_CLOSED_MONASTERY = 9;
-    private static final int POINTS_CLOSED_CITY = 2;
+    // private static final float OPEN_CITY_POINTS_RATIO = 0.5f;
     private static final String SEP = File.separator;
     private static final String CONFIG_FILE_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
     private static final int MEEPLES_PER_PLAYER = 8;
@@ -151,7 +152,7 @@ public class ControllerImpl implements Controller {
                 (tile.getPosition().get().getX() <= position.getX()+1 && tile.getPosition().get().getY() <= position.getY()+1)) {
                 GameSet centerGameSet = tile.getGameSet(TileSection.Center);
                 if (centerGameSet.getType().equals(GameSetType.MONASTERY) && !centerGameSet.isMeepleFree()) {
-                    centerGameSet.addPoints(POINT_MONASTERY);
+                    centerGameSet.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     if (centerGameSet.getPoints() == POINTS_CLOSED_MONASTERY) {
                         distributePoints(centerGameSet);
                     }
@@ -179,7 +180,7 @@ public class ControllerImpl implements Controller {
                     nearMonasteryTilesNum++;
                 }
             }
-            this.currentTile.getGameSet(TileSection.Center).addPoints(nearMonasteryTilesNum * POINT_MONASTERY);
+            this.currentTile.getGameSet(TileSection.Center).addPoints(nearMonasteryTilesNum * POINTS_TILE_NEARBY_MONASTERY);
         }
 
         Set<Tile> neighbours = getTileNeighbours(position);
@@ -319,7 +320,7 @@ public class ControllerImpl implements Controller {
                     }
                 }
 
-                fieldsNearCity.forEach(x -> x.addPoints(POINTS_CLOSED_CITY));
+                fieldsNearCity.forEach(x -> x.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD));
                 fieldsWithPoints.addAll(fieldsNearCity);
             }
         }
