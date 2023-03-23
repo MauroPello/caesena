@@ -37,7 +37,10 @@ public class GameSetFactoryImpl implements GameSetFactory {
     public GameSet createJoinedSet(final GameSet gs1, final GameSet gs2) {
         
         if (gs1.getType().equals(gs2.getType())) {
-            
+            if (gs1.isClosed() || gs2.isClosed()) {
+                throw new IllegalStateException("Only not closed GameSets can be joined!");
+            }
+
             final var firstPair = gs1.close().get();
             final var secondPair = gs2.close().get();
             final GameSetType newTipe = gs1.getType();

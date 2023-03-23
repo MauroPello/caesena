@@ -8,7 +8,7 @@ public class StringUtil {
 
     public static String capitalize(String string) {
         char[] charArray = string.toLowerCase().toCharArray();
-        charArray[0] = String.valueOf(charArray[0]).toUpperCase().charAt(0);
+        charArray[0] = Character.toUpperCase(charArray[0]);
         return String.valueOf(charArray);
     }
 
