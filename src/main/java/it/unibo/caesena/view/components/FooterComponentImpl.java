@@ -3,7 +3,6 @@ package it.unibo.caesena.view.components;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Image;
@@ -29,17 +28,73 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     GUI userInterface;
 
+    JPanel innerPanel;
+    GridBagConstraints constraints;
+
+    private JPanel getRectangularJPanel() {
+        return new JPanel() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Dimension getPreferredSize() {
+                //constraints.insets = new Insets(20, 10, 20, 10);
+
+                Dimension innerDimension = new Dimension(this.getParent().getWidth(), this.getParent().getHeight());
+                Dimension externDimension = new Dimension(this.getParent().getWidth(), this.getParent().getParent().getHeight());
+                //Dimension gameviewDimension = new Dimension(this.getParent().getParent().getWidth(),this.getParent().getParent().getHeight());
+                //Dimension soExternDimension = new Dimension(this.getParent().getParent().getParent().getWidth(),this.getParent().getParent().getParent().getHeight());
+
+
+                int innerNewW = innerDimension.width; // > d.height ? d.height : d.width;
+                //int innerNewH = innerDimension.height; //> d.height ? d.height : d.width;
+                //return new Dimension(newSize, newSize);
+
+                //int externNewW = externDimension.width;
+                int externNewH = externDimension.height;
+
+                // int soExternNewW = gameviewDimension.width;
+                // int soExternNewH = gameviewDimension.height;
+                
+                //this.setPreferredSize();
+
+                // rotateButton.setPreferredSize(new Dimension(innerNewW-650, externNewH-200));
+                // playerColorPanel.setPreferredSize(new Dimension(innerNewW-650, externNewH-200));
+
+                //this.getParent().setPreferredSize(new Dimension(externNewW-400, innerNewH-400));
+
+                //this.setPreferredSize(new Dimension(innerNewW-650, innerNewH-200));
+                //this.getParent().setPreferredSize(new Dimension(this.getWidth()+100, this.getHeight()+100));
+
+
+                //return new Dimension(innerNewW-50, externNewH-250);
+
+                int componentsHeight = (externNewH-250)/2;
+                playerColorPanel.setPreferredSize(new Dimension(componentsHeight, componentsHeight));
+                return new Dimension(innerNewW-50, componentsHeight);
+
+                //-300 è la distanza dai bordi di this (il panel esterno)
+                //modificando la dimensione di this la weight di questo Jpanel sarà sempre dinamicamente
+                //la lunghezza di this-400
+            }
+        };
+    }
+
     public FooterComponentImpl(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
         JPanel innerPanel = new JPanel();
-        this.setBackground(java.awt.Color.BLACK);
+        this.innerPanel = innerPanel;
+        
+        this.setBackground(java.awt.Color.ORANGE);
         innerPanel.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
+        
+        //da commentare se si vuole il classico setUP
+        //innerPanel.setPreferredSize(getSize());
+
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridy = 0;
         constraints.gridx = 1;
-        constraints.insets = new Insets(20, 10, 20, 10);
+        //constraints.insets = new Insets(20, 10, 20, 10);
 
         this.setSize(400, 400);
         playerColorPanel.setSize(new Dimension(40, 40));
@@ -52,13 +107,17 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         tileImageLabel.setMinimumSize(new Dimension(40, 40));
         this.tileImageLabel.setBorder(new LineBorder(java.awt.Color.BLACK));
 
-        //
         playerColorPanel.setPreferredSize(new Dimension(40, 40));
         playerColorPanel.setMinimumSize(new Dimension(40, 40));
         this.playerColorPanel.setBorder(new LineBorder(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer())));
         this.playerColorPanel.setBackground(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
-        //this.playerColorPanel.setBorder(new LineBorder(Color.GREEN));
+
+        innerPanel = getRectangularJPanel();
         //
+        //DA CONTROLLARE
+        //this.setPreferredSize(new Dimension(152,152));
+        //innerPanel.setPreferredSize(new Dimension(450, 100));
+        //DA CONTROLLARE
 
         Image resized = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
         tileImageLabel.setIcon(new ImageIcon(resized));

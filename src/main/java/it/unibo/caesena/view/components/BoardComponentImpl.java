@@ -29,6 +29,8 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         this.controller = controller;
         this.allTileButtons = new HashSet<>();
         this.drawBoard();
+        //TODO rimuovere
+        this.setBackground(Color.CYAN);
     }
 
     private void drawBoard() {
