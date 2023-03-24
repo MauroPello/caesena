@@ -2,6 +2,7 @@ package it.unibo.caesena.view.components;
 
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 
 public interface TileButton {
@@ -16,7 +17,9 @@ public interface TileButton {
 
     Tile getContainedTile();
 
-    void addMeeple(Meeple meeple);
+    TileSection getPlacedMeepleSection();
+
+    void addMeeple(Meeple meeple, TileSection section);
 
     void removeTile();
 

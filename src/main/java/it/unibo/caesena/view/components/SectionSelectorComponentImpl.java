@@ -61,7 +61,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     private String getLabelFromSection(GameSet gameSet) {
-        return gameSet.getType().name();
+        return gameSet.getType().toString();
     }
 
     private class SectionButton extends JButton {
@@ -70,7 +70,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         public SectionButton(TileSection section) {
             super();
             this.section = section;
-            String buttonLabel = getLabelFromSection(currentTile.getGameSet(section));
+            // TODO cambiare sta roba ovviamente
+            String buttonLabel = getLabelFromSection(currentTile.getGameSet(section)) + "-" + section.name();
             this.setText(buttonLabel);
             this.addActionListener((e) ->
             {

@@ -45,6 +45,19 @@ public class ImageIconUtil {
         return image;
     }
 
+    public static Image getMeepleImage(Color color) {
+        BufferedImage meepleImage = getImageFromRelativePath(ROOT + SEP + "meeple" + SEP + "meepleBlank.png");
+        for (int y = 0; y < meepleImage.getHeight(); y++) {
+            for (int x = 0; x < meepleImage.getWidth(); x++) {
+                int pixel = meepleImage.getRGB(x,y);
+                if(pixel != 0) {
+                    meepleImage.setRGB(x, y, color.getRGB());
+                }
+            }
+        }
+        return meepleImage;
+    }
+
     public static Image getTileImage(Tile tile) {
         BufferedImage tileImage = getImageFromRelativePath(tile.getImageResourcesPath());
         double angle = 90 * tile.getRotationCount();
@@ -56,7 +69,7 @@ public class ImageIconUtil {
         return resultImage;
     }
 
-    public static Image getTileImageWithMeeple(Color color, TileSection section, TileButton tileButton) {
+    public static Image getTileImageWithMeeple(Color color, TileButton tileButton) {
         if (!tileButton.containsTile()) {
             throw new IllegalStateException("Tried to get tile image but tile wasn't present on TileButton");
         }
@@ -68,19 +81,36 @@ public class ImageIconUtil {
         Graphics2D finalGraphics = resultImage.createGraphics();
         finalGraphics.drawImage(tileImage, 0, 0, null);
         if (tileButton.containsMeeple()) {
-            BufferedImage meepleImage = getImageFromRelativePath(ROOT + SEP + "meeple" + SEP + "meepleBlank.png");
-            for (int y = 0; y < meepleImage.getHeight(); y++) {
-                for (int x = 0; x < meepleImage.getWidth(); x++) {
-                    int pixel = meepleImage.getRGB(x,y);
-                    if(pixel != 0) {
-                        meepleImage.setRGB(x, y, color.getRGB());
-                    }
-                }
-            }
-            int meepleSize = tileImage.getHeight(null)/3;
-            finalGraphics.drawImage(meepleImage.getScaledInstance(meepleSize, meepleSize, java.awt.Image.SCALE_SMOOTH), 100, 100, null);
+            int meepleSize = (int)((double)tileImage.getHeight(null)/5);
+            int scaling = java.awt.Image.SCALE_SMOOTH;
+            Image meepleImage = getMeepleImage(color);
+            Image scaledMeepleImage = meepleImage.getScaledInstance(meepleSize, meepleSize, scaling);
+            TileSection tileSection = tileButton.getPlacedMeepleSection();
+            Pair<Integer, Integer> meeplePosition = getMeeplePosition(tileSection, tileImage.getHeight(null)-scaledMeepleImage.getHeight(null));
+            finalGraphics.drawImage(scaledMeepleImage, meeplePosition.getX(), meeplePosition.getY(), null);
         }
         finalGraphics.dispose();
         return resultImage;
+    }
+
+    private static Pair<Integer, Integer> getMeeplePosition(TileSection section, int max) {
+        final int closePadding = max/10;
+        final int farPadding = max/5;
+        final int centralPadding = max/2;
+        return switch (section) {
+            case Center -> new Pair<Integer,Integer>(centralPadding, centralPadding);
+            case DownCenter -> new Pair<Integer,Integer>(centralPadding, max - closePadding);
+            case DownLeft -> new Pair<Integer,Integer>(farPadding, max - closePadding);
+            case DownRight -> new Pair<Integer,Integer>(max - farPadding, max - closePadding);
+            case LeftCenter -> new Pair<Integer,Integer>(closePadding, centralPadding);
+            case LeftDown -> new Pair<Integer,Integer>(closePadding, max - farPadding);
+            case LeftUp -> new Pair<Integer,Integer>(closePadding, farPadding);
+            case RightCenter -> new Pair<Integer,Integer>(max - closePadding, centralPadding);
+            case RightDown -> new Pair<Integer,Integer>(max - closePadding, max - farPadding);
+            case RightUp -> new Pair<Integer,Integer>(max - closePadding, farPadding);
+            case UpCenter -> new Pair<Integer,Integer>(centralPadding, closePadding);
+            case UpLeft -> new Pair<Integer,Integer>(farPadding, closePadding);
+            case UpRight -> new Pair<Integer,Integer>(max - farPadding, closePadding);
+        };
     }
 }

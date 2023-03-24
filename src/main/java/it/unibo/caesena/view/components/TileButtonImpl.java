@@ -16,6 +16,7 @@ public class TileButtonImpl extends JButton implements TileButton {
     private final Pair<Integer, Integer> position;
     private Optional<Tile> containedTile;
     private Optional<Meeple> placedMeeple;
+    private Optional<TileSection> placedMeepleSection;
     private boolean locked = false;
 
     public TileButtonImpl(int x, int y, ActionListener onSelection) {
@@ -58,8 +59,14 @@ public class TileButtonImpl extends JButton implements TileButton {
     }
 
     @Override
-    public void addMeeple(Meeple meeple) {
+    public TileSection getPlacedMeepleSection() {
+        return placedMeepleSection.orElseThrow(() -> new IllegalStateException("tried to get placed meeple but there was none"));
+    }
+
+    @Override
+    public void addMeeple(Meeple meeple, TileSection section) {
         this.placedMeeple = Optional.of(meeple);
+        this.placedMeepleSection = Optional.of(section);
     }
 
     @Override
@@ -89,9 +96,7 @@ public class TileButtonImpl extends JButton implements TileButton {
         if (containedTile.isPresent()) {
             //TODO remove, for testing purpouses
             Color color = Color.RED;
-            TileSection section = TileSection.Center;
-
-            g.drawImage(ImageIconUtil.getTileImageWithMeeple(color, section, this), 0, 0, getWidth(), getHeight(), null);
+            g.drawImage(ImageIconUtil.getTileImageWithMeeple(color, this), 0, 0, getWidth(), getHeight(), null);
         }
     }
 }
