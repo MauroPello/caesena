@@ -5,28 +5,30 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.List;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.view.GUI;
 
 public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private final static int DEFAULT_ZOOM_LEVEL = 5;
     private final Controller controller;
-    private final Set<TileButtonImpl> allTileButtons;
+    private final GUI gui;
+    private final Set<TileButton> allTileButtons;
     private JPanel currentTileButtonsContainer;
     private int currentFieldSize = DEFAULT_ZOOM_LEVEL;
     private int currentZoom = 0;
     private int currentHorizontalOffset = 0;
     private int currentVerticalOffset = 0;
-    private Optional<SectionSelectorComponentImpl> currentOverlayedTile = Optional.empty();
-    private Optional<TileButtonImpl> currentTileButtonPlaced = Optional.empty();
+    private Optional<SectionSelectorComponent> currentOverlayedTile = Optional.empty();
+    private Optional<TileButton> currentTileButtonPlaced = Optional.empty();
 
-    public BoardComponentImpl(Controller controller) {
-        this.controller = controller;
+    public BoardComponentImpl(GUI gui) {
+        this.gui = gui;
+        this.controller = gui.getController();
         this.allTileButtons = new HashSet<>();
         this.drawBoard();
         //TODO rimuovere
@@ -46,8 +48,9 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             for (int j = minimum; j < maximum; j++) {
                 int horizontalCoordinate = currentHorizontalOffset + j;
                 int verticalCoordinate = currentVerticalOffset + i;
-                TileButtonImpl fieldCell = findTileButton(horizontalCoordinate, verticalCoordinate);
-                currentTileButtonsContainer.add(fieldCell);
+                TileButton fieldCell = findTileButton(horizontalCoordinate, verticalCoordinate);
+                //TODO cast forse un po' bruttino, capiamo come fare
+                currentTileButtonsContainer.add((TileButtonImpl)fieldCell);
             }
         }
         this.add(currentTileButtonsContainer);
@@ -72,14 +75,14 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         }
     }
 
-    private TileButtonImpl findTileButton(int horizontalCoordinate, int verticalCoordinate) {
-        TileButtonImpl searchedTile;
+    private TileButton findTileButton(int horizontalCoordinate, int verticalCoordinate) {
+        TileButton searchedTile;
         Pair<Integer, Integer> coordinatesAsPair = new Pair<Integer,Integer>(horizontalCoordinate, verticalCoordinate);
-        Optional<TileButtonImpl> searchedTileOptional = allTileButtons.stream()
+        Optional<TileButton> searchedTileOptional = allTileButtons.stream()
             .filter(x -> x.getPosition().equals(coordinatesAsPair))
             .findFirst();
         if (searchedTileOptional.isEmpty()) {
-            searchedTile = new TileButtonImpl(horizontalCoordinate, verticalCoordinate, getTileButtonActionListener());
+            searchedTile = new TileButtonImpl(horizontalCoordinate, verticalCoordinate, this);
             allTileButtons.add(searchedTile);
         } else {
             searchedTile = searchedTileOptional.get();
@@ -101,22 +104,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
                 int newSize = d.width > d.height ? d.height : d.width;
                 newSize = newSize == 0 ? 100 : newSize;
                 return new Dimension(newSize, newSize);
-            }
-        };
-    }
-
-    private ActionListener getTileButtonActionListener() {
-        return (e) -> {
-            TileButtonImpl selectedTileButton = (TileButtonImpl)e.getSource();
-            if (this.controller.isValidPositionForCurrentTile(selectedTileButton.getPosition())) {
-                if (currentTileButtonPlaced.isPresent()){
-                    TileButtonImpl lastTileButtonPlaced = currentTileButtonPlaced.get();
-                    if (!lastTileButtonPlaced.isLocked()) {
-                        lastTileButtonPlaced.removeTile();
-                    }
-                }
-                currentTileButtonPlaced = Optional.of(selectedTileButton);
-                currentTileButtonPlaced.get().addTile(this.controller.getCurrentTile());
             }
         };
     }
@@ -263,5 +250,25 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             }
         }
         drawBoard();
+    }
+
+    @Override
+    public GUI getGUI() {
+        return this.gui;
+    }
+
+    @Override
+    public TileButton getPlacedTileButton() {
+        return currentTileButtonPlaced.orElseThrow(()->new IllegalStateException("Tried to get placed TileButton but wasn't placed"));
+    }
+
+    @Override
+    public boolean isTileButtonPlaced() {
+        return currentTileButtonPlaced.isPresent();
+    }
+
+    @Override
+    public void setPlacedTileButton(TileButton tileButton) {
+        this.currentTileButtonPlaced = Optional.of(tileButton);
     }
 }

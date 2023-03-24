@@ -26,7 +26,7 @@ public class GameView extends View {
 
     public void start() {
         this.controller.startGame();
-        this.board = new BoardComponentImpl(controller);
+        this.board = new BoardComponentImpl(userInterface);
         this.setLayout(new BorderLayout());
         this.footer = new FooterComponentImpl(userInterface);
         this.sidebar = new SideBarComponentImpl(controller, this);

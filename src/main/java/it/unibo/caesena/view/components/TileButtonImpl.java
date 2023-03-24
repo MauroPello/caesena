@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 import javax.swing.JButton;
-
+import javax.swing.JPanel;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
@@ -14,19 +14,37 @@ import it.unibo.caesena.utils.Pair;
 
 public class TileButtonImpl extends JButton implements TileButton {
     private final Pair<Integer, Integer> position;
+    private final BoardComponent<JPanel> parentBoard;
     private Optional<Tile> containedTile;
     private Optional<Meeple> placedMeeple;
     private Optional<TileSection> placedMeepleSection;
     private boolean locked = false;
 
-    public TileButtonImpl(int x, int y, ActionListener onSelection) {
+    public TileButtonImpl(int x, int y, BoardComponent<JPanel> parentBoard) {
         super();
+        this.parentBoard = parentBoard;
         this.containedTile = Optional.empty();
         this.placedMeeple = Optional.empty();
         this.position = new Pair<Integer,Integer>(x, y);
-        this.addActionListener(onSelection);
+        this.addActionListener(getTileButtonActionListener());
         this.setContentAreaFilled(false);
         this.setFocusable(false);
+    }
+
+    private ActionListener getTileButtonActionListener() {
+        return (e) -> {
+            TileButtonImpl selectedTileButton = (TileButtonImpl)e.getSource();
+            if (this.parentBoard.getGUI().getController().isValidPositionForCurrentTile(selectedTileButton.getPosition())) {
+                if (this.parentBoard.isTileButtonPlaced()){
+                    TileButton lastTileButtonPlaced = this.parentBoard.getCurrentlySelectedTileButton();
+                    if (!lastTileButtonPlaced.isLocked()) {
+                        lastTileButtonPlaced.removeTile();
+                    }
+                }
+                this.parentBoard.setPlacedTileButton(selectedTileButton);
+                this.parentBoard.getCurrentlySelectedTileButton().addTile(this.parentBoard.getGUI().getController().getCurrentTile());
+            }
+        };
     }
 
     @Override
