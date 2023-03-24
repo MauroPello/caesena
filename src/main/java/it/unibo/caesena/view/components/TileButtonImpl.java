@@ -15,10 +15,12 @@ import it.unibo.caesena.utils.Pair;
 public class TileButtonImpl extends JButton implements TileButton {
     private final Pair<Integer, Integer> position;
     private final BoardComponent<JPanel> parentBoard;
+    //TODO sta roba dovrebbe venire dal controller, capiamo come
     private Optional<Tile> containedTile;
     private Optional<Meeple> placedMeeple;
     private Optional<TileSection> placedMeepleSection;
     private boolean locked = false;
+    private Color playerColor;
 
     public TileButtonImpl(int x, int y, BoardComponent<JPanel> parentBoard) {
         super();
@@ -43,6 +45,8 @@ public class TileButtonImpl extends JButton implements TileButton {
                 }
                 this.parentBoard.setPlacedTileButton(selectedTileButton);
                 this.parentBoard.getCurrentlySelectedTileButton().addTile(this.parentBoard.getGUI().getController().getCurrentTile());
+                var player = this.parentBoard.getGUI().getController().getCurrentPlayer();
+                this.playerColor = this.parentBoard.getGUI().getPlayerColor(player);
             }
         };
     }
@@ -113,8 +117,7 @@ public class TileButtonImpl extends JButton implements TileButton {
         super.paintComponent(g);
         if (containedTile.isPresent()) {
             //TODO remove, for testing purpouses
-            Color color = Color.RED;
-            g.drawImage(ImageIconUtil.getTileImageWithMeeple(color, this), 0, 0, getWidth(), getHeight(), null);
+            g.drawImage(ImageIconUtil.getTileImageWithMeeple(this.playerColor, this), 0, 0, getWidth(), getHeight(), null);
         }
     }
 }
