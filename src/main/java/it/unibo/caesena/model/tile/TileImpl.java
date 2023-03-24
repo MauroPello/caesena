@@ -1,8 +1,6 @@
 package it.unibo.caesena.model.tile;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -16,7 +14,7 @@ public class TileImpl implements Tile {
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
     private static final String IMAGE_FORMAT = "png";
     private static final Integer MAX_ROTATIONS = 4;
-    
+
     private final TileType type;
 
     private Optional<Pair<Integer, Integer>> currentPosition;
@@ -60,11 +58,7 @@ public class TileImpl implements Tile {
 
     @Override
     public String getImageResourcesPath() {
-        try {
-            return Paths.get(ClassLoader.getSystemResource(ROOT + this.type.name() + "." + IMAGE_FORMAT).toURI()).toString();
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException();
-        }
+        return ROOT + this.type.name() + "." + IMAGE_FORMAT;
     }
 
     @Override
@@ -103,10 +97,10 @@ public class TileImpl implements Tile {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-        
+
 		Tile other = (Tile) obj;
         for (TileSection section : TileSection.values()) {
-            if (!this.getGameSet(section).equals(other.getGameSet(section))) 
+            if (!this.getGameSet(section).equals(other.getGameSet(section)))
             {
                 return false;
             }

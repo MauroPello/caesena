@@ -53,7 +53,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
                 // int soExternNewW = gameviewDimension.width;
                 // int soExternNewH = gameviewDimension.height;
-                
+
                 //this.setPreferredSize();
 
                 // rotateButton.setPreferredSize(new Dimension(innerNewW-650, externNewH-200));
@@ -83,10 +83,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.userInterface = userInterface;
         JPanel innerPanel = new JPanel();
         this.innerPanel = innerPanel;
-        
+
         this.setBackground(java.awt.Color.ORANGE);
         innerPanel.setLayout(new GridBagLayout());
-        
+
         //da commentare se si vuole il classico setUP
         //innerPanel.setPreferredSize(getSize());
 
@@ -100,7 +100,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         playerColorPanel.setSize(new Dimension(40, 40));
         rotateButton.setSize(200, 200);
         rotateButton.setBounds(100,100,100,100);
-        
+
         ImageIcon icon = new ImageIcon(userInterface.getController().getCurrentTile().getImageResourcesPath());
         this.tileImageLabel = new JLabel(icon);
         tileImageLabel.setPreferredSize(new Dimension(40, 40));
@@ -150,7 +150,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
                 userInterface.getController().rotateCurrentTile();
                 updateCurrentTile();
             }
-            
+
         });
 
     }
@@ -162,13 +162,8 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentTile() {
-        ImageIcon icon = new ImageIcon(userInterface.getController().getCurrentTile().getImageResourcesPath());
-        
-        double angle = 90 * userInterface.getController().getCurrentTile().getRotationCount();
-
-        ImageIcon newIcon = ImageIconUtil.rotate(icon, angle);
-
-        tileImageLabel.setIcon(new ImageIcon(newIcon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
+        Image rotatedPreviewTile = ImageIconUtil.getTileImage(userInterface.getController().getCurrentTile());
+        tileImageLabel.setIcon(new ImageIcon(rotatedPreviewTile.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
     }
 
     @Override

@@ -1,15 +1,14 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.util.Optional;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.ImageIconUtil;
 import it.unibo.caesena.utils.Pair;
 
@@ -88,9 +87,11 @@ public class TileButtonImpl extends JButton implements TileButton {
     {
         super.paintComponent(g);
         if (containedTile.isPresent()) {
-            double angle = 90 * containedTile.get().getRotationCount();
-            Image image = ImageIconUtil.rotate(new ImageIcon(containedTile.get().getImageResourcesPath()), angle).getImage();
-            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            //TODO remove, for testing purpouses
+            Color color = Color.RED;
+            TileSection section = TileSection.Center;
+
+            g.drawImage(ImageIconUtil.getTileImageWithMeeple(color, section, this), 0, 0, getWidth(), getHeight(), null);
         }
     }
 }
