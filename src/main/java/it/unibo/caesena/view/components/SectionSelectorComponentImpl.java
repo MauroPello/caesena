@@ -65,61 +65,75 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         container.setSize(this.getSize());
         container.setOpaque(false);
         this.add(container);
-        SectionButton upLeftButton = new SectionButton(TileSection.UpLeft);
-        SectionButton upCenterButton = new SectionButton(TileSection.UpCenter);
-        SectionButton upRightButton = new SectionButton(TileSection.UpRight);
-        SectionButton leftUpButton = new SectionButton(TileSection.LeftUp);
-        SectionButton leftCenterButton = new SectionButton(TileSection.LeftCenter);
-        SectionButton leftDownButton = new SectionButton(TileSection.LeftDown);
-        SectionButton rightUpButton = new SectionButton(TileSection.RightUp);
-        SectionButton rightCenterButton = new SectionButton(TileSection.RightCenter);
-        SectionButton rightDownButton = new SectionButton(TileSection.RightDown);
-        SectionButton downLeftButton = new SectionButton(TileSection.DownLeft);
-        SectionButton downCenterButton = new SectionButton(TileSection.DownCenter);
-        SectionButton downRightButton = new SectionButton(TileSection.DownRight);
-        SectionButton centerButton = new SectionButton(TileSection.Center);
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.weightx = 1;
-        constr.weighty = 1;
-        constr.gridx = 1;
-        constr.gridy = 0;
-        container.add(upLeftButton, constr);
-        constr.gridx = 2;
-        constr.gridy = 0;
-        container.add(upCenterButton, constr);
-        constr.gridx = 3;
-        constr.gridy = 0;
-        container.add(upRightButton, constr);
-        constr.gridx = 0;
-        constr.gridy = 1;
-        container.add(leftUpButton, constr);
-        constr.gridx = 4;
-        constr.gridy = 1;
-        container.add(rightUpButton, constr);
-        constr.gridx = 0;
-        constr.gridy = 2;
-        container.add(leftCenterButton, constr);
-        constr.gridx = 2;
-        constr.gridy = 2;
-        container.add(centerButton, constr);
-        constr.gridx = 4;
-        constr.gridy = 2;
-        container.add(rightCenterButton, constr);
-        constr.gridx = 0;
-        constr.gridy = 3;
-        container.add(leftDownButton, constr);
-        constr.gridx = 4;
-        constr.gridy = 3;
-        container.add(rightDownButton, constr);
-        constr.gridx = 1;
-        constr.gridy = 4;
-        container.add(downLeftButton, constr);
-        constr.gridx = 2;
-        constr.gridy = 4;
-        container.add(downCenterButton, constr);
-        constr.gridx = 3;
-        constr.gridy = 4;
-        container.add(downRightButton, constr);
+        for (var section : TileSection.values()) {
+            createButton(container, section);
+        }
+    }
+
+    private void createButton(JPanel container, TileSection section) {
+        int x = 0;
+        int y = 0;
+        switch (section){
+            case Center:
+                x = 2;
+                y = 2;
+                break;
+            case DownCenter:
+                x = 1;
+                y = 4;
+                break;
+            case DownLeft:
+                x = 1;
+                y = 4;
+                break;
+            case DownRight:
+                x = 3;
+                y = 4;
+                break;
+            case LeftCenter:
+                x = 0;
+                y = 2;
+                break;
+            case LeftDown:
+                x = 0;
+                y = 3;
+                break;
+            case LeftUp:
+                x = 0;
+                y = 1;
+                break;
+            case RightCenter:
+                x = 4;
+                y = 2;
+                break;
+            case RightDown:
+                x = 4;
+                y = 3;
+                break;
+            case RightUp:
+                x = 4;
+                y = 1;
+                break;
+            case UpCenter:
+                x = 2;
+                y = 0;
+                break;
+            case UpLeft:
+                x = 1;
+                y = 0;
+                break;
+            case UpRight:
+                x = 3;
+                y = 0;
+                break;
+        }
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        constraints.gridx = x;
+        constraints.gridy = y;
+        SectionButton sectionButton = new SectionButton(section);
+        container.add(sectionButton, constraints);
     }
 
     private String getLabelFromSection(TileSection section) {
