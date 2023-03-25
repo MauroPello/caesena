@@ -399,24 +399,40 @@ public class ControllerImpl implements Controller {
     }
 
     private Set<Pair<Integer, Integer>> getEmptyNeighbouringPositions(Pair<Integer, Integer> position) {
-        /*
-         * TO DO
-         */
-        return null;
+        Set<Pair<Integer, Integer>> neighboursNearPosition = new HashSet<>();
+        for (var direction : Direction.values()) {
+            Pair<Integer, Integer> neighBour = new Pair<>(position.getX()+direction.getX(), position.getY()+direction.getY());
+            for (Tile tileTocheck : tiles) {
+                if (!tileTocheck.getPosition().get().equals(neighBour) || tileTocheck.getPosition().get().equals(position)) {
+                        neighboursNearPosition.add(neighBour);
+                }
+            }
+
+        }
+        return neighboursNearPosition;
     }
 
-    public boolean discardCurrentTile() {
+    private boolean isCurrentTilePlaceable() {
         for (Tile tile : tiles) {
-            int numberOfNeighBours = this.getTileNeighbours(tile.getPosition().get()).size();
-            if (numberOfNeighBours <= 3 && numberOfNeighBours >= 1) {
-                Set<Pair<Integer, Integer>> empytPosition = this.getEmptyNeighbouringPositions(tile.getPosition().get());
-                for (Pair<Integer, Integer> emptyNeighBour : empytPosition) {
-                    if (this.isValidPositionForCurrentTile(emptyNeighBour)) {
-                        return false;
+            int numberOfNeighbours = this.getTileNeighbours(tile.getPosition().get()).size();
+            if (numberOfNeighbours <= 3 && numberOfNeighbours >= 1) {
+                Set<Pair<Integer, Integer>> emptyPositions = this.getEmptyNeighbouringPositions(tile.getPosition().get());
+                for (Pair<Integer, Integer> position : emptyPositions) {
+                    if (this.isValidPositionForCurrentTile(position)) {
+                        return true;
                     }
                 }
             }
         }
+        return false;
+    }
+
+    public boolean discardCurrentTile() {
+        if (this.isCurrentTilePlaceable()) {
+            return false;
+        }
+        tiles.remove(currentTile);
+        this.drawNewTile();
         return true;
     }
 
