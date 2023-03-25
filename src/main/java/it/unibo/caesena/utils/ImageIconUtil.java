@@ -39,11 +39,8 @@ public class ImageIconUtil {
         try {
             File file = new File(ClassLoader.getSystemResource(relativePath).toURI());
             image = ImageIO.read(file);
-        } catch (IOException e) {
-            throw new IllegalStateException("Path not valid");
-        } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (IOException | URISyntaxException e ) {
+            throw new IllegalStateException("Image path not valid");
         }
 
         return image;
