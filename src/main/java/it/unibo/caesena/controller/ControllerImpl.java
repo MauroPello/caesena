@@ -398,4 +398,30 @@ public class ControllerImpl implements Controller {
         }
     }
 
+    private Set<Pair<Integer, Integer>> getEmptyNeighbouringPositions(Pair<Integer, Integer> position) {
+        /*
+         * TO DO
+         */
+        return null;
+    }
+
+    private boolean discardCurrentTile(final Tile currentTileToCheck) {
+        for (Tile tile : tiles) {
+            Set<Tile> numberOfNeighBours = this.getTileNeighbours(tile.getPosition().get());
+            if (numberOfNeighBours.size() <= 3 && numberOfNeighBours.size() >= 1) {
+                Set<Pair<Integer, Integer>> empytFields = this.getEmptyNeighbouringPositions(tile.getPosition().get());
+                for (Pair<Integer, Integer> emptyNeighBour : empytFields) {
+                    if (this.isValidPositionForCurrentTile(emptyNeighBour)) {
+                        /*
+                        * TO DO
+                        */
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
