@@ -1,7 +1,7 @@
 package it.unibo.caesena.view;
 
 import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -12,16 +12,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 
 import it.unibo.caesena.view.components.NumericUpDown;
+import it.unibo.caesena.view.components.NumericUpDownImpl;
 import it.unibo.caesena.view.components.PlayerInput;
+import it.unibo.caesena.view.components.PlayerInputImpl;
 
 public class StartView extends JPanel implements View<JPanel> {
 
     private final static int MIN_PLAYERS = 2;
     private final static int MAX_PLAYERS = 8;
 
-    private final List<PlayerInput> playerInputs;
+    private final List<PlayerInput<JPanel>> playerInputs;
     private final JPanel playersPanel;
 
     public StartView(GUI userInterface) {
@@ -30,27 +33,24 @@ public class StartView extends JPanel implements View<JPanel> {
         this.playerInputs = new ArrayList<>();
 
         this.setLayout(new GridBagLayout());
-        this.setBackground(java.awt.Color.BLACK);
-
-        Font mainFont = new Font("SansSerif", Font.BOLD, 20);
+        this.setBackground(Color.BLACK);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         JPanel playersNumPanel = new JPanel();
         JLabel playersLabel = new JLabel("Players:");
-        playersLabel.setFont(mainFont);
+        playersLabel.setFont(new Font("Sans Serif", Font.BOLD, 20));
         playersNumPanel.add(playersLabel);
 
-        NumericUpDown playersNum = new NumericUpDown(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
-        playersNum.setSize(new Dimension(50, 50));
-        playersNum.addChangeListener((e) -> {
-            if (playersNum.getNumberAsInt() < this.playerInputs.size()) {
-                while(this.playerInputs.size() > playersNum.getNumberAsInt()) {
+        NumericUpDown<JSpinner> playersNum = new NumericUpDownImpl(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
+        playersNum.getComponent().addChangeListener((e) -> {
+            if (playersNum.getValueAsInt() < this.playerInputs.size()) {
+                while(this.playerInputs.size() > playersNum.getValueAsInt()) {
                     removePlayerInput();
                 }
             } else {
-                while(this.playerInputs.size() < playersNum.getNumberAsInt()) {
+                while(this.playerInputs.size() < playersNum.getValueAsInt()) {
                     addPlayerInput();
                 }
             }
@@ -58,8 +58,8 @@ public class StartView extends JPanel implements View<JPanel> {
             this.repaint();
             this.validate();
         });
-        playersNum.getTextField().setFont(mainFont);
-        playersNumPanel.add(playersNum);
+        playersNum.setFont("Sans Serif", 20);
+        playersNumPanel.add(playersNum.getComponent());
 
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(playersNumPanel);
@@ -92,14 +92,14 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     private void addPlayerInput() {
-        var playerPanel = new PlayerInput();
+        PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
 
-        this.playersPanel.add(playerPanel);
+        this.playersPanel.add(playerPanel.getComponent());
         this.playerInputs.add(playerPanel);
     }
 
     private void removePlayerInput() {
-        this.playersPanel.remove(this.playerInputs.remove(this.playerInputs.size() - 1));
+        this.playersPanel.remove(this.playerInputs.remove(this.playerInputs.size() - 1).getComponent());
     }
 
     @Override

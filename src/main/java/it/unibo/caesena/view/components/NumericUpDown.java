@@ -1,38 +1,11 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.Dimension;
+public interface NumericUpDown<X> {
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+    void setFont(String family, int size);
 
-public class NumericUpDown extends JSpinner {
-    
-    private final SpinnerNumberModel model;
-    private final DefaultEditor editor;
+    int getValueAsInt();
 
-    public NumericUpDown(final int start, final int min, final int max, final int step) {
-        super();
-
-        model = new SpinnerNumberModel(start, min, max, step);
-        this.setModel(model);
-
-        editor = new DefaultEditor(this);
-        getTextField().setEditable(false);
-        this.setEditor(editor);
-    }
-
-    public int getNumberAsInt() {
-        return model.getNumber().intValue();
-    }
-
-    public JFormattedTextField getTextField() {
-        return editor.getTextField();
-    }
-
-    public void setSize(final Dimension d) {
-        this.setPreferredSize(d);
-        this.setMinimumSize(d);
-    }
+    X getComponent();
 
 }
