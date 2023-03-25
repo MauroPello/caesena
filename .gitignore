@@ -7,3 +7,6 @@ bin/
 
 # Ignore VScode customizations
 .vscode/
+
+# Ignore IntelliJ Idea customizations
+.idea/
