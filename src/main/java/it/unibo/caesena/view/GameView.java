@@ -22,9 +22,7 @@ public class GameView extends JPanel implements View<JPanel> {
         super();
         this.controller = userInterface.getController();
         this.userInterface = userInterface;
-    }
 
-    public void start() {
         this.controller.startGame();
         this.board = new BoardComponentImpl(userInterface);
         this.setLayout(new BorderLayout());
