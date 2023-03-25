@@ -46,6 +46,12 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
 
         this.playerColorChooser = new JColorChooser();
         this.playerColorChooser.setPreviewPanel(new JPanel());
+        for (var chooserPanel : playerColorChooser.getChooserPanels()) {
+            if (!chooserPanel.getDisplayName().equals("Swatches") && 
+                !chooserPanel.getDisplayName().equals("RGB")) {
+                this.playerColorChooser.removeChooserPanel(chooserPanel);
+            }
+        }
 
         this.playerColorDialog = JColorChooser.createDialog(this, "Pick a Color!", true, this.playerColorChooser, 
             (e) -> this.playerColorPanel.setBackground(this.playerColorChooser.getColor()), 
