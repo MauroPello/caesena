@@ -1,22 +1,14 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.util.Optional;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.plaf.multi.MultiButtonUI;
 
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
@@ -71,72 +63,67 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         };
         container.setLayout(new GridBagLayout());
         container.setSize(this.getSize());
+        container.setOpaque(false);
         this.add(container);
-
         SectionButton upLeftButton = new SectionButton(TileSection.UpLeft);
         SectionButton upCenterButton = new SectionButton(TileSection.UpCenter);
         SectionButton upRightButton = new SectionButton(TileSection.UpRight);
-
         SectionButton leftUpButton = new SectionButton(TileSection.LeftUp);
         SectionButton leftCenterButton = new SectionButton(TileSection.LeftCenter);
         SectionButton leftDownButton = new SectionButton(TileSection.LeftDown);
-
         SectionButton rightUpButton = new SectionButton(TileSection.RightUp);
         SectionButton rightCenterButton = new SectionButton(TileSection.RightCenter);
         SectionButton rightDownButton = new SectionButton(TileSection.RightDown);
-
-
         SectionButton downLeftButton = new SectionButton(TileSection.DownLeft);
         SectionButton downCenterButton = new SectionButton(TileSection.DownCenter);
         SectionButton downRightButton = new SectionButton(TileSection.DownRight);
-
         SectionButton centerButton = new SectionButton(TileSection.Center);
-
-        //TODO controllare se li ho messi giusti, ho qualche dubbio
-        HorizontalSectionButtonContainer upPanel = new HorizontalSectionButtonContainer(upRightButton, upCenterButton, upLeftButton);
-        VerticalSectionButtonContainer leftPanel = new VerticalSectionButtonContainer(leftUpButton, leftCenterButton, leftDownButton);
-        VerticalSectionButtonContainer rightPanel = new VerticalSectionButtonContainer(rightUpButton, rightCenterButton, rightDownButton);
-        HorizontalSectionButtonContainer downPanel = new HorizontalSectionButtonContainer(downRightButton, downCenterButton, downLeftButton);
-        CenterSectionButtonContainer centerPanel = new CenterSectionButtonContainer(centerButton);
-
-        // this.add(upPanel, BorderLayout.NORTH);
-        // this.add(leftPanel, BorderLayout.WEST);
-        // this.add(rightPanel, BorderLayout.EAST);
-        // this.add(downPanel, BorderLayout.SOUTH);
-        // this.add(centerPanel, BorderLayout.CENTER);
-
         GridBagConstraints constr = new GridBagConstraints();
-        //constr.fill = GridBagConstraints.VERTICAL;
         constr.weightx = 1;
         constr.weighty = 1;
         constr.gridx = 1;
         constr.gridy = 0;
-        container.add(upPanel, constr);
-
-        //constr.fill = GridBagConstraints.WEST;
+        container.add(upLeftButton, constr);
+        constr.gridx = 2;
+        constr.gridy = 0;
+        container.add(upCenterButton, constr);
+        constr.gridx = 3;
+        constr.gridy = 0;
+        container.add(upRightButton, constr);
         constr.gridx = 0;
         constr.gridy = 1;
-        container.add(leftPanel, constr);
-
-        //constr.fill = GridBagConstraints.CENTER;
-        constr.gridx = 1;
+        container.add(leftUpButton, constr);
+        constr.gridx = 4;
         constr.gridy = 1;
-        container.add(centerPanel, constr);
-
-        //constr.fill = GridBagConstraints.EAST;
-        constr.gridx = 2;
-        constr.gridy = 1;
-        container.add(rightPanel, constr);
-
-        //constr.fill = GridBagConstraints.NORTH;
-        constr.gridx = 1;
+        container.add(rightUpButton, constr);
+        constr.gridx = 0;
         constr.gridy = 2;
-        container.add(downPanel, constr);
+        container.add(leftCenterButton, constr);
+        constr.gridx = 2;
+        constr.gridy = 2;
+        container.add(centerButton, constr);
+        constr.gridx = 4;
+        constr.gridy = 2;
+        container.add(rightCenterButton, constr);
+        constr.gridx = 0;
+        constr.gridy = 3;
+        container.add(leftDownButton, constr);
+        constr.gridx = 4;
+        constr.gridy = 3;
+        container.add(rightDownButton, constr);
+        constr.gridx = 1;
+        constr.gridy = 4;
+        container.add(downLeftButton, constr);
+        constr.gridx = 2;
+        constr.gridy = 4;
+        container.add(downCenterButton, constr);
+        constr.gridx = 3;
+        constr.gridy = 4;
+        container.add(downRightButton, constr);
     }
 
     private String getLabelFromSection(TileSection section) {
-        //return currentTile.getGameSet(section).getType().toString() + "-" + section.name();
-        return "x";
+        return String.valueOf(currentTile.getGameSet(section).getType().name().toCharArray()[0]);
     }
 
     private class SectionButton extends JButton {
@@ -145,18 +132,17 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         public SectionButton(TileSection section) {
             super();
             this.section = section;
-            // TODO cambiare sta roba ovviamente
             String buttonLabel = getLabelFromSection(section);
             this.setText(buttonLabel);
-
-            // this.setOpaque(false);
-            // this.setContentAreaFilled(false);
-            //this.setBorderPainted(false);
-
             this.addActionListener((e) ->
             {
                 currentSectionSelected = Optional.of(this.section);
             });
+        }
+
+        @Override
+        public Graphics getGraphics() {
+            return super.getGraphics();
         }
 
         @Override
@@ -167,77 +153,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         }
     }
 
-    private class VerticalSectionButtonContainer extends JPanel {
-        public VerticalSectionButtonContainer(Component firstComponent, Component secondComponent,
-                Component thirdComponent) {
-            super.setOpaque(false);
-            this.setLayout(new BorderLayout());
-            this.add(new SectionButtonContainer(firstComponent, ButtonPosition.VerticalUp), BorderLayout.SOUTH);
-            this.add(new SectionButtonContainer(secondComponent, ButtonPosition.AnyCenter), BorderLayout.CENTER);
-            this.add(new SectionButtonContainer(thirdComponent, ButtonPosition.VerticalBottom), BorderLayout.NORTH);
-        }
-    };
-
-
-
-    private enum ButtonPosition {
-        //(int top, int left, int bottom, int right)
-        VerticalBottom(10),
-        VerticalUp(10),
-        HorizontalLeft(10),
-        Horizontalright(10),
-        AnyCenter(10);
-
-        int multiplier;
-        ButtonPosition(int multiplier) {
-            this.multiplier = multiplier;
-        }
-
-        public Border getBorder(int size){
-            int amount = size/multiplier;
-            return switch (this) {
-                case VerticalBottom -> BorderFactory.createEmptyBorder(00, 0, 0, 0);
-                case VerticalUp -> BorderFactory.createEmptyBorder(0, 0, 0, 0);
-                case HorizontalLeft -> BorderFactory.createEmptyBorder(0, 0, 0, 0);
-                case Horizontalright -> BorderFactory.createEmptyBorder(0, 0, 0, 0);
-                case AnyCenter -> BorderFactory.createEmptyBorder(0, 0, 0, 0);
-            };
-        }
-    }
-
-    private class HorizontalSectionButtonContainer extends JPanel {
-        public HorizontalSectionButtonContainer(Component firstComponent, Component secondComponent,
-                Component thirdComponent) {
-            super.setOpaque(false);
-            this.setLayout(new BorderLayout());
-            this.add(new SectionButtonContainer(firstComponent, ButtonPosition.Horizontalright), BorderLayout.EAST);
-            this.add(new SectionButtonContainer(secondComponent, ButtonPosition.AnyCenter), BorderLayout.CENTER);
-            this.add(new SectionButtonContainer(thirdComponent, ButtonPosition.HorizontalLeft), BorderLayout.WEST);
-        }
-    };
-
-    private class SectionButtonContainer extends JPanel {
-        public SectionButtonContainer(Component Component, ButtonPosition buttonPosition) {
-            super();
-            this.setOpaque(false);
-            this.setLayout(new GridBagLayout());
-            this.add(Component);
-            this.setBorder(buttonPosition.getBorder(1));
-        }
-
-    }
-
     private Dimension getTotalSize() {
         return this.getSize();
     }
-
-    private class CenterSectionButtonContainer extends JPanel {
-
-        public CenterSectionButtonContainer(Component component) {
-            this.setLayout(new GridLayout(0,1));
-            this.setOpaque(false);
-            this.add(new SectionButtonContainer(component, ButtonPosition.AnyCenter));
-        }
-    };
-
 }
