@@ -6,14 +6,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.LayoutManager;
 import java.util.Optional;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-
-import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.ImageIconUtil;
@@ -58,87 +56,39 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         this.repaint();
     }
 
-    private JPanel getVerticalPanel()
-    {
-        return new JPanel() {
-            @Override
-            public void setOpaque(boolean isOpaque) {
-                super.setOpaque(false);
-            }
-
-            @Override
-            public Component add(Component component){
-                super.add(component);
-                super.add(Box.createVerticalStrut(10));
-                return null;
-            }
-        };
-    }
-
-    private JPanel getHorizontalPanel()
-    {
-        return new JPanel() {
-            @Override
-            public void setOpaque(boolean isOpaque) {
-                super.setOpaque(false);
-            }
-
-            @Override
-            public Component add(Component component){
-                super.add(component);
-                super.add(Box.createHorizontalStrut(10));
-                return null;
-            }
-        };
-    }
-
-    private JPanel getCenterPanel()
-    {
-        return new JPanel() {
-            @Override
-            public void setOpaque(boolean isOpaque) {
-                super.setOpaque(false);
-            }
-        };
-    }
-
     private void drawSections() {
         this.setLayout(new BorderLayout());
-        JPanel upPanel = getHorizontalPanel();
-        this.add(upPanel, BorderLayout.NORTH);
-        JPanel leftPanel = getVerticalPanel();
-        leftPanel.setLayout(new GridLayout(0,1));
-        this.add(leftPanel, BorderLayout.EAST);
-        JPanel rightPanel = getVerticalPanel();
-        rightPanel.setLayout(new GridLayout(0,1));
-        this.add(rightPanel, BorderLayout.WEST);
-        JPanel downPanel = getHorizontalPanel();
-        this.add(downPanel, BorderLayout.SOUTH);
-        JPanel centerPanel = getCenterPanel();
-        this.add(centerPanel, BorderLayout.CENTER);
+        SectionButton upLeftButton = new SectionButton(TileSection.UpLeft);
+        SectionButton upCenterButton = new SectionButton(TileSection.UpCenter);
+        SectionButton upRightButton = new SectionButton(TileSection.UpRight);
 
-        int index = 0;
-        for (TileSection section : TileSection.values()) {
-            JButton button = new SectionButton(section);
-            JPanel correctJPanel = switch (index) {
-                case 0 -> upPanel;
-                case 1 -> upPanel;
-                case 2 -> upPanel;
-                case 3 -> leftPanel;
-                case 4 -> leftPanel;
-                case 5 -> leftPanel;
-                case 6 -> downPanel;
-                case 7 -> downPanel;
-                case 8 -> downPanel;
-                case 9 -> rightPanel;
-                case 10 -> rightPanel;
-                case 11 -> rightPanel;
-                case 12 -> centerPanel;
-                default -> throw new IllegalStateException("Index value not valid");
-            };
-            correctJPanel.add(button);
-            index++;
-        }
+        SectionButton leftUpButton = new SectionButton(TileSection.LeftUp);
+        SectionButton leftCenterButton = new SectionButton(TileSection.LeftCenter);
+        SectionButton leftDownButton = new SectionButton(TileSection.LeftDown);
+
+        SectionButton rightUpButton = new SectionButton(TileSection.RightUp);
+        SectionButton rightCenterButton = new SectionButton(TileSection.RightCenter);
+        SectionButton rightDownButton = new SectionButton(TileSection.RightDown);
+
+
+        SectionButton downLeftButton = new SectionButton(TileSection.DownLeft);
+        SectionButton downCenterButton = new SectionButton(TileSection.DownCenter);
+        SectionButton downRightButton = new SectionButton(TileSection.DownRight);
+
+        SectionButton centerButton = new SectionButton(TileSection.Center);
+
+        //TODO controllare se li ho messi giusti, ho qualche dubbio
+        HorizontalSectionButtonContainer upPanel = new HorizontalSectionButtonContainer(upLeftButton, upCenterButton, upRightButton);
+        VerticalSectionButtonContainer leftPanel = new VerticalSectionButtonContainer(leftUpButton, leftCenterButton, leftDownButton);
+        VerticalSectionButtonContainer rightPanel = new VerticalSectionButtonContainer(rightUpButton, rightCenterButton, rightDownButton);
+        HorizontalSectionButtonContainer downPanel = new HorizontalSectionButtonContainer(downLeftButton, downCenterButton, downRightButton);
+        CenterSectionButtonContainer centerPanel = new CenterSectionButtonContainer(centerButton);
+
+        this.add(upPanel, BorderLayout.SOUTH);
+        this.add(leftPanel, BorderLayout.WEST);
+        this.add(rightPanel, BorderLayout.EAST);
+        this.add(downPanel, BorderLayout.NORTH);
+        this.add(centerPanel, BorderLayout.CENTER);
     }
 
     private String getLabelFromSection(TileSection section) {
@@ -160,6 +110,93 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
                 currentSectionSelected = Optional.of(this.section);
             });
         }
+
+        @Override
+        public Dimension getPreferredSize() {
+            Dimension d = super.getPreferredSize();
+            int s = (int)(d.getWidth()<d.getHeight() ? d.getHeight() : d.getWidth());
+            return new Dimension (s,s);
+        }
     }
+
+    private class VerticalSectionButtonContainer extends JPanel {
+        final Component firstComponent;
+        final Component secondComponent;
+        final Component thirdComponent;
+
+        public VerticalSectionButtonContainer(Component firstComponent, Component secondComponent,
+                Component thirdComponent) {
+            this.firstComponent = firstComponent;
+            this.secondComponent = secondComponent;
+            this.thirdComponent = thirdComponent;
+
+            this.add(firstComponent);
+            this.add(Box.createVerticalStrut(10));
+            this.add(secondComponent);
+            this.add(Box.createVerticalStrut(10));
+            this.add(thirdComponent);
+        }
+
+        @Override
+        public void setLayout(LayoutManager mgr) {
+            mgr = new GridLayout(0,1);
+            super.setLayout(mgr);
+        }
+
+        @Override
+        public void setOpaque(boolean isOpaque) {
+            super.setOpaque(false);
+        }
+    };
+
+    private class HorizontalSectionButtonContainer extends JPanel {
+        final Component firstComponent;
+        final Component secondComponent;
+        final Component thirdComponent;
+
+        public HorizontalSectionButtonContainer(Component firstComponent, Component secondComponent,
+                Component thirdComponent) {
+            this.firstComponent = firstComponent;
+            this.secondComponent = secondComponent;
+            this.thirdComponent = thirdComponent;
+
+            this.add(firstComponent);
+            this.add(Box.createVerticalStrut(10));
+            this.add(secondComponent);
+            this.add(Box.createVerticalStrut(10));
+            this.add(thirdComponent);
+        }
+
+        @Override
+        public void setLayout(LayoutManager mgr) {
+            mgr = new GridLayout(0,1);
+            super.setLayout(mgr);
+        }
+
+        @Override
+        public void setOpaque(boolean isOpaque) {
+            super.setOpaque(false);
+        }
+    };
+
+    private class CenterSectionButtonContainer extends JPanel {
+        final Component component;
+
+        public CenterSectionButtonContainer(Component component) {
+            this.component = component;
+            this.add(component);
+        }
+
+        @Override
+        public void setLayout(LayoutManager mgr) {
+            mgr = new GridLayout(0,1);
+            super.setLayout(mgr);
+        }
+
+        @Override
+        public void setOpaque(boolean isOpaque) {
+            super.setOpaque(false);
+        }
+    };
 
 }
