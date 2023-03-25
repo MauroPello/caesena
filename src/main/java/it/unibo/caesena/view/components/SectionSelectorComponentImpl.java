@@ -58,11 +58,14 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         this.repaint();
     }
 
-    private void drawSections() {
-        this.setLayout(new BorderLayout());
-        JPanel upPanel = new JPanel();
-        this.add(upPanel, BorderLayout.NORTH);
-        JPanel leftPanel = new JPanel() {
+    private JPanel getVerticalPanel()
+    {
+        return new JPanel() {
+            @Override
+            public void setOpaque(boolean isOpaque) {
+                super.setOpaque(false);
+            }
+
             @Override
             public Component add(Component component){
                 super.add(component);
@@ -70,14 +73,48 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
                 return null;
             }
         };
+    }
+
+    private JPanel getHorizontalPanel()
+    {
+        return new JPanel() {
+            @Override
+            public void setOpaque(boolean isOpaque) {
+                super.setOpaque(false);
+            }
+
+            @Override
+            public Component add(Component component){
+                super.add(component);
+                super.add(Box.createHorizontalStrut(10));
+                return null;
+            }
+        };
+    }
+
+    private JPanel getCenterPanel()
+    {
+        return new JPanel() {
+            @Override
+            public void setOpaque(boolean isOpaque) {
+                super.setOpaque(false);
+            }
+        };
+    }
+
+    private void drawSections() {
+        this.setLayout(new BorderLayout());
+        JPanel upPanel = getHorizontalPanel();
+        this.add(upPanel, BorderLayout.NORTH);
+        JPanel leftPanel = getVerticalPanel();
         leftPanel.setLayout(new GridLayout(0,1));
         this.add(leftPanel, BorderLayout.EAST);
-        JPanel rightPanel = new JPanel();
+        JPanel rightPanel = getVerticalPanel();
         rightPanel.setLayout(new GridLayout(0,1));
         this.add(rightPanel, BorderLayout.WEST);
-        JPanel downPanel = new JPanel();
+        JPanel downPanel = getHorizontalPanel();
         this.add(downPanel, BorderLayout.SOUTH);
-        JPanel centerPanel = new JPanel();
+        JPanel centerPanel = getCenterPanel();
         this.add(centerPanel, BorderLayout.CENTER);
 
         int index = 0;
