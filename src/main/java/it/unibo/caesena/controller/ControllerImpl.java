@@ -33,13 +33,13 @@ public class ControllerImpl implements Controller {
     private static final String SEP = File.separator;
     private static final String CONFIG_FILE_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
     private static final int MEEPLES_PER_PLAYER = 8;
-    private final List<Meeple> meeples = new ArrayList<>();
-    private final List<Player> players = new ArrayList<>();
-    private final List<Tile> tiles = new ArrayList<>();
+    private Map<GameSet, Set<Tile>> gameSets = new HashMap<>();
+    private List<Meeple> meeples = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
+    private List<Tile> tiles = new ArrayList<>();
     private Tile currentTile;
     private Player currentPlayer;
     private int turn; //indice di scorrimento Liste
-    private final Map<GameSet, Set<Tile>> gameSets =  new HashMap<>();
 
     @Override
     public void startGame() throws IllegalStateException {
@@ -53,6 +53,13 @@ public class ControllerImpl implements Controller {
         drawNewTile();
         this.placeCurrentTile(new Pair<Integer,Integer>(0, 0));
         drawNewTile();
+    }
+
+    public void resetGame() {
+        tiles = new ArrayList<>(); 
+        meeples = new ArrayList<>();
+        players = new ArrayList<>();
+        gameSets = new HashMap<>();
     }
 
     private void buildAllTiles() {

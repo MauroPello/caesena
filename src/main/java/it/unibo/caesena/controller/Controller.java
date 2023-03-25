@@ -10,6 +10,8 @@ import it.unibo.caesena.utils.*;
 public interface Controller {
 
     void startGame();
+    
+    void resetGame();
 
     Player addPlayer(String name);
 

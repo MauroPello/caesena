@@ -11,7 +11,7 @@ import it.unibo.caesena.view.components.FooterComponentImpl;
 import it.unibo.caesena.view.components.SideBarComponent;
 import it.unibo.caesena.view.components.SideBarComponentImpl;
 
-public class GameView extends View {
+public class GameView extends JPanel implements View<JPanel> {
     private final Controller controller;
     private BoardComponent<JPanel> board;
     private FooterComponent<JPanel> footer;
@@ -19,8 +19,8 @@ public class GameView extends View {
     GUI userInterface;
 
     public GameView(GUI userInterface) {
-        super(userInterface);
-        this.controller = getUserInterface().getController();
+        super();
+        this.controller = userInterface.getController();
         this.userInterface = userInterface;
     }
 
@@ -84,5 +84,10 @@ public class GameView extends View {
 
     public void moveRight() {
         this.board.moveRight();
+    }
+
+    @Override
+    public JPanel getComponent() {
+        return this;
     }
 }
