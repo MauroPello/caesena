@@ -1,11 +1,17 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.Optional;
+
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.Tile;
@@ -53,15 +59,54 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     private void drawSections() {
+        this.setLayout(new BorderLayout());
+        JPanel upPanel = new JPanel();
+        this.add(upPanel, BorderLayout.NORTH);
+        JPanel leftPanel = new JPanel() {
+            @Override
+            public Component add(Component component){
+                super.add(component);
+                super.add(Box.createVerticalStrut(10));
+                return null;
+            }
+        };
+        leftPanel.setLayout(new GridLayout(0,1));
+        this.add(leftPanel, BorderLayout.EAST);
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new GridLayout(0,1));
+        this.add(rightPanel, BorderLayout.WEST);
+        JPanel downPanel = new JPanel();
+        this.add(downPanel, BorderLayout.SOUTH);
+        JPanel centerPanel = new JPanel();
+        this.add(centerPanel, BorderLayout.CENTER);
 
+        int index = 0;
         for (TileSection section : TileSection.values()) {
             JButton button = new SectionButton(section);
-            this.add(button);
+            JPanel correctJPanel = switch (index) {
+                case 0 -> upPanel;
+                case 1 -> upPanel;
+                case 2 -> upPanel;
+                case 3 -> leftPanel;
+                case 4 -> leftPanel;
+                case 5 -> leftPanel;
+                case 6 -> downPanel;
+                case 7 -> downPanel;
+                case 8 -> downPanel;
+                case 9 -> rightPanel;
+                case 10 -> rightPanel;
+                case 11 -> rightPanel;
+                case 12 -> centerPanel;
+                default -> throw new IllegalStateException("Index value not valid");
+            };
+            correctJPanel.add(button);
+            index++;
         }
     }
 
-    private String getLabelFromSection(GameSet gameSet) {
-        return gameSet.getType().toString();
+    private String getLabelFromSection(TileSection section) {
+        //return currentTile.getGameSet(section).getType().toString() + "-" + section.name();
+        return "x";
     }
 
     private class SectionButton extends JButton {
@@ -71,7 +116,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             super();
             this.section = section;
             // TODO cambiare sta roba ovviamente
-            String buttonLabel = getLabelFromSection(currentTile.getGameSet(section)) + "-" + section.name();
+            String buttonLabel = getLabelFromSection(section);
             this.setText(buttonLabel);
             this.addActionListener((e) ->
             {
