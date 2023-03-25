@@ -40,4 +40,6 @@ public interface Controller {
     void endGame();
 
     void exitGame();
+
+    boolean discardCurrentTile();
 }

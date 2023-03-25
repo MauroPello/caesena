@@ -405,23 +405,19 @@ public class ControllerImpl implements Controller {
         return null;
     }
 
-    private boolean discardCurrentTile(final Tile currentTileToCheck) {
+    public boolean discardCurrentTile() {
         for (Tile tile : tiles) {
-            Set<Tile> numberOfNeighBours = this.getTileNeighbours(tile.getPosition().get());
-            if (numberOfNeighBours.size() <= 3 && numberOfNeighBours.size() >= 1) {
-                Set<Pair<Integer, Integer>> empytFields = this.getEmptyNeighbouringPositions(tile.getPosition().get());
-                for (Pair<Integer, Integer> emptyNeighBour : empytFields) {
+            int numberOfNeighBours = this.getTileNeighbours(tile.getPosition().get()).size();
+            if (numberOfNeighBours <= 3 && numberOfNeighBours >= 1) {
+                Set<Pair<Integer, Integer>> empytPosition = this.getEmptyNeighbouringPositions(tile.getPosition().get());
+                for (Pair<Integer, Integer> emptyNeighBour : empytPosition) {
                     if (this.isValidPositionForCurrentTile(emptyNeighBour)) {
-                        /*
-                        * TO DO
-                        */
                         return false;
                     }
                 }
-                return true;
             }
         }
-        return false;
+        return true;
     }
 
 }
