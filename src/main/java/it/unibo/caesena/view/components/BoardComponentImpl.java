@@ -7,7 +7,6 @@ import java.util.List;
 import java.awt.*;
 import javax.swing.JPanel;
 
-import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
@@ -15,7 +14,6 @@ import it.unibo.caesena.view.GUI;
 
 public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private final static int DEFAULT_ZOOM_LEVEL = 5;
-    private final Controller controller;
     private final GUI gui;
     private final Set<TileButton> allTileButtons;
     private JPanel currentTileButtonsContainer;
@@ -28,14 +26,14 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     public BoardComponentImpl(GUI gui) {
         this.gui = gui;
-        this.controller = gui.getController();
         this.allTileButtons = new HashSet<>();
         this.drawBoard();
         //TODO rimuovere
         this.setBackground(Color.CYAN);
     }
 
-    private void drawBoard() {
+    @Override
+    public void drawBoard() {
         currentOverlayedTile = Optional.empty();
         this.removeAll();
         this.currentTileButtonsContainer = getSquareJPanel();
@@ -67,7 +65,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     private void updateTileButtonList() {
-        List<Tile> placedTiles = controller.getPlacedTiles();
+        List<Tile> placedTiles = gui.getController().getPlacedTiles();
         for (Tile tile : placedTiles) {
             TileButton button = findTileButton(tile);
             button.addTile(tile);
@@ -227,7 +225,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     private void drawOverlayedTile() {
-        var overlayedTile = new SectionSelectorComponentImpl(this.controller.getCurrentTile(), this.currentTileButtonsContainer.getSize());
+        var overlayedTile = new SectionSelectorComponentImpl(this.gui.getController().getCurrentTile(), this.currentTileButtonsContainer.getSize());
         this.currentOverlayedTile = Optional.of(overlayedTile);
         this.add(overlayedTile);
         this.validate();
@@ -238,9 +236,9 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void endTurn() {
         if (this.currentOverlayedTile.isPresent()) {
             var section = this.currentOverlayedTile.get().getSelectedSection();
-            Optional<Meeple> meeple = this.controller.getCurrentPlayerMeeples().stream().filter(m -> !m.isPlaced()).findFirst();
+            Optional<Meeple> meeple = this.gui.getController().getCurrentPlayerMeeples().stream().filter(m -> !m.isPlaced()).findFirst();
             if (meeple.isPresent()) {
-                if (this.controller.placeMeeple(meeple.get(), section)) {
+                if (this.gui.getController().placeMeeple(meeple.get(), section)) {
                     this.currentTileButtonPlaced.get().addMeeple(meeple.get(), section);
                 } else {
                     throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");

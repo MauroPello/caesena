@@ -21,7 +21,59 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     private final Tile currentTile;
     private final List<SectionButton> sectionButtons = new ArrayList<>();
 
-    public SectionSelectorComponentImpl(Tile tile, Dimension dimension) {
+    private class SectionButton extends JButton {
+        private final TileSection section;
+        private Color bgColor;
+        private boolean selected;
+
+        public SectionButton(final TileSection section) {
+            super();
+            this.bgColor = Color.WHITE;
+            this.selected = false;
+            this.section = section;
+            final String buttonLabel = getLabelFromSection(section);
+            this.setText(buttonLabel);
+            this.addActionListener(getSectionButtonListener());
+            this.deselect();
+        }
+
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void select() {
+            selected = true;
+            bgColor = Color.GREEN;
+            this.setBackground(bgColor);
+            this.validate();
+        }
+
+        public void deselect() {
+            selected = false;
+            bgColor = Color.WHITE;
+            this.setBackground(bgColor);
+            this.validate();
+        }
+
+        public TileSection getSection(){
+            return section;
+        }
+
+        @Override
+        public Graphics getGraphics() {
+            return super.getGraphics();
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            final Dimension d = super.getPreferredSize();
+            final int s = (int)(d.getWidth()<d.getHeight() ? d.getHeight() : d.getWidth());
+            return new Dimension (s,s);
+        }
+    }
+
+
+    public SectionSelectorComponentImpl(final Tile tile, final Dimension dimension) {
         super();
         this.currentTile = tile;
         this.setSize(dimension);
@@ -38,17 +90,23 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     @Override
     public Dimension getPreferredSize() {
-        Dimension d = this.getParent().getSize();
+        final Dimension d = this.getParent().getSize();
         int newSize = d.width > d.height ? d.height : d.width;
         newSize = newSize == 0 ? 100 : newSize;
         return new Dimension(newSize, newSize);
     }
 
     @Override
-    protected void paintComponent(Graphics g)
+    public Boolean isSectionSelected() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isSectionSelected'");
+    }
+
+    @Override
+    protected void paintComponent(final Graphics g)
     {
         super.paintComponent(g);
-        Image image = ImageIconUtil.getTileImage(this.currentTile);
+        final Image image = ImageIconUtil.getTileImage(this.currentTile);
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
     }
 
@@ -60,7 +118,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     private void drawSections() {
-        JPanel container = new JPanel() {
+        final JPanel container = new JPanel() {
             @Override
             public Dimension getPreferredSize() {
                 return getTotalSize();
@@ -70,12 +128,12 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         container.setSize(this.getSize());
         container.setOpaque(false);
         this.add(container);
-        for (var section : TileSection.values()) {
+        for (final var section : TileSection.values()) {
             createButton(container, section);
         }
     }
 
-    private void createButton(JPanel container, TileSection section) {
+    private void createButton(final JPanel container, final TileSection section) {
         int x = 0;
         int y = 0;
         switch (section){
@@ -132,24 +190,24 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
                 y = 0;
                 break;
         }
-        GridBagConstraints constraints = new GridBagConstraints();
+        final GridBagConstraints constraints = new GridBagConstraints();
         constraints.weightx = 1;
         constraints.weighty = 1;
         constraints.gridx = x;
         constraints.gridy = y;
-        SectionButton sectionButton = new SectionButton(section);
+        final SectionButton sectionButton = new SectionButton(section);
         container.add(sectionButton, constraints);
         sectionButtons.add(sectionButton);
     }
 
-    private String getLabelFromSection(TileSection section) {
+    private String getLabelFromSection(final TileSection section) {
         return String.valueOf(currentTile.getGameSet(section).getType().name().toCharArray()[0]);
     }
 
     private ActionListener getSectionButtonListener() {
         return (e) -> {
-            SectionButton newSectionButton = (SectionButton)e.getSource();
-            Boolean wasSelected = newSectionButton.isSelected();
+            final SectionButton newSectionButton = (SectionButton)e.getSource();
+            final Boolean wasSelected = newSectionButton.isSelected();
             sectionButtons.stream().forEach(x -> x.deselect());
             if(!wasSelected) {
                 newSectionButton.select();
@@ -157,64 +215,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         };
     }
 
-    private class SectionButton extends JButton {
-        private final TileSection section;
-        private Color bgColor;
-        private boolean selected;
-
-        public SectionButton(TileSection section) {
-            super();
-            this.bgColor = Color.WHITE;
-            this.selected = false;
-            this.section = section;
-            String buttonLabel = getLabelFromSection(section);
-            this.setText(buttonLabel);
-            this.addActionListener(getSectionButtonListener());
-            this.deselect();
-        }
-
-        public boolean isSelected() {
-            return selected;
-        }
-
-        public void select() {
-            selected = true;
-            bgColor = Color.GREEN;
-            this.setBackground(bgColor);
-            this.validate();
-        }
-
-        public void deselect() {
-            selected = false;
-            bgColor = Color.WHITE;
-            this.setBackground(bgColor);
-            this.validate();
-        }
-
-        public TileSection getSection(){
-            return section;
-        }
-
-        @Override
-        public Graphics getGraphics() {
-            return super.getGraphics();
-        }
-
-        @Override
-        public Dimension getPreferredSize() {
-            Dimension d = super.getPreferredSize();
-            int s = (int)(d.getWidth()<d.getHeight() ? d.getHeight() : d.getWidth());
-            return new Dimension (s,s);
-        }
-    }
-
     private Dimension getTotalSize() {
         return this.getSize();
-    }
-
-    @Override
-    public Boolean isSectionSelected() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isSectionSelected'");
     }
 }

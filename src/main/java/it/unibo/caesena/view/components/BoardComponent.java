@@ -46,4 +46,6 @@ public interface BoardComponent<X> {
     void setPlacedTileButton(TileButton tileButton);
 
     X getComponent();
+
+    void drawBoard();
 }
