@@ -1,6 +1,7 @@
 package it.unibo.caesena.view;
 
 import java.awt.Component;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 
@@ -9,13 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PauseView extends View {
+public class PauseView extends JPanel implements View<JPanel> {
 
     public PauseView(final GUI userInterface) {
-        super(userInterface);
+        super();
         this.setLayout(new GridBagLayout());
-        this.setBackground(java.awt.Color.BLACK);
-        this.setOpaque(false);
+        this.setBackground(new Color(255, 255, 255, 80));
         
         Font mainFont = new Font("SansSerif", Font.BOLD, 20);
         
@@ -47,5 +47,10 @@ public class PauseView extends View {
         mainPanel.add(btn3);
 
         this.add(mainPanel);
+    }
+
+    @Override
+    public JPanel getComponent() {
+        return this;
     }
 }

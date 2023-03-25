@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,11 +26,12 @@ public class GUI extends JFrame implements UserInterface {
     // RAGA È SOLO PER DEBUG, SE ATTIVO UNO DISATTIVATE GLI ALTRI!!
     private static boolean DEBUG_GAME_VIEW = false;
     private static boolean DEBUG_GAME_OVER_VIEW = false;
+    private static float MINIMUM_SIZE_RATIO = 0.35f;
     private Controller controller;
-    private View startView;
-    private View gameView;
-    private View pauseView;
-    private View gameOverView;
+    private View<JPanel> startView;
+    private View<JPanel> gameView;
+    private View<JPanel> pauseView;
+    private View<JPanel> gameOverView;
     private JPanel gamePanel;
     private Map<Player, Color> players;
 
@@ -37,12 +40,36 @@ public class GUI extends JFrame implements UserInterface {
         this.controller = controller;
         this.players = new HashMap<>();
 
-        // TODO background and size options
-        // TODO default options
-        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        final int sw = (int) screen.getWidth();
-        final int sh = (int) screen.getHeight();
-        this.setSize(sw / 3, sh / 3);
+        this.addWindowListener(new WindowListener() {
+            public void windowOpened(final WindowEvent e) {
+            }
+
+            public void windowIconified(final WindowEvent e) {
+            }
+
+            public void windowDeiconified(final WindowEvent e) {
+            }
+
+            public void windowDeactivated(final WindowEvent e) {
+            }
+
+            public void windowClosing(final WindowEvent e) {
+                exit();
+            }
+
+            public void windowClosed(final WindowEvent e) {
+                exit();
+            }
+
+            public void windowActivated(final WindowEvent e) {
+            }
+        });
+
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setMinimumSize(new Dimension(Math.round(screenSize.width * MINIMUM_SIZE_RATIO), Math.round(screenSize.height * MINIMUM_SIZE_RATIO)));
+        
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,7 +96,7 @@ public class GUI extends JFrame implements UserInterface {
         this.gamePanel = null;
 
         this.startView.setVisible(true);
-        this.setContentPane(startView);
+        this.setContentPane(startView.getComponent());
         this.validate();
         this.repaint();
     }
@@ -93,8 +120,8 @@ public class GUI extends JFrame implements UserInterface {
         ((GameView)gameView).start();
         this.gameView.setVisible(true);
         this.pauseView.setVisible(false);
-        this.gamePanel.add(this.pauseView);
-        this.gamePanel.add(this.gameView);
+        this.gamePanel.add(this.pauseView.getComponent());
+        this.gamePanel.add(this.gameView.getComponent());
 
         this.setContentPane(gamePanel);
         this.validate();
@@ -103,8 +130,8 @@ public class GUI extends JFrame implements UserInterface {
 
     public void togglePauseView() {
         this.pauseView.setVisible(!this.pauseView.isVisible());
-        setEnabledAllComponents(gameView, !this.pauseView.isVisible());
-        setEnabledAllComponents(pauseView, this.pauseView.isVisible());
+        setEnabledAllComponents(gameView.getComponent(), !this.pauseView.isVisible());
+        setEnabledAllComponents(pauseView.getComponent(), this.pauseView.isVisible());
     }
 
     public void showGameOverView() {
@@ -114,7 +141,7 @@ public class GUI extends JFrame implements UserInterface {
         this.pauseView.setVisible(false);
         this.gameOverView.setVisible(true);
 
-        this.setContentPane(gameOverView);
+        this.setContentPane(gameOverView.getComponent());
         this.validate();
         this.repaint();
     }

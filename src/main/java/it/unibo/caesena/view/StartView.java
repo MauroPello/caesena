@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import it.unibo.caesena.view.components.NumericUpDown;
 import it.unibo.caesena.view.components.PlayerInput;
 
-public class StartView extends View {
+public class StartView extends JPanel implements View<JPanel> {
 
     private final static int MIN_PLAYERS = 2;
     private final static int MAX_PLAYERS = 8;
@@ -25,8 +25,10 @@ public class StartView extends View {
     private final JPanel playersPanel;
 
     public StartView(GUI userInterface) {
-        super(userInterface);
+        super();
+        userInterface.getController().resetGame();
         this.playerInputs = new ArrayList<>();
+
         this.setLayout(new GridBagLayout());
         this.setBackground(java.awt.Color.BLACK);
 
@@ -98,5 +100,10 @@ public class StartView extends View {
 
     private void removePlayerInput() {
         this.playersPanel.remove(this.playerInputs.remove(this.playerInputs.size() - 1));
+    }
+
+    @Override
+    public JPanel getComponent() {
+        return this;
     }
 }
