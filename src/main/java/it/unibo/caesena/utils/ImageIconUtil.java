@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 
@@ -34,12 +35,15 @@ public class ImageIconUtil {
     }
 
     public static BufferedImage getImageFromRelativePath(String relativePath) {
-        BufferedImage image;
+        BufferedImage image = null;
         try {
-            File file = new File(ClassLoader.getSystemResource(relativePath).getFile());
+            File file = new File(ClassLoader.getSystemResource(relativePath).toURI());
             image = ImageIO.read(file);
         } catch (IOException e) {
             throw new IllegalStateException("Path not valid");
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
 
         return image;
