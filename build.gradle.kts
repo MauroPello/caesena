@@ -20,7 +20,6 @@ repositories { // Where to search for dependencies
 }
 
 dependencies {
-    implementation("org.jetbrains:annotations:23.0.0")
     // Suppressions for SpotBugs
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.7.3")
 
