@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ public class GUI extends JFrame implements UserInterface {
     // RAGA È SOLO PER DEBUG, SE ATTIVO UNO DISATTIVATE GLI ALTRI!!
     private static boolean DEBUG_GAME_VIEW = false;
     private static boolean DEBUG_GAME_OVER_VIEW = false;
+    private static float MINIMUM_SIZE_RATIO = 0.35f;
     private Controller controller;
     private View startView;
     private View gameView;
@@ -37,12 +40,36 @@ public class GUI extends JFrame implements UserInterface {
         this.controller = controller;
         this.players = new HashMap<>();
 
-        // TODO background and size options
-        // TODO default options
-        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        final int sw = (int) screen.getWidth();
-        final int sh = (int) screen.getHeight();
-        this.setSize(sw / 3, sh / 3);
+        this.addWindowListener(new WindowListener() {
+            public void windowOpened(final WindowEvent e) {
+            }
+
+            public void windowIconified(final WindowEvent e) {
+            }
+
+            public void windowDeiconified(final WindowEvent e) {
+            }
+
+            public void windowDeactivated(final WindowEvent e) {
+            }
+
+            public void windowClosing(final WindowEvent e) {
+                exit();
+            }
+
+            public void windowClosed(final WindowEvent e) {
+                exit();
+            }
+
+            public void windowActivated(final WindowEvent e) {
+            }
+        });
+
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setMinimumSize(new Dimension(Math.round(screenSize.width * MINIMUM_SIZE_RATIO), Math.round(screenSize.height * MINIMUM_SIZE_RATIO)));
+        
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
