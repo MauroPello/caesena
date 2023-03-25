@@ -1,6 +1,7 @@
 package it.unibo.caesena.view;
 
 import java.awt.Component;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 
@@ -14,8 +15,7 @@ public class PauseView extends View {
     public PauseView(final GUI userInterface) {
         super(userInterface);
         this.setLayout(new GridBagLayout());
-        this.setBackground(java.awt.Color.BLACK);
-        this.setOpaque(false);
+        this.setBackground(new Color(255, 255, 255, 80));
         
         Font mainFont = new Font("SansSerif", Font.BOLD, 20);
         
