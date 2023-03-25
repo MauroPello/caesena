@@ -28,10 +28,10 @@ public class GUI extends JFrame implements UserInterface {
     private static boolean DEBUG_GAME_OVER_VIEW = false;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
     private Controller controller;
-    private View startView;
-    private View gameView;
-    private View pauseView;
-    private View gameOverView;
+    private View<JPanel> startView;
+    private View<JPanel> gameView;
+    private View<JPanel> pauseView;
+    private View<JPanel> gameOverView;
     private JPanel gamePanel;
     private Map<Player, Color> players;
 
@@ -96,7 +96,7 @@ public class GUI extends JFrame implements UserInterface {
         this.gamePanel = null;
 
         this.startView.setVisible(true);
-        this.setContentPane(startView);
+        this.setContentPane(startView.getComponent());
         this.validate();
         this.repaint();
     }
@@ -120,8 +120,8 @@ public class GUI extends JFrame implements UserInterface {
         ((GameView)gameView).start();
         this.gameView.setVisible(true);
         this.pauseView.setVisible(false);
-        this.gamePanel.add(this.pauseView);
-        this.gamePanel.add(this.gameView);
+        this.gamePanel.add(this.pauseView.getComponent());
+        this.gamePanel.add(this.gameView.getComponent());
 
         this.setContentPane(gamePanel);
         this.validate();
@@ -130,8 +130,8 @@ public class GUI extends JFrame implements UserInterface {
 
     public void togglePauseView() {
         this.pauseView.setVisible(!this.pauseView.isVisible());
-        setEnabledAllComponents(gameView, !this.pauseView.isVisible());
-        setEnabledAllComponents(pauseView, this.pauseView.isVisible());
+        setEnabledAllComponents(gameView.getComponent(), !this.pauseView.isVisible());
+        setEnabledAllComponents(pauseView.getComponent(), this.pauseView.isVisible());
     }
 
     public void showGameOverView() {
@@ -141,7 +141,7 @@ public class GUI extends JFrame implements UserInterface {
         this.pauseView.setVisible(false);
         this.gameOverView.setVisible(true);
 
-        this.setContentPane(gameOverView);
+        this.setContentPane(gameOverView.getComponent());
         this.validate();
         this.repaint();
     }

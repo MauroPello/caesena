@@ -1,17 +1,11 @@
 package it.unibo.caesena.view;
 
-import javax.swing.JPanel;
+public interface View<X> {
 
-public class View extends JPanel {
+    public boolean isVisible();
 
-    private final GUI userInterface;
+    public void setVisible(final boolean visible);
 
-    public View(final GUI userInterface) {
-        this.userInterface = userInterface;
-    }
-
-    protected GUI getUserInterface() {        
-        return userInterface;
-    }
+    X getComponent();
 
 }
