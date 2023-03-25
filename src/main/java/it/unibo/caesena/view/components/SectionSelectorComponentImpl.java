@@ -7,7 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -18,7 +19,7 @@ import it.unibo.caesena.utils.ImageIconUtil;
 
 public class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent {
     private final Tile currentTile;
-    private Optional<SectionButton> currentSectionButtonSelected = Optional.empty();
+    private final List<SectionButton> sectionButtons = new ArrayList<>();
 
     public SectionSelectorComponentImpl(Tile tile, Dimension dimension) {
         super();
@@ -30,7 +31,9 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     @Override
     public TileSection getSelectedSection() {
-        return currentSectionButtonSelected.orElseThrow(()->new IllegalStateException("Tried to get section but none was selected")).getSection();
+        return sectionButtons.stream()
+            .filter(x -> x.isSelected())
+            .findFirst().orElseThrow(() -> new IllegalStateException("Tried to access selected section, but none was")).getSection();
     }
 
     @Override
@@ -136,6 +139,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         constraints.gridy = y;
         SectionButton sectionButton = new SectionButton(section);
         container.add(sectionButton, constraints);
+        sectionButtons.add(sectionButton);
     }
 
     private String getLabelFromSection(TileSection section) {
@@ -144,21 +148,24 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     private ActionListener getSectionButtonListener() {
         return (e) -> {
-            if (currentSectionButtonSelected.isPresent()) {
-                currentSectionButtonSelected.get().deselect();
-            }
             SectionButton newSectionButton = (SectionButton)e.getSource();
-            newSectionButton.select();
-            currentSectionButtonSelected = Optional.of(newSectionButton);
+            Boolean wasSelected = newSectionButton.isSelected();
+            sectionButtons.stream().forEach(x -> x.deselect());
+            if(!wasSelected) {
+                newSectionButton.select();
+            }
         };
     }
 
     private class SectionButton extends JButton {
         private final TileSection section;
-        private Color bgColor = Color.WHITE;
+        private Color bgColor;
+        private boolean selected;
 
         public SectionButton(TileSection section) {
             super();
+            this.bgColor = Color.WHITE;
+            this.selected = false;
             this.section = section;
             String buttonLabel = getLabelFromSection(section);
             this.setText(buttonLabel);
@@ -166,13 +173,19 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             this.deselect();
         }
 
+        public boolean isSelected() {
+            return selected;
+        }
+
         public void select() {
+            selected = true;
             bgColor = Color.GREEN;
             this.setBackground(bgColor);
             this.validate();
         }
 
         public void deselect() {
+            selected = false;
             bgColor = Color.WHITE;
             this.setBackground(bgColor);
             this.validate();
