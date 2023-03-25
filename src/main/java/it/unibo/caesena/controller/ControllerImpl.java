@@ -405,25 +405,47 @@ public class ControllerImpl implements Controller {
         }
     }
 
-    private Set<Pair<Integer, Integer>> getEmptyNeighbouringPositions(Pair<Integer, Integer> position) {
-        /*
-         * TO DO
-         */
-        return null;
+    private boolean tileIsNotPresent (final Pair<Integer, Integer> tile) {
+        for (Tile tileTocheck : tiles) {
+            if (tileTocheck.getPosition().get().equals(tile)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public boolean discardCurrentTile() {
+    private Set<Pair<Integer, Integer>> getEmptyNeighbouringPositions(Pair<Integer, Integer> position) {
+        Set<Pair<Integer, Integer>> neighboursNearPosition = new HashSet<>();
+        for (var direction : Direction.values()) {
+            Pair<Integer, Integer> neighbour = new Pair<>(position.getX()+direction.getX(), position.getY()+direction.getY());
+            if (this.tileIsNotPresent(neighbour)) {
+                   neighboursNearPosition.add(neighbour);
+            }
+        }
+        return neighboursNearPosition;
+    }
+
+    private boolean isCurrentTilePlaceable() {
         for (Tile tile : tiles) {
-            int numberOfNeighBours = this.getTileNeighbours(tile.getPosition().get()).size();
-            if (numberOfNeighBours <= 3 && numberOfNeighBours >= 1) {
-                Set<Pair<Integer, Integer>> empytPosition = this.getEmptyNeighbouringPositions(tile.getPosition().get());
-                for (Pair<Integer, Integer> emptyNeighBour : empytPosition) {
-                    if (this.isValidPositionForCurrentTile(emptyNeighBour)) {
-                        return false;
+            int numberOfNeighbours = this.getTileNeighbours(tile.getPosition().get()).size();
+            if (numberOfNeighbours <= 3 && numberOfNeighbours >= 1) {
+                Set<Pair<Integer, Integer>> emptyPositions = this.getEmptyNeighbouringPositions(tile.getPosition().get());
+                for (Pair<Integer, Integer> position : emptyPositions) {
+                    if (this.isValidPositionForCurrentTile(position)) {
+                        return true;
                     }
                 }
             }
         }
+        return false;
+    }
+
+    public boolean discardCurrentTile() {
+        if (this.isCurrentTilePlaceable()) {
+            return false;
+        }
+        tiles.remove(currentTile);
+        this.drawNewTile();
         return true;
     }
 
