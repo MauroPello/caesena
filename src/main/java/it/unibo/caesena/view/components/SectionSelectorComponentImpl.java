@@ -1,10 +1,12 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.util.Optional;
 
 import javax.swing.JButton;
@@ -16,7 +18,7 @@ import it.unibo.caesena.utils.ImageIconUtil;
 
 public class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent {
     private final Tile currentTile;
-    private Optional<TileSection> currentSectionSelected = Optional.empty();
+    private Optional<SectionButton> currentSectionButtonSelected = Optional.empty();
 
     public SectionSelectorComponentImpl(Tile tile, Dimension dimension) {
         super();
@@ -28,7 +30,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     @Override
     public TileSection getSelectedSection() {
-        return currentSectionSelected.orElseThrow(()->new IllegalStateException("Tried to get section but none was selected"));
+        return currentSectionButtonSelected.orElseThrow(()->new IllegalStateException("Tried to get section but none was selected")).getSection();
     }
 
     @Override
@@ -140,18 +142,44 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         return String.valueOf(currentTile.getGameSet(section).getType().name().toCharArray()[0]);
     }
 
+    private ActionListener getSectionButtonListener() {
+        return (e) -> {
+            if (currentSectionButtonSelected.isPresent()) {
+                currentSectionButtonSelected.get().deselect();
+            }
+            SectionButton newSectionButton = (SectionButton)e.getSource();
+            newSectionButton.select();
+            currentSectionButtonSelected = Optional.of(newSectionButton);
+        };
+    }
+
     private class SectionButton extends JButton {
         private final TileSection section;
+        private Color bgColor = Color.WHITE;
 
         public SectionButton(TileSection section) {
             super();
             this.section = section;
             String buttonLabel = getLabelFromSection(section);
             this.setText(buttonLabel);
-            this.addActionListener((e) ->
-            {
-                currentSectionSelected = Optional.of(this.section);
-            });
+            this.addActionListener(getSectionButtonListener());
+            this.deselect();
+        }
+
+        public void select() {
+            bgColor = Color.GREEN;
+            this.setBackground(bgColor);
+            this.validate();
+        }
+
+        public void deselect() {
+            bgColor = Color.WHITE;
+            this.setBackground(bgColor);
+            this.validate();
+        }
+
+        public TileSection getSection(){
+            return section;
         }
 
         @Override
@@ -169,5 +197,11 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     private Dimension getTotalSize() {
         return this.getSize();
+    }
+
+    @Override
+    public Boolean isSectionSelected() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isSectionSelected'");
     }
 }

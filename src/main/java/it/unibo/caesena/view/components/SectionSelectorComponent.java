@@ -6,4 +6,5 @@ public interface SectionSelectorComponent {
 
     TileSection getSelectedSection();
 
+    Boolean isSectionSelected();
 }
