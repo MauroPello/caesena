@@ -26,7 +26,9 @@ public class StartView extends View {
 
     public StartView(GUI userInterface) {
         super(userInterface);
+        userInterface.getController().resetGame();
         this.playerInputs = new ArrayList<>();
+
         this.setLayout(new GridBagLayout());
         this.setBackground(java.awt.Color.BLACK);
 
