@@ -1,16 +1,23 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.LayoutManager;
 import java.util.Optional;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.plaf.multi.MultiButtonUI;
+
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.ImageIconUtil;
@@ -56,7 +63,16 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     private void drawSections() {
-        this.setLayout(new BorderLayout());
+        JPanel container = new JPanel() {
+            @Override
+            public Dimension getPreferredSize() {
+                return getTotalSize();
+            }
+        };
+        container.setLayout(new GridBagLayout());
+        container.setSize(this.getSize());
+        this.add(container);
+
         SectionButton upLeftButton = new SectionButton(TileSection.UpLeft);
         SectionButton upCenterButton = new SectionButton(TileSection.UpCenter);
         SectionButton upRightButton = new SectionButton(TileSection.UpRight);
@@ -83,11 +99,39 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         HorizontalSectionButtonContainer downPanel = new HorizontalSectionButtonContainer(downRightButton, downCenterButton, downLeftButton);
         CenterSectionButtonContainer centerPanel = new CenterSectionButtonContainer(centerButton);
 
-        this.add(upPanel, BorderLayout.NORTH);
-        this.add(leftPanel, BorderLayout.WEST);
-        this.add(rightPanel, BorderLayout.EAST);
-        this.add(downPanel, BorderLayout.SOUTH);
-        this.add(centerPanel, BorderLayout.CENTER);
+        // this.add(upPanel, BorderLayout.NORTH);
+        // this.add(leftPanel, BorderLayout.WEST);
+        // this.add(rightPanel, BorderLayout.EAST);
+        // this.add(downPanel, BorderLayout.SOUTH);
+        // this.add(centerPanel, BorderLayout.CENTER);
+
+        GridBagConstraints constr = new GridBagConstraints();
+        //constr.fill = GridBagConstraints.VERTICAL;
+        constr.weightx = 1;
+        constr.weighty = 1;
+        constr.gridx = 1;
+        constr.gridy = 0;
+        container.add(upPanel, constr);
+
+        //constr.fill = GridBagConstraints.WEST;
+        constr.gridx = 0;
+        constr.gridy = 1;
+        container.add(leftPanel, constr);
+
+        //constr.fill = GridBagConstraints.CENTER;
+        constr.gridx = 1;
+        constr.gridy = 1;
+        container.add(centerPanel, constr);
+
+        //constr.fill = GridBagConstraints.EAST;
+        constr.gridx = 2;
+        constr.gridy = 1;
+        container.add(rightPanel, constr);
+
+        //constr.fill = GridBagConstraints.NORTH;
+        constr.gridx = 1;
+        constr.gridy = 2;
+        container.add(downPanel, constr);
     }
 
     private String getLabelFromSection(TileSection section) {
@@ -128,66 +172,71 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
                 Component thirdComponent) {
             super.setOpaque(false);
             this.setLayout(new BorderLayout());
-            this.add(new SectionButtonContainer(firstComponent), BorderLayout.SOUTH);
-            this.add(new SectionButtonContainer(secondComponent), BorderLayout.CENTER);
-            this.add(new SectionButtonContainer(thirdComponent), BorderLayout.NORTH);
-        }
-
-        @Override
-        public void setLayout(LayoutManager mgr) {
-            mgr = new GridLayout(0,1);
-            super.setLayout(mgr);
-        }
-
-        @Override
-        public void setOpaque(boolean isOpaque) {
-            super.setOpaque(false);
+            this.add(new SectionButtonContainer(firstComponent, ButtonPosition.VerticalUp), BorderLayout.SOUTH);
+            this.add(new SectionButtonContainer(secondComponent, ButtonPosition.AnyCenter), BorderLayout.CENTER);
+            this.add(new SectionButtonContainer(thirdComponent, ButtonPosition.VerticalBottom), BorderLayout.NORTH);
         }
     };
+
+
+
+    private enum ButtonPosition {
+        //(int top, int left, int bottom, int right)
+        VerticalBottom(10),
+        VerticalUp(10),
+        HorizontalLeft(10),
+        Horizontalright(10),
+        AnyCenter(10);
+
+        int multiplier;
+        ButtonPosition(int multiplier) {
+            this.multiplier = multiplier;
+        }
+
+        public Border getBorder(int size){
+            int amount = size/multiplier;
+            return switch (this) {
+                case VerticalBottom -> BorderFactory.createEmptyBorder(00, 0, 0, 0);
+                case VerticalUp -> BorderFactory.createEmptyBorder(0, 0, 0, 0);
+                case HorizontalLeft -> BorderFactory.createEmptyBorder(0, 0, 0, 0);
+                case Horizontalright -> BorderFactory.createEmptyBorder(0, 0, 0, 0);
+                case AnyCenter -> BorderFactory.createEmptyBorder(0, 0, 0, 0);
+            };
+        }
+    }
 
     private class HorizontalSectionButtonContainer extends JPanel {
         public HorizontalSectionButtonContainer(Component firstComponent, Component secondComponent,
                 Component thirdComponent) {
             super.setOpaque(false);
             this.setLayout(new BorderLayout());
-            this.add(new SectionButtonContainer(firstComponent), BorderLayout.EAST);
-            this.add(new SectionButtonContainer(secondComponent), BorderLayout.CENTER);
-            this.add(new SectionButtonContainer(thirdComponent), BorderLayout.WEST);
+            this.add(new SectionButtonContainer(firstComponent, ButtonPosition.Horizontalright), BorderLayout.EAST);
+            this.add(new SectionButtonContainer(secondComponent, ButtonPosition.AnyCenter), BorderLayout.CENTER);
+            this.add(new SectionButtonContainer(thirdComponent, ButtonPosition.HorizontalLeft), BorderLayout.WEST);
         }
     };
 
     private class SectionButtonContainer extends JPanel {
-
-        public SectionButtonContainer(Component Component) {
+        public SectionButtonContainer(Component Component, ButtonPosition buttonPosition) {
             super();
             this.setOpaque(false);
             this.setLayout(new GridBagLayout());
             this.add(Component);
+            this.setBorder(buttonPosition.getBorder(1));
         }
 
     }
 
+    private Dimension getTotalSize() {
+        return this.getSize();
+    }
+
     private class CenterSectionButtonContainer extends JPanel {
-        final Component component;
 
         public CenterSectionButtonContainer(Component component) {
-            this.component = component;
-            JPanel innerPanel = new JPanel();
-            innerPanel.setLayout(new GridBagLayout());
-            innerPanel.setOpaque(false);
-            innerPanel.add(component);
-            this.add(innerPanel);
-        }
-
-        @Override
-        public void setLayout(LayoutManager mgr) {
-            mgr = new GridLayout(0,1);
-            super.setLayout(mgr);
-        }
-
-        @Override
-        public void setOpaque(boolean isOpaque) {
-            super.setOpaque(false);
+            this.setLayout(new GridLayout(0,1));
+            this.setOpaque(false);
+            this.add(new SectionButtonContainer(component, ButtonPosition.AnyCenter));
         }
     };
 
