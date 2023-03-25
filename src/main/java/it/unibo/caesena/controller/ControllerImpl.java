@@ -405,9 +405,9 @@ public class ControllerImpl implements Controller {
         }
     }
 
-    private boolean tileIsNotPresent (final Pair<Integer, Integer> tile) {
-        for (Tile tileTocheck : tiles) {
-            if (tileTocheck.getPosition().get().equals(tile)) {
+    private boolean isPositionNotOccupied(final Pair<Integer, Integer> position) {
+        for (Tile tile : tiles) {
+            if (tile.getPosition().get().equals(position)) {
                 return false;
             }
         }
@@ -417,9 +417,9 @@ public class ControllerImpl implements Controller {
     private Set<Pair<Integer, Integer>> getEmptyNeighbouringPositions(Pair<Integer, Integer> position) {
         Set<Pair<Integer, Integer>> neighboursNearPosition = new HashSet<>();
         for (var direction : Direction.values()) {
-            Pair<Integer, Integer> neighbour = new Pair<>(position.getX()+direction.getX(), position.getY()+direction.getY());
-            if (this.tileIsNotPresent(neighbour)) {
-                   neighboursNearPosition.add(neighbour);
+            Pair<Integer, Integer> neighbourPosition = new Pair<>(position.getX()+direction.getX(), position.getY()+direction.getY());
+            if (this.isPositionNotOccupied(neighbourPosition)) {
+                neighboursNearPosition.add(neighbourPosition);
             }
         }
         return neighboursNearPosition;
