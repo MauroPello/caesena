@@ -21,7 +21,9 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     private int currentZoom = 0;
     private int currentHorizontalOffset = 0;
     private int currentVerticalOffset = 0;
+    private boolean showBoard = true;
     private Optional<SectionSelectorComponent> currentOverlayedTile = Optional.empty();
+    //TODO rimuovi questo, basta usare uno stream su alltilebuttons
     private Optional<TileButton> currentTileButtonPlaced = Optional.empty();
 
     public BoardComponentImpl(GUI gui) {
@@ -52,14 +54,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             }
         }
         this.add(currentTileButtonsContainer);
-        this.repaint();
-        this.validate();
-    }
-
-
-
-    private void undrawBoard() {
-        this.removeAll();
         this.repaint();
         this.validate();
     }
@@ -218,13 +212,8 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return currentTileButtonPlaced.get();
     }
 
-    @Override
-    public void placeMeeple(Tile tile) {
-        undrawBoard();
-        drawOverlayedTile();
-    }
-
     private void drawOverlayedTile() {
+        this.removeAll();
         var overlayedTile = new SectionSelectorComponentImpl(this.gui.getController().getCurrentTile(), this.currentTileButtonsContainer.getSize());
         this.currentOverlayedTile = Optional.of(overlayedTile);
         this.add(overlayedTile);
@@ -234,7 +223,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public void endTurn() {
-        if (this.currentOverlayedTile.isPresent()) {
+        if (this.currentOverlayedTile.isPresent() && currentOverlayedTile.get().isSectionSelected()) {
             var section = this.currentOverlayedTile.get().getSelectedSection();
             Optional<Meeple> meeple = this.gui.getController().getCurrentPlayerMeeples().stream().filter(m -> !m.isPlaced()).findFirst();
             if (meeple.isPresent()) {
@@ -247,7 +236,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
                 throw new IllegalStateException("Tried to add meeple but run out of them");
             }
         }
-        drawBoard();
+        toggleBoardContent();
     }
 
     @Override
@@ -268,5 +257,15 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public void setPlacedTileButton(TileButton tileButton) {
         this.currentTileButtonPlaced = Optional.of(tileButton);
+    }
+
+    @Override
+    public void toggleBoardContent() {
+        if (showBoard) {
+            drawOverlayedTile();
+        } else {
+            drawBoard();
+        }
+        showBoard = !showBoard;
     }
 }

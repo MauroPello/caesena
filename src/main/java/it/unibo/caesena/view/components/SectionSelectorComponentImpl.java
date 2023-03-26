@@ -98,8 +98,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     @Override
     public Boolean isSectionSelected() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isSectionSelected'");
+        return sectionButtons.stream().anyMatch(x -> x.isSelected());
     }
 
     @Override

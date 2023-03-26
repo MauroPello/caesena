@@ -1,6 +1,5 @@
 package it.unibo.caesena.view.components;
 
-import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.view.GUI;
 
 public interface BoardComponent<X> {
@@ -18,8 +17,6 @@ public interface BoardComponent<X> {
     void moveRight();
 
     void lockTile();
-
-    void placeMeeple(Tile tile);
 
     void endTurn();
 
@@ -46,6 +43,8 @@ public interface BoardComponent<X> {
     void setPlacedTileButton(TileButton tileButton);
 
     X getComponent();
+
+    void toggleBoardContent();
 
     void drawBoard();
 }
