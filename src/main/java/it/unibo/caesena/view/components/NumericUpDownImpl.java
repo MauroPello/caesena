@@ -13,24 +13,18 @@ public class NumericUpDownImpl extends JSpinner implements NumericUpDown<JSpinne
     public NumericUpDownImpl(final int start, final int min, final int max, final int step) {
         super();
 
-        model = new SpinnerNumberModel(start, min, max, step);
+        this.model = new SpinnerNumberModel(start, min, max, step);
         this.setModel(model);
 
-        editor = new DefaultEditor(this);
-        editor.getTextField().setEditable(false);
-        this.setEditor(editor);
+        this.editor = new DefaultEditor(this);
+        this.editor.getTextField().setEditable(false);
+        this.editor.getTextField().setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        this.setEditor(this.editor);
     }
 
     @Override
     public int getValueAsInt() {
-        return model.getNumber().intValue();
-    }
-
-    @Override
-    public void setFont(String family, int size) {
-        final Font font = new Font(family, Font.BOLD, size);
-        this.setFont(font);
-        this.editor.getTextField().setFont(font);
+        return this.model.getNumber().intValue();
     }
 
     @Override

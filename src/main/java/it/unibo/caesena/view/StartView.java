@@ -40,7 +40,7 @@ public class StartView extends JPanel implements View<JPanel> {
 
         JPanel playersNumPanel = new JPanel();
         JLabel playersLabel = new JLabel("Players:");
-        playersLabel.setFont(new Font("Sans Serif", Font.BOLD, 20));
+        playersLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
         playersNumPanel.add(playersLabel);
 
         NumericUpDown<JSpinner> playersNum = new NumericUpDownImpl(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
@@ -58,7 +58,6 @@ public class StartView extends JPanel implements View<JPanel> {
             this.repaint();
             this.validate();
         });
-        playersNum.setFont("Sans Serif", 20);
         playersNumPanel.add(playersNum.getComponent());
 
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);

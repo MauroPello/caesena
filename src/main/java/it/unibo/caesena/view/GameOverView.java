@@ -23,7 +23,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
         this.controller = userInterface.getController();
         this.setLayout(new GridBagLayout());
-        this.mainFont = new Font("SansSerif", Font.BOLD, 20);        
+        this.mainFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);        
         this.finalPanel = new JPanel();
         this.finalPanel.setLayout(new BoxLayout(this.finalPanel, BoxLayout.Y_AXIS));
         this.players = userInterface.getController().getPlayers();

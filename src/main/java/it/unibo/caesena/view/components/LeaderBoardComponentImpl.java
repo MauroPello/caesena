@@ -36,7 +36,7 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
         this.playerList = this.controller.getPlayers();
         for (int i = 0; i < playerList.size(); i++) {
             JLabel nuova = new JLabel();
-            nuova.setFont(new Font("SansSerif", Font.BOLD, 15));
+            nuova.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
             labelList.add(nuova);
             innerPanel.add(nuova, constraints);
             constraints.gridy++;
