@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,7 +38,7 @@ public class ControllerImpl implements Controller {
     private List<Tile> tiles = new ArrayList<>();
     private Tile currentTile;
     private Player currentPlayer;
-    private int turn; //indice di scorrimento Liste
+    private int turn;
 
     @Override
     public void startGame() throws IllegalStateException {
@@ -295,8 +294,8 @@ public class ControllerImpl implements Controller {
             .forEach(this::distributePoints);
 
 
-        this.turn = (this.turn + 1) % this.players.size();
-        this.currentPlayer = this.players.get(this.turn);
+        this.turn += 1;
+        this.currentPlayer = this.players.get(this.turn % this.players.size());
         drawNewTile();
     }
 
@@ -347,33 +346,23 @@ public class ControllerImpl implements Controller {
 
     @Override
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
-        var gameSet = this.currentTile.getGameSet(section);
-
-        if (!gameSet.isMeepleFree() || meeple.isPlaced()) {
-            return false;
-        }
-
-        gameSet.addMeeple(meeple);
-
-        return true;
+        return this.currentTile.getGameSet(section).addMeeple(meeple);
     }
 
     private boolean isGameSetClosed(final GameSet gameSet) {
-        boolean flag = true;
         for (Tile tile : tiles) {
             for (TileSection tileSection : TileSection.values()) {
                 if (tile.getGameSet(tileSection).equals(gameSet) && !tile.isSectionClosed(tileSection)) {
-                    flag = false;
+                    return false;
                 }
             }
         }
 
-        return flag;
+        return true;
     }
 
     private void distributePoints (final GameSet gameset) {
         Map<Player, Integer> playerMeeples = new HashMap<>();
-        int value = 1;
 
         if (!gameset.isMeepleFree()) {
 
@@ -387,11 +376,10 @@ public class ControllerImpl implements Controller {
             for (Meeple playerMeeple : meeples) {
                 Player currentPlayer = playerMeeple.getOwner();
 
-                if (playerMeeples.containsKey(currentPlayer)) {
-                    value = playerMeeples.get(currentPlayer);
-                    value++;
+                if (!playerMeeples.containsKey(currentPlayer)) {
+                    playerMeeples.put(currentPlayer, 0);
                 }
-                playerMeeples.put(currentPlayer, value);
+                playerMeeples.put(currentPlayer, playerMeeples.get(currentPlayer)+1);
 
             }
 
@@ -399,9 +387,8 @@ public class ControllerImpl implements Controller {
                 .max().getAsInt();
 
             playerMeeples.entrySet().stream()
-                .filter(x -> x.getValue().equals(maxValueMeeple))
-                .map(Entry::getKey)
-                .forEach(p -> p.addScore(checkOptional.get().getY()));
+                .filter(e -> e.getValue().equals(maxValueMeeple))
+                .forEach(e -> e.getKey().addScore(checkOptional.get().getY()));
         }
     }
 
