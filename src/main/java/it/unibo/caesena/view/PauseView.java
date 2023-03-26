@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class PauseView extends JPanel implements View<JPanel> {
@@ -37,12 +38,18 @@ public class PauseView extends JPanel implements View<JPanel> {
         btn2.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(btn2);
         btn2.addActionListener((e) -> {
-            userInterface.showStartView();
+            int result = JOptionPane.showConfirmDialog(userInterface, 
+                "Are you sure you want to go back to the start menu?",
+                "Back to start menu", JOptionPane.YES_NO_OPTION);
+            
+            if (result == JOptionPane.YES_OPTION) {
+                userInterface.showStartView();
+            }
         });
         JButton btn3 = new JButton("Exit and close game");
         btn3.setAlignmentX(Component.CENTER_ALIGNMENT);
         btn3.addActionListener((e) -> {
-            userInterface.exit();
+            userInterface.showExitDialog();
         });
         mainPanel.add(btn3);
 
