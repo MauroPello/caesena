@@ -141,7 +141,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
                 y = 2;
                 break;
             case DownCenter:
-                x = 1;
+                x = 2;
                 y = 4;
                 break;
             case DownLeft:
