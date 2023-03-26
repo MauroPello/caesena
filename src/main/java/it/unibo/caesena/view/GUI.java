@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import javax.swing.*;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
+import it.unibo.caesena.utils.ImageIconUtil;
 
 public class GUI extends JFrame implements UserInterface {
     // TODO rimuovere
@@ -22,6 +24,8 @@ public class GUI extends JFrame implements UserInterface {
     private static boolean DEBUG_GAME_VIEW = true;
     private static boolean DEBUG_GAME_OVER_VIEW = false;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
+    private static final String SEP = File.separator;
+    private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP;
     private Controller controller;
     private View<JPanel> startView;
     private View<JPanel> gameView;
@@ -68,6 +72,7 @@ public class GUI extends JFrame implements UserInterface {
         this.setLocationByPlatform(true);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setIconImage(ImageIconUtil.getImageFromRelativePath(ROOT + SEP + "tiles" + SEP + "TILE_BACK.png"));
         this.setVisible(true);
 
         //TODO rimuovere
@@ -84,6 +89,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showStartView() {
+        this.setTitle("Caesena | Start menu");
         this.startView = new StartView(this);
         this.pauseView = null;
         this.gameView = null;
@@ -97,6 +103,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void startGame() {
+        this.setTitle("Caesena | Playing a game");
         this.startView = null;
         this.gameView = new GameView(this);
         this.pauseView = new PauseView(this);
@@ -128,6 +135,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showGameOverView() {
+        this.setTitle("Caesena | Game ended");
         this.gameOverView = new GameOverView(this);
 
         this.gameView.setVisible(false);
