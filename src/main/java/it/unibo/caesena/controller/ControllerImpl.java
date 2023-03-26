@@ -336,7 +336,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void exitGame() {
-        this.endGame();
+        this.resetGame();
     }
 
     @Override

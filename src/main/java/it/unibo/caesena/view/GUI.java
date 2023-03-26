@@ -11,12 +11,7 @@ import java.awt.event.WindowListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.OverlayLayout;
+import javax.swing.*;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
@@ -146,7 +141,7 @@ public class GUI extends JFrame implements UserInterface {
 
     public void exit() {
         this.controller.exitGame();
-        // TODO chiudi app
+        System.exit(0);
     }
 
     public Controller getController() {
