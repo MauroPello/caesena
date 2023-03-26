@@ -43,10 +43,8 @@ public class GameSetImpl implements GameSet{
             return Optional.empty();
         }
 
-        for (final Meeple meeple : meeples) {
-            meeple.removeFromTile();
-        }
         this.closed = true;
+        meeples.forEach(Meeple::removeFromTile);
         return Optional.of(new Pair<>(this.meeples, this.points));
     }
 

@@ -48,9 +48,7 @@ public class TileBuilder {
     }
 
     private void applySet(final List<TileSection> sections, final GameSet gameSet) {
-        for (var section : sections) {
-            this.tile.putSection(section, gameSet);
-        }
+        sections.forEach(s -> tile.putSection(s, gameSet));
     }
 
     public Tile build() {
