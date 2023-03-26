@@ -43,17 +43,11 @@ public class GameSetFactoryImpl implements GameSetFactory {
 
             final var firstPair = gs1.close().get();
             final var secondPair = gs2.close().get();
-            final GameSetType newTipe = gs1.getType();
-            final int comulativePoints = firstPair.getY() + secondPair.getY();
-            final GameSet joinedGameset = new GameSetImpl(newTipe, comulativePoints);
+            final int points = firstPair.getY() + secondPair.getY();
+            final GameSet joinedGameset = new GameSetImpl(gs1.getType(), points);
             
-            for (final var meeple : firstPair.getX()) {
-                joinedGameset.addMeeple(meeple);
-            }
-        
-            for (final var meeple : secondPair.getX()) {
-                joinedGameset.addMeeple(meeple);
-            }
+            firstPair.getX().forEach(joinedGameset::addMeeple);
+            secondPair.getX().forEach(joinedGameset::addMeeple);
             
             return joinedGameset;
         } else {
