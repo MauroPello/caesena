@@ -413,16 +413,19 @@ public class ControllerImpl implements Controller {
     }
 
     private boolean isCurrentTilePlaceable() {
-        for (Tile tile : tiles) {
-            int numberOfNeighbours = this.getTileNeighbours(tile.getPosition().get()).size();
-            if (numberOfNeighbours <= 3 && numberOfNeighbours >= 1) {
-                Set<Pair<Integer, Integer>> emptyPositions = this.getEmptyNeighbouringPositions(tile.getPosition().get());
-                for (Pair<Integer, Integer> position : emptyPositions) {
-                    if (this.isValidPositionForCurrentTile(position)) {
-                        return true;
+        for (int i = 0; i < 4; i++) {
+            for (Tile tile : tiles) {
+                int numberOfNeighbours = this.getTileNeighbours(tile.getPosition().get()).size();
+                if (numberOfNeighbours <= 3 && numberOfNeighbours >= 1) {
+                    Set<Pair<Integer, Integer>> emptyPositions = this.getEmptyNeighbouringPositions(tile.getPosition().get());
+                    for (Pair<Integer, Integer> position : emptyPositions) {
+                        if (this.isValidPositionForCurrentTile(position)) {
+                            return true;
+                        }
                     }
                 }
             }
+            this.rotateCurrentTile();
         }
         return false;
     }
