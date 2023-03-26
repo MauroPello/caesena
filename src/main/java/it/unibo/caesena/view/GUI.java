@@ -42,13 +42,7 @@ public class GUI extends JFrame implements UserInterface {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent e) {
-                int result = JOptionPane.showConfirmDialog((JFrame)e.getSource(),
-                    "Are you sure you want to exit Caesena?", "Exit Caesena",
-                    JOptionPane.YES_NO_OPTION);
- 
-                if (result == JOptionPane.YES_OPTION) {
-                    exit();
-                }
+                showExitDialog();
             }
         });
 
@@ -134,6 +128,15 @@ public class GUI extends JFrame implements UserInterface {
         this.setContentPane(gameOverView.getComponent());
         this.validate();
         this.repaint();
+    }
+
+    public void showExitDialog() {
+        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
+            "Exit Caesena", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            exit();
+        }
     }
 
     public void exit() {
