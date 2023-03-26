@@ -3,6 +3,7 @@ package it.unibo.caesena.utils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StringUtil {
 
@@ -27,41 +28,30 @@ public class StringUtil {
             if (value != null) {
                 actualValue = value.toString();
             }
-            Pair<String, String> definitivePair = new Pair<>(StringUtil.capitalize(field), actualValue);
-            elements.add(definitivePair);
+            
+            elements.add(new Pair<>(StringUtil.capitalize(field), actualValue));
             return this;
         }
 
         private String getNameFromMethod(Method method) {
-            String result = ToStringBuilder.EMPTY_STRING;
             String name = method.getName().replace("get", ToStringBuilder.EMPTY_STRING);
-            List<String> words = getWordsFromUppercaseChar(name);
-            for (String word : words) {
-                if (!word.isEmpty()) {
-                    result += result.isEmpty() ? word : ToStringBuilder.SPACE_STRING + word;
-                }
-            }
-            return result;
+            return splitCamelCase(name).stream().filter(w -> !w.isEmpty())
+                .collect(Collectors.joining(ToStringBuilder.SPACE_STRING));
         }
 
-        private List<String> getWordsFromUppercaseChar(String name) {
+        private List<String> splitCamelCase(String name) {
             List<String> result = new ArrayList<>();
             String currentString = ToStringBuilder.EMPTY_STRING;
             char[] charArray = name.toCharArray();
             for (char c : charArray) {
-                String currentCharAsString = String.valueOf(c);
-                if (!(result.isEmpty() && currentString.isEmpty()) && isUppercase(currentCharAsString)) {
+                if (!(result.isEmpty() && currentString.isEmpty()) && Character.isUpperCase(c)) {
                     result.add(result.isEmpty() ? currentString : currentString.toLowerCase());
                     currentString = ToStringBuilder.EMPTY_STRING;
                 }
-                currentString += currentCharAsString;
+                currentString += c;
             }
             result.add(currentString);
             return result;
-        }
-
-        private boolean isUppercase(String currentCharAsString) {
-            return currentCharAsString == currentCharAsString.toUpperCase();
         }
 
         private boolean isGetter(Method method) {
@@ -70,18 +60,14 @@ public class StringUtil {
 
         public ToStringBuilder addFromObjectGetters(Object obj)
         {
-            var methods = obj.getClass().getMethods();
-            for (Method method : methods) {
+            for (Method method : obj.getClass().getMethods()) {
                 if (isGetter(method) && !hasArguments(method)) {
                     String name = getNameFromMethod(method);
-                    String value = NULL_STRING;
                     try {
-                        var getterResult = method.invoke(obj);
-                        if (getterResult != null) {
-                            value = getterResult.toString();
-                        }
-                    } catch (Exception e) { }
-                    this.add(name, value);
+                        this.add(name, method.invoke(obj).toString());
+                    } catch (Exception e) { 
+                        this.add(name, NULL_STRING);
+                    }
                 }
             }
             return this;
@@ -94,16 +80,10 @@ public class StringUtil {
         public String build()
         {
             elements.sort((p1, p2) -> p1.getX().compareTo(p2.getX()));
-            final StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("[");
-            for (int i = 0; i < elements.size() - 1; i++) {
-                Pair<String, String> pair = elements.get(i);
-                stringBuilder.append(pair.getX() + ": " + pair.getY() + ", ");
-            }
-            Pair<String, String> pair = elements.get(elements.size() - 1);
-            stringBuilder.append(pair.getX() + ": " + pair.getY() + "]");
 
-            return stringBuilder.toString();
+            return "[" + elements.stream()
+                .map(p -> p.getX() + ": " + p.getY())
+                .collect(Collectors.joining(", ")) + "]";
         }
 
     }
