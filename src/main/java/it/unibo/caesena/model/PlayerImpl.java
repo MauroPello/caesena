@@ -40,6 +40,15 @@ public class PlayerImpl implements Player{
 
     @Override
     public boolean equals(Object arg0) {
+        if (this == arg0) {
+			return true;
+		}
+		if (arg0 == null) {
+			return false;
+		}
+		if (getClass() != arg0.getClass()) {
+			return false;
+		}
         PlayerImpl otherPlayer = (PlayerImpl) arg0;
         return otherPlayer.name == this.name;
     }
