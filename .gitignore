@@ -10,3 +10,4 @@ bin/
 
 # Ignore IntelliJ Idea customizations
 .idea/
+.out/
