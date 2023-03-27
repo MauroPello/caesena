@@ -40,4 +40,15 @@ public interface TileFactory {
     
     public Tile createRoadTurn();
 
+    public Tile createCityEdgePennant();
+
+    public Tile createCityEdgeRoadPennant();
+
+    public Tile createCityLargePennant();
+
+    public Tile createCityLargeRoadPennant();
+
+    public Tile createCityPennant();
+
+    public Tile createCityTubePennant();
 }

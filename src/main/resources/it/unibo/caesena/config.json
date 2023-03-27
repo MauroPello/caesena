@@ -57,6 +57,24 @@
         },
         {
             "ROAD_TURN": 9
+        },
+        {
+            "CITY_EDGE_PENNANT": 2
+        },
+        {
+            "CITY_EDGE_ROAD_PENNANT": 2 
+        },
+        {
+            "CITY_LARGE_PENNANT": 1
+        },
+        {
+            "CITY_LARGE_ROAD_PENNANT": 2
+        },
+        {
+            "CITY_PENNANT": 1
+        },
+        {
+            "CITY_TUBE_PENNANT": 2
         }
     ] 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 public class TileFactoryWithBuilder implements TileFactory {
 
+    private final static int PENNANT_POINTS = 2;
+
     @Override
     public Tile createCityEdge() {
         return new TileBuilder(TileType.CITY_EDGE)
@@ -13,6 +15,20 @@ public class TileFactoryWithBuilder implements TileFactory {
             TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN, TileSection.CENTER))
             .close(List.of(TileSection.CENTER))
             .build();
+    }
+
+    @Override
+    public Tile createCityEdgePennant() {
+        Tile tile = new TileBuilder(TileType.CITY_EDGE)
+            .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
+                TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
+            .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT, 
+            TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN, TileSection.CENTER))
+            .close(List.of(TileSection.CENTER))
+            .build();
+            
+        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        return tile;
     }
 
     @Override
@@ -28,6 +44,21 @@ public class TileFactoryWithBuilder implements TileFactory {
     }
 
     @Override
+    public Tile createCityEdgeRoadPennant() {
+        Tile tile = new TileBuilder(TileType.CITY_EDGE_ROAD)
+            .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
+                TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
+            .field(List.of(TileSection.DOWN_LEFT, TileSection.LEFT_DOWN)) 
+            .field(List.of(TileSection.LEFT_UP, TileSection.DOWN_RIGHT))
+            .road(List.of(TileSection.LEFT_CENTER, TileSection.CENTER, TileSection.DOWN_CENTER))
+            .close(List.of(TileSection.CENTER))
+            .build();
+        
+        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        return tile;
+    }
+
+    @Override
     public Tile createCityLarge() {
         return new TileBuilder(TileType.CITY_LARGE)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
@@ -36,6 +67,21 @@ public class TileFactoryWithBuilder implements TileFactory {
             .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
             .close(List.of(TileSection.CENTER))
             .build();
+    }
+
+    
+    @Override
+    public Tile createCityLargePennant() {
+        Tile tile = new TileBuilder(TileType.CITY_LARGE)
+            .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
+                TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
+                TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
+            .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
+            .close(List.of(TileSection.CENTER))
+            .build();
+
+        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        return tile;
     }
 
     @Override
@@ -52,6 +98,22 @@ public class TileFactoryWithBuilder implements TileFactory {
     }
 
     @Override
+    public Tile createCityLargeRoadPennant() {
+        Tile tile = new TileBuilder(TileType.CITY_LARGE_ROAD)
+            .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
+                TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
+                TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
+            .field(List.of(TileSection.DOWN_LEFT))
+            .field(List.of(TileSection.DOWN_RIGHT))
+            .road(List.of(TileSection.DOWN_CENTER))
+            .close(List.of(TileSection.CENTER))
+            .build();
+
+        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        return tile;
+    }
+
+    @Override
     public Tile createCity() {
         return new TileBuilder(TileType.CITY)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
@@ -60,6 +122,20 @@ public class TileFactoryWithBuilder implements TileFactory {
                 TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
             .close(List.of(TileSection.CENTER))
             .build();
+    }
+
+    @Override
+    public Tile createCityPennant() {
+        Tile tile = new TileBuilder(TileType.CITY)
+            .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
+                TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
+                TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
+                TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
+            .close(List.of(TileSection.CENTER))
+            .build();
+        
+        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        return tile;
     }
 
     @Override
@@ -155,6 +231,20 @@ public class TileFactoryWithBuilder implements TileFactory {
             .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
             .close(List.of(TileSection.CENTER))
             .build();
+    }
+
+    @Override
+    public Tile createCityTubePennant() {
+        Tile tile = new TileBuilder(TileType.CITY_TUBE)
+            .city(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
+                TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, TileSection.CENTER))
+            .field(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
+            .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
+            .close(List.of(TileSection.CENTER))
+            .build();
+
+        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        return tile;
     }
 
     @Override
