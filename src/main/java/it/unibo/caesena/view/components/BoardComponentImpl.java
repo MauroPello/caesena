@@ -282,4 +282,10 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         }
         showBoard = !showBoard;
     }
+
+    @Override
+    public void removePlacedTile() {
+        this.currentTileButtonPlaced = Optional.empty();
+        updateComponents();
+    }
 }

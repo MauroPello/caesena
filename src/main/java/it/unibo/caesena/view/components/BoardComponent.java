@@ -34,6 +34,8 @@ public interface BoardComponent<X> {
 
     void updateComponents();
 
+    void removePlacedTile();
+
     TileButton getCurrentlySelectedTileButton();
 
     GUI getGUI();
