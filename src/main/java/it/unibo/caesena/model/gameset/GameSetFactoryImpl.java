@@ -37,6 +37,8 @@ public class GameSetFactoryImpl implements GameSetFactory {
         
             final int points = gs1.getPoints() + gs2.getPoints();
             final GameSet joinedGameset = new GameSetImpl(gs1.getType());
+            System.out.println(gs1.getPoints());
+            System.out.println(gs2.getPoints());
             joinedGameset.addPoints(points);
             
             gs1.getMeeples().forEach(joinedGameset::addMeeple);

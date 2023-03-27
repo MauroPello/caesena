@@ -243,7 +243,7 @@ public class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        tile.getGameSet(TileSection.RIGHT_CENTER).addPoints(PENNANT_POINTS);
         return tile;
     }
 
