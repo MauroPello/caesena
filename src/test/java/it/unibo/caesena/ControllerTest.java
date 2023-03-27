@@ -42,6 +42,6 @@ final class ControllerTest {
 
     @Test
     public void testGetMeeples() {
-        assertEquals(controller.getCurrentPlayerMeeples().size(), 8);
+        assertEquals(controller.getPlayerMeeples(controller.getCurrentPlayer()).size(), 8);
     }
 }
