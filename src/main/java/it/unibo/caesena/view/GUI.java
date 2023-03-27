@@ -21,7 +21,7 @@ import it.unibo.caesena.utils.ImageIconUtil;
 public class GUI extends JFrame implements UserInterface {
     // TODO rimuovere
     // RAGA È SOLO PER DEBUG, SE ATTIVO UNO DISATTIVATE GLI ALTRI!!
-    private static boolean DEBUG_GAME_VIEW = false;
+    private static boolean DEBUG_GAME_VIEW = true;
     private static boolean DEBUG_GAME_OVER_VIEW = false;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
     private static final String SEP = File.separator;

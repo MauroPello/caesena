@@ -39,36 +39,16 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
                 //constraints.insets = new Insets(20, 10, 20, 10);
 
                 Dimension innerDimension = new Dimension(this.getParent().getWidth(), this.getParent().getHeight());
+                //this è l'innerpanel
                 Dimension externDimension = new Dimension(this.getParent().getWidth(), this.getParent().getParent().getHeight());
-                //Dimension gameviewDimension = new Dimension(this.getParent().getParent().getWidth(),this.getParent().getParent().getHeight());
-                //Dimension soExternDimension = new Dimension(this.getParent().getParent().getParent().getWidth(),this.getParent().getParent().getParent().getHeight());
+                //this.getParent() è l'exter panel del footer
 
-
-                int innerNewW = innerDimension.width; // > d.height ? d.height : d.width;
-                //int innerNewH = innerDimension.height; //> d.height ? d.height : d.width;
-                //return new Dimension(newSize, newSize);
-
-                //int externNewW = externDimension.width;
+                int innerNewW = innerDimension.width;
                 int externNewH = externDimension.height;
 
-                // int soExternNewW = gameviewDimension.width;
-                // int soExternNewH = gameviewDimension.height;
-
-                //this.setPreferredSize();
-
-                // rotateButton.setPreferredSize(new Dimension(innerNewW-650, externNewH-200));
-                // playerColorPanel.setPreferredSize(new Dimension(innerNewW-650, externNewH-200));
-
-                //this.getParent().setPreferredSize(new Dimension(externNewW-400, innerNewH-400));
-
-                //this.setPreferredSize(new Dimension(innerNewW-650, innerNewH-200));
-                //this.getParent().setPreferredSize(new Dimension(this.getWidth()+100, this.getHeight()+100));
-
-
-                //return new Dimension(innerNewW-50, externNewH-250);
-
-                int componentsHeight = (externNewH-250)/2;
+                int componentsHeight = (externNewH-250)/2+1;
                 playerColorPanel.setPreferredSize(new Dimension(componentsHeight, componentsHeight));
+
                 return new Dimension(innerNewW-50, componentsHeight);
 
                 //-300 è la distanza dai bordi di this (il panel esterno)
@@ -119,7 +99,8 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         //innerPanel.setPreferredSize(new Dimension(450, 100));
         //DA CONTROLLARE
 
-        Image resized = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+        Image resized = icon.getImage().getScaledInstance(getRectangularJPanel().getHeight()-1, getRectangularJPanel().getHeight()-1, java.awt.Image.SCALE_SMOOTH);
+        //Image resized = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
         tileImageLabel.setIcon(new ImageIcon(resized));
 
         innerPanel.add(playerColorPanel, constraints);
