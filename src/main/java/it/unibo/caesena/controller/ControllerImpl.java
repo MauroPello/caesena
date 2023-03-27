@@ -232,8 +232,9 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public List<Meeple> getPlayerMeeples(final Player player) {
-        return meeples.stream().filter(m -> m.getOwner().equals(player)).toList();
+    public List<Meeple> getNotPlacedPlayerMeeples(final Player player) {
+        return meeples.stream().filter(m -> m.getOwner().equals(player))
+            .filter(m -> !m.isPlaced()).toList();
     }
 
     @Override

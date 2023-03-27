@@ -150,7 +150,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     @Override
     public void updateCurrentPlayerMeeples() {
         var currentPlayer = this.userInterface.getController().getCurrentPlayer();
-        playerMeepleLabel.setText("M: "+userInterface.getController().getPlayerMeeples(currentPlayer).stream().filter(m -> !m.isPlaced()).count());
+        playerMeepleLabel.setText("M: "+userInterface.getController().getNotPlacedPlayerMeeples(currentPlayer).size());
     }
 
     @Override
