@@ -24,11 +24,13 @@ public class StartView extends JPanel implements View<JPanel> {
     private final static int MIN_PLAYERS = 2;
     private final static int MAX_PLAYERS = 8;
 
+    private final GUI userInterface;
     private final List<PlayerInput<JPanel>> playerInputs;
     private final JPanel playersPanel;
 
     public StartView(GUI userInterface) {
         super();
+        this.userInterface = userInterface;
         userInterface.getController().resetGame();
         this.playerInputs = new ArrayList<>();
 
@@ -104,5 +106,10 @@ public class StartView extends JPanel implements View<JPanel> {
     @Override
     public JPanel getComponent() {
         return this;
+    }
+
+    @Override
+    public GUI getUserInterface() {
+        return this.userInterface;
     }
 }

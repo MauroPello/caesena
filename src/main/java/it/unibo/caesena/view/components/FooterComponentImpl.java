@@ -15,6 +15,7 @@ import javax.swing.border.LineBorder;
 
 import it.unibo.caesena.utils.ImageIconUtil;
 import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.view.GameView;
 
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
 
@@ -58,9 +59,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         };
     }
 
-    public FooterComponentImpl(final GUI userInterface) {
+    public FooterComponentImpl(final GameView gameView) {
         super();
-        this.userInterface = userInterface;
+        this.userInterface = gameView.getUserInterface();
         JPanel innerPanel = new JPanel();
         this.innerPanel = innerPanel;
 

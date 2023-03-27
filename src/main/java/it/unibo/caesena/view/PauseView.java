@@ -13,8 +13,12 @@ import javax.swing.JPanel;
 
 public class PauseView extends JPanel implements View<JPanel> {
 
+    private final GUI userInterface;
+
     public PauseView(final GUI userInterface) {
         super();
+        this.userInterface = userInterface;
+        
         this.setLayout(new GridBagLayout());
         this.setBackground(new Color(255, 255, 255, 80));
         
@@ -59,5 +63,10 @@ public class PauseView extends JPanel implements View<JPanel> {
     @Override
     public JPanel getComponent() {
         return this;
+    }
+
+    @Override
+    public GUI getUserInterface() {
+        return this.userInterface;
     }
 }
