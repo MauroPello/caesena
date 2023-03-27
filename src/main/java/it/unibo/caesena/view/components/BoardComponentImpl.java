@@ -249,6 +249,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         if (!showBoard) {
             toggleBoardContent();
         }
+        this.currentTileButtonPlaced = Optional.empty();
     }
 
 
@@ -270,7 +271,9 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public void setPlacedTileButton(TileButton tileButton) {
-        this.currentTileButtonPlaced = Optional.of(tileButton);
+        if (!this.currentTileButtonPlaced.isPresent() || !this.currentTileButtonPlaced.get().isLocked()) {
+            this.currentTileButtonPlaced = Optional.of(tileButton);
+        }
     }
 
     @Override
