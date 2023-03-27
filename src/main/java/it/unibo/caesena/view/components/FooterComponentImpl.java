@@ -129,6 +129,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                gameView.removePlacedTile();
                 userInterface.getController().rotateCurrentTile();
                 updateCurrentTile();
             }

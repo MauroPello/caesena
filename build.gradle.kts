@@ -31,6 +31,9 @@ dependencies {
 
     // to import JSON 
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
+
+    // for image manipulation
+    implementation("net.coobird:thumbnailator:0.4.6")
 }
 
 application {
