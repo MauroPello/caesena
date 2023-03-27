@@ -13,25 +13,18 @@ import javax.imageio.ImageIO;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.view.components.TileButton;
+import net.coobird.thumbnailator.*;
 
 public class ImageIconUtil {
     private static final String SEP = File.separator;
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP;
 
-    // https://coderanch.com/t/467131/java/Rotating-ImageIcon
     public static BufferedImage rotate(BufferedImage image, double angle) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        BufferedImage dest = new BufferedImage(height, width, image.getType());
-
-        Graphics2D graphics2D = dest.createGraphics();
-        graphics2D.translate((height - width) / 2, (height - width) / 2);
-        graphics2D.rotate(Math.toRadians(angle), height / 2, width / 2);
-        graphics2D.drawRenderedImage(image, null);
-        graphics2D.dispose();
-
-        return dest;
+        try {
+            return Thumbnails.of(image).size(image.getWidth(), image.getHeight()).rotate(angle).asBufferedImage();
+        } catch (IOException e) {
+            throw new IllegalStateException("Image not valid");
+        }
     }
 
     public static BufferedImage getImageFromRelativePath(String relativePath) {
@@ -63,11 +56,11 @@ public class ImageIconUtil {
         BufferedImage tileImage = getImageFromRelativePath(tile.getImageResourcesPath());
         double angle = 90 * tile.getRotationCount();
         tileImage = rotate(tileImage, angle);
-        BufferedImage resultImage = new BufferedImage(tileImage.getHeight(null), tileImage.getWidth(null), BufferedImage.TYPE_INT_ARGB); //cambiare meepleImage senza senso
-        Graphics2D finalGraphics = resultImage.createGraphics();
-        finalGraphics.drawImage(tileImage, 0, 0, null);
-        finalGraphics.dispose();
-        return resultImage;
+        // BufferedImage resultImage = new BufferedImage(tileImage.getHeight(null), tileImage.getWidth(null), BufferedImage.TYPE_INT_ARGB); //cambiare meepleImage senza senso
+        // Graphics2D finalGraphics = resultImage.createGraphics();
+        // finalGraphics.drawImage(tileImage, 0, 0, null);
+        // finalGraphics.dispose();
+        return tileImage;
     }
 
     public static Image getTileImageWithMeeple(Color color, TileButton tileButton) {

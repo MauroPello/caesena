@@ -33,10 +33,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     GameView gameView;
     LeaderBoardComponent<JPanel> leaderBoard;
 
-    public SideBarComponentImpl(final Controller controller, final GameView gameView) {
+    public SideBarComponentImpl(final GameView gameView) {
         super();
         JPanel innerPanel = new JPanel();
-        this.controller = controller;
+        this.controller = gameView.getUserInterface().getController();
         this.gameView = gameView;
         this.leaderBoard = new LeaderBoardComponentImpl(controller);
 

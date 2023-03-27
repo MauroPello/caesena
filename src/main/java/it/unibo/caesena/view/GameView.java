@@ -2,7 +2,6 @@ package it.unibo.caesena.view;
 
 import javax.swing.*;
 import java.awt.*;
-import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.components.BoardComponent;
 import it.unibo.caesena.view.components.BoardComponentImpl;
@@ -12,22 +11,21 @@ import it.unibo.caesena.view.components.SideBarComponent;
 import it.unibo.caesena.view.components.SideBarComponentImpl;
 
 public class GameView extends JPanel implements View<JPanel> {
-    private final Controller controller;
+
+    private final GUI userInterface;
     private BoardComponent<JPanel> board;
     private FooterComponent<JPanel> footer;
     private SideBarComponent<JPanel> sidebar;
-    GUI userInterface;
 
     public GameView(GUI userInterface) {
         super();
-        this.controller = userInterface.getController();
         this.userInterface = userInterface;
 
-        this.controller.startGame();
-        this.board = new BoardComponentImpl(userInterface);
+        this.userInterface.getController().startGame();
+        this.board = new BoardComponentImpl(this);
         this.setLayout(new BorderLayout());
-        this.footer = new FooterComponentImpl(userInterface);
-        this.sidebar = new SideBarComponentImpl(controller, this);
+        this.footer = new FooterComponentImpl(this);
+        this.sidebar = new SideBarComponentImpl(this);
         this.add(sidebar.getComponent(), BorderLayout.EAST);
         this.add(board.getComponent(), BorderLayout.CENTER);
         this.add(footer.getComponent(), BorderLayout.SOUTH);
@@ -45,7 +43,7 @@ public class GameView extends JPanel implements View<JPanel> {
 
     public boolean placeTile() {
         Pair<Integer, Integer> position = board.getCurrentlySelectedTileButton().getPosition();
-        if (this.controller.placeCurrentTile(position)) {
+        if (this.userInterface.getController().placeCurrentTile(position)) {
             this.board.lockTile();
             updateHUD();
             return true;
@@ -55,8 +53,8 @@ public class GameView extends JPanel implements View<JPanel> {
 
     public void endTurn() {
         this.board.endTurn();
-        this.controller.endTurn();
-        if (this.controller.isGameOver()) {
+        this.userInterface.getController().endTurn();
+        if (this.userInterface.getController().isGameOver()) {
             userInterface.showGameOverView();
         } else {
             updateHUD();
@@ -98,5 +96,10 @@ public class GameView extends JPanel implements View<JPanel> {
     @Override
     public JPanel getComponent() {
         return this;
+    }
+
+    @Override
+    public GUI getUserInterface() {
+        return this.userInterface;
     }
 }

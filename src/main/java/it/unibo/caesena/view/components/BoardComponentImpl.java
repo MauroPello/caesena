@@ -11,6 +11,7 @@ import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.view.GameView;
 
 public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private final static int DEFAULT_ZOOM_LEVEL = 5;
@@ -26,8 +27,8 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     //TODO rimuovi questo, basta usare uno stream su alltilebuttons
     private Optional<TileButton> currentTileButtonPlaced = Optional.empty();
 
-    public BoardComponentImpl(GUI gui) {
-        this.gui = gui;
+    public BoardComponentImpl(final GameView gameView) {
+        this.gui = gameView.getUserInterface();
         this.allTileButtons = new HashSet<>();
         this.drawBoard();
         //TODO rimuovere

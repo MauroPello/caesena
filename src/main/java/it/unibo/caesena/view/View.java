@@ -8,4 +8,6 @@ public interface View<X> {
 
     X getComponent();
 
+    <T extends UserInterface> T getUserInterface();
+
 }

@@ -12,12 +12,15 @@ import java.awt.GridBagLayout;
 import it.unibo.caesena.model.Player;
 
 public class GameOverView extends JPanel implements View<JPanel> {
+
+    private final GUI userInterface;
     private final JPanel finalPanel;
     private final List<Player> players;
     private Font mainFont;
 
     public GameOverView (GUI userInterface) {
         super();
+        this.userInterface = userInterface;
 
         this.setLayout(new GridBagLayout());
         this.mainFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);        
@@ -66,5 +69,10 @@ public class GameOverView extends JPanel implements View<JPanel> {
     @Override
     public JPanel getComponent() {
         return this;
+    }
+
+    @Override
+    public GUI getUserInterface() {
+        return this.userInterface;
     }
 }
