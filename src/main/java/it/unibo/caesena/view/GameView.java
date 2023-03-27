@@ -56,7 +56,11 @@ public class GameView extends JPanel implements View<JPanel> {
     public void endTurn() {
         this.board.endTurn();
         this.controller.endTurn();
-        updateHUD();
+        if (this.controller.isGameOver()) {
+            userInterface.showGameOverView();
+        } else {
+            updateHUD();
+        }
     }
 
     public void zoomIn() {
