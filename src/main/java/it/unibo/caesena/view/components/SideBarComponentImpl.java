@@ -63,13 +63,13 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         constraints.gridy ++;
         innerPanel.add(placeTileButton, constraints);
         constraints.gridy ++;
+        innerPanel.add(discardTileButton, constraints);
+        constraints.gridy ++;
         innerPanel.add(placeMeepleButton, constraints);
         constraints.gridy ++;
         innerPanel.add(endTurnButton, constraints);
         constraints.gridy ++;
         innerPanel.add(leaderBoard.getComponent(), constraints);
-        constraints.gridy ++;
-        innerPanel.add(discardTileButton, constraints);
 
         this.add(innerPanel);
 
