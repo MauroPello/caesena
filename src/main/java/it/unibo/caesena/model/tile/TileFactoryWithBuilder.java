@@ -19,7 +19,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityEdgePennant() {
-        Tile tile = new TileBuilder(TileType.CITY_EDGE)
+        Tile tile = new TileBuilder(TileType.CITY_EDGE_PENNANT)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT, 
@@ -45,7 +45,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityEdgeRoadPennant() {
-        Tile tile = new TileBuilder(TileType.CITY_EDGE_ROAD)
+        Tile tile = new TileBuilder(TileType.CITY_EDGE_ROAD_PENNANT)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.DOWN_LEFT, TileSection.LEFT_DOWN)) 
@@ -72,7 +72,7 @@ public class TileFactoryWithBuilder implements TileFactory {
     
     @Override
     public Tile createCityLargePennant() {
-        Tile tile = new TileBuilder(TileType.CITY_LARGE)
+        Tile tile = new TileBuilder(TileType.CITY_LARGE_PENNANT)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -99,7 +99,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityLargeRoadPennant() {
-        Tile tile = new TileBuilder(TileType.CITY_LARGE_ROAD)
+        Tile tile = new TileBuilder(TileType.CITY_LARGE_ROAD_PENNANT)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -126,7 +126,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityPennant() {
-        Tile tile = new TileBuilder(TileType.CITY)
+        Tile tile = new TileBuilder(TileType.CITY_PENNANT)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, 
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
@@ -235,7 +235,7 @@ public class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityTubePennant() {
-        Tile tile = new TileBuilder(TileType.CITY_TUBE)
+        Tile tile = new TileBuilder(TileType.CITY_TUBE_PENNANT)
             .city(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
                 TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, TileSection.CENTER))
             .field(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
