@@ -39,7 +39,7 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public void placeMeeple() {
-        board.toggleBoardContent();;
+        board.toggleBoardContent();
         updateHUD();
     }
 

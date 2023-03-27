@@ -20,7 +20,7 @@ public interface BoardComponent<X> {
 
     void endTurn();
 
-
+    void updateComponents();
 
     boolean canZoomIn();
 
@@ -47,6 +47,4 @@ public interface BoardComponent<X> {
     X getComponent();
 
     void toggleBoardContent();
-
-    void drawBoard();
 }

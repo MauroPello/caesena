@@ -35,6 +35,15 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     @Override
+    public void updateComponents() {
+        if (showBoard) {
+            drawBoard();
+        } else {
+            drawOverlayedTile();
+        }
+    }
+
+
     public void drawBoard() {
         currentOverlayedTile = Optional.empty();
         this.removeAll();
@@ -241,7 +250,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         }
     }
 
-    
+
 
     @Override
     public GUI getGUI() {

@@ -47,7 +47,7 @@ public class TileButtonImpl extends JButton implements TileButton {
                 this.parentBoard.getCurrentlySelectedTileButton().addTile(this.parentBoard.getGUI().getController().getCurrentTile());
                 var player = this.parentBoard.getGUI().getController().getCurrentPlayer();
                 this.playerColor = this.parentBoard.getGUI().getPlayerColor(player);
-                parentBoard.drawBoard();
+                parentBoard.updateComponents();
             }
         };
     }
