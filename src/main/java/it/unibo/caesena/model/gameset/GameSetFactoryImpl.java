@@ -34,15 +34,13 @@ public class GameSetFactoryImpl implements GameSetFactory {
             if (gs1.isClosed() || gs2.isClosed()) {
                 throw new IllegalStateException("Only not closed GameSets can be joined!");
             }
-
-            final var firstPair = gs1.close().get();
-            final var secondPair = gs2.close().get();
-            final int points = firstPair.getY() + secondPair.getY();
+        
+            final int points = gs1.getPoints() + gs2.getPoints();
             final GameSet joinedGameset = new GameSetImpl(gs1.getType());
             joinedGameset.addPoints(points);
             
-            firstPair.getX().forEach(joinedGameset::addMeeple);
-            secondPair.getX().forEach(joinedGameset::addMeeple);
+            gs1.getMeeples().forEach(joinedGameset::addMeeple);
+            gs2.getMeeples().forEach(joinedGameset::addMeeple);
             
             return joinedGameset;
         } else {

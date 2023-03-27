@@ -1,10 +1,13 @@
 package it.unibo.caesena.model.gameset;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
+
+import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
 public class GameSetImpl implements GameSet{
@@ -38,14 +41,36 @@ public class GameSetImpl implements GameSet{
     }
 
     @Override
-    public Optional<Pair<Set<Meeple>, Integer>> close() {
+    public boolean close() {
         if (this.isClosed()) {
-            return Optional.empty();
+            return false;
+        }
+
+        if (!this.isMeepleFree()) {
+            Map<Player, Integer> playerMeeples = new HashMap<>();
+
+            for (Meeple playerMeeple : meeples) {
+                Player currentPlayer = playerMeeple.getOwner();
+
+                if (!playerMeeples.containsKey(currentPlayer)) {
+                    playerMeeples.put(currentPlayer, 0);
+                }
+                playerMeeples.put(currentPlayer, playerMeeples.get(currentPlayer)+1);
+
+            }
+
+            int maxValueMeeple = playerMeeples.values().stream().mapToInt(x -> x)
+                .max().getAsInt();
+
+            playerMeeples.entrySet().stream()
+                .filter(e -> e.getValue().equals(maxValueMeeple))
+                .forEach(e -> e.getKey().addScore(points));
         }
 
         this.closed = true;
         meeples.forEach(Meeple::removeFromTile);
-        return Optional.of(new Pair<>(this.meeples, this.points));
+        return true;
+
     }
 
 	@Override
@@ -76,6 +101,10 @@ public class GameSetImpl implements GameSet{
     @Override
     public boolean equals (final Object obj) {
         return this == obj;
+    }
+
+    public Set<Meeple> getMeeples () {
+        return Collections.unmodifiableSet(this.meeples);
     }
 
 }

@@ -1,10 +1,8 @@
 package it.unibo.caesena.model.gameset;
 
-import java.util.Optional;
 import java.util.Set;
 
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.utils.Pair;
 
 public interface GameSet {
 
@@ -12,7 +10,7 @@ public interface GameSet {
 
     public boolean isMeepleFree();
 
-    public Optional<Pair<Set<Meeple>, Integer>> close();
+    public boolean close();
 
     public GameSetType getType();
 
@@ -21,5 +19,7 @@ public interface GameSet {
     public int getPoints();
 
     public void addPoints(int points);
+
+    public Set<Meeple> getMeeples();
 
 }

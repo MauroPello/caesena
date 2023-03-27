@@ -155,11 +155,11 @@ public class ControllerImpl implements Controller {
         for (var tile : getPlacedTiles()) {
             if ((tile.getPosition().get().getX() >= position.getX()-1 && tile.getPosition().get().getY() >= position.getY()-1) &&
                 (tile.getPosition().get().getX() <= position.getX()+1 && tile.getPosition().get().getY() <= position.getY()+1)) {
-                GameSet CENTERGameSet = tile.getGameSet(TileSection.CENTER);
-                if (CENTERGameSet.getType().equals(GameSetType.MONASTERY) && !CENTERGameSet.isMeepleFree()) {
-                    CENTERGameSet.addPoints(POINTS_TILE_NEARBY_MONASTERY);
-                    if (CENTERGameSet.getPoints() == POINTS_CLOSED_MONASTERY) {
-                        distributePoints(CENTERGameSet);
+                GameSet CenterGameset = tile.getGameSet(TileSection.CENTER);
+                if (CenterGameset.getType().equals(GameSetType.MONASTERY) && !CenterGameset.isMeepleFree()) {
+                    CenterGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
+                    if (CenterGameset.getPoints() == POINTS_CLOSED_MONASTERY) {
+                        CenterGameset.close();
                     }
                 }
             }
@@ -290,7 +290,7 @@ public class ControllerImpl implements Controller {
 
         gameSetsToCheck.stream()
             .filter(this::isGameSetClosed)
-            .forEach(this::distributePoints);
+            .forEach(GameSet::close);
 
 
         this.turn += 1;
@@ -329,11 +329,11 @@ public class ControllerImpl implements Controller {
                 fieldsWithPoints.addAll(fieldsNearCity);
             }
         }
-        fieldsWithPoints.forEach(f -> distributePoints(f));
+        fieldsWithPoints.forEach(GameSet::close);
 
         this.gameSets.keySet().stream()
             .filter(x->!x.isClosed())
-            .forEach(this::distributePoints);
+            .forEach(GameSet::close);
     }
 
     @Override
@@ -361,44 +361,6 @@ public class ControllerImpl implements Controller {
         }
 
         return true;
-    }
-
-    private void distributePoints (final GameSet gameset) {
-        Map<Player, Integer> playerMeeples = new HashMap<>();
-
-        if (!gameset.isMeepleFree()) {
-
-            var checkOptional = gameset.close();
-            if (checkOptional.isEmpty()) {
-                return ;
-            }
-
-            Set<Meeple> meeples = checkOptional.get().getX();
-            
-            for (Meeple playerMeeple : meeples) {
-                Player currentPlayer = playerMeeple.getOwner();
-
-                if (!playerMeeples.containsKey(currentPlayer)) {
-                    playerMeeples.put(currentPlayer, 0);
-                }
-                playerMeeples.put(currentPlayer, playerMeeples.get(currentPlayer)+1);
-
-            }
-
-            int maxValueMeeple = playerMeeples.values().stream().mapToInt(x -> x)
-                .max().getAsInt();
-
-
-            playerMeeples.entrySet().stream()
-                .filter(e -> e.getValue().equals(maxValueMeeple))
-                .forEach(e -> {
-                    if (isGameOver()) {
-                        e.getKey().addScore(checkOptional.get().getY() / gameset.getType().getEndGameRatio());
-                    } else {
-                        e.getKey().addScore(checkOptional.get().getY());
-                    }
-                });
-            }
     }
 
     private boolean isPositionNotOccupied(final Pair<Integer, Integer> position) {
