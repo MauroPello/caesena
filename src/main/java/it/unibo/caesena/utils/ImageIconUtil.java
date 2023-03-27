@@ -99,19 +99,19 @@ public class ImageIconUtil {
         final int farPadding = max/5;
         final int centralPadding = max/2;
         return switch (section) {
-            case Center -> new Pair<Integer,Integer>(centralPadding, centralPadding);
-            case DownCenter -> new Pair<Integer,Integer>(centralPadding, max - closePadding);
-            case DownLeft -> new Pair<Integer,Integer>(farPadding, max - closePadding);
-            case DownRight -> new Pair<Integer,Integer>(max - farPadding, max - closePadding);
-            case LeftCenter -> new Pair<Integer,Integer>(closePadding, centralPadding);
-            case LeftDown -> new Pair<Integer,Integer>(closePadding, max - farPadding);
-            case LeftUp -> new Pair<Integer,Integer>(closePadding, farPadding);
-            case RightCenter -> new Pair<Integer,Integer>(max - closePadding, centralPadding);
-            case RightDown -> new Pair<Integer,Integer>(max - closePadding, max - farPadding);
-            case RightUp -> new Pair<Integer,Integer>(max - closePadding, farPadding);
-            case UpCenter -> new Pair<Integer,Integer>(centralPadding, closePadding);
-            case UpLeft -> new Pair<Integer,Integer>(farPadding, closePadding);
-            case UpRight -> new Pair<Integer,Integer>(max - farPadding, closePadding);
+            case CENTER -> new Pair<Integer,Integer>(centralPadding, centralPadding);
+            case DOWN_CENTER -> new Pair<Integer,Integer>(centralPadding, max - closePadding);
+            case DOWN_LEFT -> new Pair<Integer,Integer>(farPadding, max - closePadding);
+            case DOWN_RIGHT -> new Pair<Integer,Integer>(max - farPadding, max - closePadding);
+            case LEFT_CENTER -> new Pair<Integer,Integer>(closePadding, centralPadding);
+            case LEFT_DOWN -> new Pair<Integer,Integer>(closePadding, max - farPadding);
+            case LEFT_UP -> new Pair<Integer,Integer>(closePadding, farPadding);
+            case RIGHT_CENTER -> new Pair<Integer,Integer>(max - closePadding, centralPadding);
+            case RIGHT_DOWN -> new Pair<Integer,Integer>(max - closePadding, max - farPadding);
+            case RIGHT_UP -> new Pair<Integer,Integer>(max - closePadding, farPadding);
+            case UP_CENTER -> new Pair<Integer,Integer>(centralPadding, closePadding);
+            case UP_LEFT -> new Pair<Integer,Integer>(farPadding, closePadding);
+            case UP_RIGHT -> new Pair<Integer,Integer>(max - farPadding, closePadding);
         };
     }
 }

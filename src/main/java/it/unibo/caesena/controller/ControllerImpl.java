@@ -125,10 +125,10 @@ public class ControllerImpl implements Controller {
         }
 
         Map<Direction, Set<TileSection>> toCheck = new HashMap<>();
-        toCheck.put(Direction.UP, Set.of(TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight));
-        toCheck.put(Direction.DOWN, Set.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight));
-        toCheck.put(Direction.LEFT, Set.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown));
-        toCheck.put(Direction.RIGHT, Set.of(TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown));
+        toCheck.put(Direction.UP, Set.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT));
+        toCheck.put(Direction.DOWN, Set.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT));
+        toCheck.put(Direction.LEFT, Set.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN));
+        toCheck.put(Direction.RIGHT, Set.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN));
 
         for (Tile neighbour : neighbours) {
             for (var entry : toCheck.entrySet()) {
@@ -155,11 +155,11 @@ public class ControllerImpl implements Controller {
         for (var tile : getPlacedTiles()) {
             if ((tile.getPosition().get().getX() >= position.getX()-1 && tile.getPosition().get().getY() >= position.getY()-1) &&
                 (tile.getPosition().get().getX() <= position.getX()+1 && tile.getPosition().get().getY() <= position.getY()+1)) {
-                GameSet centerGameSet = tile.getGameSet(TileSection.Center);
-                if (centerGameSet.getType().equals(GameSetType.MONASTERY) && !centerGameSet.isMeepleFree()) {
-                    centerGameSet.addPoints(POINTS_TILE_NEARBY_MONASTERY);
-                    if (centerGameSet.getPoints() == POINTS_CLOSED_MONASTERY) {
-                        distributePoints(centerGameSet);
+                GameSet CENTERGameSet = tile.getGameSet(TileSection.CENTER);
+                if (CENTERGameSet.getType().equals(GameSetType.MONASTERY) && !CENTERGameSet.isMeepleFree()) {
+                    CENTERGameSet.addPoints(POINTS_TILE_NEARBY_MONASTERY);
+                    if (CENTERGameSet.getPoints() == POINTS_CLOSED_MONASTERY) {
+                        distributePoints(CENTERGameSet);
                     }
                 }
             }
@@ -176,7 +176,7 @@ public class ControllerImpl implements Controller {
             }
         }
 
-        if (this.currentTile.getGameSet(TileSection.Center).getType().equals(GameSetType.MONASTERY)) {
+        if (this.currentTile.getGameSet(TileSection.CENTER).getType().equals(GameSetType.MONASTERY)) {
             int nearMonasteryTilesNum = 0;
             for (var nearTile : getPlacedTiles()) {
                 if ((nearTile.getPosition().get().getX() >= position.getX()-1 && nearTile.getPosition().get().getY() >= position.getY()-1) &&
@@ -185,15 +185,15 @@ public class ControllerImpl implements Controller {
                     nearMonasteryTilesNum++;
                 }
             }
-            this.currentTile.getGameSet(TileSection.Center).addPoints(nearMonasteryTilesNum * POINTS_TILE_NEARBY_MONASTERY);
+            this.currentTile.getGameSet(TileSection.CENTER).addPoints(nearMonasteryTilesNum * POINTS_TILE_NEARBY_MONASTERY);
         }
 
         Set<Tile> neighbours = getTileNeighbours(position);
         Map<Direction, Set<TileSection>> toCheck = new HashMap<>();
-        toCheck.put(Direction.UP, Set.of(TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight));
-        toCheck.put(Direction.DOWN, Set.of(TileSection.UpLeft, TileSection.UpCenter, TileSection.UpRight));
-        toCheck.put(Direction.LEFT, Set.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown));
-        toCheck.put(Direction.RIGHT, Set.of(TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown));
+        toCheck.put(Direction.UP, Set.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT));
+        toCheck.put(Direction.DOWN, Set.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT));
+        toCheck.put(Direction.LEFT, Set.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN));
+        toCheck.put(Direction.RIGHT, Set.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN));
 
         for (Tile neighbour : neighbours) {
             for (var entry : toCheck.entrySet()) {

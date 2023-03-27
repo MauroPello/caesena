@@ -1,37 +1,37 @@
 package it.unibo.caesena.model.tile;
 
 public enum TileSection {
-    UpLeft,     //8->DownLeft
-    UpCenter,   //6->DownCenter
-    UpRight,    //4->DownRight
-    RightUp,    //8->LeftUp
-    RightCenter,//6->LeftCenter
-    RightDown,  //4->LeftDown
+    UP_LEFT,     //8->DOWN_LEFT
+    UP_CENTER,   //6->DOWN_CENTER
+    UP_RIGHT,    //4->DOWN_RIGHT
+    RIGHT_UP,    //8->LEFT_UP
+    RIGHT_CENTER,//6->LEFT_CENTER
+    RIGHT_DOWN,  //4->LEFT_DOWN
 
-    DownRight,  //4->UpRight
-    DownCenter, //6->UpCenter
-    DownLeft,   //8->UpLeft
-    LeftDown,   //4->RightDown
-    LeftCenter, //6->RightCenter
-    LeftUp,     //8->RightUp
-    Center;
+    DOWN_RIGHT,  //4->UP_RIGHT
+    DOWN_CENTER, //6->UP_CENTER
+    DOWN_LEFT,   //8->UP_LEFT
+    LEFT_DOWN,   //4->RIGHT_DOWN
+    LEFT_CENTER, //6->RIGHT_CENTER
+    LEFT_UP,     //8->RIGHT_UP
+    CENTER;
 
     private static int getSectionsInSide() {
         return 3;
     }
 
     private static TileSection shiftAroundBorders(final TileSection section, final int offset) {
-        if (section == TileSection.Center) {
-            return TileSection.Center;
+        if (section == TileSection.CENTER) {
+            return TileSection.CENTER;
         }
 
         int index = Math.floorMod(section.ordinal() + offset, values().length);
-        if (offset > 0 && (values()[index].equals(TileSection.Center) || 
-            (section.ordinal() < TileSection.Center.ordinal() && section.ordinal() + offset >= TileSection.Center.ordinal()))) {
+        if (offset > 0 && (values()[index].equals(TileSection.CENTER) || 
+            (section.ordinal() < TileSection.CENTER.ordinal() && section.ordinal() + offset >= TileSection.CENTER.ordinal()))) {
             index = Math.floorMod(index + 1, values().length);
         }
-        if (offset < 0 && (values()[index].equals(TileSection.Center) || 
-            (section.ordinal() > TileSection.Center.ordinal() && section.ordinal() + offset <= TileSection.Center.ordinal()))) {
+        if (offset < 0 && (values()[index].equals(TileSection.CENTER) || 
+            (section.ordinal() > TileSection.CENTER.ordinal() && section.ordinal() + offset <= TileSection.CENTER.ordinal()))) {
             index = Math.floorMod(index - 1, values().length);
         }
         
@@ -39,11 +39,11 @@ public enum TileSection {
     }
 
     public static TileSection getOpposite(final TileSection section) {
-        if(section == TileSection.Center) {
-            return TileSection.Center;
+        if(section == TileSection.CENTER) {
+            return TileSection.CENTER;
         }
 
-        if(section.ordinal()<=TileSection.RightDown.ordinal()) {
+        if(section.ordinal()<=TileSection.RIGHT_DOWN.ordinal()) {
             switch(section.ordinal()%3) {
                 case 0:
                     return shiftAroundBorders(section, 8);

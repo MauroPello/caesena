@@ -43,10 +43,10 @@ final class TileTest {
 
         tile.rotateClockwise();
         Tile tile2 = new TileBuilder(TileType.CITY_EDGE)
-            .city(List.of(TileSection.RightUp, TileSection.RightCenter, TileSection.RightDown,
-            TileSection.DownLeft, TileSection.DownCenter, TileSection.DownRight))
-            .field(List.of(TileSection.UpRight, TileSection.UpCenter, TileSection.UpLeft,
-            TileSection.LeftUp, TileSection.LeftCenter, TileSection.LeftDown, TileSection.Center))
+            .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
+            TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
+            .field(List.of(TileSection.UP_RIGHT, TileSection.UP_CENTER, TileSection.UP_LEFT,
+            TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN, TileSection.CENTER))
             .build();
 
         for (TileSection section : TileSection.values()) {
@@ -58,24 +58,24 @@ final class TileTest {
 
     @Test
     public void TestSectionClose() {
-        var section = TileSection.UpCenter;
+        var section = TileSection.UP_CENTER;
         tile.closeSection(section);
         assertTrue(tile.isSectionClosed(section));
-        var section2 = TileSection.UpCenter;
+        var section2 = TileSection.UP_CENTER;
         assertTrue(tile.isSectionClosed(section2));
     }
 
     @Test
     public void TestOppositeSection() {
-        TileSection section = TileSection.DownLeft;
-        assertEquals(TileSection.UpLeft, TileSection.getOpposite(section));
+        TileSection section = TileSection.DOWN_LEFT;
+        assertEquals(TileSection.UP_LEFT, TileSection.getOpposite(section));
     }
 
     @Test
     public void TestSectionShift() {
-        TileSection section = TileSection.UpLeft;
-        assertEquals(TileSection.LeftUp, TileSection.previous(section));
-        section = TileSection.LeftUp;
-        assertEquals(TileSection.UpLeft, TileSection.next(section));
+        TileSection section = TileSection.UP_LEFT;
+        assertEquals(TileSection.LEFT_UP, TileSection.previous(section));
+        section = TileSection.LEFT_UP;
+        assertEquals(TileSection.UP_LEFT, TileSection.next(section));
     }
 }

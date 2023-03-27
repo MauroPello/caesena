@@ -136,55 +136,55 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         int x = 0;
         int y = 0;
         switch (section){
-            case Center:
+            case CENTER:
                 x = 2;
                 y = 2;
                 break;
-            case DownCenter:
+            case DOWN_CENTER:
                 x = 2;
                 y = 4;
                 break;
-            case DownLeft:
+            case DOWN_LEFT:
                 x = 1;
                 y = 4;
                 break;
-            case DownRight:
+            case DOWN_RIGHT:
                 x = 3;
                 y = 4;
                 break;
-            case LeftCenter:
+            case LEFT_CENTER:
                 x = 0;
                 y = 2;
                 break;
-            case LeftDown:
+            case LEFT_DOWN:
                 x = 0;
                 y = 3;
                 break;
-            case LeftUp:
+            case LEFT_UP:
                 x = 0;
                 y = 1;
                 break;
-            case RightCenter:
+            case RIGHT_CENTER:
                 x = 4;
                 y = 2;
                 break;
-            case RightDown:
+            case RIGHT_DOWN:
                 x = 4;
                 y = 3;
                 break;
-            case RightUp:
+            case RIGHT_UP:
                 x = 4;
                 y = 1;
                 break;
-            case UpCenter:
+            case UP_CENTER:
                 x = 2;
                 y = 0;
                 break;
-            case UpLeft:
+            case UP_LEFT:
                 x = 1;
                 y = 0;
                 break;
-            case UpRight:
+            case UP_RIGHT:
                 x = 3;
                 y = 0;
                 break;
