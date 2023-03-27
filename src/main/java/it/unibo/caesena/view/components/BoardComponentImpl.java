@@ -236,7 +236,9 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
                 throw new IllegalStateException("Tried to add meeple but run out of them");
             }
         }
-        toggleBoardContent();
+        if (!showBoard) {
+            toggleBoardContent();
+        }
     }
 
     @Override

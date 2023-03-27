@@ -28,13 +28,21 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
         public SectionButton(final TileSection section) {
             super();
-            this.bgColor = Color.WHITE;
-            this.selected = false;
             this.section = section;
-            final String buttonLabel = getLabelFromSection(section);
-            this.setText(buttonLabel);
-            this.addActionListener(getSectionButtonListener());
-            this.deselect();
+            if (currentTile.getGameSet(section).isMeepleFree() && !currentTile.getGameSet(section).isClosed()) {
+                this.bgColor = Color.WHITE;
+                this.selected = false;
+                final String buttonLabel = getLabelFromSection(section);
+                this.setText(buttonLabel);
+                this.addActionListener(getSectionButtonListener());
+                this.deselect();
+            } else {
+                this.setContentAreaFilled(false);
+                this.setBorderPainted(false);
+                this.setBackground(new Color(0, 0, 0, 0));
+                this.setOpaque(false);
+            }
+
         }
 
         public boolean isSelected() {
