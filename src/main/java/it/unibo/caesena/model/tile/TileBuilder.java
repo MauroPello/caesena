@@ -38,7 +38,9 @@ public class TileBuilder {
     }
 
     public TileBuilder junction(final List<TileSection> sections) {
-        applySet(sections, this.factory.createJunctionSet());
+        GameSet junctionGameSet = this.factory.createJunctionSet();
+        junctionGameSet.close();
+        applySet(sections, junctionGameSet);
         return this;
     }
 
