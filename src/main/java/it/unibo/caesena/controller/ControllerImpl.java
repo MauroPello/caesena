@@ -112,10 +112,8 @@ public class ControllerImpl implements Controller {
 
     @Override
     public boolean isValidPositionForCurrentTile(Pair<Integer, Integer> position) {
-        for (var entry : getPlacedTiles()) {
-            if (entry.getPosition().get().equals(position)) {
-                return false;
-            }
+        if (!isPositionNotOccupied(position)) {
+            return false;
         }
 
         Set<Tile> neighbours = getTileNeighbours(position);
@@ -272,8 +270,8 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public List<Meeple> getCurrentPlayerMeeples() {
-        return meeples.stream().filter(m -> m.getOwner().equals(currentPlayer)).toList();
+    public List<Meeple> getPlayerMeeples(final Player player) {
+        return meeples.stream().filter(m -> m.getOwner().equals(player)).toList();
     }
 
     @Override
