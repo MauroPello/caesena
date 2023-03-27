@@ -315,7 +315,7 @@ public class ControllerImpl implements Controller {
     }
 
     private boolean isGameSetClosed(final GameSet gameSet) {
-        for (Tile tile : tiles) {
+        for (Tile tile : gameSets.get(gameSet)) {
             for (TileSection tileSection : TileSection.values()) {
                 if (tile.getGameSet(tileSection).equals(gameSet) && !tile.isSectionClosed(tileSection)) {
                     return false;
@@ -336,21 +336,21 @@ public class ControllerImpl implements Controller {
     }
 
     private Set<Pair<Integer, Integer>> getEmptyNeighbouringPositions(Pair<Integer, Integer> position) {
-        Set<Pair<Integer, Integer>> neighboursNearPosition = new HashSet<>();
+        Set<Pair<Integer, Integer>> neighbouringPositions = new HashSet<>();
         for (var direction : Direction.values()) {
             Pair<Integer, Integer> neighbourPosition = new Pair<>(position.getX()+direction.getX(), position.getY()+direction.getY());
             if (this.isPositionNotOccupied(neighbourPosition)) {
-                neighboursNearPosition.add(neighbourPosition);
+                neighbouringPositions.add(neighbourPosition);
             }
         }
-        return neighboursNearPosition;
+        return neighbouringPositions;
     }
 
     private boolean isCurrentTilePlaceable() {
         for (int i = 0; i < 4; i++) {
             for (Tile tile : tiles) {
                 int numberOfNeighbours = this.getTileNeighbours(tile.getPosition().get()).size();
-                if (numberOfNeighbours <= 3 && numberOfNeighbours >= 1) {
+                if (numberOfNeighbours >= 1 && numberOfNeighbours <= 3) {
                     Set<Pair<Integer, Integer>> emptyPositions = this.getEmptyNeighbouringPositions(tile.getPosition().get());
                     for (Pair<Integer, Integer> position : emptyPositions) {
                         if (this.isValidPositionForCurrentTile(position)) {
