@@ -1,10 +1,9 @@
 package it.unibo.caesena.model.gameset;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
@@ -13,7 +12,7 @@ import it.unibo.caesena.utils.StringUtil;
 public class GameSetImpl implements GameSet{
 
     private final GameSetType type;
-    private final Set<Meeple> meeples;
+    private final List<Meeple> meeples;
     
     private int points;
     private boolean closed;
@@ -21,7 +20,7 @@ public class GameSetImpl implements GameSet{
     public GameSetImpl (final GameSetType type) {
         this.type = type;
         this.points = type.getStartingPoints();
-        this.meeples = new HashSet<>();
+        this.meeples = new ArrayList<>();
         this.closed = false;
     }
 
@@ -94,6 +93,11 @@ public class GameSetImpl implements GameSet{
     }
 
     @Override
+    public void setPoints(final int points) {
+        this.points = points;
+    }
+
+    @Override
     public void addPoints(final int points) {
         this.points += points;
     }
@@ -103,8 +107,8 @@ public class GameSetImpl implements GameSet{
         return this == obj;
     }
 
-    public Set<Meeple> getMeeples () {
-        return Collections.unmodifiableSet(this.meeples);
+    public List<Meeple> getMeeples () {
+        return this.meeples;
     }
 
 }

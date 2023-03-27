@@ -1,6 +1,6 @@
 package it.unibo.caesena.model.gameset;
 
-import java.util.Set;
+import java.util.List;
 
 import it.unibo.caesena.model.meeple.Meeple;
 
@@ -18,8 +18,10 @@ public interface GameSet {
 
     public int getPoints();
 
+    public void setPoints(final int points);
+
     public void addPoints(int points);
 
-    public Set<Meeple> getMeeples();
+    public List<Meeple> getMeeples();
 
 }

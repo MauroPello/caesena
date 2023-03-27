@@ -33,7 +33,7 @@ public interface Controller {
 
     List<Tile> getNotPlacedTiles();
 
-    List<Meeple> getPlayerMeeples(Player player);
+    List<Meeple> getNotPlacedPlayerMeeples(Player player);
 
     boolean isGameOver();
 

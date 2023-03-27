@@ -235,10 +235,10 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         if (this.currentOverlayedTile.isPresent() && currentOverlayedTile.get().isSectionSelected()) {
             var section = this.currentOverlayedTile.get().getSelectedSection();
             var currentPlayer = this.gui.getController().getCurrentPlayer();
-            Optional<Meeple> meeple = this.gui.getController().getPlayerMeeples(currentPlayer).stream().filter(m -> !m.isPlaced()).findFirst();
-            if (meeple.isPresent()) {
-                if (this.gui.getController().placeMeeple(meeple.get(), section)) {
-                    this.currentTileButtonPlaced.get().addMeeple(meeple.get(), section);
+            List<Meeple> meeples = this.gui.getController().getNotPlacedPlayerMeeples(currentPlayer);
+            if (!meeples.isEmpty()) {
+                if (this.gui.getController().placeMeeple(meeples.get(0), section)) {
+                    this.currentTileButtonPlaced.get().addMeeple(meeples.get(0), section);
                 } else {
                     throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
                 }

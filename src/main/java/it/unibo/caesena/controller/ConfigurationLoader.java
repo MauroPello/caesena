@@ -18,12 +18,12 @@ public class ConfigurationLoader {
     
     private final List<Tile> tiles = new ArrayList<>();
     private static final String SEP = File.separator;
-    private static final String CONFIG_FILE_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
+    private static final String CONFIG_FOLDER_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP;
 
     public List<Tile> read (String fileName) {
         
         try {
-            Object fileJson = new JSONParser().parse(new InputStreamReader(ClassLoader.getSystemResourceAsStream(CONFIG_FILE_PATH)));
+            Object fileJson = new JSONParser().parse(new InputStreamReader(ClassLoader.getSystemResourceAsStream(CONFIG_FOLDER_PATH + fileName)));
             JSONObject jsonObject =  (JSONObject) fileJson;
             JSONArray array = (JSONArray) jsonObject.get("Tiles");
             for (int i = 0; i < array.size(); i++) {
