@@ -293,7 +293,10 @@ public class ControllerImpl implements Controller {
 
         this.gameSets.keySet().stream()
             .filter(x->!x.isClosed())
-            .forEach(GameSet::close);
+            .forEach(g -> {
+                g.setPoints(g.getPoints() / g.getType().getEndGameRatio());
+                g.close();
+            });
     }
 
     @Override
