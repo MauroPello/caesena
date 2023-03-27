@@ -20,6 +20,8 @@ public interface BoardComponent<X> {
 
     void endTurn();
 
+
+
     boolean canZoomIn();
 
     boolean canZoomOut();

@@ -241,6 +241,8 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         }
     }
 
+    
+
     @Override
     public GUI getGUI() {
         return this.gui;
