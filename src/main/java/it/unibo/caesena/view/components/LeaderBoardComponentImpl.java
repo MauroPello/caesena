@@ -52,8 +52,8 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
     {
         //testLeaderBoard();
 
-        this.playerList = this.controller.getPlayers();
-        playerList = playerList.stream().sorted((x, y) -> x.getScore() - y.getScore()).toList();
+        this.playerList = new ArrayList<>(this.controller.getPlayers());
+        playerList.sort((x, y) -> Integer.compare(y.getScore(), x.getScore()));
 
         for (int i = 0; i < playerList.size(); i++) {
             labelList.get(i).setText(playerList.get(i).getScore()+" "+playerList.get(i).getName());
