@@ -15,9 +15,9 @@ public class GameSetImpl implements GameSet{
     private int points;
     private boolean closed;
 
-    public GameSetImpl (final GameSetType typeOfSet, final int point) {
-        this.type = typeOfSet;
-        this.points = point;
+    public GameSetImpl (final GameSetType type) {
+        this.type = type;
+        this.points = type.getStartingPoints();
         this.meeples = new HashSet<>();
         this.closed = false;
     }

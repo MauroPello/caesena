@@ -1,9 +1,24 @@
 package it.unibo.caesena.model.gameset;
 
 public enum GameSetType {
-    FIELD,
-    CITY,
-    MONASTERY,
-    ROAD,
-    JUNCTION
+    FIELD(0, 1),
+    CITY(2, 2),
+    MONASTERY(1, 1),
+    ROAD(1, 1),
+    JUNCTION(0, 0);
+
+    private final int startingPoints;
+    private final int endGameRatio;
+    GameSetType(final int startingPoints, final int endGameRatio){
+        this.startingPoints = startingPoints;
+        this.endGameRatio = endGameRatio;
+    }
+
+    public int getStartingPoints(){
+        return this.startingPoints;
+    }
+
+    public int getEndGameRatio(){
+        return this.endGameRatio;
+    }
 }

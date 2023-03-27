@@ -28,7 +28,6 @@ public class ControllerImpl implements Controller {
     private static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
     private static final int POINTS_TILE_NEARBY_MONASTERY = 1;
     private static final int POINTS_CLOSED_MONASTERY = 9;
-    // private static final float OPEN_CITY_POINTS_RATIO = 0.5f;
     private static final String SEP = File.separator;
     private static final String CONFIG_FILE_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
     private static final int MEEPLES_PER_PLAYER = 8;
@@ -330,8 +329,11 @@ public class ControllerImpl implements Controller {
                 fieldsWithPoints.addAll(fieldsNearCity);
             }
         }
-
         fieldsWithPoints.forEach(f -> distributePoints(f));
+
+        this.gameSets.keySet().stream()
+            .filter(x->!x.isClosed())
+            .forEach(this::distributePoints);
     }
 
     @Override
@@ -372,7 +374,7 @@ public class ControllerImpl implements Controller {
             }
 
             Set<Meeple> meeples = checkOptional.get().getX();
-
+            
             for (Meeple playerMeeple : meeples) {
                 Player currentPlayer = playerMeeple.getOwner();
 
@@ -386,10 +388,17 @@ public class ControllerImpl implements Controller {
             int maxValueMeeple = playerMeeples.values().stream().mapToInt(x -> x)
                 .max().getAsInt();
 
+
             playerMeeples.entrySet().stream()
                 .filter(e -> e.getValue().equals(maxValueMeeple))
-                .forEach(e -> e.getKey().addScore(checkOptional.get().getY()));
-        }
+                .forEach(e -> {
+                    if (isGameOver()) {
+                        e.getKey().addScore(checkOptional.get().getY() / gameset.getType().getEndGameRatio());
+                    } else {
+                        e.getKey().addScore(checkOptional.get().getY());
+                    }
+                });
+            }
     }
 
     private boolean isPositionNotOccupied(final Pair<Integer, Integer> position) {
