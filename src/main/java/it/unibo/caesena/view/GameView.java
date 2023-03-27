@@ -87,6 +87,14 @@ public class GameView extends JPanel implements View<JPanel> {
         this.board.moveRight();
     }
 
+    public void removePlacedTile() {
+        this.board.removePlacedTile();
+    }
+
+    public void updateComponents() {
+        this.board.updateComponents();
+    }
+
     @Override
     public JPanel getComponent() {
         return this;
