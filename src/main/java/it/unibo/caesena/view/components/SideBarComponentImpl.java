@@ -27,6 +27,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     JButton placeTileButton = new JButton("PLACE TILE");
     JButton placeMeepleButton = new JButton("PLACE MEEPLE");
     JButton endTurnButton = new JButton("ENDTURN");
+    JButton discardTileButton = new JButton("DISCARD");
 
     Controller controller;
     GameView gameView;
@@ -67,6 +68,8 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         innerPanel.add(endTurnButton, constraints);
         constraints.gridy ++;
         innerPanel.add(leaderBoard.getComponent(), constraints);
+        constraints.gridy ++;
+        innerPanel.add(discardTileButton, constraints);
 
         this.add(innerPanel);
 
@@ -82,23 +85,56 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         placeTileButton.addActionListener(placeTileEventListener());
         placeMeepleButton.addActionListener(placeMeepleEventListener());
         endTurnButton.addActionListener(endTurnEventListener());
+        discardTileButton.addActionListener(discardTileEventListener());
+
+        placeMeepleButton.setVisible(false);
+        endTurnButton.setVisible(false);
     }
 
+    
+    /** 
+     * @return JPanel
+     */
     @Override
     public JPanel getComponent() {
        return this;
     }
 
+    
+    /** 
+     * @return ActionListener
+     */
     private ActionListener placeMeepleEventListener() {
         return (e) -> this.gameView.placeMeeple();
     }
 
+    
+    /** 
+     * @return ActionListener
+     */
     private ActionListener placeTileEventListener() {
-        return (e) -> this.gameView.placeTile();
+        return (e) -> {
+            if(this.gameView.placeTile()) {
+                placeTileButton.setVisible(false);
+                placeMeepleButton.setVisible(true);
+                endTurnButton.setVisible(true);
+                discardTileButton.setVisible(false);
+            }
+        };
     }
 
+    
+    /** 
+     * @return ActionListener
+     */
     private ActionListener endTurnEventListener() {
-        return (e) -> this.gameView.endTurn();
+        return (e) -> {
+            this.gameView.endTurn();
+            placeTileButton.setVisible(true);
+            placeMeepleButton.setVisible(false);
+            endTurnButton.setVisible(false);
+            discardTileButton.setVisible(true);
+        };
     }
 
     private ActionListener zoomInEventListener() {
@@ -123,6 +159,16 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
     private ActionListener moveRightEventListener() {
         return (e) -> this.gameView.moveRight();
+    }
+
+    private ActionListener discardTileEventListener() {
+        return (e) -> {
+            if(controller.discardCurrentTile()) {
+                gameView.updateHUD();
+            } else {
+                ((JButton)e.getSource()).setEnabled(false);
+            }
+        };
     }
 
     @Override

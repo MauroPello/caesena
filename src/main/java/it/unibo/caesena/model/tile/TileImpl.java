@@ -41,6 +41,10 @@ public class TileImpl implements Tile {
         this.sections = rotateSections;
     }
 
+    
+    /** 
+     * @return Optional<Pair<Integer, Integer>>
+     */
     @Override
     public Optional<Pair<Integer, Integer>> getPosition() {
         return this.currentPosition;
