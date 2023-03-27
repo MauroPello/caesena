@@ -251,6 +251,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             toggleBoardContent();
         }
         this.currentTileButtonPlaced = Optional.empty();
+        updateComponents();
     }
 
 

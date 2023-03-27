@@ -114,7 +114,7 @@ public class TileButtonImpl extends JButton implements TileButton {
         if (this.placedMeeple.isPresent()) {
             Player owner = this.placedMeeple.get().getOwner();
             Meeple meeple = this.placedMeeple.get();
-            return parentBoard.getGUI().getController().getNotPlacedPlayerMeeples(owner).contains(meeple);
+            return !parentBoard.getGUI().getController().getNotPlacedPlayerMeeples(owner).contains(meeple);
         }
         return false;
     }
