@@ -24,7 +24,7 @@ public class PlayerImpl implements Player{
 
     @Override
     public void setScore(int newScore) {
-        if (newScore <= this.score) {
+        if (newScore < this.score) {
             throw new IllegalStateException("The new score is lower");
         }
         this.score = newScore;
