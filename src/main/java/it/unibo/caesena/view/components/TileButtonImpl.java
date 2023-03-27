@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.util.Optional;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
@@ -109,16 +111,25 @@ public class TileButtonImpl extends JButton implements TileButton {
 
     @Override
     public boolean containsMeeple(){
-        return this.placedMeeple.isPresent();
+        if (this.placedMeeple.isPresent()) {
+            Player owner = this.placedMeeple.get().getOwner();
+            Meeple meeple = this.placedMeeple.get();
+            return parentBoard.getGUI().getController().getPlayerMeeples(owner).contains(meeple);
+        }
+        return false;
     }
 
     @Override
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        if (containedTile.isPresent()) {
-            //TODO remove, for testing purpouses
-            g.drawImage(ImageIconUtil.getTileImageWithMeeple(this.playerColor, this), 0, 0, getWidth(), getHeight(), null);
+        if (this.containsTile()) {
+            if (this.containsMeeple())  {
+                g.drawImage(ImageIconUtil.getTileImageWithMeeple(this.playerColor, this), 0, 0, getWidth(), getHeight(), null);
+            } else {
+                g.drawImage(ImageIconUtil.getTileImage(this.getContainedTile()), 0, 0, getWidth(), getHeight(), null);
+            }
+
         }
     }
 }

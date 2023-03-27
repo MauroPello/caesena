@@ -20,8 +20,6 @@ public interface BoardComponent<X> {
 
     void endTurn();
 
-    void updateComponents();
-
     boolean canZoomIn();
 
     boolean canZoomOut();
@@ -34,6 +32,8 @@ public interface BoardComponent<X> {
 
     boolean canMoveRight();
 
+    void updateComponents();
+
     TileButton getCurrentlySelectedTileButton();
 
     GUI getGUI();
@@ -44,7 +44,7 @@ public interface BoardComponent<X> {
 
     void setPlacedTileButton(TileButton tileButton);
 
-    X getComponent();
-
     void toggleBoardContent();
+
+    X getComponent();
 }

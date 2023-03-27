@@ -234,7 +234,8 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void endTurn() {
         if (this.currentOverlayedTile.isPresent() && currentOverlayedTile.get().isSectionSelected()) {
             var section = this.currentOverlayedTile.get().getSelectedSection();
-            Optional<Meeple> meeple = this.gui.getController().getCurrentPlayerMeeples().stream().filter(m -> !m.isPlaced()).findFirst();
+            var currentPlayer = this.gui.getController().getCurrentPlayer();
+            Optional<Meeple> meeple = this.gui.getController().getPlayerMeeples(currentPlayer).stream().filter(m -> !m.isPlaced()).findFirst();
             if (meeple.isPresent()) {
                 if (this.gui.getController().placeMeeple(meeple.get(), section)) {
                     this.currentTileButtonPlaced.get().addMeeple(meeple.get(), section);
