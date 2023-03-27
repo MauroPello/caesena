@@ -43,15 +43,14 @@ public class GameView extends JPanel implements View<JPanel> {
         updateHUD();
     }
 
-    public void placeTile() {
+    public boolean placeTile() {
         Pair<Integer, Integer> position = board.getCurrentlySelectedTileButton().getPosition();
-        if (this.controller.isValidPositionForCurrentTile(position)) {
-            this.controller.placeCurrentTile(position);
+        if (this.controller.placeCurrentTile(position)) {
             this.board.lockTile();
-        } else {
-            throw new IllegalStateException("Tried to place tile in a not valid position");
+            updateHUD();
+            return true;
         }
-        updateHUD();
+        return false;
     }
 
     public void endTurn() {
