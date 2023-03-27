@@ -1,7 +1,5 @@
 package it.unibo.caesena.controller;
 
-import java.io.File;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,10 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import it.unibo.caesena.model.*;
 import it.unibo.caesena.model.gameset.GameSet;
@@ -28,8 +22,6 @@ public class ControllerImpl implements Controller {
     private static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
     private static final int POINTS_TILE_NEARBY_MONASTERY = 1;
     private static final int POINTS_CLOSED_MONASTERY = 9;
-    private static final String SEP = File.separator;
-    private static final String CONFIG_FILE_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "config.json";
     private static final int MEEPLES_PER_PLAYER = 8;
     private Map<GameSet, Set<Tile>> gameSets = new HashMap<>();
     private List<Meeple> meeples = new ArrayList<>();
@@ -47,7 +39,7 @@ public class ControllerImpl implements Controller {
         }
         Collections.shuffle(players);
         currentPlayer = players.get(0);
-        buildAllTiles();
+        tiles = new ConfigurationLoader().read("config.json");
         drawNewTile();
         this.placeCurrentTile(new Pair<Integer,Integer>(0, 0));
         drawNewTile();
@@ -58,36 +50,6 @@ public class ControllerImpl implements Controller {
         meeples = new ArrayList<>();
         players = new ArrayList<>();
         gameSets = new HashMap<>();
-    }
-
-    private void buildAllTiles() {
-        try {
-            Object fileJson = new JSONParser().parse(new InputStreamReader(ClassLoader.getSystemResourceAsStream(CONFIG_FILE_PATH)));
-            JSONObject jsonObject =  (JSONObject) fileJson;
-            JSONArray array = (JSONArray) jsonObject.get("Tiles");
-            for (int i = 0; i < array.size(); i++) {
-                JSONObject object = (JSONObject) array.get(i);
-                for (var key : object.keySet()) {
-                    for (int j = 0; j < Integer.parseInt(object.get(key).toString()); j++) {
-                        tiles.add(TileType.valueOf(key.toString()).createTile(new TileFactoryWithBuilder()));
-                    }
-                }
-            }
-
-            Collections.shuffle(tiles);
-            
-            for (int i = 0; i < tiles.size(); i++) {
-                if (tiles.get(i).getTileType().equals(TileType.valueOf(jsonObject.get("Starting Tile").toString()))) {
-                    Tile firstTile = tiles.get(i);
-                    Tile currentTile = tiles.get(0);
-                    tiles.set(i, currentTile);
-                    tiles.set(0, firstTile);
-                }
-            }
-
-        } catch (Exception e) {
-            throw new IllegalStateException("Error reading tiles from file, maybe it's missing");
-        }
     }
 
     @Override
@@ -362,7 +324,7 @@ public class ControllerImpl implements Controller {
     }
 
     private boolean isPositionNotOccupied(final Pair<Integer, Integer> position) {
-        for (Tile tile : tiles) {
+        for (Tile tile : getPlacedTiles()) {
             if (tile.getPosition().get().equals(position)) {
                 return false;
             }
