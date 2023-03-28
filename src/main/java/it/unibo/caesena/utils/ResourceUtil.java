@@ -10,10 +10,14 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
-public class ResourceUtil {
+public final class ResourceUtil {
 
     private static final String SEP = File.separator;
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP;
+
+    private ResourceUtil() {
+
+    }
 
     public static BufferedImage getBufferedImage(final String filename, final List<String> directories) {
         BufferedImage image = null;

@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 
 public final class StringUtil {
 
+    private StringUtil() {
+
+    }
+
     public static String capitalize(final String string) {
         final char[] charArray = string.toLowerCase().toCharArray();
         charArray[0] = Character.toUpperCase(charArray[0]);
