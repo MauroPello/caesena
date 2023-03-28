@@ -28,7 +28,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         this.finalPanel.setLayout(new BoxLayout(this.finalPanel, BoxLayout.Y_AXIS));
         this.players = userInterface.getController().getPlayers();
 
-        JLabel playersLabel = new JLabel("Game Over: ");
+        JLabel playersLabel = new JLabel(LocaleHelper.getViewTitle("GameOverView", false));
         playersLabel.setFont(mainFont);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.finalPanel.add(playersLabel);
@@ -51,16 +51,16 @@ public class GameOverView extends JPanel implements View<JPanel> {
             this.finalPanel.add(newLabel);
         }
 
-        JButton returnToStart = new JButton("Return to start Game");
-        returnToStart.addActionListener(e -> userInterface.showStartView());
-        returnToStart.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
+        backToStartMenuButton.addActionListener(e -> userInterface.showBackToStartViewDialog());
+        backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.finalPanel.add(backToStartMenuButton);
 
-        JButton exitGame = new JButton("Exit Game");
-        exitGame.addActionListener(e -> userInterface.showExitDialog());
-        exitGame.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
+        exitButton.addActionListener(e -> userInterface.showExitDialog());
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.finalPanel.add(exitButton);
 
-        this.finalPanel.add(exitGame);
-        this.finalPanel.add(returnToStart);
         this.add(finalPanel);
         this.repaint();
         this.validate();
