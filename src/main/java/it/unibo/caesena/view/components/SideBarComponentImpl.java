@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.view.GameView;
 
 public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPanel>{
@@ -91,8 +92,8 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         endTurnButton.setVisible(false);
     }
 
-    
-    /** 
+
+    /**
      * @return JPanel
      */
     @Override
@@ -100,16 +101,16 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
        return this;
     }
 
-    
-    /** 
+
+    /**
      * @return ActionListener
      */
     private ActionListener placeMeepleEventListener() {
         return (e) -> this.gameView.placeMeeple();
     }
 
-    
-    /** 
+
+    /**
      * @return ActionListener
      */
     private ActionListener placeTileEventListener() {
@@ -123,8 +124,8 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         };
     }
 
-    
-    /** 
+
+    /**
      * @return ActionListener
      */
     private ActionListener endTurnEventListener() {
@@ -146,19 +147,19 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     }
 
     private ActionListener moveUpEventListener() {
-        return (e) -> this.gameView.moveUp();
+        return (e) -> this.gameView.move(Direction.UP);
     }
 
     private ActionListener moveLeftEventListener() {
-        return (e) -> this.gameView.moveLeft();
+        return (e) -> this.gameView.move(Direction.LEFT);
     }
 
     private ActionListener moveDownEventListener() {
-        return (e) -> this.gameView.moveDown();
+        return (e) -> this.gameView.move(Direction.DOWN);
     }
 
     private ActionListener moveRightEventListener() {
-        return (e) -> this.gameView.moveRight();
+        return (e) -> this.gameView.move(Direction.RIGHT);
     }
 
     private ActionListener discardTileEventListener() {

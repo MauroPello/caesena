@@ -1,5 +1,6 @@
 package it.unibo.caesena.view.components;
 
+import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.view.GUI;
 
 public interface BoardComponent<X> {
@@ -8,13 +9,7 @@ public interface BoardComponent<X> {
 
     void zoomOut();
 
-    void moveUp();
-
-    void moveDown();
-
-    void moveLeft();
-
-    void moveRight();
+    void move(Direction direction);
 
     void lockTile();
 
@@ -24,13 +19,7 @@ public interface BoardComponent<X> {
 
     boolean canZoomOut();
 
-    boolean canMoveUp();
-
-    boolean canMoveDown();
-
-    boolean canMoveLeft();
-
-    boolean canMoveRight();
+    boolean canMove(Direction Direction);
 
     void updateComponents();
 
