@@ -1,5 +1,6 @@
 package it.unibo.caesena.view.components;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.List;
@@ -20,16 +21,12 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     private final static int DEFAULT_ZOOM_LEVEL = 5;
     private final GameView gameView;
     private final Map<TileButton<JButton>, Pair<Integer, Integer>> allTileButtons;
-    //private JPanel tileButtonsContainer;//TODO serve?
-    private final LayoutManager gridLayoutManager;
     private int fieldSize = DEFAULT_ZOOM_LEVEL;
     private int zoom = 0;
     private int horizontalOffset = 0;
     private int verticalOffset = 0;
 
     public BoardComponentImpl(final GameView gameView) {
-        this.gridLayoutManager = new GridLayout(fieldSize, fieldSize);
-        this.setLayout(this.gridLayoutManager);
         this.gameView = gameView;
         this.allTileButtons = new HashMap<>();
         this.draw();
@@ -51,20 +48,36 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     public void draw() {
         this.removeAll();
-        int minimum = this.zoom - DEFAULT_ZOOM_LEVEL/2;
-        int maximum = DEFAULT_ZOOM_LEVEL - zoom - DEFAULT_ZOOM_LEVEL/2;
+
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
+        this.setLayout(new GridLayout(fieldSize, fieldSize));
         updateTileButtonList();
+        List<TileButton<JButton>> tileButtonsToBeDrawn = getTileButtonsToBeDrawn();
+        for (TileButton<JButton> tileButton : tileButtonsToBeDrawn) {
+            this.add(tileButton.getComponent());
+        }
+        this.repaint();
+        this.validate();
+    }
+
+    private List<TileButton<JButton>> getTileButtonsToBeDrawn(int horizontalOffset, int verticalOffset, int zoom) {
+        List<TileButton<JButton>> tileButtons = new ArrayList<>();
+        int minimum = zoom - DEFAULT_ZOOM_LEVEL/2;
+        int maximum = DEFAULT_ZOOM_LEVEL - zoom - DEFAULT_ZOOM_LEVEL/2;
         for (int i = minimum; i < maximum; i++) {
             for (int j = minimum; j < maximum; j++) {
                 int horizontalCoordinate = horizontalOffset + j;
                 int verticalCoordinate = verticalOffset + i;
                 TileButton<JButton> fieldCell = findTileButton(horizontalCoordinate, verticalCoordinate);
-                this.add(fieldCell.getComponent());
+                tileButtons.add(fieldCell);
             }
         }
-        this.repaint();
-        this.validate();
+
+        return tileButtons;
+    }
+
+    private List<TileButton<JButton>> getTileButtonsToBeDrawn() {
+        return getTileButtonsToBeDrawn(this.horizontalOffset, this.verticalOffset, this.zoom);
     }
 
     private void updateTileButtonList() {
@@ -176,17 +189,38 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public boolean canZoomIn() {
-        return true;
+        return this.fieldSize > 1;
     }
-    //TODO tutti sti controlli
+
+    //TODO parlare di sta cosa con pello
     @Override
     public boolean canZoomOut() {
-        return true;
+        return fieldSize < this.getHeight() / 50;
     }
 
     @Override
-    public boolean canMove(Direction Direction) {
-        return true;
+    public boolean canMove(Direction direction) {
+        int tempVerticalOffset = this.verticalOffset;
+        int tempHorizontalOffset = this.horizontalOffset;
+        //TODO forse sto switch si può mettere fuori usando un pair
+        switch(direction) {
+            case DOWN:
+                tempVerticalOffset++;
+                break;
+            case LEFT:
+                tempHorizontalOffset--;
+                break;
+            case RIGHT:
+                tempHorizontalOffset++;
+                break;
+            case UP:
+                tempVerticalOffset--;
+                break;
+            default:
+                break;
+        }
+        return getTileButtonsToBeDrawn(tempHorizontalOffset, tempVerticalOffset, this.zoom).stream()
+            .anyMatch(x -> x.containsTile());
     }
 
     @Override
