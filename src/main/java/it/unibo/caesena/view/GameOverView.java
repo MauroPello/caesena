@@ -28,6 +28,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         super();
         this.userInterface = userInterface;
 
+        this.setBackground(Color.BLACK);
         this.setLayout(new GridBagLayout());
         this.mainFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);
         this.mainPanel = new JPanel();
@@ -54,19 +55,17 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
         for (final var player : queue) {
             final JPanel volatailePanel = new JPanel();
-            volatailePanel.setLayout(new BoxLayout(volatailePanel, BoxLayout.X_AXIS));
-            final JLabel volataileLabel = new JLabel();
 
             final var playerColorPanel = new JPanel();
             playerColorPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            playerColorPanel.setPreferredSize(new Dimension(10, 10));
-            playerColorPanel.setMinimumSize(new Dimension(10, 10));
+            playerColorPanel.setPreferredSize(new Dimension(30, 30));
+            playerColorPanel.setMinimumSize(new Dimension(30, 30));
             playerColorPanel.setBackground(userInterface.getPlayerColor(player));
-            playersPanel.add(playerColorPanel);
 
+            final JLabel volataileLabel = new JLabel();
             volataileLabel.setText("Nome: " + player.getName() + " Score: " + player.getScore());
-            volataileLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             volatailePanel.add(volataileLabel);
+            volatailePanel.add(playerColorPanel);
             playersPanel.add(volatailePanel);
         }
         this.mainPanel.add(playersPanel);
@@ -96,6 +95,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public GUI getUserInterface() {
         return this.userInterface;
     }

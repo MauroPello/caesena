@@ -109,6 +109,7 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public GUI getUserInterface() {
         return this.userInterface;
     }
