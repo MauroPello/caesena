@@ -1,67 +1,85 @@
 package it.unibo.caesena.view;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import javax.swing.*;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GridBagLayout;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import it.unibo.caesena.model.Player;
 
 public class GameOverView extends JPanel implements View<JPanel> {
 
     private final GUI userInterface;
-    private final JPanel finalPanel;
+    private final JPanel mainPanel;
     private final List<Player> players;
     private Font mainFont;
 
-    public GameOverView (GUI userInterface) {
+    public GameOverView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
 
         this.setLayout(new GridBagLayout());
-        this.mainFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);        
-        this.finalPanel = new JPanel();
-        this.finalPanel.setLayout(new BoxLayout(this.finalPanel, BoxLayout.Y_AXIS));
+        this.mainFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);
+        this.mainPanel = new JPanel();
+        this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         this.players = userInterface.getController().getPlayers();
 
-        JLabel playersLabel = new JLabel("Game Over: ");
+        JPanel playersPanel = new JPanel();
+        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
+        final JLabel playersLabel = new JLabel("Game Over: ");
         playersLabel.setFont(mainFont);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.finalPanel.add(playersLabel);
+        playersPanel.add(playersLabel);
 
-        PriorityQueue<Player> queue = new PriorityQueue<> (
-            new Comparator<Player>() {
-                public int compare (Player a, Player b) {
-                    return Integer.compare(b.getScore(), a.getScore());
-                }
-            }
-        );
+        final PriorityQueue<Player> queue = new PriorityQueue<>(
+                new Comparator<Player>() {
+                    public int compare(final Player a, final Player b) {
+                        return Integer.compare(b.getScore(), a.getScore());
+                    }
+                });
 
-        for (Player player : players) {
+        for (final Player player : players) {
             queue.add(player);
         }
-        
-        for (var player : queue) {
-            JLabel newLabel = new JLabel(player.toString());
+
+        for (final var player : queue) {
+            JLabel newLabel = new JLabel();
+            
+            var playerColorPanel = new JPanel();
+            playerColorPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            playerColorPanel.setPreferredSize(new Dimension(50,50));
+            playerColorPanel.setMinimumSize(new Dimension(50,50));
+            playerColorPanel.setBackground(userInterface.getPlayerColor(player));
+            playersPanel.add(playerColorPanel);
+
+            newLabel.setText("Nome: " + player.getName() + " Score: " + player.getScore());
             newLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            this.finalPanel.add(newLabel);
+            playersPanel.add(newLabel);
         }
+        this.mainPanel.add(playersPanel);
 
-        JButton returnToStart = new JButton("Return to start Game");
+        JPanel buttoPanel = new JPanel();
+        buttoPanel.setLayout(new BoxLayout(buttoPanel, BoxLayout.X_AXIS));
+        final JButton returnToStart = new JButton("Return to start Game");
         returnToStart.addActionListener(e -> userInterface.showStartView());
-        returnToStart.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton exitGame = new JButton("Exit Game");
+        final JButton exitGame = new JButton("Exit Game");
         exitGame.addActionListener(e -> userInterface.showExitDialog());
-        exitGame.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.finalPanel.add(exitGame);
-        this.finalPanel.add(returnToStart);
-        this.add(finalPanel);
+        buttoPanel.add(exitGame);
+        buttoPanel.add(returnToStart);
+        this.mainPanel.add(buttoPanel);
+        this.add(mainPanel);
         this.repaint();
         this.validate();
     }
