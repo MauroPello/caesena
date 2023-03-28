@@ -78,4 +78,8 @@ public class LocaleHelper {
         return getResourceBundle().getString("exitDialogConfirm");
     }
 
+    public static String getSwatchesColorPanelName() {
+        return getResourceBundle().getString("swatchesColorPanelName");
+    }
+
 }

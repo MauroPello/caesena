@@ -2,6 +2,7 @@ package it.unibo.caesena.view.components;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -49,8 +50,9 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
 
         this.playerColorChooser = new JColorChooser();
         this.playerColorChooser.setPreviewPanel(new JPanel());
+        this.playerColorChooser.setLocale(Locale.ITALIAN);
         for (final var chooserPanel : playerColorChooser.getChooserPanels()) {
-            if (!chooserPanel.getDisplayName().equals("Swatches")
+            if (!chooserPanel.getDisplayName().equals(LocaleHelper.getSwatchesColorPanelName())
                     && !chooserPanel.getDisplayName().equals("RGB")) {
                 this.playerColorChooser.removeChooserPanel(chooserPanel);
             }
