@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.view.LocaleHelper;
 
 public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     
@@ -20,7 +21,7 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
     private final JPanel playerColorPanel;
-    private final JButton playerColorBtn;
+    private final JButton playerColorButton;
     private final JTextField playerName;
     
     private Color playerColor;
@@ -28,12 +29,12 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     public PlayerInputImpl() {
         super();
         
-        this.add(new JLabel("Name: "));
+        this.add(new JLabel(LocaleHelper.getNameText()));
         this.playerName = new JTextField();
         this.playerName.setColumns(TEXT_FIELD_COLUMNS);
         this.add(playerName);
         
-        this.add(new JLabel("Color: "));
+        this.add(new JLabel(LocaleHelper.getColorText()));
         this.playerColorPanel = new JPanel();
         this.playerColorPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.playerColorPanel.setPreferredSize(new Dimension(50,50));
@@ -53,13 +54,13 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
             }
         }
 
-        this.playerColorDialog = JColorChooser.createDialog(this, "Pick a Color!", true, this.playerColorChooser, 
+        this.playerColorDialog = JColorChooser.createDialog(this, LocaleHelper.getPickColorDialogTitle(), true, this.playerColorChooser, 
             (e) -> this.playerColorPanel.setBackground(this.playerColorChooser.getColor()), 
             (e) -> this.playerColorPanel.setBackground(getBackground()));
 
-        this.playerColorBtn = new JButton("Pick");
-        this.playerColorBtn.addActionListener((e) -> this.playerColorDialog.setVisible(true));
-        this.add(playerColorBtn);
+        this.playerColorButton = new JButton(LocaleHelper.getPickColorText());
+        this.playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
+        this.add(playerColorButton);
     }
 
     @Override

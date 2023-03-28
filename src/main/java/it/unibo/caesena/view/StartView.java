@@ -41,7 +41,7 @@ public class StartView extends JPanel implements View<JPanel> {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         JPanel playersNumPanel = new JPanel();
-        JLabel playersLabel = new JLabel("Players:");
+        JLabel playersLabel = new JLabel(LocaleHelper.getPlayersText());
         playersLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
         playersNumPanel.add(playersLabel);
 
@@ -75,7 +75,7 @@ public class StartView extends JPanel implements View<JPanel> {
         playersScrollPane.setBorder(null);
         mainPanel.add(playersScrollPane);
 
-        JButton startButton = new JButton("Start Game");
+        JButton startButton = new JButton(LocaleHelper.getStartGameText());
         startButton.addActionListener((e) -> {
             for (var playerInput : this.playerInputs) {
                 var player = playerInput.getPlayerData();
@@ -109,6 +109,7 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public GUI getUserInterface() {
         return this.userInterface;
     }

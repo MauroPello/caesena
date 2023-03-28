@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -13,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import it.unibo.caesena.utils.ImageIconUtil;
+import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
 
@@ -82,7 +83,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         rotateButton.setSize(200, 200);
         rotateButton.setBounds(100,100,100,100);
 
-        ImageIcon icon = new ImageIcon(userInterface.getController().getCurrentTile().getImageResourcesPath());
+        ImageIcon icon = new ImageIcon(ResourceUtil.getBufferedImage(userInterface.getController().getCurrentTile().getTileType().name() + ".png", List.of("tiles")));
         this.tileImageLabel = new JLabel(icon);
         tileImageLabel.setPreferredSize(new Dimension(40, 40));
         tileImageLabel.setMinimumSize(new Dimension(40, 40));
@@ -145,7 +146,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentTile() {
-        Image rotatedPreviewTile = ImageIconUtil.getTileImage(userInterface.getController().getCurrentTile());
+        Image rotatedPreviewTile = new TileImage(userInterface.getController().getCurrentTile()).getAsBufferedImage();
         tileImageLabel.setIcon(new ImageIcon(rotatedPreviewTile.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
     }
 

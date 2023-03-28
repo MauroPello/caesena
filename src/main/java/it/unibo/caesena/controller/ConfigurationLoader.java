@@ -1,6 +1,5 @@
 package it.unibo.caesena.controller;
 
-import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,18 +12,17 @@ import org.json.simple.parser.JSONParser;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileType;
+import it.unibo.caesena.utils.ResourceUtil;
 
 public class ConfigurationLoader {
 
     private final List<Tile> tiles = new ArrayList<>();
-    private static final String SEP = File.separator;
-    private static final String CONFIG_FOLDER_PATH = "it" + SEP + "unibo" + SEP + "caesena" + SEP;
 
     public List<Tile> read(final String fileName) {
 
         try {
             final Object fileJson = new JSONParser()
-                    .parse(new InputStreamReader(ClassLoader.getSystemResourceAsStream(CONFIG_FOLDER_PATH + fileName)));
+                    .parse(new InputStreamReader(ResourceUtil.getInputStreamFromFile(fileName, List.of())));
             final JSONObject jsonObject = (JSONObject) fileJson;
             final JSONArray array = (JSONArray) jsonObject.get("Tiles");
             for (int i = 0; i < array.size(); i++) {

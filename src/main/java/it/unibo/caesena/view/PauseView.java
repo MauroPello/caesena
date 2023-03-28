@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class PauseView extends JPanel implements View<JPanel> {
@@ -27,35 +26,31 @@ public class PauseView extends JPanel implements View<JPanel> {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        JLabel lbl = new JLabel("Pause menu");
-        lbl.setFont(mainFont);
-        lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(lbl);
+        JLabel titleLbl = new JLabel(LocaleHelper.getViewTitle("PauseView", false));
+        titleLbl.setFont(mainFont);
+        titleLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(titleLbl);
 
-        JButton btn1 = new JButton("Go back to playing");
-        btn1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btn1.addActionListener((e) -> {
+        JButton resumeGameButton = new JButton(LocaleHelper.getResumeGameText());
+        resumeGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        resumeGameButton.addActionListener((e) -> {
             userInterface.togglePauseView();            
         });
-        mainPanel.add(btn1);
-        JButton btn2 = new JButton("Exit and start new game");
-        btn2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(btn2);
-        btn2.addActionListener((e) -> {
-            int result = JOptionPane.showConfirmDialog(userInterface, 
-                "Are you sure you want to go back to the start menu?",
-                "Back to start menu", JOptionPane.YES_NO_OPTION);
-            
-            if (result == JOptionPane.YES_OPTION) {
-                userInterface.showStartView();
-            }
+        mainPanel.add(resumeGameButton);
+
+        JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
+        backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backToStartMenuButton.addActionListener((e) -> {
+            userInterface.showBackToStartViewDialog();
         });
-        JButton btn3 = new JButton("Exit and close game");
-        btn3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btn3.addActionListener((e) -> {
+        mainPanel.add(backToStartMenuButton);
+
+        JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitButton.addActionListener((e) -> {
             userInterface.showExitDialog();
         });
-        mainPanel.add(btn3);
+        mainPanel.add(exitButton);
 
         this.add(mainPanel);
     }
@@ -66,6 +61,7 @@ public class PauseView extends JPanel implements View<JPanel> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public GUI getUserInterface() {
         return this.userInterface;
     }

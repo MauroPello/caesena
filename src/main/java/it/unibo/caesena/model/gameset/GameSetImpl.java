@@ -26,12 +26,13 @@ public class GameSetImpl implements GameSet {
 
     @Override
     public boolean addMeeple(final Meeple meeple) {
-        if (isMeepleFree() && meeple.placeOnTile()) {
-            this.meeples.add(meeple);
-            return true;
+        if (!isMeepleFree()) {
+            return false;
         }
-
-        return false;
+        
+        meeple.setPlaced(true);
+        this.meeples.add(meeple);
+        return true;
     }
 
     @Override
@@ -46,28 +47,28 @@ public class GameSetImpl implements GameSet {
         }
 
         if (!this.isMeepleFree()) {
-            final Map<Player, Integer> playerMeeples = new HashMap<>();
+            final Map<Player, Integer> playerMeepleStrength = new HashMap<>();
 
-            for (final Meeple playerMeeple : meeples) {
-                final Player currentPlayer = playerMeeple.getOwner();
+            for (final Meeple meeple : meeples) {
+                final Player currentPlayer = meeple.getOwner();
 
-                if (!playerMeeples.containsKey(currentPlayer)) {
-                    playerMeeples.put(currentPlayer, 0);
+                if (!playerMeepleStrength.containsKey(currentPlayer)) {
+                    playerMeepleStrength.put(currentPlayer, 0);
                 }
-                playerMeeples.put(currentPlayer, playerMeeples.get(currentPlayer) + 1);
+                playerMeepleStrength.put(currentPlayer, playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
 
             }
 
-            final int maxValueMeeple = playerMeeples.values().stream().mapToInt(x -> x)
-                    .max().getAsInt();
+            final int maxMeepleStrength = playerMeepleStrength.values().stream()
+                .mapToInt(x -> x).max().getAsInt();
 
-            playerMeeples.entrySet().stream()
-                    .filter(e -> e.getValue().equals(maxValueMeeple))
-                    .forEach(e -> e.getKey().addScore(points));
+            playerMeepleStrength.entrySet().stream()
+                .filter(e -> e.getValue().equals(maxMeepleStrength))
+                .forEach(e -> e.getKey().addScore(this.getPoints()));
         }
 
         this.closed = true;
-        meeples.forEach(Meeple::removeFromTile);
+        meeples.forEach(m -> m.setPlaced(false));
         return true;
 
     }

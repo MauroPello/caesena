@@ -15,8 +15,6 @@ public interface Tile {
 
     public boolean isPlaced();
 
-    public String getImageResourcesPath();
-
     public boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet);
 
     public void putSection(TileSection section, GameSet gameSet);

@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.utils.ImageIconUtil;
 
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private final BoardComponent<JPanel> parentBoard;
@@ -75,11 +74,11 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     {
         super.paintComponent(g);
         if (this.containsTile()) {
+            TileImage tileImage = new TileImage(getContainedTile(), playerColor);
             if (this.containsMeeple())  {
-                g.drawImage(ImageIconUtil.getTileImageWithMeeple(this.playerColor, this), 0, 0, getWidth(), getHeight(), null);
-            } else {
-                g.drawImage(ImageIconUtil.getTileImage(this.getContainedTile()), 0, 0, getWidth(), getHeight(), null);
+                tileImage.addMeeple(this.placedMeeple.get(), getPlacedMeepleSection());
             }
+
         }
     }
 

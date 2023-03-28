@@ -8,24 +8,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
-import it.unibo.caesena.utils.ImageIconUtil;
+import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
     // TODO rimuovere
     // RAGA È SOLO PER DEBUG, SE ATTIVO UNO DISATTIVATE GLI ALTRI!!
-    private static boolean DEBUG_GAME_VIEW = true;
-    private static boolean DEBUG_GAME_OVER_VIEW = false;
+    private static boolean DEBUG_GAME_VIEW = false;
+    private static boolean DEBUG_GAME_OVER_VIEW = true;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
-    private static final String SEP = File.separator;
-    private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP;
     private Controller controller;
     private View<JPanel> startView;
     private View<JPanel> gameView;
@@ -54,7 +52,7 @@ public class GUI extends JFrame implements UserInterface {
         this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
 
-        this.setIconImage(ImageIconUtil.getImageFromRelativePath(ROOT + SEP + "tiles" + SEP + "TILE_BACK.png"));
+        this.setIconImage(ResourceUtil.getBufferedImage("TILE_BACK.png", List.of("tiles")));
         this.setVisible(true);
 
         //TODO rimuovere
@@ -71,7 +69,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showStartView() {
-        this.setTitle("Caesena | Start menu");
+        this.setTitle(LocaleHelper.getViewTitle("StartView", true));
         this.startView = new StartView(this);
         this.pauseView = null;
         this.gameView = null;
@@ -85,7 +83,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void startGame() {
-        this.setTitle("Caesena | Playing a game");
+        this.setTitle(LocaleHelper.getViewTitle("GameView", true));
         this.startView = null;
         this.gameView = new GameView(this);
         this.pauseView = new PauseView(this);
@@ -118,7 +116,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showGameOverView() {
-        this.setTitle("Caesena | Game ended");
+        this.setTitle(LocaleHelper.getViewTitle("GameOverView", true));
         this.gameOverView = new GameOverView(this);
 
         this.gameView.setVisible(false);
@@ -130,12 +128,22 @@ public class GUI extends JFrame implements UserInterface {
         this.repaint();
     }
 
+
     public void showExitDialog() {
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
-            "Exit Caesena", JOptionPane.YES_NO_OPTION);
+        int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmExitText(),
+            LocaleHelper.getExitDialogTitle(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
             exit();
+        }
+    }
+
+    public void showBackToStartViewDialog() {
+        int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
+            LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
+    
+        if (result == JOptionPane.YES_OPTION) {
+            showStartView();
         }
     }
 
