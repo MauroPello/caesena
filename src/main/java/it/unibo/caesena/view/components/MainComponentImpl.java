@@ -44,8 +44,12 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     private void showSectionSelector(){
         this.removeAll();
+        this.getSectionSelector().draw();
         this.add(this.getSectionSelector().getComponent());
+        //TODO capire quale diamine serve
         this.validate();
+        this.revalidate();
+        this.repaint();
     }
 
     @Override

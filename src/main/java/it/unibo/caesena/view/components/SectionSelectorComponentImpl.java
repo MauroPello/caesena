@@ -18,7 +18,7 @@ import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.view.GameView;
 
 public class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
-    private final Tile currentTile;
+    private final GameView gameView;
     private final List<SectionButton> sectionButtons = new ArrayList<>();
 
     private class SectionButton extends JButton {
@@ -29,7 +29,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         public SectionButton(final TileSection section) {
             super();
             this.section = section;
-            if (currentTile.getGameSet(section).isMeepleFree() && !currentTile.getGameSet(section).isClosed()) {
+            Tile tile = gameView.getUserInterface().getController().getCurrentTile();
+            if (tile.getGameSet(section).isMeepleFree() && !tile.getGameSet(section).isClosed()) {
                 this.bgColor = Color.WHITE;
                 this.selected = false;
                 final String buttonLabel = getLabelFromSection(section);
@@ -83,10 +84,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     public SectionSelectorComponentImpl(GameView gameView) {
         super();
-        this.currentTile = gameView.getUserInterface().getController().getCurrentTile();
-        //this.setSize(dimension);
+        this.gameView = gameView;
         draw();
-        this.setVisible(true);
     }
 
     @Override
@@ -110,11 +109,11 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     @Override
-    protected void paintComponent(final Graphics g)
-    {
-        super.paintComponent(g);
-        final Image image = new TileImage(this.currentTile).getAsBufferedImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+    protected void paintComponent(final Graphics graphics) {
+        super.paintComponent(graphics);
+        Tile tile = this.gameView.getUserInterface().getController().getCurrentTile();
+        final Image image = new TileImage(tile).getAsBufferedImage();
+        graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
     }
 
     @Override
@@ -126,7 +125,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     private void drawSections() {
-        final JPanel container = new JPanel() {
+        JPanel container = new JPanel() {
             @Override
             public Dimension getPreferredSize() {
                 return getTotalSize();
@@ -209,7 +208,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     private String getLabelFromSection(final TileSection section) {
-        return String.valueOf(currentTile.getGameSet(section).getType().name().toCharArray()[0]);
+        Tile tile = this.gameView.getUserInterface().getController().getCurrentTile();
+        return String.valueOf(tile.getGameSet(section).getType().name().toCharArray()[0]);
     }
 
     private ActionListener getSectionButtonListener() {

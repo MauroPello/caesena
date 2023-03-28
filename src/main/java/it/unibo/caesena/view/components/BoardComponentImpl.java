@@ -32,12 +32,13 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public BoardComponentImpl(final GameView gameView) {
         this.gameView = gameView;
         this.allTileButtons = new HashMap<>();
+        this.setFirstTileButton();
         this.draw();
     }
 
+    //TODO mi fa cagare sto metodo
     private Optional<TileButton<JButton>> getCurrentlyPlacedTileButton() {
         Tile currentTile = this.gameView.getUserInterface().getController().getCurrentTile();
-
         return allTileButtons.keySet().stream()
             .filter(tb -> tb.containsTile())
             .filter(tb -> tb.getContainedTile().equals(currentTile))
@@ -49,12 +50,11 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return allTileButtons.get(tileButton);
     }
 
+    @Override
     public void draw() {
         this.removeAll();
-
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
         this.setLayout(new GridLayout(fieldSize, fieldSize));
-        updateTileButtonList();
         List<TileButton<JButton>> tileButtonsToBeDrawn = getTileButtonsToBeDrawn();
         for (TileButton<JButton> tileButton : tileButtonsToBeDrawn) {
             this.add(tileButton.getComponent());
@@ -75,7 +75,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
                 tileButtons.add(fieldCell);
             }
         }
-
         return tileButtons;
     }
 
@@ -83,12 +82,10 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return getTileButtonsToBeDrawn(this.horizontalOffset, this.verticalOffset, this.zoom);
     }
 
-    private void updateTileButtonList() {
-        List<Tile> placedTiles = gameView.getUserInterface().getController().getPlacedTiles();
-        for (Tile tile : placedTiles) {
-            TileButton<JButton> button = findTileButton(tile);
-            button.addTile(tile);
-        }
+    private void setFirstTileButton() {
+        Tile tile = gameView.getUserInterface().getController().getPlacedTiles().get(0);
+        TileButton<JButton> button = findTileButton(tile);
+        button.addTile(tile);
     }
 
     private TileButton<JButton> findTileButton(int horizontalCoordinate, int verticalCoordinate) {
@@ -109,7 +106,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return searchedTile;
     }
 
-    //TODO rifare
     private ActionListener getTileButtonActionListener() {
         return (e) -> {
             TileButtonImpl selectedTileButton = (TileButtonImpl)e.getSource();
