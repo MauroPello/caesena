@@ -24,7 +24,7 @@ public interface Meeple {
      * 
      * @param placed whether the meeple is placed or not.
      */
-    void setPlaced(final boolean placed);
+    void setPlaced(boolean placed);
 
     /**
      * 

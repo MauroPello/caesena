@@ -15,7 +15,7 @@ public interface Tile {
 
     boolean isPlaced();
 
-    boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet);
+    boolean isSectionNearToGameset(TileSection section, GameSet gameSet);
 
     void putSection(TileSection section, GameSet gameSet);
 

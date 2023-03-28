@@ -19,6 +19,9 @@ import it.unibo.caesena.model.Player;
 
 public class GameOverView extends JPanel implements View<JPanel> {
 
+    private static final int DEFAULT_SIZE = 20;
+    private static final int WIDTH = 30;
+    private static final int HEIGHT = 30;
     private final GUI userInterface;
     private final JPanel mainPanel;
     private final List<Player> players;
@@ -30,7 +33,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
         this.setBackground(Color.BLACK);
         this.setLayout(new GridBagLayout());
-        this.mainFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);
+        this.mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         this.players = userInterface.getController().getPlayers();
@@ -58,8 +61,8 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
             final var playerColorPanel = new JPanel();
             playerColorPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            playerColorPanel.setPreferredSize(new Dimension(30, 30));
-            playerColorPanel.setMinimumSize(new Dimension(30, 30));
+            playerColorPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+            playerColorPanel.setMinimumSize(new Dimension(WIDTH, HEIGHT));
             playerColorPanel.setBackground(userInterface.getPlayerColor(player));
 
             final JLabel volataileLabel = new JLabel();
@@ -90,13 +93,13 @@ public class GameOverView extends JPanel implements View<JPanel> {
     }
 
     @Override
-    public JPanel getComponent() {
+    public final JPanel getComponent() {
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public GUI getUserInterface() {
+    public final GUI getUserInterface() {
         return this.userInterface;
     }
 }
