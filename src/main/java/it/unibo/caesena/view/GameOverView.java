@@ -34,7 +34,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         this.players = userInterface.getController().getPlayers();
 
-        JPanel playersPanel = new JPanel();
+        final JPanel playersPanel = new JPanel();
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         final JLabel playersLabel = new JLabel("Game Over: ");
         playersLabel.setFont(mainFont);
@@ -53,22 +53,25 @@ public class GameOverView extends JPanel implements View<JPanel> {
         }
 
         for (final var player : queue) {
-            JLabel newLabel = new JLabel();
-            
-            var playerColorPanel = new JPanel();
+            final JPanel volatailePanel = new JPanel();
+            volatailePanel.setLayout(new BoxLayout(volatailePanel, BoxLayout.X_AXIS));
+            final JLabel volataileLabel = new JLabel();
+
+            final var playerColorPanel = new JPanel();
             playerColorPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            playerColorPanel.setPreferredSize(new Dimension(50,50));
-            playerColorPanel.setMinimumSize(new Dimension(50,50));
+            playerColorPanel.setPreferredSize(new Dimension(10, 10));
+            playerColorPanel.setMinimumSize(new Dimension(10, 10));
             playerColorPanel.setBackground(userInterface.getPlayerColor(player));
             playersPanel.add(playerColorPanel);
 
-            newLabel.setText("Nome: " + player.getName() + " Score: " + player.getScore());
-            newLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            playersPanel.add(newLabel);
+            volataileLabel.setText("Nome: " + player.getName() + " Score: " + player.getScore());
+            volataileLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            volatailePanel.add(volataileLabel);
+            playersPanel.add(volatailePanel);
         }
         this.mainPanel.add(playersPanel);
 
-        JPanel buttoPanel = new JPanel();
+        final JPanel buttoPanel = new JPanel();
         buttoPanel.setLayout(new BoxLayout(buttoPanel, BoxLayout.X_AXIS));
         final JButton returnToStart = new JButton("Return to start Game");
         returnToStart.addActionListener(e -> userInterface.showStartView());
