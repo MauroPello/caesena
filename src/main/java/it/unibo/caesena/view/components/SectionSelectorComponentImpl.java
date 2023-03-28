@@ -120,10 +120,17 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     @Override
     public void draw() {
+        this.sectionButtons.clear();
         this.removeAll();
         this.drawSections();
         this.validate();
         this.repaint();
+    }
+
+    @Override
+    public void undraw() {
+        this.sectionButtons.clear();
+        this.removeAll();
     }
 
     private void drawSections() {

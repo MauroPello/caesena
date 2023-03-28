@@ -10,5 +10,7 @@ public interface SectionSelectorComponent<X> {
 
     void draw();
 
+    void undraw();
+
     X getComponent();
 }

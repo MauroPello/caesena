@@ -36,6 +36,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     }
 
     private void showBoard(){
+        this.getSectionSelector().undraw();
         this.removeAll();
         this.getBoard().draw();
         this.add(this.getBoard().getComponent());
@@ -82,6 +83,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
             } else {
                 throw new IllegalStateException("Tried to add meeple but run out of them");
             }
+
         }
         if (!showingBoard) {
             toggleComponents();

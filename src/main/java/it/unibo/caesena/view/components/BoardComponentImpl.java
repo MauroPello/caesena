@@ -34,7 +34,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         this.draw();
     }
 
-    //TODO mi fa cagare sto metodo
     private Optional<TileButton<JButton>> getCurrentlyPlacedTileButton() {
         Tile currentTile = this.gameView.getUserInterface().getController().getCurrentTile();
         return allTileButtons.keySet().stream()
