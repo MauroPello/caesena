@@ -52,6 +52,17 @@ public class NormalMeeple implements Meeple {
      * {@inheritDoc}
      */
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((owner == null) ? 0 : owner.hashCode());
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
@@ -62,6 +73,7 @@ public class NormalMeeple implements Meeple {
         if (getClass() != obj.getClass()) {
             return false;
         }
+        
         final NormalMeeple other = (NormalMeeple) obj;
         return owner.equals(other.getOwner()) 
         && placed == other.isPlaced();

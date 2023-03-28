@@ -39,18 +39,29 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public boolean equals(final Object arg0) {
-        if (this == arg0) {
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + score;
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (arg0 == null) {
+        if (obj == null) {
             return false;
         }
-        if (getClass() != arg0.getClass()) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        final PlayerImpl otherPlayer = (PlayerImpl) arg0;
-        return otherPlayer.name == this.name;
+
+        final PlayerImpl other = (PlayerImpl) obj;
+        return name.equals(other.getName())
+            && score == other.score;
     }
 
     @Override

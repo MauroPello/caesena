@@ -78,8 +78,18 @@ public final class TileImpl implements Tile {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((currentPosition == null) ? 0 : currentPosition.hashCode());
+        result = prime * result + ((sections == null) ? 0 : sections.hashCode());
+        result = prime * result + rotationCount;
+        return result;
+    }
 
+    @Override
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -97,7 +107,9 @@ public final class TileImpl implements Tile {
             }
         }
 
-        return true;
+        return getRotationCount() == other.getRotationCount() 
+            && getTileType().equals(other.getTileType())
+            && getPosition().equals(other.getPosition());
     }
 
     @Override
