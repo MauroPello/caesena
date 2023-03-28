@@ -1,13 +1,13 @@
 package it.unibo.caesena.model;
 
-import it.unibo.caesena.utils.*;
+import it.unibo.caesena.utils.StringUtil;
 
-public class PlayerImpl implements Player{
+public class PlayerImpl implements Player {
 
     private final String name;
     private int score;
 
-    public PlayerImpl(String name) {
+    public PlayerImpl(final String name) {
         this.name = name;
         this.score = 0;
     }
@@ -23,7 +23,7 @@ public class PlayerImpl implements Player{
     }
 
     @Override
-    public void setScore(int newScore) {
+    public void setScore(final int newScore) {
         if (newScore < this.score) {
             throw new IllegalStateException("The new score is lower");
         }
@@ -31,7 +31,7 @@ public class PlayerImpl implements Player{
     }
 
     @Override
-    public void addScore(int amount) {
+    public void addScore(final int amount) {
         if (amount < 0) {
             throw new IllegalStateException("Amount is negative");
         }
@@ -39,17 +39,17 @@ public class PlayerImpl implements Player{
     }
 
     @Override
-    public boolean equals(Object arg0) {
+    public boolean equals(final Object arg0) {
         if (this == arg0) {
-			return true;
-		}
-		if (arg0 == null) {
-			return false;
-		}
-		if (getClass() != arg0.getClass()) {
-			return false;
-		}
-        PlayerImpl otherPlayer = (PlayerImpl) arg0;
+            return true;
+        }
+        if (arg0 == null) {
+            return false;
+        }
+        if (getClass() != arg0.getClass()) {
+            return false;
+        }
+        final PlayerImpl otherPlayer = (PlayerImpl) arg0;
         return otherPlayer.name == this.name;
     }
 

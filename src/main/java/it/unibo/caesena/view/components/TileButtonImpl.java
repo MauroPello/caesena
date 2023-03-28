@@ -11,7 +11,6 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.utils.ImageIconUtil;
 import it.unibo.caesena.utils.Pair;
 
 public class TileButtonImpl extends JButton implements TileButton {
@@ -114,9 +113,11 @@ public class TileButtonImpl extends JButton implements TileButton {
         if (this.placedMeeple.isPresent()) {
             Player owner = this.placedMeeple.get().getOwner();
             Meeple meeple = this.placedMeeple.get();
-            return !parentBoard.getGUI().getController().getNotPlacedPlayerMeeples(owner).contains(meeple);
+            if(parentBoard.getGUI().getController().getNotPlacedPlayerMeeples(owner).contains(meeple)) {
+                this.placedMeeple = Optional.empty();
+            }
         }
-        return false;
+        return placedMeeple.isPresent();
     }
 
     @Override
@@ -124,12 +125,11 @@ public class TileButtonImpl extends JButton implements TileButton {
     {
         super.paintComponent(g);
         if (this.containsTile()) {
+            TileImage tileImage = new TileImage(getContainedTile(), playerColor);
             if (this.containsMeeple())  {
-                g.drawImage(ImageIconUtil.getTileImageWithMeeple(this.playerColor, this), 0, 0, getWidth(), getHeight(), null);
-            } else {
-                g.drawImage(ImageIconUtil.getTileImage(this.getContainedTile()), 0, 0, getWidth(), getHeight(), null);
+                tileImage.addMeeple(this.placedMeeple.get(), getPlacedMeepleSection());
             }
-
+            g.drawImage(tileImage.getAsBufferedImage(), 0, 0, getWidth(), getHeight(), null);
         }
     }
 }

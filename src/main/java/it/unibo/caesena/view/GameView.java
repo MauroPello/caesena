@@ -2,6 +2,8 @@ package it.unibo.caesena.view;
 
 import javax.swing.*;
 import java.awt.*;
+
+import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.components.BoardComponent;
 import it.unibo.caesena.view.components.BoardComponentImpl;
@@ -69,20 +71,12 @@ public class GameView extends JPanel implements View<JPanel> {
         this.board.zoomOut();
     }
 
-    public void moveUp() {
-        this.board.moveUp();
+    public void move(Direction direction) {
+        this.board.move(direction);
     }
 
-    public void moveLeft() {
-        this.board.moveLeft();
-    }
-
-    public void moveDown() {
-        this.board.moveDown();
-    }
-
-    public void moveRight() {
-        this.board.moveRight();
+    public boolean canMove(Direction direction) {
+        return this.board.canMove(direction);
     }
 
     public void removePlacedTile() {

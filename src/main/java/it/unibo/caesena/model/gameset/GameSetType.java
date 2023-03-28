@@ -9,16 +9,17 @@ public enum GameSetType {
 
     private final int startingPoints;
     private final int endGameRatio;
-    GameSetType(final int startingPoints, final int endGameRatio){
+
+    GameSetType(final int startingPoints, final int endGameRatio) {
         this.startingPoints = startingPoints;
         this.endGameRatio = endGameRatio;
     }
 
-    public int getStartingPoints(){
+    public int getStartingPoints() {
         return this.startingPoints;
     }
 
-    public int getEndGameRatio(){
+    public int getEndGameRatio() {
         return this.endGameRatio;
     }
 }

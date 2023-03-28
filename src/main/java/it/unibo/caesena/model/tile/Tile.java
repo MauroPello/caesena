@@ -10,12 +10,10 @@ public interface Tile {
     public void rotateClockwise();
 
     public Optional<Pair<Integer, Integer>> getPosition();
-    
+
     public void setPosition(Pair<Integer, Integer> pos);
 
     public boolean isPlaced();
-
-    public String getImageResourcesPath();
 
     public boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet);
 

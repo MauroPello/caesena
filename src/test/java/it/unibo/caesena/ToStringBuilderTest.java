@@ -1,12 +1,12 @@
 package it.unibo.caesena;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-
 import it.unibo.caesena.model.PlayerImpl;
-import it.unibo.caesena.utils.*;
+import it.unibo.caesena.utils.StringUtil;
 
 final class ToStringBuilderTest {
 
@@ -22,10 +22,9 @@ final class ToStringBuilderTest {
         assertEquals(new StringUtil.ToStringBuilder().addFromObjectGetters(player).build(), player.toString());
     }
 
-
     @Test
     public void testAutomaticAddCoherence() {
-        String firstResult = player.toString();
+        final String firstResult = player.toString();
         for (int i = 0; i < 1000; i++) {
             assertEquals(firstResult, player.toString());
         }
@@ -35,7 +34,7 @@ final class ToStringBuilderTest {
     public void testAutomaticAddCoherenceWithCustomElement() {
         var builder = new StringUtil.ToStringBuilder().addFromObjectGetters(player);
         builder.add("Prova aggiunta", "Ciao");
-        String firstResult = builder.build();
+        final String firstResult = builder.build();
         for (int i = 0; i < 1000; i++) {
             builder = new StringUtil.ToStringBuilder().addFromObjectGetters(player);
             builder.add("Prova aggiunta", "Ciao");

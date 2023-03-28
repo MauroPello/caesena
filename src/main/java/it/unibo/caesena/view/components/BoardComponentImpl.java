@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
@@ -17,15 +18,15 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     private final static int DEFAULT_ZOOM_LEVEL = 5;
     private final GUI gui;
     private final Set<TileButton> allTileButtons;
-    private JPanel currentTileButtonsContainer;
-    private int currentFieldSize = DEFAULT_ZOOM_LEVEL;
-    private int currentZoom = 0;
-    private int currentHorizontalOffset = 0;
-    private int currentVerticalOffset = 0;
+    private JPanel tileButtonsContainer;
+    private int fieldSize = DEFAULT_ZOOM_LEVEL;
+    private int zoom = 0;
+    private int horizontalOffset = 0;
+    private int verticalOffset = 0;
     private boolean showBoard = true;
-    private Optional<SectionSelectorComponent> currentOverlayedTile = Optional.empty();
+    private Optional<SectionSelectorComponent> overlayedTile = Optional.empty();
     //TODO rimuovi questo, basta usare uno stream su alltilebuttons
-    private Optional<TileButton> currentTileButtonPlaced = Optional.empty();
+    private Optional<TileButton> tileButtonPlaced = Optional.empty();
 
     public BoardComponentImpl(final GameView gameView) {
         this.gui = gameView.getUserInterface();
@@ -46,24 +47,24 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
 
     public void drawBoard() {
-        currentOverlayedTile = Optional.empty();
+        overlayedTile = Optional.empty();
         this.removeAll();
-        this.currentTileButtonsContainer = getSquareJPanel();
-        int minimum = this.currentZoom - DEFAULT_ZOOM_LEVEL/2;
-        int maximum = DEFAULT_ZOOM_LEVEL - currentZoom - DEFAULT_ZOOM_LEVEL/2;
-        this.currentFieldSize = DEFAULT_ZOOM_LEVEL - (currentZoom * 2);
-        this.currentTileButtonsContainer.setLayout(new GridLayout(this.currentFieldSize, this.currentFieldSize));
+        this.tileButtonsContainer = getSquareJPanel();
+        int minimum = this.zoom - DEFAULT_ZOOM_LEVEL/2;
+        int maximum = DEFAULT_ZOOM_LEVEL - zoom - DEFAULT_ZOOM_LEVEL/2;
+        this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
+        this.tileButtonsContainer.setLayout(new GridLayout(this.fieldSize, this.fieldSize));
         updateTileButtonList();
         for (int i = minimum; i < maximum; i++) {
             for (int j = minimum; j < maximum; j++) {
-                int horizontalCoordinate = currentHorizontalOffset + j;
-                int verticalCoordinate = currentVerticalOffset + i;
+                int horizontalCoordinate = horizontalOffset + j;
+                int verticalCoordinate = verticalOffset + i;
                 TileButton fieldCell = findTileButton(horizontalCoordinate, verticalCoordinate);
                 //TODO cast forse un po' bruttino, capiamo come fare
-                currentTileButtonsContainer.add((TileButtonImpl)fieldCell);
+                tileButtonsContainer.add((TileButtonImpl)fieldCell);
             }
         }
-        this.add(currentTileButtonsContainer);
+        this.add(tileButtonsContainer);
         this.repaint();
         this.validate();
     }
@@ -113,7 +114,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public void zoomIn() {
         if (canZoomIn()) {
-            currentZoom++;
+            zoom++;
             drawBoard();
             repaint();
         }
@@ -125,7 +126,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public void zoomOut() {
         if(canZoomOut()) {
-            currentZoom--;
+            zoom--;
             drawBoard();
             repaint();
         } else {
@@ -134,46 +135,28 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     @Override
-    public void moveUp() {
-        if(canMoveUp()) {
-            currentVerticalOffset--;
+    public void move(Direction direction) {
+        if(canMove(direction)) {
+            switch(direction) {
+                case DOWN:
+                    verticalOffset++;
+                    break;
+                case LEFT:
+                    horizontalOffset--;
+                    break;
+                case RIGHT:
+                    horizontalOffset++;
+                    break;
+                case UP:
+                    verticalOffset--;
+                    break;
+                default:
+                    break;
+            }
             drawBoard();
             repaint();
         } else {
             throw new IllegalStateException("Tried to move up but was not allowed");
-        }
-    }
-
-    @Override
-    public void moveDown() {
-        if(canMoveUp()) {
-            currentVerticalOffset++;
-            drawBoard();
-            repaint();
-        } else {
-            throw new IllegalStateException("Tried to move down but was not allowed");
-        }
-    }
-
-    @Override
-    public void moveLeft() {
-        if(canMoveUp()) {
-            currentHorizontalOffset--;
-            drawBoard();
-            repaint();
-        } else {
-            throw new IllegalStateException("Tried to move laft but was not allowed");
-        }
-    }
-
-    @Override
-    public void moveRight() {
-        if(canMoveUp()) {
-            currentHorizontalOffset++;
-            drawBoard();
-            repaint();
-        } else {
-            throw new IllegalStateException("Tried to move laft but was not allowed");
         }
     }
 
@@ -188,22 +171,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     @Override
-    public boolean canMoveUp() {
-        return true;
-    }
-
-    @Override
-    public boolean canMoveDown() {
-        return true;
-    }
-
-    @Override
-    public boolean canMoveLeft() {
-        return true;
-    }
-
-    @Override
-    public boolean canMoveRight() {
+    public boolean canMove(Direction Direction) {
         return true;
     }
 
@@ -214,18 +182,18 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public void lockTile() {
-        currentTileButtonPlaced.get().lockTile();
+        tileButtonPlaced.get().lockTile();
     }
 
     @Override
     public TileButton getCurrentlySelectedTileButton() {
-        return currentTileButtonPlaced.get();
+        return tileButtonPlaced.get();
     }
 
     private void drawOverlayedTile() {
         this.removeAll();
-        var overlayedTile = new SectionSelectorComponentImpl(this.gui.getController().getCurrentTile(), this.currentTileButtonsContainer.getSize());
-        this.currentOverlayedTile = Optional.of(overlayedTile);
+        var overlayedTile = new SectionSelectorComponentImpl(this.gui.getController().getCurrentTile(), this.tileButtonsContainer.getSize());
+        this.overlayedTile = Optional.of(overlayedTile);
         this.add(overlayedTile);
         this.validate();
         this.repaint();
@@ -233,13 +201,13 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public void endTurn() {
-        if (this.currentOverlayedTile.isPresent() && currentOverlayedTile.get().isSectionSelected()) {
-            var section = this.currentOverlayedTile.get().getSelectedSection();
+        if (this.overlayedTile.isPresent() && overlayedTile.get().isSectionSelected()) {
+            var section = this.overlayedTile.get().getSelectedSection();
             var currentPlayer = this.gui.getController().getCurrentPlayer();
             List<Meeple> meeples = this.gui.getController().getNotPlacedPlayerMeeples(currentPlayer);
             if (!meeples.isEmpty()) {
                 if (this.gui.getController().placeMeeple(meeples.get(0), section)) {
-                    this.currentTileButtonPlaced.get().addMeeple(meeples.get(0), section);
+                    this.tileButtonPlaced.get().addMeeple(meeples.get(0), section);
                 } else {
                     throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
                 }
@@ -250,7 +218,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         if (!showBoard) {
             toggleBoardContent();
         }
-        this.currentTileButtonPlaced = Optional.empty();
+        this.tileButtonPlaced = Optional.empty();
         updateComponents();
     }
 
@@ -263,18 +231,18 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public TileButton getPlacedTileButton() {
-        return currentTileButtonPlaced.orElseThrow(()->new IllegalStateException("Tried to get placed TileButton but wasn't placed"));
+        return tileButtonPlaced.orElseThrow(()->new IllegalStateException("Tried to get placed TileButton but wasn't placed"));
     }
 
     @Override
     public boolean isTileButtonPlaced() {
-        return currentTileButtonPlaced.isPresent();
+        return tileButtonPlaced.isPresent();
     }
 
     @Override
     public void setPlacedTileButton(TileButton tileButton) {
-        if (!this.currentTileButtonPlaced.isPresent() || !this.currentTileButtonPlaced.get().isLocked()) {
-            this.currentTileButtonPlaced = Optional.of(tileButton);
+        if (!this.tileButtonPlaced.isPresent() || !this.tileButtonPlaced.get().isLocked()) {
+            this.tileButtonPlaced = Optional.of(tileButton);
         }
     }
 
@@ -290,9 +258,9 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public void removePlacedTile() {
-        if (!this.currentTileButtonPlaced.isEmpty()) {
-            this.currentTileButtonPlaced.get().removeTile();
-            this.currentTileButtonPlaced = Optional.empty();
+        if (!this.tileButtonPlaced.isEmpty()) {
+            this.tileButtonPlaced.get().removeTile();
+            this.tileButtonPlaced = Optional.empty();
             updateComponents();
         }
     }

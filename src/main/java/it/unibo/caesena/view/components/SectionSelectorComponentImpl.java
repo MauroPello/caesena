@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.utils.ImageIconUtil;
 
 public class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent {
     private final Tile currentTile;
@@ -113,7 +112,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     protected void paintComponent(final Graphics g)
     {
         super.paintComponent(g);
-        final Image image = ImageIconUtil.getTileImage(this.currentTile);
+        final Image image = new TileImage(this.currentTile).getAsBufferedImage();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
     }
 

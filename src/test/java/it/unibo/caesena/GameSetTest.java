@@ -17,8 +17,8 @@ import it.unibo.caesena.model.meeple.NormalMeeple;
 
 final class GameSetTest {
 
-    private static GameSetFactory gamesetFactory;    
-    private static GameSet gamesetCity;    
+    private static GameSetFactory gamesetFactory;
+    private static GameSet gamesetCity;
     private static GameSet gamesetCity2;
     private static GameSet gamesetField;
     private static Meeple meeple;
@@ -28,20 +28,20 @@ final class GameSetTest {
         gamesetFactory = new GameSetFactoryImpl();
         gamesetCity = gamesetFactory.createCitySet();
         gamesetCity2 = gamesetFactory.createCitySet();
-        gamesetField =  gamesetFactory.createFieldSet();
+        gamesetField = gamesetFactory.createFieldSet();
 
         meeple = new NormalMeeple(new PlayerImpl("Giocatore1"));
     }
 
     @Test
-    public void testCreateJoinedSet () {
+    public void testCreateJoinedSet() {
         assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetField, gamesetCity));
-        
+
         assertEquals(gamesetCity.getType(), gamesetFactory.createJoinedSet(gamesetCity, gamesetCity2).getType());
     }
 
     @Test
-    public void testMeeple () {
+    public void testMeeple() {
         assertTrue(gamesetField.isMeepleFree());
 
         assertTrue(gamesetField.addMeeple(meeple));

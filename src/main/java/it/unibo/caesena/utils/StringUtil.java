@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 public class StringUtil {
 
-    public static String capitalize(String string) {
-        char[] charArray = string.toLowerCase().toCharArray();
+    public static String capitalize(final String string) {
+        final char[] charArray = string.toLowerCase().toCharArray();
         charArray[0] = Character.toUpperCase(charArray[0]);
         return String.valueOf(charArray);
     }
@@ -28,22 +28,22 @@ public class StringUtil {
             if (value != null) {
                 actualValue = value.toString();
             }
-            
+
             elements.add(new Pair<>(StringUtil.capitalize(field), actualValue));
             return this;
         }
 
-        private String getNameFromMethod(Method method) {
-            String name = method.getName().replace("get", ToStringBuilder.EMPTY_STRING);
+        private String getNameFromMethod(final Method method) {
+            final String name = method.getName().replace("get", ToStringBuilder.EMPTY_STRING);
             return splitCamelCase(name).stream().filter(w -> !w.isEmpty())
-                .collect(Collectors.joining(ToStringBuilder.SPACE_STRING));
+                    .collect(Collectors.joining(ToStringBuilder.SPACE_STRING));
         }
 
-        private List<String> splitCamelCase(String name) {
-            List<String> result = new ArrayList<>();
+        private List<String> splitCamelCase(final String name) {
+            final List<String> result = new ArrayList<>();
             String currentString = ToStringBuilder.EMPTY_STRING;
-            char[] charArray = name.toCharArray();
-            for (char c : charArray) {
+            final char[] charArray = name.toCharArray();
+            for (final char c : charArray) {
                 if (!(result.isEmpty() && currentString.isEmpty()) && Character.isUpperCase(c)) {
                     result.add(result.isEmpty() ? currentString : currentString.toLowerCase());
                     currentString = ToStringBuilder.EMPTY_STRING;
@@ -54,18 +54,17 @@ public class StringUtil {
             return result;
         }
 
-        private boolean isGetter(Method method) {
+        private boolean isGetter(final Method method) {
             return method.getName().contains("get") && !method.getName().equals("getClass");
         }
 
-        public ToStringBuilder addFromObjectGetters(Object obj)
-        {
-            for (Method method : obj.getClass().getMethods()) {
+        public ToStringBuilder addFromObjectGetters(final Object obj) {
+            for (final Method method : obj.getClass().getMethods()) {
                 if (isGetter(method) && !hasArguments(method)) {
-                    String name = getNameFromMethod(method);
+                    final String name = getNameFromMethod(method);
                     try {
                         this.add(name, method.invoke(obj).toString());
-                    } catch (Exception e) { 
+                    } catch (final Exception e) {
                         this.add(name, NULL_STRING);
                     }
                 }
@@ -73,21 +72,18 @@ public class StringUtil {
             return this;
         }
 
-        private boolean hasArguments(Method method) {
+        private boolean hasArguments(final Method method) {
             return method.getParameterCount() != 0;
         }
 
-        public String build()
-        {
+        public String build() {
             elements.sort((p1, p2) -> p1.getX().compareTo(p2.getX()));
 
             return "[" + elements.stream()
-                .map(p -> p.getX() + ": " + p.getY())
-                .collect(Collectors.joining(", ")) + "]";
+                    .map(p -> p.getX() + ": " + p.getY())
+                    .collect(Collectors.joining(", ")) + "]";
         }
 
     }
 
-
 }
-

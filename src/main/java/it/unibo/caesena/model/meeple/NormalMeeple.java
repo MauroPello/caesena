@@ -1,7 +1,7 @@
 package it.unibo.caesena.model.meeple;
 
 import it.unibo.caesena.model.Player;
-import it.unibo.caesena.utils.*;
+import it.unibo.caesena.utils.StringUtil;
 
 public class NormalMeeple implements Meeple {
 
@@ -54,17 +54,17 @@ public class NormalMeeple implements Meeple {
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		NormalMeeple other = (NormalMeeple) obj;
-		return owner.equals(other.getOwner()) &&
-            placed == other.isPlaced();
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final NormalMeeple other = (NormalMeeple) obj;
+        return owner.equals(other.getOwner()) &&
+                placed == other.isPlaced();
     }
 
     @Override
