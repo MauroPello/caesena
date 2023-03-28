@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StringUtil {
+public final class StringUtil {
 
     public static String capitalize(final String string) {
         final char[] charArray = string.toLowerCase().toCharArray();
@@ -14,9 +14,9 @@ public class StringUtil {
     }
 
     public static class ToStringBuilder {
-        private final static String NULL_STRING = "null";
-        private final static String EMPTY_STRING = "";
-        private final static String SPACE_STRING = " ";
+        private static final String NULL_STRING = "null";
+        private static final String EMPTY_STRING = "";
+        private static final String SPACE_STRING = " ";
         private final List<Pair<String, String>> elements;
 
         public ToStringBuilder() {

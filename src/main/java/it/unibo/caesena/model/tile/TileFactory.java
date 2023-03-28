@@ -2,53 +2,53 @@ package it.unibo.caesena.model.tile;
 
 public interface TileFactory {
 
-    public Tile createCityEdge();
+    Tile createCityEdge();
 
-    public Tile createCityEdgeRoad();
+    Tile createCityEdgeRoad();
 
-    public Tile createCityLarge();
+    Tile createCityLarge();
 
-    public Tile createCityLargeRoad();
+    Tile createCityLargeRoad();
 
-    public Tile createCity();
+    Tile createCity();
 
-    public Tile createCitySideDoubleNext();
+    Tile createCitySideDoubleNext();
 
-    public Tile createCitySideDouble();
+    Tile createCitySideDouble();
 
-    public Tile createCitySideJunction();
+    Tile createCitySideJunction();
 
-    public Tile createCitySide();
+    Tile createCitySide();
 
-    public Tile createCitySideRoad();
+    Tile createCitySideRoad();
 
-    public Tile createCitySideTurnLeft();
+    Tile createCitySideTurnLeft();
 
-    public Tile createCitySideTurnRight();
+    Tile createCitySideTurnRight();
 
-    public Tile createCityTube();
+    Tile createCityTube();
 
-    public Tile createMonastery();
+    Tile createMonastery();
 
-    public Tile createMonasteryRoad();
+    Tile createMonasteryRoad();
 
-    public Tile createRoadJunctionLarge();
+    Tile createRoadJunctionLarge();
 
-    public Tile createRoadJunctionSmall();
+    Tile createRoadJunctionSmall();
 
-    public Tile createRoadStraight();
+    Tile createRoadStraight();
 
-    public Tile createRoadTurn();
+    Tile createRoadTurn();
 
-    public Tile createCityEdgePennant();
+    Tile createCityEdgePennant();
 
-    public Tile createCityEdgeRoadPennant();
+    Tile createCityEdgeRoadPennant();
 
-    public Tile createCityLargePennant();
+    Tile createCityLargePennant();
 
-    public Tile createCityLargeRoadPennant();
+    Tile createCityLargeRoadPennant();
 
-    public Tile createCityPennant();
+    Tile createCityPennant();
 
-    public Tile createCityTubePennant();
+    Tile createCityTubePennant();
 }

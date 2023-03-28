@@ -2,7 +2,7 @@ package it.unibo.caesena.model;
 
 import it.unibo.caesena.utils.StringUtil;
 
-public class PlayerImpl implements Player {
+public final class PlayerImpl implements Player {
 
     private final String name;
     private int score;

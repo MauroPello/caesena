@@ -3,7 +3,7 @@ package it.unibo.caesena.model.meeple;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.StringUtil;
 
-public class NormalMeeple implements Meeple {
+public final class NormalMeeple implements Meeple {
 
     private static final int STRENGTH = 1;
     private final Player owner;

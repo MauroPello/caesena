@@ -7,25 +7,25 @@ import it.unibo.caesena.utils.Pair;
 
 public interface Tile {
 
-    public void rotateClockwise();
+    void rotateClockwise();
 
-    public Optional<Pair<Integer, Integer>> getPosition();
+    Optional<Pair<Integer, Integer>> getPosition();
 
-    public void setPosition(Pair<Integer, Integer> pos);
+    void setPosition(Pair<Integer, Integer> pos);
 
-    public boolean isPlaced();
+    boolean isPlaced();
 
-    public boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet);
+    boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet);
 
-    public void putSection(TileSection section, GameSet gameSet);
+    void putSection(TileSection section, GameSet gameSet);
 
-    public GameSet getGameSet(TileSection section);
+    GameSet getGameSet(TileSection section);
 
-    public void closeSection(TileSection section);
+    void closeSection(TileSection section);
 
-    public boolean isSectionClosed(TileSection section);
+    boolean isSectionClosed(TileSection section);
 
-    public int getRotationCount();
+    int getRotationCount();
 
-    public TileType getTileType();
+    TileType getTileType();
 }

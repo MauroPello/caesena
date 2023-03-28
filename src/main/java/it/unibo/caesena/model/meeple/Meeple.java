@@ -4,12 +4,12 @@ import it.unibo.caesena.model.Player;
 
 public interface Meeple {
 
-    public int getStrength();
+    int getStrength();
 
-    public Player getOwner();
+    Player getOwner();
 
-    public void setPlaced(final boolean placed);
+    void setPlaced(final boolean placed);
 
-    public boolean isPlaced();
+    boolean isPlaced();
 
 }

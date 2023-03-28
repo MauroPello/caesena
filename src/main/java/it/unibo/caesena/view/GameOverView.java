@@ -70,15 +70,15 @@ public class GameOverView extends JPanel implements View<JPanel> {
         }
         this.mainPanel.add(playersPanel);
 
-        JPanel buttonPanel = new JPanel();
+        final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
-        JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
+        final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
         backToStartMenuButton.addActionListener(e -> userInterface.showBackToStartViewDialog());
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(backToStartMenuButton);
 
-        JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
+        final JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
         exitButton.addActionListener(e -> userInterface.showExitDialog());
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(exitButton);
