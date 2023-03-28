@@ -8,15 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
-import it.unibo.caesena.utils.ImageUtil;
+import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
     // TODO rimuovere
@@ -24,8 +24,6 @@ public class GUI extends JFrame implements UserInterface {
     private static boolean DEBUG_GAME_VIEW = true;
     private static boolean DEBUG_GAME_OVER_VIEW = false;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
-    private static final String SEP = File.separator;
-    private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP;
     private Controller controller;
     private View<JPanel> startView;
     private View<JPanel> gameView;
@@ -54,7 +52,7 @@ public class GUI extends JFrame implements UserInterface {
         this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
 
-        this.setIconImage(ImageUtil.getImageFromRelativePath(ROOT + "tiles" + SEP + "TILE_BACK.png"));
+        this.setIconImage(ResourceUtil.getBufferedImage("TILE_BACK.png", List.of("tiles")));
         this.setVisible(true);
 
         //TODO rimuovere

@@ -4,15 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.utils.ImageUtil;
 import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.utils.ResourceUtil;
 import net.coobird.thumbnailator.Thumbnails;
 
 public class TileImage {
@@ -33,13 +33,10 @@ public class TileImage {
         this.color = Color.BLACK;
     }
 
-    private static final String SEP = File.separator;
-    private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP;
-
     public BufferedImage getAsBufferedImage() {
         BufferedImage image = null;
         try {
-            image = ImageUtil.getImageFromRelativePath(ROOT + "tiles" + SEP + tile.getTileType() + ".png");
+            image = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png", List.of("tiles"));
             image = Thumbnails.of(image).size(image.getWidth(), image.getHeight()).rotate(90*tile.getRotationCount()).asBufferedImage();
             if (meeple.isPresent()) {
                 image = getTileImageWithMeeple(image);               
@@ -74,7 +71,7 @@ public class TileImage {
         if (this.meeple.isPresent()) {
             int meepleSize = (int)((double)image.getHeight(null)/5);
             int scaling = Image.SCALE_SMOOTH;
-            BufferedImage meepleImage = setColorForAllPixels(ImageUtil.getImageFromRelativePath(ROOT + "meeple" + SEP + "meepleBlank.png"));
+            BufferedImage meepleImage = setColorForAllPixels(ResourceUtil.getBufferedImage( "meepleBlank.png", List.of("meeple")));
             Image scaledMeepleImage = meepleImage.getScaledInstance(meepleSize, meepleSize, scaling);
             Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null)-scaledMeepleImage.getHeight(null));
             finalGraphics.drawImage(scaledMeepleImage, meeplePosition.getX(), meeplePosition.getY(), null);

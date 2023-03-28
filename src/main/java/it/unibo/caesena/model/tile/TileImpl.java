@@ -1,6 +1,5 @@
 package it.unibo.caesena.model.tile;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -11,9 +10,6 @@ import it.unibo.caesena.utils.StringUtil;
 
 public class TileImpl implements Tile {
 
-    private static final String SEP = File.separator;
-    private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP + "images" + SEP + "tiles" + SEP;
-    private static final String IMAGE_FORMAT = "png";
     private static final Integer MAX_ROTATIONS = 4;
 
     private final TileType type;
@@ -58,11 +54,6 @@ public class TileImpl implements Tile {
     @Override
     public boolean isPlaced() {
         return this.currentPosition.isPresent();
-    }
-
-    @Override
-    public String getImageResourcesPath() {
-        return ROOT + this.type.name() + "." + IMAGE_FORMAT;
     }
 
     @Override
