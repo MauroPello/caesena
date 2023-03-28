@@ -6,9 +6,14 @@ import java.util.ResourceBundle;
 public class LocaleHelper {
 
     private static final String BUNDLE_NAME = "it.unibo.caesena.displayTexts";
-    
+    private static Locale currentLocale = Locale.getDefault();
+
     public static ResourceBundle getResourceBundle() {
-        return ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault());
+        return ResourceBundle.getBundle(BUNDLE_NAME, currentLocale);
+    }
+
+    public static void setLocale(final Locale locale) {
+        currentLocale = locale;
     }
 
     public static String getApplicationName() {
