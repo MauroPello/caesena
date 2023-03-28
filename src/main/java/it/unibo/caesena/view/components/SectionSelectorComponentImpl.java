@@ -128,7 +128,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     @Override
-    public void undraw() {
+    public void reset() {
         this.sectionButtons.clear();
         this.removeAll();
     }
