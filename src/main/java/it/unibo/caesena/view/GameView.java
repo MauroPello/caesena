@@ -1,7 +1,9 @@
 package it.unibo.caesena.view;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -20,7 +22,7 @@ public class GameView extends JPanel implements View<JPanel> {
     private FooterComponent<JPanel> footer;
     private SideBarComponent<JPanel> sidebar;
 
-    public GameView(GUI userInterface) {
+    public GameView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
 
@@ -34,7 +36,7 @@ public class GameView extends JPanel implements View<JPanel> {
         this.add(footer.getComponent(), BorderLayout.SOUTH);
     }
 
-    public void updateHUD() {
+    public final void updateHUD() {
         this.footer.updateFooter();
         this.sidebar.update();
     }
@@ -90,13 +92,13 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     @Override
-    public JPanel getComponent() {
+    public final JPanel getComponent() {
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public GUI getUserInterface() {
+    public final GUI getUserInterface() {
         return this.userInterface;
     }
 }

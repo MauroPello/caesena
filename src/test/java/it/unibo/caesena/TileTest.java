@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.File;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -21,13 +20,11 @@ final class TileTest {
 
     private static Tile tile;
     private static Pair<Integer, Integer> position;
-    static String SEP;
 
     @BeforeAll
     public static void init() {
         tile = new TileFactoryWithBuilder().createCityEdge();
         position = new Pair<>(1, 1);
-        SEP = File.separator;
     }
 
     @Test
@@ -58,7 +55,7 @@ final class TileTest {
     }
 
     @Test
-    public void TestSectionClose() {
+    public void testSectionClose() {
         final var section = TileSection.UP_CENTER;
         tile.closeSection(section);
         assertTrue(tile.isSectionClosed(section));
@@ -67,13 +64,13 @@ final class TileTest {
     }
 
     @Test
-    public void TestOppositeSection() {
+    public void testOppositeSection() {
         final TileSection section = TileSection.DOWN_LEFT;
         assertEquals(TileSection.UP_LEFT, TileSection.getOpposite(section));
     }
 
     @Test
-    public void TestSectionShift() {
+    public void testSectionShift() {
         TileSection section = TileSection.UP_LEFT;
         assertEquals(TileSection.LEFT_UP, TileSection.previous(section));
         section = TileSection.LEFT_UP;

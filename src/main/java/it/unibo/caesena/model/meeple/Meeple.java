@@ -11,25 +11,25 @@ public interface Meeple {
      * 
      * @return The meeple strength.
      */
-    public int getStrength();
+    int getStrength();
 
     /**
      * 
      * @return The player that owns the meeple.
      */
-    public Player getOwner();
+    Player getOwner();
 
     /**
      * Set the meeple as placed or not.
      * 
      * @param placed whether the meeple is placed or not.
      */
-    public void setPlaced(final boolean placed);
+    void setPlaced(boolean placed);
 
     /**
      * 
      * @return True if the meeple is placed, or else false.
      */
-    public boolean isPlaced();
+    boolean isPlaced();
 
 }

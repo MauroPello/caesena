@@ -6,8 +6,8 @@ public enum Direction {
     DOWN(0, 1),
     LEFT(-1, 0);
 
-    int x;
-    int y;
+    private int x;
+    private int y;
 
     Direction(final int x, final int y) {
         this.x = x;
@@ -22,8 +22,9 @@ public enum Direction {
         return this.y;
     }
 
-    public static boolean match(final Direction direction, final Pair<Integer, Integer> p1, final Pair<Integer, Integer> p2) {
-        return p1.getX() + direction.getX() == p2.getX() &&
-                p1.getY() + direction.getY() == p2.getY();
+    public static boolean match(final Direction direction, final Pair<Integer, Integer> p1,
+            final Pair<Integer, Integer> p2) {
+        return p1.getX() + direction.getX() == p2.getX()
+                && p1.getY() + direction.getY() == p2.getY();
     }
 }

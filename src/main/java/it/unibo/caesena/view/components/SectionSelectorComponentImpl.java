@@ -64,7 +64,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             this.validate();
         }
 
-        public TileSection getSection(){
+        public TileSection getSection() {
             return section;
         }
 
@@ -76,8 +76,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         @Override
         public Dimension getPreferredSize() {
             final Dimension d = super.getPreferredSize();
-            final int s = (int)(d.getWidth()<d.getHeight() ? d.getHeight() : d.getWidth());
-            return new Dimension (s,s);
+            final int s = (int) (d.getWidth() < d.getHeight() ? d.getHeight() : d.getWidth());
+            return new Dimension(s, s);
         }
     }
 
@@ -89,14 +89,16 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     @Override
-    public TileSection getSelectedSection() {
+    public final TileSection getSelectedSection() {
         return sectionButtons.stream()
-            .filter(x -> x.isSelected())
-            .findFirst().orElseThrow(() -> new IllegalStateException("Tried to access selected section, but none was")).getSection();
+                .filter(x -> x.isSelected())
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Tried to access selected section, but none was"))
+                .getSection();
     }
 
     @Override
-    public Dimension getPreferredSize() {
+    public final Dimension getPreferredSize() {
         final Dimension d = this.getParent().getSize();
         int newSize = d.width > d.height ? d.height : d.width;
         newSize = newSize == 0 ? 100 : newSize;
@@ -104,7 +106,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     @Override
-    public Boolean isSectionSelected() {
+    public final Boolean isSectionSelected() {
         return sectionButtons.stream().anyMatch(x -> x.isSelected());
     }
 
@@ -143,7 +145,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     private void createButton(final JPanel container, final TileSection section) {
         int x = 0;
         int y = 0;
-        switch (section){
+        switch (section) {
             case CENTER:
                 x = 2;
                 y = 2;
@@ -214,10 +216,10 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     private ActionListener getSectionButtonListener() {
         return (e) -> {
-            final SectionButton newSectionButton = (SectionButton)e.getSource();
+            final SectionButton newSectionButton = (SectionButton) e.getSource();
             final Boolean wasSelected = newSectionButton.isSelected();
             sectionButtons.stream().forEach(x -> x.deselect());
-            if(!wasSelected) {
+            if (!wasSelected) {
                 newSectionButton.select();
             }
         };

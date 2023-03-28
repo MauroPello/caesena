@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StringUtil {
+public final class StringUtil {
+
+    private StringUtil() {
+
+    }
 
     public static String capitalize(final String string) {
         final char[] charArray = string.toLowerCase().toCharArray();
@@ -14,16 +18,16 @@ public class StringUtil {
     }
 
     public static class ToStringBuilder {
-        private final static String NULL_STRING = "null";
-        private final static String EMPTY_STRING = "";
-        private final static String SPACE_STRING = " ";
+        private static final String NULL_STRING = "null";
+        private static final String EMPTY_STRING = "";
+        private static final String SPACE_STRING = " ";
         private final List<Pair<String, String>> elements;
 
         public ToStringBuilder() {
             this.elements = new ArrayList<>();
         }
 
-        public ToStringBuilder add(final String field, final Object value) {
+        public final ToStringBuilder add(final String field, final Object value) {
             String actualValue = NULL_STRING;
             if (value != null) {
                 actualValue = value.toString();
@@ -58,7 +62,7 @@ public class StringUtil {
             return method.getName().contains("get") && !method.getName().equals("getClass");
         }
 
-        public ToStringBuilder addFromObjectGetters(final Object obj) {
+        public final ToStringBuilder addFromObjectGetters(final Object obj) {
             for (final Method method : obj.getClass().getMethods()) {
                 if (isGetter(method) && !hasArguments(method)) {
                     final String name = getNameFromMethod(method);
@@ -76,7 +80,7 @@ public class StringUtil {
             return method.getParameterCount() != 0;
         }
 
-        public String build() {
+        public final String build() {
             elements.sort((p1, p2) -> p1.getX().compareTo(p2.getX()));
 
             return "[" + elements.stream()

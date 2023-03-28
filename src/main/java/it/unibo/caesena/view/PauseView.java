@@ -1,7 +1,7 @@
 package it.unibo.caesena.view;
 
-import java.awt.Component;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 
@@ -13,39 +13,44 @@ import javax.swing.JPanel;
 public class PauseView extends JPanel implements View<JPanel> {
 
     private final GUI userInterface;
+    private static final int RED = 255;
+    private static final int GREEN = 255;
+    private static final int BLUE = 255;
+    private static final int DEFAULT_SIZE = 20;
+    private static final int A = 80;
 
     public PauseView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
-        
+
         this.setLayout(new GridBagLayout());
-        this.setBackground(new Color(255, 255, 255, 80));
-        
-        Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);
-        
-        JPanel mainPanel = new JPanel();
+        this.setBackground(new Color(RED, GREEN, BLUE, A));
+
+        final Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);
+
+        final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        JLabel titleLbl = new JLabel(LocaleHelper.getViewTitle("PauseView", false));
+        final JLabel titleLbl = new JLabel(LocaleHelper.getViewTitle("PauseView", false));
         titleLbl.setFont(mainFont);
         titleLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(titleLbl);
 
-        JButton resumeGameButton = new JButton(LocaleHelper.getResumeGameText());
+        final JButton resumeGameButton = new JButton(LocaleHelper.getResumeGameText());
         resumeGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resumeGameButton.addActionListener((e) -> {
-            userInterface.togglePauseView();            
+            userInterface.togglePauseView();
         });
         mainPanel.add(resumeGameButton);
 
-        JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
+        final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backToStartMenuButton.addActionListener((e) -> {
             userInterface.showBackToStartViewDialog();
         });
         mainPanel.add(backToStartMenuButton);
 
-        JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
+        final JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.addActionListener((e) -> {
             userInterface.showExitDialog();
@@ -56,13 +61,13 @@ public class PauseView extends JPanel implements View<JPanel> {
     }
 
     @Override
-    public JPanel getComponent() {
+    public final JPanel getComponent() {
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public GUI getUserInterface() {
+    public final GUI getUserInterface() {
         return this.userInterface;
     }
 }

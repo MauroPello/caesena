@@ -25,8 +25,8 @@ final class PlayerTest {
         player.setScore(10);
         assertEquals(10, player.getScore());
         player.addScore(10);
-        assertEquals(20, player.getScore());
-        assertThrows(IllegalStateException.class, () -> player.addScore(-10));
+        assertEquals(10 + 10, player.getScore());
+        assertThrows(IllegalStateException.class, () -> player.addScore(-1 * 10));
         assertThrows(IllegalStateException.class, () -> player.setScore(10));
     }
 }

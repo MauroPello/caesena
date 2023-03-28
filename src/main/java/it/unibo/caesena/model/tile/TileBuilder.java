@@ -6,7 +6,7 @@ import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactory;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 
-public class TileBuilder {
+public final class TileBuilder {
 
     private final GameSetFactory factory;
     private final Tile tile;

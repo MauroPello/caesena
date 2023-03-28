@@ -1,16 +1,16 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 import java.util.Map;
-import java.awt.*;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;

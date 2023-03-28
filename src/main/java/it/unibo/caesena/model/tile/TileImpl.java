@@ -8,7 +8,7 @@ import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
-public class TileImpl implements Tile {
+public final class TileImpl implements Tile {
 
     private static final Integer MAX_ROTATIONS = 4;
 
@@ -73,13 +73,23 @@ public class TileImpl implements Tile {
     }
 
     public boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet) {
-        return getGameSet(TileSection.next(section)).equals(gameSet) ||
-                getGameSet(TileSection.previous(section)).equals(gameSet);
+        return getGameSet(TileSection.next(section)).equals(gameSet) 
+        || getGameSet(TileSection.previous(section)).equals(gameSet);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((currentPosition == null) ? 0 : currentPosition.hashCode());
+        result = prime * result + ((sections == null) ? 0 : sections.hashCode());
+        result = prime * result + rotationCount;
+        return result;
     }
 
     @Override
     public boolean equals(final Object obj) {
-
         if (this == obj) {
             return true;
         }
@@ -97,7 +107,9 @@ public class TileImpl implements Tile {
             }
         }
 
-        return true;
+        return getRotationCount() == other.getRotationCount() 
+            && getTileType().equals(other.getTileType())
+            && getPosition().equals(other.getPosition());
     }
 
     @Override

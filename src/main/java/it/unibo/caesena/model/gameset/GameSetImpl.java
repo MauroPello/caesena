@@ -9,7 +9,7 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.StringUtil;
 
-public class GameSetImpl implements GameSet {
+public final class GameSetImpl implements GameSet {
 
     private final GameSetType type;
     private final List<Meeple> meeples;
@@ -29,7 +29,7 @@ public class GameSetImpl implements GameSet {
         if (!isMeepleFree()) {
             return false;
         }
-        
+
         meeple.setPlaced(true);
         this.meeples.add(meeple);
         return true;
@@ -55,16 +55,17 @@ public class GameSetImpl implements GameSet {
                 if (!playerMeepleStrength.containsKey(currentPlayer)) {
                     playerMeepleStrength.put(currentPlayer, 0);
                 }
-                playerMeepleStrength.put(currentPlayer, playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
+                playerMeepleStrength.put(currentPlayer,
+                        playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
 
             }
 
             final int maxMeepleStrength = playerMeepleStrength.values().stream()
-                .mapToInt(x -> x).max().getAsInt();
+                    .mapToInt(x -> x).max().getAsInt();
 
             playerMeepleStrength.entrySet().stream()
-                .filter(e -> e.getValue().equals(maxMeepleStrength))
-                .forEach(e -> e.getKey().addScore(this.getPoints()));
+                    .filter(e -> e.getValue().equals(maxMeepleStrength))
+                    .forEach(e -> e.getKey().addScore(this.getPoints()));
         }
 
         this.closed = true;
@@ -104,10 +105,21 @@ public class GameSetImpl implements GameSet {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((meeples == null) ? 0 : meeples.hashCode());
+        result = prime * result + points;
+        return result;
+    }
+
+    @Override
     public boolean equals(final Object obj) {
         return this == obj;
     }
 
+    @Override
     public List<Meeple> getMeeples() {
         return this.meeples;
     }
