@@ -47,5 +47,4 @@ final class NormalMeepleTest {
         meeple.setPlaced(false);
         assertFalse(meeple.isPlaced());
     }
-
 }
