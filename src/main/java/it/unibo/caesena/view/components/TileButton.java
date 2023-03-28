@@ -3,15 +3,10 @@ package it.unibo.caesena.view.components;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.utils.Pair;
 
-public interface TileButton {
-
-    Pair<Integer, Integer> getPosition();
+public interface TileButton<X> {
 
     void addTile(Tile tile);
-
-    void lockTile();
 
     boolean isLocked();
 
@@ -28,5 +23,7 @@ public interface TileButton {
     boolean containsTile();
 
     boolean containsMeeple();
+
+    X getComponent();
 
 }

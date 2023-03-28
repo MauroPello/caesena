@@ -1,7 +1,9 @@
 package it.unibo.caesena.view.components;
 
+import javax.swing.JButton;
+
 import it.unibo.caesena.utils.Direction;
-import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.utils.Pair;
 
 public interface BoardComponent<X> {
 
@@ -11,31 +13,21 @@ public interface BoardComponent<X> {
 
     void move(Direction direction);
 
-    void lockTile();
-
-    void endTurn();
-
     boolean canZoomIn();
 
     boolean canZoomOut();
 
     boolean canMove(Direction Direction);
 
-    void updateComponents();
+    void draw();
 
     void removePlacedTile();
-
-    TileButton getCurrentlySelectedTileButton();
-
-    GUI getGUI();
-
+    //TODO controlla se servono
     boolean isTileButtonPlaced();
 
-    TileButton getPlacedTileButton();
+    TileButton<JButton> getPlacedTileButton();
 
-    void setPlacedTileButton(TileButton tileButton);
-
-    void toggleBoardContent();
+    Pair<Integer, Integer> getTileButtonPosition(TileButton<JButton> tileButton);
 
     X getComponent();
 }

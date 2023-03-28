@@ -5,17 +5,18 @@ import java.awt.*;
 
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
-import it.unibo.caesena.view.components.BoardComponent;
-import it.unibo.caesena.view.components.BoardComponentImpl;
 import it.unibo.caesena.view.components.FooterComponent;
 import it.unibo.caesena.view.components.FooterComponentImpl;
+import it.unibo.caesena.view.components.MainComponent;
+import it.unibo.caesena.view.components.MainComponentImpl;
 import it.unibo.caesena.view.components.SideBarComponent;
 import it.unibo.caesena.view.components.SideBarComponentImpl;
+import it.unibo.caesena.view.components.TileButton;
 
 public class GameView extends JPanel implements View<JPanel> {
 
     private final GUI userInterface;
-    private BoardComponent<JPanel> board;
+    private MainComponent<JPanel> mainComponent;
     private FooterComponent<JPanel> footer;
     private SideBarComponent<JPanel> sidebar;
 
@@ -24,12 +25,12 @@ public class GameView extends JPanel implements View<JPanel> {
         this.userInterface = userInterface;
 
         this.userInterface.getController().startGame();
-        this.board = new BoardComponentImpl(this);
+        this.mainComponent = new MainComponentImpl(this);
         this.setLayout(new BorderLayout());
         this.footer = new FooterComponentImpl(this);
         this.sidebar = new SideBarComponentImpl(this);
         this.add(sidebar.getComponent(), BorderLayout.EAST);
-        this.add(board.getComponent(), BorderLayout.CENTER);
+        this.add(mainComponent.getComponent(), BorderLayout.CENTER);
         this.add(footer.getComponent(), BorderLayout.SOUTH);
     }
 
@@ -39,14 +40,14 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public void placeMeeple() {
-        board.toggleBoardContent();
+        mainComponent.getBoard().draw();
         updateHUD();
     }
 
     public boolean placeTile() {
-        Pair<Integer, Integer> position = board.getCurrentlySelectedTileButton().getPosition();
+        TileButton<JButton> placeTileButton = mainComponent.getBoard().getPlacedTileButton();
+        Pair<Integer, Integer> position = mainComponent.getBoard().getTileButtonPosition(placeTileButton);
         if (this.userInterface.getController().placeCurrentTile(position)) {
-            this.board.lockTile();
             updateHUD();
             return true;
         }
@@ -54,7 +55,7 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public void endTurn() {
-        this.board.endTurn();
+        this.mainComponent.endTurn();
         this.userInterface.getController().endTurn();
         if (this.userInterface.getController().isGameOver()) {
             userInterface.showGameOverView();
@@ -64,27 +65,28 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public void zoomIn() {
-        this.board.zoomIn();
+        this.mainComponent.getBoard().zoomIn();
     }
 
     public void zoomOut() {
-        this.board.zoomOut();
+        this.mainComponent.getBoard().zoomOut();
     }
 
     public void move(Direction direction) {
-        this.board.move(direction);
+        this.mainComponent.getBoard().move(direction);
     }
 
     public boolean canMove(Direction direction) {
-        return this.board.canMove(direction);
+        return this.mainComponent.getBoard().canMove(direction);
     }
 
     public void removePlacedTile() {
-        this.board.removePlacedTile();
+        this.mainComponent.getBoard().removePlacedTile();
     }
 
     public void updateComponents() {
-        this.board.updateComponents();
+        this.mainComponent.getBoard().draw();
+        this.mainComponent.getBoard().draw();
     }
 
     @Override

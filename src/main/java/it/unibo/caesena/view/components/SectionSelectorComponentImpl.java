@@ -16,8 +16,9 @@ import javax.swing.JPanel;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.ImageIconUtil;
+import it.unibo.caesena.view.GameView;
 
-public class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent {
+public class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
     private final Tile currentTile;
     private final List<SectionButton> sectionButtons = new ArrayList<>();
 
@@ -81,11 +82,11 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
 
-    public SectionSelectorComponentImpl(final Tile tile, final Dimension dimension) {
+    public SectionSelectorComponentImpl(GameView gameView) {
         super();
-        this.currentTile = tile;
-        this.setSize(dimension);
-        redraw();
+        this.currentTile = gameView.getUserInterface().getController().getCurrentTile();
+        //this.setSize(dimension);
+        draw();
         this.setVisible(true);
     }
 
@@ -117,7 +118,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
     }
 
-    private void redraw() {
+    @Override
+    public void draw() {
         this.removeAll();
         this.drawSections();
         this.validate();
@@ -224,5 +226,11 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     private Dimension getTotalSize() {
         return this.getSize();
+    }
+
+    @Override
+    public JPanel getComponent() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getComponent'");
     }
 }
