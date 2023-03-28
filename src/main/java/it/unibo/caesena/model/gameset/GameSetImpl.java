@@ -26,12 +26,13 @@ public class GameSetImpl implements GameSet {
 
     @Override
     public boolean addMeeple(final Meeple meeple) {
-        if (isMeepleFree() && meeple.placeOnTile()) {
-            this.meeples.add(meeple);
-            return true;
+        if (!isMeepleFree()) {
+            return false;
         }
-
-        return false;
+        
+        meeple.setPlaced(true);
+        this.meeples.add(meeple);
+        return true;
     }
 
     @Override
@@ -67,7 +68,7 @@ public class GameSetImpl implements GameSet {
         }
 
         this.closed = true;
-        meeples.forEach(Meeple::removeFromTile);
+        meeples.forEach(m -> m.setPlaced(false));
         return true;
 
     }

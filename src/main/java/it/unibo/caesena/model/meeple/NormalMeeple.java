@@ -26,24 +26,8 @@ public class NormalMeeple implements Meeple {
         return this.owner;
     }
 
-    @Override
-    public boolean placeOnTile() {
-        if (isPlaced()) {
-            return false;
-        }
-
-        this.placed = true;
-        return true;
-    }
-
-    @Override
-    public boolean removeFromTile() {
-        if (!isPlaced()) {
-            return false;
-        }
-
-        this.placed = false;
-        return true;
+    public void setPlaced(final boolean placed) {
+        this.placed = placed;
     }
 
     @Override

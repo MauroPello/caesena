@@ -40,11 +40,11 @@ final class NormalMeepleTest {
     @Test
     public void testPlace() {
         assertFalse(meeple.isPlaced());
-        assertTrue(meeple.placeOnTile());
+        meeple.setPlaced(true);
 
         assertTrue(meeple.isPlaced());
 
-        assertTrue(meeple.removeFromTile());
+        meeple.setPlaced(false);
         assertFalse(meeple.isPlaced());
     }
 
