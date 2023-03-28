@@ -33,12 +33,11 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         this.gameView = gameView;
         this.allTileButtons = new HashMap<>();
         this.draw();
-        //TODO rimuovere
-        this.setBackground(Color.CYAN);
     }
 
-    private Optional<TileButton<JButton>> getCurrentlyUsedTileButton() {
+    private Optional<TileButton<JButton>> getCurrentlyPlacedTileButton() {
         Tile currentTile = this.gameView.getUserInterface().getController().getCurrentTile();
+
         return allTileButtons.keySet().stream()
             .filter(tb -> tb.containsTile())
             .filter(tb -> tb.getContainedTile().equals(currentTile))
@@ -52,11 +51,9 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     public void draw() {
         this.removeAll();
-        //this.tileButtonsContainer = getSquareJPanel();
         int minimum = this.zoom - DEFAULT_ZOOM_LEVEL/2;
         int maximum = DEFAULT_ZOOM_LEVEL - zoom - DEFAULT_ZOOM_LEVEL/2;
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
-        //this.tileButtonsContainer.setLayout(new GridLayout(this.fieldSize, this.fieldSize));
         updateTileButtonList();
         for (int i = minimum; i < maximum; i++) {
             for (int j = minimum; j < maximum; j++) {
@@ -66,7 +63,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
                 this.add(fieldCell.getComponent());
             }
         }
-        //this.add(tileButtonsContainer);
         this.repaint();
         this.validate();
     }
@@ -87,7 +83,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             .map(x -> x.getKey())
             .findFirst();
         if (searchedTileOptional.isEmpty()) {
-            searchedTile = new TileButtonImpl(getTileButtonActionListener(), this);
+            searchedTile = new TileButtonImpl(getTileButtonActionListener());
             allTileButtons.put(searchedTile, coordinates);
         } else {
             searchedTile = searchedTileOptional.get();
@@ -100,16 +96,18 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return (e) -> {
             TileButtonImpl selectedTileButton = (TileButtonImpl)e.getSource();
             Controller controller = this.gameView.getUserInterface().getController();
-            if (controller.isValidPositionForCurrentTile(this.allTileButtons.get(selectedTileButton))) {
-                if (this.isTileButtonPlaced()){
-                    TileButton<JButton> lastTileButtonPlaced = this.getCurrentlyUsedTileButton().get();
-                    if (!lastTileButtonPlaced.isLocked()) {
-                        lastTileButtonPlaced.removeTile();
+            if(getCurrentlyPlacedTileButton().isEmpty() || !getCurrentlyPlacedTileButton().get().isLocked()) {
+                if (controller.isValidPositionForCurrentTile(this.allTileButtons.get(selectedTileButton))) {
+                    if (this.isTileButtonPlaced()){
+                        TileButton<JButton> lastTileButtonPlaced = this.getCurrentlyPlacedTileButton().get();
+                        if (!lastTileButtonPlaced.isLocked()) {
+                            lastTileButtonPlaced.removeTile();
+                        }
                     }
+                    this.add(selectedTileButton);
+                    selectedTileButton.addTile(controller.getCurrentTile());
+                    this.draw();
                 }
-                this.add(selectedTileButton);
-                selectedTileButton.addTile(controller.getCurrentTile());
-                this.draw();
             }
         };
     }
@@ -198,18 +196,18 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public TileButton<JButton> getPlacedTileButton() {
-        return getCurrentlyUsedTileButton().orElseThrow(()->new IllegalStateException("Tried to get placed TileButton but wasn't placed"));
+        return getCurrentlyPlacedTileButton().orElseThrow(()->new IllegalStateException("Tried to get placed TileButton but wasn't placed"));
     }
 
     @Override
     public boolean isTileButtonPlaced() {
-        return getCurrentlyUsedTileButton().isPresent();
+        return getCurrentlyPlacedTileButton().isPresent();
     }
 
     @Override
     public void removePlacedTile() {
-        if (!this.getCurrentlyUsedTileButton().isEmpty()) {
-            this.getCurrentlyUsedTileButton().get().removeTile();
+        if (!this.getCurrentlyPlacedTileButton().isEmpty()) {
+            this.getCurrentlyPlacedTileButton().get().removeTile();
         }
         //TODO vedere se questi refresh dovrebbe farli questo componente o un componente esterno
         draw();

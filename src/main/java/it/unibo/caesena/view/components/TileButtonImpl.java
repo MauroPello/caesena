@@ -5,22 +5,19 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
-    private final BoardComponent<JPanel> parentBoard;
     private Optional<Tile> containedTile;
     private Optional<Meeple> placedMeeple;
     private Optional<TileSection> placedMeepleSection;
     private Color playerColor;
 
-    public TileButtonImpl(ActionListener onClickActionListener, BoardComponent<JPanel> parentBoard) {
+    public TileButtonImpl(ActionListener onClickActionListener) {
         super();
-        this.parentBoard = parentBoard;
         this.containedTile = Optional.empty();
         this.placedMeeple = Optional.empty();
         this.addActionListener(onClickActionListener);
@@ -78,7 +75,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
             if (this.containsMeeple())  {
                 tileImage.addMeeple(this.placedMeeple.get(), getPlacedMeepleSection());
             }
-
+            g.drawImage(tileImage.getAsBufferedImage(), 0, 0, this.getWidth(), this.getHeight(), null);
         }
     }
 

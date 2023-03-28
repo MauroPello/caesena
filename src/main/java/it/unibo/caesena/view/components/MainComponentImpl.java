@@ -60,6 +60,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     @Override
     public void endTurn() {
+
         // if (this.overlayedTile.isPresent() && overlayedTile.get().isSectionSelected()) {
         //     var section = this.overlayedTile.get().getSelectedSection();
         //     var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();

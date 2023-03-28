@@ -21,8 +21,8 @@ import it.unibo.caesena.utils.ResourceUtil;
 public class GUI extends JFrame implements UserInterface {
     // TODO rimuovere
     // RAGA È SOLO PER DEBUG, SE ATTIVO UNO DISATTIVATE GLI ALTRI!!
-    private static boolean DEBUG_GAME_VIEW = false;
-    private static boolean DEBUG_GAME_OVER_VIEW = true;
+    private static boolean DEBUG_GAME_VIEW = true;
+    private static boolean DEBUG_GAME_OVER_VIEW = false;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
     private Controller controller;
     private View<JPanel> startView;
@@ -45,9 +45,9 @@ public class GUI extends JFrame implements UserInterface {
         });
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setMinimumSize(new Dimension(Math.round(screenSize.width * MINIMUM_SIZE_RATIO), 
+        this.setMinimumSize(new Dimension(Math.round(screenSize.width * MINIMUM_SIZE_RATIO),
             Math.round(screenSize.height * MINIMUM_SIZE_RATIO)));
-        
+
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
@@ -141,7 +141,7 @@ public class GUI extends JFrame implements UserInterface {
     public void showBackToStartViewDialog() {
         int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
             LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
-    
+
         if (result == JOptionPane.YES_OPTION) {
             showStartView();
         }
