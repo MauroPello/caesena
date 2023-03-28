@@ -83,7 +83,9 @@ public final class TileImpl implements Tile {
         int result = 1;
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((currentPosition == null) ? 0 : currentPosition.hashCode());
-        result = prime * result + ((sections == null) ? 0 : sections.hashCode());
+        for (final TileSection section : TileSection.values()) {
+            result = prime * result + (getGameSet(section).hashCode());
+        }
         result = prime * result + rotationCount;
         return result;
     }

@@ -56,6 +56,7 @@ public class NormalMeeple implements Meeple {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((owner == null) ? 0 : owner.hashCode());
+        result = prime * result + (placed ? 1 : 0);
         return result;
     }
 
@@ -76,7 +77,7 @@ public class NormalMeeple implements Meeple {
         
         final NormalMeeple other = (NormalMeeple) obj;
         return owner.equals(other.getOwner()) 
-        && placed == other.isPlaced();
+            && placed == other.isPlaced();
     }
 
     /**
