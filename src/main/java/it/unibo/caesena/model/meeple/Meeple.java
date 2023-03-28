@@ -9,9 +9,9 @@ public interface Meeple {
     public Player getOwner();
 
     public boolean placeOnTile();
-    
+
     public boolean removeFromTile();
-    
+
     public boolean isPlaced();
-    
+
 }

@@ -33,15 +33,15 @@ public enum TileType {
 
     public Tile createTile(final TileFactory tileFactory) {
         String methodName = "create";
-        String[] words = this.name().split("_");
-        for (String word : words) {
+        final String[] words = this.name().split("_");
+        for (final String word : words) {
             methodName += StringUtil.capitalize(word);
         }
 
         try {
-            Method method = TileFactory.class.getMethod(methodName);
+            final Method method = TileFactory.class.getMethod(methodName);
             return (Tile) method.invoke(tileFactory);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new IllegalStateException("Error using reflection, devs fault");
         }
     }

@@ -1,15 +1,15 @@
 package it.unibo.caesena;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import it.unibo.caesena.model.meeple.NormalMeeple;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.PlayerImpl;
+import it.unibo.caesena.model.meeple.NormalMeeple;
 
 final class NormalMeepleTest {
 
@@ -43,7 +43,7 @@ final class NormalMeepleTest {
         assertTrue(meeple.placeOnTile());
 
         assertTrue(meeple.isPlaced());
-        
+
         assertTrue(meeple.removeFromTile());
         assertFalse(meeple.isPlaced());
     }

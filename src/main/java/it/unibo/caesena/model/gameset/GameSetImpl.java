@@ -9,15 +9,15 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.StringUtil;
 
-public class GameSetImpl implements GameSet{
+public class GameSetImpl implements GameSet {
 
     private final GameSetType type;
     private final List<Meeple> meeples;
-    
+
     private int points;
     private boolean closed;
 
-    public GameSetImpl (final GameSetType type) {
+    public GameSetImpl(final GameSetType type) {
         this.type = type;
         this.points = type.getStartingPoints();
         this.meeples = new ArrayList<>();
@@ -46,24 +46,24 @@ public class GameSetImpl implements GameSet{
         }
 
         if (!this.isMeepleFree()) {
-            Map<Player, Integer> playerMeeples = new HashMap<>();
+            final Map<Player, Integer> playerMeeples = new HashMap<>();
 
-            for (Meeple playerMeeple : meeples) {
-                Player currentPlayer = playerMeeple.getOwner();
+            for (final Meeple playerMeeple : meeples) {
+                final Player currentPlayer = playerMeeple.getOwner();
 
                 if (!playerMeeples.containsKey(currentPlayer)) {
                     playerMeeples.put(currentPlayer, 0);
                 }
-                playerMeeples.put(currentPlayer, playerMeeples.get(currentPlayer)+1);
+                playerMeeples.put(currentPlayer, playerMeeples.get(currentPlayer) + 1);
 
             }
 
-            int maxValueMeeple = playerMeeples.values().stream().mapToInt(x -> x)
-                .max().getAsInt();
+            final int maxValueMeeple = playerMeeples.values().stream().mapToInt(x -> x)
+                    .max().getAsInt();
 
             playerMeeples.entrySet().stream()
-                .filter(e -> e.getValue().equals(maxValueMeeple))
-                .forEach(e -> e.getKey().addScore(points));
+                    .filter(e -> e.getValue().equals(maxValueMeeple))
+                    .forEach(e -> e.getKey().addScore(points));
         }
 
         this.closed = true;
@@ -72,10 +72,10 @@ public class GameSetImpl implements GameSet{
 
     }
 
-	@Override
-	public GameSetType getType() {
-		return this.type;
-	}
+    @Override
+    public GameSetType getType() {
+        return this.type;
+    }
 
     @Override
     public String toString() {
@@ -103,11 +103,11 @@ public class GameSetImpl implements GameSet{
     }
 
     @Override
-    public boolean equals (final Object obj) {
+    public boolean equals(final Object obj) {
         return this == obj;
     }
 
-    public List<Meeple> getMeeples () {
+    public List<Meeple> getMeeples() {
         return this.meeples;
     }
 

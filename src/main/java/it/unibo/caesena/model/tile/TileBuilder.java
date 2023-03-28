@@ -7,7 +7,7 @@ import it.unibo.caesena.model.gameset.GameSetFactory;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 
 public class TileBuilder {
-    
+
     private final GameSetFactory factory;
     private final Tile tile;
 
@@ -38,7 +38,7 @@ public class TileBuilder {
     }
 
     public TileBuilder junction(final List<TileSection> sections) {
-        GameSet junctionGameSet = this.factory.createJunctionSet();
+        final GameSet junctionGameSet = this.factory.createJunctionSet();
         junctionGameSet.close();
         applySet(sections, junctionGameSet);
         return this;

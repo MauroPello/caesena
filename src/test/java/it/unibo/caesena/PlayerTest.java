@@ -2,8 +2,8 @@ package it.unibo.caesena;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.PlayerImpl;
 
@@ -13,9 +13,9 @@ final class PlayerTest {
     @Test
     public void testGetters() {
         player = new PlayerImpl("Giocatore1");
-        String name = player.getName();
+        final String name = player.getName();
         assertEquals("Giocatore1", name);
-        int score = player.getScore();
+        final int score = player.getScore();
         assertEquals(0, score);
     }
 

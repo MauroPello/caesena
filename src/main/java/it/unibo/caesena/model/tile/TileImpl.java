@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.utils.*;
+import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.utils.StringUtil;
 
 public class TileImpl implements Tile {
 
@@ -33,7 +34,7 @@ public class TileImpl implements Tile {
     public void rotateClockwise() {
         final Map<TileSection, Pair<GameSet, Boolean>> rotateSections = new HashMap<>();
 
-        for (var entry : this.sections.entrySet()) {
+        for (final var entry : this.sections.entrySet()) {
             rotateSections.put(TileSection.rotateClockwise(entry.getKey()), entry.getValue());
         }
 
@@ -41,8 +42,7 @@ public class TileImpl implements Tile {
         this.sections = rotateSections;
     }
 
-    
-    /** 
+    /**
      * @return Optional<Pair<Integer, Integer>>
      */
     @Override
@@ -86,26 +86,25 @@ public class TileImpl implements Tile {
 
     public boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet) {
         return getGameSet(TileSection.next(section)).equals(gameSet) ||
-            getGameSet(TileSection.previous(section)).equals(gameSet);
+                getGameSet(TileSection.previous(section)).equals(gameSet);
     }
 
     @Override
     public boolean equals(final Object obj) {
 
         if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
-		Tile other = (Tile) obj;
-        for (TileSection section : TileSection.values()) {
-            if (!this.getGameSet(section).equals(other.getGameSet(section)))
-            {
+        final Tile other = (Tile) obj;
+        for (final TileSection section : TileSection.values()) {
+            if (!this.getGameSet(section).equals(other.getGameSet(section))) {
                 return false;
             }
         }
@@ -124,7 +123,7 @@ public class TileImpl implements Tile {
     }
 
     @Override
-    public boolean isSectionClosed(TileSection section) {
+    public boolean isSectionClosed(final TileSection section) {
         return this.sections.get(section).getY();
     }
 

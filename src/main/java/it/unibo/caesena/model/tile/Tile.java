@@ -10,7 +10,7 @@ public interface Tile {
     public void rotateClockwise();
 
     public Optional<Pair<Integer, Integer>> getPosition();
-    
+
     public void setPosition(Pair<Integer, Integer> pos);
 
     public boolean isPlaced();
