@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import it.unibo.caesena.utils.ImageIconUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
 
@@ -145,7 +144,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentTile() {
-        Image rotatedPreviewTile = ImageIconUtil.getTileImage(userInterface.getController().getCurrentTile());
+        Image rotatedPreviewTile = new TileImage(userInterface.getController().getCurrentTile()).getAsBufferedImage();
         tileImageLabel.setIcon(new ImageIcon(rotatedPreviewTile.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
     }
 

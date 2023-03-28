@@ -16,7 +16,7 @@ import javax.swing.*;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
-import it.unibo.caesena.utils.ImageIconUtil;
+import it.unibo.caesena.utils.ImageUtil;
 
 public class GUI extends JFrame implements UserInterface {
     // TODO rimuovere
@@ -54,7 +54,7 @@ public class GUI extends JFrame implements UserInterface {
         this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
 
-        this.setIconImage(ImageIconUtil.getImageFromRelativePath(ROOT + SEP + "tiles" + SEP + "TILE_BACK.png"));
+        this.setIconImage(ImageUtil.getImageFromRelativePath(ROOT + "tiles" + SEP + "TILE_BACK.png"));
         this.setVisible(true);
 
         //TODO rimuovere
