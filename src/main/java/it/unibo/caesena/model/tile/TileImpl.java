@@ -73,8 +73,8 @@ public final class TileImpl implements Tile {
     }
 
     public boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet) {
-        return getGameSet(TileSection.next(section)).equals(gameSet) ||
-                getGameSet(TileSection.previous(section)).equals(gameSet);
+        return getGameSet(TileSection.next(section)).equals(gameSet) 
+        || getGameSet(TileSection.previous(section)).equals(gameSet);
     }
 
     @Override

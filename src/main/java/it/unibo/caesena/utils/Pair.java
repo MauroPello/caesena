@@ -6,7 +6,6 @@ package it.unibo.caesena.utils;
  */
 
 public final class Pair<X, Y> {
-
 	private final X x;
 	private final Y y;
 
@@ -47,14 +46,16 @@ public final class Pair<X, Y> {
 		}
 		final Pair other = (Pair) obj;
 		if (x == null) {
-			if (other.x != null)
+			if (other.x != null) {
 				return false;
+			}
 		} else if (!x.equals(other.x)) {
 			return false;
 		}
 		if (y == null) {
-			if (other.y != null)
+			if (other.y != null) {
 				return false;
+			}
 		} else if (!y.equals(other.y)) {
 			return false;
 		}

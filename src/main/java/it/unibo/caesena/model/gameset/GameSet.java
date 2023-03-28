@@ -18,7 +18,7 @@ public interface GameSet {
 
     int getPoints();
 
-    void setPoints(final int points);
+    void setPoints(int points);
 
     void addPoints(int points);
 

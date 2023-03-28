@@ -33,13 +33,13 @@ public enum TileSection {
         }
 
         int index = Math.floorMod(section.ordinal() + offset, values().length);
-        if (offset > 0 && (values()[index].equals(TileSection.CENTER) ||
-                (section.ordinal() < TileSection.CENTER.ordinal()
+        if (offset > 0 && (values()[index].equals(TileSection.CENTER) 
+        || (section.ordinal() < TileSection.CENTER.ordinal()
                         && section.ordinal() + offset >= TileSection.CENTER.ordinal()))) {
             index = Math.floorMod(index + 1, values().length);
         }
-        if (offset < 0 && (values()[index].equals(TileSection.CENTER) ||
-                (section.ordinal() > TileSection.CENTER.ordinal()
+        if (offset < 0 && (values()[index].equals(TileSection.CENTER) 
+        || (section.ordinal() > TileSection.CENTER.ordinal()
                         && section.ordinal() + offset <= TileSection.CENTER.ordinal()))) {
             index = Math.floorMod(index - 1, values().length);
         }
@@ -60,6 +60,7 @@ public enum TileSection {
                     return shiftAroundBorders(section, OFFSET_2);
                 case 2:
                     return shiftAroundBorders(section, OFFSET_3);
+                default:
             }
         } else {
             switch (section.ordinal() % 3) {
@@ -69,6 +70,7 @@ public enum TileSection {
                     return shiftAroundBorders(section, OFFSET_5);
                 case 2:
                     return shiftAroundBorders(section, OFFSET_4);
+                default: 
             }
         }
 

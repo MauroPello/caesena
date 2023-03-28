@@ -119,8 +119,8 @@ public final class ControllerImpl implements Controller {
 
         for (final var tile : getPlacedTiles()) {
             if ((tile.getPosition().get().getX() >= position.getX() - 1
-                    && tile.getPosition().get().getY() >= position.getY() - 1) &&
-                    (tile.getPosition().get().getX() <= position.getX() + 1
+                    && tile.getPosition().get().getY() >= position.getY() - 1) 
+                    && (tile.getPosition().get().getX() <= position.getX() + 1
                             && tile.getPosition().get().getY() <= position.getY() + 1)) {
                 final GameSet centerGameset = tile.getGameSet(TileSection.CENTER);
                 if (centerGameset.getType().equals(GameSetType.MONASTERY) && !centerGameset.isMeepleFree()) {
@@ -147,8 +147,8 @@ public final class ControllerImpl implements Controller {
             int nearMonasteryTilesNum = 0;
             for (final var nearTile : getPlacedTiles()) {
                 if ((nearTile.getPosition().get().getX() >= position.getX() - 1
-                        && nearTile.getPosition().get().getY() >= position.getY() - 1) &&
-                        (nearTile.getPosition().get().getX() <= position.getX() + 1
+                        && nearTile.getPosition().get().getY() >= position.getY() - 1) 
+                        && (nearTile.getPosition().get().getX() <= position.getX() + 1
                                 && nearTile.getPosition().get().getY() <= position.getY() + 1)
                         &&
                         !nearTile.getPosition().get().equals(position)) {
@@ -292,8 +292,8 @@ public final class ControllerImpl implements Controller {
                     for (final var tileSection : TileSection.values()) {
                         final GameSet fieldGameSet = tile.getGameSet(tileSection);
 
-                        if (fieldGameSet.getType().equals(GameSetType.FIELD) &&
-                                tile.isSectionNearToGameset(tileSection, cityGameSet)) {
+                        if (fieldGameSet.getType().equals(GameSetType.FIELD) 
+                        && tile.isSectionNearToGameset(tileSection, cityGameSet)) {
                             fieldsNearCity.add(fieldGameSet);
                         }
                     }

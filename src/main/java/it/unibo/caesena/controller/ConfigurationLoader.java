@@ -18,7 +18,7 @@ public class ConfigurationLoader {
 
     private final List<Tile> tiles = new ArrayList<>();
 
-    public List<Tile> read(final String fileName) {
+    public final List<Tile> read(final String fileName) {
 
         try {
             final Object fileJson = new JSONParser()

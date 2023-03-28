@@ -63,8 +63,8 @@ public class NormalMeeple implements Meeple {
             return false;
         }
         final NormalMeeple other = (NormalMeeple) obj;
-        return owner.equals(other.getOwner()) &&
-                placed == other.isPlaced();
+        return owner.equals(other.getOwner()) 
+        && placed == other.isPlaced();
     }
 
     /**

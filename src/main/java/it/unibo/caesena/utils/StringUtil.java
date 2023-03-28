@@ -23,7 +23,7 @@ public final class StringUtil {
             this.elements = new ArrayList<>();
         }
 
-        public ToStringBuilder add(final String field, final Object value) {
+        public final ToStringBuilder add(final String field, final Object value) {
             String actualValue = NULL_STRING;
             if (value != null) {
                 actualValue = value.toString();
@@ -58,7 +58,7 @@ public final class StringUtil {
             return method.getName().contains("get") && !method.getName().equals("getClass");
         }
 
-        public ToStringBuilder addFromObjectGetters(final Object obj) {
+        public final ToStringBuilder addFromObjectGetters(final Object obj) {
             for (final Method method : obj.getClass().getMethods()) {
                 if (isGetter(method) && !hasArguments(method)) {
                     final String name = getNameFromMethod(method);
@@ -76,7 +76,7 @@ public final class StringUtil {
             return method.getParameterCount() != 0;
         }
 
-        public String build() {
+        public final String build() {
             elements.sort((p1, p2) -> p1.getX().compareTo(p2.getX()));
 
             return "[" + elements.stream()

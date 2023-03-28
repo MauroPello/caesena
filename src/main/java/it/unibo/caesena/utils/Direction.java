@@ -24,7 +24,7 @@ public enum Direction {
 
     public static boolean match(final Direction direction, final Pair<Integer, Integer> p1,
             final Pair<Integer, Integer> p2) {
-        return p1.getX() + direction.getX() == p2.getX() &&
-                p1.getY() + direction.getY() == p2.getY();
+        return p1.getX() + direction.getX() == p2.getX()
+                && p1.getY() + direction.getY() == p2.getY();
     }
 }
