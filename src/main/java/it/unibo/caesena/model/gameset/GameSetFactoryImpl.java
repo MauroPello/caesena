@@ -1,6 +1,6 @@
 package it.unibo.caesena.model.gameset;
 
-public class GameSetFactoryImpl implements GameSetFactory {
+public final class GameSetFactoryImpl implements GameSetFactory {
 
     @Override
     public GameSet createCitySet() {

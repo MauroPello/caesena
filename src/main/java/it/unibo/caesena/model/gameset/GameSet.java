@@ -6,22 +6,22 @@ import it.unibo.caesena.model.meeple.Meeple;
 
 public interface GameSet {
 
-    public boolean addMeeple(Meeple meeple);
+    boolean addMeeple(Meeple meeple);
 
-    public boolean isMeepleFree();
+    boolean isMeepleFree();
 
-    public boolean close();
+    boolean close();
 
-    public GameSetType getType();
+    GameSetType getType();
 
-    public boolean isClosed();
+    boolean isClosed();
 
-    public int getPoints();
+    int getPoints();
 
-    public void setPoints(final int points);
+    void setPoints(final int points);
 
-    public void addPoints(int points);
+    void addPoints(int points);
 
-    public List<Meeple> getMeeples();
+    List<Meeple> getMeeples();
 
 }

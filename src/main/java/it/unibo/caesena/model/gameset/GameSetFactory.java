@@ -2,16 +2,16 @@ package it.unibo.caesena.model.gameset;
 
 public interface GameSetFactory {
 
-    public GameSet createCitySet();
+    GameSet createCitySet();
 
-    public GameSet createMonasterySet();
+    GameSet createMonasterySet();
 
-    public GameSet createRoadSet();
+    GameSet createRoadSet();
 
-    public GameSet createFieldSet();
+    GameSet createFieldSet();
 
-    public GameSet createJunctionSet();
+    GameSet createJunctionSet();
 
-    public GameSet createJoinedSet(GameSet gs1, GameSet gs2);
+    GameSet createJoinedSet(GameSet gs1, GameSet gs2);
 
 }

@@ -9,7 +9,7 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.StringUtil;
 
-public class GameSetImpl implements GameSet {
+public final class GameSetImpl implements GameSet {
 
     private final GameSetType type;
     private final List<Meeple> meeples;
@@ -29,7 +29,7 @@ public class GameSetImpl implements GameSet {
         if (!isMeepleFree()) {
             return false;
         }
-        
+
         meeple.setPlaced(true);
         this.meeples.add(meeple);
         return true;
@@ -55,16 +55,17 @@ public class GameSetImpl implements GameSet {
                 if (!playerMeepleStrength.containsKey(currentPlayer)) {
                     playerMeepleStrength.put(currentPlayer, 0);
                 }
-                playerMeepleStrength.put(currentPlayer, playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
+                playerMeepleStrength.put(currentPlayer,
+                        playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
 
             }
 
             final int maxMeepleStrength = playerMeepleStrength.values().stream()
-                .mapToInt(x -> x).max().getAsInt();
+                    .mapToInt(x -> x).max().getAsInt();
 
             playerMeepleStrength.entrySet().stream()
-                .filter(e -> e.getValue().equals(maxMeepleStrength))
-                .forEach(e -> e.getKey().addScore(this.getPoints()));
+                    .filter(e -> e.getValue().equals(maxMeepleStrength))
+                    .forEach(e -> e.getKey().addScore(this.getPoints()));
         }
 
         this.closed = true;

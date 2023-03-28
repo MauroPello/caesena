@@ -8,7 +8,7 @@ import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
-public class TileImpl implements Tile {
+public final class TileImpl implements Tile {
 
     private static final Integer MAX_ROTATIONS = 4;
 

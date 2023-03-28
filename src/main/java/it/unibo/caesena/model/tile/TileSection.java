@@ -16,6 +16,13 @@ public enum TileSection {
     LEFT_UP, // 8->RIGHT_UP
     CENTER;
 
+    private static final int OFFSET_1 = 8;
+    private static final int OFFSET_2 = 6;
+    private static final int OFFSET_3 = 4;
+    private static final int OFFSET_4 = -8;
+    private static final int OFFSET_5 = -6;
+    private static final int OFFSET_6 = -4;
+
     private static int getSectionsInSide() {
         return 3;
     }
@@ -48,20 +55,20 @@ public enum TileSection {
         if (section.ordinal() <= TileSection.RIGHT_DOWN.ordinal()) {
             switch (section.ordinal() % 3) {
                 case 0:
-                    return shiftAroundBorders(section, 8);
+                    return shiftAroundBorders(section, OFFSET_1);
                 case 1:
-                    return shiftAroundBorders(section, 6);
+                    return shiftAroundBorders(section, OFFSET_2);
                 case 2:
-                    return shiftAroundBorders(section, 4);
+                    return shiftAroundBorders(section, OFFSET_3);
             }
         } else {
             switch (section.ordinal() % 3) {
                 case 0:
-                    return shiftAroundBorders(section, -4);
+                    return shiftAroundBorders(section, OFFSET_6);
                 case 1:
-                    return shiftAroundBorders(section, -6);
+                    return shiftAroundBorders(section, OFFSET_5);
                 case 2:
-                    return shiftAroundBorders(section, -8);
+                    return shiftAroundBorders(section, OFFSET_4);
             }
         }
 
