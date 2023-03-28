@@ -36,7 +36,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
         final JPanel playersPanel = new JPanel();
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
-        final JLabel playersLabel = new JLabel("Game Over: ");
+        final JLabel playersLabel = new JLabel(LocaleHelper.getViewTitle("GameOverView", false));
         playersLabel.setFont(mainFont);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playersPanel.add(playersLabel);
@@ -71,17 +71,20 @@ public class GameOverView extends JPanel implements View<JPanel> {
         }
         this.mainPanel.add(playersPanel);
 
-        final JPanel buttoPanel = new JPanel();
-        buttoPanel.setLayout(new BoxLayout(buttoPanel, BoxLayout.X_AXIS));
-        final JButton returnToStart = new JButton("Return to start Game");
-        returnToStart.addActionListener(e -> userInterface.showStartView());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
-        final JButton exitGame = new JButton("Exit Game");
-        exitGame.addActionListener(e -> userInterface.showExitDialog());
+        JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
+        backToStartMenuButton.addActionListener(e -> userInterface.showBackToStartViewDialog());
+        backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonPanel.add(backToStartMenuButton);
 
-        buttoPanel.add(exitGame);
-        buttoPanel.add(returnToStart);
-        this.mainPanel.add(buttoPanel);
+        JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
+        exitButton.addActionListener(e -> userInterface.showExitDialog());
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonPanel.add(exitButton);
+
+        this.mainPanel.add(buttonPanel);
         this.add(mainPanel);
         this.repaint();
         this.validate();

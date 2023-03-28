@@ -69,7 +69,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showStartView() {
-        this.setTitle("Caesena | Start menu");
+        this.setTitle(LocaleHelper.getViewTitle("StartView", true));
         this.startView = new StartView(this);
         this.pauseView = null;
         this.gameView = null;
@@ -83,7 +83,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void startGame() {
-        this.setTitle("Caesena | Playing a game");
+        this.setTitle(LocaleHelper.getViewTitle("GameView", true));
         this.startView = null;
         this.gameView = new GameView(this);
         this.pauseView = new PauseView(this);
@@ -116,7 +116,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     public void showGameOverView() {
-        this.setTitle("Caesena | Game ended");
+        this.setTitle(LocaleHelper.getViewTitle("GameOverView", true));
         this.gameOverView = new GameOverView(this);
 
         this.gameView.setVisible(false);
@@ -128,12 +128,22 @@ public class GUI extends JFrame implements UserInterface {
         this.repaint();
     }
 
+
     public void showExitDialog() {
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?",
-            "Exit Caesena", JOptionPane.YES_NO_OPTION);
+        int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmExitText(),
+            LocaleHelper.getExitDialogTitle(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
             exit();
+        }
+    }
+
+    public void showBackToStartViewDialog() {
+        int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
+            LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
+    
+        if (result == JOptionPane.YES_OPTION) {
+            showStartView();
         }
     }
 

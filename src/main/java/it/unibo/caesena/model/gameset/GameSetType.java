@@ -5,7 +5,7 @@ public enum GameSetType {
     CITY(2, 2),
     MONASTERY(1, 1),
     ROAD(1, 1),
-    JUNCTION(0, 0);
+    JUNCTION(0, 1);
 
     private final int startingPoints;
     private final int endGameRatio;
