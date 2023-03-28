@@ -24,6 +24,13 @@ public final class GameSetImpl implements GameSet {
         this.closed = false;
     }
 
+    public GameSetImpl(final GameSetType type, final List<Meeple> meeples) {
+        this.type = type;
+        this.points = type.getStartingPoints();
+        this.meeples = new ArrayList<>(meeples);
+        this.closed = false;
+    }
+
     @Override
     public boolean addMeeple(final Meeple meeple) {
         if (!isMeepleFree()) {

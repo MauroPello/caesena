@@ -1,5 +1,9 @@
 package it.unibo.caesena.model.gameset;
 
+import java.util.List;
+
+import it.unibo.caesena.model.meeple.Meeple;
+
 public final class GameSetFactoryImpl implements GameSetFactory {
 
     @Override
@@ -36,11 +40,10 @@ public final class GameSetFactoryImpl implements GameSetFactory {
             }
 
             final int points = gs1.getPoints() + gs2.getPoints();
-            final GameSet joinedGameset = new GameSetImpl(gs1.getType());
+            final List<Meeple> meeples = gs1.getMeeples();
+            meeples.addAll(gs2.getMeeples());
+            final GameSet joinedGameset = new GameSetImpl(gs1.getType(), meeples);
             joinedGameset.setPoints(points);
-
-            gs1.getMeeples().forEach(joinedGameset::addMeeple);
-            gs2.getMeeples().forEach(joinedGameset::addMeeple);
 
             return joinedGameset;
         } else {
