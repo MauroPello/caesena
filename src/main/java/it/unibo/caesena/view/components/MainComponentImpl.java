@@ -1,9 +1,11 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
+import java.util.List;
 
 import javax.swing.JPanel;
 
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.view.GameView;
 
 public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
@@ -26,21 +28,24 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     @Override
     public void toggleComponents() {
         if (this.showingBoard) {
-            this.showBoard();
-        } else {
             this.showSectionSelector();
+        } else {
+            this.showBoard();
         }
+        showingBoard = !showingBoard;
     }
 
     private void showBoard(){
         this.removeAll();
         this.getBoard().draw();
         this.add(this.getBoard().getComponent());
+        this.validate();
     }
 
     private void showSectionSelector(){
         this.removeAll();
         this.add(this.getSectionSelector().getComponent());
+        this.validate();
     }
 
     @Override
@@ -60,26 +65,26 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     @Override
     public void endTurn() {
-
-        // if (this.overlayedTile.isPresent() && overlayedTile.get().isSectionSelected()) {
-        //     var section = this.overlayedTile.get().getSelectedSection();
-        //     var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
-        //     List<Meeple> meeples = this.gameView.getUserInterface().getController().getNotPlacedPlayerMeeples(currentPlayer);
-        //     if (!meeples.isEmpty()) {
-        //         if (this.gameView.getUserInterface().getController().placeMeeple(meeples.get(0), section)) {
-        //             this.tileButtonPlaced.get().addMeeple(meeples.get(0), section);
-        //         } else {
-        //             throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
-        //         }
-        //     } else {
-        //         throw new IllegalStateException("Tried to add meeple but run out of them");
-        //     }
-        // }
-        // if (!showBoard) {
-        //     toggleBoardContent();
-        // }
-        // this.tileButtonPlaced = Optional.empty();
-        // updateComponents();
+        if (this.getSectionSelector().isSectionSelected()) {
+            var section = this.getSectionSelector().getSelectedSection();
+            var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
+            List<Meeple> meeples = this.gameView.getUserInterface().getController().getNotPlacedPlayerMeeples(currentPlayer);
+            if (!meeples.isEmpty()) {
+                if (this.gameView.getUserInterface().getController().placeMeeple(meeples.get(0), section)) {
+                    this.getBoard().placeMeepleOnCurrentSection(meeples.get(0), section);
+                } else {
+                    throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
+                }
+            } else {
+                throw new IllegalStateException("Tried to add meeple but run out of them");
+            }
+        }
+        if (!showingBoard) {
+            toggleComponents();
+        }
+        this.revalidate();
+        this.validate();
+        this.repaint();
     }
 
     @Override
@@ -89,8 +94,12 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     @Override
     public void updateComponents() {
-        this.board.draw();
-        this.sectionSelector.draw();
+        if (this.showingBoard) {
+            this.showBoard();
+        } else {
+            this.showSectionSelector();
+        }
+        this.validate();
     }
 
 }

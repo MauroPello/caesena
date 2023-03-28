@@ -229,7 +229,6 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     @Override
     public JPanel getComponent() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getComponent'");
+        return this;
     }
 }

@@ -16,8 +16,9 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private Optional<TileSection> placedMeepleSection;
     private Color playerColor;
 
-    public TileButtonImpl(ActionListener onClickActionListener) {
+    public TileButtonImpl(ActionListener onClickActionListener, Color playerColor) {
         super();
+        this.playerColor = playerColor;
         this.containedTile = Optional.empty();
         this.placedMeeple = Optional.empty();
         this.addActionListener(onClickActionListener);
