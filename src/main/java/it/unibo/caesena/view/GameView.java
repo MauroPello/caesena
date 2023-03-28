@@ -1,7 +1,8 @@
 package it.unibo.caesena.view;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
 
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -15,11 +16,11 @@ import it.unibo.caesena.view.components.SideBarComponentImpl;
 public class GameView extends JPanel implements View<JPanel> {
 
     private final GUI userInterface;
-    private BoardComponent<JPanel> board;
-    private FooterComponent<JPanel> footer;
-    private SideBarComponent<JPanel> sidebar;
+    private final BoardComponent<JPanel> board;
+    private final FooterComponent<JPanel> footer;
+    private final SideBarComponent<JPanel> sidebar;
 
-    public GameView(GUI userInterface) {
+    public GameView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
 
@@ -33,18 +34,18 @@ public class GameView extends JPanel implements View<JPanel> {
         this.add(footer.getComponent(), BorderLayout.SOUTH);
     }
 
-    public void updateHUD() {
+    public final void updateHUD() {
         this.footer.updateFooter();
         this.sidebar.update();
     }
 
-    public void placeMeeple() {
+    public final void placeMeeple() {
         board.toggleBoardContent();
         updateHUD();
     }
 
-    public boolean placeTile() {
-        Pair<Integer, Integer> position = board.getCurrentlySelectedTileButton().getPosition();
+    public final boolean placeTile() {
+        final Pair<Integer, Integer> position = board.getCurrentlySelectedTileButton().getPosition();
         if (this.userInterface.getController().placeCurrentTile(position)) {
             this.board.lockTile();
             updateHUD();
@@ -53,7 +54,7 @@ public class GameView extends JPanel implements View<JPanel> {
         return false;
     }
 
-    public void endTurn() {
+    public final void endTurn() {
         this.board.endTurn();
         this.userInterface.getController().endTurn();
         if (this.userInterface.getController().isGameOver()) {
@@ -63,38 +64,38 @@ public class GameView extends JPanel implements View<JPanel> {
         }
     }
 
-    public void zoomIn() {
+    public final void zoomIn() {
         this.board.zoomIn();
     }
 
-    public void zoomOut() {
+    public final void zoomOut() {
         this.board.zoomOut();
     }
 
-    public void move(Direction direction) {
+    public final void move(final Direction direction) {
         this.board.move(direction);
     }
 
-    public boolean canMove(Direction direction) {
+    public final boolean canMove(final Direction direction) {
         return this.board.canMove(direction);
     }
 
-    public void removePlacedTile() {
+    public final void removePlacedTile() {
         this.board.removePlacedTile();
     }
 
-    public void updateComponents() {
+    public final void updateComponents() {
         this.board.updateComponents();
     }
 
     @Override
-    public JPanel getComponent() {
+    public final JPanel getComponent() {
         return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public GUI getUserInterface() {
+    public final GUI getUserInterface() {
         return this.userInterface;
     }
 }

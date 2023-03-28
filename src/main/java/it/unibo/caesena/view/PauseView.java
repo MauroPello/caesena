@@ -24,7 +24,7 @@ public class PauseView extends JPanel implements View<JPanel> {
         this.userInterface = userInterface;
 
         this.setLayout(new GridBagLayout());
-        this.setBackground(new Color(RED,GREEN, BLUE, A));
+        this.setBackground(new Color(RED, GREEN, BLUE, A));
 
         final Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);
 
