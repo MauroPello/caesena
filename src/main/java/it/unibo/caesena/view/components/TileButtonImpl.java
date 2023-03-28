@@ -6,19 +6,23 @@ import java.awt.event.ActionListener;
 import java.util.Optional;
 import javax.swing.JButton;
 
+import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.view.GameView;
 
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private Optional<Tile> containedTile;
     private Optional<Meeple> placedMeeple;
     private Optional<TileSection> placedMeepleSection;
-    private Color playerColor;
+    private final GameView gameView;
+    private Color currentPlayerColor;
 
-    public TileButtonImpl(ActionListener onClickActionListener, Color playerColor) {
+    public TileButtonImpl(ActionListener onClickActionListener, GameView gameView) {
         super();
-        this.playerColor = playerColor;
+        this.gameView = gameView;
         this.containedTile = Optional.empty();
         this.placedMeeple = Optional.empty();
         this.addActionListener(onClickActionListener);
@@ -29,6 +33,9 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     @Override
     public void addTile(Tile tile) {
         this.containedTile = Optional.of(tile);
+        Controller controller = this.gameView.getUserInterface().getController();
+        Player currentPlayer = controller.getCurrentPlayer();
+        this.currentPlayerColor = gameView.getUserInterface().getPlayerColor(currentPlayer);
     }
 
     @Override
@@ -72,7 +79,8 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     {
         super.paintComponent(g);
         if (this.containsTile()) {
-            TileImage tileImage = new TileImage(getContainedTile(), playerColor);
+
+            TileImage tileImage = new TileImage(getContainedTile(), currentPlayerColor);
             if (this.containsMeeple())  {
                 tileImage.addMeeple(this.placedMeeple.get(), getPlacedMeepleSection());
             }

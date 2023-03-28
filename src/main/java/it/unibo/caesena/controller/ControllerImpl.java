@@ -119,7 +119,7 @@ public final class ControllerImpl implements Controller {
 
         for (final var tile : getPlacedTiles()) {
             if ((tile.getPosition().get().getX() >= position.getX() - 1
-                    && tile.getPosition().get().getY() >= position.getY() - 1) 
+                    && tile.getPosition().get().getY() >= position.getY() - 1)
                     && (tile.getPosition().get().getX() <= position.getX() + 1
                             && tile.getPosition().get().getY() <= position.getY() + 1)) {
                 final GameSet centerGameset = tile.getGameSet(TileSection.CENTER);
@@ -147,7 +147,7 @@ public final class ControllerImpl implements Controller {
             int nearMonasteryTilesNum = 0;
             for (final var nearTile : getPlacedTiles()) {
                 if ((nearTile.getPosition().get().getX() >= position.getX() - 1
-                        && nearTile.getPosition().get().getY() >= position.getY() - 1) 
+                        && nearTile.getPosition().get().getY() >= position.getY() - 1)
                         && (nearTile.getPosition().get().getX() <= position.getX() + 1
                                 && nearTile.getPosition().get().getY() <= position.getY() + 1)
                         &&
@@ -292,7 +292,7 @@ public final class ControllerImpl implements Controller {
                     for (final var tileSection : TileSection.values()) {
                         final GameSet fieldGameSet = tile.getGameSet(tileSection);
 
-                        if (fieldGameSet.getType().equals(GameSetType.FIELD) 
+                        if (fieldGameSet.getType().equals(GameSetType.FIELD)
                         && tile.isSectionNearToGameset(tileSection, cityGameSet)) {
                             fieldsNearCity.add(fieldGameSet);
                         }
@@ -329,8 +329,8 @@ public final class ControllerImpl implements Controller {
     }
 
     private boolean isGameSetClosed(final GameSet gameSet) {
-        for (final Tile tile : gameSets.get(gameSet)) {
-            for (final TileSection tileSection : TileSection.values()) {
+        for (Tile tile : gameSets.get(gameSet)) {
+            for (TileSection tileSection : TileSection.values()) {
                 if (tile.getGameSet(tileSection).equals(gameSet) && !tile.isSectionClosed(tileSection)) {
                     return false;
                 }

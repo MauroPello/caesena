@@ -18,7 +18,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     public MainComponentImpl(GameView gameView) {
         this.gameView = gameView;
-        this.board = new BoardComponentImpl(this.gameView);//TODO capire se serve avere il campo gameview
+        this.board = new BoardComponentImpl(this.gameView);
         this.sectionSelector = new SectionSelectorComponentImpl(this.gameView);
         this.showingBoard = true;
         this.setBackground(Color.DARK_GRAY);

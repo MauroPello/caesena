@@ -1,6 +1,5 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
@@ -96,9 +94,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             .map(x -> x.getKey())
             .findFirst();
         if (searchedTileOptional.isEmpty()) {
-            Player player = this.gameView.getUserInterface().getController().getCurrentPlayer();
-            Color playerColor = this.gameView.getUserInterface().getPlayerColor(player);
-            searchedTile = new TileButtonImpl(getTileButtonActionListener(), playerColor);
+            searchedTile = new TileButtonImpl(getTileButtonActionListener(), this.gameView);
             allTileButtons.put(searchedTile, coordinates);
         } else {
             searchedTile = searchedTileOptional.get();
