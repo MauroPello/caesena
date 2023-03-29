@@ -15,10 +15,18 @@ public enum GameSetType {
         this.endGameRatio = endGameRatio;
     }
 
+    /**
+     * 
+     * @return starting points of a specific GameSet
+     */
     public int getStartingPoints() {
         return this.startingPoints;
     }
 
+    /**
+     * 
+     * @return division of points at the end of the game
+     */
     public int getEndGameRatio() {
         return this.endGameRatio;
     }
