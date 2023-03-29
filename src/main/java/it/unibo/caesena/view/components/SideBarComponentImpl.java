@@ -1,10 +1,10 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
+import java.awt.Component;
 import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-
+import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -18,13 +18,13 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     JButton zoomOutButton = new JButton("Zoom -");
 
     private JPanel arrowsPanel = new JPanel();
+    private JPanel centerArrowPanel = new JPanel();
+
     JButton upRowButton = new JButton("UP");
     JButton downRowButton = new JButton("DOWN");
     JButton leftRowButton = new JButton("LEFT");
     JButton rightRowButton = new JButton("RIGHT");
 
-    //JButton nextStep = new JButton("");
-    //JButton EndTurn = new JButton("");
     JButton placeTileButton = new JButton("PLACE TILE");
     JButton placeMeepleButton = new JButton("PLACE MEEPLE");
     JButton endTurnButton = new JButton("ENDTURN");
@@ -41,37 +41,44 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         this.gameView = gameView;
         this.leaderBoard = new LeaderBoardComponentImpl(controller);
 
+        this.setLayout(new GridBagLayout());
         this.setBackground(java.awt.Color.BLACK);
-        innerPanel.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.gridy = 0;
-        constraints.gridx = 1;
+        this.setAlignmentY(Component.CENTER_ALIGNMENT);
+        
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
+        arrowsPanel.setLayout(new BoxLayout(arrowsPanel, BoxLayout.Y_AXIS));
+        centerArrowPanel.setLayout(new BorderLayout());
 
-        //this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        arrowsPanel.setLayout(new BorderLayout());
+        innerPanel.setOpaque(false);
+        arrowsPanel.setOpaque(false);
+        centerArrowPanel.setOpaque(false);
 
-        arrowsPanel.add(upRowButton, BorderLayout.NORTH);
-        arrowsPanel.add(leftRowButton, BorderLayout.WEST);
-        arrowsPanel.add(rightRowButton, BorderLayout.EAST);
-        arrowsPanel.add(downRowButton, BorderLayout.SOUTH);
+        arrowsPanel.add(upRowButton);
+        upRowButton.setAlignmentX(CENTER_ALIGNMENT);
 
-        innerPanel.add(zoomInButton, constraints);
-        constraints.gridy ++;
-        innerPanel.add(zoomOutButton, constraints);
-        constraints.gridy ++;
-        innerPanel.add(arrowsPanel, constraints);
-        constraints.gridy ++;
-        innerPanel.add(placeTileButton, constraints);
-        constraints.gridy ++;
-        innerPanel.add(discardTileButton, constraints);
-        constraints.gridy ++;
-        innerPanel.add(placeMeepleButton, constraints);
-        constraints.gridy ++;
-        innerPanel.add(endTurnButton, constraints);
-        constraints.gridy ++;
-        innerPanel.add(leaderBoard.getComponent(), constraints);
+        centerArrowPanel.add(leftRowButton, BorderLayout.WEST);
+        centerArrowPanel.add(rightRowButton, BorderLayout.EAST);
+        arrowsPanel.add(centerArrowPanel);
 
+        arrowsPanel.add(downRowButton);
+        downRowButton.setAlignmentX(CENTER_ALIGNMENT);
+
+        innerPanel.add(zoomInButton);
+        zoomInButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        innerPanel.add(zoomOutButton);
+        zoomOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        innerPanel.add(arrowsPanel);
+        arrowsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        innerPanel.add(placeTileButton);
+        placeTileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        innerPanel.add(discardTileButton);
+        discardTileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        innerPanel.add(placeMeepleButton);
+        placeMeepleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        innerPanel.add(endTurnButton);
+        endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        innerPanel.add(leaderBoard.getComponent());
+        leaderBoard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(innerPanel);
 
         this.setVisible(true);

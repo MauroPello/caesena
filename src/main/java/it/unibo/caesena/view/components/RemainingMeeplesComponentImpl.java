@@ -19,6 +19,8 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
 
     JPanel innerPanel;
     List<Meeple> meeples = List.of();
+    int meepleSize = 30;
+    //TODO mettere a posto il meeplesize
 
     public RemainingMeeplesComponentImpl(final GameView gameView) {
         super();
@@ -52,20 +54,19 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
                 protected void paintComponent(Graphics graphics) {
                     super.paintComponent(graphics);
                     MeepleImage prova = new MeepleImage(userInterface.getPlayerColor(meeple.getOwner()));
-                    int meepleSize = 10;
+                    meepleSize = 30;
                     prova.resize(meepleSize, meepleSize);
                     graphics.drawImage(prova.getAsBufferedImage(), 0, 0, meepleSize, meepleSize, null);
                 }
             };
 
-            ciao.setMaximumSize(new Dimension(10,10));
-            ciao.setMinimumSize(new Dimension(10,10));
-            ciao.setPreferredSize(new Dimension(10,10));
-
+            ciao.setMaximumSize(new Dimension(meepleSize, meepleSize));
+            ciao.setMinimumSize(new Dimension(meepleSize, meepleSize));
+            ciao.setPreferredSize(new Dimension(meepleSize, meepleSize));
             innerPanel.add(ciao);
-            innerPanel.setBackground(Color.white);
-            innerPanel.setPreferredSize(new Dimension(280, 90));
         }
+        innerPanel.setBackground(Color.white);
+        innerPanel.setPreferredSize(new Dimension(280, 90));
     }
 
     @Override

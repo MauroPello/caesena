@@ -1,13 +1,14 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.Image;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -34,6 +35,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     //DA TESTARE PER MEEPLE COMPONENT
     RemainingMeeplesComponent<JPanel> meepleComponent;
+    PlayerImage<JPanel> playerImageComponent;
 
     private JPanel getRectangularJPanel() {
         return new JPanel() {
@@ -67,48 +69,32 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         JPanel innerPanel = new JPanel();
         this.innerPanel = innerPanel;
 
-        this.setBackground(java.awt.Color.ORANGE);
-        innerPanel.setLayout(new GridBagLayout());
-
-        //da commentare se si vuole il classico setUP
-        //innerPanel.setPreferredSize(getSize());
-
-        constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.gridy = 0;
-        constraints.gridx = 1;
-        //constraints.insets = new Insets(20, 10, 20, 10);S
+        this.setBackground(Color.ORANGE);
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
 
         ImageIcon icon = new ImageIcon(ResourceUtil.getBufferedImage(userInterface.getController().getCurrentTile().getTileType().name() + ".png", List.of("tiles")));
         this.tileImageLabel = new JLabel(icon);
         tileImageLabel.setPreferredSize(new Dimension(40, 40));
         tileImageLabel.setMinimumSize(new Dimension(40, 40));
-        this.tileImageLabel.setBorder(new LineBorder(java.awt.Color.BLACK));
+        this.tileImageLabel.setBorder(new LineBorder(Color.BLACK));
 
         innerPanel = getRectangularJPanel();
 
         Image resized = icon.getImage().getScaledInstance(getRectangularJPanel().getHeight()-1, getRectangularJPanel().getHeight()-1, java.awt.Image.SCALE_SMOOTH);
-        //Image resized = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
         tileImageLabel.setIcon(new ImageIcon(resized));
 
-        //DA TESTARE PER MEEPLE COMPONENT
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
+        this.playerImageComponent = new PlayerImageImpl(40, 40);
+        this.playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
 
-        innerPanel.add(meepleComponent.getComponent(), constraints);
-        constraints.gridx ++;
-        //DA TESTARE PER MEEPLE COMPONENT
-
-        innerPanel.add(playerMeepleLabel, constraints);
-        constraints.gridx ++;
-        innerPanel.add(playerNameLabel, constraints);
-        constraints.gridx ++;
-        innerPanel.add(playerScoreLabel, constraints);
-        constraints.gridx ++;
-        innerPanel.add(tileImageLabel, constraints);
-        constraints.gridx ++;
-        innerPanel.add(rotateButton, constraints);
-        constraints.gridx ++;
-        innerPanel.add(remainingTilesLabel, constraints);
+        innerPanel.add(meepleComponent.getComponent());
+        innerPanel.add(playerImageComponent.getComponent());
+        innerPanel.add(playerMeepleLabel);
+        innerPanel.add(playerNameLabel);
+        innerPanel.add(playerScoreLabel);
+        innerPanel.add(tileImageLabel);
+        innerPanel.add(rotateButton);
+        innerPanel.add(remainingTilesLabel);
 
         this.add(innerPanel);
 
@@ -157,6 +143,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     @Override
     public void updateFooter() {
         updateCurrentTile();
+        playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
         playerScoreLabel.setText("S: "+userInterface.getController().getCurrentPlayer().getScore()+"");
         updateCurrentPlayerMeeples();

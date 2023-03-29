@@ -3,16 +3,19 @@ package it.unibo.caesena.view.components;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 
 public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardComponent<JPanel>{
 
@@ -26,20 +29,28 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
         JPanel innerPanel = new JPanel();
 
         this.setBackground(java.awt.Color.BLACK);
-        innerPanel.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.VERTICAL;
-        constraints.gridy = 1;
-        constraints.gridx = 0;
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
 
         this.controller = controller;
         this.playerList = this.controller.getPlayers();
+
+        JLabel titleLabel = new JLabel("Leaderboard:");
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+
+        innerPanel.add(titleLabel);
+        JSeparator separator = new JSeparator();
+        separator.setForeground(Color.black);
+        innerPanel.add(separator);
+
+        innerPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+
         for (int i = 0; i < playerList.size(); i++) {
             JLabel nuova = new JLabel();
             nuova.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+            nuova.setAlignmentX(Component.CENTER_ALIGNMENT);
             labelList.add(nuova);
-            innerPanel.add(nuova, constraints);
-            constraints.gridy++;
+            innerPanel.add(nuova);
         }
         updateLeaderBoard();
         this.add(innerPanel);
