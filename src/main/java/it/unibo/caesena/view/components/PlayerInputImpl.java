@@ -1,10 +1,8 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.util.Locale;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
@@ -18,12 +16,10 @@ import it.unibo.caesena.view.LocaleHelper;
 public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
 
     private final static int TEXT_FIELD_COLUMNS = 4;
-    private final static int WIDTH = 50;
-    private final static int HEIGHT = 50;
 
+    private final PlayerImageImpl playerColorPanel;
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
-    private final JPanel playerColorPanel;
     private final JButton playerColorButton;
     private final JTextField playerName;
 
@@ -38,14 +34,12 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
         this.add(playerName);
 
         this.add(new JLabel(LocaleHelper.getColorText()));
-        this.playerColorPanel = new JPanel();
-        this.playerColorPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.playerColorPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.playerColorPanel.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+
+        this.playerColorPanel = new PlayerImageImpl(50, 50);
         this.playerColorPanel.addPropertyChangeListener("background", (p) -> {
             this.playerColor = (Color) p.getNewValue();
         });
-        this.playerColorPanel.setBackground(getBackground());
+        this.playerColorPanel.setColor(getBackground());
         this.add(this.playerColorPanel);
 
         this.playerColorChooser = new JColorChooser();
@@ -60,8 +54,8 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
 
         this.playerColorDialog = JColorChooser.createDialog(this, LocaleHelper.getPickColorDialogTitle(), true,
                 this.playerColorChooser,
-                (e) -> this.playerColorPanel.setBackground(this.playerColorChooser.getColor()),
-                (e) -> this.playerColorPanel.setBackground(getBackground()));
+                (e) -> this.playerColorPanel.setColor(this.playerColorChooser.getColor()),
+                (e) -> this.playerColorPanel.setColor(getBackground()));
 
         this.playerColorButton = new JButton(LocaleHelper.getPickColorText());
         this.playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));

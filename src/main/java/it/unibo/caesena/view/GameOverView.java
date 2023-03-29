@@ -2,20 +2,19 @@ package it.unibo.caesena.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.model.Player;
+import it.unibo.caesena.view.components.PlayerImageImpl;
 
 public class GameOverView extends JPanel implements View<JPanel> {
 
@@ -59,16 +58,14 @@ public class GameOverView extends JPanel implements View<JPanel> {
         for (final var player : queue) {
             final JPanel volatailePanel = new JPanel();
 
-            final var playerColorPanel = new JPanel();
-            playerColorPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            playerColorPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-            playerColorPanel.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-            playerColorPanel.setBackground(userInterface.getPlayerColor(player));
-
             final JLabel volataileLabel = new JLabel();
             volataileLabel.setText("Nome: " + player.getName() + " Score: " + player.getScore());
             volatailePanel.add(volataileLabel);
+            
+            final var playerColorPanel = new PlayerImageImpl(WIDTH, HEIGHT);
+            playerColorPanel.setColor(userInterface.getPlayerColor(player));
             volatailePanel.add(playerColorPanel);
+            
             playersPanel.add(volatailePanel);
         }
         this.mainPanel.add(playersPanel);
