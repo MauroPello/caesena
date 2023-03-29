@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileBuilder;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
@@ -19,11 +20,13 @@ import it.unibo.caesena.utils.Pair;
 final class TileTest {
 
     private static Tile tile;
+    private static GameSetTileMediator mediator;
     private static Pair<Integer, Integer> position;
 
     @BeforeAll
     public static void init() {
-        tile = new TileFactoryWithBuilder().createCityEdge();
+        mediator = new GameSetTileMediator();
+        tile = new TileFactoryWithBuilder(mediator).createCityEdge();
         position = new Pair<>(1, 1);
     }
 
@@ -37,10 +40,8 @@ final class TileTest {
 
     @Test
     public void testRotation() {
-        assertEquals(tile.getRotationCount(), 0);
-
-        tile.rotateClockwise();
-        final Tile tile2 = new TileBuilder(TileType.CITY_EDGE)
+        mediator.rotateTileClockwise(tile);
+        final Tile tile2 = new TileBuilder(TileType.CITY_EDGE, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
                 .field(List.of(TileSection.UP_RIGHT, TileSection.UP_CENTER, TileSection.UP_LEFT,
@@ -48,10 +49,8 @@ final class TileTest {
                 .build();
 
         for (final TileSection section : TileSection.values()) {
-            assertEquals(tile2.getGameSet(section).getType(), tile.getGameSet(section).getType());
+            assertEquals(mediator.getGameSet(tile2, section).getType(), mediator.getGameSet(tile, section).getType());
         }
-
-        assertEquals(tile.getRotationCount(), 1);
     }
 
     @Test

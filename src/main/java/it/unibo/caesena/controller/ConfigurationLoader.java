@@ -10,16 +10,20 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
+import it.unibo.caesena.model.tile.TileFactory;
 import it.unibo.caesena.model.tile.TileType;
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class ConfigurationLoader {
 
     private final List<Tile> tiles = new ArrayList<>();
+    private final String fileName;
+    
+    public ConfigurationLoader(final String fileName) {
+        this.fileName = fileName;
+    }
 
-    public final List<Tile> read(final String fileName) {
-
+    public final List<Tile> getTiles(final TileFactory factory) {
         try {
             final Object fileJson = new JSONParser()
                     .parse(new InputStreamReader(ResourceUtil.getInputStreamFromFile(fileName, List.of())));
@@ -29,7 +33,7 @@ public class ConfigurationLoader {
                 final JSONObject object = (JSONObject) array.get(i);
                 for (final var key : object.keySet()) {
                     for (int j = 0; j < Integer.parseInt(object.get(key).toString()); j++) {
-                        tiles.add(TileType.valueOf(key.toString()).createTile(new TileFactoryWithBuilder()));
+                        tiles.add(TileType.valueOf(key.toString()).createTile(factory));
                     }
                 }
             }
@@ -47,7 +51,7 @@ public class ConfigurationLoader {
 
             return this.tiles;
         } catch (final Exception e) {
-            throw new IllegalStateException("Error reading tiles from file, maybe it's missing");
+            throw new IllegalStateException("Error reading tiles from file, maybe it's missing", e);
         }
     }
 
