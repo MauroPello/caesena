@@ -7,22 +7,24 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
+import it.unibo.caesena.view.LocaleHelper;
 
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
 
     JLabel tileImageLabel;
-    JLabel playerMeepleLabel = new JLabel("N° meeple");
+    JButton rotateButton;
     JLabel playerNameLabel = new JLabel("name");
     JLabel playerScoreLabel = new JLabel("score");
-    JButton rotateButton = new JButton("Rotate");
     JLabel remainingTilesLabel = new JLabel("N° tile");
 
     GUI userInterface;
@@ -87,10 +89,23 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.playerImageComponent = new PlayerImageImpl(40, 40);
         this.playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
 
-        innerPanel.add(meepleComponent.getComponent());
+        this.rotateButton = new JButton() {
+            @Override
+            protected void paintComponent(Graphics graphics) {
+                super.paintComponent(graphics);
+                BufferedImage image = ResourceUtil.getBufferedImage("rotate-right.png", List.of());
+                graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            }
+        };
+
+        rotateButton.setPreferredSize(new Dimension(30,30));
+        rotateButton.setContentAreaFilled(false);
+        rotateButton.setOpaque(false);
+        rotateButton.setBorderPainted(false);
+
         innerPanel.add(playerImageComponent.getComponent());
-        innerPanel.add(playerMeepleLabel);
         innerPanel.add(playerNameLabel);
+        innerPanel.add(meepleComponent.getComponent());
         innerPanel.add(playerScoreLabel);
         innerPanel.add(tileImageLabel);
         innerPanel.add(rotateButton);
@@ -132,25 +147,18 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     }
 
     @Override
-    public void updateCurrentPlayerMeeples() {
-        var currentPlayer = this.userInterface.getController().getCurrentPlayer();
-        playerMeepleLabel.setText("M: "+userInterface.getController().getNotPlacedPlayerMeeples(currentPlayer).size());
-
-        meepleComponent.update();
-    }
-
-    @Override
     public void updateRemainingTiles() {
-        remainingTilesLabel.setText(userInterface.getController().getNotPlacedTiles().size()+"");
+        remainingTilesLabel.setText("Remaining Tiles: " + userInterface.getController().getNotPlacedTiles().size());
+        //TODO localehelper
     }
 
     @Override
     public void updateFooter() {
         updateCurrentTile();
+        meepleComponent.update();
         playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
-        playerScoreLabel.setText("S: "+userInterface.getController().getCurrentPlayer().getScore()+"");
-        updateCurrentPlayerMeeples();
+        playerScoreLabel.setText(LocaleHelper.getScoreText()+userInterface.getController().getCurrentPlayer().getScore());
         updateRemainingTiles();
         if(userInterface.getController().getCurrentTile().isPlaced()) {
             rotateButton.setEnabled(false);
