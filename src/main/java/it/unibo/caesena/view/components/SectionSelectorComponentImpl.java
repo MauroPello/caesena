@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
@@ -55,7 +56,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     protected void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
         final Tile tile = this.gameView.getUserInterface().getController().getCurrentTile();
-        final Image image = new TileImage(tile).getAsBufferedImage();
+        final Image image = new TileImage(tile).getAsBufferedImage(this.getWidth(), this.getHeight());
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
     }
 
@@ -126,8 +127,9 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     private String getLabelFromSection(final TileSection section) {
-        final Tile tile = this.gameView.getUserInterface().getController().getCurrentTile();
-        return String.valueOf(tile.getGameSet(section).getType().name().toCharArray()[0]);
+        final Controller controller = gameView.getUserInterface().getController();
+        final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
+        return String.valueOf(gameSet.getType().name().toCharArray()[0]);
     }
 
     private ActionListener getSectionButtonListener() {
@@ -151,8 +153,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         public SectionButton(final TileSection section) {
             super();
             this.section = section;
-            final Tile tile = gameView.getUserInterface().getController().getCurrentTile();
-            final GameSet gameSet = tile.getGameSet(this.section);
+            final Controller controller = gameView.getUserInterface().getController();
+            final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
             final boolean shouldDraw = gameSet.isMeepleFree() && !gameSet.isClosed();
             this.setVisibility(shouldDraw);
         }

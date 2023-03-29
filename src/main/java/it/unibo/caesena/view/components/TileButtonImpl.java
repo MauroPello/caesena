@@ -3,6 +3,7 @@ package it.unibo.caesena.view.components;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.Optional;
 import javax.swing.JButton;
 
@@ -62,7 +63,8 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
             if (this.containsMeeple())  {
                 tileImage.addMeeple(this.meeple.get(), this.section);
             }
-            g.drawImage(tileImage.getAsBufferedImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+            final BufferedImage tileBufferedImage = tileImage.getAsBufferedImage(this.getWidth(), this.getHeight());
+            g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
         }
     }
 
