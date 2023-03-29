@@ -1,5 +1,7 @@
 package it.unibo.caesena.view.components;
 
+import java.util.Optional;
+
 import javax.swing.JButton;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -21,12 +23,16 @@ public interface BoardComponent<X> {
     void draw();
 
     void removePlacedTile();
-    //TODO controlla se servono
-    boolean isTileButtonPlaced();
 
-    TileButton<JButton> getPlacedTileButton();
+    boolean isCurrentTileButtonLocked();
+
+    TileButton<JButton> getLockedTileButton();
 
     Pair<Integer, Integer> getTileButtonPosition(TileButton<JButton> tileButton);
+
+    Optional<TileButton<JButton>> getPlacedUnlockedTile();
+
+    void placeTile();
 
     X getComponent();
 }

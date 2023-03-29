@@ -1,57 +1,62 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+//import java.awt.image.BufferedImage;
 import java.util.Optional;
 import javax.swing.JButton;
 
-import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.Player;
+// import it.unibo.caesena.controller.Controller;
+// import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.model.tile.Tile;
+//import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.view.GameView;
 
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private final GameView gameView;
-    private Optional<Tile> containedTile;
+    private boolean hasTile;
     private Optional<Meeple> meeple;
     private TileSection section;
-    private Color currentPlayerColor;
+    private TileImage tileImage;
+    //private Color currentPlayerColor;
+    private boolean locked;
 
     public TileButtonImpl(ActionListener onClickActionListener, GameView gameView) {
         super();
         this.gameView = gameView;
-        this.containedTile = Optional.empty();
+        this.hasTile = false;
+        this.locked = false;
         this.addActionListener(onClickActionListener);
         this.setContentAreaFilled(false);
         this.setFocusable(false);
     }
 
     @Override
-    public void addTile(Tile tile) {
-        this.containedTile = Optional.of(tile);
+    public void addTile() {
         this.meeple = Optional.empty();
-        Controller controller = this.gameView.getUserInterface().getController();
-        Player currentPlayer = controller.getCurrentPlayer();
-        this.currentPlayerColor = gameView.getUserInterface().getPlayerColor(currentPlayer);
+        this.hasTile = true;
+        this.tileImage = gameView.getCurrentTileImage();
     }
 
+
+
     @Override
-    public Tile getContainedTile() {
-        return containedTile.orElseThrow(() -> new IllegalStateException("tried to get contained tile but there was none"));
+    public void addTile(TileImage tileImage) {
+        this.meeple = Optional.empty();
+        this.hasTile = true;
+        this.tileImage = tileImage;
     }
 
     @Override
     public void removeTile() {
-        this.containedTile = Optional.empty();
+        this.hasTile = false;
     }
 
     @Override
     public boolean containsTile() {
-        return this.containedTile.isPresent();
+        return this.hasTile;
     }
 
     @Override
@@ -59,12 +64,10 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     {
         super.paintComponent(g);
         if (this.containsTile()) {
-            TileImage tileImage = new TileImage(getContainedTile(), currentPlayerColor);
             if (this.containsMeeple())  {
-                tileImage.addMeeple(this.meeple.get(), this.section);
+                this.tileImage.addMeeple(this.meeple.get(), this.section);
             }
-            final BufferedImage tileBufferedImage = tileImage.getAsBufferedImage(this.getWidth(), this.getHeight());
-            g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
+            g.drawImage(this.tileImage.getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0, this.getWidth(), this.getHeight(), null);
         }
     }
 
@@ -75,7 +78,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
 
     @Override
     public boolean isLocked() {
-        return containedTile.isPresent() && containedTile.get().isPlaced();
+        return locked;
     }
 
     @Override
@@ -89,5 +92,10 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
             meeple = Optional.empty();
         }
         return meeple.isPresent();
+    }
+
+    @Override
+    public void lock() {
+        this.locked = true;
     }
 }

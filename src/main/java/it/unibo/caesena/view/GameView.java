@@ -1,6 +1,7 @@
 package it.unibo.caesena.view;
 
 import java.awt.BorderLayout;
+import java.util.Optional;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,12 +23,13 @@ public class GameView extends JPanel implements View<JPanel> {
     private MainComponent<JPanel> mainComponent;
     private FooterComponent<JPanel> footer;
     private SideBarComponent<JPanel> sidebar;
+    private TileImage currentTileImage;
 
     public GameView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
-
         this.userInterface.getController().startGame();
+        this.currentTileImage = new TileImage(userInterface.getController().getCurrentTile());
         this.mainComponent = new MainComponentImpl(this);
         this.setLayout(new BorderLayout());
         this.footer = new FooterComponentImpl(this);
@@ -43,7 +45,7 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public TileImage getCurrentTileImage() {
-        return this.footer.getCurrentTileImage();
+        return this.currentTileImage;
     }
 
     public void placeMeeple() {
@@ -52,11 +54,14 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public boolean placeTile() {
-        TileButton<JButton> placeTileButton = mainComponent.getBoard().getPlacedTileButton();
-        Pair<Integer, Integer> position = mainComponent.getBoard().getTileButtonPosition(placeTileButton);
-        if (this.userInterface.getController().placeCurrentTile(position)) {
-            updateHUD();
-            return true;
+        Optional<TileButton<JButton>> placedTileButton = mainComponent.getBoard().getPlacedUnlockedTile();
+        if (placedTileButton.isPresent()) {
+            Pair<Integer, Integer> position = mainComponent.getBoard().getTileButtonPosition(placedTileButton.get());
+            if (this.userInterface.getController().placeCurrentTile(position)) {
+                mainComponent.getBoard().placeTile();
+                updateHUD();
+                return true;
+            }
         }
         return false;
     }
@@ -64,6 +69,7 @@ public class GameView extends JPanel implements View<JPanel> {
     public void endTurn() {
         this.mainComponent.endTurn();
         this.userInterface.getController().endTurn();
+        this.currentTileImage = new TileImage(userInterface.getController().getCurrentTile());
         if (this.userInterface.getController().isGameOver()) {
             userInterface.showGameOverView();
         } else {

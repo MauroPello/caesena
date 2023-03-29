@@ -2,7 +2,6 @@ package it.unibo.caesena.view.components;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
@@ -22,14 +21,14 @@ public class TileImage {
     private Color color;
     public Optional<Pair<Meeple, TileSection>> meeple;
 
-    TileImage(Tile tile, Color color) {
+    public TileImage(Tile tile, Color color) {
         this.tile = tile;
         this.color = color;
         this.rotationCount = 0;
         this.meeple = Optional.empty();
     }
 
-    TileImage(Tile tile) {
+    public TileImage(Tile tile) {
         this.tile = tile;
         this.rotationCount = 0;
         this.meeple = Optional.empty();
@@ -37,7 +36,7 @@ public class TileImage {
     }
 
     public void rotate() {
-        this.rotationCount = (this.rotationCount + 1) % 4; 
+        this.rotationCount = (this.rotationCount + 1) % 4;
     }
 
     public Tile getTile() {
@@ -48,12 +47,10 @@ public class TileImage {
         BufferedImage image = null;
         try {
             image = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png", List.of("tiles"));
-            image = Thumbnails.of(image).size(image.getWidth(), image.getHeight()).rotate(90*rotationCount).asBufferedImage();
+            image = Thumbnails.of(image).size(width, height).rotate(90*rotationCount).asBufferedImage();
             if (meeple.isPresent()) {
-                image = getTileImageWithMeeple(image);               
+                image = getTileImageWithMeeple(image);
             }
-            image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
         } catch (IOException e) {
             throw new IllegalStateException("Image path not valid");
         }
@@ -65,7 +62,7 @@ public class TileImage {
         this.meeple = Optional.of(new Pair<>(meeple, section));
     }
 
-    public BufferedImage getTileImageWithMeeple(BufferedImage image) {
+    private BufferedImage getTileImageWithMeeple(BufferedImage image) {
         Graphics2D finalGraphics = image.createGraphics();
         finalGraphics.drawImage(image, 0, 0, null);
         if (this.meeple.isPresent()) {

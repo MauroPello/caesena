@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.Tile;
+//import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
@@ -32,11 +33,9 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         this.draw();
     }
 
-    private Optional<TileButton<JButton>> getCurrentlyPlacedTileButton() {
-        Tile currentTile = this.gameView.getUserInterface().getController().getCurrentTile();
+    public Optional<TileButton<JButton>> getPlacedUnlockedTile() {
         return allTileButtons.keySet().stream()
-            .filter(tb -> tb.containsTile())
-            .filter(tb -> tb.getContainedTile().equals(currentTile))
+            .filter(k -> !k.isLocked() && k.containsTile())
             .findFirst();
     }
 
@@ -78,9 +77,13 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     private void setFirstTileButton() {
-        Tile tile = gameView.getUserInterface().getController().getPlacedTiles().get(0);
-        TileButton<JButton> button = findTileButton(tile);
-        button.addTile(tile);
+        Controller controller = this.gameView.getUserInterface().getController();
+        var placedTile = controller.getPlacedTiles();
+        for (Tile tile : placedTile) {
+            TileButton<JButton> button = findTileButton(tile).get();
+            button.addTile(new TileImage(tile));
+            button.lock();
+        }
     }
 
     private TileButton<JButton> findTileButton(int horizontalCoordinate, int verticalCoordinate) {
@@ -103,25 +106,29 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return (e) -> {
             TileButtonImpl selectedTileButton = (TileButtonImpl)e.getSource();
             Controller controller = this.gameView.getUserInterface().getController();
-            if(getCurrentlyPlacedTileButton().isEmpty() || !getCurrentlyPlacedTileButton().get().isLocked()) {
+            if(getPlacedUnlockedTile().isEmpty() || !getPlacedUnlockedTile().get().isLocked()) {
                 if (controller.isPositionValidForCurrentTile(this.allTileButtons.get(selectedTileButton))) {
-                    if (this.isTileButtonPlaced()){
-                        TileButton<JButton> lastTileButtonPlaced = this.getCurrentlyPlacedTileButton().get();
+                    if (this.getPlacedUnlockedTile().isPresent()){
+                        TileButton<JButton> lastTileButtonPlaced = this.getPlacedUnlockedTile().get();
                         if (!lastTileButtonPlaced.isLocked()) {
                             lastTileButtonPlaced.removeTile();
                         }
                     }
                     this.add(selectedTileButton);
-                    selectedTileButton.addTile(controller.getCurrentTile());
+                    selectedTileButton.addTile();
                     this.draw();
                 }
             }
         };
     }
 
-    private TileButton<JButton> findTileButton(Tile tile) {
-        Pair<Integer, Integer> tilePosition = tile.getPosition().get();
-        return findTileButton(tilePosition.getX(), tilePosition.getY());
+    private Optional<TileButton<JButton>> findTileButton(Tile tile) {
+        if (!tile.isPlaced()) {
+            return Optional.empty();
+        } else {
+            Pair<Integer, Integer> tilePosition = tile.getPosition().get();
+            return Optional.of(findTileButton(tilePosition.getX(), tilePosition.getY()));
+        }
     }
 
     @Override
@@ -158,22 +165,8 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public void move(Direction direction) {
         if(canMove(direction)) {
-            switch(direction) {
-                case DOWN:
-                    verticalOffset++;
-                    break;
-                case LEFT:
-                    horizontalOffset--;
-                    break;
-                case RIGHT:
-                    horizontalOffset++;
-                    break;
-                case UP:
-                    verticalOffset--;
-                    break;
-                default:
-                    break;
-            }
+            this.verticalOffset += direction.getY();
+            this.verticalOffset += direction.getX();
             draw();
             repaint();
         } else {
@@ -186,7 +179,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return this.fieldSize > 1;
     }
 
-    //TODO parlare di sta cosa con pello
     @Override
     public boolean canZoomOut() {
         return fieldSize < this.getHeight() / 50;
@@ -194,25 +186,8 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public boolean canMove(Direction direction) {
-        int tempVerticalOffset = this.verticalOffset;
-        int tempHorizontalOffset = this.horizontalOffset;
-        //TODO forse sto switch si può mettere fuori usando un pair
-        switch(direction) {
-            case DOWN:
-                tempVerticalOffset++;
-                break;
-            case LEFT:
-                tempHorizontalOffset--;
-                break;
-            case RIGHT:
-                tempHorizontalOffset++;
-                break;
-            case UP:
-                tempVerticalOffset--;
-                break;
-            default:
-                break;
-        }
+        int tempVerticalOffset = this.verticalOffset + direction.getY();
+        int tempHorizontalOffset = this.verticalOffset + direction.getX();
         return getTileButtonsToBeDrawn(tempHorizontalOffset, tempVerticalOffset, this.zoom).stream()
             .anyMatch(x -> x.containsTile());
     }
@@ -223,21 +198,29 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     @Override
-    public TileButton<JButton> getPlacedTileButton() {
-        return getCurrentlyPlacedTileButton().orElseThrow(()->new IllegalStateException("Tried to get placed TileButton but wasn't placed"));
+    public TileButton<JButton> getLockedTileButton() {
+        return allTileButtons.keySet().stream()
+            .filter(k -> k.isLocked())
+            .findFirst().orElseThrow(()->new IllegalStateException("Tried to get placed TileButton but wasn't placed"));
     }
 
     @Override
-    public boolean isTileButtonPlaced() {
-        return getCurrentlyPlacedTileButton().isPresent();
+    public boolean isCurrentTileButtonLocked() {
+        return allTileButtons.keySet().stream()
+            .filter(k -> k.isLocked())
+            .findFirst().isPresent();
     }
 
     @Override
     public void removePlacedTile() {
-        if (!this.getCurrentlyPlacedTileButton().isEmpty()) {
-            this.getCurrentlyPlacedTileButton().get().removeTile();
+        if (!this.getPlacedUnlockedTile().isEmpty()) {
+            this.getPlacedUnlockedTile().get().removeTile();
         }
-        //TODO vedere se questi refresh dovrebbe farli questo componente o un componente esterno
         draw();
+    }
+
+    @Override
+    public void placeTile() {
+        this.getPlacedUnlockedTile().ifPresent(TileButton::lock);
     }
 }

@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
@@ -55,9 +54,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     @Override
     protected void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
-        final Tile tile = this.gameView.getUserInterface().getController().getCurrentTile();
-        final Image image = new TileImage(tile).getAsBufferedImage(this.getWidth(), this.getHeight());
-        graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        BufferedImage tileButton = gameView.getCurrentTileImage().getAsBufferedImage(this.getWidth(), this.getHeight());
+        graphics.drawImage(tileButton, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
     @Override
