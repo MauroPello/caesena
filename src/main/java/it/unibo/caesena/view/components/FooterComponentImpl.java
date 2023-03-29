@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.Image;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -15,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
 
@@ -31,6 +28,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     GUI userInterface;
 
     JPanel innerPanel;
+    TileImage tileImage;
     GridBagConstraints constraints;
 
     //DA TESTARE PER MEEPLE COMPONENT
@@ -66,22 +64,19 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     public FooterComponentImpl(final GameView gameView) {
         super();
         this.userInterface = gameView.getUserInterface();
-        JPanel innerPanel = new JPanel();
-        this.innerPanel = innerPanel;
+        this.tileImage = new TileImage(userInterface.getController().getCurrentTile());
+        this.innerPanel = new JPanel();
 
         this.setBackground(Color.ORANGE);
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
 
-        ImageIcon icon = new ImageIcon(ResourceUtil.getBufferedImage(userInterface.getController().getCurrentTile().getTileType().name() + ".png", List.of("tiles")));
-        this.tileImageLabel = new JLabel(icon);
+        this.tileImageLabel = new JLabel();
         tileImageLabel.setPreferredSize(new Dimension(40, 40));
         tileImageLabel.setMinimumSize(new Dimension(40, 40));
-        this.tileImageLabel.setBorder(new LineBorder(Color.BLACK));
-
+        this.tileImageLabel.setBorder(new LineBorder(java.awt.Color.BLACK));
+        updateCurrentTile();
+        
         innerPanel = getRectangularJPanel();
-
-        Image resized = icon.getImage().getScaledInstance(getRectangularJPanel().getHeight()-1, getRectangularJPanel().getHeight()-1, java.awt.Image.SCALE_SMOOTH);
-        tileImageLabel.setIcon(new ImageIcon(resized));
 
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
         this.playerImageComponent = new PlayerImageImpl(40, 40);
@@ -109,6 +104,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             public void actionPerformed(ActionEvent e) {
                 gameView.removePlacedTile();
                 userInterface.getController().rotateCurrentTile();
+                tileImage.rotate();
                 updateCurrentTile();
             }
 
@@ -123,8 +119,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentTile() {
-        Image rotatedPreviewTile = new TileImage(userInterface.getController().getCurrentTile()).getAsBufferedImage();
-        tileImageLabel.setIcon(new ImageIcon(rotatedPreviewTile.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH)));
+        tileImageLabel.setIcon(new ImageIcon(tileImage.getAsBufferedImage(40, 40)));
     }
 
     @Override

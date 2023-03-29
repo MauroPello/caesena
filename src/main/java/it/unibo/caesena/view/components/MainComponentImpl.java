@@ -27,29 +27,22 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     @Override
     public void toggleComponents() {
-        if (this.showingBoard) {
-            this.showSectionSelector();
-        } else {
-            this.showBoard();
-        }
         showingBoard = !showingBoard;
+        updateComponents();
     }
 
     private void showBoard(){
         this.removeAll();
-        this.getBoard().draw();
         this.add(this.getBoard().getComponent());
-        this.validate();
+        this.getBoard().draw();
     }
 
     private void showSectionSelector(){
         this.removeAll();
+        // TODO se vogliamo toglierlo bisogna trovare un modo di gestire questa cosa in tile button in modo che il giocatore sappia dove ha "piazzato" il meeple
+        this.getSectionSelector().reset();
         this.getSectionSelector().draw();
         this.add(this.getSectionSelector().getComponent());
-        //TODO capire quale diamine serve
-        this.validate();
-        this.revalidate();
-        this.repaint();
     }
 
     @Override
@@ -84,12 +77,12 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
             }
             this.getSectionSelector().reset();
         }
+
         if (!showingBoard) {
             toggleComponents();
+        } else{
+            updateComponents();
         }
-        this.revalidate();
-        this.validate();
-        this.repaint();
     }
 
     @Override
@@ -104,7 +97,11 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
         } else {
             this.showSectionSelector();
         }
+
         this.validate();
+        this.revalidate();
+        this.validate();
+        this.repaint();
     }
 
 }

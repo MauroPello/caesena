@@ -2,18 +2,20 @@ package it.unibo.caesena.model.tile;
 
 import java.util.List;
 
+import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactory;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 
 public final class TileBuilder {
 
+    private final GameSetTileMediator mediator;
     private final GameSetFactory factory;
     private final Tile tile;
 
-    public TileBuilder(final TileType type) {
+    public TileBuilder(final TileType type, final GameSetTileMediator mediator) {
         this.factory = new GameSetFactoryImpl();
-
+        this.mediator = mediator;
         this.tile = new TileImpl(type);
     }
 
@@ -50,7 +52,7 @@ public final class TileBuilder {
     }
 
     private void applySet(final List<TileSection> sections, final GameSet gameSet) {
-        sections.forEach(s -> tile.putSection(s, gameSet));
+        sections.forEach(s -> mediator.addSectionToGameSetTile(gameSet, tile , s));
     }
 
     public Tile build() {

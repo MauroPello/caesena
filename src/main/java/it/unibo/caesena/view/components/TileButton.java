@@ -16,8 +16,6 @@ public interface TileButton<X> {
 
     boolean containsTile();
 
-    boolean containsMeeple();
-
     void addMeeple(Meeple meeple, TileSection section);
 
     X getComponent();

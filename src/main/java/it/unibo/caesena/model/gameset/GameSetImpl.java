@@ -31,6 +31,9 @@ public final class GameSetImpl implements GameSet {
         this.closed = false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean addMeeple(final Meeple meeple) {
         if (!isMeepleFree()) {
@@ -42,11 +45,17 @@ public final class GameSetImpl implements GameSet {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isMeepleFree() {
         return this.meeples.isEmpty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean close() {
         if (this.isClosed()) {
@@ -81,6 +90,9 @@ public final class GameSetImpl implements GameSet {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameSetType getType() {
         return this.type;
@@ -91,36 +103,41 @@ public final class GameSetImpl implements GameSet {
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isClosed() {
         return this.closed;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getPoints() {
         return this.points;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setPoints(final int points) {
         this.points = points;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addPoints(final int points) {
         this.points += points;
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        return this == obj;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Meeple> getMeeples() {
         return this.meeples;
