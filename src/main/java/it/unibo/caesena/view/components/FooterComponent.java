@@ -7,7 +7,5 @@ public interface FooterComponent<X> {
 
     void updateFooter();
 
-    TileImage getCurrentTileImage();
-
     public void updateRemainingTiles();
 }
