@@ -7,21 +7,24 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
+import it.unibo.caesena.view.LocaleHelper;
 
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
 
     JLabel tileImageLabel;
+    JButton rotateButton;
     JLabel playerNameLabel = new JLabel("name");
     JLabel playerScoreLabel = new JLabel("score");
-    JButton rotateButton = new JButton("Rotate");
     JLabel remainingTilesLabel = new JLabel("N° tile");
 
     GUI userInterface;
@@ -63,9 +66,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     public FooterComponentImpl(final GameView gameView) {
         super();
         this.userInterface = gameView.getUserInterface();
-        
         this.setBackground(Color.ORANGE);
-        
         this.innerPanel = getRectangularJPanel();
 
         this.tileImage = new TileImage(userInterface.getController().getCurrentTile());
@@ -85,6 +86,20 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
         this.playerImageComponent = new PlayerImageImpl(40, 40);
         this.playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
+
+        this.rotateButton = new JButton() {
+            @Override
+            protected void paintComponent(Graphics graphics) {
+                super.paintComponent(graphics);
+                BufferedImage image = ResourceUtil.getBufferedImage("rotate-right.png", List.of());
+                graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            }
+        };
+
+        rotateButton.setPreferredSize(new Dimension(30,30));
+        rotateButton.setContentAreaFilled(false);
+        rotateButton.setOpaque(false);
+        rotateButton.setBorderPainted(false);
 
         innerPanel.add(playerImageComponent.getComponent());
         innerPanel.add(playerNameLabel);
@@ -131,7 +146,8 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateRemainingTiles() {
-        remainingTilesLabel.setText(userInterface.getController().getNotPlacedTiles().size()+"");
+        remainingTilesLabel.setText("Remaining Tiles: " + userInterface.getController().getNotPlacedTiles().size());
+        //TODO localehelper
     }
 
     @Override
@@ -140,7 +156,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         meepleComponent.update();
         playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
-        playerScoreLabel.setText("S: "+userInterface.getController().getCurrentPlayer().getScore()+"");
+        playerScoreLabel.setText(LocaleHelper.getScoreText()+userInterface.getController().getCurrentPlayer().getScore());
         updateRemainingTiles();
         if(userInterface.getController().getCurrentTile().isPlaced()) {
             rotateButton.setEnabled(false);
