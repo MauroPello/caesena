@@ -89,11 +89,17 @@ public class GameOverView extends JPanel implements View<JPanel> {
         this.validate();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final JPanel getComponent() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public final GUI getUserInterface() {

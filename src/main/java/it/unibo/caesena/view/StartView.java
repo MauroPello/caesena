@@ -93,6 +93,9 @@ public class StartView extends JPanel implements View<JPanel> {
         this.add(mainPanel);
     }
 
+    /**
+     * add new player 
+     */
     private void addPlayerInput() {
         final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
 
@@ -100,15 +103,24 @@ public class StartView extends JPanel implements View<JPanel> {
         this.playerInputs.add(playerPanel);
     }
 
+    /**
+     * remove player 
+     */
     private void removePlayerInput() {
         this.playersPanel.remove(this.playerInputs.remove(this.playerInputs.size() - 1).getComponent());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final JPanel getComponent() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public final GUI getUserInterface() {
