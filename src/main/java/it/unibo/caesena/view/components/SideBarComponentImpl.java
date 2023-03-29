@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -17,9 +19,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     JButton zoomInButton = new JButton("Zoom +");
     JButton zoomOutButton = new JButton("Zoom -");
 
-    private JPanel arrowsPanel = new JPanel();
-    private JPanel centerArrowPanel = new JPanel();
-
     JButton upRowButton = new JButton("UP");
     JButton downRowButton = new JButton("DOWN");
     JButton leftRowButton = new JButton("LEFT");
@@ -27,8 +26,9 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
     JButton placeTileButton = new JButton("PLACE TILE");
     JButton placeMeepleButton = new JButton("PLACE MEEPLE");
-    JButton endTurnButton = new JButton("ENDTURN");
     JButton discardTileButton = new JButton("DISCARD");
+
+    JButton endTurnButton = new JButton("ENDTURN");
 
     Controller controller;
     GameView gameView;
@@ -37,6 +37,11 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     public SideBarComponentImpl(final GameView gameView) {
         super();
         JPanel innerPanel = new JPanel();
+        JPanel zoomPanel = new JPanel();
+        JPanel arrowsPanel = new JPanel();
+        JPanel centerArrowPanel = new JPanel();
+        JPanel actionsPanel = new JPanel();
+
         this.controller = gameView.getUserInterface().getController();
         this.gameView = gameView;
         this.leaderBoard = new LeaderBoardComponentImpl(controller);
@@ -55,7 +60,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
         arrowsPanel.add(upRowButton);
         upRowButton.setAlignmentX(CENTER_ALIGNMENT);
-
         centerArrowPanel.add(leftRowButton, BorderLayout.WEST);
         centerArrowPanel.add(rightRowButton, BorderLayout.EAST);
         arrowsPanel.add(centerArrowPanel);
@@ -67,8 +71,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         zoomInButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         innerPanel.add(zoomOutButton);
         zoomOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         innerPanel.add(arrowsPanel);
         arrowsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         innerPanel.add(placeTileButton);
         placeTileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         innerPanel.add(discardTileButton);
@@ -77,9 +83,11 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         placeMeepleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         innerPanel.add(endTurnButton);
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         innerPanel.add(leaderBoard.getComponent());
         leaderBoard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(innerPanel);
+        innerPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
         this.setVisible(true);
         innerPanel.setVisible(true);

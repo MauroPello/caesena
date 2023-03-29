@@ -40,6 +40,10 @@ public class TileImage {
         this.rotationCount = (this.rotationCount + 1) % 4; 
     }
 
+    public Tile getTile() {
+        return this.tile;
+    }
+
     public BufferedImage getAsBufferedImage(int width, int height) {
         BufferedImage image = null;
         try {

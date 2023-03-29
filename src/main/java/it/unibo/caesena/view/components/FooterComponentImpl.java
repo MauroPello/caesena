@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -66,12 +64,12 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     public FooterComponentImpl(final GameView gameView) {
         super();
         this.userInterface = gameView.getUserInterface();
-        this.tileImage = new TileImage(userInterface.getController().getCurrentTile());
-        this.innerPanel = new JPanel();
-
+        
         this.setBackground(Color.ORANGE);
-        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
+        
+        this.innerPanel = getRectangularJPanel();
 
+        this.tileImage = new TileImage(userInterface.getController().getCurrentTile());
         this.tileImageLabel = new JLabel() {
             @Override
             protected void paintComponent(Graphics g)
@@ -84,10 +82,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         tileImageLabel.setPreferredSize(new Dimension(40, 40));
         tileImageLabel.setMinimumSize(new Dimension(40, 40));
         this.tileImageLabel.setBorder(new LineBorder(java.awt.Color.BLACK));
-        updateCurrentTile();
         
-        innerPanel = getRectangularJPanel();
-
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
         this.playerImageComponent = new PlayerImageImpl(40, 40);
         this.playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
@@ -101,12 +96,12 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         innerPanel.add(rotateButton);
         innerPanel.add(remainingTilesLabel);
 
+        innerPanel.setVisible(true);
         this.add(innerPanel);
 
-        this.setVisible(true);
-        innerPanel.setVisible(true);
-
         updateFooter();
+        
+        this.setVisible(true);
 
         rotateButton.addActionListener(new ActionListener(){
 
@@ -129,7 +124,11 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentTile() {
-        tileImageLabel.setIcon(new ImageIcon(tileImage.getAsBufferedImage(40, 40)));
+        if (!tileImage.getTile().equals(userInterface.getController().getCurrentTile())) {
+            tileImage = new TileImage(userInterface.getController().getCurrentTile());
+        }
+        tileImageLabel.revalidate();
+        tileImageLabel.repaint();
     }
 
     @Override
@@ -148,7 +147,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     @Override
     public void updateFooter() {
         updateCurrentTile();
-
         playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
         playerScoreLabel.setText("S: "+userInterface.getController().getCurrentPlayer().getScore()+"");
@@ -159,5 +157,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         } else {
             rotateButton.setEnabled(true);
         }
+    }
+
+    @Override
+    public TileImage getCurrentTileImage() {
+        return this.tileImage;
     }
 }

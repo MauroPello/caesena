@@ -9,5 +9,7 @@ public interface FooterComponent<X> {
 
     void updateCurrentPlayerMeeples();
 
+    TileImage getCurrentTileImage();
+
     public void updateRemainingTiles();
 }

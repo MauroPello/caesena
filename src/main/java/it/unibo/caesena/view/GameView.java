@@ -14,6 +14,7 @@ import it.unibo.caesena.view.components.MainComponentImpl;
 import it.unibo.caesena.view.components.SideBarComponent;
 import it.unibo.caesena.view.components.SideBarComponentImpl;
 import it.unibo.caesena.view.components.TileButton;
+import it.unibo.caesena.view.components.TileImage;
 
 public class GameView extends JPanel implements View<JPanel> {
 
@@ -39,6 +40,10 @@ public class GameView extends JPanel implements View<JPanel> {
     public final void updateHUD() {
         this.footer.updateFooter();
         this.sidebar.update();
+    }
+
+    public TileImage getCurrentTileImage() {
+        return this.footer.getCurrentTileImage();
     }
 
     public void placeMeeple() {
@@ -87,7 +92,6 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public void updateComponents() {
-        this.mainComponent.getBoard().draw();
         this.mainComponent.getBoard().draw();
     }
 
