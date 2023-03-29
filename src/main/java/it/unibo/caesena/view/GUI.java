@@ -19,8 +19,8 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
-    private static boolean DEBUG_GAME_VIEW = false;
-    private static boolean DEBUG_GAME_OVER_VIEW = true;
+    private static boolean DEBUG_GAME_VIEW = true;
+    private static boolean DEBUG_GAME_OVER_VIEW = false;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
     private Controller controller;
     private View<JPanel> startView;
@@ -114,7 +114,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * show PauseView 
+     * show PauseView
      */
     public void togglePauseView() {
         this.pauseView.setVisible(!this.pauseView.isVisible());
@@ -178,7 +178,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     *
      * @param container specifies the type of containers
      * @param enabled to enable or disable containers
      */
@@ -192,17 +192,17 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     *
      * @param name to add
-     * @param color to add on relative name 
+     * @param color to add on relative name
      */
     public void addPlayer(String name, Color color) {
         this.players.put(this.controller.addPlayer(name), color);
     }
 
     /**
-     * 
-     * @param player 
+     *
+     * @param player
      * @return color of player
      */
     public Color getPlayerColor(final Player player) {

@@ -54,7 +54,6 @@ public class TileImage {
         } catch (IOException e) {
             throw new IllegalStateException("Image path not valid");
         }
-
         return image;
     }
 

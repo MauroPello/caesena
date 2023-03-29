@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.PriorityQueue;
 
 import javax.swing.BoxLayout;
@@ -62,11 +61,11 @@ public class GameOverView extends JPanel implements View<JPanel> {
             final JLabel volataileLabel = new JLabel();
             volataileLabel.setText(LocaleHelper.getNameText() + player.getName() + " " + LocaleHelper.getScoreText() + player.getScore());
             volatailePanel.add(volataileLabel);
-            
+
             final var playerColorPanel = new PlayerImageImpl(WIDTH, HEIGHT);
             playerColorPanel.setColor(userInterface.getPlayerColor(player));
             volatailePanel.add(playerColorPanel);
-            
+
             playersPanel.add(volatailePanel);
         }
         this.mainPanel.add(playersPanel);

@@ -24,15 +24,17 @@ public interface BoardComponent<X> {
 
     void removePlacedTile();
 
-    boolean isCurrentTileButtonLocked();
+    boolean hasPlacedTileButtonInCurrentTurn();
 
-    TileButton<JButton> getLockedTileButton();
+    TileButton<JButton> getLastTileButton();
 
     Pair<Integer, Integer> getTileButtonPosition(TileButton<JButton> tileButton);
 
     Optional<TileButton<JButton>> getPlacedUnlockedTile();
 
     void placeTile();
+
+    void endTurn();
 
     X getComponent();
 }

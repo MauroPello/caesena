@@ -1,11 +1,14 @@
 package it.unibo.caesena.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.Optional;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import it.unibo.caesena.model.Player;
+import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.components.FooterComponent;
@@ -29,7 +32,7 @@ public class GameView extends JPanel implements View<JPanel> {
         super();
         this.userInterface = userInterface;
         this.userInterface.getController().startGame();
-        this.currentTileImage = new TileImage(userInterface.getController().getCurrentTile());
+        generateCurrentTileImage();
         this.mainComponent = new MainComponentImpl(this);
         this.setLayout(new BorderLayout());
         this.footer = new FooterComponentImpl(this);
@@ -37,6 +40,13 @@ public class GameView extends JPanel implements View<JPanel> {
         this.add(sidebar.getComponent(), BorderLayout.EAST);
         this.add(mainComponent.getComponent(), BorderLayout.CENTER);
         this.add(footer.getComponent(), BorderLayout.SOUTH);
+    }
+
+    private void generateCurrentTileImage() {
+        Tile currentTile = userInterface.getController().getCurrentTile();
+        Player currentPlayer = userInterface.getController().getCurrentPlayer();
+        Color currentPlayerColor = userInterface.getPlayerColor(currentPlayer);
+        this.currentTileImage = new TileImage(currentTile, currentPlayerColor);
     }
 
     public final void updateHUD() {
@@ -69,7 +79,7 @@ public class GameView extends JPanel implements View<JPanel> {
     public void endTurn() {
         this.mainComponent.endTurn();
         this.userInterface.getController().endTurn();
-        this.currentTileImage = new TileImage(userInterface.getController().getCurrentTile());
+        generateCurrentTileImage();
         if (this.userInterface.getController().isGameOver()) {
             userInterface.showGameOverView();
         } else {
@@ -96,7 +106,7 @@ public class GameView extends JPanel implements View<JPanel> {
     public boolean canZoomOut() {
         return this.mainComponent.getBoard().canZoomOut();
     }
-    
+
     public boolean canMove(Direction direction) {
         return this.mainComponent.getBoard().canMove(direction);
     }

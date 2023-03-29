@@ -25,9 +25,11 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     private int zoom = 0;
     private int horizontalOffset = 0;
     private int verticalOffset = 0;
+    private Optional<TileButton<JButton>> lastTileButtonLocked;
 
     public BoardComponentImpl(final GameView gameView) {
         this.gameView = gameView;
+        this.lastTileButtonLocked = Optional.empty();
         this.allTileButtons = new HashMap<>();
         this.setFirstTileButton();
         this.draw();
@@ -198,17 +200,13 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     @Override
-    public TileButton<JButton> getLockedTileButton() {
-        return allTileButtons.keySet().stream()
-            .filter(k -> k.isLocked())
-            .findFirst().orElseThrow(()->new IllegalStateException("Tried to get placed TileButton but wasn't placed"));
+    public TileButton<JButton> getLastTileButton() {
+        return this.lastTileButtonLocked.get();
     }
 
     @Override
-    public boolean isCurrentTileButtonLocked() {
-        return allTileButtons.keySet().stream()
-            .filter(k -> k.isLocked())
-            .findFirst().isPresent();
+    public boolean hasPlacedTileButtonInCurrentTurn() {
+        return this.lastTileButtonLocked.isPresent();
     }
 
     @Override
@@ -221,6 +219,14 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public void placeTile() {
-        this.getPlacedUnlockedTile().ifPresent(TileButton::lock);
+        if (this.getPlacedUnlockedTile().isPresent()) {
+            this.lastTileButtonLocked = this.getPlacedUnlockedTile();
+            this.getPlacedUnlockedTile().ifPresent(TileButton::lock);
+        }
+    }
+
+    @Override
+    public void endTurn() {
+        this.lastTileButtonLocked = Optional.empty();
     }
 }
