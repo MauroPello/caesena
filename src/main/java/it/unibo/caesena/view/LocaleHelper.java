@@ -92,6 +92,14 @@ public class LocaleHelper {
      * 
      * @return
      */
+    public static String getScoreText() {
+        return getResourceBundle().getString("score") + ": ";
+    }
+
+    /**
+     * 
+     * @return
+     */
     public static String getColorText() {
         return getResourceBundle().getString("color") + ": ";
     }
