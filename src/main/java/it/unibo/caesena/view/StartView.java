@@ -94,7 +94,7 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     /**
-     * 
+     * add new player 
      */
     private void addPlayerInput() {
         final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
@@ -104,14 +104,14 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     /**
-     * 
+     * remove player 
      */
     private void removePlayerInput() {
         this.playersPanel.remove(this.playerInputs.remove(this.playerInputs.size() - 1).getComponent());
     }
 
     /**
-     * 
+     * {@inheritDoc}
      */
     @Override
     public final JPanel getComponent() {
@@ -119,7 +119,7 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     /**
-     * 
+     * {@inheritDoc}
      */
     @Override
     @SuppressWarnings("unchecked")

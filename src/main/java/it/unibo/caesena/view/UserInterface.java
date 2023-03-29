@@ -5,13 +5,13 @@ import it.unibo.caesena.controller.Controller;
 public interface UserInterface {
 
     /**
-     * 
+     * Close GUI and view's
      */
     void exit();
 
     /**
      * 
-     * @return
+     * @return GUI controller
      */
     Controller getController();
 

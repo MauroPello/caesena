@@ -61,7 +61,7 @@ public class PauseView extends JPanel implements View<JPanel> {
     }
 
     /**
-     * 
+     * {@inheritDoc}
      */
     @Override
     public final JPanel getComponent() {
@@ -69,7 +69,7 @@ public class PauseView extends JPanel implements View<JPanel> {
     }
 
     /**
-     * 
+     * {@inheritDoc}
      */
     @Override
     @SuppressWarnings("unchecked")

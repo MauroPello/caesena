@@ -67,7 +67,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     * show only startview
      */
     public void showStartView() {
         this.setTitle(LocaleHelper.getViewTitle("StartView", true));
@@ -84,7 +84,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     * shows only GameView and PauseView if called
      */
     public void startGame() {
         this.setTitle(LocaleHelper.getViewTitle("GameView", true));
@@ -114,7 +114,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     * show PauseView 
      */
     public void togglePauseView() {
         this.pauseView.setVisible(!this.pauseView.isVisible());
@@ -123,7 +123,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     * show only GameOverView
      */
     public void showGameOverView() {
         this.setTitle(LocaleHelper.getViewTitle("GameOverView", true));
@@ -139,7 +139,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     * if called, show exit dialog
      */
     public void showExitDialog() {
         int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmExitText(),
@@ -151,7 +151,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     * if called, show backtoStart dialog
      */
     public void showBackToStartViewDialog() {
         int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
@@ -163,7 +163,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     * {@inheritDoc}
      */
     public void exit() {
         this.controller.exitGame();
@@ -171,7 +171,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * 
+     * {@inheritDoc}
      */
     public Controller getController() {
         return this.controller;
@@ -179,6 +179,8 @@ public class GUI extends JFrame implements UserInterface {
 
     /**
      * 
+     * @param container specifies the type of containers
+     * @param enabled to enable or disable containers
      */
     private void setEnabledAllComponents(Container container, boolean enabled) {
         for (var component : container.getComponents()) {
@@ -191,6 +193,8 @@ public class GUI extends JFrame implements UserInterface {
 
     /**
      * 
+     * @param name to add
+     * @param color to add on relative name 
      */
     public void addPlayer(String name, Color color) {
         this.players.put(this.controller.addPlayer(name), color);
@@ -198,6 +202,8 @@ public class GUI extends JFrame implements UserInterface {
 
     /**
      * 
+     * @param player 
+     * @return color of player
      */
     public Color getPlayerColor(final Player player) {
         return this.players.get(player);

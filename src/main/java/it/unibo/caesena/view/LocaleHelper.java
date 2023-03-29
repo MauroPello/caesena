@@ -10,7 +10,7 @@ public class LocaleHelper {
 
     /**
      * 
-     * @return
+     * @return 
      */
     public static ResourceBundle getResourceBundle() {
         return ResourceBundle.getBundle(BUNDLE_NAME, currentLocale);
@@ -18,7 +18,7 @@ public class LocaleHelper {
 
     /**
      * 
-     * @param locale
+     * @param locale to set the location of currentLocale
      */
     public static void setLocale(final Locale locale) {
         currentLocale = locale;
@@ -26,7 +26,7 @@ public class LocaleHelper {
 
     /**
      * 
-     * @return
+     * @return in String, the name of Application
      */
     public static String getApplicationName() {
         return getResourceBundle().getString("applicationName");
@@ -34,8 +34,8 @@ public class LocaleHelper {
 
     /**
      * 
-     * @param currentView
-     * @param withApplicationName
+     * @param currentView 
+     * @param withApplicationName 
      * @return
      */
     public static String getViewTitle(String currentView, boolean withApplicationName) {
@@ -50,7 +50,7 @@ public class LocaleHelper {
 
     /**
      * 
-     * @return
+     * @return 
      */
     public static String getExitDialogTitle() {
         return getResourceBundle().getString("exitDialogTitle") + " " + getApplicationName();
