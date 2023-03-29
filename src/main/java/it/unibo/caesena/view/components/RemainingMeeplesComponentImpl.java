@@ -45,6 +45,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         allMeeplesPanel.validate();
         allMeeplesPanel.repaint();
         
+        meeples = userInterface.getController().getPlayerMeeples(userInterface.getController().getCurrentPlayer());
         for (Meeple meeple : meeples) {
             JPanel meeplePanel = new JPanel() {
                 @Override
