@@ -1,16 +1,16 @@
 package it.unibo.caesena.model;
 
-import java.util.Set;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 
 public class GameSetTileMediator {
-    
+
     private final Map<GameSet, Map<Tile, Set<TileSection>>> map;
 
     public GameSetTileMediator() {
@@ -30,23 +30,23 @@ public class GameSetTileMediator {
     }
 
     public void rotateTileClockwise(final Tile tile) {
-        for (var entry : map.entrySet()) {
+        for (final var entry : map.entrySet()) {
             if (entry.getValue().containsKey(tile)) {
-                var sections = entry.getValue().get(tile);
+                final var sections = entry.getValue().get(tile);
                 entry.getValue().put(tile, new HashSet<>(sections.stream().map(TileSection::rotateClockwise).toList()));
             }
         }
     }
 
     public boolean isSectionNearToGameset(final Tile tile, final TileSection tileSection, final GameSet gameSet) {
-        return getGameSet(tile, TileSection.next(tileSection)).equals(gameSet) || 
-            getGameSet(tile, TileSection.previous(tileSection)).equals(gameSet);
+        return getGameSet(tile, TileSection.next(tileSection)).equals(gameSet) ||
+                getGameSet(tile, TileSection.previous(tileSection)).equals(gameSet);
     }
 
     public GameSet getGameSet(final Tile tile, final TileSection tileSection) {
         return map.entrySet().stream()
-            .filter(e -> e.getValue().containsKey(tile) && e.getValue().get(tile).contains(tileSection))
-            .map(e -> e.getKey()).findFirst().get();
+                .filter(e -> e.getValue().containsKey(tile) && e.getValue().get(tile).contains(tileSection))
+                .map(e -> e.getKey()).findFirst().get();
     }
 
     public Map<Tile, Set<TileSection>> getTilesFromGameSet(final GameSet gameSet) {

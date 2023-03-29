@@ -25,6 +25,11 @@ public class ConfigurationLoader {
         this.fileName = fileName;
     }
 
+    /**
+     * 
+     * @param factory a factory that specifies what type of TileFactory to create
+     * @return a list of all the tiles
+     */
     public final List<Tile> getTiles(final TileFactory factory) {
         try {
             final Object fileJson = new JSONParser()

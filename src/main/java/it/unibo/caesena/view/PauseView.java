@@ -60,11 +60,17 @@ public class PauseView extends JPanel implements View<JPanel> {
         this.add(mainPanel);
     }
 
+    /**
+     * 
+     */
     @Override
     public final JPanel getComponent() {
         return this;
     }
 
+    /**
+     * 
+     */
     @Override
     @SuppressWarnings("unchecked")
     public final GUI getUserInterface() {

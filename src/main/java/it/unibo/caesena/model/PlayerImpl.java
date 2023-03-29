@@ -12,16 +12,25 @@ public final class PlayerImpl implements Player {
         this.score = 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getName() {
         return this.name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getScore() {
         return this.score;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setScore(final int newScore) {
         if (newScore < this.score) {
@@ -30,6 +39,9 @@ public final class PlayerImpl implements Player {
         this.score = newScore;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addScore(final int amount) {
         if (amount < 0) {
@@ -38,6 +50,9 @@ public final class PlayerImpl implements Player {
         setScore(this.score + amount);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -46,6 +61,9 @@ public final class PlayerImpl implements Player {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -62,6 +80,9 @@ public final class PlayerImpl implements Player {
         return name.equals(other.getName());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();

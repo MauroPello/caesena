@@ -19,8 +19,6 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
-    // TODO rimuovere
-    // RAGA È SOLO PER DEBUG, SE ATTIVO UNO DISATTIVATE GLI ALTRI!!
     private static boolean DEBUG_GAME_VIEW = true;
     private static boolean DEBUG_GAME_OVER_VIEW = false;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
@@ -68,6 +66,9 @@ public class GUI extends JFrame implements UserInterface {
         }
     }
 
+    /**
+     * 
+     */
     public void showStartView() {
         this.setTitle(LocaleHelper.getViewTitle("StartView", true));
         this.startView = new StartView(this);
@@ -82,6 +83,9 @@ public class GUI extends JFrame implements UserInterface {
         this.repaint();
     }
 
+    /**
+     * 
+     */
     public void startGame() {
         this.setTitle(LocaleHelper.getViewTitle("GameView", true));
         this.startView = null;
@@ -109,12 +113,18 @@ public class GUI extends JFrame implements UserInterface {
         this.repaint();
     }
 
+    /**
+     * 
+     */
     public void togglePauseView() {
         this.pauseView.setVisible(!this.pauseView.isVisible());
         setEnabledAllComponents(gameView.getComponent(), !this.pauseView.isVisible());
         setEnabledAllComponents(pauseView.getComponent(), this.pauseView.isVisible());
     }
 
+    /**
+     * 
+     */
     public void showGameOverView() {
         this.setTitle(LocaleHelper.getViewTitle("GameOverView", true));
         this.gameOverView = new GameOverView(this);
@@ -128,7 +138,9 @@ public class GUI extends JFrame implements UserInterface {
         this.repaint();
     }
 
-
+    /**
+     * 
+     */
     public void showExitDialog() {
         int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmExitText(),
             LocaleHelper.getExitDialogTitle(), JOptionPane.YES_NO_OPTION);
@@ -138,6 +150,9 @@ public class GUI extends JFrame implements UserInterface {
         }
     }
 
+    /**
+     * 
+     */
     public void showBackToStartViewDialog() {
         int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
             LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
@@ -147,15 +162,24 @@ public class GUI extends JFrame implements UserInterface {
         }
     }
 
+    /**
+     * 
+     */
     public void exit() {
         this.controller.exitGame();
         System.exit(0);
     }
 
+    /**
+     * 
+     */
     public Controller getController() {
         return this.controller;
     }
 
+    /**
+     * 
+     */
     private void setEnabledAllComponents(Container container, boolean enabled) {
         for (var component : container.getComponents()) {
             component.setEnabled(enabled);
@@ -165,10 +189,16 @@ public class GUI extends JFrame implements UserInterface {
         }
     }
 
+    /**
+     * 
+     */
     public void addPlayer(String name, Color color) {
         this.players.put(this.controller.addPlayer(name), color);
     }
 
+    /**
+     * 
+     */
     public Color getPlayerColor(final Player player) {
         return this.players.get(player);
     }
