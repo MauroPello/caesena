@@ -158,14 +158,9 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
 
     @Override
     public GameSet getGameSetInSection(final Tile tile, final TileSection tileSection) {
-        for (var entry : crossReferences.entrySet()) {
-            if (entry.getValue().containsKey(tile)) {
-                if (entry.getValue().get(tile).contains(tileSection)) {
-                    return entry.getKey();
-                }
-            }
-        }
-        throw new IllegalArgumentException("CICCIO");
+        return crossReferences.entrySet().stream()
+            .filter(e -> e.getValue().containsKey(tile) && e.getValue().get(tile).contains(tileSection))
+            .findFirst().get().getKey();
     }
 
     @Override

@@ -89,6 +89,14 @@ public class GameView extends JPanel implements View<JPanel> {
         this.mainComponent.getBoard().move(direction);
     }
 
+    public boolean canZoomIn() {
+        return this.mainComponent.getBoard().canZoomIn();
+    }
+
+    public boolean canZoomOut() {
+        return this.mainComponent.getBoard().canZoomOut();
+    }
+    
     public boolean canMove(Direction direction) {
         return this.mainComponent.getBoard().canMove(direction);
     }

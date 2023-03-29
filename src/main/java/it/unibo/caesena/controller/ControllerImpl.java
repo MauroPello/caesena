@@ -110,25 +110,6 @@ public final class ControllerImpl implements Controller {
             return true;
         }
 
-        for (final var nearTile : getPlacedTiles()) {
-            if (areTilesNear(currentTile, nearTile)) {
-                GameSet centerGameset = mediator.getGameSetInSection(nearTile, TileSection.CENTER);
-                if ((centerGameset.getType().equals(GameSetType.MONASTERY) && !centerGameset.isMeepleFree())) {
-                    centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
-                    if (centerGameset.getPoints() == POINTS_CLOSED_MONASTERY) {
-                        centerGameset.close();
-                    }
-                }
-                centerGameset = mediator.getGameSetInSection(currentTile, TileSection.CENTER);
-                if ((centerGameset.getType().equals(GameSetType.MONASTERY) && !centerGameset.isMeepleFree())) {
-                    centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
-                    if (centerGameset.getPoints() == POINTS_CLOSED_MONASTERY) {
-                        centerGameset.close();
-                    }
-                }
-            }
-        }
-
         mediator.getTileNeighbours(position).forEach(n -> mediator.joinTiles(currentTile, n));
 
         return true;
@@ -171,6 +152,26 @@ public final class ControllerImpl implements Controller {
             .filter(this::isGameSetClosed)
             .forEach(GameSet::close);
 
+        for (final var nearTile : getPlacedTiles()) {
+            if (areTilesNear(currentTile, nearTile)) {
+                GameSet centerGameset = mediator.getGameSetInSection(nearTile, TileSection.CENTER);
+                if (centerGameset.getType().equals(GameSetType.MONASTERY)) {
+                    centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
+                    if (isGameSetClosed(centerGameset)) {
+                        centerGameset.close();
+                    }
+                }
+
+                centerGameset = mediator.getGameSetInSection(currentTile, TileSection.CENTER);
+                if (centerGameset.getType().equals(GameSetType.MONASTERY)) {
+                    centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
+                    if (isGameSetClosed(centerGameset)) {
+                        centerGameset.close();
+                    }
+                }
+            }
+        }
+
         this.turn += 1;
         drawNewTile();
     }
@@ -196,7 +197,6 @@ public final class ControllerImpl implements Controller {
             .flatMap(c -> mediator.getFieldGameSetsNearGameSet(c).stream())
             .peek(f -> f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD))
             .collect(Collectors.toSet());
-        
         fieldsToClose.forEach(GameSet::close);
 
         mediator.getAllGameSets().stream()
@@ -223,6 +223,14 @@ public final class ControllerImpl implements Controller {
     }
 
     private boolean isGameSetClosed(final GameSet gameSet) {
+        if (gameSet.getType().equals(GameSetType.MONASTERY)) {
+            if (gameSet.getPoints() == POINTS_CLOSED_MONASTERY) {
+                return true;
+            } else {
+                return false;
+            } 
+        }
+
         return mediator.getTilesFromGameSet(gameSet).entrySet().stream()
             .allMatch(p -> p.getValue().stream().allMatch(s -> p.getKey().isSectionClosed(s)));
     }
