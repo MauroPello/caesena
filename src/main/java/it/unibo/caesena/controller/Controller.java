@@ -27,7 +27,7 @@ public interface Controller {
 
     void rotateCurrentTile();
 
-    boolean isValidPositionForCurrentTile(Pair<Integer, Integer> position);
+    boolean isPositionValidForCurrentTile(Pair<Integer, Integer> position);
 
     boolean placeCurrentTile(Pair<Integer, Integer> position);
 

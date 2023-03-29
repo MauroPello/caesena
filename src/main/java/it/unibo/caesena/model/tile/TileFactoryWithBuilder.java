@@ -34,7 +34,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSetInSection(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
@@ -61,7 +61,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSetInSection(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
@@ -86,7 +86,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSetInSection(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
@@ -115,7 +115,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSetInSection(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
@@ -140,7 +140,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSetInSection(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
@@ -249,7 +249,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        mediator.getGameSet(tile, TileSection.RIGHT_CENTER).addPoints(PENNANT_POINTS);
+        mediator.getGameSetInSection(tile, TileSection.RIGHT_CENTER).addPoints(PENNANT_POINTS);
         return tile;
     }
 
