@@ -112,16 +112,6 @@ public final class GameSetImpl implements GameSet {
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        return this == obj;
-    }
-
-    @Override
     public List<Meeple> getMeeples() {
         return this.meeples;
     }
