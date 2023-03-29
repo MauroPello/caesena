@@ -67,7 +67,7 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
         playerList.sort((x, y) -> Integer.compare(y.getScore(), x.getScore()));
 
         for (int i = 0; i < playerList.size(); i++) {
-            labelList.get(i).setText(playerList.get(i).getScore()+" "+playerList.get(i).getName());
+            labelList.get(i).setText(playerList.get(i).getName()+" "+playerList.get(i).getScore());
         }
     }
 

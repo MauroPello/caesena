@@ -2,9 +2,11 @@ package it.unibo.caesena.view.components;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -70,7 +72,15 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.setBackground(Color.ORANGE);
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
 
-        this.tileImageLabel = new JLabel();
+        this.tileImageLabel = new JLabel() {
+            @Override
+            protected void paintComponent(Graphics g)
+            {
+                super.paintComponent(g);
+                final BufferedImage tileBufferedImage = tileImage.getAsBufferedImage(this.getWidth(), this.getHeight());
+                g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
+            }
+        };
         tileImageLabel.setPreferredSize(new Dimension(40, 40));
         tileImageLabel.setMinimumSize(new Dimension(40, 40));
         this.tileImageLabel.setBorder(new LineBorder(java.awt.Color.BLACK));
@@ -138,6 +148,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     @Override
     public void updateFooter() {
         updateCurrentTile();
+
         playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
         playerScoreLabel.setText("S: "+userInterface.getController().getCurrentPlayer().getScore()+"");
