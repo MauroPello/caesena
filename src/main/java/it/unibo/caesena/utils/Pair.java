@@ -18,14 +18,25 @@ public final class Pair<X, Y> {
         this.y = y;
     }
 
+    /**
+     * 
+     * @return first value of Pair<X, Y>
+     */
     public X getX() {
         return x;
     }
 
+    /**
+     * 
+     * @return second value of Pair<X, Y>
+     */
     public Y getY() {
         return y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -35,6 +46,9 @@ public final class Pair<X, Y> {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(final Object obj) {
@@ -65,6 +79,9 @@ public final class Pair<X, Y> {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "Pair [x=" + x + ", y=" + y + "]";

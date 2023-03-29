@@ -13,6 +13,11 @@ public final class StringUtil {
 
     }
 
+    /**
+     * 
+     * @param string to be capitalized 
+     * @return a capitalized string
+     */
     public static String capitalize(final String string) {
         final char[] charArray = string.toLowerCase(Locale.getDefault()).toCharArray();
         charArray[0] = Character.toUpperCase(charArray[0]);
@@ -29,6 +34,12 @@ public final class StringUtil {
             this.elements = new ArrayList<>();
         }
 
+        /**
+         * 
+         * @param field 
+         * @param value
+         * @return
+         */
         public final ToStringBuilder add(final String field, final Object value) {
             String actualValue = NULL_STRING;
             if (value != null) {
@@ -39,12 +50,22 @@ public final class StringUtil {
             return this;
         }
 
+        /**
+         * 
+         * @param method
+         * @return
+         */
         private String getNameFromMethod(final Method method) {
             final String name = method.getName().replace("get", ToStringBuilder.EMPTY_STRING);
             return splitCamelCase(name).stream().filter(w -> !w.isEmpty())
                     .collect(Collectors.joining(ToStringBuilder.SPACE_STRING));
         }
 
+        /**
+         * 
+         * @param name
+         * @return
+         */
         private List<String> splitCamelCase(final String name) {
             final List<String> result = new ArrayList<>();
             StringBuilder currentString = new StringBuilder();
@@ -61,10 +82,20 @@ public final class StringUtil {
             return result;
         }
 
+        /**
+         * 
+         * @param method 
+         * @return
+         */
         private boolean isGetter(final Method method) {
             return !"getClass".equals(method.getName()) && method.getName().contains("get");
         }
 
+        /**
+         * 
+         * @param obj
+         * @return
+         */
         public final ToStringBuilder addFromObjectGetters(final Object obj) {
             for (final Method method : obj.getClass().getMethods()) {
                 if (isGetter(method) && !hasArguments(method)) {
@@ -79,10 +110,19 @@ public final class StringUtil {
             return this;
         }
 
+        /**
+         * 
+         * @param method to be checked if empty
+         * @return if method has arguments
+         */
         private boolean hasArguments(final Method method) {
             return method.getParameterCount() != 0;
         }
 
+        /**
+         * 
+         * @return a string made by a List of arguments
+         */
         public final String build() {
             elements.sort((p1, p2) -> p1.getX().compareTo(p2.getX()));
 

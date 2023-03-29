@@ -19,6 +19,12 @@ public final class ResourceUtil {
 
     }
 
+    /**
+     * 
+     * @param filename    name of file to search
+     * @param directories path where search filename
+     * @return a BufferedImage from a path
+     */
     public static BufferedImage getBufferedImage(final String filename, final List<String> directories) {
         try {
             final File file = new File(
@@ -31,10 +37,21 @@ public final class ResourceUtil {
 
     }
 
+    /**
+     * 
+     * @param filename    name of file to search
+     * @param directories path where search filename
+     * @return InputStream for finding the path for the filename
+     */
     public static InputStream getInputStreamFromFile(final String filename, final List<String> directories) {
         return ClassLoader.getSystemResourceAsStream(ROOT + joinDirectories(directories) + filename);
     }
 
+    /**
+     * 
+     * @param directories list of all directories
+     * @return joined directories in String
+     */
     private static String joinDirectories(final List<String> directories) {
         String joinedDirectories = directories.stream().collect(Collectors.joining(SEP));
         if (!(joinedDirectories.isEmpty() || joinedDirectories.isBlank())) {

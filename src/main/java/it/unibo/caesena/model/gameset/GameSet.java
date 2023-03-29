@@ -56,7 +56,7 @@ public interface GameSet {
     /**
      * Add points in current GameSet
      * 
-     * @param points added with those already present 
+     * @param points added with those already present
      */
     void addPoints(int points);
 
