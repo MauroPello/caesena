@@ -54,14 +54,6 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     }
 
     @Override
-    public boolean containsMeeple() {
-        if (meeple.isPresent() && !meeple.get().isPlaced()) {
-            meeple = Optional.empty();
-        }
-        return meeple.isPresent();
-    }
-
-    @Override
     protected void paintComponent(Graphics g)
     {
         super.paintComponent(g);
@@ -88,5 +80,12 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     public void addMeeple(Meeple meeple, TileSection section) {
         this.meeple = Optional.of(meeple);
         this.section = section;
+    }
+
+    private boolean containsMeeple() {
+        if (meeple.isPresent() && !meeple.get().isPlaced()) {
+            meeple = Optional.empty();
+        }
+        return meeple.isPresent();
     }
 }
