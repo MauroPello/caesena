@@ -135,16 +135,6 @@ public final class GameSetImpl implements GameSet {
         this.points += points;
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        return this == obj;
-    }
-
     /**
      * {@inheritDoc}
      */

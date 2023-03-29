@@ -2,13 +2,20 @@ package it.unibo.caesena.model.tile;
 
 import java.util.List;
 
+import it.unibo.caesena.model.GameSetTileMediator;
+
 public final class TileFactoryWithBuilder implements TileFactory {
 
     private static final int PENNANT_POINTS = 2;
+    private final GameSetTileMediator mediator;
+
+    public TileFactoryWithBuilder(final GameSetTileMediator mediator) {
+        this.mediator = mediator;
+    }
 
     @Override
     public Tile createCityEdge() {
-        return new TileBuilder(TileType.CITY_EDGE)
+        return new TileBuilder(TileType.CITY_EDGE, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT,
@@ -19,7 +26,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityEdgePennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_EDGE_PENNANT)
+        final Tile tile = new TileBuilder(TileType.CITY_EDGE_PENNANT, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT,
@@ -27,13 +34,13 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
     @Override
     public Tile createCityEdgeRoad() {
-        return new TileBuilder(TileType.CITY_EDGE_ROAD)
+        return new TileBuilder(TileType.CITY_EDGE_ROAD, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.LEFT_UP, TileSection.DOWN_RIGHT))
@@ -45,7 +52,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityEdgeRoadPennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_EDGE_ROAD_PENNANT)
+        final Tile tile = new TileBuilder(TileType.CITY_EDGE_ROAD_PENNANT, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.DOWN_LEFT, TileSection.LEFT_DOWN))
@@ -54,13 +61,13 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
     @Override
     public Tile createCityLarge() {
-        return new TileBuilder(TileType.CITY_LARGE)
+        return new TileBuilder(TileType.CITY_LARGE, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -71,7 +78,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityLargePennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_LARGE_PENNANT)
+        final Tile tile = new TileBuilder(TileType.CITY_LARGE_PENNANT, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -79,13 +86,13 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
     @Override
     public Tile createCityLargeRoad() {
-        return new TileBuilder(TileType.CITY_LARGE_ROAD)
+        return new TileBuilder(TileType.CITY_LARGE_ROAD, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -98,7 +105,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityLargeRoadPennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_LARGE_ROAD_PENNANT)
+        final Tile tile = new TileBuilder(TileType.CITY_LARGE_ROAD_PENNANT, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -108,13 +115,13 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
     @Override
     public Tile createCity() {
-        return new TileBuilder(TileType.CITY)
+        return new TileBuilder(TileType.CITY, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
@@ -125,7 +132,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityPennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_PENNANT)
+        final Tile tile = new TileBuilder(TileType.CITY_PENNANT, mediator)
             .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
@@ -133,13 +140,13 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        tile.getGameSet(TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
+        mediator.getGameSet(tile, TileSection.UP_RIGHT).addPoints(PENNANT_POINTS);
         return tile;
     }
 
     @Override
     public Tile createCitySideDoubleNext() {
-        return new TileBuilder(TileType.CITY_SIDE_DOUBLE_NEXT)
+        return new TileBuilder(TileType.CITY_SIDE_DOUBLE_NEXT, mediator)
             .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .city(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
             .field(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
@@ -150,7 +157,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideDouble() {
-        return new TileBuilder(TileType.CITY_SIDE_DOUBLE)
+        return new TileBuilder(TileType.CITY_SIDE_DOUBLE, mediator)
             .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .city(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
             .field(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
@@ -161,7 +168,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideJunction() {
-        return new TileBuilder(TileType.CITY_SIDE_JUNCTION)
+        return new TileBuilder(TileType.CITY_SIDE_JUNCTION, mediator)
             .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.DOWN_LEFT, TileSection.LEFT_DOWN))
             .field(List.of(TileSection.DOWN_RIGHT, TileSection.RIGHT_DOWN))
@@ -176,7 +183,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySide() {
-        return new TileBuilder(TileType.CITY_SIDE)
+        return new TileBuilder(TileType.CITY_SIDE, mediator)
             .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
                 TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, TileSection.CENTER,
@@ -187,7 +194,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideRoad() {
-        return new TileBuilder(TileType.CITY_SIDE_ROAD)
+        return new TileBuilder(TileType.CITY_SIDE_ROAD, mediator)
             .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.LEFT_DOWN, TileSection.RIGHT_DOWN,
                 TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
@@ -199,7 +206,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideTurnLeft() {
-        return new TileBuilder(TileType.CITY_SIDE_TURN_LEFT)
+        return new TileBuilder(TileType.CITY_SIDE_TURN_LEFT, mediator)
             .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.LEFT_UP, TileSection.DOWN_RIGHT,
                 TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN))
@@ -211,7 +218,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCitySideTurnRight() {
-        return new TileBuilder(TileType.CITY_SIDE_TURN_RIGHT)
+        return new TileBuilder(TileType.CITY_SIDE_TURN_RIGHT, mediator)
             .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
             .field(List.of(TileSection.RIGHT_UP, TileSection.DOWN_LEFT,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -223,7 +230,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityTube() {
-        return new TileBuilder(TileType.CITY_TUBE)
+        return new TileBuilder(TileType.CITY_TUBE, mediator)
             .city(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
                 TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, TileSection.CENTER))
             .field(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
@@ -234,7 +241,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createCityTubePennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_TUBE_PENNANT)
+        final Tile tile = new TileBuilder(TileType.CITY_TUBE_PENNANT, mediator)
             .city(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
                 TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, TileSection.CENTER))
             .field(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
@@ -242,13 +249,13 @@ public final class TileFactoryWithBuilder implements TileFactory {
             .close(List.of(TileSection.CENTER))
             .build();
 
-        tile.getGameSet(TileSection.RIGHT_CENTER).addPoints(PENNANT_POINTS);
+        mediator.getGameSet(tile, TileSection.RIGHT_CENTER).addPoints(PENNANT_POINTS);
         return tile;
     }
 
     @Override
     public Tile createMonastery() {
-        return new TileBuilder(TileType.MONASTERY)
+        return new TileBuilder(TileType.MONASTERY, mediator)
             .field(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
                 TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT,
@@ -259,7 +266,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createMonasteryRoad() {
-        return new TileBuilder(TileType.MONASTERY_ROAD)
+        return new TileBuilder(TileType.MONASTERY_ROAD, mediator)
             .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_RIGHT,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
                 TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
@@ -271,7 +278,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createRoadJunctionLarge() {
-        return new TileBuilder(TileType.ROAD_JUNCTION_LARGE)
+        return new TileBuilder(TileType.ROAD_JUNCTION_LARGE, mediator)
             .road(List.of(TileSection.UP_CENTER))
             .road(List.of(TileSection.DOWN_CENTER))
             .road(List.of(TileSection.LEFT_CENTER))
@@ -287,7 +294,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createRoadJunctionSmall() {
-        return new TileBuilder(TileType.ROAD_JUNCTION_SMALL)
+        return new TileBuilder(TileType.ROAD_JUNCTION_SMALL, mediator)
             .road(List.of(TileSection.DOWN_CENTER))
             .road(List.of(TileSection.LEFT_CENTER))
             .road(List.of(TileSection.RIGHT_CENTER))
@@ -302,7 +309,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createRoadStraight() {
-        return new TileBuilder(TileType.ROAD_STRAIGHT)
+        return new TileBuilder(TileType.ROAD_STRAIGHT, mediator)
             .road(List.of(TileSection.DOWN_CENTER, TileSection.CENTER, TileSection.UP_CENTER))
             .field(List.of(TileSection.UP_LEFT, TileSection.DOWN_LEFT,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -314,7 +321,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     @Override
     public Tile createRoadTurn() {
-        return new TileBuilder(TileType.ROAD_TURN)
+        return new TileBuilder(TileType.ROAD_TURN, mediator)
             .field(List.of(TileSection.DOWN_RIGHT, TileSection.LEFT_UP,
                 TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                 TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
