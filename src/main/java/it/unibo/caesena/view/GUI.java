@@ -19,8 +19,8 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
-    private static boolean DEBUG_GAME_VIEW = false;
-    private static boolean DEBUG_GAME_OVER_VIEW = true;
+    private static boolean DEBUG_GAME_VIEW = true;
+    private static boolean DEBUG_GAME_OVER_VIEW = false;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
     private Controller controller;
     private View<JPanel> startView;

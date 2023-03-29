@@ -19,7 +19,6 @@ import it.unibo.caesena.view.GameView;
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
 
     JLabel tileImageLabel;
-    JLabel playerMeepleLabel = new JLabel("N° meeple");
     JLabel playerNameLabel = new JLabel("name");
     JLabel playerScoreLabel = new JLabel("score");
     JButton rotateButton = new JButton("Rotate");
@@ -87,10 +86,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.playerImageComponent = new PlayerImageImpl(40, 40);
         this.playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
 
-        innerPanel.add(meepleComponent.getComponent());
         innerPanel.add(playerImageComponent.getComponent());
-        innerPanel.add(playerMeepleLabel);
         innerPanel.add(playerNameLabel);
+        innerPanel.add(meepleComponent.getComponent());
         innerPanel.add(playerScoreLabel);
         innerPanel.add(tileImageLabel);
         innerPanel.add(rotateButton);
@@ -132,14 +130,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     }
 
     @Override
-    public void updateCurrentPlayerMeeples() {
-        var currentPlayer = this.userInterface.getController().getCurrentPlayer();
-        playerMeepleLabel.setText("M: "+userInterface.getController().getNotPlacedPlayerMeeples(currentPlayer).size());
-
-        meepleComponent.update();
-    }
-
-    @Override
     public void updateRemainingTiles() {
         remainingTilesLabel.setText(userInterface.getController().getNotPlacedTiles().size()+"");
     }
@@ -147,10 +137,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     @Override
     public void updateFooter() {
         updateCurrentTile();
+        meepleComponent.update();
         playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
         playerScoreLabel.setText("S: "+userInterface.getController().getCurrentPlayer().getScore()+"");
-        updateCurrentPlayerMeeples();
         updateRemainingTiles();
         if(userInterface.getController().getCurrentTile().isPlaced()) {
             rotateButton.setEnabled(false);
