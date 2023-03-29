@@ -2,7 +2,6 @@ package it.unibo.caesena.view.components;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
@@ -49,18 +48,6 @@ public class TileImage {
         return image;
     }
 
-    private BufferedImage setColorForAllPixels(BufferedImage image) {
-        for (int y = 0; y < image.getHeight(); y++) {
-            for (int x = 0; x < image.getWidth(); x++) {
-                int pixel = image.getRGB(x,y);
-                if(pixel != 0) {
-                    image.setRGB(x, y, color.getRGB());
-                }
-            }
-        }
-        return image;
-    }
-
     public void addMeeple(Meeple meeple, TileSection section) {
         this.meeple = Optional.of(new Pair<>(meeple, section));
     }
@@ -70,11 +57,10 @@ public class TileImage {
         finalGraphics.drawImage(image, 0, 0, null);
         if (this.meeple.isPresent()) {
             int meepleSize = (int)((double)image.getHeight(null)/5);
-            int scaling = Image.SCALE_SMOOTH;
-            BufferedImage meepleImage = setColorForAllPixels(ResourceUtil.getBufferedImage( "meepleBlank.png", List.of("meeple")));
-            Image scaledMeepleImage = meepleImage.getScaledInstance(meepleSize, meepleSize, scaling);
-            Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null)-scaledMeepleImage.getHeight(null));
-            finalGraphics.drawImage(scaledMeepleImage, meeplePosition.getX(), meeplePosition.getY(), null);
+            MeepleImage meeple = new MeepleImage(color);
+            meeple.resize(meepleSize, meepleSize);
+            Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null)-meepleSize);
+            finalGraphics.drawImage(meeple.getAsBufferedImage(), meeplePosition.getX(), meeplePosition.getY(),meepleSize, meepleSize, null);
         }
         finalGraphics.dispose();
         return image;
