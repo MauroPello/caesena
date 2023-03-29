@@ -1,5 +1,6 @@
 package it.unibo.caesena.model.tile;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import it.unibo.caesena.utils.StringUtil;
@@ -32,17 +33,21 @@ public enum TileType {
     ROAD_TURN;
 
     public Tile createTile(final TileFactory tileFactory) {
-        String methodName = "create";
+        final StringBuilder methodNameBuilder = new StringBuilder();
+        methodNameBuilder.append("create");
         final String[] words = this.name().split("_");
         for (final String word : words) {
-            methodName += StringUtil.capitalize(word);
+            methodNameBuilder.append(StringUtil.capitalize(word));
         }
+
+        final String methodName = methodNameBuilder.toString();
 
         try {
             final Method method = TileFactory.class.getMethod(methodName);
             return (Tile) method.invoke(tileFactory);
-        } catch (final Exception e) {
-            throw new IllegalStateException("Error using reflection, devs fault");
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException e) {
+            throw new IllegalStateException("Error using reflection, devs fault", e);
         }
     }
 }

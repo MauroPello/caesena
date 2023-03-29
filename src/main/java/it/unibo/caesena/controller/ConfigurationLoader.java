@@ -1,5 +1,6 @@
 package it.unibo.caesena.controller;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +9,7 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactory;
@@ -50,8 +52,8 @@ public class ConfigurationLoader {
             }
 
             return this.tiles;
-        } catch (final Exception e) {
-            throw new IllegalStateException("Error reading tiles from file, maybe it's missing", e);
+        } catch (final IOException | ParseException e) {
+            throw new IllegalStateException("Configuration file not found ", e);
         }
     }
 

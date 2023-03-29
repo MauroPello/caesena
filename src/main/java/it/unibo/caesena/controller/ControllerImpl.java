@@ -39,9 +39,9 @@ public final class ControllerImpl implements Controller {
     private int turn;
 
     @Override
-    public void startGame() throws IllegalStateException {
+    // public void startGame() throws IllegalStateException
+    public void startGame() {
         if (players.isEmpty()) {
-            // TODO sti controlli son da fare per tutti i metodi
             throw new IllegalStateException("Can't start the game without players");
         }
         Collections.shuffle(players);
@@ -52,6 +52,7 @@ public final class ControllerImpl implements Controller {
         drawNewTile();
     }
 
+    @Override
     public void resetGame() {
         tiles = new ArrayList<>();
         meeples = new ArrayList<>();
@@ -120,10 +121,10 @@ public final class ControllerImpl implements Controller {
         }
 
         for (final var tile : getPlacedTiles()) {
-            if ((tile.getPosition().get().getX() >= position.getX() - 1
-                    && tile.getPosition().get().getY() >= position.getY() - 1)
-                    && (tile.getPosition().get().getX() <= position.getX() + 1
-                            && tile.getPosition().get().getY() <= position.getY() + 1)) {
+            if (tile.getPosition().get().getX() >= position.getX() - 1
+                    && tile.getPosition().get().getY() >= position.getY() - 1
+                    && tile.getPosition().get().getX() <= position.getX() + 1
+                    && tile.getPosition().get().getY() <= position.getY() + 1) {
                 final GameSet centerGameset = mediator.getGameSet(tile, TileSection.CENTER);
                 if (centerGameset.getType().equals(GameSetType.MONASTERY) && !centerGameset.isMeepleFree()) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
@@ -139,10 +140,10 @@ public final class ControllerImpl implements Controller {
         if (mediator.getGameSet(currentTile, TileSection.CENTER).getType().equals(GameSetType.MONASTERY)) {
             int nearMonasteryTilesNum = 0;
             for (final var nearTile : getPlacedTiles()) {
-                if ((nearTile.getPosition().get().getX() >= position.getX() - 1
-                        && nearTile.getPosition().get().getY() >= position.getY() - 1)
-                        && (nearTile.getPosition().get().getX() <= position.getX() + 1
-                                && nearTile.getPosition().get().getY() <= position.getY() + 1)
+                if (nearTile.getPosition().get().getX() >= position.getX() - 1
+                        && nearTile.getPosition().get().getY() >= position.getY() - 1
+                        && nearTile.getPosition().get().getX() <= position.getX() + 1
+                        && nearTile.getPosition().get().getY() <= position.getY() + 1
                         &&
                         !nearTile.getPosition().get().equals(position)) {
                     nearMonasteryTilesNum++;
@@ -361,6 +362,7 @@ public final class ControllerImpl implements Controller {
         return false;
     }
 
+    @Override
     public boolean discardCurrentTile() {
         if (this.isCurrentTilePlaceable()) {
             return false;

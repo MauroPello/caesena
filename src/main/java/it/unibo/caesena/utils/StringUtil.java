@@ -1,8 +1,10 @@
 package it.unibo.caesena.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public final class StringUtil {
@@ -12,7 +14,7 @@ public final class StringUtil {
     }
 
     public static String capitalize(final String string) {
-        final char[] charArray = string.toLowerCase().toCharArray();
+        final char[] charArray = string.toLowerCase(Locale.getDefault()).toCharArray();
         charArray[0] = Character.toUpperCase(charArray[0]);
         return String.valueOf(charArray);
     }
@@ -45,21 +47,22 @@ public final class StringUtil {
 
         private List<String> splitCamelCase(final String name) {
             final List<String> result = new ArrayList<>();
-            String currentString = ToStringBuilder.EMPTY_STRING;
+            StringBuilder currentString = new StringBuilder();
             final char[] charArray = name.toCharArray();
             for (final char c : charArray) {
                 if (!(result.isEmpty() && currentString.isEmpty()) && Character.isUpperCase(c)) {
-                    result.add(result.isEmpty() ? currentString : currentString.toLowerCase());
-                    currentString = ToStringBuilder.EMPTY_STRING;
+                    result.add(result.isEmpty() ? currentString.toString()
+                            : currentString.toString().toLowerCase(Locale.getDefault()));
+                    currentString = new StringBuilder();
                 }
-                currentString += c;
+                currentString.append(c);
             }
-            result.add(currentString);
+            result.add(currentString.toString());
             return result;
         }
 
         private boolean isGetter(final Method method) {
-            return method.getName().contains("get") && !method.getName().equals("getClass");
+            return !"getClass".equals(method.getName()) && method.getName().contains("get");
         }
 
         public final ToStringBuilder addFromObjectGetters(final Object obj) {
@@ -68,7 +71,7 @@ public final class StringUtil {
                     final String name = getNameFromMethod(method);
                     try {
                         this.add(name, method.invoke(obj).toString());
-                    } catch (final Exception e) {
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                         this.add(name, NULL_STRING);
                     }
                 }

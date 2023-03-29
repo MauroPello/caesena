@@ -34,13 +34,13 @@ public enum TileSection {
 
         int index = Math.floorMod(section.ordinal() + offset, values().length);
         if (offset > 0 && (values()[index].equals(TileSection.CENTER) 
-        || (section.ordinal() < TileSection.CENTER.ordinal()
-                        && section.ordinal() + offset >= TileSection.CENTER.ordinal()))) {
+        || section.ordinal() < TileSection.CENTER.ordinal()
+                        && section.ordinal() + offset >= TileSection.CENTER.ordinal())) {
             index = Math.floorMod(index + 1, values().length);
         }
         if (offset < 0 && (values()[index].equals(TileSection.CENTER) 
-        || (section.ordinal() > TileSection.CENTER.ordinal()
-                        && section.ordinal() + offset <= TileSection.CENTER.ordinal()))) {
+        || section.ordinal() > TileSection.CENTER.ordinal()
+                        && section.ordinal() + offset <= TileSection.CENTER.ordinal())) {
             index = Math.floorMod(index - 1, values().length);
         }
 
