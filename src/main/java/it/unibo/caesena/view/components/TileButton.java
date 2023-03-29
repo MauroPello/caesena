@@ -12,17 +12,13 @@ public interface TileButton<X> {
 
     Tile getContainedTile();
 
-    TileSection getPlacedMeepleSection();
-
-    void addMeeple(Meeple meeple, TileSection section);
-
     void removeTile();
-
-    void removeMeeple();
 
     boolean containsTile();
 
     boolean containsMeeple();
+
+    void addMeeple(Meeple meeple, TileSection section);
 
     X getComponent();
 

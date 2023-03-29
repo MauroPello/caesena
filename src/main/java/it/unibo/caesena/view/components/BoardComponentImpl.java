@@ -11,9 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
@@ -241,10 +239,5 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         }
         //TODO vedere se questi refresh dovrebbe farli questo componente o un componente esterno
         draw();
-    }
-
-    @Override
-    public void placeMeepleOnCurrentSection(Meeple meeple, TileSection section) {
-        this.getCurrentlyPlacedTileButton().get().addMeeple(meeple, section);
     }
 }
