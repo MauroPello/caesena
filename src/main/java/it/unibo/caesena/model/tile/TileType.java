@@ -34,6 +34,7 @@ public enum TileType {
 
     public Tile createTile(final TileFactory tileFactory) {
         final StringBuilder methodNameBuilder = new StringBuilder();
+        methodNameBuilder.append("create");
         final String[] words = this.name().split("_");
         for (final String word : words) {
             methodNameBuilder.append(StringUtil.capitalize(word));
@@ -50,4 +51,3 @@ public enum TileType {
         }
     }
 }
-    
