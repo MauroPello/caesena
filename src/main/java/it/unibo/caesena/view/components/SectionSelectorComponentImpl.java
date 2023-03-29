@@ -7,90 +7,31 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
 
 public class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
     private final GameView gameView;
-    private final List<SectionButton> sectionButtons = new ArrayList<>();
+    private final Map<SectionButton, GridBagConstraints> sectionButtons = new HashMap<>();
 
-    private class SectionButton extends JButton {
-        private final TileSection section;
-        private Color bgColor;
-        private boolean selected;
-
-        public SectionButton(final TileSection section) {
-            super();
-            this.section = section;
-            Tile tile = gameView.getUserInterface().getController().getCurrentTile();
-            if (tile.getGameSet(section).isMeepleFree() && !tile.getGameSet(section).isClosed()) {
-                this.bgColor = Color.WHITE;
-                this.selected = false;
-                final String buttonLabel = getLabelFromSection(section);
-                this.setText(buttonLabel);
-                this.addActionListener(getSectionButtonListener());
-                this.deselect();
-            } else {
-                this.setContentAreaFilled(false);
-                this.setBorderPainted(false);
-                this.setBackground(new Color(0, 0, 0, 0));
-                this.setOpaque(false);
-            }
-
-        }
-
-        public boolean isSelected() {
-            return selected;
-        }
-
-        public void select() {
-            selected = true;
-            bgColor = Color.GREEN;
-            this.setBackground(bgColor);
-            this.validate();
-        }
-
-        public void deselect() {
-            selected = false;
-            bgColor = Color.WHITE;
-            this.setBackground(bgColor);
-            this.validate();
-        }
-
-        public TileSection getSection() {
-            return section;
-        }
-
-        @Override
-        public Graphics getGraphics() {
-            return super.getGraphics();
-        }
-
-        @Override
-        public Dimension getPreferredSize() {
-            final Dimension d = super.getPreferredSize();
-            final int s = (int) (d.getWidth() < d.getHeight() ? d.getHeight() : d.getWidth());
-            return new Dimension(s, s);
-        }
-    }
-
-
-    public SectionSelectorComponentImpl(GameView gameView) {
+    public SectionSelectorComponentImpl(final GameView gameView) {
         super();
         this.gameView = gameView;
-        draw();
+        this.drawSections();
     }
 
     @Override
     public final TileSection getSelectedSection() {
-        return sectionButtons.stream()
+        return sectionButtons.keySet().stream()
                 .filter(x -> x.isSelected())
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Tried to access selected section, but none was"))
@@ -107,20 +48,19 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     @Override
     public final Boolean isSectionSelected() {
-        return sectionButtons.stream().anyMatch(x -> x.isSelected());
+        return sectionButtons.keySet().stream().anyMatch(x -> x.isSelected());
     }
 
     @Override
     protected void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
-        Tile tile = this.gameView.getUserInterface().getController().getCurrentTile();
+        final Tile tile = this.gameView.getUserInterface().getController().getCurrentTile();
         final Image image = new TileImage(tile).getAsBufferedImage();
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
     }
 
     @Override
     public void draw() {
-        this.sectionButtons.clear();
         this.removeAll();
         this.drawSections();
         this.validate();
@@ -133,91 +73,60 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         this.removeAll();
     }
 
+    @Override
+    public JPanel getComponent() {
+        return this;
+    }
+
     private void drawSections() {
-        JPanel container = new JPanel() {
-            @Override
-            public Dimension getPreferredSize() {
-                return getTotalSize();
-            }
-        };
-        container.setLayout(new GridBagLayout());
-        container.setSize(this.getSize());
-        container.setOpaque(false);
-        this.add(container);
-        for (final var section : TileSection.values()) {
-            createButton(container, section);
+        this.setLayout(new GridBagLayout());
+        this.setOpaque(false);
+        if (sectionButtons.isEmpty()) {
+            populateSectionButtons();
+        }
+        for (final var entry : sectionButtons.entrySet()) {
+            this.add(entry.getKey(), entry.getValue());
         }
     }
 
-    private void createButton(final JPanel container, final TileSection section) {
-        int x = 0;
-        int y = 0;
-        switch (section) {
-            case CENTER:
-                x = 2;
-                y = 2;
-                break;
-            case DOWN_CENTER:
-                x = 2;
-                y = 4;
-                break;
-            case DOWN_LEFT:
-                x = 1;
-                y = 4;
-                break;
-            case DOWN_RIGHT:
-                x = 3;
-                y = 4;
-                break;
-            case LEFT_CENTER:
-                x = 0;
-                y = 2;
-                break;
-            case LEFT_DOWN:
-                x = 0;
-                y = 3;
-                break;
-            case LEFT_UP:
-                x = 0;
-                y = 1;
-                break;
-            case RIGHT_CENTER:
-                x = 4;
-                y = 2;
-                break;
-            case RIGHT_DOWN:
-                x = 4;
-                y = 3;
-                break;
-            case RIGHT_UP:
-                x = 4;
-                y = 1;
-                break;
-            case UP_CENTER:
-                x = 2;
-                y = 0;
-                break;
-            case UP_LEFT:
-                x = 1;
-                y = 0;
-                break;
-            case UP_RIGHT:
-                x = 3;
-                y = 0;
-                break;
+    private void populateSectionButtons() {
+        for (final var section : TileSection.values()) {
+            createButton(section);
         }
+    }
+
+    private void createButton(final TileSection section) {
+        final var coordinates = this.getCoordinates(section);
         final GridBagConstraints constraints = new GridBagConstraints();
         constraints.weightx = 1;
         constraints.weighty = 1;
-        constraints.gridx = x;
-        constraints.gridy = y;
+        constraints.gridx = coordinates.getX();
+        constraints.gridy = coordinates.getY();
         final SectionButton sectionButton = new SectionButton(section);
-        container.add(sectionButton, constraints);
-        sectionButtons.add(sectionButton);
+        sectionButtons.put(sectionButton, constraints);
+    }
+
+    private Pair<Integer, Integer> getCoordinates(final TileSection section) {
+        return switch (section) {
+            case CENTER -> new Pair<>(2, 2);
+            case DOWN_CENTER -> new Pair<>(2, 4);
+            case DOWN_LEFT -> new Pair<>(1, 4);
+            case DOWN_RIGHT -> new Pair<>(3, 4);
+            case LEFT_CENTER -> new Pair<>(0, 2);
+            case LEFT_DOWN -> new Pair<>(0, 3);
+            case LEFT_UP -> new Pair<>(0, 1);
+            case RIGHT_CENTER -> new Pair<>(4, 2);
+            case RIGHT_DOWN -> new Pair<>(4, 3);
+            case RIGHT_UP -> new Pair<>(4, 1);
+            case UP_CENTER -> new Pair<>(2, 0);
+            case UP_LEFT -> new Pair<>(1, 0);
+            case UP_RIGHT -> new Pair<>(3, 0);
+            default -> throw new IllegalStateException("Section is a known section or is null");
+        };
     }
 
     private String getLabelFromSection(final TileSection section) {
-        Tile tile = this.gameView.getUserInterface().getController().getCurrentTile();
+        final Tile tile = this.gameView.getUserInterface().getController().getCurrentTile();
         return String.valueOf(tile.getGameSet(section).getType().name().toCharArray()[0]);
     }
 
@@ -225,19 +134,70 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         return (e) -> {
             final SectionButton newSectionButton = (SectionButton) e.getSource();
             final Boolean wasSelected = newSectionButton.isSelected();
-            sectionButtons.stream().forEach(x -> x.deselect());
+            sectionButtons.keySet().stream().forEach(x -> x.deselect());
             if (!wasSelected) {
                 newSectionButton.select();
             }
         };
     }
 
-    private Dimension getTotalSize() {
-        return this.getSize();
-    }
+    private class SectionButton extends JButton {
+        private final TileSection section;
+        private static final Color UNSELECTED_COLOR = Color.WHITE;
+        private static final Color SELECTED_COLOR = Color.GREEN;
+        private Color backgroundColor;
+        private boolean selected;
 
-    @Override
-    public JPanel getComponent() {
-        return this;
+        public SectionButton(final TileSection section) {
+            super();
+            this.section = section;
+            final Tile tile = gameView.getUserInterface().getController().getCurrentTile();
+            final GameSet gameSet = tile.getGameSet(this.section);
+            final boolean shouldDraw = gameSet.isMeepleFree() && !gameSet.isClosed();
+            this.setVisibility(shouldDraw);
+        }
+
+        private void setVisibility(final boolean shouldDraw) {
+            if (shouldDraw) {
+                final String buttonLabel = getLabelFromSection(section);
+                this.setText(buttonLabel);
+                this.addActionListener(getSectionButtonListener());
+                this.deselect();
+            } else {
+                this.setContentAreaFilled(false);
+                this.setBorderPainted(false);
+                this.setBackground(new Color(0, 0, 0, 0));
+                this.setOpaque(false);
+            }
+        }
+
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void select() {
+            selected = true;
+            backgroundColor = SELECTED_COLOR;
+            this.setBackground(backgroundColor);
+            this.validate();
+        }
+
+        public void deselect() {
+            selected = false;
+            backgroundColor = UNSELECTED_COLOR;
+            this.setBackground(backgroundColor);
+            this.validate();
+        }
+
+        public TileSection getSection() {
+            return section;
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            final Dimension d = super.getPreferredSize();
+            final int s = (int) (d.getWidth() < d.getHeight() ? d.getHeight() : d.getWidth());
+            return new Dimension(s, s);
+        }
     }
 }
