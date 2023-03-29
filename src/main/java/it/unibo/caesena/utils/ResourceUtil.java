@@ -20,17 +20,15 @@ public final class ResourceUtil {
     }
 
     public static BufferedImage getBufferedImage(final String filename, final List<String> directories) {
-        BufferedImage image = null;
         try {
             final File file = new File(
                     ClassLoader.getSystemResource(ROOT + "images" + SEP + joinDirectories(directories) + SEP + filename)
                             .toURI());
-            image = ImageIO.read(file);
+            return ImageIO.read(file);
         } catch (IOException | URISyntaxException e) {
-            throw new IllegalStateException("Image path not valid");
+            throw new IllegalStateException("Image path not valid", e);
         }
 
-        return image;
     }
 
     public static InputStream getInputStreamFromFile(final String filename, final List<String> directories) {

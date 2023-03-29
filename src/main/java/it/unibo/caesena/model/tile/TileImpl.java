@@ -72,6 +72,7 @@ public final class TileImpl implements Tile {
         return this.sections.get(section).getX();
     }
 
+    @Override
     public boolean isSectionNearToGameset(final TileSection section, final GameSet gameSet) {
         return getGameSet(TileSection.next(section)).equals(gameSet) 
         || getGameSet(TileSection.previous(section)).equals(gameSet);
@@ -84,7 +85,7 @@ public final class TileImpl implements Tile {
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((currentPosition == null) ? 0 : currentPosition.hashCode());
         for (final TileSection section : TileSection.values()) {
-            result = prime * result + (getGameSet(section).hashCode());
+            result = prime * result + getGameSet(section).hashCode();
         }
         result = prime * result + rotationCount;
         return result;

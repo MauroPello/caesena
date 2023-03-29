@@ -36,9 +36,9 @@ public final class ControllerImpl implements Controller {
     private int turn;
 
     @Override
-    public void startGame() throws IllegalStateException {
+    // public void startGame() throws IllegalStateException
+    public void startGame() {
         if (players.isEmpty()) {
-            // TODO sti controlli son da fare per tutti i metodi
             throw new IllegalStateException("Can't start the game without players");
         }
         Collections.shuffle(players);
@@ -49,6 +49,7 @@ public final class ControllerImpl implements Controller {
         drawNewTile();
     }
 
+    @Override
     public void resetGame() {
         tiles = new ArrayList<>();
         meeples = new ArrayList<>();
@@ -118,10 +119,10 @@ public final class ControllerImpl implements Controller {
         }
 
         for (final var tile : getPlacedTiles()) {
-            if ((tile.getPosition().get().getX() >= position.getX() - 1
-                    && tile.getPosition().get().getY() >= position.getY() - 1)
-                    && (tile.getPosition().get().getX() <= position.getX() + 1
-                            && tile.getPosition().get().getY() <= position.getY() + 1)) {
+            if (tile.getPosition().get().getX() >= position.getX() - 1
+                    && tile.getPosition().get().getY() >= position.getY() - 1
+                    && tile.getPosition().get().getX() <= position.getX() + 1
+                    && tile.getPosition().get().getY() <= position.getY() + 1) {
                 final GameSet centerGameset = tile.getGameSet(TileSection.CENTER);
                 if (centerGameset.getType().equals(GameSetType.MONASTERY) && !centerGameset.isMeepleFree()) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
@@ -146,10 +147,10 @@ public final class ControllerImpl implements Controller {
         if (this.currentTile.getGameSet(TileSection.CENTER).getType().equals(GameSetType.MONASTERY)) {
             int nearMonasteryTilesNum = 0;
             for (final var nearTile : getPlacedTiles()) {
-                if ((nearTile.getPosition().get().getX() >= position.getX() - 1
-                        && nearTile.getPosition().get().getY() >= position.getY() - 1)
-                        && (nearTile.getPosition().get().getX() <= position.getX() + 1
-                                && nearTile.getPosition().get().getY() <= position.getY() + 1)
+                if (nearTile.getPosition().get().getX() >= position.getX() - 1
+                        && nearTile.getPosition().get().getY() >= position.getY() - 1
+                        && nearTile.getPosition().get().getX() <= position.getX() + 1
+                        && nearTile.getPosition().get().getY() <= position.getY() + 1
                         &&
                         !nearTile.getPosition().get().equals(position)) {
                     nearMonasteryTilesNum++;
@@ -180,7 +181,8 @@ public final class ControllerImpl implements Controller {
                                     .equals(currentTile.getGameSet(TileSection.getOpposite(section)))) {
                                 // se però non sono nello stesso gameSet unisco i due diversi gameSet
                                 final GameSet neighbourGameSet = neighbour.getGameSet(section);
-                                final GameSet currentTileGameSet = currentTile.getGameSet(TileSection.getOpposite(section));
+                                final GameSet currentTileGameSet = currentTile
+                                        .getGameSet(TileSection.getOpposite(section));
                                 final GameSet joinedGameSet = new GameSetFactoryImpl().createJoinedSet(neighbourGameSet,
                                         currentTileGameSet);
 
@@ -293,7 +295,7 @@ public final class ControllerImpl implements Controller {
                         final GameSet fieldGameSet = tile.getGameSet(tileSection);
 
                         if (fieldGameSet.getType().equals(GameSetType.FIELD)
-                        && tile.isSectionNearToGameset(tileSection, cityGameSet)) {
+                                && tile.isSectionNearToGameset(tileSection, cityGameSet)) {
                             fieldsNearCity.add(fieldGameSet);
                         }
                     }
@@ -329,8 +331,8 @@ public final class ControllerImpl implements Controller {
     }
 
     private boolean isGameSetClosed(final GameSet gameSet) {
-        for (Tile tile : gameSets.get(gameSet)) {
-            for (TileSection tileSection : TileSection.values()) {
+        for (final Tile tile : gameSets.get(gameSet)) {
+            for (final TileSection tileSection : TileSection.values()) {
                 if (tile.getGameSet(tileSection).equals(gameSet) && !tile.isSectionClosed(tileSection)) {
                     return false;
                 }
@@ -380,6 +382,7 @@ public final class ControllerImpl implements Controller {
         return false;
     }
 
+    @Override
     public boolean discardCurrentTile() {
         if (this.isCurrentTilePlaceable()) {
             return false;
