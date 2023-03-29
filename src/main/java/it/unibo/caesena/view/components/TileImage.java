@@ -46,9 +46,6 @@ public class TileImage {
     public BufferedImage getAsBufferedImage(int width, int height) {
         BufferedImage image = null;
         try {
-            if (rotationCount!=0){
-                System.out.println("Prova");
-            }
             image = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png", List.of("tiles"));
             image = Thumbnails.of(image).size(width, height).rotate(90*rotationCount).asBufferedImage();
             if (meeple.isPresent()) {
@@ -62,6 +59,10 @@ public class TileImage {
 
     public void addMeeple(Meeple meeple, TileSection section) {
         this.meeple = Optional.of(new Pair<>(meeple, section));
+    }
+
+    public void removeMeeple() {
+        this.meeple = Optional.empty();
     }
 
     private BufferedImage getTileImageWithMeeple(BufferedImage image) {

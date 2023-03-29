@@ -1,16 +1,10 @@
 package it.unibo.caesena.view.components;
 
-//import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
-//import java.awt.image.BufferedImage;
 import java.util.Optional;
 import javax.swing.JButton;
-
-// import it.unibo.caesena.controller.Controller;
-// import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
-//import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.view.GameView;
 
@@ -20,7 +14,6 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private Optional<Meeple> meeple;
     private TileSection section;
     private TileImage tileImage;
-    //private Color currentPlayerColor;
     private boolean locked;
 
     public TileButtonImpl(ActionListener onClickActionListener, GameView gameView) {
@@ -39,8 +32,6 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         this.hasTile = true;
         this.tileImage = gameView.getCurrentTileImage();
     }
-
-
 
     @Override
     public void addTile(TileImage tileImage) {
@@ -66,6 +57,8 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         if (this.containsTile()) {
             if (this.containsMeeple())  {
                 this.tileImage.addMeeple(this.meeple.get(), this.section);
+            } else {
+                this.tileImage.removeMeeple();
             }
             g.drawImage(this.tileImage.getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0, this.getWidth(), this.getHeight(), null);
         }
