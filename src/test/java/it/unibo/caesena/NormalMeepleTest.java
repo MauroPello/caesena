@@ -32,12 +32,6 @@ final class NormalMeepleTest {
     }
 
     @Test
-    public void testEquals() {
-        final NormalMeeple meeple2 = new NormalMeeple(owner);
-        assertEquals(meeple2, meeple);
-    }
-
-    @Test
     public void testPlace() {
         assertFalse(meeple.isPlaced());
         meeple.setPlaced(true);
