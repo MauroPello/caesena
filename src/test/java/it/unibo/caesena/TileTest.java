@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.GameSetTileMediator;
+import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileBuilder;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
@@ -25,7 +26,7 @@ final class TileTest {
 
     @BeforeAll
     public static void init() {
-        mediator = new GameSetTileMediator();
+        mediator = new GameSetTileMediator(new GameSetFactoryImpl());
         tile = new TileFactoryWithBuilder(mediator).createCityEdge();
         position = new Pair<>(1, 1);
     }
@@ -49,7 +50,7 @@ final class TileTest {
                 .build();
 
         for (final TileSection section : TileSection.values()) {
-            assertEquals(mediator.getGameSet(tile2, section).getType(), mediator.getGameSet(tile, section).getType());
+            assertEquals(mediator.getGameSetInSection(tile2, section).getType(), mediator.getGameSetInSection(tile, section).getType());
         }
     }
 
