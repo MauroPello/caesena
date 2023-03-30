@@ -20,7 +20,7 @@ public class ConfigurationLoader {
 
     private final List<Tile> tiles = new ArrayList<>();
     private final String fileName;
-    
+
     public ConfigurationLoader(final String fileName) {
         this.fileName = fileName;
     }

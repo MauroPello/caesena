@@ -5,7 +5,7 @@ import java.util.List;
 import it.unibo.caesena.model.meeple.Meeple;
 
 /**
- * An interface defining a GameSet
+ * An interface defining a GameSet.
  */
 public interface GameSet {
 
@@ -47,14 +47,14 @@ public interface GameSet {
     int getPoints();
 
     /**
-     * Set points of current GameSet
+     * Set points of current GameSet.
      * 
      * @param points for current GameSet
      */
     void setPoints(int points);
 
     /**
-     * Add points in current GameSet
+     * Add points in current GameSet.
      * 
      * @param points added with those already present
      */

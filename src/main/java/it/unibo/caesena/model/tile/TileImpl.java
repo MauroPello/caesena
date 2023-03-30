@@ -9,17 +9,17 @@ import it.unibo.caesena.utils.StringUtil;
 
 public final class TileImpl implements Tile {
 
+    private final Map<TileSection, Boolean> sections;
     private final TileType type;
 
     private Optional<Pair<Integer, Integer>> currentPosition;
-    private Map<TileSection, Boolean> sections;
 
     public TileImpl(final TileType type) {
         this.type = type;
 
         this.currentPosition = Optional.empty();
         this.sections = new HashMap<>();
-        for (var section : TileSection.values()) {
+        for (final var section : TileSection.values()) {
             this.sections.put(section, false);
         }
     }

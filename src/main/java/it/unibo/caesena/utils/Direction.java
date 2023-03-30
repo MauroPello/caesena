@@ -31,7 +31,7 @@ public enum Direction {
     }
 
     /**
-     * checks whether two positions coincide with the same direction
+     * checks whether two positions coincide with the same direction.
      * 
      * @param direction for the matching
      * @param p1        first position of first tile

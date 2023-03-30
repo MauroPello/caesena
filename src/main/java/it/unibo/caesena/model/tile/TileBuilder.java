@@ -52,7 +52,7 @@ public final class TileBuilder {
     }
 
     private void applySet(final List<TileSection> sections, final GameSet gameSet) {
-        sections.forEach(s -> mediator.addSection(gameSet, tile , s));
+        sections.forEach(s -> mediator.addSection(gameSet, tile, s));
     }
 
     public Tile build() {

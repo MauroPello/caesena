@@ -51,7 +51,8 @@ final class TileTest {
                 .build();
 
         for (final TileSection section : TileSection.values()) {
-            assertEquals(mediator.getGameSetInSection(tile2, section).getType(), mediator.getGameSetInSection(tile, section).getType());
+            assertEquals(mediator.getGameSetInSection(tile2, section).getType(), 
+                mediator.getGameSetInSection(tile, section).getType());
         }
     }
 

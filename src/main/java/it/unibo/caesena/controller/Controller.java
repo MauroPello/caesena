@@ -20,7 +20,7 @@ public interface Controller {
     boolean placeMeeple(Meeple meeple, TileSection section);
 
     Tile getCurrentTile();
-    
+
     GameSet getCurrentTileGameSetInSection(TileSection section);
 
     Player getCurrentPlayer();

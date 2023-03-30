@@ -3,7 +3,7 @@ package it.unibo.caesena;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ final class ControllerTest {
 
     @Test
     public void testTilesBuild() {
-        assertTrue(!controller.getNotPlacedTiles().isEmpty());
+        assertFalse(controller.getNotPlacedTiles().isEmpty());
     }
 
     @Test

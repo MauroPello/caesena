@@ -224,11 +224,7 @@ public final class ControllerImpl implements Controller {
 
     private boolean isGameSetClosed(final GameSet gameSet) {
         if (gameSet.getType().equals(GameSetType.MONASTERY)) {
-            if (gameSet.getPoints() == POINTS_CLOSED_MONASTERY) {
-                return true;
-            } else {
-                return false;
-            } 
+            return gameSet.getPoints() == POINTS_CLOSED_MONASTERY;
         }
 
         return mediator.getTilesFromGameSet(gameSet).entrySet().stream()

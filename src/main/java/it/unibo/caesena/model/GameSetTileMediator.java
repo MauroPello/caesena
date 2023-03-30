@@ -13,10 +13,10 @@ public interface GameSetTileMediator {
     void addSection(GameSet gameSet, Tile tile, TileSection tileSection);
 
     boolean isPositionValid(Pair<Integer, Integer> position, Tile tile);
-    
+
     void joinTiles(Tile t1, Tile t2);
 
-    Set<Tile> getTileNeighbours(final Pair<Integer, Integer> position);
+    Set<Tile> getTileNeighbours(Pair<Integer, Integer> position);
 
     Set<GameSet> getFieldGameSetsNearGameSet(GameSet gameSet);
 
