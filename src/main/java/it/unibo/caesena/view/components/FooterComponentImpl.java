@@ -18,23 +18,30 @@ import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
 
-public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel>{
-    
-    GameView gameView;
-    GUI userInterface;
+/**
+* 
+* FooterComponent implementation.
+*/
+public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel> {
+    private GameView gameView;
+    private GUI userInterface;
 
-    JPanel tileImagePanel;
-    JButton rotateButton;
-    JLabel playerNameLabel;
-    JLabel playerScoreLabel;
-    JLabel remainingTilesLabel;
-    
-    TileImage tileImage;
-    GridBagConstraints constraints;
+    private JPanel tileImagePanel;
+    private JButton rotateButton;
+    private JLabel playerNameLabel;
+    private JLabel playerScoreLabel;
+    private JLabel remainingTilesLabel;
 
-    RemainingMeeplesComponent<JPanel> meepleComponent;
-    PlayerImage<JPanel> playerImageComponent;
+    private TileImage tileImage;
 
+    private RemainingMeeplesComponent<JPanel> meepleComponent;
+    private PlayerImage<JPanel> playerImageComponent;
+
+    /**
+     * 
+     * FooterComponent constructor.
+     * @param gameView
+     */
     public FooterComponentImpl(final GameView gameView) {
         super();
 
@@ -54,7 +61,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             @Override
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
-                final BufferedImage tileBufferedImage = tileImage.getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
+
+                final BufferedImage tileBufferedImage = tileImage
+                .getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
+
                 if (this.getHeight() > this.getWidth()) {
                     g.drawRect(0, 0, this.getWidth(), this.getWidth());
                     g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getWidth(), null);
