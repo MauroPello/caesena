@@ -28,7 +28,7 @@ public interface BoardComponent<X> {
 
     TileButton<JButton> getLastTileButton();
 
-    Pair<Integer, Integer> getTileButtonPosition(TileButton<JButton> tileButton);
+    Optional<Pair<Integer, Integer>> getUnlockedTileButtonPosition();
 
     Optional<TileButton<JButton>> getPlacedUnlockedTile();
 

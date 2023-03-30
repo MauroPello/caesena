@@ -35,11 +35,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     @Override
-    public Pair<Integer, Integer> getTileButtonPosition(TileButton<JButton> tileButton) {
-        return allTileButtons.get(tileButton);
-    }
-
-    @Override
     public void draw() {
         this.removeAll();
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
@@ -65,7 +60,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         if (canZoomIn()) {
             zoom++;
             draw();
-            repaint();
         }
         else {
             throw new IllegalStateException("Tried to zoom in but was not allowed");
@@ -77,7 +71,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         if(canZoomOut()) {
             zoom--;
             draw();
-            repaint();
         } else {
             throw new IllegalStateException("Tried to zoom out but was not allowed");
         }
@@ -89,7 +82,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             this.verticalOffset += direction.getY();
             this.horizontalOffset += direction.getX();
             draw();
-            repaint();
         } else {
             throw new IllegalStateException("Tried to move up but was not allowed");
         }
@@ -227,5 +219,15 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return allTileButtons.keySet().stream()
             .filter(k -> !k.isLocked() && k.containsTile())
             .findFirst();
+    }
+
+    @Override
+    public Optional<Pair<Integer, Integer>> getUnlockedTileButtonPosition() {
+        Optional<TileButton<JButton>> unlockedTileButton = this.getPlacedUnlockedTile();
+        if (unlockedTileButton.isPresent()) {
+            return Optional.of(allTileButtons.get(unlockedTileButton.get()));
+        } else {
+            return Optional.empty();
+        }
     }
 }

@@ -7,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Optional;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.model.Player;
@@ -20,7 +19,6 @@ import it.unibo.caesena.view.components.MainComponent;
 import it.unibo.caesena.view.components.MainComponentImpl;
 import it.unibo.caesena.view.components.SideBarComponent;
 import it.unibo.caesena.view.components.SideBarComponentImpl;
-import it.unibo.caesena.view.components.TileButton;
 import it.unibo.caesena.view.components.TileImage;
 
 public class GameView extends JPanel implements View<JPanel> {
@@ -37,7 +35,7 @@ public class GameView extends JPanel implements View<JPanel> {
         super();
         this.userInterface = userInterface;
         this.userInterface.getController().startGame();
-        generateCurrentTileImage();
+        this.generateCurrentTileImage();
         this.mainComponent = new MainComponentImpl(this);
         this.setLayout(new BorderLayout());
         this.footer = new FooterComponentImpl(this);
@@ -91,10 +89,9 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public boolean placeTile() {
-        Optional<TileButton<JButton>> placedTileButton = mainComponent.getBoard().getPlacedUnlockedTile();
-        if (placedTileButton.isPresent()) {
-            Pair<Integer, Integer> position = mainComponent.getBoard().getTileButtonPosition(placedTileButton.get());
-            if (this.userInterface.getController().placeCurrentTile(position)) {
+        Optional<Pair<Integer, Integer>> placedTilePosition = mainComponent.getBoard().getUnlockedTileButtonPosition();
+        if (placedTilePosition.isPresent()) {
+            if (this.userInterface.getController().placeCurrentTile(placedTilePosition.get())) {
                 mainComponent.getBoard().placeTile();
                 updateHUD();
                 return true;
