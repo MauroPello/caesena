@@ -91,7 +91,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public boolean canZoomIn() {
-        return this.fieldSize > 3;
+        return this.fieldSize > 1;
     }
 
     @Override
