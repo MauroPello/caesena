@@ -16,6 +16,9 @@ import it.unibo.caesena.utils.ResourceUtil;
 
 import net.coobird.thumbnailator.Thumbnails;
 
+/**
+ * manages the tile images.
+ */
 public class TileImage {
 
     private final Tile tile;
@@ -25,6 +28,11 @@ public class TileImage {
     private BufferedImage temporaryImage;
     private boolean somethingChanged = true;
 
+    /**
+     * make the tile image by the tile and set the color fort the meeple.
+     * @param tile
+     * @param color
+     */
     public TileImage(final Tile tile, final Color color) {
         this.tile = tile;
         this.color = color;
@@ -32,21 +40,35 @@ public class TileImage {
         this.meeple = Optional.empty();
     }
 
+    /**
+     * make the tile image by the tile. 
+     * @param tile
+     */
     public TileImage(final Tile tile) {
         this.tile = tile;
         this.rotationCount = 0;
         this.meeple = Optional.empty();
     }
 
+    /**
+     * update the rotation count to rotate the tile image.
+     */
     public void rotate() {
         this.rotationCount = (this.rotationCount + 1) % 4;
         somethingChanged = true;
     }
 
+    /**
+     * @return the current tile.
+     */
     public Tile getTile() {
         return this.tile;
     }
 
+    /**
+     * return a boolea based on the need to update the image.
+     * @return true if nothing changed
+     */
     private boolean shouldUpdateImage() {
         if (somethingChanged) {
             somethingChanged = false;
@@ -54,13 +76,18 @@ public class TileImage {
         return !somethingChanged;
     }
 
+    /**
+     * @param width
+     * @param height
+     * @return the tile image, with the meeple above in case it is present.
+     */
     public BufferedImage getAsBufferedImage(final int width, final int height) {
 
         try {
             if (shouldUpdateImage()) {
-                BufferedImage image_name = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
+                BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
                         List.of("tiles"));
-                temporaryImage = Thumbnails.of(image_name).size(width, height).rotate(90 * rotationCount)
+                temporaryImage = Thumbnails.of(imageName).size(width, height).rotate(90 * rotationCount)
                         .asBufferedImage();
                 if (meeple.isPresent()) {
                     temporaryImage = getTileImageWithMeeple(temporaryImage);
@@ -72,23 +99,36 @@ public class TileImage {
         }
     }
 
+    /**
+     * @param width
+     * @param height
+     * @return the tile image without the meeple above it.
+     */
     public BufferedImage getAsBufferedImageWithoutMeeple(final int width, final int height) {
         BufferedImage image;
         try {
-            BufferedImage image_name = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
+            BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
                     List.of("tiles"));
-            image = Thumbnails.of(image_name).size(width, height).rotate(90 * rotationCount).asBufferedImage();
+            image = Thumbnails.of(imageName).size(width, height).rotate(90 * rotationCount).asBufferedImage();
             return image;
         } catch (final IOException e) {
             throw new IllegalStateException("Image path not valid");
         }
     }
 
+    /**
+     * add the meeple in the tile image.
+     * @param meeple
+     * @param section
+     */
     public void addMeeple(final Meeple meeple, final TileSection section) {
         this.meeple = Optional.of(new Pair<>(meeple, section));
         somethingChanged = true;
     }
 
+    /**
+     * remove the meeple in the tile image.
+     */
     public void removeMeeple() {
         this.meeple = Optional.empty();
         somethingChanged = true;

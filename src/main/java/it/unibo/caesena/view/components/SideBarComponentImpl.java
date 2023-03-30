@@ -15,24 +15,28 @@ import it.unibo.caesena.view.GameView;
 
 public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPanel>{
     
-    Controller controller;
-    GameView gameView;
+    private Controller controller;
+    private GameView gameView;
 
-    JButton zoomInButton = new JButton("Zoom +");
-    JButton zoomOutButton = new JButton("Zoom -");
+    private JButton zoomInButton = new JButton("Zoom +");
+    private JButton zoomOutButton = new JButton("Zoom -");
 
-    JButton upRowButton = new JButton("|");
-    JButton downRowButton = new JButton("|");
-    JButton leftRowButton = new JButton("<-");
-    JButton rightRowButton = new JButton("->");
+    private JButton upRowButton = new JButton("|");
+    private JButton downRowButton = new JButton("|");
+    private JButton leftRowButton = new JButton("<-");
+    private JButton rightRowButton = new JButton("->");
 
-    JButton placeTileButton = new JButton("PLACE TILE");
-    JButton placeMeepleButton = new JButton("PLACE MEEPLE");
-    JButton discardTileButton = new JButton("DISCARD");
-    JButton endTurnButton = new JButton("ENDTURN");
+    private JButton placeTileButton = new JButton("PLACE TILE");
+    private JButton placeMeepleButton = new JButton("PLACE MEEPLE");
+    private JButton discardTileButton = new JButton("DISCARD");
+    private JButton endTurnButton = new JButton("ENDTURN");
 
-    LeaderBoardComponent<JPanel> leaderBoard;
+    private LeaderBoardComponent<JPanel> leaderBoard;
 
+    /**
+     * SideBarComponent constructor
+     * @param gameView
+     */
     public SideBarComponentImpl(final GameView gameView) {
         super();
 
@@ -49,12 +53,12 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         JPanel arrowsPanel = new JPanel();
         JPanel centerArrowsPanel = new JPanel();
         JPanel actionsPanel = new JPanel();
-        
+
         zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.Y_AXIS));
         arrowsPanel.setLayout(new BoxLayout(arrowsPanel, BoxLayout.Y_AXIS));
         actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
         centerArrowsPanel.setLayout(new BoxLayout(centerArrowsPanel, BoxLayout.X_AXIS));
-        
+
         innerPanel.setOpaque(false);
         zoomPanel.setOpaque(false);
         arrowsPanel.setOpaque(false);
@@ -87,10 +91,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         actionsPanel.add(placeMeepleButton);
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(endTurnButton);
-        
+
         this.leaderBoard = new LeaderBoardComponentImpl(gameView.getUserInterface());
         leaderBoard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         innerPanel.add(zoomPanel);
         innerPanel.add(arrowsPanel);
         innerPanel.add(actionsPanel);
