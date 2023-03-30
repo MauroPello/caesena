@@ -54,7 +54,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     @Override
     protected void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
-        BufferedImage tileButton = gameView.getCurrentTileImage().getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
+        final BufferedImage tileButton = gameView.getCurrentTileImage().getAsBufferedImageWithoutMeeple(this.getWidth(),
+                this.getHeight());
         graphics.drawImage(tileButton, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
@@ -171,6 +172,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             }
         }
 
+        @Override
         public boolean isSelected() {
             return selected;
         }

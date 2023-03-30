@@ -8,9 +8,12 @@ public class LocaleHelper {
     private static final String BUNDLE_NAME = "it.unibo.caesena.displayTexts";
     private static Locale currentLocale = Locale.getDefault();
 
+    public LocaleHelper() {
+    }
+
     /**
      * 
-     * @return 
+     * @return
      */
     public static ResourceBundle getResourceBundle() {
         return ResourceBundle.getBundle(BUNDLE_NAME, currentLocale);
@@ -34,12 +37,12 @@ public class LocaleHelper {
 
     /**
      * 
-     * @param currentView 
-     * @param withApplicationName 
+     * @param currentView
+     * @param withApplicationName
      * @return
      */
-    public static String getViewTitle(String currentView, boolean withApplicationName) {
-        char[] charArray = currentView.toCharArray();
+    public static String getViewTitle(final String currentView, final boolean withApplicationName) {
+        final char[] charArray = currentView.toCharArray();
         charArray[0] = Character.toLowerCase(charArray[0]);
         if (withApplicationName) {
             return getApplicationName() + " | " + getResourceBundle().getString(String.valueOf(charArray) + "Title");
@@ -50,7 +53,7 @@ public class LocaleHelper {
 
     /**
      * 
-     * @return 
+     * @return
      */
     public static String getExitDialogTitle() {
         return getResourceBundle().getString("exitDialogTitle") + " " + getApplicationName();

@@ -52,8 +52,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.tileImage = gameView.getCurrentTileImage();
         this.tileImagePanel = new JPanel() {
             @Override
-            protected void paintComponent(Graphics g)
-            {
+            protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
                 final BufferedImage tileBufferedImage = tileImage.getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
                 if (this.getHeight() > this.getWidth()) {
@@ -69,13 +68,14 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
         this.playerImageComponent = new PlayerImageImpl();
-        this.playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
+        this.playerImageComponent
+                .setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
 
         this.rotateButton = new JButton() {
             @Override
-            protected void paintComponent(Graphics graphics) {
+            protected void paintComponent(final Graphics graphics) {
                 super.paintComponent(graphics);
-                BufferedImage image = ResourceUtil.getBufferedImage("rotate-right.png", List.of());
+                final BufferedImage image = ResourceUtil.getBufferedImage("rotate-right.png", List.of());
                 if (this.getHeight() > this.getWidth()) {
                     graphics.drawImage(image, 0, 0, this.getWidth(), this.getWidth(), null);
                 } else {
@@ -125,7 +125,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public JPanel getComponent() {
-       return this;
+        return this;
     }
 
     @Override
@@ -150,7 +150,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
         playerScoreLabel.setText(LocaleHelper.getScoreText() + userInterface.getController().getCurrentPlayer().getScore());
         updateRemainingTiles();
-        if(userInterface.getController().getCurrentTile().isPlaced()) {
+        if (userInterface.getController().getCurrentTile().isPlaced()) {
             rotateButton.setEnabled(false);
         } else {
             rotateButton.setEnabled(true);

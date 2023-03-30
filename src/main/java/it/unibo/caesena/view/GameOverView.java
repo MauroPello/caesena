@@ -22,20 +22,20 @@ public class GameOverView extends JPanel implements View<JPanel> {
     private static final int WIDTH = 30;
     private static final int HEIGHT = 30;
     private final GUI userInterface;
-    private final JPanel mainPanel;
-    private final List<Player> players;
-    private Font mainFont;
-
+    
     public GameOverView(final GUI userInterface) {
         super();
+        final JPanel mainPanel;
+        final List<Player> players;
+        final Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);;
+        
         this.userInterface = userInterface;
 
         this.setBackground(Color.BLACK);
-        this.setLayout(new GridBagLayout());
-        this.mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);
-        this.mainPanel = new JPanel();
-        this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
-        this.players = userInterface.getController().getPlayers();
+        this.setLayout(new GridBagLayout()); 
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        players = userInterface.getController().getPlayers();
 
         final JPanel playersPanel = new JPanel();
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
@@ -46,6 +46,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
         final PriorityQueue<Player> queue = new PriorityQueue<>(
                 new Comparator<Player>() {
+                    @Override
                     public int compare(final Player a, final Player b) {
                         return Integer.compare(b.getScore(), a.getScore());
                     }
@@ -59,7 +60,8 @@ public class GameOverView extends JPanel implements View<JPanel> {
             final JPanel volatailePanel = new JPanel();
 
             final JLabel volataileLabel = new JLabel();
-            volataileLabel.setText(LocaleHelper.getNameText() + player.getName() + " " + LocaleHelper.getScoreText() + player.getScore());
+            volataileLabel.setText(LocaleHelper.getNameText() + player.getName() + " " + LocaleHelper.getScoreText()
+                    + player.getScore());
             volatailePanel.add(volataileLabel);
 
             final var playerColorPanel = new PlayerImageImpl(WIDTH, HEIGHT);
@@ -68,7 +70,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
             playersPanel.add(volatailePanel);
         }
-        this.mainPanel.add(playersPanel);
+        mainPanel.add(playersPanel);
 
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -83,7 +85,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(exitButton);
 
-        this.mainPanel.add(buttonPanel);
+        mainPanel.add(buttonPanel);
         this.add(mainPanel);
         this.repaint();
         this.validate();

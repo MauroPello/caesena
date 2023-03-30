@@ -1,5 +1,6 @@
 package it.unibo.caesena.view.components;
 
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -54,16 +55,16 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         this.allMeeplesPanel.repaint();
 
         meeples = userInterface.getController().getPlayerMeeples(userInterface.getController().getCurrentPlayer());
-        for (Meeple meeple : meeples) {
-            JPanel meeplePanel = new JPanel() {
+        for (final Meeple meeple : meeples) {
+            final JPanel meeplePanel = new JPanel() {
                 @Override
-                protected void paintComponent(Graphics graphics) {
+                protected void paintComponent(final Graphics graphics) {
                     super.paintComponent(graphics);
                     Color color = userInterface.getPlayerColor(meeple.getOwner());
                     if (meeple.isPlaced()) {
                         color = Color.GRAY;
                     }
-                    MeepleImage image = new MeepleImage(color);
+                    final MeepleImage image = new MeepleImage(color);
                     image.resize(getWidth(), getHeight());
                     if (this.getHeight() > this.getWidth()) {
                         graphics.drawImage(image.getAsBufferedImage(), 0, 0, this.getWidth(), this.getWidth(), null);

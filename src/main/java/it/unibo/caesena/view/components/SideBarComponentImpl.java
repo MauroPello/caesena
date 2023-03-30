@@ -35,10 +35,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
     public SideBarComponentImpl(final GameView gameView) {
         super();
-        
+
         this.gameView = gameView;
         this.controller = gameView.getUserInterface().getController();
-        
+
         this.setBackground(Color.CYAN);
         this.setLayout(new GridBagLayout());
 
@@ -60,7 +60,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         arrowsPanel.setOpaque(false);
         centerArrowsPanel.setOpaque(false);
         actionsPanel.setOpaque(false);
-        
+
         zoomInButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         zoomPanel.add(zoomInButton);
         zoomOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -119,7 +119,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
      */
     @Override
     public JPanel getComponent() {
-       return this;
+        return this;
     }
 
     /**
@@ -134,7 +134,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
      */
     private ActionListener placeTileEventListener() {
         return (e) -> {
-            if(this.gameView.placeTile()) {
+            if (this.gameView.placeTile()) {
                 placeTileButton.setVisible(false);
                 placeMeepleButton.setVisible(true);
                 endTurnButton.setVisible(true);
@@ -156,11 +156,11 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         };
     }
 
-    private <Optional>ActionListener zoomInEventListener() {
-        return(e) -> {
+    private <Optional> ActionListener zoomInEventListener() {
+        return (e) -> {
             this.gameView.zoomIn();
             if (!this.gameView.canZoomIn()) {
-                ((JButton)e.getSource()).setEnabled(false);
+                ((JButton) e.getSource()).setEnabled(false);
             }
             this.zoomOutButton.setEnabled(true);
         };
@@ -170,7 +170,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         return (e) -> {
             this.gameView.zoomOut();
             if (!this.gameView.canZoomOut()) {
-                ((JButton)e.getSource()).setEnabled(false);
+                ((JButton) e.getSource()).setEnabled(false);
             }
             this.zoomInButton.setEnabled(true);
         };
@@ -194,10 +194,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
     private ActionListener discardTileEventListener() {
         return (e) -> {
-            if(controller.discardCurrentTile()) {
+            if (controller.discardCurrentTile()) {
                 gameView.updateHUD();
             } else {
-                ((JButton)e.getSource()).setEnabled(false);
+                ((JButton) e.getSource()).setEnabled(false);
             }
         };
     }
