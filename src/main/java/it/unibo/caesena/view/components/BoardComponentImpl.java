@@ -87,7 +87,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public void move(Direction direction) {
         if(canMove(direction)) {
             this.verticalOffset += direction.getY();
-            this.verticalOffset += direction.getX();
+            this.horizontalOffset += direction.getX();
             draw();
             repaint();
         } else {
