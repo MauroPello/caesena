@@ -1,12 +1,10 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -20,10 +18,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     JButton zoomInButton = new JButton("Zoom +");
     JButton zoomOutButton = new JButton("Zoom -");
 
-    JButton upRowButton = new JButton("UP");
-    JButton downRowButton = new JButton("DOWN");
-    JButton leftRowButton = new JButton("LEFT");
-    JButton rightRowButton = new JButton("RIGHT");
+    JButton upRowButton = new JButton("|");
+    JButton downRowButton = new JButton("|");
+    JButton leftRowButton = new JButton("<-");
+    JButton rightRowButton = new JButton("->");
 
     JButton placeTileButton = new JButton("PLACE TILE");
     JButton placeMeepleButton = new JButton("PLACE MEEPLE");
@@ -37,68 +35,68 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     public SideBarComponentImpl(final GameView gameView) {
         super();
         
-        this.controller = gameView.getUserInterface().getController();
         this.gameView = gameView;
-        this.leaderBoard = new LeaderBoardComponentImpl(controller);
-
-        this.setLayout(new GridBagLayout());
-        this.setBackground(java.awt.Color.BLACK);
-        this.setAlignmentY(Component.CENTER_ALIGNMENT);
+        this.controller = gameView.getUserInterface().getController();
         
+        this.setBackground(Color.BLACK);
         JPanel innerPanel = new JPanel();
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
+        
         JPanel zoomPanel = new JPanel();
         JPanel arrowsPanel = new JPanel();
-        JPanel centerArrowPanel = new JPanel();
         JPanel actionsPanel = new JPanel();
         
-        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
         zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.Y_AXIS));
         arrowsPanel.setLayout(new BoxLayout(arrowsPanel, BoxLayout.Y_AXIS));
-        centerArrowPanel.setLayout(new BorderLayout());
         actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
-
+        
         innerPanel.setOpaque(false);
         zoomPanel.setOpaque(false);
         arrowsPanel.setOpaque(false);
-        centerArrowPanel.setOpaque(false);
         actionsPanel.setOpaque(false);
-
-        zoomPanel.add(zoomInButton);
-        zoomPanel.add(zoomOutButton);
+        
         zoomInButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        zoomPanel.add(zoomInButton);
         zoomOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        zoomPanel.add(zoomOutButton);
 
+        upRowButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         arrowsPanel.add(upRowButton);
-        centerArrowPanel.add(leftRowButton, BorderLayout.WEST);
-        centerArrowPanel.add(rightRowButton, BorderLayout.EAST);
-        arrowsPanel.add(centerArrowPanel);
+
+        JPanel centerArrowsPanel = new JPanel();
+        centerArrowsPanel.setLayout(new BoxLayout(centerArrowsPanel, BoxLayout.X_AXIS));
+        leftRowButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        centerArrowsPanel.add(leftRowButton);
+        leftRowButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        centerArrowsPanel.add(rightRowButton);
+        centerArrowsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        arrowsPanel.add(centerArrowsPanel);
+
+        downRowButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         arrowsPanel.add(downRowButton);
 
-        upRowButton.setAlignmentX(CENTER_ALIGNMENT);
-        downRowButton.setAlignmentX(CENTER_ALIGNMENT);
-        arrowsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        actionsPanel.add(placeTileButton);
-        actionsPanel.add(discardTileButton);
-        actionsPanel.add(placeMeepleButton);
-        actionsPanel.add(endTurnButton);
-
         placeTileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionsPanel.add(placeTileButton);
         discardTileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionsPanel.add(discardTileButton);
         placeMeepleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionsPanel.add(placeMeepleButton);
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        innerPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        actionsPanel.add(endTurnButton);
+        
         innerPanel.add(zoomPanel);
         innerPanel.add(arrowsPanel);
-        actionsPanel.setBackground(Color.red);
         innerPanel.add(actionsPanel);
-        innerPanel.add(leaderBoard.getComponent());
+        this.leaderBoard = new LeaderBoardComponentImpl(controller);
         leaderBoard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        this.add(innerPanel);
-        this.setVisible(true);
+        innerPanel.add(leaderBoard.getComponent());
+
+        placeMeepleButton.setVisible(false);
+        endTurnButton.setVisible(false);
         innerPanel.setVisible(true);
+
+        this.setLayout(new GridBagLayout());
+        this.add(innerPanel);
 
         zoomInButton.addActionListener(zoomInEventListener());
         zoomOutButton.addActionListener(zoomOutEventListener());
@@ -110,9 +108,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         placeMeepleButton.addActionListener(placeMeepleEventListener());
         endTurnButton.addActionListener(endTurnEventListener());
         discardTileButton.addActionListener(discardTileEventListener());
-
-        placeMeepleButton.setVisible(false);
-        endTurnButton.setVisible(false);
     }
 
 

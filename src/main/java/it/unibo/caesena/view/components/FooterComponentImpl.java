@@ -1,9 +1,9 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -29,47 +29,47 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     GUI userInterface;
 
-    JPanel innerPanel;
     TileImage tileImage;
     GridBagConstraints constraints;
 
-    //DA TESTARE PER MEEPLE COMPONENT
     RemainingMeeplesComponent<JPanel> meepleComponent;
     PlayerImage<JPanel> playerImageComponent;
 
-    private JPanel getRectangularJPanel() {
-        return new JPanel() {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public Dimension getPreferredSize() {
-                //constraints.insets = new Insets(20, 10, 20, 10);
+    // private JPanel getRectangularJPanel() {
+    //     return new JPanel() {
+    //         private static final long serialVersionUID = 1L;
+    //         @Override
+    //         public Dimension getPreferredSize() {
+    //             //constraints.insets = new Insets(20, 10, 20, 10);
 
-                Dimension innerDimension = new Dimension(this.getParent().getWidth(), this.getParent().getHeight());
-                //this è l'innerpanel
-                Dimension externDimension = new Dimension(this.getParent().getWidth(), this.getParent().getParent().getHeight());
-                //this.getParent() è l'exter panel del footer
+    //             Dimension innerDimension = new Dimension(this.getParent().getWidth(), this.getParent().getHeight());
+    //             //this è l'innerpanel
+    //             Dimension externDimension = new Dimension(this.getParent().getWidth(), this.getParent().getParent().getHeight());
+    //             //this.getParent() è l'exter panel del footer
 
-                int innerNewW = innerDimension.width;
-                int externNewH = externDimension.height;
+    //             int innerNewW = innerDimension.width;
+    //             int externNewH = externDimension.height;
 
-                int componentsHeight = (externNewH-250)/2+1;
+    //             int componentsHeight = (externNewH-250)/2+1;
 
-                return new Dimension(innerNewW-50, componentsHeight);
+    //             return new Dimension(innerNewW-50, componentsHeight);
 
-                //-300 è la distanza dai bordi di this (il panel esterno)
-                //modificando la dimensione di this la weight di questo Jpanel sarà sempre dinamicamente
-                //la lunghezza di this-400
-            }
-        };
-    }
+    //             //-300 è la distanza dai bordi di this (il panel esterno)
+    //             //modificando la dimensione di this la weight di questo Jpanel sarà sempre dinamicamente
+    //             //la lunghezza di this-400
+    //         }
+    //     };
+    // }
 
     public FooterComponentImpl(final GameView gameView) {
         super();
         this.userInterface = gameView.getUserInterface();
 
-        this.setBackground(Color.ORANGE);
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
 
-        this.innerPanel = getRectangularJPanel();
+        this.setBackground(Color.ORANGE);
 
         this.tileImage = gameView.getCurrentTileImage();
         this.tileImageLabel = new JLabel() {
@@ -81,12 +81,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
                 g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
             }
         };
-        tileImageLabel.setPreferredSize(new Dimension(40, 40));
-        tileImageLabel.setMinimumSize(new Dimension(40, 40));
-        this.tileImageLabel.setBorder(new LineBorder(java.awt.Color.BLACK));
+        this.tileImageLabel.setBorder(new LineBorder(Color.BLACK));
 
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
-        this.playerImageComponent = new PlayerImageImpl(40, 40);
+        this.playerImageComponent = new PlayerImageImpl();
         this.playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
 
         this.rotateButton = new JButton() {
@@ -94,32 +92,33 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             protected void paintComponent(Graphics graphics) {
                 super.paintComponent(graphics);
                 BufferedImage image = ResourceUtil.getBufferedImage("rotate-right.png", List.of());
-                graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+                graphics.drawImage(image, 0, 0, this.getHeight(), this.getHeight(), null);
             }
         };
-
-        rotateButton.setPreferredSize(new Dimension(30,30));
         rotateButton.setContentAreaFilled(false);
         rotateButton.setOpaque(false);
         rotateButton.setBorderPainted(false);
 
-        innerPanel.add(playerImageComponent.getComponent());
-        innerPanel.add(playerNameLabel);
-        innerPanel.add(meepleComponent.getComponent());
-        innerPanel.add(playerScoreLabel);
-        innerPanel.add(tileImageLabel);
-        innerPanel.add(rotateButton);
-        innerPanel.add(remainingTilesLabel);
-
-        innerPanel.setVisible(true);
-        this.add(innerPanel);
+        constraints.weightx = 0.3;
+        this.add(playerImageComponent.getComponent(), constraints);
+        constraints.weightx = 0.1;
+        this.add(playerNameLabel, constraints);
+        constraints.weightx = 0.5;
+        this.add(meepleComponent.getComponent(), constraints);
+        constraints.weightx = 0.1;
+        this.add(playerScoreLabel, constraints);
+        constraints.weightx = 0.3;
+        this.add(tileImageLabel, constraints);
+        constraints.weightx = 0.3;
+        this.add(rotateButton, constraints);
+        constraints.weightx = 0.5;
+        this.add(remainingTilesLabel, constraints);
 
         updateFooter();
 
         this.setVisible(true);
 
         rotateButton.addActionListener(new ActionListener(){
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 tileImage = gameView.getCurrentTileImage();
@@ -128,9 +127,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
                 tileImage.rotate();
                 updateCurrentTile();
             }
-
         });
-
     }
 
     @Override

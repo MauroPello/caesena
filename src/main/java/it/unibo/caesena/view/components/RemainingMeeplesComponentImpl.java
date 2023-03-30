@@ -22,6 +22,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
     public RemainingMeeplesComponentImpl(final GameView gameView) {
         super();
         userInterface = gameView.getUserInterface();
+        this.setOpaque(false);
 
         meeples = userInterface.getController().getPlayerMeeples(userInterface.getController().getCurrentPlayer());
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -31,6 +32,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
 
         this.allMeeplesPanel = new JPanel();
         allMeeplesPanel.setLayout(new GridLayout(1, meeples.size()));
+        allMeeplesPanel.setOpaque(false);
 
         update();
 
@@ -57,7 +59,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
                     }
                     MeepleImage image = new MeepleImage(color);
                     image.resize(getWidth(), getHeight());
-                    graphics.drawImage(image.getAsBufferedImage(), 0, 0, getWidth(), getHeight(), null);
+                    graphics.drawImage(image.getAsBufferedImage(), 0, 0, this.getWidth(), this.getHeight(), null);
                 }
             };
             meeplePanel.setOpaque(false);

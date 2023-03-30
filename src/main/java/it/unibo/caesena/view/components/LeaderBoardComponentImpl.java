@@ -2,12 +2,10 @@ package it.unibo.caesena.view.components;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,10 +24,9 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
     public LeaderBoardComponentImpl(Controller controller)
     {
         super();
-        JPanel innerPanel = new JPanel();
 
-        this.setBackground(java.awt.Color.BLACK);
-        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
+        this.setBackground(Color.BLACK);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.controller = controller;
         this.playerList = this.controller.getPlayers();
@@ -38,44 +35,30 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         titleLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
-        innerPanel.add(titleLabel);
+        this.add(titleLabel);
         JSeparator separator = new JSeparator();
         separator.setForeground(Color.black);
-        innerPanel.add(separator);
+        this.add(separator);
 
-        innerPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-
-        for (int i = 0; i < playerList.size(); i++) {
-            JLabel nuova = new JLabel();
-            nuova.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
-            nuova.setAlignmentX(Component.CENTER_ALIGNMENT);
-            labelList.add(nuova);
-            innerPanel.add(nuova);
+        for (var player : playerList) {
+            JLabel playerLabel = new JLabel();
+            playerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+            playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            labelList.add(playerLabel);
+            this.add(playerLabel);
         }
         updateLeaderBoard();
-        this.add(innerPanel);
-        innerPanel.setVisible(true);
         this.setVisible(true);
     }
 
     @Override
     public void updateLeaderBoard()
     {
-        //testLeaderBoard();
-
         this.playerList = new ArrayList<>(this.controller.getPlayers());
         playerList.sort((x, y) -> Integer.compare(y.getScore(), x.getScore()));
 
         for (int i = 0; i < playerList.size(); i++) {
             labelList.get(i).setText(playerList.get(i).getName()+" "+playerList.get(i).getScore());
-        }
-    }
-
-    //metodo creato unicamente per simulare dei punteggi
-    public void testLeaderBoard()
-    {
-        for (Player player : controller.getPlayers()) {
-            player.setScore(new Random().nextInt(100000));
         }
     }
 

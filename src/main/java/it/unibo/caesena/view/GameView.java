@@ -2,6 +2,8 @@ package it.unibo.caesena.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.Optional;
 
 import javax.swing.JButton;
@@ -37,9 +39,28 @@ public class GameView extends JPanel implements View<JPanel> {
         this.setLayout(new BorderLayout());
         this.footer = new FooterComponentImpl(this);
         this.sidebar = new SideBarComponentImpl(this);
-        this.add(sidebar.getComponent(), BorderLayout.EAST);
-        this.add(mainComponent.getComponent(), BorderLayout.CENTER);
-        this.add(footer.getComponent(), BorderLayout.SOUTH);
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 0.8;
+        gridBagConstraints.weighty = 0.7;
+        this.add(mainComponent.getComponent(), gridBagConstraints);
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weighty = 0.7;
+        this.add(sidebar.getComponent(), gridBagConstraints);
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.3;
+        this.add(footer.getComponent(), gridBagConstraints);
     }
 
     private void generateCurrentTileImage() {
