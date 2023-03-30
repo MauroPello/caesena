@@ -35,32 +35,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     RemainingMeeplesComponent<JPanel> meepleComponent;
     PlayerImage<JPanel> playerImageComponent;
 
-    // private JPanel getRectangularJPanel() {
-    //     return new JPanel() {
-    //         private static final long serialVersionUID = 1L;
-    //         @Override
-    //         public Dimension getPreferredSize() {
-    //             //constraints.insets = new Insets(20, 10, 20, 10);
-
-    //             Dimension innerDimension = new Dimension(this.getParent().getWidth(), this.getParent().getHeight());
-    //             //this è l'innerpanel
-    //             Dimension externDimension = new Dimension(this.getParent().getWidth(), this.getParent().getParent().getHeight());
-    //             //this.getParent() è l'exter panel del footer
-
-    //             int innerNewW = innerDimension.width;
-    //             int externNewH = externDimension.height;
-
-    //             int componentsHeight = (externNewH-250)/2+1;
-
-    //             return new Dimension(innerNewW-50, componentsHeight);
-
-    //             //-300 è la distanza dai bordi di this (il panel esterno)
-    //             //modificando la dimensione di this la weight di questo Jpanel sarà sempre dinamicamente
-    //             //la lunghezza di this-400
-    //         }
-    //     };
-    // }
-
     public FooterComponentImpl(final GameView gameView) {
         super();
         this.userInterface = gameView.getUserInterface();
@@ -99,7 +73,8 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         rotateButton.setOpaque(false);
         rotateButton.setBorderPainted(false);
 
-        constraints.weightx = 0.3;
+        constraints.weighty = 1.0;
+        constraints.weightx = 0.2;
         this.add(playerImageComponent.getComponent(), constraints);
         constraints.weightx = 0.1;
         this.add(playerNameLabel, constraints);

@@ -70,6 +70,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         leftRowButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         centerArrowsPanel.add(rightRowButton);
         centerArrowsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerArrowsPanel.setOpaque(false);
         arrowsPanel.add(centerArrowsPanel);
 
         downRowButton.setAlignmentX(Component.CENTER_ALIGNMENT);
