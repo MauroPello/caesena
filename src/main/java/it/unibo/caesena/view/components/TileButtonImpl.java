@@ -17,16 +17,13 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private TileSection section;
     private TileImage tileImage;
     private boolean locked;
-    // private boolean containedTile = false;
-    // private boolean containedMeeple = false;
-    private boolean containedTile;
-    private boolean containedMeeple;
 
     public TileButtonImpl(final ActionListener onClickActionListener, final GameView gameView) {
         super();
         this.gameView = gameView;
         this.hasTile = false;
         this.locked = false;
+        this.meeple = Optional.empty();
         this.addActionListener(onClickActionListener);
         this.setContentAreaFilled(false);
         this.setFocusable(false);
@@ -34,21 +31,22 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
 
     @Override
     public void addTile() {
-        this.meeple = Optional.empty();
         this.hasTile = true;
         this.tileImage = gameView.getCurrentTileImage();
+        this.repaint();
     }
 
     @Override
     public void addTile(final TileImage tileImage) {
-        this.meeple = Optional.empty();
         this.hasTile = true;
         this.tileImage = tileImage;
+        this.repaint();
     }
 
     @Override
     public void removeTile() {
         this.hasTile = false;
+        this.repaint();
     }
 
     @Override
@@ -56,23 +54,10 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         return this.hasTile;
     }
 
-    private boolean somethingHasChanged() {
-        if (!(containedTile ^ containsTile())) {
-            containedTile = containsTile();
-            return true;
-        }
-        if (!(containedMeeple ^ containsMeeple())) {
-            containedMeeple = containsMeeple();
-            return true;
-        }
-        return true;
-    }
-
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        if (somethingHasChanged() && this.containsTile()) {
-
+        if (this.containsTile()) {
             if (this.containsMeeple()) {
                 this.tileImage.addMeeple(this.meeple.get(), this.section);
             } else {
@@ -81,8 +66,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
             g.drawImage(this.tileImage.getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0, this.getWidth(),
                     this.getHeight(), null);
             this.setOpaque(true);
-            // this.repaint();
-
+            this.repaint();
         }
     }
 
@@ -103,6 +87,9 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     }
 
     private boolean containsMeeple() {
+        if (meeple.isPresent() && !meeple.get().isPlaced()) {
+            meeple = Optional.empty();
+        }
         return meeple.isPresent();
     }
 

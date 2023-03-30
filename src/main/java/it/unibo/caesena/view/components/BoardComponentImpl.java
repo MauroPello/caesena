@@ -41,7 +41,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         this.removeAll();
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
         this.setLayout(new GridLayout(fieldSize, fieldSize));
-        final List<TileButton<JButton>> tileButtonsToBeDrawn = getTileButtonsToBeDrawn();
+        final List<TileButton<JButton>> tileButtonsToBeDrawn = getTileButtonsToBeDrawn(this.horizontalOffset, this.verticalOffset, this.zoom);
         for (final TileButton<JButton> tileButton : tileButtonsToBeDrawn) {
             this.add(tileButton.getComponent());
         }
@@ -127,7 +127,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         if (!this.getPlacedUnlockedTile().isEmpty()) {
             this.getPlacedUnlockedTile().get().removeTile();
         }
-        draw();
     }
 
     @Override
@@ -157,10 +156,6 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             }
         }
         return tileButtons;
-    }
-
-    private List<TileButton<JButton>> getTileButtonsToBeDrawn() {
-        return getTileButtonsToBeDrawn(this.horizontalOffset, this.verticalOffset, this.zoom);
     }
 
     private void setFirstTileButton() {
@@ -201,12 +196,12 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
                         lastTileButtonPlaced.removeTile();
                     }
                 }
-                this.add(selectedTileButton);
                 selectedTileButton.addTile();
-                this.draw();
             }
         };
     }
+
+
 
     private Optional<TileButton<JButton>> findTileButton(final Tile tile) {
         if (!tile.isPlaced()) {

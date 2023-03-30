@@ -21,7 +21,9 @@ public class TileImage {
     private final Tile tile;
     private int rotationCount;
     private Color color;
-    public Optional<Pair<Meeple, TileSection>> meeple;
+    private Optional<Pair<Meeple, TileSection>> meeple;
+    private BufferedImage temporaryImage;
+    private boolean somethingChanged = true;
 
     public TileImage(final Tile tile, final Color color) {
         this.tile = tile;
@@ -38,23 +40,33 @@ public class TileImage {
 
     public void rotate() {
         this.rotationCount = (this.rotationCount + 1) % 4;
+        somethingChanged = true;
     }
 
     public Tile getTile() {
         return this.tile;
     }
 
+    private boolean shouldUpdateImage() {
+        if (somethingChanged) {
+            somethingChanged = false;
+        }
+        return !somethingChanged;
+    }
+
     public BufferedImage getAsBufferedImage(final int width, final int height) {
 
         try {
-            BufferedImage image_name = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
-                    List.of("tiles"));
-            BufferedImage image = Thumbnails.of(image_name).size(width, height).rotate(90 * rotationCount)
-                    .asBufferedImage();
-            if (meeple.isPresent()) {
-                image = getTileImageWithMeeple(image);
+            if (shouldUpdateImage()) {
+                BufferedImage image_name = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
+                        List.of("tiles"));
+                temporaryImage = Thumbnails.of(image_name).size(width, height).rotate(90 * rotationCount)
+                        .asBufferedImage();
+                if (meeple.isPresent()) {
+                    temporaryImage = getTileImageWithMeeple(temporaryImage);
+                }
             }
-            return image;
+            return temporaryImage;
         } catch (final IOException e) {
             throw new IllegalStateException("Image path not valid", e);
         }
@@ -74,10 +86,12 @@ public class TileImage {
 
     public void addMeeple(final Meeple meeple, final TileSection section) {
         this.meeple = Optional.of(new Pair<>(meeple, section));
+        somethingChanged = true;
     }
 
     public void removeMeeple() {
         this.meeple = Optional.empty();
+        somethingChanged = true;
     }
 
     private BufferedImage getTileImageWithMeeple(final BufferedImage image) {

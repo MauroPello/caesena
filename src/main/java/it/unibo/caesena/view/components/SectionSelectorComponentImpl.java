@@ -32,7 +32,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     @Override
     public final TileSection getSelectedSection() {
         return sectionButtons.keySet().stream()
-                .filter(x -> x.isSelected())
+                .filter(x -> x.isSectionSelected())
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Tried to access selected section, but none was"))
                 .getSection();
@@ -48,7 +48,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     @Override
     public final Boolean isSectionSelected() {
-        return sectionButtons.keySet().stream().anyMatch(x -> x.isSelected());
+        return sectionButtons.keySet().stream().anyMatch(x -> x.isSectionSelected());
     }
 
     @Override
@@ -134,7 +134,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     private ActionListener getSectionButtonListener() {
         return (e) -> {
             final SectionButton newSectionButton = (SectionButton) e.getSource();
-            final Boolean wasSelected = newSectionButton.isSelected();
+            final Boolean wasSelected = newSectionButton.isSectionSelected();
             sectionButtons.keySet().stream().forEach(x -> x.deselect());
             if (!wasSelected) {
                 newSectionButton.select();
@@ -171,7 +171,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             return gameSet.isMeepleFree() && !gameSet.isClosed();
         }
 
-        public boolean isSelected() {
+        public boolean isSectionSelected() {
             return selected;
         }
 
