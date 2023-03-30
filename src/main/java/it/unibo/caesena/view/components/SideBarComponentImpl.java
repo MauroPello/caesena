@@ -3,14 +3,19 @@ package it.unibo.caesena.view.components;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.utils.Direction;
+import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
 
@@ -22,10 +27,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     private JButton zoomInButton = new JButton("Zoom +");
     private JButton zoomOutButton = new JButton("Zoom -");
 
-    private JButton upRowButton = new JButton("|");
-    private JButton downRowButton = new JButton("|");
-    private JButton leftRowButton = new JButton("<-");
-    private JButton rightRowButton = new JButton("->");
+    private JButton upRowButton = new JButton();
+    private JButton downRowButton = new JButton();
+    private JButton leftRowButton = new JButton();
+    private JButton rightRowButton = new JButton();
 
     private JButton placeTileButton = new JButton(LocaleHelper.getPlaceTileText());//"PLACE TILE"
     private JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());//PLACE MEEPLE
@@ -40,6 +45,23 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
      */
     public SideBarComponentImpl(final GameView gameView) {
         super();
+
+
+        Image img = ResourceUtil.getBufferedImage("up.png", List.of());
+        Icon icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+        upRowButton.setIcon(icon);
+
+        img = ResourceUtil.getBufferedImage("down.png", List.of());
+        icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+        downRowButton.setIcon(icon);
+
+        img = ResourceUtil.getBufferedImage("left.png", List.of());
+        icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+        leftRowButton.setIcon(icon);
+
+        img = ResourceUtil.getBufferedImage("right.png", List.of());
+        icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+        rightRowButton.setIcon(icon);
 
         this.gameView = gameView;
         this.controller = gameView.getUserInterface().getController();
