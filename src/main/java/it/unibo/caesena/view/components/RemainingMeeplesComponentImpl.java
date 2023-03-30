@@ -1,19 +1,21 @@
 package it.unibo.caesena.view.components;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
 
-import it.unibo.caesena.model.meeple.*;
+public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMeeplesComponent<JPanel> {
 
-public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMeeplesComponent<JPanel>{
-    
     GUI userInterface;
 
     JPanel allMeeplesPanel;
@@ -26,7 +28,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
 
         meeples = userInterface.getController().getPlayerMeeples(userInterface.getController().getCurrentPlayer());
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        JLabel meepleLabel = new JLabel("Remaining Meeples: " + meeples.stream().filter(m -> !m.isPlaced()).count());
+        final JLabel meepleLabel = new JLabel("Remaining Meeples: " + meeples.stream().filter(m -> !m.isPlaced()).count());
         meepleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(meepleLabel);
 
@@ -46,18 +48,18 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         allMeeplesPanel.removeAll();
         allMeeplesPanel.validate();
         allMeeplesPanel.repaint();
-        
+
         meeples = userInterface.getController().getPlayerMeeples(userInterface.getController().getCurrentPlayer());
-        for (Meeple meeple : meeples) {
-            JPanel meeplePanel = new JPanel() {
+        for (final Meeple meeple : meeples) {
+            final JPanel meeplePanel = new JPanel() {
                 @Override
-                protected void paintComponent(Graphics graphics) {
+                protected void paintComponent(final Graphics graphics) {
                     super.paintComponent(graphics);
                     Color color = userInterface.getPlayerColor(meeple.getOwner());
                     if (meeple.isPlaced()) {
                         color = Color.GRAY;
                     }
-                    MeepleImage image = new MeepleImage(color);
+                    final MeepleImage image = new MeepleImage(color);
                     image.resize(getWidth(), getHeight());
                     if (this.getHeight() > this.getWidth()) {
                         graphics.drawImage(image.getAsBufferedImage(), 0, 0, this.getWidth(), this.getWidth(), null);

@@ -1,9 +1,9 @@
 package it.unibo.caesena.view;
 
-import java.awt.Toolkit;
-import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -12,30 +12,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.OverlayLayout;
+import javax.swing.UIManager;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
-    private static boolean DEBUG_GAME_VIEW = true;
-    private static boolean DEBUG_GAME_OVER_VIEW = false;
+    private static boolean MY_GAME_DEBUG_VIEW = true;
+    private static boolean MY_GAME_DEBUG_OVER_VIEW = false;
     private static float MINIMUM_SIZE_RATIO = 0.35f;
-    private Controller controller;
+    private final Controller controller;
     private View<JPanel> startView;
     private View<JPanel> gameView;
     private View<JPanel> pauseView;
     private View<JPanel> gameOverView;
     private JPanel gamePanel;
-    private Map<Player, Color> players;
+    private final Map<Player, Color> players;
 
     public GUI(final Controller controller) {
         super();
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (final Exception e) {
+            System.out.println(e);
         }
 
         this.controller = controller;
@@ -43,6 +50,7 @@ public class GUI extends JFrame implements UserInterface {
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(final WindowEvent e) {
                 showExitDialog();
             }
@@ -50,7 +58,7 @@ public class GUI extends JFrame implements UserInterface {
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setMinimumSize(new Dimension(Math.round(screenSize.width * MINIMUM_SIZE_RATIO),
-            Math.round(screenSize.height * MINIMUM_SIZE_RATIO)));
+                Math.round(screenSize.height * MINIMUM_SIZE_RATIO)));
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
@@ -59,12 +67,12 @@ public class GUI extends JFrame implements UserInterface {
         this.setIconImage(ResourceUtil.getBufferedImage("TILE_BACK.png", List.of("tiles")));
         this.setVisible(true);
 
-        //TODO rimuovere
-        if (DEBUG_GAME_VIEW || DEBUG_GAME_OVER_VIEW) {
+        // TODO rimuovere
+        if (MY_GAME_DEBUG_VIEW || MY_GAME_DEBUG_OVER_VIEW) {
             this.addPlayer("Giocatore1", Color.RED);
             this.addPlayer("Giocatore2", Color.GREEN);
             this.startGame();
-            if (DEBUG_GAME_OVER_VIEW) {
+            if (MY_GAME_DEBUG_OVER_VIEW) {
                 this.showGameOverView();
             }
         } else {
@@ -101,10 +109,10 @@ public class GUI extends JFrame implements UserInterface {
         this.gamePanel.setLayout(new OverlayLayout(this.gamePanel));
 
         this.gamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "togglePauseView");
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "togglePauseView");
         this.gamePanel.getActionMap().put("togglePauseView", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(final ActionEvent arg0) {
                 togglePauseView();
             }
         });
@@ -148,8 +156,8 @@ public class GUI extends JFrame implements UserInterface {
      * if called, show exit dialog
      */
     public void showExitDialog() {
-        int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmExitText(),
-            LocaleHelper.getExitDialogTitle(), JOptionPane.YES_NO_OPTION);
+        final int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmExitText(),
+                LocaleHelper.getExitDialogTitle(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
             exit();
@@ -160,8 +168,8 @@ public class GUI extends JFrame implements UserInterface {
      * if called, show backtoStart dialog
      */
     public void showBackToStartViewDialog() {
-        int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
-            LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
+        final int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
+                LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
             showStartView();
@@ -171,6 +179,7 @@ public class GUI extends JFrame implements UserInterface {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void exit() {
         this.controller.exitGame();
         System.exit(0);
@@ -179,6 +188,7 @@ public class GUI extends JFrame implements UserInterface {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Controller getController() {
         return this.controller;
     }
@@ -186,23 +196,23 @@ public class GUI extends JFrame implements UserInterface {
     /**
      *
      * @param container specifies the type of containers
-     * @param enabled to enable or disable containers
+     * @param enabled   to enable or disable containers
      */
-    private void setEnabledAllComponents(Container container, boolean enabled) {
-        for (var component : container.getComponents()) {
+    private void setEnabledAllComponents(final Container container, final boolean enabled) {
+        for (final var component : container.getComponents()) {
             component.setEnabled(enabled);
             if (component instanceof Container) {
-                setEnabledAllComponents(((Container)component), enabled);
+                setEnabledAllComponents(((Container) component), enabled);
             }
         }
     }
 
     /**
      *
-     * @param name to add
+     * @param name  to add
      * @param color to add on relative name
      */
-    public void addPlayer(String name, Color color) {
+    public void addPlayer(final String name, final Color color) {
         this.players.put(this.controller.addPlayer(name), color);
     }
 
