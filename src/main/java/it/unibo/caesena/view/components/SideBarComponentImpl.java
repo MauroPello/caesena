@@ -38,7 +38,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         this.gameView = gameView;
         this.controller = gameView.getUserInterface().getController();
         
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.CYAN);
         JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
         
@@ -87,7 +87,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         innerPanel.add(zoomPanel);
         innerPanel.add(arrowsPanel);
         innerPanel.add(actionsPanel);
-        this.leaderBoard = new LeaderBoardComponentImpl(controller);
+        this.leaderBoard = new LeaderBoardComponentImpl(gameView.getUserInterface());
         leaderBoard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
         innerPanel.add(leaderBoard.getComponent());
 
