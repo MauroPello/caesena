@@ -14,6 +14,9 @@ import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.view.GameView;
 
 public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPanel>{
+    
+    Controller controller;
+    GameView gameView;
 
     JButton zoomInButton = new JButton("Zoom +");
     JButton zoomOutButton = new JButton("Zoom -");
@@ -28,8 +31,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     JButton discardTileButton = new JButton("DISCARD");
     JButton endTurnButton = new JButton("ENDTURN");
 
-    Controller controller;
-    GameView gameView;
     LeaderBoardComponent<JPanel> leaderBoard;
 
     public SideBarComponentImpl(final GameView gameView) {
@@ -39,20 +40,25 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         this.controller = gameView.getUserInterface().getController();
         
         this.setBackground(Color.CYAN);
+        this.setLayout(new GridBagLayout());
+
         JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
-        
+
         JPanel zoomPanel = new JPanel();
         JPanel arrowsPanel = new JPanel();
+        JPanel centerArrowsPanel = new JPanel();
         JPanel actionsPanel = new JPanel();
         
         zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.Y_AXIS));
         arrowsPanel.setLayout(new BoxLayout(arrowsPanel, BoxLayout.Y_AXIS));
         actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
+        centerArrowsPanel.setLayout(new BoxLayout(centerArrowsPanel, BoxLayout.X_AXIS));
         
         innerPanel.setOpaque(false);
         zoomPanel.setOpaque(false);
         arrowsPanel.setOpaque(false);
+        centerArrowsPanel.setOpaque(false);
         actionsPanel.setOpaque(false);
         
         zoomInButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -63,16 +69,13 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         upRowButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         arrowsPanel.add(upRowButton);
 
-        JPanel centerArrowsPanel = new JPanel();
-        centerArrowsPanel.setLayout(new BoxLayout(centerArrowsPanel, BoxLayout.X_AXIS));
         leftRowButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         centerArrowsPanel.add(leftRowButton);
         leftRowButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         centerArrowsPanel.add(rightRowButton);
-        centerArrowsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centerArrowsPanel.setOpaque(false);
-        arrowsPanel.add(centerArrowsPanel);
 
+        centerArrowsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        arrowsPanel.add(centerArrowsPanel);
         downRowButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         arrowsPanel.add(downRowButton);
 
@@ -85,18 +88,18 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(endTurnButton);
         
+        this.leaderBoard = new LeaderBoardComponentImpl(gameView.getUserInterface());
+        leaderBoard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         innerPanel.add(zoomPanel);
         innerPanel.add(arrowsPanel);
         innerPanel.add(actionsPanel);
-        this.leaderBoard = new LeaderBoardComponentImpl(gameView.getUserInterface());
-        leaderBoard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
         innerPanel.add(leaderBoard.getComponent());
 
         placeMeepleButton.setVisible(false);
         endTurnButton.setVisible(false);
         innerPanel.setVisible(true);
 
-        this.setLayout(new GridBagLayout());
         this.add(innerPanel);
 
         zoomInButton.addActionListener(zoomInEventListener());
@@ -111,7 +114,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         discardTileButton.addActionListener(discardTileEventListener());
     }
 
-
     /**
      * @return JPanel
      */
@@ -120,14 +122,12 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
        return this;
     }
 
-
     /**
      * @return ActionListener
      */
     private ActionListener placeMeepleEventListener() {
         return (e) -> this.gameView.placeMeeple();
     }
-
 
     /**
      * @return ActionListener
@@ -142,7 +142,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
             }
         };
     }
-
 
     /**
      * @return ActionListener

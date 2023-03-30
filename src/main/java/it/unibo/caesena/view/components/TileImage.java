@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.ResourceUtil;
+
 import net.coobird.thumbnailator.Thumbnails;
 
 public class TileImage {

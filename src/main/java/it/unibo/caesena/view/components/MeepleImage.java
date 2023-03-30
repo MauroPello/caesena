@@ -1,8 +1,11 @@
 package it.unibo.caesena.view.components;
+
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+
 import java.util.List;
+
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class MeepleImage {
@@ -30,7 +33,6 @@ public class MeepleImage {
         }
         return image;
     }
-
 
     public Image resize(int height, int width) {
         return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);

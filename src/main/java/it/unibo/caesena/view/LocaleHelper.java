@@ -108,6 +108,22 @@ public class LocaleHelper {
      * 
      * @return
      */
+    public static String getRemainingTilesText() {
+        return getResourceBundle().getString("remainingTiles") + ": ";
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public static String getRemainingMeeplesText() {
+        return getResourceBundle().getString("remainingMeeples") + ": ";
+    }
+
+    /**
+     * 
+     * @return
+     */
     public static String getPickColorText() {
         return getResourceBundle().getString("pickColor");
     }
@@ -154,7 +170,7 @@ public class LocaleHelper {
 
     /**
      * 
-     * @return
+     * @return 
      */
     public static String getSwatchesColorPanelName() {
         return getResourceBundle().getString("swatchesColorPanelName");

@@ -3,6 +3,7 @@ package it.unibo.caesena.view.components;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -42,6 +43,7 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
         this.add(playersPanel);
 
         updateLeaderBoard();
+
         this.setVisible(true);
     }
 
@@ -53,9 +55,10 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
 
         final List<Player> players = userInterface.getController().getPlayers().stream()
             .sorted((p1, p2) -> Integer.compare(p1.getScore(), p2.getScore())).toList();
+
         for (final var player : players) {
             final var playerPanel = new JPanel();
-
+            
             final var playerColorPanel = new PlayerImageImpl(WIDTH, HEIGHT);
             playerColorPanel.setColor(userInterface.getPlayerColor(player));
 
