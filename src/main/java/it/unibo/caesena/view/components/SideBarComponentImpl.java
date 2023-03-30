@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.view.GameView;
+import it.unibo.caesena.view.LocaleHelper;
 
 public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPanel>{
     
@@ -26,10 +27,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     private JButton leftRowButton = new JButton("<-");
     private JButton rightRowButton = new JButton("->");
 
-    private JButton placeTileButton = new JButton("PLACE TILE");
-    private JButton placeMeepleButton = new JButton("PLACE MEEPLE");
-    private JButton discardTileButton = new JButton("DISCARD");
-    private JButton endTurnButton = new JButton("ENDTURN");
+    private JButton placeTileButton = new JButton(LocaleHelper.getPlaceTileText());//"PLACE TILE"
+    private JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());//PLACE MEEPLE
+    private JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());//"DISCARD"
+    private JButton endTurnButton = new JButton(LocaleHelper.getEndTurnText());//"ENDTURN"
 
     private LeaderBoardComponent<JPanel> leaderBoard;
 

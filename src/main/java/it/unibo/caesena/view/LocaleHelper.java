@@ -107,6 +107,22 @@ public class LocaleHelper {
         return getResourceBundle().getString("color") + ": ";
     }
 
+    public static String getPlaceTileText() {
+        return getResourceBundle().getString("placeTile");
+    }
+    
+    public static String getPlaceMeepleText() {
+        return getResourceBundle().getString("placeMeeple");
+    }
+    
+    public static String getDiscardText() {
+        return getResourceBundle().getString("discard");
+    }
+    
+    public static String getEndTurnText() {
+        return getResourceBundle().getString("endTurn");
+    }
+
     /**
      * 
      * @return
