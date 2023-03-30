@@ -19,8 +19,6 @@ import it.unibo.caesena.view.components.PlayerImageImpl;
 public class GameOverView extends JPanel implements View<JPanel> {
 
     private static final int DEFAULT_SIZE = 20;
-    private static final int WIDTH = 30;
-    private static final int HEIGHT = 30;
     private final GUI userInterface;
     
     public GameOverView(final GUI userInterface) {
@@ -64,7 +62,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
                     + player.getScore());
             volatailePanel.add(volataileLabel);
 
-            final var playerColorPanel = new PlayerImageImpl(WIDTH, HEIGHT);
+            final var playerColorPanel = new PlayerImageImpl();
             playerColorPanel.setColor(userInterface.getPlayerColor(player));
             volatailePanel.add(playerColorPanel);
 

@@ -1,6 +1,8 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.Locale;
 
 import javax.swing.JButton;
@@ -26,18 +28,19 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
 
     public PlayerInputImpl() {
         super();
-        final JButton playerColorButton;
+        this.setLayout(new GridBagLayout());
+        final GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
 
-        this.add(new JLabel(LocaleHelper.getNameText()));
+        final JLabel nameLabel = new JLabel(LocaleHelper.getNameText());
+
         this.playerName = new JTextField();
         this.playerName.setColumns(TEXT_FIELD_COLUMNS);
-        this.add(playerName);
 
-        this.add(new JLabel(LocaleHelper.getColorText()));
+        final JLabel colorLabel = new JLabel(LocaleHelper.getColorText());
 
-        this.playerColorPanel = new PlayerImageImpl(50, 50);
+        this.playerColorPanel = new PlayerImageImpl();
         this.playerColorPanel.setColor(getBackground());
-        this.add(this.playerColorPanel);
 
         this.playerColorChooser = new JColorChooser();
         this.playerColorChooser.setPreviewPanel(new JPanel());
@@ -54,8 +57,29 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
                 (e) -> updateColor(this.playerColorChooser.getColor()),
                 (e) -> updateColor(getBackground()));
 
-        playerColorButton = new JButton(LocaleHelper.getPickColorText());
+        final JButton playerColorButton = new JButton(LocaleHelper.getPickColorText());
         playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
+
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 1.0;
+        this.add(nameLabel);
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 1.0;
+        this.add(playerName);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 1.0;
+        this.add(colorLabel);
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weighty = 1.0;
+        this.add(this.playerColorPanel);
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.weighty = 1.0;
         this.add(playerColorButton);
     }
 

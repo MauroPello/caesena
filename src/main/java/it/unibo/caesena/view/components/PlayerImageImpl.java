@@ -4,19 +4,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
 
     private Color color = Color.black;
 
-    public PlayerImageImpl(final int defaultWidth, final int defaultHeight) {
-        this.setPreferredSize(new Dimension(defaultWidth, defaultHeight));
-        this.setMinimumSize(new Dimension(defaultWidth, defaultHeight));
-        this.setOpaque(false);
-    }
-
     public PlayerImageImpl() {
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.setOpaque(false);
     }
 

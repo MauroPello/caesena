@@ -28,6 +28,7 @@ public class StartView extends JPanel implements View<JPanel> {
     private final GUI userInterface;
     private final List<PlayerInput<JPanel>> playerInputs;
     private final JPanel playersPanel;
+    private final NumericUpDown<JSpinner> playersNum;
 
     public StartView(final GUI userInterface) {
         super();
@@ -46,21 +47,8 @@ public class StartView extends JPanel implements View<JPanel> {
         playersLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE));
         playersNumPanel.add(playersLabel);
 
-        final NumericUpDown<JSpinner> playersNum = new NumericUpDownImpl(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
-        playersNum.getComponent().addChangeListener((e) -> {
-            if (playersNum.getValueAsInt() < this.playerInputs.size()) {
-                while (this.playerInputs.size() > playersNum.getValueAsInt()) {
-                    removePlayerInput();
-                }
-            } else {
-                while (this.playerInputs.size() < playersNum.getValueAsInt()) {
-                    addPlayerInput();
-                }
-            }
-
-            this.revalidate();
-            this.repaint();
-        });
+        playersNum = new NumericUpDownImpl(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
+        playersNum.getComponent().addChangeListener((e) -> updatePlayerPanel());
         playersNumPanel.add(playersNum.getComponent());
 
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -68,9 +56,6 @@ public class StartView extends JPanel implements View<JPanel> {
 
         this.playersPanel = new JPanel();
         this.playersPanel.setLayout(new BoxLayout(this.playersPanel, BoxLayout.Y_AXIS));
-        for (int i = 0; i < MIN_PLAYERS; i++) {
-            addPlayerInput();
-        }
         final JScrollPane playersScrollPane = new JScrollPane(playersPanel);
         playersScrollPane.setAutoscrolls(true);
         playersScrollPane.setBorder(null);
@@ -91,6 +76,22 @@ public class StartView extends JPanel implements View<JPanel> {
         mainPanel.add(startGamePanel);
 
         this.add(mainPanel);
+        updatePlayerPanel();
+    }
+
+    private void updatePlayerPanel() {
+        if (playersNum.getValueAsInt() < this.playerInputs.size()) {
+            while (this.playerInputs.size() > playersNum.getValueAsInt()) {
+                removePlayerInput();
+            }
+        } else {
+            while (this.playerInputs.size() < playersNum.getValueAsInt()) {
+                addPlayerInput();
+            }
+        }
+
+        this.revalidate();
+        this.repaint();
     }
 
     /**

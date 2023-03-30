@@ -16,9 +16,6 @@ import it.unibo.caesena.view.GUI;
 
 public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardComponent<JPanel> {
 
-    private static final int WIDTH = 10;
-    private static final int HEIGHT = 10;
-    
     private final GUI userInterface;
     private final JPanel playersPanel;
 
@@ -59,7 +56,7 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
         for (final var player : players) {
             final var playerPanel = new JPanel();
             
-            final var playerColorPanel = new PlayerImageImpl(WIDTH, HEIGHT);
+            final var playerColorPanel = new PlayerImageImpl();
             playerColorPanel.setColor(userInterface.getPlayerColor(player));
 
             final JLabel playerLabel = new JLabel(player.getName() + " " + player.getScore());
