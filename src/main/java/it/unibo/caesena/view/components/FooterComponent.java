@@ -4,25 +4,25 @@ public interface FooterComponent<X> {
 
     /**
      * 
-     * update the JPanel with the current tile image.
+     * Update the JPanel with the current tile image.
      */
     void updateCurrentTile();
 
     /**
      * 
-     * @return ComponentFoooter.
+     * @return the component which rapresent the footer.
      */
     X getComponent();
 
     /**
      * 
-     * update every footer's component.
+     * Update every component in the footer.
      */
     void updateFooter();
 
     /**
      * 
-     * update the number of remaining tiles.
+     * Update the number of remaining tiles.
      */
     void updateRemainingTiles();
 }

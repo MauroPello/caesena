@@ -1,14 +1,17 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -48,9 +51,12 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.gameView = gameView;
         this.userInterface = gameView.getUserInterface();
 
+        JPanel innerPanel = new JPanel();
+
         //TODO da cancellare dopo aver inserito l'immagine di background
         this.setBackground(Color.ORANGE);
         this.setLayout(new GridBagLayout());
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
 
         this.playerNameLabel = new JLabel();
         this.playerScoreLabel = new JLabel();
@@ -58,6 +64,13 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.tileImage = gameView.getCurrentTileImage();
         this.tileImagePanel = new JPanel() {
+            @Override
+            public Dimension getPreferredSize() {
+                final Dimension d = this.getParent().getSize();
+                int newSize = d.width > d.height ? d.height : d.width;
+                return new Dimension(newSize, newSize);
+            }
+
             @Override
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
@@ -75,6 +88,8 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             }
         };
         this.tileImagePanel.setOpaque(false);
+        this.tileImagePanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        this.tileImagePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
         this.playerImageComponent = new PlayerImageImpl();
@@ -97,28 +112,19 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.rotateButton.setOpaque(false);
         this.rotateButton.setBorderPainted(false);
 
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.BOTH;
-
-        constraints.weighty = 1.0;
-        constraints.weightx = 0.15;
-        this.add(playerImageComponent.getComponent(), constraints);
-        constraints.weightx = 0.1;
-        this.add(playerNameLabel, constraints);
-        constraints.weightx = 0.2;
-        this.add(meepleComponent.getComponent(), constraints);
-        constraints.weightx = 0.05;
-        this.add(playerScoreLabel, constraints);
-        constraints.weightx = 0.15;
-        this.add(tileImagePanel, constraints);
-        constraints.weightx = 0.05;
-        this.add(rotateButton, constraints);
-        constraints.weightx = 0.1;
-        this.add(remainingTilesLabel, constraints);
+        innerPanel.add(playerImageComponent.getComponent());
+        innerPanel.add(playerNameLabel);
+        innerPanel.add(meepleComponent.getComponent());
+        innerPanel.add(playerScoreLabel);
+        innerPanel.add(tileImagePanel);
+        innerPanel.add(rotateButton);
+        innerPanel.add(remainingTilesLabel);
+        this.add(innerPanel);
 
         this.updateFooter();
 
         this.setVisible(true);
+        innerPanel.setVisible(true);
 
         rotateButton.addActionListener(rotateButtonEventListener());
     }
