@@ -2,6 +2,7 @@ package it.unibo.caesena.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Optional;
@@ -24,6 +25,8 @@ import it.unibo.caesena.view.components.TileImage;
 
 public class GameView extends JPanel implements View<JPanel> {
 
+    private static final float MAIN_COMPONENT_RATIO = 0.8f;
+
     private final GUI userInterface;
     private MainComponent<JPanel> mainComponent;
     private FooterComponent<JPanel> footer;
@@ -45,21 +48,24 @@ public class GameView extends JPanel implements View<JPanel> {
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 0.8;
-        gridBagConstraints.weighty = 0.7;
+        gridBagConstraints.weightx = MAIN_COMPONENT_RATIO;
+        gridBagConstraints.weighty = MAIN_COMPONENT_RATIO;
+        mainComponent.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * MAIN_COMPONENT_RATIO), (int) Math.round(10 * MAIN_COMPONENT_RATIO)));
         this.add(mainComponent.getComponent(), gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.weighty = 0.7;
+        gridBagConstraints.weightx = 1 - MAIN_COMPONENT_RATIO;
+        gridBagConstraints.weighty = MAIN_COMPONENT_RATIO;
+        sidebar.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO)), (int) Math.round(10 * MAIN_COMPONENT_RATIO)));
         this.add(sidebar.getComponent(), gridBagConstraints);
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.weighty = 1 - MAIN_COMPONENT_RATIO;
+        footer.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * 1.0), (int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO))));
         this.add(footer.getComponent(), gridBagConstraints);
     }
 
