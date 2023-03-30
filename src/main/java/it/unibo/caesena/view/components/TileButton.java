@@ -17,7 +17,7 @@ public interface TileButton<X> {
 
     boolean containsTile();
 
-    void addMeeple(Meeple meeple, TileSection section);
+    void setMeeple(Meeple meeple, TileSection section);
 
     void lock();
 

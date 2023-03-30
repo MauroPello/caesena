@@ -1,10 +1,12 @@
 package it.unibo.caesena.view.components;
 
+import java.util.Optional;
+
 import it.unibo.caesena.model.tile.TileSection;
 
 public interface SectionSelectorComponent<X> {
 
-    TileSection getSelectedSection();
+    Optional<TileSection> getSelectedSection();
 
     Boolean isSectionSelected();
 

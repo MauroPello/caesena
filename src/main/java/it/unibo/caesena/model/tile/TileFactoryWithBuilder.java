@@ -208,11 +208,10 @@ public final class TileFactoryWithBuilder implements TileFactory {
     public Tile createCitySideTurnLeft() {
         return new TileBuilder(TileType.CITY_SIDE_TURN_LEFT, mediator)
             .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
-            .field(List.of(TileSection.LEFT_UP, TileSection.DOWN_RIGHT,
+            .field(List.of(TileSection.LEFT_UP, TileSection.DOWN_RIGHT, TileSection.CENTER, 
                 TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN))
             .field(List.of(TileSection.LEFT_DOWN, TileSection.DOWN_LEFT))
-            .road(List.of(TileSection.LEFT_CENTER, TileSection.CENTER, TileSection.DOWN_CENTER))
-            .close(List.of(TileSection.CENTER))
+            .road(List.of(TileSection.LEFT_CENTER, TileSection.DOWN_CENTER))
             .build();
     }
 
@@ -220,11 +219,10 @@ public final class TileFactoryWithBuilder implements TileFactory {
     public Tile createCitySideTurnRight() {
         return new TileBuilder(TileType.CITY_SIDE_TURN_RIGHT, mediator)
             .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
-            .field(List.of(TileSection.RIGHT_UP, TileSection.DOWN_LEFT,
+            .field(List.of(TileSection.RIGHT_UP, TileSection.DOWN_LEFT, TileSection.CENTER,
                 TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
             .field(List.of(TileSection.RIGHT_DOWN, TileSection.DOWN_RIGHT))
-            .road(List.of(TileSection.RIGHT_CENTER, TileSection.CENTER, TileSection.DOWN_CENTER))
-            .close(List.of(TileSection.CENTER))
+            .road(List.of(TileSection.RIGHT_CENTER, TileSection.DOWN_CENTER))
             .build();
     }
 

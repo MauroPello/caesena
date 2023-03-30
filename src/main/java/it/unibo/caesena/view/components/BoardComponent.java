@@ -2,7 +2,6 @@ package it.unibo.caesena.view.components;
 
 import java.util.Optional;
 
-import javax.swing.JButton;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 
@@ -24,17 +23,13 @@ public interface BoardComponent<X> {
 
     void removePlacedTile();
 
-    boolean hasPlacedTileButtonInCurrentTurn();
-
-    TileButton<JButton> getLastTileButton();
+    <T> TileButton<T> getCurrentTileButton();
 
     Optional<Pair<Integer, Integer>> getUnlockedTileButtonPosition();
 
-    Optional<TileButton<JButton>> getPlacedUnlockedTile();
+    <T> Optional<TileButton<T>> getPlacedUnlockedTile();
 
     void placeTile();
-
-    void endTurn();
 
     X getComponent();
 }

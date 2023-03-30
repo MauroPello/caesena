@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -29,12 +30,11 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     }
 
     @Override
-    public final TileSection getSelectedSection() {
+    public final Optional<TileSection> getSelectedSection() {
         return sectionButtons.keySet().stream()
-                .filter(x -> x.isSectionSelected())
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Tried to access selected section, but none was"))
-                .getSection();
+                .filter(SectionButton::hasBeenSelected)
+                .map(SectionButton::getSection)
+                .findFirst();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
 
     @Override
     public final Boolean isSectionSelected() {
-        return sectionButtons.keySet().stream().anyMatch(x -> x.isSectionSelected());
+        return getSelectedSection().isPresent();
     }
 
     @Override
@@ -83,9 +83,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         if (sectionButtons.isEmpty()) {
             populateSectionButtons();
         }
-        for (final var entry : sectionButtons.entrySet()) {
-            this.add(entry.getKey(), entry.getValue());
-        }
+        sectionButtons.entrySet().forEach(e -> this.add(e.getKey(), e.getValue()));
     }
 
     private void populateSectionButtons() {
@@ -133,9 +131,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     private ActionListener getSectionButtonListener() {
         return (e) -> {
             final SectionButton newSectionButton = (SectionButton) e.getSource();
-            final Boolean wasSelected = newSectionButton.isSectionSelected();
-            sectionButtons.keySet().stream().forEach(x -> x.deselect());
-            if (!wasSelected) {
+            sectionButtons.keySet().forEach(x -> x.deselect());
+            if (!newSectionButton.hasBeenSelected()) {
                 newSectionButton.select();
             }
         };
@@ -145,7 +142,6 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         private final TileSection section;
         private static final Color UNSELECTED_COLOR = Color.WHITE;
         private static final Color SELECTED_COLOR = Color.GREEN;
-        private Color backgroundColor;
         private boolean selected;
 
         public SectionButton(final TileSection section) {
@@ -170,14 +166,13 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             return gameSet.isMeepleFree() && !gameSet.isClosed();
         }
 
-        public boolean isSectionSelected() {
+        public boolean hasBeenSelected() {
             return selected;
         }
 
         public void select() {
             selected = true;
-            backgroundColor = SELECTED_COLOR;
-            this.setBackground(backgroundColor);
+            this.setBackground(SELECTED_COLOR);
             this.setOpaque(true);
             this.repaint();
         }
@@ -185,8 +180,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         public void deselect() {
             if (this.shouldBeDrawn()) {
                 selected = false;
-                backgroundColor = UNSELECTED_COLOR;
-                this.setBackground(backgroundColor);
+                this.setBackground(UNSELECTED_COLOR);
                 this.setOpaque(true);
                 this.repaint();
             }
