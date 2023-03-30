@@ -32,7 +32,6 @@ public class TileImage {
         this.tile = tile;
         this.rotationCount = 0;
         this.meeple = Optional.empty();
-        this.color = Color.BLACK;
     }
 
     public void rotate() {
@@ -51,6 +50,17 @@ public class TileImage {
             if (meeple.isPresent()) {
                 image = getTileImageWithMeeple(image);
             }
+        } catch (IOException e) {
+            throw new IllegalStateException("Image path not valid");
+        }
+        return image;
+    }
+
+    public BufferedImage getAsBufferedImageWithoutMeeple(int width, int height) {
+        BufferedImage image = null;
+        try {
+            image = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png", List.of("tiles"));
+            image = Thumbnails.of(image).size(width, height).rotate(90*rotationCount).asBufferedImage();
         } catch (IOException e) {
             throw new IllegalStateException("Image path not valid");
         }

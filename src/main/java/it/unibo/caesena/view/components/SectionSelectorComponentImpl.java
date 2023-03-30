@@ -54,7 +54,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     @Override
     protected void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
-        BufferedImage tileButton = gameView.getCurrentTileImage().getAsBufferedImage(this.getWidth(), this.getHeight());
+        BufferedImage tileButton = gameView.getCurrentTileImage().getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
         graphics.drawImage(tileButton, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
@@ -179,14 +179,16 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             selected = true;
             backgroundColor = SELECTED_COLOR;
             this.setBackground(backgroundColor);
-            this.validate();
+            this.setOpaque(true);
+            this.repaint();
         }
 
         public void deselect() {
             selected = false;
             backgroundColor = UNSELECTED_COLOR;
             this.setBackground(backgroundColor);
-            this.validate();
+            this.setOpaque(true);
+            this.repaint();
         }
 
         public TileSection getSection() {

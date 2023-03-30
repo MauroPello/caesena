@@ -59,12 +59,19 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
                     }
                     MeepleImage image = new MeepleImage(color);
                     image.resize(getWidth(), getHeight());
-                    graphics.drawImage(image.getAsBufferedImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+                    if (this.getHeight() > this.getWidth()) {
+                        graphics.drawImage(image.getAsBufferedImage(), 0, 0, this.getWidth(), this.getWidth(), null);
+                    } else {
+                        graphics.drawImage(image.getAsBufferedImage(), 0, 0, this.getHeight(), this.getHeight(), null);
+                    }
                 }
             };
             meeplePanel.setOpaque(false);
             allMeeplesPanel.add(meeplePanel);
         }
+
+        allMeeplesPanel.revalidate();
+        allMeeplesPanel.repaint();
     }
 
     @Override

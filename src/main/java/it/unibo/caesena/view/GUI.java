@@ -32,6 +32,12 @@ public class GUI extends JFrame implements UserInterface {
 
     public GUI(final Controller controller) {
         super();
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.controller = controller;
         this.players = new HashMap<>();
 
