@@ -55,7 +55,6 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
             final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream().filter(m->!m.isPlaced()).toList();
             if (!meeples.isEmpty()) {
                 if (this.gameView.getUserInterface().getController().placeMeeple(meeples.get(0), section)) {
-                    this.board.getLastTileButton().addMeeple(meeples.get(0), section);
                     this.board.endTurn();
                 } else {
                     throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
@@ -95,13 +94,19 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     private void showBoard(){
         this.removeAll();
         this.add(this.getBoard().getComponent());
+        if (this.getSectionSelector().isSectionSelected()) {
+            final var section = this.getSectionSelector().getSelectedSection();
+            final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
+            final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream().filter(m->!m.isPlaced()).toList();
+            this.board.getLastTileButton().addMeeple(meeples.get(0), section);
+        }
         this.getBoard().draw();
     }
 
     private void showSectionSelector(){
         this.removeAll();
         // TODO se vogliamo toglierlo bisogna trovare un modo di gestire questa cosa in tile button in modo che il giocatore sappia dove ha "piazzato" il meeple
-        this.getSectionSelector().reset();
+        // this.getSectionSelector().reset();
         this.getSectionSelector().draw();
         this.add(this.getSectionSelector().getComponent());
     }

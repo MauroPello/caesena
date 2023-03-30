@@ -57,6 +57,17 @@ public class TileImage {
         return image;
     }
 
+    public BufferedImage getAsBufferedImageWithoutMeeple(int width, int height) {
+        BufferedImage image = null;
+        try {
+            image = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png", List.of("tiles"));
+            image = Thumbnails.of(image).size(width, height).rotate(90*rotationCount).asBufferedImage();
+        } catch (IOException e) {
+            throw new IllegalStateException("Image path not valid");
+        }
+        return image;
+    }
+
     public void addMeeple(Meeple meeple, TileSection section) {
         this.meeple = Optional.of(new Pair<>(meeple, section));
     }

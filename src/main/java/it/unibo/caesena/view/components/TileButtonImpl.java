@@ -81,9 +81,6 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     }
 
     private boolean containsMeeple() {
-        if (meeple.isPresent() && !meeple.get().isPlaced()) {
-            meeple = Optional.empty();
-        }
         return meeple.isPresent();
     }
 
