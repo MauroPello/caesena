@@ -62,7 +62,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        if (this.containsTile()) {
+        if (this.containsTile() && isEnabled()) {
             if (this.containsMeeple()) {
                 this.tileImage.addMeeple(this.meeple.get(), this.section);
             } else {
