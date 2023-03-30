@@ -152,14 +152,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         public SectionButton(final TileSection section) {
             super();
             this.section = section;
-            final Controller controller = gameView.getUserInterface().getController();
-            final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
-            final boolean shouldDraw = gameSet.isMeepleFree() && !gameSet.isClosed();
-            this.setVisibility(shouldDraw);
-        }
-
-        private void setVisibility(final boolean shouldDraw) {
-            if (shouldDraw) {
+            if (shouldBeDrawn()) {
                 final String buttonLabel = getLabelFromSection(section);
                 this.setText(buttonLabel);
                 this.addActionListener(getSectionButtonListener());
@@ -172,7 +165,12 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             }
         }
 
-        @Override
+        private boolean shouldBeDrawn() {
+            final Controller controller = gameView.getUserInterface().getController();
+            final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
+            return gameSet.isMeepleFree() && !gameSet.isClosed();
+        }
+
         public boolean isSelected() {
             return selected;
         }
@@ -186,11 +184,13 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         }
 
         public void deselect() {
-            selected = false;
-            backgroundColor = UNSELECTED_COLOR;
-            this.setBackground(backgroundColor);
-            this.setOpaque(true);
-            this.repaint();
+            if (this.shouldBeDrawn()) {
+                selected = false;
+                backgroundColor = UNSELECTED_COLOR;
+                this.setBackground(backgroundColor);
+                this.setOpaque(true);
+                this.repaint();
+            }
         }
 
         public TileSection getSection() {
