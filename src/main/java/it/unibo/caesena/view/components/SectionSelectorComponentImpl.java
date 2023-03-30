@@ -26,7 +26,6 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     public SectionSelectorComponentImpl(final GameView gameView) {
         super();
         this.gameView = gameView;
-        this.drawSections();
     }
 
     @Override

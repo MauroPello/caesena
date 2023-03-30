@@ -188,7 +188,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         return (e) -> {
             final TileButtonImpl selectedTileButton = (TileButtonImpl) e.getSource();
             final Controller controller = this.gameView.getUserInterface().getController();
-            if (getPlacedUnlockedTile().isEmpty() || !getPlacedUnlockedTile().get().isLocked()
+            if ((getPlacedUnlockedTile().isEmpty() || !getPlacedUnlockedTile().get().isLocked())
                     && controller.isPositionValidForCurrentTile(this.allTileButtons.get(selectedTileButton))) {
                 if (this.getPlacedUnlockedTile().isPresent()) {
                     final TileButton<JButton> lastTileButtonPlaced = this.getPlacedUnlockedTile().get();
