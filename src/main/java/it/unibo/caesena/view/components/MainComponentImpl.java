@@ -55,6 +55,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
             final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream().filter(m->!m.isPlaced()).toList();
             if (!meeples.isEmpty()) {
                 if (this.gameView.getUserInterface().getController().placeMeeple(meeples.get(0), section)) {
+                    this.board.getLastTileButton().addMeeple(meeples.get(0), section);
                     this.board.endTurn();
                 } else {
                     throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
