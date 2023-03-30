@@ -17,9 +17,11 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private TileSection section;
     private TileImage tileImage;
     private boolean locked;
+    private boolean preview;
 
     public TileButtonImpl(final ActionListener onClickActionListener, final GameView gameView) {
         super();
+        this.preview = false;
         this.gameView = gameView;
         this.hasTile = false;
         this.locked = false;
@@ -31,6 +33,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
 
     @Override
     public void addTile() {
+        this.preview = false;
         this.hasTile = true;
         this.tileImage = gameView.getCurrentTileImage();
         this.repaint();
@@ -38,7 +41,9 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
 
     @Override
     public void addTile(final TileImage tileImage) {
+        this.preview = false;
         this.hasTile = true;
+        this.locked = true;
         this.tileImage = tileImage;
         this.repaint();
     }
@@ -87,10 +92,16 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     }
 
     private boolean containsMeeple() {
-        if (meeple.isPresent() && !meeple.get().isPlaced()) {
+        if (meeple.isPresent() && !meeple.get().isPlaced() && !preview) {
             meeple = Optional.empty();
         }
         return meeple.isPresent();
+    }
+
+    @Override
+    public void previewMeeple(final Meeple meeple, final TileSection section) {
+        this.preview = true;
+        addMeeple(meeple, section);
     }
 
     @Override

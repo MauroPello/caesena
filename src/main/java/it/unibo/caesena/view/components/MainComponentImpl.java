@@ -94,7 +94,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
             final var section = this.getSectionSelector().getSelectedSection();
             final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
             final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream().filter(m->!m.isPlaced()).toList();
-            this.board.getLastTileButton().addMeeple(meeples.get(0), section);
+            this.board.getLastTileButton().previewMeeple(meeples.get(0), section);
         }
         this.removeAll();
         this.getBoard().draw();

@@ -1,25 +1,34 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-
+import java.io.IOException;
 import java.util.List;
 
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.ResourceUtil;
+import net.coobird.thumbnailator.Thumbnails;
 
 public class MeepleImage {
 
-    private final BufferedImage image;
     private final Color color;
+    private Meeple meeple;
+    private BufferedImage normalImage;
+    private BufferedImage blurredImage;
 
-    MeepleImage(final Color color) {
+    MeepleImage(Meeple meeple, Color color) {
+        this.meeple = meeple;
         this.color = color;
-        this.image = setColorForAllPixels(ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple")));
+        this.normalImage = setColorForAllPixels(ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple")));
+        this.blurredImage = setColorForAllPixels(ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple")));
     }
 
     public BufferedImage getAsBufferedImage() {
-        return image;
+        if(meeple.isPlaced()) {
+            return normalImage;
+        } else {
+            return blurredImage;
+        }
     }
 
     private BufferedImage setColorForAllPixels(final BufferedImage image) {
@@ -34,7 +43,17 @@ public class MeepleImage {
         return image;
     }
 
-    public Image resize(final int height, final int width) {
-        return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+    public BufferedImage resize(final int height, final int width) {
+        try {
+            if(meeple.isPlaced()) {
+                return Thumbnails.of(normalImage).size(width, height).asBufferedImage();
+            } else {
+                return Thumbnails.of(blurredImage).size(width, height).asBufferedImage();
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+            return getAsBufferedImage();
+        }
     }
 }

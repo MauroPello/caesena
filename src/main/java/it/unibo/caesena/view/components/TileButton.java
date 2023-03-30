@@ -9,6 +9,8 @@ public interface TileButton<X> {
 
     void addTile(TileImage tileImage);
 
+    void previewMeeple(final Meeple meeple, final TileSection section);
+
     boolean isLocked();
 
     void removeTile();

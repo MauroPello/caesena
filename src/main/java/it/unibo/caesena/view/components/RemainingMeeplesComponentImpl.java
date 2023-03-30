@@ -64,7 +64,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
                     if (meeple.isPlaced()) {
                         color = Color.GRAY;
                     }
-                    final MeepleImage image = new MeepleImage(color);
+                    final MeepleImage image = new MeepleImage(meeple, color);
                     image.resize(getWidth(), getHeight());
                     if (this.getHeight() > this.getWidth()) {
                         graphics.drawImage(image.getAsBufferedImage(), 0, 0, this.getWidth(), this.getWidth(), null);
