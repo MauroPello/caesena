@@ -32,6 +32,8 @@ public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
     @Override
     public void setColor(final Color color) {
         this.color = color;
+        this.repaint();
+        this.revalidate();
     }
 
     @Override

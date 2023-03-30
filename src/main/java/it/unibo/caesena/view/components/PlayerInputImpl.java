@@ -36,9 +36,6 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
         this.add(new JLabel(LocaleHelper.getColorText()));
 
         this.playerColorPanel = new PlayerImageImpl(50, 50);
-        this.playerColorPanel.addPropertyChangeListener("background", (p) -> {
-            this.playerColor = (Color) p.getNewValue();
-        });
         this.playerColorPanel.setColor(getBackground());
         this.add(this.playerColorPanel);
 
@@ -54,12 +51,17 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
 
         this.playerColorDialog = JColorChooser.createDialog(this, LocaleHelper.getPickColorDialogTitle(), true,
                 this.playerColorChooser,
-                (e) -> this.playerColorPanel.setColor(this.playerColorChooser.getColor()),
-                (e) -> this.playerColorPanel.setColor(getBackground()));
+                (e) -> updateColor(this.playerColorChooser.getColor()),
+                (e) -> updateColor(getBackground()));
 
         this.playerColorButton = new JButton(LocaleHelper.getPickColorText());
         this.playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
         this.add(playerColorButton);
+    }
+
+    private void updateColor(final Color color) {
+        this.playerColorPanel.setColor(color);
+        this.playerColor = color;
     }
 
     @Override
