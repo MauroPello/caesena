@@ -2,11 +2,12 @@ package it.unibo.caesena.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.util.Comparator;
+import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -17,23 +18,33 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.view.components.PlayerImageImpl;
 
 public class GameOverView extends JPanel implements View<JPanel> {
-
+    
+    private static final int PLAYER_IMAGE_RATIO = 50;
     private static final int DEFAULT_SIZE = 20;
     private final GUI userInterface;
+    private final int playerImageSize;
     
     public GameOverView(final GUI userInterface) {
         super();
-        final JPanel mainPanel;
-        final List<Player> players;
-        final Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);;
-        
         this.userInterface = userInterface;
+        final JPanel mainPanel = new JPanel();
+        final Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);
+
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() / GUI.MODAL_PREFERRED_RATIO), (int) Math.round(screenSize.getHeight() / GUI.MODAL_PREFERRED_RATIO)));
+        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() / GUI.MODAL_MINIMUM_RATIO), (int) Math.round(screenSize.getHeight() / GUI.MODAL_MINIMUM_RATIO)));
+        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() / GUI.MODAL_MAXIMUM_RATIO), (int) Math.round(screenSize.getHeight() / GUI.MODAL_MAXIMUM_RATIO)));
+        if (screenSize.getHeight() > screenSize.getWidth()) {
+            playerImageSize = (int) Math.round(screenSize.getWidth() / PLAYER_IMAGE_RATIO);
+        } else {
+            playerImageSize = (int) Math.round(screenSize.getHeight() / PLAYER_IMAGE_RATIO);
+        }
 
         this.setBackground(Color.BLACK);
         this.setLayout(new GridBagLayout()); 
-        mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        players = userInterface.getController().getPlayers();
+        final List<Player> players = new ArrayList<>(userInterface.getController().getPlayers());
+        players.sort((p1, p2) -> Integer.compare(p1.getScore(), p2.getScore()));
 
         final JPanel playersPanel = new JPanel();
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
@@ -42,19 +53,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playersPanel.add(playersLabel);
 
-        final PriorityQueue<Player> queue = new PriorityQueue<>(
-                new Comparator<Player>() {
-                    @Override
-                    public int compare(final Player a, final Player b) {
-                        return Integer.compare(b.getScore(), a.getScore());
-                    }
-                });
-
-        for (final Player player : players) {
-            queue.add(player);
-        }
-
-        for (final var player : queue) {
+        for (final var player : players) {
             final JPanel volatailePanel = new JPanel();
 
             final JLabel volataileLabel = new JLabel();
@@ -64,6 +63,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
             final var playerColorPanel = new PlayerImageImpl();
             playerColorPanel.setColor(userInterface.getPlayerColor(player));
+            playerColorPanel.forceSize(playerImageSize);
             volatailePanel.add(playerColorPanel);
 
             playersPanel.add(volatailePanel);
@@ -71,7 +71,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         mainPanel.add(playersPanel);
 
         final JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
         backToStartMenuButton.addActionListener(e -> userInterface.showBackToStartViewDialog());
@@ -84,6 +84,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         buttonPanel.add(exitButton);
 
         mainPanel.add(buttonPanel);
+        
         this.add(mainPanel);
         this.repaint();
         this.validate();

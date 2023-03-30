@@ -2,8 +2,10 @@ package it.unibo.caesena.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ import it.unibo.caesena.view.components.PlayerInput;
 import it.unibo.caesena.view.components.PlayerInputImpl;
 
 public class StartView extends JPanel implements View<JPanel> {
-
+    private static final int PLAYER_IMAGE_RATIO = 20;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 8;
     private static final int DEFAULT_SIZE = 20;
@@ -29,6 +31,8 @@ public class StartView extends JPanel implements View<JPanel> {
     private final List<PlayerInput<JPanel>> playerInputs;
     private final JPanel playersPanel;
     private final NumericUpDown<JSpinner> playersNum;
+    private final JPanel mainPanel;
+    private final int playerInputImageSize;
 
     public StartView(final GUI userInterface) {
         super();
@@ -39,7 +43,7 @@ public class StartView extends JPanel implements View<JPanel> {
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.BLACK);
 
-        final JPanel mainPanel = new JPanel();
+        mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         final JPanel playersNumPanel = new JPanel();
@@ -75,6 +79,16 @@ public class StartView extends JPanel implements View<JPanel> {
         startGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(startGamePanel);
 
+        final Dimension frameSize = Toolkit.getDefaultToolkit().getScreenSize();
+        mainPanel.setPreferredSize(new Dimension((int) Math.round(frameSize.getWidth() / GUI.MODAL_PREFERRED_RATIO), (int) Math.round(frameSize.getHeight() / GUI.MODAL_PREFERRED_RATIO)));
+        mainPanel.setMinimumSize(new Dimension((int) Math.round(frameSize.getWidth() / GUI.MODAL_MINIMUM_RATIO), (int) Math.round(frameSize.getHeight() / GUI.MODAL_MINIMUM_RATIO)));
+        mainPanel.setMaximumSize(new Dimension((int) Math.round(frameSize.getWidth() / GUI.MODAL_MAXIMUM_RATIO), (int) Math.round(frameSize.getHeight() / GUI.MODAL_MAXIMUM_RATIO)));
+        if (frameSize.getHeight() > frameSize.getWidth()) {
+            playerInputImageSize = (int) Math.round(frameSize.getWidth() / PLAYER_IMAGE_RATIO);
+        } else {
+            playerInputImageSize = (int) Math.round(frameSize.getHeight() / PLAYER_IMAGE_RATIO);
+        }
+
         this.add(mainPanel);
         updatePlayerPanel();
     }
@@ -99,6 +113,7 @@ public class StartView extends JPanel implements View<JPanel> {
      */
     private void addPlayerInput() {
         final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
+        playerPanel.setColorPanelSize(playerInputImageSize);
 
         this.playersPanel.add(playerPanel.getComponent());
         this.playerInputs.add(playerPanel);

@@ -1,8 +1,6 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.util.Locale;
 
 import javax.swing.JButton;
@@ -28,9 +26,6 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
 
     public PlayerInputImpl() {
         super();
-        this.setLayout(new GridBagLayout());
-        final GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
 
         final JLabel nameLabel = new JLabel(LocaleHelper.getNameText());
 
@@ -60,27 +55,16 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
         final JButton playerColorButton = new JButton(LocaleHelper.getPickColorText());
         playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
 
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 1.0;
         this.add(nameLabel);
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.weightx = 0.3;
-        gridBagConstraints.weighty = 1.0;
         this.add(playerName);
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 1.0;
         this.add(colorLabel);
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.weighty = 1.0;
-        this.add(this.playerColorPanel);
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.weightx = 0.3;
-        gridBagConstraints.weighty = 1.0;
+        this.add(playerColorPanel);
         this.add(playerColorButton);
+    }
+
+    @Override
+    public void setColorPanelSize(final int size) {
+        this.playerColorPanel.forceSize(size);
     }
 
     private void updateColor(final Color color) {
