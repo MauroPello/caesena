@@ -58,8 +58,8 @@ public class StartView extends JPanel implements View<JPanel> {
                 }
             }
 
+            this.revalidate();
             this.repaint();
-            this.validate();
         });
         playersNumPanel.add(playersNum.getComponent());
 

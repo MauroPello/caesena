@@ -24,16 +24,19 @@ public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         if (this.getHeight() > this.getWidth()) {
-            g.setColor(Color.BLACK);
-            g.drawRect(0, 0, this.getWidth(), this.getWidth());
             g.setColor(color);
             g.fillRect(0, 0, this.getWidth(), this.getWidth());
         } else {
-            g.setColor(Color.BLACK);
-            g.drawRect(0, 0, this.getHeight(), this.getHeight());
             g.setColor(color);
             g.fillRect(0, 0, this.getHeight(), this.getHeight());
         }
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        final Dimension d = this.getParent().getSize();
+        int newSize = d.width > d.height ? d.height : d.width;
+        return new Dimension(newSize, newSize);
     }
 
     @Override
