@@ -2,8 +2,9 @@ package it.unibo.caesena.view.components;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
-
+import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -13,20 +14,29 @@ import javax.swing.JSeparator;
 
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.view.LocaleHelper;
 
 public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardComponent<JPanel> {
-
+    
+    private static final int PLAYER_IMAGE_RATIO = 80;
     private final GUI userInterface;
     private final JPanel playersPanel;
+    private final int playerImageSize;
 
     public LeaderBoardComponentImpl(final GUI userInterface) {
         super();
 
+        this.userInterface = userInterface;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.userInterface = userInterface;
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        if (screenSize.getHeight() > screenSize.getWidth()) {
+            playerImageSize = (int) Math.round(screenSize.getWidth() / PLAYER_IMAGE_RATIO);
+        } else {
+            playerImageSize = (int) Math.round(screenSize.getHeight() / PLAYER_IMAGE_RATIO);
+        }
 
-        final JLabel titleLabel = new JLabel("Leaderboard:");
+        final JLabel titleLabel = new JLabel(LocaleHelper.getLeaderboardName());
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         titleLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
@@ -58,6 +68,7 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
             
             final var playerColorPanel = new PlayerImageImpl();
             playerColorPanel.setColor(userInterface.getPlayerColor(player));
+            playerColorPanel.forceSize(playerImageSize);
 
             final JLabel playerLabel = new JLabel(player.getName() + " " + player.getScore());
             playerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));

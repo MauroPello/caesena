@@ -179,4 +179,12 @@ public class LocaleHelper {
         return getResourceBundle().getString("swatchesColorPanelName");
     }
 
+    /**
+     * 
+     * @return 
+     */
+    public static String getLeaderboardName() {
+        return getResourceBundle().getString("leaderboardName");
+    }
+
 }
