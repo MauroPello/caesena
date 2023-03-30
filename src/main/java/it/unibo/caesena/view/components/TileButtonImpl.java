@@ -61,6 +61,8 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
                 this.tileImage.removeMeeple();
             }
             g.drawImage(this.tileImage.getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0, this.getWidth(), this.getHeight(), null);
+            this.setOpaque(true);
+            this.repaint();
         }
     }
 

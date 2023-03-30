@@ -32,7 +32,6 @@ public class TileImage {
         this.tile = tile;
         this.rotationCount = 0;
         this.meeple = Optional.empty();
-        this.color = Color.BLACK;
     }
 
     public void rotate() {

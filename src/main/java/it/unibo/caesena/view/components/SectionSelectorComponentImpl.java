@@ -179,14 +179,16 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             selected = true;
             backgroundColor = SELECTED_COLOR;
             this.setBackground(backgroundColor);
-            this.validate();
+            this.setOpaque(true);
+            this.repaint();
         }
 
         public void deselect() {
             selected = false;
             backgroundColor = UNSELECTED_COLOR;
             this.setBackground(backgroundColor);
-            this.validate();
+            this.setOpaque(true);
+            this.repaint();
         }
 
         public TileSection getSection() {
