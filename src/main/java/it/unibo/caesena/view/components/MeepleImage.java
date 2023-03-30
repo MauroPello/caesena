@@ -1,16 +1,18 @@
 package it.unibo.caesena.view.components;
+
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.List;
+
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class MeepleImage {
 
-    private BufferedImage image;
-    private Color color;
+    private final BufferedImage image;
+    private final Color color;
 
-    MeepleImage(Color color) {
+    MeepleImage(final Color color) {
         this.color = color;
         this.image = setColorForAllPixels(ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple")));
     }
@@ -19,11 +21,11 @@ public class MeepleImage {
         return image;
     }
 
-    private BufferedImage setColorForAllPixels(BufferedImage image) {
+    private BufferedImage setColorForAllPixels(final BufferedImage image) {
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
-                int pixel = image.getRGB(x,y);
-                if(pixel != 0) {
+                final int pixel = image.getRGB(x, y);
+                if (pixel != 0) {
                     image.setRGB(x, y, color.getRGB());
                 }
             }
@@ -31,8 +33,7 @@ public class MeepleImage {
         return image;
     }
 
-
-    public Image resize(int height, int width) {
+    public Image resize(final int height, final int width) {
         return image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 }

@@ -16,19 +16,19 @@ import net.coobird.thumbnailator.Thumbnails;
 
 public class TileImage {
 
-    private Tile tile;
+    private final Tile tile;
     private int rotationCount;
     private Color color;
     public Optional<Pair<Meeple, TileSection>> meeple;
 
-    public TileImage(Tile tile, Color color) {
+    public TileImage(final Tile tile, final Color color) {
         this.tile = tile;
         this.color = color;
         this.rotationCount = 0;
         this.meeple = Optional.empty();
     }
 
-    public TileImage(Tile tile) {
+    public TileImage(final Tile tile) {
         this.tile = tile;
         this.rotationCount = 0;
         this.meeple = Optional.empty();
@@ -42,32 +42,35 @@ public class TileImage {
         return this.tile;
     }
 
-    public BufferedImage getAsBufferedImage(int width, int height) {
-        BufferedImage image = null;
+    public BufferedImage getAsBufferedImage(final int width, final int height) {
+
         try {
-            image = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png", List.of("tiles"));
-            image = Thumbnails.of(image).size(width, height).rotate(90*rotationCount).asBufferedImage();
+            BufferedImage image_name = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
+                    List.of("tiles"));
+            BufferedImage image = Thumbnails.of(image_name).size(width, height).rotate(90 * rotationCount)
+                    .asBufferedImage();
             if (meeple.isPresent()) {
                 image = getTileImageWithMeeple(image);
             }
-        } catch (IOException e) {
-            throw new IllegalStateException("Image path not valid");
+            return image;
+        } catch (final IOException e) {
+            throw new IllegalStateException("Image path not valid", e);
         }
-        return image;
     }
 
-    public BufferedImage getAsBufferedImageWithoutMeeple(int width, int height) {
-        BufferedImage image = null;
+    public BufferedImage getAsBufferedImageWithoutMeeple(final int width, final int height) {
+        BufferedImage image;
         try {
-            image = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png", List.of("tiles"));
-            image = Thumbnails.of(image).size(width, height).rotate(90*rotationCount).asBufferedImage();
-        } catch (IOException e) {
+            BufferedImage image_name = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
+                    List.of("tiles"));
+            image = Thumbnails.of(image_name).size(width, height).rotate(90 * rotationCount).asBufferedImage();
+            return image;
+        } catch (final IOException e) {
             throw new IllegalStateException("Image path not valid");
         }
-        return image;
     }
 
-    public void addMeeple(Meeple meeple, TileSection section) {
+    public void addMeeple(final Meeple meeple, final TileSection section) {
         this.meeple = Optional.of(new Pair<>(meeple, section));
     }
 
@@ -75,38 +78,39 @@ public class TileImage {
         this.meeple = Optional.empty();
     }
 
-    private BufferedImage getTileImageWithMeeple(BufferedImage image) {
-        Graphics2D finalGraphics = image.createGraphics();
+    private BufferedImage getTileImageWithMeeple(final BufferedImage image) {
+        final Graphics2D finalGraphics = image.createGraphics();
         finalGraphics.drawImage(image, 0, 0, null);
         if (this.meeple.isPresent()) {
-            int meepleSize = (int)((double)image.getHeight(null)/5);
-            MeepleImage meeple = new MeepleImage(color);
+            final int meepleSize = (int) ((double) image.getHeight(null) / 5);
+            final MeepleImage meeple = new MeepleImage(color);
             meeple.resize(meepleSize, meepleSize);
-            Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null)-meepleSize);
-            finalGraphics.drawImage(meeple.getAsBufferedImage(), meeplePosition.getX(), meeplePosition.getY(),meepleSize, meepleSize, null);
+            final Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null) - meepleSize);
+            finalGraphics.drawImage(meeple.getAsBufferedImage(), meeplePosition.getX(), meeplePosition.getY(),
+                    meepleSize, meepleSize, null);
         }
         finalGraphics.dispose();
         return image;
     }
 
-    private Pair<Integer, Integer> getMeeplePosition(int max) {
-        final int closePadding = max/10;
-        final int farPadding = max/5;
-        final int centralPadding = max/2;
+    private Pair<Integer, Integer> getMeeplePosition(final int max) {
+        final int closePadding = max / 10;
+        final int farPadding = max / 5;
+        final int centralPadding = max / 2;
         return switch (meeple.get().getY()) {
-            case CENTER -> new Pair<Integer,Integer>(centralPadding, centralPadding);
-            case DOWN_CENTER -> new Pair<Integer,Integer>(centralPadding, max - closePadding);
-            case DOWN_LEFT -> new Pair<Integer,Integer>(farPadding, max - closePadding);
-            case DOWN_RIGHT -> new Pair<Integer,Integer>(max - farPadding, max - closePadding);
-            case LEFT_CENTER -> new Pair<Integer,Integer>(closePadding, centralPadding);
-            case LEFT_DOWN -> new Pair<Integer,Integer>(closePadding, max - farPadding);
-            case LEFT_UP -> new Pair<Integer,Integer>(closePadding, farPadding);
-            case RIGHT_CENTER -> new Pair<Integer,Integer>(max - closePadding, centralPadding);
-            case RIGHT_DOWN -> new Pair<Integer,Integer>(max - closePadding, max - farPadding);
-            case RIGHT_UP -> new Pair<Integer,Integer>(max - closePadding, farPadding);
-            case UP_CENTER -> new Pair<Integer,Integer>(centralPadding, closePadding);
-            case UP_LEFT -> new Pair<Integer,Integer>(farPadding, closePadding);
-            case UP_RIGHT -> new Pair<Integer,Integer>(max - farPadding, closePadding);
+            case CENTER -> new Pair<Integer, Integer>(centralPadding, centralPadding);
+            case DOWN_CENTER -> new Pair<Integer, Integer>(centralPadding, max - closePadding);
+            case DOWN_LEFT -> new Pair<Integer, Integer>(farPadding, max - closePadding);
+            case DOWN_RIGHT -> new Pair<Integer, Integer>(max - farPadding, max - closePadding);
+            case LEFT_CENTER -> new Pair<Integer, Integer>(closePadding, centralPadding);
+            case LEFT_DOWN -> new Pair<Integer, Integer>(closePadding, max - farPadding);
+            case LEFT_UP -> new Pair<Integer, Integer>(closePadding, farPadding);
+            case RIGHT_CENTER -> new Pair<Integer, Integer>(max - closePadding, centralPadding);
+            case RIGHT_DOWN -> new Pair<Integer, Integer>(max - closePadding, max - farPadding);
+            case RIGHT_UP -> new Pair<Integer, Integer>(max - closePadding, farPadding);
+            case UP_CENTER -> new Pair<Integer, Integer>(centralPadding, closePadding);
+            case UP_LEFT -> new Pair<Integer, Integer>(farPadding, closePadding);
+            case UP_RIGHT -> new Pair<Integer, Integer>(max - farPadding, closePadding);
         };
     }
 }

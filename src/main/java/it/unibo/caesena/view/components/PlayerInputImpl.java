@@ -20,13 +20,13 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     private final PlayerImageImpl playerColorPanel;
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
-    private final JButton playerColorButton;
     private final JTextField playerName;
 
     private Color playerColor;
 
     public PlayerInputImpl() {
         super();
+        final JButton playerColorButton;
 
         this.add(new JLabel(LocaleHelper.getNameText()));
         this.playerName = new JTextField();
@@ -44,7 +44,7 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
         this.playerColorChooser.setLocale(Locale.ITALIAN);
         for (final var chooserPanel : playerColorChooser.getChooserPanels()) {
             if (!chooserPanel.getDisplayName().equals(LocaleHelper.getSwatchesColorPanelName())
-                    && !chooserPanel.getDisplayName().equals("RGB")) {
+                    && !"RGB".equals(chooserPanel.getDisplayName())) {
                 this.playerColorChooser.removeChooserPanel(chooserPanel);
             }
         }
@@ -54,8 +54,8 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
                 (e) -> updateColor(this.playerColorChooser.getColor()),
                 (e) -> updateColor(getBackground()));
 
-        this.playerColorButton = new JButton(LocaleHelper.getPickColorText());
-        this.playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
+        playerColorButton = new JButton(LocaleHelper.getPickColorText());
+        playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
         this.add(playerColorButton);
     }
 

@@ -21,8 +21,7 @@ public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
     }
 
     @Override
-    protected void paintComponent(Graphics g)
-    {
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         if (this.getHeight() > this.getWidth()) {
             g.setColor(Color.BLACK);
@@ -36,7 +35,7 @@ public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
             g.fillRect(0, 0, this.getHeight(), this.getHeight());
         }
     }
-    
+
     @Override
     public void setColor(final Color color) {
         this.color = color;

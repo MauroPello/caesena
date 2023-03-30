@@ -7,5 +7,5 @@ public interface FooterComponent<X> {
 
     void updateFooter();
 
-    public void updateRemainingTiles();
+    void updateRemainingTiles();
 }

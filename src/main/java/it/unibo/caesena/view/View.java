@@ -6,17 +6,17 @@ public interface View<X> {
      * 
      * @return if view is visible or not
      */
-    public boolean isVisible();
+    boolean isVisible();
 
     /**
      * 
      * @param visible sets the visibility for the current view
      */
-    public void setVisible(final boolean visible);
+    void setVisible(boolean visible);
 
     /**
      * 
-     * @return 
+     * @return
      */
     X getComponent();
 

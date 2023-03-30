@@ -26,9 +26,9 @@ public class GameView extends JPanel implements View<JPanel> {
     private static final float MAIN_COMPONENT_RATIO = 0.8f;
 
     private final GUI userInterface;
-    private MainComponent<JPanel> mainComponent;
-    private FooterComponent<JPanel> footer;
-    private SideBarComponent<JPanel> sidebar;
+    private final MainComponent<JPanel> mainComponent;
+    private final FooterComponent<JPanel> footer;
+    private final SideBarComponent<JPanel> sidebar;
     private TileImage currentTileImage;
 
     public GameView(final GUI userInterface) {
@@ -41,21 +41,23 @@ public class GameView extends JPanel implements View<JPanel> {
         this.footer = new FooterComponentImpl(this);
         this.sidebar = new SideBarComponentImpl(this);
         this.setLayout(new GridBagLayout());
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        final GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.BOTH;
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.weightx = MAIN_COMPONENT_RATIO;
         gridBagConstraints.weighty = MAIN_COMPONENT_RATIO;
-        mainComponent.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * MAIN_COMPONENT_RATIO), (int) Math.round(10 * MAIN_COMPONENT_RATIO)));
+        mainComponent.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * MAIN_COMPONENT_RATIO),
+                (int) Math.round(10 * MAIN_COMPONENT_RATIO)));
         this.add(mainComponent.getComponent(), gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.weightx = 1 - MAIN_COMPONENT_RATIO;
         gridBagConstraints.weighty = MAIN_COMPONENT_RATIO;
-        sidebar.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO)), (int) Math.round(10 * MAIN_COMPONENT_RATIO)));
+        sidebar.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO)),
+                (int) Math.round(10 * MAIN_COMPONENT_RATIO)));
         this.add(sidebar.getComponent(), gridBagConstraints);
 
         gridBagConstraints.gridx = 0;
@@ -63,14 +65,15 @@ public class GameView extends JPanel implements View<JPanel> {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1 - MAIN_COMPONENT_RATIO;
-        footer.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * 1.0), (int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO))));
+        footer.getComponent().setPreferredSize(
+                new Dimension((int) Math.round(10 * 1.0), (int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO))));
         this.add(footer.getComponent(), gridBagConstraints);
     }
 
     private void generateCurrentTileImage() {
-        Tile currentTile = userInterface.getController().getCurrentTile();
-        Player currentPlayer = userInterface.getController().getCurrentPlayer();
-        Color currentPlayerColor = userInterface.getPlayerColor(currentPlayer);
+        final Tile currentTile = userInterface.getController().getCurrentTile();
+        final Player currentPlayer = userInterface.getController().getCurrentPlayer();
+        final Color currentPlayerColor = userInterface.getPlayerColor(currentPlayer);
         this.currentTileImage = new TileImage(currentTile, currentPlayerColor);
     }
 
@@ -119,7 +122,7 @@ public class GameView extends JPanel implements View<JPanel> {
         this.mainComponent.getBoard().zoomOut();
     }
 
-    public void move(Direction direction) {
+    public void move(final Direction direction) {
         this.mainComponent.getBoard().move(direction);
     }
 
@@ -131,7 +134,7 @@ public class GameView extends JPanel implements View<JPanel> {
         return this.mainComponent.getBoard().canZoomOut();
     }
 
-    public boolean canMove(Direction direction) {
+    public boolean canMove(final Direction direction) {
         return this.mainComponent.getBoard().canMove(direction);
     }
 
