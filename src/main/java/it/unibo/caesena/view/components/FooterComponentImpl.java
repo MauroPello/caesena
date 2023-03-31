@@ -1,11 +1,13 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 
 import java.util.List;
@@ -26,6 +28,9 @@ import it.unibo.caesena.view.LocaleHelper;
 * FooterComponent implementation.
 */
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel> {
+    private static final int INTERNAL_PADDING_RATIO = 50;
+    private static final int MINIMUM_PADDING = 3;
+
     private GameView gameView;
     private GUI userInterface;
 
@@ -55,7 +60,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         //TODO da cancellare dopo aver inserito l'immagine di background
         this.setBackground(Color.ORANGE);
-        this.setLayout(new GridBagLayout());
+        this.setLayout(new BorderLayout());
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
 
         this.playerNameLabel = new JLabel();
@@ -118,16 +123,37 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         innerPanel.add(tileImagePanel);
         innerPanel.add(rotateButton);
         innerPanel.add(remainingTilesLabel);
-        this.add(innerPanel);
+        innerPanel.setOpaque(false);
+        this.add(innerPanel, BorderLayout.CENTER);
 
         this.setVisible(true);
         innerPanel.setVisible(true);
         
         rotateButton.addActionListener(rotateButtonEventListener());
         
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                updatePadding();
+            }
+        });
+
         this.validate();
         this.repaint();
         this.updateFooter();
+        this.updatePadding();
+    }
+
+    private void updatePadding() {
+        final Dimension frameSize = userInterface.getSize();
+        int borderSize;
+        if (frameSize.getHeight() > frameSize.getWidth()) {
+            borderSize = (int) Math.round(frameSize.getWidth() / INTERNAL_PADDING_RATIO);
+        } else {
+            borderSize = (int) Math.round(frameSize.getHeight() / INTERNAL_PADDING_RATIO);
+        }
+        borderSize = borderSize < MINIMUM_PADDING ? MINIMUM_PADDING : borderSize;
+        this.setBorder(BorderFactory.createEmptyBorder(borderSize, borderSize, borderSize, borderSize));
     }
 
     private ActionListener rotateButtonEventListener(){
