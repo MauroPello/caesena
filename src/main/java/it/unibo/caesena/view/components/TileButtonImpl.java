@@ -29,14 +29,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     }
 
     @Override
-    public void addTile() {
-        this.tileImage = Optional.of(gameView.getCurrentTileImage());
-        this.repaint();
-    }
-
-    @Override
     public void addTile(final TileImage tileImage) {
-        this.locked = true;
         this.tileImage = Optional.of(tileImage);
         this.repaint();
     }

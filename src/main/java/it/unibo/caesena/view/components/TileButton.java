@@ -7,8 +7,6 @@ import it.unibo.caesena.model.tile.TileSection;
 
 public interface TileButton<X> {
 
-    void addTile();
-
     void addTile(TileImage tileImage);
 
     boolean isLocked();

@@ -20,7 +20,7 @@ import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
 
 public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPanel>{
-    
+
     private Controller controller;
     private GameView gameView;
 

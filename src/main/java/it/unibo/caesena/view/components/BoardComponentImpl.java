@@ -167,7 +167,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
             final Controller controller = this.gameView.getUserInterface().getController();
             if (controller.isPositionValidForCurrentTile(this.allTileButtons.get(selectedTileButton))) {
                 getPlacedUnlockedTile().ifPresent(TileButton::removeTile);
-                selectedTileButton.addTile();
+                selectedTileButton.addTile(gameView.getCurrentTileImage());
             }
         };
     }
