@@ -19,13 +19,13 @@ public class MeepleImage {
 
     MeepleImage(Meeple meeple, Color color, int meepleSize) {
         this.meeple = meeple;
-        try {
-			BufferedImage image = Thumbnails.of(ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple"))).size(meepleSize, meepleSize).asBufferedImage();
+        // try {
+			BufferedImage image = ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple"));
             this.normalImage = setColorForAllPixels(image, color);
             this.blurredImage = GrayFilter.createDisabledImage(image);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		// } catch (IOException e) {
+		// 	e.printStackTrace();
+		// }
     }
 
     public Image getImage() {
