@@ -69,6 +69,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.tileImage = gameView.getCurrentTileImage();
         this.tileImagePanel = new JPanel() {
+
             @Override
             public Dimension getPreferredSize() {
                 final Dimension d = this.getParent().getSize();
@@ -101,6 +102,14 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.playerImageComponent.getComponent().setAlignmentY(Component.CENTER_ALIGNMENT);
 
         this.rotateButton = new JButton() {
+
+            @Override
+            public Dimension getPreferredSize() {
+                final Dimension d = this.getParent().getSize();
+                int newSize = d.width > d.height ? d.height : d.width;
+                return new Dimension(newSize, newSize);
+            }
+
             @Override
             protected void paintComponent(final Graphics graphics) {
                 super.paintComponent(graphics);
@@ -158,11 +167,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     private ActionListener rotateButtonEventListener(){
         return (e) -> {
-            tileImage = gameView.getCurrentTileImage();
             gameView.removePlacedTile();
             userInterface.getController().rotateCurrentTile();
-            tileImage.rotate();
-            updateCurrentTile();
+            this.tileImage.rotate();
+            tileImagePanel.repaint();
         };
     }
 
@@ -173,8 +181,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     @Override
     public void updateCurrentTile() {
-        if (!tileImage.getTile().equals(userInterface.getController().getCurrentTile())) {
-            tileImage = new TileImage(userInterface.getController().getCurrentTile());
+        final TileImage currentTileImage = gameView.getCurrentTileImage();
+        if (!tileImage.equals(currentTileImage)) {
+            this.tileImage = currentTileImage;
         }
         tileImagePanel.repaint();
     }
