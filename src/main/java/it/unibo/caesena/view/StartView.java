@@ -22,7 +22,7 @@ import it.unibo.caesena.view.components.PlayerInput;
 import it.unibo.caesena.view.components.PlayerInputImpl;
 
 public class StartView extends JPanel implements View<JPanel> {
-    private static final int PLAYER_IMAGE_RATIO = 20;
+    private static final float PLAYER_IMAGE_RATIO = 0.05f;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 6;
     private static final int DEFAULT_SIZE = 20;
@@ -79,14 +79,14 @@ public class StartView extends JPanel implements View<JPanel> {
         startGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(startGamePanel);
 
-        final Dimension frameSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainPanel.setPreferredSize(new Dimension((int) Math.round(frameSize.getWidth() / GUI.MODAL_PREFERRED_RATIO), (int) Math.round(frameSize.getHeight() / GUI.MODAL_PREFERRED_RATIO)));
-        mainPanel.setMinimumSize(new Dimension((int) Math.round(frameSize.getWidth() / GUI.MODAL_MINIMUM_RATIO), (int) Math.round(frameSize.getHeight() / GUI.MODAL_MINIMUM_RATIO)));
-        mainPanel.setMaximumSize(new Dimension((int) Math.round(frameSize.getWidth() / GUI.MODAL_MAXIMUM_RATIO), (int) Math.round(frameSize.getHeight() / GUI.MODAL_MAXIMUM_RATIO)));
-        if (frameSize.getHeight() > frameSize.getWidth()) {
-            playerInputImageSize = (int) Math.round(frameSize.getWidth() / PLAYER_IMAGE_RATIO);
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
+        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
+        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
+        if (screenSize.getHeight() > screenSize.getWidth()) {
+            playerInputImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
         } else {
-            playerInputImageSize = (int) Math.round(frameSize.getHeight() / PLAYER_IMAGE_RATIO);
+            playerInputImageSize = (int) Math.round(screenSize.getHeight() * PLAYER_IMAGE_RATIO);
         }
 
         this.add(mainPanel);

@@ -19,7 +19,7 @@ import it.unibo.caesena.view.components.PlayerImageImpl;
 
 public class GameOverView extends JPanel implements View<JPanel> {
     
-    private static final int PLAYER_IMAGE_RATIO = 50;
+    private static final float PLAYER_IMAGE_RATIO = 0.02f;
     private static final int DEFAULT_SIZE = 20;
     private final GUI userInterface;
     private final int playerImageSize;
@@ -31,13 +31,13 @@ public class GameOverView extends JPanel implements View<JPanel> {
         final Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() / GUI.MODAL_PREFERRED_RATIO), (int) Math.round(screenSize.getHeight() / GUI.MODAL_PREFERRED_RATIO)));
-        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() / GUI.MODAL_MINIMUM_RATIO), (int) Math.round(screenSize.getHeight() / GUI.MODAL_MINIMUM_RATIO)));
-        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() / GUI.MODAL_MAXIMUM_RATIO), (int) Math.round(screenSize.getHeight() / GUI.MODAL_MAXIMUM_RATIO)));
+        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
+        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
+        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
         if (screenSize.getHeight() > screenSize.getWidth()) {
-            playerImageSize = (int) Math.round(screenSize.getWidth() / PLAYER_IMAGE_RATIO);
+            playerImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
         } else {
-            playerImageSize = (int) Math.round(screenSize.getHeight() / PLAYER_IMAGE_RATIO);
+            playerImageSize = (int) Math.round(screenSize.getHeight() * PLAYER_IMAGE_RATIO);
         }
 
         this.setBackground(Color.BLACK);

@@ -26,12 +26,12 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
-    public static final int MODAL_PREFERRED_RATIO = 5;
-    public static final int MODAL_MAXIMUM_RATIO = 3;
-    public static final int MODAL_MINIMUM_RATIO = 7;
+    public static final float MODAL_PREFERRED_RATIO = 0.3f;
+    public static final float MODAL_MAXIMUM_RATIO = 0.5f;
+    public static final float MODAL_MINIMUM_RATIO = 0.1f;
     public static final float MINIMUM_SIZE_RATIO = 0.2f;
     private static boolean MY_GAME_DEBUG_VIEW = false;
-    private static boolean MY_GAME_DEBUG_OVER_VIEW = false;
+    private static boolean MY_GAME_DEBUG_OVER_VIEW = true;
     private final Controller controller;
     private View<JPanel> startView;
     private View<JPanel> gameView;

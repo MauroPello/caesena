@@ -18,7 +18,7 @@ import it.unibo.caesena.view.LocaleHelper;
 
 public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardComponent<JPanel> {
     
-    private static final int PLAYER_IMAGE_RATIO = 80;
+    private static final float PLAYER_IMAGE_RATIO = 0.01f;
     private final GUI userInterface;
     private final JPanel playersPanel;
     private final int playerImageSize;
@@ -31,9 +31,9 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         if (screenSize.getHeight() > screenSize.getWidth()) {
-            playerImageSize = (int) Math.round(screenSize.getWidth() / PLAYER_IMAGE_RATIO);
+            playerImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
         } else {
-            playerImageSize = (int) Math.round(screenSize.getHeight() / PLAYER_IMAGE_RATIO);
+            playerImageSize = (int) Math.round(screenSize.getHeight() * PLAYER_IMAGE_RATIO);
         }
 
         final JLabel titleLabel = new JLabel(LocaleHelper.getLeaderboardName());

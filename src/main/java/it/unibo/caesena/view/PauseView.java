@@ -2,8 +2,10 @@ package it.unibo.caesena.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,19 +14,16 @@ import javax.swing.JPanel;
 
 public class PauseView extends JPanel implements View<JPanel> {
 
+    private static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 80);
     private final GUI userInterface;
-    private static final int RED = 255;
-    private static final int GREEN = 255;
-    private static final int BLUE = 255;
     private static final int DEFAULT_SIZE = 20;
-    private static final int A = 80;
 
     public PauseView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
 
         this.setLayout(new GridBagLayout());
-        this.setBackground(new Color(RED, GREEN, BLUE, A));
+        this.setBackground(BACKGROUND_COLOR);
 
         final Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);
 
@@ -56,6 +55,11 @@ public class PauseView extends JPanel implements View<JPanel> {
             userInterface.showExitDialog();
         });
         mainPanel.add(exitButton);
+
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO / 2), (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO / 2)));
+        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO / 2), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO / 2)));
+        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO / 2), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO / 2)));
 
         this.add(mainPanel);
     }
