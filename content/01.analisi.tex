@@ -1,6 +1,6 @@
 \section{Analisi}
 \subsection{Requisiti}
-Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassone" 1 ispirandosi anche alla sua controparte videoludica 2.
+Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassone" 1 ispirandosi anche alla sua controparte videoludica 2. 
 
 \subsection*{Requisiti funzionali}
 \begin{itemize}
@@ -24,4 +24,6 @@ Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassone" 1 is
 \item \end{itemize}
 
 \subsection{Analisi e modello del dominio}
-prova
+Caesena permette ai giocatori di poter piazzare delle pedine figurate (Tile) e dei pupazzetti (Meeple); alla chiusura dell'immagine raffigurata composta, se presenti meeple all'interno dell'immagine, il giocatore relativo al meeple prenderà tanti punti tanti quanti il valore associato alla figura chiusa e i meeple presenti su quell'immagine verrano ripristinati al relativo proprietario.
+Ogni tile può rappresentare più di una tipologia di figura differente, ogni singola tipologia di figura viene chiamata GameSet. Il giocatore, per poter piazzare la tile, dovrà far combaciare tutti i gameset della tile da piazzare con almeno un gameset di tile precedentemente posizionate.
+In caso la tile mostrata inizialmente non permette di essere posizionata, il giocatore potrà ruotare la tile ogni volta di novanta gradi. Le difficoltà presenti all'interno del progetto sono rivolte sopratutto rivolte alla parte grafica, infatti la prima versione software verrà fornita con un'interfaccia minimale.
