@@ -24,7 +24,7 @@ import it.unibo.caesena.view.components.PlayerInputImpl;
 public class StartView extends JPanel implements View<JPanel> {
     private static final int PLAYER_IMAGE_RATIO = 20;
     private static final int MIN_PLAYERS = 2;
-    private static final int MAX_PLAYERS = 8;
+    private static final int MAX_PLAYERS = 6;
     private static final int DEFAULT_SIZE = 20;
 
     private final GUI userInterface;
