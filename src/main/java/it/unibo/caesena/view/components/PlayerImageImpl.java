@@ -1,11 +1,12 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Optional;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
@@ -14,7 +15,6 @@ public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
     private Color color = Color.black;
 
     public PlayerImageImpl() {
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.forcedSize = Optional.empty();
         this.setOpaque(false);
     }
@@ -22,12 +22,20 @@ public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
+
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(4));
+
         if (this.getHeight() > this.getWidth()) {
             g.setColor(color);
             g.fillRect(0, 0, this.getWidth(), this.getWidth());
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect(0, 0, getWidth(), getWidth());
         } else {
             g.setColor(color);
             g.fillRect(0, 0, this.getHeight(), this.getHeight());
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect(0, 0, getHeight(), getHeight());
         }
     }
     
