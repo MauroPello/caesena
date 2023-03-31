@@ -98,7 +98,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     @Override
     public boolean canMove(final Direction direction) {
         final int tempVerticalOffset = this.verticalOffset + direction.getY();
-        final int tempHorizontalOffset = this.verticalOffset + direction.getX();
+        final int tempHorizontalOffset = this.horizontalOffset + direction.getX();
         return getTileButtonsToBeDrawn(tempHorizontalOffset, tempVerticalOffset, this.zoom).stream()
                 .anyMatch(x -> x.containsTile());
     }

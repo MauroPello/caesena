@@ -131,8 +131,12 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
     private ActionListener getSectionButtonListener() {
         return (e) -> {
             final SectionButton newSectionButton = (SectionButton) e.getSource();
-            sectionButtons.keySet().forEach(x -> x.deselect());
-            if (!newSectionButton.hasBeenSelected()) {
+            Boolean wasSelected = newSectionButton.hasBeenSelected();
+            sectionButtons.keySet().stream()
+                .filter(s -> s.shouldBeDrawn())
+                .filter(s -> s.hasBeenSelected())
+                .forEach(s -> s.deselect());
+            if (!wasSelected) {
                 newSectionButton.select();
             }
         };
@@ -143,11 +147,15 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         private static final Color UNSELECTED_COLOR = Color.WHITE;
         private static final Color SELECTED_COLOR = Color.GREEN;
         private boolean selected;
+        private boolean toBeDrawn;
 
         public SectionButton(final TileSection section) {
             super();
             this.section = section;
-            if (shouldBeDrawn()) {
+            final Controller controller = gameView.getUserInterface().getController();
+            final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
+            this.toBeDrawn = gameSet.isMeepleFree() && !gameSet.isClosed();
+            if (this.toBeDrawn) {
                 final String buttonLabel = getLabelFromSection(section);
                 this.setText(buttonLabel);
                 this.addActionListener(getSectionButtonListener());
@@ -160,10 +168,8 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
             }
         }
 
-        private boolean shouldBeDrawn() {
-            final Controller controller = gameView.getUserInterface().getController();
-            final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
-            return gameSet.isMeepleFree() && !gameSet.isClosed();
+        public boolean shouldBeDrawn() {
+            return this.toBeDrawn;
         }
 
         public boolean hasBeenSelected() {
@@ -178,12 +184,10 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         }
 
         public void deselect() {
-            if (this.shouldBeDrawn()) {
-                selected = false;
-                this.setBackground(UNSELECTED_COLOR);
-                this.setOpaque(true);
-                this.repaint();
-            }
+            selected = false;
+            this.setBackground(UNSELECTED_COLOR);
+            this.setOpaque(true);
+            this.repaint();
         }
 
         public TileSection getSection() {
