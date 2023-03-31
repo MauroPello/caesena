@@ -36,14 +36,8 @@ public class MeepleImage {
         }
     }
 
-    /*  TODO BUG attualmente nella preview chiamo questo che quindi diventa grigio perchè non è davvero piazzato
-         si fra ma perchè basta fare che quando piazzi nella view piazzi pure nel model e togli allo stesso modo, ha pure senso*/
-    public Image getImageForBoard() {
-        if(meeple.isPlaced()) {
-            return normalImage;
-        } else {
-            return blurredImage;
-        }
+    public Image getNormalImage() {
+        return normalImage;
     }
 
     private BufferedImage setColorForAllPixels(final BufferedImage image, Color color) {
