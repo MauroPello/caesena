@@ -30,6 +30,16 @@ public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
             g.fillRect(0, 0, this.getHeight(), this.getHeight());
         }
     }
+    
+    @Override
+    public Dimension getMaximumSize() {
+        return getPreferredSize();
+    }
+
+    @Override
+    public Dimension getMinimumSize() {
+        return getPreferredSize();
+    }
 
     @Override
     public Dimension getPreferredSize() {

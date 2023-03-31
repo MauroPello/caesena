@@ -71,6 +71,16 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.tileImagePanel = new JPanel() {
 
             @Override
+            public Dimension getMaximumSize() {
+                return getPreferredSize();
+            }
+
+            @Override
+            public Dimension getMinimumSize() {
+                return getPreferredSize();
+            }
+
+            @Override
             public Dimension getPreferredSize() {
                 final Dimension d = this.getParent().getSize();
                 int newSize = d.width > d.height ? d.height : d.width;
@@ -102,6 +112,16 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.playerImageComponent.getComponent().setAlignmentY(Component.CENTER_ALIGNMENT);
 
         this.rotateButton = new JButton() {
+
+            @Override
+            public Dimension getMaximumSize() {
+                return getPreferredSize();
+            }
+
+            @Override
+            public Dimension getMinimumSize() {
+                return getPreferredSize();
+            }
 
             @Override
             public Dimension getPreferredSize() {
