@@ -30,7 +30,7 @@ import it.unibo.caesena.view.LocaleHelper;
 * FooterComponent implementation.
 */
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel> {
-    private static final int INTERNAL_PADDING_RATIO = 50;
+    private static final float INTERNAL_PADDING_RATIO = 0.02f;
     private static final int MINIMUM_PADDING = 3;
 
     private GameView gameView;
@@ -99,19 +99,12 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(Color.BLACK);
                 g2d.setStroke(new BasicStroke(4));
-
-                if (this.getHeight() > this.getWidth()) {
-                    g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getWidth(), null);
-                    g2d.drawRect(0, 0, getWidth(), getWidth());
-                } else {
-                    g.drawImage(tileBufferedImage, 0, 0, this.getHeight(), this.getHeight(), null);
-                    g2d.drawRect(0, 0, getHeight(), getHeight());
-                }
+                g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
+                g2d.drawRect(0, 0, getWidth(), getHeight());
             }
         };
         this.tileImagePanel.setOpaque(false);
         this.tileImagePanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-        this.tileImagePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
         this.playerImageComponent = new PlayerImageImpl();
@@ -143,11 +136,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
                 final BufferedImage image = ResourceUtil.getBufferedImage("rotate-right.png", List.of());
-                if (this.getHeight() > this.getWidth()) {
-                    g.drawImage(image, 0, 0, this.getWidth(), this.getWidth(), null);
-                } else {
-                    g.drawImage(image, 0, 0, this.getHeight(), this.getHeight(), null);
-                }
+                g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
             }
         };
         this.rotateButton.setContentAreaFilled(false);
@@ -185,16 +174,16 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     private void updatePadding() {
         final Dimension frameSize = userInterface.getSize();
         if (frameSize.getHeight() > frameSize.getWidth()) {
-            innerPaddingSize = (int) Math.round(frameSize.getWidth() / INTERNAL_PADDING_RATIO);
+            innerPaddingSize = (int) Math.round(frameSize.getWidth() * INTERNAL_PADDING_RATIO);
         } else {
-            innerPaddingSize = (int) Math.round(frameSize.getHeight() / INTERNAL_PADDING_RATIO);
+            innerPaddingSize = (int) Math.round(frameSize.getHeight() * INTERNAL_PADDING_RATIO);
         }
         innerPaddingSize = innerPaddingSize < MINIMUM_PADDING ? MINIMUM_PADDING : innerPaddingSize;
         this.setBorder(BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize, innerPaddingSize, innerPaddingSize));
         this.playerImageComponent.getComponent().setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.meepleComponent.getComponent().setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
-        this.rotateButton.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize*4, 0, innerPaddingSize));
+        this.rotateButton.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.playerNameLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.playerScoreLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.remainingTilesLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));

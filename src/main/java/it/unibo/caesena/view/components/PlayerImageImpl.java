@@ -23,20 +23,13 @@ public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
+        g.setColor(color);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(4));
-
-        if (this.getHeight() > this.getWidth()) {
-            g.setColor(color);
-            g.fillRect(0, 0, this.getWidth(), this.getWidth());
-            g2d.setColor(Color.BLACK);
-            g2d.drawRect(0, 0, getWidth(), getWidth());
-        } else {
-            g.setColor(color);
-            g.fillRect(0, 0, this.getHeight(), this.getHeight());
-            g2d.setColor(Color.BLACK);
-            g2d.drawRect(0, 0, getHeight(), getHeight());
-        }
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(0, 0, getWidth(), getHeight());
     }
     
     @Override
