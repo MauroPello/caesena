@@ -1,12 +1,12 @@
 package it.unibo.caesena.view.components;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -15,18 +15,29 @@ import javax.swing.JPanel;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
-import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.model.Player;
 
 public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMeeplesComponent<JPanel> {
 
     private final GUI userInterface;
+    private final Controller controller;
     private final JLabel meepleLabel;
     private final JPanel allMeeplesPanel;
+    private final Map<Player, List<MeepleImage>> meeples;
 
     public RemainingMeeplesComponentImpl(final GameView gameView) {
         super();
 
-        userInterface = gameView.getUserInterface();
+        this.userInterface = gameView.getUserInterface();
+        this.controller = userInterface.getController();
+
+        this.meeples = new HashMap<>();
+        for (final var player : controller.getPlayers()) {
+            final Color color = userInterface.getPlayerColor(player);
+            meeples.put(player, controller.getPlayerMeeples(player).stream()
+                .map(m -> new MeepleImage(m, color)).toList());
+        }
 
         this.setOpaque(false);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -51,20 +62,18 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         this.allMeeplesPanel.revalidate();
         this.allMeeplesPanel.repaint();
 
-        final List<Meeple> meeples = userInterface.getController().getPlayerMeeples(userInterface.getController().getCurrentPlayer());
-        this.meepleLabel.setText(LocaleHelper.getRemainingMeeplesText() + meeples.stream().filter(m -> !m.isPlaced()).count());
-        this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.size()));
-        for (final Meeple meeple : meeples) {
+        final Player currentPlayer = controller.getCurrentPlayer();
+        this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.get(currentPlayer).size()));
+        this.meepleLabel.setText(LocaleHelper.getRemainingMeeplesText() + meeples.get(currentPlayer).stream().filter(m -> !m.getMeeple().isPlaced()).count());
+        for (final MeepleImage meeple : meeples.get(currentPlayer)) {
             final JPanel meeplePanel = new JPanel() {
-                Color color = userInterface.getPlayerColor(meeple.getOwner());
                 @Override
                 protected void paintComponent(final Graphics graphics) {
                     super.paintComponent(graphics);
-                    final MeepleImage image = new MeepleImage(meeple, color, getWidth());
                     if (this.getHeight() > this.getWidth()) {
-                        graphics.drawImage(image.getImage(), 0, 0, this.getWidth(), this.getWidth(), null);
+                        graphics.drawImage(meeple.getImage(), 0, 0, this.getWidth(), this.getWidth(), null);
                     } else {
-                        graphics.drawImage(image.getImage(), 0, 0, this.getHeight(), this.getHeight(), null);
+                        graphics.drawImage(meeple.getImage(), 0, 0, this.getHeight(), this.getHeight(), null);
                     }
                 }
             };
