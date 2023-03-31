@@ -3,14 +3,12 @@ package it.unibo.caesena.view.components;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.GrayFilter;
 
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.ResourceUtil;
-import net.coobird.thumbnailator.Thumbnails;
 
 public class MeepleImage {
     private Meeple meeple;

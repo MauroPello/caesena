@@ -196,7 +196,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         };
     }
 
-    private <Optional> ActionListener zoomInEventListener() {
+    private ActionListener zoomInEventListener() {
         return (e) -> {
             this.gameView.zoomIn();
             if (!this.gameView.canZoomIn()) {
