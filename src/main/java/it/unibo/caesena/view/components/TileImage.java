@@ -41,7 +41,7 @@ public class TileImage {
     }
 
     /**
-     * make the tile image by the tile. 
+     * make the tile image by the tile.
      * @param tile
      */
     public TileImage(final Tile tile) {
@@ -139,8 +139,7 @@ public class TileImage {
         finalGraphics.drawImage(image, 0, 0, null);
         if (this.meeple.isPresent()) {
             final int meepleSize = (int) ((double) image.getHeight(null) / 5);
-            final MeepleImage meepleimage = new MeepleImage(this.meeple.get().getX(), this.color);
-            meepleimage.resize(meepleSize, meepleSize);
+            final MeepleImage meepleimage = new MeepleImage(this.meeple.get().getX(), this.color, meepleSize);
             final Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null) - meepleSize);
             finalGraphics.drawImage(meepleimage.getAsBufferedImage(), meeplePosition.getX(), meeplePosition.getY(),
                     meepleSize, meepleSize, null);

@@ -106,6 +106,7 @@ public class GameView extends JPanel implements View<JPanel> {
     public void endTurn() {
         this.mainComponent.endTurn();
         this.userInterface.getController().endTurn();
+        this.mainComponent.getBoard().updateMeeplePrecence();
         generateCurrentTileImage();
         if (this.userInterface.getController().isGameOver()) {
             userInterface.showGameOverView();

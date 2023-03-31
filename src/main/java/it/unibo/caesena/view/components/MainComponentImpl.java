@@ -49,11 +49,11 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     @Override
     public void endTurn() {
+        final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
+        final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream().filter(m->!m.isPlaced()).toList();
         if (this.getSectionSelector().isSectionSelected()) {
-            final var section = this.getSectionSelector().getSelectedSection().get();
-            final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
-            final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream().filter(m->!m.isPlaced()).toList();
             if (!meeples.isEmpty()) {
+                final var section = this.getSectionSelector().getSelectedSection().get();
                 if (this.gameView.getUserInterface().getController().placeMeeple(meeples.get(0), section)) {
                     this.board.getCurrentTileButton().setMeeple(meeples.get(0), section);
                 } else {
@@ -62,9 +62,9 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
             } else {
                 throw new IllegalStateException("Tried to add meeple but run out of them");
             }
-            this.getSectionSelector().reset();
         }
-        // aggiungi check meeple tolti
+        this.getSectionSelector().reset();
+        // this.getBoard().updateMeeplePrecence();
 
 
         if (!showingBoard) {
@@ -94,7 +94,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
         if (this.getSectionSelector().isSectionSelected()) {
             final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
             final Meeple meeple = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream().filter(m->!m.isPlaced()).findFirst().get();
-            this.board.getCurrentTileButton().previewMeeple(meeple, this.getSectionSelector().getSelectedSection().get());
+            this.board.getCurrentTileButton().setMeeple(meeple, this.getSectionSelector().getSelectedSection().get());
         }
         this.removeAll();
         this.getBoard().draw();

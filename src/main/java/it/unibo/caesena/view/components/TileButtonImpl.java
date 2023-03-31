@@ -16,11 +16,9 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private TileSection section;
     private Optional<TileImage> tileImage;
     private boolean locked;
-    private boolean preview;
 
     public TileButtonImpl(final ActionListener onClickActionListener, final GameView gameView) {
         super();
-        this.preview = false;
         this.gameView = gameView;
         this.locked = false;
         this.meeple = Optional.empty();
@@ -32,14 +30,12 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
 
     @Override
     public void addTile() {
-        this.preview = false;
         this.tileImage = Optional.of(gameView.getCurrentTileImage());
         this.repaint();
     }
 
     @Override
     public void addTile(final TileImage tileImage) {
-        this.preview = false;
         this.locked = true;
         this.tileImage = Optional.of(tileImage);
         this.repaint();
@@ -60,15 +56,10 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         if (this.containsTile() && isEnabled()) {
-            if (this.containsMeeple()) {
-                this.tileImage.get().addMeeple(this.meeple.get(), this.section);
-            } else {
-                this.tileImage.get().removeMeeple();
-            }
             g.drawImage(this.tileImage.get().getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0, this.getWidth(),
                     this.getHeight(), null);
-            this.setOpaque(true);
-            this.repaint();
+            //this.setOpaque(true);
+            //this.repaint();
         }
     }
 
@@ -86,23 +77,26 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     public void setMeeple(final Meeple meeple, final TileSection section) {
         this.meeple = Optional.of(meeple);
         this.section = section;
+        this.tileImage.get().addMeeple(this.meeple.get(), this.section);
+        this.repaint();
     }
 
-    private boolean containsMeeple() {
-        if (meeple.isPresent() && !meeple.get().isPlaced() && !preview) {
-            meeple = Optional.empty();
-        }
-        return meeple.isPresent();
-    }
-
-    @Override
-    public void previewMeeple(final Meeple meeple, final TileSection section) {
-        this.preview = true;
-        setMeeple(meeple, section);
-    }
 
     @Override
     public void lock() {
         this.locked = true;
     }
+
+	@Override
+	public void unsetMeeple() {
+		this.meeple = Optional.empty();
+        this.tileImage.get().removeMeeple();
+        this.repaint();
+	}
+
+	@Override
+	public Optional<Meeple> getMeeple() {
+		return this.meeple;
+	}
+
 }

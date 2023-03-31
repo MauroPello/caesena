@@ -202,4 +202,12 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 	public TileButton<JButton> getCurrentTileButton() {
         return findTileButton(gameView.getUserInterface().getController().getCurrentTile()).get();
 	}
+
+	@Override
+	public void updateMeeplePrecence() {
+		allTileButtons.keySet().stream()
+            .filter(t -> t.getMeeple().isPresent())
+            .filter(t -> !t.getMeeple().get().isPlaced())
+            .forEach(t -> t.unsetMeeple());
+	}
 }

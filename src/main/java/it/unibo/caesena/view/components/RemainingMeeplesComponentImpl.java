@@ -60,8 +60,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
                 @Override
                 protected void paintComponent(final Graphics graphics) {
                     super.paintComponent(graphics);
-                    final MeepleImage image = new MeepleImage(meeple, color);
-                    image.resize(getWidth(), getHeight());
+                    final MeepleImage image = new MeepleImage(meeple, color, getWidth());
                     if (this.getHeight() > this.getWidth()) {
                         graphics.drawImage(image.getAsBufferedImage(), 0, 0, this.getWidth(), this.getWidth(), null);
                     } else {

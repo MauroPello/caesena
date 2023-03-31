@@ -23,6 +23,8 @@ public interface BoardComponent<X> {
 
     void removePlacedTile();
 
+    void updateMeeplePrecence();
+
     <T> TileButton<T> getCurrentTileButton();
 
     Optional<Pair<Integer, Integer>> getUnlockedTileButtonPosition();
