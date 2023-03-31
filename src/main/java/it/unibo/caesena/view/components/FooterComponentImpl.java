@@ -1,10 +1,12 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -44,6 +46,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     private RemainingMeeplesComponent<JPanel> meepleComponent;
     private PlayerImage<JPanel> playerImageComponent;
+    private int innerPaddingSize;
 
     /**
      * 
@@ -58,7 +61,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         JPanel innerPanel = new JPanel();
 
-        //TODO da cancellare dopo aver inserito l'immagine di background
         this.setBackground(Color.ORANGE);
         this.setLayout(new BorderLayout());
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
@@ -94,10 +96,16 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
                 final BufferedImage tileBufferedImage = tileImage
                 .getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
 
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(Color.BLACK);
+                g2d.setStroke(new BasicStroke(4));
+
                 if (this.getHeight() > this.getWidth()) {
                     g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getWidth(), null);
+                    g2d.drawRect(0, 0, getWidth(), getWidth());
                 } else {
                     g.drawImage(tileBufferedImage, 0, 0, this.getHeight(), this.getHeight(), null);
+                    g2d.drawRect(0, 0, getHeight(), getHeight());
                 }
             }
         };
@@ -127,17 +135,18 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             public Dimension getPreferredSize() {
                 final Dimension d = this.getParent().getSize();
                 int newSize = d.width > d.height ? d.height : d.width;
+                newSize = newSize / 2;
                 return new Dimension(newSize, newSize);
             }
 
             @Override
-            protected void paintComponent(final Graphics graphics) {
-                super.paintComponent(graphics);
+            protected void paintComponent(final Graphics g) {
+                super.paintComponent(g);
                 final BufferedImage image = ResourceUtil.getBufferedImage("rotate-right.png", List.of());
                 if (this.getHeight() > this.getWidth()) {
-                    graphics.drawImage(image, 0, 0, this.getWidth(), this.getWidth(), null);
+                    g.drawImage(image, 0, 0, this.getWidth(), this.getWidth(), null);
                 } else {
-                    graphics.drawImage(image, 0, 0, this.getHeight(), this.getHeight(), null);
+                    g.drawImage(image, 0, 0, this.getHeight(), this.getHeight(), null);
                 }
             }
         };
@@ -175,14 +184,21 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     private void updatePadding() {
         final Dimension frameSize = userInterface.getSize();
-        int borderSize;
         if (frameSize.getHeight() > frameSize.getWidth()) {
-            borderSize = (int) Math.round(frameSize.getWidth() / INTERNAL_PADDING_RATIO);
+            innerPaddingSize = (int) Math.round(frameSize.getWidth() / INTERNAL_PADDING_RATIO);
         } else {
-            borderSize = (int) Math.round(frameSize.getHeight() / INTERNAL_PADDING_RATIO);
+            innerPaddingSize = (int) Math.round(frameSize.getHeight() / INTERNAL_PADDING_RATIO);
         }
-        borderSize = borderSize < MINIMUM_PADDING ? MINIMUM_PADDING : borderSize;
-        this.setBorder(BorderFactory.createEmptyBorder(borderSize, borderSize, borderSize, borderSize));
+        innerPaddingSize = innerPaddingSize < MINIMUM_PADDING ? MINIMUM_PADDING : innerPaddingSize;
+        this.setBorder(BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize, innerPaddingSize, innerPaddingSize));
+        this.playerImageComponent.getComponent().setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+        this.meepleComponent.getComponent().setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+        this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+        this.rotateButton.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize*4, 0, innerPaddingSize));
+        this.playerNameLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+        this.playerScoreLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+        this.remainingTilesLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+
     }
 
     private ActionListener rotateButtonEventListener(){
