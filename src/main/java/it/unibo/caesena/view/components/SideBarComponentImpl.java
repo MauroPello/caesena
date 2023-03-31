@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -14,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.model.Player;
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GameView;
@@ -166,6 +169,15 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
                 placeMeepleButton.setVisible(true);
                 endTurnButton.setVisible(true);
                 discardTileButton.setVisible(false);
+                Player currentPlayer = gameView.getUserInterface().getController().getCurrentPlayer();
+                Optional<Meeple> ramainingMeeple = gameView.getUserInterface().getController()
+                    .getPlayerMeeples(currentPlayer)
+                    .stream()
+                    .filter(m -> !m.isPlaced())
+                    .findAny();
+                if (ramainingMeeple.isEmpty()) {
+                    placeMeepleButton.setEnabled(false);
+                }
             }
         };
     }
@@ -178,6 +190,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
             this.gameView.endTurn();
             placeTileButton.setVisible(true);
             placeMeepleButton.setVisible(false);
+            placeMeepleButton.setEnabled(true);
             endTurnButton.setVisible(false);
             discardTileButton.setVisible(true);
         };
@@ -203,20 +216,52 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         };
     }
 
+    private void updateMoveButtons() {
+        for (var direction : Direction.values()) {
+            if (this.gameView.canMove(direction)) {
+               getButton(direction).setEnabled(true);
+            } else {
+                getButton(direction).setEnabled(false);
+            }
+        }
+    }
+
+    private JButton getButton(Direction direction) {
+        return switch (direction) {
+            case DOWN -> downRowButton;
+            case LEFT -> leftRowButton;
+            case RIGHT -> rightRowButton;
+            case UP -> upRowButton;
+            default -> throw new IllegalStateException("Direction wasn't set");
+        };
+    }
+
     private ActionListener moveUpEventListener() {
-        return (e) -> this.gameView.move(Direction.UP);
+        return (e) -> {
+            this.gameView.move(Direction.UP);
+            this.updateMoveButtons();
+        };
     }
 
     private ActionListener moveLeftEventListener() {
-        return (e) -> this.gameView.move(Direction.LEFT);
+        return (e) -> {
+            this.gameView.move(Direction.LEFT);
+            this.updateMoveButtons();
+        };
     }
 
     private ActionListener moveDownEventListener() {
-        return (e) -> this.gameView.move(Direction.DOWN);
+        return (e) -> {
+            this.gameView.move(Direction.DOWN);
+            this.updateMoveButtons();
+        };
     }
 
     private ActionListener moveRightEventListener() {
-        return (e) -> this.gameView.move(Direction.RIGHT);
+        return (e) -> {
+            this.gameView.move(Direction.RIGHT);
+            this.updateMoveButtons();
+        };
     }
 
     private ActionListener discardTileEventListener() {
