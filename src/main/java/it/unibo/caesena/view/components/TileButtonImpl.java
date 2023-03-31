@@ -8,18 +8,15 @@ import javax.swing.JButton;
 
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.view.GameView;
 
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
-    private final GameView gameView;
     private Optional<Meeple> meeple;
     private TileSection section;
     private Optional<TileImage> tileImage;
     private boolean locked;
 
-    public TileButtonImpl(final ActionListener onClickActionListener, final GameView gameView) {
+    public TileButtonImpl(final ActionListener onClickActionListener) {
         super();
-        this.gameView = gameView;
         this.locked = false;
         this.meeple = Optional.empty();
         this.tileImage = Optional.empty();

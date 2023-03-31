@@ -153,7 +153,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
                 .map(x -> x.getKey())
                 .findFirst();
         if (searchedTileOptional.isEmpty()) {
-            searchedTile = new TileButtonImpl(getTileButtonActionListener(), this.gameView);
+            searchedTile = new TileButtonImpl(getTileButtonActionListener());
             allTileButtons.put(searchedTile, coordinates);
         } else {
             searchedTile = searchedTileOptional.get();
