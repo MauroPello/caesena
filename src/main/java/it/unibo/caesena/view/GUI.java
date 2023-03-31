@@ -29,9 +29,11 @@ public class GUI extends JFrame implements UserInterface {
     public static final float MODAL_PREFERRED_RATIO = 0.3f;
     public static final float MODAL_MAXIMUM_RATIO = 0.5f;
     public static final float MODAL_MINIMUM_RATIO = 0.1f;
-    public static final float MINIMUM_SIZE_RATIO = 0.2f;
-    private static boolean MY_GAME_DEBUG_VIEW = false;
-    private static boolean MY_GAME_DEBUG_OVER_VIEW = true;
+    private static final float MINIMUM_SIZE_RATIO = 0.2f;
+    private static final int MINIMUM_WIDTH = 200;
+    private static final int MINIMUM_HEIGHT = 200;
+    private static boolean MY_GAME_DEBUG_VIEW = true;
+    private static boolean MY_GAME_DEBUG_OVER_VIEW = false;
     private final Controller controller;
     private View<JPanel> startView;
     private View<JPanel> gameView;
@@ -60,13 +62,17 @@ public class GUI extends JFrame implements UserInterface {
         });
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setMinimumSize(new Dimension(Math.round(screenSize.width * MINIMUM_SIZE_RATIO),
-                Math.round(screenSize.height * MINIMUM_SIZE_RATIO)));
+        float width = screenSize.width * MINIMUM_SIZE_RATIO;
+        width = width < MINIMUM_WIDTH ? MINIMUM_WIDTH : width;
+        float height = screenSize.height * MINIMUM_SIZE_RATIO;
+        height = height < MINIMUM_HEIGHT ? MINIMUM_HEIGHT : height;
+        this.setMinimumSize(new Dimension(Math.round(width), Math.round(height)));
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
 
+        // TODO set immagine logo
         this.setIconImage(ResourceUtil.getBufferedImage("TILE_BACK.png", List.of("tiles")));
         this.setVisible(true);
 
