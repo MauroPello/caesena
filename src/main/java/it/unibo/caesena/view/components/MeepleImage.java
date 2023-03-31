@@ -28,6 +28,17 @@ public class MeepleImage {
 		}
     }
 
+    MeepleImage(Meeple meeple, Color color) {
+        this.meeple = meeple;
+        BufferedImage image = ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple"));
+        this.normalImage = setColorForAllPixels(image, color);
+        this.blurredImage = GrayFilter.createDisabledImage(image);
+    }
+
+    public Meeple getMeeple() {
+        return this.meeple;
+    }
+
     public Image getImage() {
         if(meeple.isPlaced()) {
            return blurredImage;

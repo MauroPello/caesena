@@ -141,7 +141,7 @@ public class TileImage {
             final int meepleSize = (int) ((double) image.getHeight(null) / 5);
             final MeepleImage meepleimage = new MeepleImage(this.meeple.get().getX(), this.color, meepleSize);
             final Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null) - meepleSize);
-            finalGraphics.drawImage(meepleimage.getImageForBoard(), meeplePosition.getX(), meeplePosition.getY(),
+            finalGraphics.drawImage(meepleimage.getNormalImage(), meeplePosition.getX(), meeplePosition.getY(),
                     meepleSize, meepleSize, null);
         }
         finalGraphics.dispose();
