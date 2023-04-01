@@ -2,7 +2,6 @@ package it.unibo.caesena.view.components;
 
 import java.awt.Color;
 import java.awt.GridBagLayout;
-import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;

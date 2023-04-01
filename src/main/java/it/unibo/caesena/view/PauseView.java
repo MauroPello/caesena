@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -69,16 +68,15 @@ public class PauseView extends JPanel implements View<JPanel> {
         gridBagConstraints.gridy = 2;
         buttonsPanel.add(exitButton, gridBagConstraints);
 
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainPanel.setPreferredSize(new Dimension(
-            (int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO),
-            (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO)));
+            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO)));
         mainPanel.setMinimumSize(new Dimension(
-            (int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO),
-            (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO)));
+            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO)));
         mainPanel.setMaximumSize(new Dimension(
-            (int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO),
-            (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO)));
+            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO)));
 
         mainPanel.add(titleLbl);
         mainPanel.add(buttonsPanel);

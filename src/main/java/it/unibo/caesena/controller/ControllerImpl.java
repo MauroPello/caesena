@@ -38,7 +38,7 @@ public final class ControllerImpl implements Controller {
     private int turn;
 
     public ControllerImpl() {
-        userInterfaces = new ArrayList<>();
+        this.userInterfaces = new ArrayList<>();
         resetGame();
     }
 
@@ -58,13 +58,12 @@ public final class ControllerImpl implements Controller {
     @Override
     public void resetGame() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
-        // TODO check
         tiles = new ConfigurationLoader("config.json").getTiles(new TileFactoryWithBuilder(mediator));
         meeples = new ArrayList<>();
         players = new ArrayList<>();
         gameOver = false;
         turn = 0;
-        // updateUserInterfaces();
+        updateUserInterfaces();
     }
 
     @Override

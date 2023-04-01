@@ -2,8 +2,6 @@ package it.unibo.caesena.view.components;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -28,11 +26,10 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         this.userInterface = userInterface;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        if (screenSize.getHeight() > screenSize.getWidth()) {
-            playerImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
+        if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
+            playerImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
         } else {
-            playerImageSize = (int) Math.round(screenSize.getHeight() * PLAYER_IMAGE_RATIO);
+            playerImageSize = (int) Math.round(GUI.SCREEN_HEIGHT * PLAYER_IMAGE_RATIO);
         }
 
         final JLabel titleLabel = new JLabel(LocaleHelper.getLeaderboardName());
