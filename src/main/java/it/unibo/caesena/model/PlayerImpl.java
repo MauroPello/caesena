@@ -5,10 +5,12 @@ import it.unibo.caesena.utils.StringUtil;
 public final class PlayerImpl implements Player {
 
     private final String name;
+    private final Color color;
     private int score;
 
-    public PlayerImpl(final String name) {
+    public PlayerImpl(final String name, final Color color) {
         this.name = name;
+        this.color = color;
         this.score = 0;
     }
 
@@ -86,5 +88,10 @@ public final class PlayerImpl implements Player {
     @Override
     public String toString() {
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
+    }
+
+    @Override
+    public Color getColor() {
+        return this.color;
     }
 }

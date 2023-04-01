@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.GameSetTileMediatorImpl;
 import it.unibo.caesena.model.Player;
@@ -67,8 +68,8 @@ public final class ControllerImpl implements Controller {
     }
 
     @Override
-    public Player addPlayer(final String name) {
-        final Player newPlayer = new PlayerImpl(name);
+    public Player addPlayer(final String name, final Color color) {
+        final Player newPlayer = new PlayerImpl(name, color);
         players.add(newPlayer);
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
             meeples.add(new NormalMeeple(newPlayer));
