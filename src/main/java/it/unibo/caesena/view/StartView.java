@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
+import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.components.NumericUpDown;
 import it.unibo.caesena.view.components.NumericUpDownImpl;
 import it.unibo.caesena.view.components.PlayerInput;
 import it.unibo.caesena.view.components.PlayerInputImpl;
 
 public class StartView extends JPanel implements View<JPanel> {
+    private static final float GAME_IMAGE_RATIO = 0.6f;
     private static final float PLAYER_IMAGE_RATIO = 0.05f;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 6;
@@ -45,6 +49,36 @@ public class StartView extends JPanel implements View<JPanel> {
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+
+        mainPanel.add(new JPanel());
+        final JPanel imagePanel = new JPanel() {
+            final BufferedImage image = ResourceUtil.getBufferedImage("caesena.png", List.of());
+
+            @Override
+            public Dimension getMaximumSize() {
+                return getPreferredSize();
+            }
+
+            @Override
+            public Dimension getMinimumSize() {
+                return getPreferredSize();
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                final Dimension d = this.getParent().getSize();
+                double height = (image.getHeight() * d.getWidth()) / image.getWidth();
+                return new Dimension((int) Math.round(d.width * GAME_IMAGE_RATIO), (int) Math.round(height * GAME_IMAGE_RATIO));
+            }
+
+            @Override
+            protected void paintComponent(final Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
+            }
+        };
+        mainPanel.add(imagePanel);
 
         final JPanel playersNumPanel = new JPanel();
         final JLabel playersLabel = new JLabel(LocaleHelper.getPlayersText());
