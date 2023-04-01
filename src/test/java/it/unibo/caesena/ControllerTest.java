@@ -15,14 +15,14 @@ final class ControllerTest {
     private static Controller controller;
 
     @BeforeAll
-    public static void init() {
+    static void init() {
         controller = new ControllerImpl();
         controller.addPlayer("Giocatore1");
         controller.startGame();
     }
 
     @Test
-    public void testStartGameAndAddPlayer() {
+    void testStartGameAndAddPlayer() {
         controller = new ControllerImpl();
         assertThrows(IllegalStateException.class, () -> controller.startGame());
         controller.addPlayer("Giocatore1");
@@ -30,19 +30,19 @@ final class ControllerTest {
     }
 
     @Test
-    public void testTilesBuild() {
+    void testTilesBuild() {
         assertFalse(controller.getNotPlacedTiles().isEmpty());
     }
 
     @Test
-    public void testAddPlayer() {
+    void testAddPlayer() {
         assertEquals(controller.getPlayers().get(0), controller.getCurrentPlayer());
         controller.addPlayer("Giocatore2");
         assertEquals(2, controller.getPlayers().size());
     }
 
     @Test
-    public void testGetMeeples() {
+    void testGetMeeples() {
         assertEquals(controller.getPlayerMeeples(controller.getCurrentPlayer()).size(), 8);
     }
 }

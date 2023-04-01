@@ -11,7 +11,7 @@ final class PlayerTest {
     private static PlayerImpl player;
 
     @Test
-    public void testGetters() {
+    void testGetters() {
         player = new PlayerImpl("Giocatore1");
         final String name = player.getName();
         assertEquals("Giocatore1", name);
@@ -20,7 +20,7 @@ final class PlayerTest {
     }
 
     @Test
-    public void testScore() {
+    void testScore() {
         player = new PlayerImpl("Giocatore1");
         player.setScore(10);
         assertEquals(10, player.getScore());

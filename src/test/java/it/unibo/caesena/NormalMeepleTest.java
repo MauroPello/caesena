@@ -17,13 +17,13 @@ final class NormalMeepleTest {
     private static Player owner;
 
     @BeforeAll
-    public static void init() {
+    static void init() {
         owner = new PlayerImpl("Giocatore1");
         meeple = new NormalMeeple(owner);
     }
 
     @Test
-    public void testGetters() {
+    void testGetters() {
         assertEquals(1, meeple.getStrength());
 
         assertFalse(meeple.isPlaced());
@@ -32,7 +32,7 @@ final class NormalMeepleTest {
     }
 
     @Test
-    public void testPlace() {
+    void testPlace() {
         assertFalse(meeple.isPlaced());
         meeple.setPlaced(true);
 

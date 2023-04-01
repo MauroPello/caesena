@@ -13,17 +13,17 @@ final class ToStringBuilderTest {
     private static PlayerImpl player;
 
     @BeforeAll
-    public static void init() {
+    static void init() {
         player = new PlayerImpl("Giocatore1");
     }
 
     @Test
-    public void testToStringCoherence() {
+    void testToStringCoherence() {
         assertEquals(new StringUtil.ToStringBuilder().addFromObjectGetters(player).build(), player.toString());
     }
 
     @Test
-    public void testAutomaticAddCoherence() {
+    void testAutomaticAddCoherence() {
         final String firstResult = player.toString();
         for (int i = 0; i < 1000; i++) {
             assertEquals(firstResult, player.toString());
@@ -31,7 +31,7 @@ final class ToStringBuilderTest {
     }
 
     @Test
-    public void testAutomaticAddCoherenceWithCustomElement() {
+    void testAutomaticAddCoherenceWithCustomElement() {
         var builder = new StringUtil.ToStringBuilder().addFromObjectGetters(player);
         builder.add("Prova aggiunta", "Ciao");
         final String firstResult = builder.build();

@@ -24,7 +24,7 @@ final class GameSetTest {
     private static Meeple meeple;
 
     @BeforeAll
-    public static void init() {
+    static void init() {
         gamesetFactory = new GameSetFactoryImpl();
         gamesetCity = gamesetFactory.createCitySet();
         gamesetCity2 = gamesetFactory.createCitySet();
@@ -34,14 +34,14 @@ final class GameSetTest {
     }
 
     @Test
-    public void testCreateJoinedSet() {
+    void testCreateJoinedSet() {
         assertThrows(IllegalStateException.class, () -> gamesetFactory.createJoinedSet(gamesetField, gamesetCity));
 
         assertEquals(gamesetCity.getType(), gamesetFactory.createJoinedSet(gamesetCity, gamesetCity2).getType());
     }
 
     @Test
-    public void testMeeple() {
+    void testMeeple() {
         assertTrue(gamesetField.isMeepleFree());
 
         assertTrue(gamesetField.addMeeple(meeple));

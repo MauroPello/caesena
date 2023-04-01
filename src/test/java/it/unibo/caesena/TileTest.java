@@ -26,14 +26,14 @@ final class TileTest {
     private static Pair<Integer, Integer> position;
 
     @BeforeAll
-    public static void init() {
+    static void init() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
         tile = new TileFactoryWithBuilder(mediator).createCityEdge();
         position = new Pair<>(1, 1);
     }
 
     @Test
-    public void testGetters() {
+    void testGetters() {
         assertFalse(tile.isPlaced());
         tile.setPosition(position);
         assertTrue(tile.isPlaced());
@@ -41,7 +41,7 @@ final class TileTest {
     }
 
     @Test
-    public void testRotation() {
+    void testRotation() {
         mediator.rotateTileClockwise(tile);
         final Tile tile2 = new TileBuilder(TileType.CITY_EDGE, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
@@ -51,13 +51,13 @@ final class TileTest {
                 .build();
 
         for (final TileSection section : TileSection.values()) {
-            assertEquals(mediator.getGameSetInSection(tile2, section).getType(), 
+            assertEquals(mediator.getGameSetInSection(tile2, section).getType(),
                 mediator.getGameSetInSection(tile, section).getType());
         }
     }
 
     @Test
-    public void testSectionClose() {
+    void testSectionClose() {
         final var section = TileSection.UP_CENTER;
         tile.closeSection(section);
         assertTrue(tile.isSectionClosed(section));
@@ -66,7 +66,7 @@ final class TileTest {
     }
 
     @Test
-    public void testSectionShift() {
+    void testSectionShift() {
         TileSection section = TileSection.UP_LEFT;
         assertEquals(TileSection.LEFT_UP, TileSection.previous(section));
         section = TileSection.LEFT_UP;
