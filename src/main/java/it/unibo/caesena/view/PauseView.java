@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PauseView extends JPanel implements View<JPanel> {
-    private static final float MODAL_RESIZE_RATIO = 0.5f;
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 80);
     private static final int DEFAULT_SIZE = 20;
     private static final int PADDING_SIZE = 10;
@@ -70,9 +69,9 @@ public class PauseView extends JPanel implements View<JPanel> {
         buttonsPanel.add(exitButton, gridBagConstraints);
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO * MODAL_RESIZE_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO * MODAL_RESIZE_RATIO)));
-        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO * MODAL_RESIZE_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO * MODAL_RESIZE_RATIO)));
-        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO * MODAL_RESIZE_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO * MODAL_RESIZE_RATIO)));
+        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO)));
+        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO)));
+        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO)));
 
         mainPanel.add(titleLbl);
         mainPanel.add(buttonsPanel);

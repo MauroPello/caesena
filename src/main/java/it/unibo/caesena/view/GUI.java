@@ -29,6 +29,7 @@ public class GUI extends JFrame implements UserInterface {
     public static final float MODAL_PREFERRED_RATIO = 0.3f;
     public static final float MODAL_MAXIMUM_RATIO = 0.5f;
     public static final float MODAL_MINIMUM_RATIO = 0.1f;
+    public static final float SMALL_MODAL_RATIO = 0.5f;
     private static final float MINIMUM_SIZE_RATIO = 0.2f;
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
