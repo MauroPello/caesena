@@ -168,12 +168,14 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.validate();
         this.repaint();
+        super.setVisible(false);
     }
 
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
             this.update();
+            this.meepleComponent.getComponent().setVisible(true);
             this.updatePadding();
         }
 

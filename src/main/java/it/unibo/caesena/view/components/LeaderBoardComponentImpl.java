@@ -47,7 +47,7 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         this.playersPanel = new JPanel();
         this.playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         this.add(playersPanel);
-        // this.setVisible(false);
+        super.setVisible(false);
     }
 
     @Override

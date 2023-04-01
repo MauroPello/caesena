@@ -47,6 +47,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
 
         this.add(allMeeplesPanel);
         this.allMeeplesPanel.setVisible(true);
+        super.setVisible(false);
     }
 
     @Override
