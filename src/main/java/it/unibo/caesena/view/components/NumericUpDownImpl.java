@@ -1,14 +1,14 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.Font;
-
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+
+import it.unibo.caesena.view.GUI;
 
 public class NumericUpDownImpl extends JSpinner implements NumericUpDown<JSpinner> {
 
     private final SpinnerNumberModel model;
-    
+
     public NumericUpDownImpl(final int start, final int min, final int max, final int step) {
         super();
         final DefaultEditor editor;
@@ -18,7 +18,7 @@ public class NumericUpDownImpl extends JSpinner implements NumericUpDown<JSpinne
 
         editor = new DefaultEditor(this);
         editor.getTextField().setEditable(false);
-        editor.getTextField().setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        editor.getTextField().setFont(GUI.MEDIUM_BOLD_FONT);
         this.setEditor(editor);
     }
 

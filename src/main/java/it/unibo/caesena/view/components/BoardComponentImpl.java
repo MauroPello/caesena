@@ -190,6 +190,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Optional<TileButton<JButton>> getPlacedUnlockedTile() {
         return allTileButtons.keySet().stream()
@@ -207,6 +208,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         }
     }
 
+    @SuppressWarnings("unchecked")
 	@Override
 	public TileButton<JButton> getCurrentTileButton() {
         return findTileButton(gameView.getUserInterface().getController().getCurrentTile()).get();

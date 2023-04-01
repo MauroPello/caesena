@@ -27,7 +27,7 @@ import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
 
 /**
-* 
+*
 * FooterComponent implementation.
 */
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel> {
@@ -50,7 +50,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     private int innerPaddingSize;
 
     /**
-     * 
+     *
      * FooterComponent constructor.
      * @param gameView
      */
@@ -67,8 +67,11 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
 
         this.playerNameLabel = new JLabel();
+        playerNameLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         this.playerScoreLabel = new JLabel();
+        playerScoreLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         this.remainingTilesLabel = new JLabel();
+        remainingTilesLabel.setFont(GUI.MEDIUM_BOLD_FONT);
 
         this.tileImage = Optional.empty();
         this.tileImagePanel = new JPanel() {
@@ -155,9 +158,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.add(innerPanel, BorderLayout.CENTER);
 
         innerPanel.setVisible(true);
-        
+
         rotateButton.addActionListener(rotateButtonEventListener());
-        
+
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -195,7 +198,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.playerNameLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.playerScoreLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.remainingTilesLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
-
     }
 
     private ActionListener rotateButtonEventListener(){

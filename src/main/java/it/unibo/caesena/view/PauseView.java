@@ -3,7 +3,6 @@ package it.unibo.caesena.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -17,7 +16,6 @@ import javax.swing.JPanel;
 
 public class PauseView extends JPanel implements View<JPanel> {
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 80);
-    private static final int DEFAULT_SIZE = 20;
     private static final int PADDING_SIZE = 10;
     private final GUI userInterface;
 
@@ -26,13 +24,12 @@ public class PauseView extends JPanel implements View<JPanel> {
         this.userInterface = userInterface;
 
         this.setBackground(BACKGROUND_COLOR);
-        final Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);
 
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         final JLabel titleLbl = new JLabel(LocaleHelper.getViewTitle("PauseView", false));
-        titleLbl.setFont(mainFont);
+        titleLbl.setFont(GUI.BIG_BOLD_FONT);
         titleLbl.setBorder(BorderFactory.createEmptyBorder(PADDING_SIZE, 0, PADDING_SIZE, 0));
         titleLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -42,6 +39,7 @@ public class PauseView extends JPanel implements View<JPanel> {
         gridBagConstraints.insets = new Insets(PADDING_SIZE, 0, PADDING_SIZE, 0);
 
         final JButton resumeGameButton = new JButton(LocaleHelper.getResumeGameText());
+        resumeGameButton.setFont(GUI.MEDIUM_BOLD_FONT);
         resumeGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resumeGameButton.addActionListener((e) -> {
             userInterface.togglePauseView();
@@ -51,6 +49,7 @@ public class PauseView extends JPanel implements View<JPanel> {
         buttonsPanel.add(resumeGameButton, gridBagConstraints);
 
         final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
+        backToStartMenuButton.setFont(GUI.MEDIUM_BOLD_FONT);
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backToStartMenuButton.addActionListener((e) -> {
             userInterface.showBackToStartViewDialog();
@@ -60,6 +59,7 @@ public class PauseView extends JPanel implements View<JPanel> {
         buttonsPanel.add(backToStartMenuButton, gridBagConstraints);
 
         final JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
+        exitButton.setFont(GUI.MEDIUM_BOLD_FONT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.addActionListener((e) -> {
             userInterface.showExitDialog();

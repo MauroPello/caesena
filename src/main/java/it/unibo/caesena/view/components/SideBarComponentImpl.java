@@ -19,6 +19,7 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.ResourceUtil;
+import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
 
@@ -35,10 +36,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     private JButton leftRowButton = new JButton();
     private JButton rightRowButton = new JButton();
 
-    private JButton placeTileButton = new JButton(LocaleHelper.getPlaceTileText());//"PLACE TILE"
-    private JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());//PLACE MEEPLE
-    private JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());//"DISCARD"
-    private JButton endTurnButton = new JButton(LocaleHelper.getEndTurnText());//"ENDTURN"
+    private JButton placeTileButton = new JButton(LocaleHelper.getPlaceTileText());
+    private JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());
+    private JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());
+    private JButton endTurnButton = new JButton(LocaleHelper.getEndTurnText());
 
     private LeaderBoardComponent<JPanel> leaderBoard;
 
@@ -48,6 +49,12 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
      */
     public SideBarComponentImpl(final GameView gameView) {
         super();
+        zoomInButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        zoomOutButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        placeTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        placeMeepleButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        discardTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        endTurnButton.setFont(GUI.MEDIUM_BOLD_FONT);
 
         Image img = ResourceUtil.getBufferedImage("up.png", List.of());
         Icon icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));

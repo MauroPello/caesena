@@ -3,7 +3,6 @@ package it.unibo.caesena.view.components;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 
 public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardComponent<JPanel> {
-    
+
     private static final float PLAYER_IMAGE_RATIO = 0.01f;
     private final GUI userInterface;
     private final JPanel playersPanel;
@@ -38,7 +37,7 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
 
         final JLabel titleLabel = new JLabel(LocaleHelper.getLeaderboardName());
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titleLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+        titleLabel.setFont(GUI.BIG_BOLD_FONT);
 
         this.add(titleLabel);
         final JSeparator separator = new JSeparator();
@@ -71,15 +70,15 @@ public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardCompo
 
         for (final var player : players) {
             final var playerPanel = new JPanel();
-            
+
             final var playerColorPanel = new PlayerImageImpl();
             playerColorPanel.setColor(userInterface.getPlayerColor(player));
             playerColorPanel.forceSize(playerImageSize);
 
             final JLabel playerLabel = new JLabel(player.getName() + " " + player.getScore());
-            playerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+            playerLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
             playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
+
             playerPanel.add(playerColorPanel);
             playerPanel.add(playerLabel);
             playersPanel.add(playerPanel);

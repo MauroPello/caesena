@@ -3,7 +3,6 @@ package it.unibo.caesena.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -29,7 +28,6 @@ public class StartView extends JPanel implements View<JPanel> {
     private static final float PLAYER_IMAGE_RATIO = 0.05f;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 6;
-    private static final int DEFAULT_SIZE = 20;
 
     private final GUI userInterface;
     private final List<PlayerInput<JPanel>> playerInputs;
@@ -81,7 +79,7 @@ public class StartView extends JPanel implements View<JPanel> {
 
         final JPanel playersNumPanel = new JPanel();
         final JLabel playersLabel = new JLabel(LocaleHelper.getPlayersText());
-        playersLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE));
+        playersLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         playersNumPanel.add(playersLabel);
 
         playersNum = new NumericUpDownImpl(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
@@ -99,6 +97,7 @@ public class StartView extends JPanel implements View<JPanel> {
         mainPanel.add(playersScrollPane);
 
         final JButton startButton = new JButton(LocaleHelper.getStartGameText());
+        startButton.setFont(GUI.BIG_BOLD_FONT);
         startButton.addActionListener((e) -> {
             for (final var playerInput : this.playerInputs) {
                 final var player = playerInput.getPlayerData();
@@ -136,7 +135,7 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     /**
-     * add new player 
+     * add new player
      */
     private void addPlayerInput() {
         final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
@@ -147,7 +146,7 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     /**
-     * remove player 
+     * remove player
      */
     private void removePlayerInput() {
         this.playersPanel.remove(this.playerInputs.remove(this.playerInputs.size() - 1).getComponent());
