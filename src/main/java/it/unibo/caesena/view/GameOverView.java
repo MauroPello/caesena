@@ -3,7 +3,6 @@ package it.unibo.caesena.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -18,17 +17,15 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.view.components.PlayerImageImpl;
 
 public class GameOverView extends JPanel implements View<JPanel> {
-    
+
     private static final float PLAYER_IMAGE_RATIO = 0.02f;
-    private static final int DEFAULT_SIZE = 20;
     private final GUI userInterface;
     private final int playerImageSize;
-    
+
     public GameOverView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
         final JPanel mainPanel = new JPanel();
-        final Font mainFont = new Font(Font.SANS_SERIF, Font.BOLD, DEFAULT_SIZE);
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
@@ -41,7 +38,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         }
 
         this.setBackground(Color.BLACK);
-        this.setLayout(new GridBagLayout()); 
+        this.setLayout(new GridBagLayout());
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         final List<Player> players = new ArrayList<>(userInterface.getController().getPlayers());
         players.sort((p1, p2) -> Integer.compare(p1.getScore(), p2.getScore()));
@@ -49,7 +46,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         final JPanel playersPanel = new JPanel();
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         final JLabel playersLabel = new JLabel(LocaleHelper.getViewTitle("GameOverView", false));
-        playersLabel.setFont(mainFont);
+        playersLabel.setFont(GUI.GAME_OVER_HEADER_FONT);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playersPanel.add(playersLabel);
 
@@ -57,6 +54,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
             final JPanel volatailePanel = new JPanel();
 
             final JLabel volataileLabel = new JLabel();
+            volataileLabel.setFont(GUI.PLAYER_NAME_GAME_OVER_FONT);
             volataileLabel.setText(LocaleHelper.getNameText() + player.getName() + " " + LocaleHelper.getScoreText()
                     + player.getScore());
             volatailePanel.add(volataileLabel);
@@ -74,17 +72,19 @@ public class GameOverView extends JPanel implements View<JPanel> {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
+        backToStartMenuButton.setFont(GUI.BACK_TO_MENU_GAME_OVER_FONT);
         backToStartMenuButton.addActionListener(e -> userInterface.showBackToStartViewDialog());
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(backToStartMenuButton);
 
         final JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
+        exitButton.setFont(GUI.EXIT_GAME_OVER_FONT);
         exitButton.addActionListener(e -> userInterface.showExitDialog());
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(exitButton);
 
         mainPanel.add(buttonPanel);
-        
+
         this.add(mainPanel);
         this.repaint();
         this.validate();

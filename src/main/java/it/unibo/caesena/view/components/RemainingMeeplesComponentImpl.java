@@ -43,6 +43,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         meepleLabel = new JLabel();
+        meepleLabel.setFont(GUI.REMAINING_MEEPLES_FONT);
         meepleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(meepleLabel);
 
