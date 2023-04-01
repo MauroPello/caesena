@@ -53,6 +53,7 @@ public class GUI extends JFrame implements UserInterface {
     public static final Font PLAYER_NAME_GAME_OVER_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, Toolkit.getDefaultToolkit().getScreenSize().width/80);
     public static final Font BACK_TO_MENU_GAME_OVER_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, Toolkit.getDefaultToolkit().getScreenSize().width/80);
     public static final Font EXIT_GAME_OVER_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, Toolkit.getDefaultToolkit().getScreenSize().width/80);
+    public static final float SMALL_MODAL_RATIO = 0.5f;
     private static final float MINIMUM_SIZE_RATIO = 0.2f;
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
