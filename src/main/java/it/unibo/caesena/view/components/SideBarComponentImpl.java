@@ -49,12 +49,12 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
      */
     public SideBarComponentImpl(final GameView gameView) {
         super();
-        zoomInButton.setFont(GUI.CONTROLS_BUTTON_FONT);
-        zoomOutButton.setFont(GUI.CONTROLS_BUTTON_FONT);
-        placeTileButton.setFont(GUI.CONTROLS_BUTTON_FONT);
-        placeMeepleButton.setFont(GUI.CONTROLS_BUTTON_FONT);
-        discardTileButton.setFont(GUI.CONTROLS_BUTTON_FONT);
-        endTurnButton.setFont(GUI.CONTROLS_BUTTON_FONT);
+        zoomInButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        zoomOutButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        placeTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        placeMeepleButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        discardTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        endTurnButton.setFont(GUI.MEDIUM_BOLD_FONT);
 
 
         Image img = ResourceUtil.getBufferedImage("up.png", List.of());

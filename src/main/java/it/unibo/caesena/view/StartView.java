@@ -80,7 +80,7 @@ public class StartView extends JPanel implements View<JPanel> {
 
         final JPanel playersNumPanel = new JPanel();
         final JLabel playersLabel = new JLabel(LocaleHelper.getPlayersText());
-        playersLabel.setFont(GUI.PLAYER_NUMBER_SELECTOR_FONT);
+        playersLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         playersNumPanel.add(playersLabel);
 
         playersNum = new NumericUpDownImpl(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
@@ -98,7 +98,7 @@ public class StartView extends JPanel implements View<JPanel> {
         mainPanel.add(playersScrollPane);
 
         final JButton startButton = new JButton(LocaleHelper.getStartGameText());
-        startButton.setFont(GUI.START_NEW_GAME_FONT);
+        startButton.setFont(GUI.BIG_BOLD_FONT);
         startButton.addActionListener((e) -> {
             for (final var playerInput : this.playerInputs) {
                 final var player = playerInput.getPlayerData();

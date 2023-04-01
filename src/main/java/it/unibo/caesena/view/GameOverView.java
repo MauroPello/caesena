@@ -46,7 +46,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         final JPanel playersPanel = new JPanel();
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         final JLabel playersLabel = new JLabel(LocaleHelper.getViewTitle("GameOverView", false));
-        playersLabel.setFont(GUI.GAME_OVER_HEADER_FONT);
+        playersLabel.setFont(GUI.BIG_BOLD_FONT);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playersPanel.add(playersLabel);
 
@@ -54,7 +54,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
             final JPanel volatailePanel = new JPanel();
 
             final JLabel volataileLabel = new JLabel();
-            volataileLabel.setFont(GUI.PLAYER_NAME_GAME_OVER_FONT);
+            volataileLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
             volataileLabel.setText(LocaleHelper.getNameText() + player.getName() + " " + LocaleHelper.getScoreText()
                     + player.getScore());
             volatailePanel.add(volataileLabel);
@@ -72,13 +72,13 @@ public class GameOverView extends JPanel implements View<JPanel> {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
-        backToStartMenuButton.setFont(GUI.BACK_TO_MENU_GAME_OVER_FONT);
+        backToStartMenuButton.setFont(GUI.MEDIUM_BOLD_FONT);
         backToStartMenuButton.addActionListener(e -> userInterface.showBackToStartViewDialog());
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(backToStartMenuButton);
 
         final JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
-        exitButton.setFont(GUI.EXIT_GAME_OVER_FONT);
+        exitButton.setFont(GUI.MEDIUM_BOLD_FONT);
         exitButton.addActionListener(e -> userInterface.showExitDialog());
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(exitButton);

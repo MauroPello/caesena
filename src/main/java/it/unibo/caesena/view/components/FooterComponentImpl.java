@@ -66,11 +66,11 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
 
         this.playerNameLabel = new JLabel();
-        playerNameLabel.setFont(GUI.PLAYER_NAME_GAME_FONT);
+        playerNameLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         this.playerScoreLabel = new JLabel();
-        playerScoreLabel.setFont(GUI.SCORE_FONT);
+        playerScoreLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         this.remainingTilesLabel = new JLabel();
-        remainingTilesLabel.setFont(GUI.REMAINING_TILES_FONT);
+        remainingTilesLabel.setFont(GUI.MEDIUM_BOLD_FONT);
 
         this.tileImage = gameView.getCurrentTileImage();
         this.tileImagePanel = new JPanel() {

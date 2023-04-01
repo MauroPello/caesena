@@ -18,7 +18,7 @@ public class NumericUpDownImpl extends JSpinner implements NumericUpDown<JSpinne
 
         editor = new DefaultEditor(this);
         editor.getTextField().setEditable(false);
-        editor.getTextField().setFont(GUI.PLAYER_NUMBER_SELECTOR_FONT);
+        editor.getTextField().setFont(GUI.MEDIUM_BOLD_FONT);
         this.setEditor(editor);
     }
 

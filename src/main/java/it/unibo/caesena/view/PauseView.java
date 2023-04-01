@@ -29,7 +29,7 @@ public class PauseView extends JPanel implements View<JPanel> {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         final JLabel titleLbl = new JLabel(LocaleHelper.getViewTitle("PauseView", false));
-        titleLbl.setFont(GUI.PAUSE_HEADER_FONT);
+        titleLbl.setFont(GUI.BIG_BOLD_FONT);
         titleLbl.setBorder(BorderFactory.createEmptyBorder(PADDING_SIZE, 0, PADDING_SIZE, 0));
         titleLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -39,7 +39,7 @@ public class PauseView extends JPanel implements View<JPanel> {
         gridBagConstraints.insets = new Insets(PADDING_SIZE, 0, PADDING_SIZE, 0);
 
         final JButton resumeGameButton = new JButton(LocaleHelper.getResumeGameText());
-        resumeGameButton.setFont(GUI.RESUME_PAUSE_FONT);
+        resumeGameButton.setFont(GUI.MEDIUM_BOLD_FONT);
         resumeGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resumeGameButton.addActionListener((e) -> {
             userInterface.togglePauseView();
@@ -49,7 +49,7 @@ public class PauseView extends JPanel implements View<JPanel> {
         buttonsPanel.add(resumeGameButton, gridBagConstraints);
 
         final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
-        backToStartMenuButton.setFont(GUI.BACK_TO_MENU_GAME_OVER_FONT);
+        backToStartMenuButton.setFont(GUI.MEDIUM_BOLD_FONT);
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backToStartMenuButton.addActionListener((e) -> {
             userInterface.showBackToStartViewDialog();
@@ -59,7 +59,7 @@ public class PauseView extends JPanel implements View<JPanel> {
         buttonsPanel.add(backToStartMenuButton, gridBagConstraints);
 
         final JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
-        exitButton.setFont(GUI.EXIT_PAUSE_FONT);
+        exitButton.setFont(GUI.MEDIUM_BOLD_FONT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.addActionListener((e) -> {
             userInterface.showExitDialog();

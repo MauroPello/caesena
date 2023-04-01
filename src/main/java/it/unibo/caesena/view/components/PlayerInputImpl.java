@@ -32,12 +32,12 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
         super();
 
         final JLabel nameLabel = new JLabel(LocaleHelper.getNameText());
-        nameLabel.setFont(GUI.PLAYER_NAME_START_FONT);
+        nameLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
         this.playerName = new JTextField();
         this.playerName.setColumns(TEXT_FIELD_COLUMNS);
 
         final JLabel colorLabel = new JLabel(LocaleHelper.getColorText());
-        colorLabel.setFont(GUI.PLAYER_COLOR_START_FONT);
+        colorLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
 
         this.playerColorPanel = new PlayerImageImpl();
         this.playerColorPanel.setColor(getBackground());
@@ -58,7 +58,7 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
                 (e) -> updateColor(getBackground()));
 
         final JButton playerColorButton = new JButton(LocaleHelper.getPickColorText());
-        playerColorButton.setFont(GUI.PICK_COLOR_FONT);
+        playerColorButton.setFont(GUI.MEDIUM_BOLD_FONT);
         playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
 
         this.setLayout(new GridBagLayout());
