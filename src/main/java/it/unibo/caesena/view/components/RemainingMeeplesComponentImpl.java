@@ -33,11 +33,6 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         this.controller = userInterface.getController();
 
         this.meeples = new HashMap<>();
-        for (final var player : controller.getPlayers()) {
-            final Color color = userInterface.getPlayerColor(player);
-            meeples.put(player, controller.getPlayerMeeples(player).stream()
-                .map(m -> new MeepleImage(m, color)).toList());
-        }
 
         this.setOpaque(false);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -49,18 +44,33 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         this.allMeeplesPanel = new JPanel();
         this.allMeeplesPanel.setOpaque(false);
 
-        this.update();
-
         this.add(allMeeplesPanel);
         this.allMeeplesPanel.setVisible(true);
-        this.setVisible(true);
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        if (visible) {
+            update();
+        }
+
+        super.setVisible(visible);
     }
 
     @Override
     public void update() {
-        this.allMeeplesPanel.removeAll();
-        this.allMeeplesPanel.revalidate();
-        this.allMeeplesPanel.repaint();
+        if (meeples.isEmpty()) {
+            for (final var player : controller.getPlayers()) {
+                final Color color = userInterface.getPlayerColor(player);
+                meeples.put(player, controller.getPlayerMeeples(player).stream()
+                    .map(m -> new MeepleImage(m, color)).toList());
+            }
+        } else {
+            this.allMeeplesPanel.removeAll();
+            this.allMeeplesPanel.revalidate();
+            this.allMeeplesPanel.repaint();
+        }
+
 
         final Player currentPlayer = controller.getCurrentPlayer();
         this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.get(currentPlayer).size()));

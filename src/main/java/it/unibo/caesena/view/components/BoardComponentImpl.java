@@ -30,8 +30,17 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     public BoardComponentImpl(final GameView gameView) {
         this.gameView = gameView;
         this.allTileButtons = new HashMap<>();
-        this.setFirstTileButton();
-        this.draw();
+        this.setVisible(false);
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        if (visible) {
+            this.setFirstTileButton();
+            this.draw();
+        }
+        
+        super.setVisible(visible);
     }
 
     @Override

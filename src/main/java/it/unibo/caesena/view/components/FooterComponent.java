@@ -15,10 +15,5 @@ public interface FooterComponent<X> {
     /**
      * Update every component in the footer.
      */
-    void updateFooter();
-
-    /**
-     * Update the number of remaining tiles.
-     */
-    void updateRemainingTiles();
+    void update();
 }

@@ -77,6 +77,7 @@ public class PauseView extends JPanel implements View<JPanel> {
         mainPanel.add(buttonsPanel);
         this.setLayout(new GridBagLayout());
         this.add(mainPanel);
+        this.setVisible(false);
     }
 
     /**
@@ -94,5 +95,9 @@ public class PauseView extends JPanel implements View<JPanel> {
     @SuppressWarnings("unchecked")
     public final GUI getUserInterface() {
         return this.userInterface;
+    }
+
+    @Override
+    public void update() {
     }
 }
