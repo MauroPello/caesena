@@ -8,11 +8,14 @@ import org.junit.jupiter.api.Test;
 import it.unibo.caesena.model.PlayerImpl;
 
 final class PlayerTest {
-    private static PlayerImpl player;
+    private final PlayerImpl player;
+
+    PlayerTest(final PlayerImpl player) {
+        this.player = new PlayerImpl("Giocatore1");
+    }
 
     @Test
     void testGetters() {
-        player = new PlayerImpl("Giocatore1");
         final String name = player.getName();
         assertEquals("Giocatore1", name);
         final int score = player.getScore();
@@ -21,7 +24,6 @@ final class PlayerTest {
 
     @Test
     void testScore() {
-        player = new PlayerImpl("Giocatore1");
         player.setScore(10);
         assertEquals(10, player.getScore());
         player.addScore(10);

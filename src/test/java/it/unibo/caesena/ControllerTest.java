@@ -12,37 +12,39 @@ import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.controller.ControllerImpl;
 
 final class ControllerTest {
-    private static Controller controller;
+    private final Controller controller;
+
+    ControllerTest(final Controller controller) {
+        this.controller = new ControllerImpl();
+    }
 
     @BeforeAll
-    static void init() {
-        controller = new ControllerImpl();
-        controller.addPlayer("Giocatore1");
-        controller.startGame();
+    void init() {
+        this.controller.addPlayer("Giocatore1");
+        this.controller.startGame();
     }
 
     @Test
     void testStartGameAndAddPlayer() {
-        controller = new ControllerImpl();
-        assertThrows(IllegalStateException.class, () -> controller.startGame());
-        controller.addPlayer("Giocatore1");
-        assertDoesNotThrow(() -> controller.startGame());
+        assertThrows(IllegalStateException.class, () -> this.controller.startGame());
+        this.controller.addPlayer("Giocatore1");
+        assertDoesNotThrow(() -> this.controller.startGame());
     }
 
     @Test
     void testTilesBuild() {
-        assertFalse(controller.getNotPlacedTiles().isEmpty());
+        assertFalse(this.controller.getNotPlacedTiles().isEmpty());
     }
 
     @Test
     void testAddPlayer() {
-        assertEquals(controller.getPlayers().get(0), controller.getCurrentPlayer());
-        controller.addPlayer("Giocatore2");
-        assertEquals(2, controller.getPlayers().size());
+        assertEquals(this.controller.getPlayers().get(0), this.controller.getCurrentPlayer());
+        this.controller.addPlayer("Giocatore2");
+        assertEquals(2, this.controller.getPlayers().size());
     }
 
     @Test
     void testGetMeeples() {
-        assertEquals(controller.getPlayerMeeples(controller.getCurrentPlayer()).size(), 8);
+        assertEquals(this.controller.getPlayerMeeples(this.controller.getCurrentPlayer()).size(), 8);
     }
 }

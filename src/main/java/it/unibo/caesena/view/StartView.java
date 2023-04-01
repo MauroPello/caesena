@@ -51,7 +51,7 @@ public class StartView extends JPanel implements View<JPanel> {
 
         mainPanel.add(new JPanel());
         final JPanel imagePanel = new JPanel() {
-            final BufferedImage image = ResourceUtil.getBufferedImage("caesena.png", List.of());
+            private final BufferedImage image = ResourceUtil.getBufferedImage("caesena.png", List.of());
 
             @Override
             public Dimension getMaximumSize() {
@@ -113,9 +113,12 @@ public class StartView extends JPanel implements View<JPanel> {
         mainPanel.add(startGamePanel);
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
-        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
-        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO), (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
+        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO),
+            (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
+        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO),
+            (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
+        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO),
+            (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
         if (screenSize.getHeight() > screenSize.getWidth()) {
             playerInputImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
         } else {
@@ -142,7 +145,7 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     /**
-     * add new player
+     * Adds new player.
      */
     private void addPlayerInput() {
         final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
@@ -153,7 +156,7 @@ public class StartView extends JPanel implements View<JPanel> {
     }
 
     /**
-     * remove player
+     * Removes player.
      */
     private void removePlayerInput() {
         this.playersPanel.remove(this.playerInputs.remove(this.playerInputs.size() - 1).getComponent());

@@ -15,7 +15,7 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 
-public class LeaderBoardComponentImpl extends JPanel implements LeaderBoardComponent<JPanel> {
+public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoardComponent<JPanel> {
 
     private static final float PLAYER_IMAGE_RATIO = 0.01f;
     private final GUI userInterface;

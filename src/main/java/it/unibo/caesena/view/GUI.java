@@ -32,18 +32,18 @@ public class GUI extends JFrame implements UserInterface {
     public static final float MODAL_MINIMUM_RATIO = 0.1f;
     public static final double SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     public static final double SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-    public static final Font BIG_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int)SCREEN_WIDTH/60);
-    public static final Font BIG_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int)SCREEN_WIDTH/60);
-    public static final Font MEDIUM_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int)SCREEN_WIDTH/80);
-    public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int)SCREEN_WIDTH/80);
-    public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int)SCREEN_WIDTH/100);
-    public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int)SCREEN_WIDTH/100);
+    public static final Font BIG_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) SCREEN_WIDTH / 60);
+    public static final Font BIG_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) SCREEN_WIDTH / 60);
+    public static final Font MEDIUM_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) SCREEN_WIDTH / 80);
+    public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) SCREEN_WIDTH / 80);
+    public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) SCREEN_WIDTH / 100);
+    public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) SCREEN_WIDTH / 100);
     public static final float SMALL_MODAL_RATIO = 0.5f;
     private static final float MINIMUM_SIZE_RATIO = 0.2f;
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
-    private static boolean MY_GAME_DEBUG_VIEW = false;
-    private static boolean MY_GAME_DEBUG_OVER_VIEW = false;
+    private static final boolean GAME_DEBUG_VIEW = true;
+    private static final boolean GAME_DEBUG_OVER_VIEW = false;
     private final Controller controller;
     private View<JPanel> startView;
     private View<JPanel> gameView;
@@ -87,11 +87,11 @@ public class GUI extends JFrame implements UserInterface {
         this.setVisible(true);
 
         // TODO rimuovere
-        if (MY_GAME_DEBUG_VIEW || MY_GAME_DEBUG_OVER_VIEW) {
+        if (GAME_DEBUG_VIEW || GAME_DEBUG_OVER_VIEW) {
             this.addPlayer("Giocatore1", Color.RED);
             this.addPlayer("Giocatore2", Color.GREEN);
             this.startGame();
-            if (MY_GAME_DEBUG_OVER_VIEW) {
+            if (GAME_DEBUG_OVER_VIEW) {
                 this.showGameOverView();
             }
         } else {
@@ -100,7 +100,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * show only startview
+     * Shows only startview.
      */
     public void showStartView() {
         this.setTitle(LocaleHelper.getViewTitle("StartView", true));
@@ -117,7 +117,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * shows only GameView and PauseView if called
+     * Shows only GameView and PauseView if called.
      */
     public void startGame() {
         this.setTitle(LocaleHelper.getViewTitle("GameView", true));
@@ -147,7 +147,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * show PauseView
+     * Shows PauseView.
      */
     public void togglePauseView() {
         this.pauseView.setVisible(!this.pauseView.isVisible());
@@ -156,7 +156,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * show only GameOverView
+     * Shows only GameOverView.
      */
     public void showGameOverView() {
         this.setTitle(LocaleHelper.getViewTitle("GameOverView", true));
@@ -172,7 +172,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * if called, show exit dialog
+     * If called, show exit dialog.
      */
     public void showExitDialog() {
         final int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmExitText(),
@@ -184,7 +184,7 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * if called, show backtoStart dialog
+     * If called, show backtoStart dialog.
      */
     public void showBackToStartViewDialog() {
         final int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
@@ -214,8 +214,8 @@ public class GUI extends JFrame implements UserInterface {
 
     /**
      *
-     * @param container specifies the type of containers
-     * @param enabled   to enable or disable containers
+     * @param container specifies the type of containers.
+     * @param enabled   to enable or disable containers.
      */
     private void setEnabledAllComponents(final Container container, final boolean enabled) {
         for (final var component : container.getComponents()) {
@@ -228,8 +228,8 @@ public class GUI extends JFrame implements UserInterface {
 
     /**
      *
-     * @param name  to add
-     * @param color to add on relative name
+     * @param name  to add.
+     * @param color to add on relative name.
      */
     public void addPlayer(final String name, final Color color) {
         this.players.put(this.controller.addPlayer(name), color);
@@ -238,7 +238,7 @@ public class GUI extends JFrame implements UserInterface {
     /**
      *
      * @param player
-     * @return color of player
+     * @return color of player.
      */
     public Color getPlayerColor(final Player player) {
         return this.players.get(player);

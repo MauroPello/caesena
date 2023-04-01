@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
-public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
+public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
 
     private Optional<Integer> forcedSize;
     private Color color = Color.black;
@@ -31,7 +31,7 @@ public class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
         g2d.setColor(Color.BLACK);
         g2d.drawRect(0, 0, getWidth(), getHeight());
     }
-    
+
     @Override
     public Dimension getMaximumSize() {
         return getPreferredSize();

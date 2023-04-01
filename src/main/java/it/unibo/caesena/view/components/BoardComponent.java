@@ -17,7 +17,7 @@ public interface BoardComponent<X> {
 
     boolean canZoomOut();
 
-    boolean canMove(Direction Direction);
+    boolean canMove(Direction direction);
 
     void draw();
 

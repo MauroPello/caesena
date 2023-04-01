@@ -18,8 +18,9 @@ import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
 
-public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
-    private final static int DEFAULT_ZOOM_LEVEL = 5;
+final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
+    private static final int DEFAULT_ZOOM_LEVEL = 5;
+    private static final int MAX_FIELD_SIZE = 50;
     private final GameView gameView;
     private final Map<TileButton<JButton>, Pair<Integer, Integer>> allTileButtons;
     private int fieldSize = DEFAULT_ZOOM_LEVEL;
@@ -27,7 +28,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     private int horizontalOffset = 0;
     private int verticalOffset = 0;
 
-    public BoardComponentImpl(final GameView gameView) {
+    BoardComponentImpl(final GameView gameView) {
         this.gameView = gameView;
         this.allTileButtons = new HashMap<>();
         this.setFirstTileButton();
@@ -58,8 +59,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
         if (canZoomIn()) {
             zoom++;
             draw();
-        }
-        else {
+        } else {
             throw new IllegalStateException("Tried to zoom in but was not allowed");
         }
     }
@@ -92,7 +92,7 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
 
     @Override
     public boolean canZoomOut() {
-        return fieldSize < this.getHeight() / 50;
+        return fieldSize < this.getHeight() / MAX_FIELD_SIZE;
     }
 
     @Override
@@ -200,16 +200,16 @@ public class BoardComponentImpl extends JPanel implements BoardComponent<JPanel>
     }
 
     @SuppressWarnings("unchecked")
-	@Override
-	public TileButton<JButton> getCurrentTileButton() {
+    @Override
+    public TileButton<JButton> getCurrentTileButton() {
         return findTileButton(gameView.getUserInterface().getController().getCurrentTile()).get();
-	}
+    }
 
-	@Override
-	public void updateMeeplePrecence() {
-		allTileButtons.keySet().stream()
-            .filter(t -> t.getMeeple().isPresent())
-            .filter(t -> !t.getMeeple().get().isPlaced())
-            .forEach(t -> t.unsetMeeple());
-	}
+    @Override
+    public void updateMeeplePrecence() {
+        allTileButtons.keySet().stream()
+        .filter(t -> t.getMeeple().isPresent())
+        .filter(t -> !t.getMeeple().get().isPlaced())
+        .forEach(t -> t.unsetMeeple());
+    }
 }

@@ -63,7 +63,9 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     public void endTurn() {
         this.endingTurn = true;
         final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
-        final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream().filter(m->!m.isPlaced()).toList();
+        final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream()
+            .filter(m -> !m.isPlaced())
+            .toList();
         if (this.getSectionSelector().isSectionSelected()) {
             if (!meeples.isEmpty()) {
                 final var section = this.getSectionSelector().getSelectedSection().get();

@@ -17,10 +17,8 @@ import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 
-public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
-
-    private final static int TEXT_FIELD_COLUMNS = 4;
-
+public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
+    private static final int TEXT_FIELD_COLUMNS = 4;
     private final PlayerImageImpl playerColorPanel;
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
@@ -91,12 +89,12 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     }
 
     @Override
-    public final Pair<String, Color> getPlayerData() {
+    public Pair<String, Color> getPlayerData() {
         return new Pair<>(playerName.getText(), playerColor);
     }
 
     @Override
-    public final JPanel getComponent() {
+    public JPanel getComponent() {
         return this;
     }
 

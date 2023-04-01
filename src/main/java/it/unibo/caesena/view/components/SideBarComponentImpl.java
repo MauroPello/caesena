@@ -23,25 +23,25 @@ import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
 
-public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPanel>{
+public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPanel> {
 
-    private Controller controller;
-    private GameView gameView;
+    private final Controller controller;
+    private final GameView gameView;
 
-    private JButton zoomInButton = new JButton("Zoom +");
-    private JButton zoomOutButton = new JButton("Zoom -");
+    private final JButton zoomInButton = new JButton("Zoom +");
+    private final JButton zoomOutButton = new JButton("Zoom -");
 
-    private JButton upRowButton = new JButton();
-    private JButton downRowButton = new JButton();
-    private JButton leftRowButton = new JButton();
-    private JButton rightRowButton = new JButton();
+    private final JButton upRowButton = new JButton();
+    private final JButton downRowButton = new JButton();
+    private final JButton leftRowButton = new JButton();
+    private final JButton rightRowButton = new JButton();
 
-    private JButton placeTileButton = new JButton(LocaleHelper.getPlaceTileText());
-    private JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());
-    private JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());
-    private JButton endTurnButton = new JButton(LocaleHelper.getEndTurnText());
+    private final JButton placeTileButton = new JButton(LocaleHelper.getPlaceTileText());
+    private final JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());
+    private final JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());
+    private final JButton endTurnButton = new JButton(LocaleHelper.getEndTurnText());
 
-    private LeaderBoardComponent<JPanel> leaderBoard;
+    private final LeaderBoardComponent<JPanel> leaderBoard;
 
     /**
      * SideBarComponent constructor
@@ -57,20 +57,21 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         endTurnButton.setFont(GUI.MEDIUM_BOLD_FONT);
 
 
+        final int iconSize = (int) GUI.SCREEN_WIDTH / 80;
         Image img = ResourceUtil.getBufferedImage("up.png", List.of());
-        Icon icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+        Icon icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize,  java.awt.Image.SCALE_SMOOTH));
         upRowButton.setIcon(icon);
 
         img = ResourceUtil.getBufferedImage("down.png", List.of());
-        icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+        icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize,  java.awt.Image.SCALE_SMOOTH));
         downRowButton.setIcon(icon);
 
         img = ResourceUtil.getBufferedImage("left.png", List.of());
-        icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+        icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize,  java.awt.Image.SCALE_SMOOTH));
         leftRowButton.setIcon(icon);
 
         img = ResourceUtil.getBufferedImage("right.png", List.of());
-        icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+        icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize,  java.awt.Image.SCALE_SMOOTH));
         rightRowButton.setIcon(icon);
 
         this.gameView = gameView;
@@ -79,13 +80,13 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         this.setBackground(Color.CYAN);
         this.setLayout(new GridBagLayout());
 
-        JPanel innerPanel = new JPanel();
+        final JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
 
-        JPanel zoomPanel = new JPanel();
-        JPanel arrowsPanel = new JPanel();
-        JPanel centerArrowsPanel = new JPanel();
-        JPanel actionsPanel = new JPanel();
+        final JPanel zoomPanel = new JPanel();
+        final JPanel arrowsPanel = new JPanel();
+        final JPanel centerArrowsPanel = new JPanel();
+        final JPanel actionsPanel = new JPanel();
 
         zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.Y_AXIS));
         arrowsPanel.setLayout(new BoxLayout(arrowsPanel, BoxLayout.Y_AXIS));
@@ -176,8 +177,8 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
                 placeMeepleButton.setVisible(true);
                 endTurnButton.setVisible(true);
                 discardTileButton.setVisible(false);
-                Player currentPlayer = gameView.getUserInterface().getController().getCurrentPlayer();
-                Optional<Meeple> ramainingMeeple = gameView.getUserInterface().getController()
+                final Player currentPlayer = gameView.getUserInterface().getController().getCurrentPlayer();
+                final Optional<Meeple> ramainingMeeple = gameView.getUserInterface().getController()
                     .getPlayerMeeples(currentPlayer)
                     .stream()
                     .filter(m -> !m.isPlaced())
@@ -224,7 +225,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     }
 
     private void updateMoveButtons() {
-        for (var direction : Direction.values()) {
+        for (final var direction : Direction.values()) {
             if (this.gameView.canMove(direction)) {
                getButton(direction).setEnabled(true);
             } else {
@@ -233,7 +234,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         }
     }
 
-    private JButton getButton(Direction direction) {
+    private JButton getButton(final Direction direction) {
         return switch (direction) {
             case DOWN -> downRowButton;
             case LEFT -> leftRowButton;

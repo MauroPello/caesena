@@ -20,11 +20,11 @@ import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
 
-public class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
+class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
     private final GameView gameView;
     private final Map<SectionButton, GridBagConstraints> sectionButtons = new HashMap<>();
 
-    public SectionSelectorComponentImpl(final GameView gameView) {
+    SectionSelectorComponentImpl(final GameView gameView) {
         super();
         this.gameView = gameView;
     }
@@ -149,7 +149,7 @@ public class SectionSelectorComponentImpl extends JPanel implements SectionSelec
         private boolean selected;
         private boolean toBeDrawn;
 
-        public SectionButton(final TileSection section) {
+        SectionButton(final TileSection section) {
             super();
             this.section = section;
             final Controller controller = gameView.getUserInterface().getController();
