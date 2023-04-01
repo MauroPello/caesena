@@ -3,15 +3,13 @@ package it.unibo.caesena.view.components;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.util.Optional;
-
 import javax.swing.JButton;
-
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.TileSection;
 
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
+    private static final long serialVersionUID = 3246088701705856082L;
     private Optional<Meeple> meeple;
-    private TileSection section;
     private Optional<TileImage> tileImage;
     private boolean locked;
 
@@ -66,8 +64,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     @Override
     public void setMeeple(final Meeple meeple, final TileSection section) {
         this.meeple = Optional.of(meeple);
-        this.section = section;
-        this.tileImage.get().addMeeple(this.meeple.get(), this.section);
+        this.tileImage.get().addMeeple(this.meeple.get(), section);
         this.repaint();
     }
 
@@ -78,14 +75,14 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     }
 
 	@Override
-	public void unsetMeeple() {
+    public void unsetMeeple() {
 		this.meeple = Optional.empty();
         this.tileImage.get().removeMeeple();
         this.repaint();
 	}
 
 	@Override
-	public Optional<Meeple> getMeeple() {
+    public Optional<Meeple> getMeeple() {
 		return this.meeple;
 	}
 

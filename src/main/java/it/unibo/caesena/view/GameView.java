@@ -21,9 +21,8 @@ import it.unibo.caesena.view.components.SideBarComponentImpl;
 import it.unibo.caesena.view.components.TileImage;
 
 public class GameView extends JPanel implements View<JPanel> {
-
+    private static final long serialVersionUID = -4620026742191171535L;
     private static final float MAIN_COMPONENT_RATIO = 0.8f;
-
     private final GUI userInterface;
     private final MainComponent<JPanel> mainComponent;
     private final FooterComponent<JPanel> footer;
@@ -65,7 +64,7 @@ public class GameView extends JPanel implements View<JPanel> {
         footer.getComponent().setPreferredSize(
                 new Dimension((int) Math.round(10 * 1.0), (int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO))));
         this.add(footer.getComponent(), gridBagConstraints);
-        this.setVisible(false);
+        super.setVisible(false);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class GameView extends JPanel implements View<JPanel> {
             this.mainComponent.getBoard().getComponent().setVisible(true);
             update();
         }
-        
+
         super.setVisible(visible);
     }
 
@@ -101,12 +100,11 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public boolean placeTile() {
-        Optional<Pair<Integer, Integer>> placedTilePosition = mainComponent.getBoard().getUnlockedTileButtonPosition();
-        if (placedTilePosition.isPresent()) {
-            if (this.userInterface.getController().placeCurrentTile(placedTilePosition.get())) {
-                mainComponent.getBoard().placeTile();
-                return true;
-            }
+        final Optional<Pair<Integer, Integer>> placedTilePosition = mainComponent.getBoard().getUnlockedTileButtonPosition();
+        if (placedTilePosition.isPresent()
+               && this.userInterface.getController().placeCurrentTile(placedTilePosition.get())) {
+            mainComponent.getBoard().placeTile();
+            return true;
         }
         return false;
     }

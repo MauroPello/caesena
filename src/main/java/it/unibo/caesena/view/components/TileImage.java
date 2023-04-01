@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import java.util.List;
 import java.util.Optional;
-
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
@@ -30,6 +28,7 @@ public class TileImage {
 
     /**
      * make the tile image by the tile and set the color fort the meeple.
+     *
      * @param tile
      * @param color
      */
@@ -42,6 +41,7 @@ public class TileImage {
 
     /**
      * make the tile image by the tile.
+     *
      * @param tile
      */
     public TileImage(final Tile tile) {
@@ -67,6 +67,7 @@ public class TileImage {
 
     /**
      * return a boolea based on the need to update the image.
+     *
      * @return true if nothing changed
      */
     private boolean shouldUpdateImage() {
@@ -85,7 +86,7 @@ public class TileImage {
 
         try {
             if (shouldUpdateImage()) {
-                BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
+                final BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
                         List.of("tiles"));
                 temporaryImage = Thumbnails.of(imageName).size(width, height).rotate(90 * rotationCount)
                         .asBufferedImage();
@@ -107,17 +108,18 @@ public class TileImage {
     public BufferedImage getAsBufferedImageWithoutMeeple(final int width, final int height) {
         BufferedImage image;
         try {
-            BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
+            final BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
                     List.of("tiles"));
             image = Thumbnails.of(imageName).size(width, height).rotate(90 * rotationCount).asBufferedImage();
             return image;
         } catch (final IOException e) {
-            throw new IllegalStateException("Image path not valid");
+            return null;
         }
     }
 
     /**
      * add the meeple in the tile image.
+     *
      * @param meeple
      * @param section
      */
@@ -139,7 +141,7 @@ public class TileImage {
         finalGraphics.drawImage(image, 0, 0, null);
         if (this.meeple.isPresent()) {
             final int meepleSize = (int) ((double) image.getHeight(null) / 5);
-            final MeepleImage meepleimage = new MeepleImage(this.meeple.get().getX(), this.color, meepleSize);
+            final MeepleImage meepleimage = new MeepleImage(this.meeple.get().getX(), this.color);
             final Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null) - meepleSize);
             finalGraphics.drawImage(meepleimage.getNormalImage(), meeplePosition.getX(), meeplePosition.getY(),
                     meepleSize, meepleSize, null);

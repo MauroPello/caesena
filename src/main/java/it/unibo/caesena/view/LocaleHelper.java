@@ -3,16 +3,16 @@ package it.unibo.caesena.view;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class LocaleHelper {
+public final class LocaleHelper {
 
     private static final String BUNDLE_NAME = "it.unibo.caesena.displayTexts";
     private static Locale currentLocale = Locale.getDefault();
 
-    public LocaleHelper() {
+    private LocaleHelper() {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static ResourceBundle getResourceBundle() {
@@ -20,7 +20,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @param locale to set the location of currentLocale
      */
     public static void setLocale(final Locale locale) {
@@ -28,7 +28,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return in String, the name of Application
      */
     public static String getApplicationName() {
@@ -36,7 +36,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @param currentView
      * @param withApplicationName
      * @return
@@ -52,7 +52,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getExitDialogTitle() {
@@ -60,7 +60,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getPickColorDialogTitle() {
@@ -68,7 +68,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getPlayersText() {
@@ -76,7 +76,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getStartGameText() {
@@ -84,7 +84,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getNameText() {
@@ -92,7 +92,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getScoreText() {
@@ -100,7 +100,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getColorText() {
@@ -110,21 +110,21 @@ public class LocaleHelper {
     public static String getPlaceTileText() {
         return getResourceBundle().getString("placeTile");
     }
-    
+
     public static String getPlaceMeepleText() {
         return getResourceBundle().getString("placeMeeple");
     }
-    
+
     public static String getDiscardText() {
         return getResourceBundle().getString("discard");
     }
-    
+
     public static String getEndTurnText() {
         return getResourceBundle().getString("endTurn");
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getRemainingTilesText() {
@@ -132,7 +132,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getRemainingMeeplesText() {
@@ -140,7 +140,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getPickColorText() {
@@ -148,7 +148,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getResumeGameText() {
@@ -156,7 +156,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getExitApplicationText() {
@@ -164,7 +164,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getBackToStartMenuText() {
@@ -172,7 +172,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getConfirmBackToStartMenuText() {
@@ -180,7 +180,7 @@ public class LocaleHelper {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public static String getConfirmExitText() {
@@ -188,16 +188,16 @@ public class LocaleHelper {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public static String getSwatchesColorPanelName() {
         return getResourceBundle().getString("swatchesColorPanelName");
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public static String getLeaderboardName() {
         return getResourceBundle().getString("leaderboardName");

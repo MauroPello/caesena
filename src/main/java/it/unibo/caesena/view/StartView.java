@@ -24,16 +24,15 @@ import it.unibo.caesena.view.components.PlayerInput;
 import it.unibo.caesena.view.components.PlayerInputImpl;
 
 public class StartView extends JPanel implements View<JPanel> {
+    private static final long serialVersionUID = 1213185959652967528L;
     private static final float GAME_IMAGE_RATIO = 0.6f;
     private static final float PLAYER_IMAGE_RATIO = 0.05f;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 6;
-
     private final GUI userInterface;
     private final List<PlayerInput<JPanel>> playerInputs;
     private final JPanel playersPanel;
     private final NumericUpDown<JSpinner> playersNum;
-    private final JPanel mainPanel;
     private final int playerInputImageSize;
 
     public StartView(final GUI userInterface) {
@@ -45,7 +44,7 @@ public class StartView extends JPanel implements View<JPanel> {
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.BLACK);
 
-        mainPanel = new JPanel();
+        final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         mainPanel.add(new JPanel());
@@ -65,7 +64,7 @@ public class StartView extends JPanel implements View<JPanel> {
             @Override
             public Dimension getPreferredSize() {
                 final Dimension d = this.getParent().getSize();
-                double height = (image.getHeight() * d.getWidth()) / image.getWidth();
+                final double height = (image.getHeight() * d.getWidth()) / image.getWidth();
                 return new Dimension((int) Math.round(d.width * GAME_IMAGE_RATIO), (int) Math.round(height * GAME_IMAGE_RATIO));
             }
 
@@ -125,7 +124,7 @@ public class StartView extends JPanel implements View<JPanel> {
         }
 
         this.add(mainPanel);
-        this.setVisible(false);
+        super.setVisible(false);
     }
 
     @Override

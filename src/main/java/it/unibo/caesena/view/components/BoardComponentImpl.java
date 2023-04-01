@@ -19,17 +19,21 @@ import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
 
 final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
+    private static final long serialVersionUID = -8835542981559590335L;
     private static final int DEFAULT_ZOOM_LEVEL = 5;
     private static final int MAX_FIELD_SIZE = 50;
     private final GameView gameView;
     private final Map<TileButton<JButton>, Pair<Integer, Integer>> allTileButtons;
     private int fieldSize = DEFAULT_ZOOM_LEVEL;
-    private int zoom = 0;
-    private int horizontalOffset = 0;
-    private int verticalOffset = 0;
+    private int zoom;
+    private int horizontalOffset;
+    private int verticalOffset;
 
     BoardComponentImpl(final GameView gameView) {
         this.gameView = gameView;
+        this.zoom = 0;
+        this.horizontalOffset = 0;
+        this.verticalOffset = 0;
         this.allTileButtons = new HashMap<>();
         this.setVisible(false);
     }
@@ -40,7 +44,6 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
             this.setFirstTileButton();
             this.draw();
         }
-        
         super.setVisible(visible);
     }
 
@@ -200,7 +203,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
 
     @Override
     public Optional<Pair<Integer, Integer>> getUnlockedTileButtonPosition() {
-        Optional<TileButton<JButton>> unlockedTileButton = this.getPlacedUnlockedTile();
+        final Optional<TileButton<JButton>> unlockedTileButton = this.getPlacedUnlockedTile();
         if (unlockedTileButton.isPresent()) {
             return Optional.of(allTileButtons.get(unlockedTileButton.get()));
         } else {

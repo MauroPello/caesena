@@ -10,7 +10,7 @@ import java.util.Optional;
 import javax.swing.JPanel;
 
 public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
-
+    private static final long serialVersionUID = 4042423466614441883L;
     private Optional<Integer> forcedSize;
     private Color color = Color.black;
 
@@ -26,7 +26,7 @@ public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel>
         g.setColor(color);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-        Graphics2D g2d = (Graphics2D) g;
+        final Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(4));
         g2d.setColor(Color.BLACK);
         g2d.drawRect(0, 0, getWidth(), getHeight());
@@ -49,7 +49,7 @@ public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel>
         }
 
         final Dimension d = this.getParent().getSize();
-        int newSize = d.width > d.height ? d.height : d.width;
+        final int newSize = d.width > d.height ? d.height : d.width;
         return new Dimension(newSize, newSize);
     }
 

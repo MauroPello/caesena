@@ -19,7 +19,7 @@ import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 
 public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMeeplesComponent<JPanel> {
-
+    private static final long serialVersionUID = 5371662486606196479L;
     private final GUI userInterface;
     private final Controller controller;
     private final JLabel meepleLabel;
@@ -75,7 +75,8 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
 
         final Player currentPlayer = controller.getCurrentPlayer();
         this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.get(currentPlayer).size()));
-        this.meepleLabel.setText(LocaleHelper.getRemainingMeeplesText() + meeples.get(currentPlayer).stream().filter(m -> !m.getMeeple().isPlaced()).count());
+        this.meepleLabel.setText(LocaleHelper.getRemainingMeeplesText() + meeples.get(currentPlayer).stream()
+            .filter(m -> !m.getMeeple().isPlaced()).count());
         for (final MeepleImage meeple : meeples.get(currentPlayer)) {
             final JPanel meeplePanel = new JPanel() {
                 @Override

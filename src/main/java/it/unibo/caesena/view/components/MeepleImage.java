@@ -11,25 +11,14 @@ import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class MeepleImage {
-    private Meeple meeple;
-    private Image normalImage;
-    private Image blurredImage;
+    private final Meeple meeple;
+    private final Image normalImage;
+    private final Image blurredImage;
 
-    MeepleImage(Meeple meeple, Color color, int meepleSize) {
+    MeepleImage(final Meeple meeple, final Color color) {
         this.meeple = meeple;
-        // try {
-			BufferedImage image = ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple"));
-            this.normalImage = setColorForAllPixels(image, color);
-            this.blurredImage = GrayFilter.createDisabledImage(image);
-		// } catch (IOException e) {
-		// 	e.printStackTrace();
-		// }
-    }
-
-    MeepleImage(Meeple meeple, Color color) {
-        this.meeple = meeple;
-        BufferedImage image = ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple"));
-        this.normalImage = setColorForAllPixels(image, color);
+        final BufferedImage image = ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple"));
+        this.normalImage = colorAllPixels(image, color);
         this.blurredImage = GrayFilter.createDisabledImage(image);
     }
 
@@ -38,10 +27,10 @@ public class MeepleImage {
     }
 
     public Image getImage() {
-        if(meeple.isPlaced()) {
-           return blurredImage;
+        if (meeple.isPlaced()) {
+            return blurredImage;
         } else {
-           return normalImage;
+            return normalImage;
         }
     }
 
@@ -49,7 +38,7 @@ public class MeepleImage {
         return normalImage;
     }
 
-    private BufferedImage setColorForAllPixels(final BufferedImage image, Color color) {
+    private BufferedImage colorAllPixels(final BufferedImage image, final Color color) {
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
                 final int pixel = image.getRGB(x, y);

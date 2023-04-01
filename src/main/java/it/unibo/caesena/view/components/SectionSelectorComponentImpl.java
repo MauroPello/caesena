@@ -21,8 +21,9 @@ import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
 
 class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
-    private final GameView gameView;
+    private static final long serialVersionUID = 6200143818308185153L;
     private final Map<SectionButton, GridBagConstraints> sectionButtons = new HashMap<>();
+    private final GameView gameView;
 
     SectionSelectorComponentImpl(final GameView gameView) {
         super();
@@ -131,11 +132,11 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
     private ActionListener getSectionButtonListener() {
         return (e) -> {
             final SectionButton newSectionButton = (SectionButton) e.getSource();
-            Boolean wasSelected = newSectionButton.hasBeenSelected();
+            final Boolean wasSelected = newSectionButton.hasBeenSelected();
             sectionButtons.keySet().stream()
-                .filter(s -> s.shouldBeDrawn())
-                .filter(s -> s.hasBeenSelected())
-                .forEach(s -> s.deselect());
+                    .filter(s -> s.shouldBeDrawn())
+                    .filter(s -> s.hasBeenSelected())
+                    .forEach(s -> s.deselect());
             if (!wasSelected) {
                 newSectionButton.select();
             }
@@ -143,11 +144,12 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
     }
 
     private class SectionButton extends JButton {
+        private static final long serialVersionUID = 3246088701705856082L;
         private final TileSection section;
         private static final Color UNSELECTED_COLOR = Color.WHITE;
         private static final Color SELECTED_COLOR = Color.GREEN;
         private boolean selected;
-        private boolean toBeDrawn;
+        private final boolean toBeDrawn;
 
         SectionButton(final TileSection section) {
             super();
@@ -156,10 +158,12 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
             final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
             this.toBeDrawn = gameSet.isMeepleFree() && !gameSet.isClosed();
             if (this.toBeDrawn) {
+                selected = false;
                 final String buttonLabel = getLabelFromSection(section);
                 this.setText(buttonLabel);
                 this.addActionListener(getSectionButtonListener());
-                this.deselect();
+                this.setOpaque(true);
+                this.setBackground(UNSELECTED_COLOR);
             } else {
                 this.setContentAreaFilled(false);
                 this.setBorderPainted(false);

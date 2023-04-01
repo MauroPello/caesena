@@ -10,7 +10,7 @@ import it.unibo.caesena.model.PlayerImpl;
 final class PlayerTest {
     private final PlayerImpl player;
 
-    PlayerTest(final PlayerImpl player) {
+    PlayerTest() {
         this.player = new PlayerImpl("Giocatore1");
     }
 

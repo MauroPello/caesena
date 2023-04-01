@@ -18,12 +18,12 @@ import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 
 public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
+    private static final long serialVersionUID = 6860767233870664780L;
     private static final int TEXT_FIELD_COLUMNS = 4;
     private final PlayerImageImpl playerColorPanel;
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
     private final JTextField playerName;
-
     private Color playerColor;
 
     public PlayerInputImpl() {

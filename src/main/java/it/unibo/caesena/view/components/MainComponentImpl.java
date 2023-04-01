@@ -18,7 +18,6 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     private boolean showingBoard;
     private boolean endingTurn;
 
-
     public MainComponentImpl(final GameView gameView) {
         this.gameView = gameView;
         this.board = new BoardComponentImpl(this.gameView);
@@ -32,12 +31,12 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     @Override
     public void toggleComponents() {
-        Player currentPlayer = gameView.getUserInterface().getController().getCurrentPlayer();
-        Optional<Meeple> ramainingMeeple = gameView.getUserInterface().getController()
-            .getPlayerMeeples(currentPlayer)
-            .stream()
-            .filter(m -> !m.isPlaced())
-            .findAny();
+        final Player currentPlayer = gameView.getUserInterface().getController().getCurrentPlayer();
+        final Optional<Meeple> ramainingMeeple = gameView.getUserInterface().getController()
+                .getPlayerMeeples(currentPlayer)
+                .stream()
+                .filter(m -> !m.isPlaced())
+                .findAny();
         if (ramainingMeeple.isPresent()) {
             showingBoard = !showingBoard;
             updateComponents();
@@ -63,9 +62,10 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     public void endTurn() {
         this.endingTurn = true;
         final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
-        final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream()
-            .filter(m -> !m.isPlaced())
-            .toList();
+        final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer)
+                .stream()
+                .filter(m -> !m.isPlaced())
+                .toList();
         if (this.getSectionSelector().isSectionSelected()) {
             if (!meeples.isEmpty()) {
                 final var section = this.getSectionSelector().getSelectedSection().get();
@@ -104,12 +104,14 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
         this.repaint();
     }
 
-    private void showBoard(){
+    private void showBoard() {
         if (!endingTurn) {
             if (this.getSectionSelector().isSectionSelected()) {
                 final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
-                final Meeple meeple = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer).stream().filter(m->!m.isPlaced()).findFirst().get();
-                this.board.getCurrentTileButton().setMeeple(meeple, this.getSectionSelector().getSelectedSection().get());
+                final Meeple meeple = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer)
+                        .stream().filter(m -> !m.isPlaced()).findFirst().get();
+                this.board.getCurrentTileButton().setMeeple(meeple,
+                        this.getSectionSelector().getSelectedSection().get());
             } else {
                 this.board.getCurrentTileButton().unsetMeeple();
             }
@@ -119,7 +121,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
         this.add(this.getBoard().getComponent());
     }
 
-    private void showSectionSelector(){
+    private void showSectionSelector() {
         this.removeAll();
         this.getSectionSelector().draw();
         this.add(this.getSectionSelector().getComponent());

@@ -27,31 +27,29 @@ import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
 
 /**
-*
-* FooterComponent implementation.
-*/
+ *
+ * FooterComponent implementation.
+ */
 public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel> {
+    private static final long serialVersionUID = -7370776246509188750L;
     private static final float INTERNAL_PADDING_RATIO = 0.02f;
     private static final int MINIMUM_PADDING = 3;
-
-    private GameView gameView;
-    private GUI userInterface;
-
-    private JPanel tileImagePanel;
-    private JButton rotateButton;
-    private JLabel playerNameLabel;
-    private JLabel playerScoreLabel;
-    private JLabel remainingTilesLabel;
-
+    private final GameView gameView;
+    private final GUI userInterface;
+    private final JPanel tileImagePanel;
+    private final JButton rotateButton;
+    private final JLabel playerNameLabel;
+    private final JLabel playerScoreLabel;
+    private final JLabel remainingTilesLabel;
+    private final RemainingMeeplesComponent<JPanel> meepleComponent;
+    private final PlayerImage<JPanel> playerImageComponent;
     private Optional<TileImage> tileImage;
-
-    private RemainingMeeplesComponent<JPanel> meepleComponent;
-    private PlayerImage<JPanel> playerImageComponent;
     private int innerPaddingSize;
 
     /**
      *
      * FooterComponent constructor.
+     *
      * @param gameView
      */
     public FooterComponentImpl(final GameView gameView) {
@@ -60,7 +58,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.gameView = gameView;
         this.userInterface = gameView.getUserInterface();
 
-        JPanel innerPanel = new JPanel();
+        final JPanel innerPanel = new JPanel();
 
         this.setBackground(Color.ORANGE);
         this.setLayout(new BorderLayout());
@@ -89,7 +87,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             @Override
             public Dimension getPreferredSize() {
                 final Dimension d = this.getParent().getSize();
-                int newSize = d.width > d.height ? d.height : d.width;
+                final int newSize = d.width > d.height ? d.height : d.width;
                 return new Dimension(newSize, newSize);
             }
 
@@ -99,9 +97,9 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
                 if (tileImage.isPresent()) {
                     final BufferedImage tileBufferedImage = tileImage.get()
-                    .getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
-    
-                    Graphics2D g2d = (Graphics2D) g;
+                            .getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
+
+                    final Graphics2D g2d = (Graphics2D) g;
                     g2d.setColor(Color.BLACK);
                     g2d.setStroke(new BasicStroke(4));
                     g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
@@ -163,7 +161,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.addComponentListener(new ComponentAdapter() {
             @Override
-            public void componentResized(ComponentEvent e) {
+            public void componentResized(final ComponentEvent e) {
                 updatePadding();
             }
         });
@@ -171,7 +169,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.validate();
         this.repaint();
     }
-    
+
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
@@ -190,9 +188,12 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             innerPaddingSize = (int) Math.round(frameSize.getHeight() * INTERNAL_PADDING_RATIO);
         }
         innerPaddingSize = innerPaddingSize < MINIMUM_PADDING ? MINIMUM_PADDING : innerPaddingSize;
-        this.setBorder(BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize, innerPaddingSize, innerPaddingSize));
-        this.playerImageComponent.getComponent().setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
-        this.meepleComponent.getComponent().setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+        this.setBorder(BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize, innerPaddingSize,
+                innerPaddingSize));
+        this.playerImageComponent.getComponent()
+                .setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+        this.meepleComponent.getComponent()
+                .setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.rotateButton.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.playerNameLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
@@ -200,7 +201,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.remainingTilesLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
     }
 
-    private ActionListener rotateButtonEventListener(){
+    private ActionListener rotateButtonEventListener() {
         return (e) -> {
             if (tileImage.isPresent()) {
                 gameView.removePlacedTile();
@@ -231,8 +232,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         meepleComponent.update();
         playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
-        playerScoreLabel.setText(LocaleHelper.getScoreText() + userInterface.getController().getCurrentPlayer().getScore());
-        remainingTilesLabel.setText(LocaleHelper.getRemainingTilesText() + userInterface.getController().getNotPlacedTiles().size());
+        playerScoreLabel
+                .setText(LocaleHelper.getScoreText() + userInterface.getController().getCurrentPlayer().getScore());
+        remainingTilesLabel.setText(
+                LocaleHelper.getRemainingTilesText() + userInterface.getController().getNotPlacedTiles().size());
         if (tileImage.get().getTile().isPlaced()) {
             rotateButton.setEnabled(false);
         } else {

@@ -6,7 +6,7 @@ public interface SideBarComponent<X> {
      * @return the component which rapresent the footer.
      */
     X getComponent();
-    
+
     /**
      * Update the SideBar.
      */

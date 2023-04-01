@@ -54,7 +54,7 @@ public final class ControllerImpl implements Controller {
         drawNewTile();
         updateUserInterfaces();
     }
-    
+
     @Override
     public void resetGame() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
@@ -304,7 +304,7 @@ public final class ControllerImpl implements Controller {
     }
 
     @Override
-    public void addUserInterface(UserInterface userInterface) {
+    public void addUserInterface(final UserInterface userInterface) {
         this.userInterfaces.add(userInterface);
         userInterface.update();
     }

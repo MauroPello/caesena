@@ -6,7 +6,7 @@ import javax.swing.SpinnerNumberModel;
 import it.unibo.caesena.view.GUI;
 
 public class NumericUpDownImpl extends JSpinner implements NumericUpDown<JSpinner> {
-
+    private static final long serialVersionUID = 6772468670772793467L;
     private final SpinnerNumberModel model;
 
     public NumericUpDownImpl(final int start, final int min, final int max, final int step) {

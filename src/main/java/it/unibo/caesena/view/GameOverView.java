@@ -17,12 +17,12 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.view.components.PlayerImageImpl;
 
 public class GameOverView extends JPanel implements View<JPanel> {
-
+    private static final long serialVersionUID = 1981212936830265900L;
     private static final float PLAYER_IMAGE_RATIO = 0.02f;
     private final GUI userInterface;
     private final int playerImageSize;
     private final JPanel playersPanels;
-    
+
     public GameOverView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
@@ -47,12 +47,12 @@ public class GameOverView extends JPanel implements View<JPanel> {
         this.setBackground(Color.BLACK);
         this.setLayout(new GridBagLayout());
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        
+
         final JLabel playersLabel = new JLabel(LocaleHelper.getViewTitle("GameOverView", false));
         playersLabel.setFont(GUI.BIG_BOLD_FONT);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(playersLabel);
-        
+
         this.playersPanels = new JPanel();
         this.playersPanels.setLayout(new BoxLayout(this.playersPanels, BoxLayout.Y_AXIS));
         this.playersPanels.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -76,7 +76,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         mainPanel.add(buttonPanel);
 
         this.add(mainPanel);
-        this.setVisible(false);
+        super.setVisible(false);
     }
 
     @Override

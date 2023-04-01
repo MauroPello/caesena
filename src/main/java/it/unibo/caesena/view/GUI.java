@@ -21,12 +21,14 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.OverlayLayout;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
+    private static final long serialVersionUID = 8950849192853252728L;
     public static final float MODAL_PREFERRED_RATIO = 0.3f;
     public static final float MODAL_MAXIMUM_RATIO = 0.5f;
     public static final float MODAL_MINIMUM_RATIO = 0.1f;
@@ -43,20 +45,21 @@ public class GUI extends JFrame implements UserInterface {
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
     private final Controller controller;
-    private View<JPanel> startView;
-    private View<JPanel> gameView;
-    private View<JPanel> pauseView;
-    private View<JPanel> gameOverView;
-    private JPanel gamePanel;
+    private final View<JPanel> startView;
+    private final View<JPanel> gameView;
+    private final View<JPanel> pauseView;
+    private final View<JPanel> gameOverView;
     private final Map<Player, Color> players;
 
     public GUI(final Controller controller) {
         super();
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (final Exception e) {
-            System.out.println(e);
-        }
+
+            try {
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                    | UnsupportedLookAndFeelException e) {
+                System.exit(ABORT);
+            }
 
         this.controller = controller;
         this.players = new HashMap<>();
@@ -111,12 +114,12 @@ public class GUI extends JFrame implements UserInterface {
      */
     public void showGameView() {
         this.setTitle(LocaleHelper.getViewTitle("GameView", true));
-        this.gamePanel = new JPanel();
-        this.gamePanel.setLayout(new OverlayLayout(this.gamePanel));
+        final JPanel gamePanel = new JPanel();
+        gamePanel.setLayout(new OverlayLayout(gamePanel));
 
-        this.gamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        gamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "togglePauseView");
-        this.gamePanel.getActionMap().put("togglePauseView", new AbstractAction() {
+        gamePanel.getActionMap().put("togglePauseView", new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent arg0) {
                 togglePauseView();
@@ -127,8 +130,8 @@ public class GUI extends JFrame implements UserInterface {
         this.gameView.setVisible(true);
         this.pauseView.setVisible(false);
         this.gameOverView.setVisible(false);
-        this.gamePanel.add(this.pauseView.getComponent());
-        this.gamePanel.add(this.gameView.getComponent());
+        gamePanel.add(this.pauseView.getComponent());
+        gamePanel.add(this.gameView.getComponent());
 
         this.setContentPane(gamePanel);
         this.validate();
@@ -211,7 +214,7 @@ public class GUI extends JFrame implements UserInterface {
         for (final var component : container.getComponents()) {
             component.setEnabled(enabled);
             if (component instanceof Container) {
-                setEnabledAllComponents(((Container) component), enabled);
+                setEnabledAllComponents((Container) component, enabled);
             }
         }
     }

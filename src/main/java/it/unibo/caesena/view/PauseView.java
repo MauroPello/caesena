@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PauseView extends JPanel implements View<JPanel> {
+    private static final long serialVersionUID = 3027253762177464276L;
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 80);
     private static final int PADDING_SIZE = 10;
     private final GUI userInterface;
@@ -35,7 +36,7 @@ public class PauseView extends JPanel implements View<JPanel> {
 
         final JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        final GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.insets = new Insets(PADDING_SIZE, 0, PADDING_SIZE, 0);
 
         final JButton resumeGameButton = new JButton(LocaleHelper.getResumeGameText());

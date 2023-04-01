@@ -24,18 +24,15 @@ import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
 
 public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPanel> {
-
+    private static final long serialVersionUID = 10997719332807770L;
     private final Controller controller;
     private final GameView gameView;
-
     private final JButton zoomInButton = new JButton("Zoom +");
     private final JButton zoomOutButton = new JButton("Zoom -");
-
     private final JButton upRowButton = new JButton();
     private final JButton downRowButton = new JButton();
     private final JButton leftRowButton = new JButton();
     private final JButton rightRowButton = new JButton();
-
     private final JButton placeTileButton = new JButton(LocaleHelper.getPlaceTileText());
     private final JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());
     private final JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());
@@ -45,6 +42,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
     /**
      * SideBarComponent constructor
+     *
      * @param gameView
      */
     public SideBarComponentImpl(final GameView gameView) {
@@ -58,19 +56,19 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
         final int iconSize = (int) GUI.SCREEN_WIDTH / 80;
         Image img = ResourceUtil.getBufferedImage("up.png", List.of());
-        Icon icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize,  java.awt.Image.SCALE_SMOOTH));
+        Icon icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
         upRowButton.setIcon(icon);
 
         img = ResourceUtil.getBufferedImage("down.png", List.of());
-        icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize,  java.awt.Image.SCALE_SMOOTH));
+        icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
         downRowButton.setIcon(icon);
 
         img = ResourceUtil.getBufferedImage("left.png", List.of());
-        icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize,  java.awt.Image.SCALE_SMOOTH));
+        icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
         leftRowButton.setIcon(icon);
 
         img = ResourceUtil.getBufferedImage("right.png", List.of());
-        icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize,  java.awt.Image.SCALE_SMOOTH));
+        icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
         rightRowButton.setIcon(icon);
 
         this.gameView = gameView;
@@ -178,10 +176,10 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
                 discardTileButton.setVisible(false);
                 final Player currentPlayer = gameView.getUserInterface().getController().getCurrentPlayer();
                 final Optional<Meeple> ramainingMeeple = gameView.getUserInterface().getController()
-                    .getPlayerMeeples(currentPlayer)
-                    .stream()
-                    .filter(m -> !m.isPlaced())
-                    .findAny();
+                        .getPlayerMeeples(currentPlayer)
+                        .stream()
+                        .filter(m -> !m.isPlaced())
+                        .findAny();
                 if (ramainingMeeple.isEmpty()) {
                     placeMeepleButton.setEnabled(false);
                 }
@@ -226,7 +224,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     private void updateMoveButtons() {
         for (final var direction : Direction.values()) {
             if (this.gameView.canMove(direction)) {
-               getButton(direction).setEnabled(true);
+                getButton(direction).setEnabled(true);
             } else {
                 getButton(direction).setEnabled(false);
             }
