@@ -20,6 +20,7 @@ import it.unibo.caesena.view.LocaleHelper;
 public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     private static final long serialVersionUID = 6860767233870664780L;
     private static final int TEXT_FIELD_COLUMNS = 4;
+    private static final int PADDING_SIZE = 10;
     private final PlayerImageImpl playerColorPanel;
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
@@ -33,6 +34,7 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         nameLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
         this.playerName = new JTextField();
         this.playerName.setColumns(TEXT_FIELD_COLUMNS);
+        this.playerName.setFont(GUI.MEDIUM_NORMAL_FONT);
 
         final JLabel colorLabel = new JLabel(LocaleHelper.getColorText());
         colorLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
@@ -42,7 +44,6 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
 
         this.playerColorChooser = new JColorChooser();
         this.playerColorChooser.setPreviewPanel(new JPanel());
-        this.playerColorChooser.setLocale(Locale.ITALIAN);
         for (final var chooserPanel : playerColorChooser.getChooserPanels()) {
             if (!chooserPanel.getDisplayName().equals(LocaleHelper.getSwatchesColorPanelName())
                     && !"RGB".equals(chooserPanel.getDisplayName())) {
@@ -71,9 +72,9 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         colorPanel.add(colorLabel);
         colorPanel.add(playerColorPanel);
 
-        namePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        namePanel.setBorder(BorderFactory.createEmptyBorder(PADDING_SIZE, PADDING_SIZE, PADDING_SIZE, PADDING_SIZE));
         this.add(namePanel);
-        colorPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        colorPanel.setBorder(BorderFactory.createEmptyBorder(PADDING_SIZE, PADDING_SIZE, PADDING_SIZE, PADDING_SIZE));
         this.add(colorPanel);
         this.add(playerColorButton);
     }
