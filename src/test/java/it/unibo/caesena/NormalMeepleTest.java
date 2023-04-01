@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.PlayerImpl;
 import it.unibo.caesena.model.meeple.NormalMeeple;
@@ -18,7 +19,7 @@ final class NormalMeepleTest {
 
     @BeforeAll
     static void init() {
-        owner = new PlayerImpl("Giocatore1");
+        owner = new PlayerImpl("Giocatore1", new Color(50, 50, 50));
         meeple = new NormalMeeple(owner);
     }
 
