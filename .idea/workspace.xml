@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0152487c-2aac-4dd8-b54c-5170e6c19d80" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/content/01.analisi.tex" beforeDir="false" afterPath="$PROJECT_DIR$/content/01.analisi.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/03.sviluppo.tex" beforeDir="false" afterPath="$PROJECT_DIR$/content/03.sviluppo.tex" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,9 +29,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "report",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -42,6 +46,7 @@
       <option name="presentableId" value="Default" />
       <updated>1680283208161</updated>
       <workItem from="1680283209687" duration="26000" />
+      <workItem from="1680335601195" duration="56000" />
     </task>
     <servers />
   </component>
