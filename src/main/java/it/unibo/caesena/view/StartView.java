@@ -1,6 +1,5 @@
 package it.unibo.caesena.view;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -16,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.components.NumericUpDown;
 import it.unibo.caesena.view.components.NumericUpDownImpl;
@@ -40,7 +40,6 @@ public class StartView extends JPanel implements View<JPanel> {
         this.playerInputs = new ArrayList<>();
 
         this.setLayout(new GridBagLayout());
-        this.setBackground(Color.BLACK);
 
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -98,7 +97,8 @@ public class StartView extends JPanel implements View<JPanel> {
         startButton.addActionListener((e) -> {
             for (final var playerInput : this.playerInputs) {
                 final var player = playerInput.getPlayerData();
-                userInterface.addPlayer(player.getX(), player.getY());
+                final var color = player.getY();
+                userInterface.getController().addPlayer(player.getX(), new Color(color.getRed(), color.getGreen(), color.getBlue()));
             }
 
             userInterface.getController().startGame();

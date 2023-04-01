@@ -119,7 +119,8 @@ public class GameOverView extends JPanel implements View<JPanel> {
             volatailePanel.add(volataileLabel);
 
             final var playerColorPanel = new PlayerImageImpl();
-            playerColorPanel.setColor(userInterface.getPlayerColor(player));
+            final var color = player.getColor();
+            playerColorPanel.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
             playerColorPanel.forceSize(playerImageSize);
             volatailePanel.add(playerColorPanel);
 
