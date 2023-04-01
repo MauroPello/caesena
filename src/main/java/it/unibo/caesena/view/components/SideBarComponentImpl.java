@@ -49,7 +49,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     public SideBarComponentImpl(final GameView gameView) {
         super();
 
-
         Image img = ResourceUtil.getBufferedImage("up.png", List.of());
         Icon icon = new ImageIcon(img.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
         upRowButton.setIcon(icon);
@@ -276,6 +275,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
     @Override
     public void update() {
-        this.leaderBoard.updateLeaderBoard();
+        this.leaderBoard.update();
     }
 }
