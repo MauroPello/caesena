@@ -2,6 +2,8 @@ package it.unibo.caesena.view;
 
 public interface View<X> {
 
+    void update();
+
     /**
      * 
      * @return if view is visible or not

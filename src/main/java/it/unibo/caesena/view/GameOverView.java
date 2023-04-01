@@ -21,7 +21,8 @@ public class GameOverView extends JPanel implements View<JPanel> {
     private static final float PLAYER_IMAGE_RATIO = 0.02f;
     private final GUI userInterface;
     private final int playerImageSize;
-
+    private final JPanel playersPanels;
+    
     public GameOverView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
@@ -46,33 +47,16 @@ public class GameOverView extends JPanel implements View<JPanel> {
         this.setBackground(Color.BLACK);
         this.setLayout(new GridBagLayout());
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        final List<Player> players = new ArrayList<>(userInterface.getController().getPlayers());
-        players.sort((p1, p2) -> Integer.compare(p1.getScore(), p2.getScore()));
-
-        final JPanel playersPanel = new JPanel();
-        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
+        
         final JLabel playersLabel = new JLabel(LocaleHelper.getViewTitle("GameOverView", false));
         playersLabel.setFont(GUI.BIG_BOLD_FONT);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        playersPanel.add(playersLabel);
-
-        for (final var player : players) {
-            final JPanel volatailePanel = new JPanel();
-
-            final JLabel volataileLabel = new JLabel();
-            volataileLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
-            volataileLabel.setText(LocaleHelper.getNameText() + player.getName() + " " + LocaleHelper.getScoreText()
-                    + player.getScore());
-            volatailePanel.add(volataileLabel);
-
-            final var playerColorPanel = new PlayerImageImpl();
-            playerColorPanel.setColor(userInterface.getPlayerColor(player));
-            playerColorPanel.forceSize(playerImageSize);
-            volatailePanel.add(playerColorPanel);
-
-            playersPanel.add(volatailePanel);
-        }
-        mainPanel.add(playersPanel);
+        mainPanel.add(playersLabel);
+        
+        this.playersPanels = new JPanel();
+        this.playersPanels.setLayout(new BoxLayout(this.playersPanels, BoxLayout.Y_AXIS));
+        this.playersPanels.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(this.playersPanels);
 
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -92,8 +76,16 @@ public class GameOverView extends JPanel implements View<JPanel> {
         mainPanel.add(buttonPanel);
 
         this.add(mainPanel);
-        this.repaint();
-        this.validate();
+        this.setVisible(false);
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        if (visible) {
+            update();
+        }
+
+        super.setVisible(visible);
     }
 
     /**
@@ -111,5 +103,29 @@ public class GameOverView extends JPanel implements View<JPanel> {
     @SuppressWarnings("unchecked")
     public final GUI getUserInterface() {
         return this.userInterface;
+    }
+
+    @Override
+    public void update() {
+        this.playersPanels.removeAll();
+
+        final List<Player> players = new ArrayList<>(userInterface.getController().getPlayers());
+        players.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+        for (final var player : players) {
+            final JPanel volatailePanel = new JPanel();
+
+            final JLabel volataileLabel = new JLabel();
+            volataileLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
+            volataileLabel.setText(LocaleHelper.getNameText() + player.getName() + " " + LocaleHelper.getScoreText()
+                    + player.getScore());
+            volatailePanel.add(volataileLabel);
+
+            final var playerColorPanel = new PlayerImageImpl();
+            playerColorPanel.setColor(userInterface.getPlayerColor(player));
+            playerColorPanel.forceSize(playerImageSize);
+            volatailePanel.add(playerColorPanel);
+
+            this.playersPanels.add(volatailePanel);
+        }
     }
 }

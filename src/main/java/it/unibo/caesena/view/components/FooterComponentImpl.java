@@ -13,6 +13,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -42,7 +43,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     private JLabel playerScoreLabel;
     private JLabel remainingTilesLabel;
 
-    private TileImage tileImage;
+    private Optional<TileImage> tileImage;
 
     private RemainingMeeplesComponent<JPanel> meepleComponent;
     private PlayerImage<JPanel> playerImageComponent;
@@ -72,7 +73,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.remainingTilesLabel = new JLabel();
         remainingTilesLabel.setFont(GUI.MEDIUM_BOLD_FONT);
 
-        this.tileImage = gameView.getCurrentTileImage();
+        this.tileImage = Optional.empty();
         this.tileImagePanel = new JPanel() {
 
             @Override
@@ -96,14 +97,16 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
 
-                final BufferedImage tileBufferedImage = tileImage
-                .getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
-
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setColor(Color.BLACK);
-                g2d.setStroke(new BasicStroke(4));
-                g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
-                g2d.drawRect(0, 0, getWidth(), getHeight());
+                if (tileImage.isPresent()) {
+                    final BufferedImage tileBufferedImage = tileImage.get()
+                    .getAsBufferedImageWithoutMeeple(this.getWidth(), this.getHeight());
+    
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setColor(Color.BLACK);
+                    g2d.setStroke(new BasicStroke(4));
+                    g.drawImage(tileBufferedImage, 0, 0, this.getWidth(), this.getHeight(), null);
+                    g2d.drawRect(0, 0, getWidth(), getHeight());
+                }
             }
         };
         this.tileImagePanel.setOpaque(false);
@@ -111,8 +114,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
         this.playerImageComponent = new PlayerImageImpl();
-        this.playerImageComponent
-                .setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         this.playerImageComponent.getComponent().setAlignmentY(Component.CENTER_ALIGNMENT);
 
         this.rotateButton = new JButton() {
@@ -156,7 +157,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         innerPanel.setOpaque(false);
         this.add(innerPanel, BorderLayout.CENTER);
 
-        this.setVisible(true);
         innerPanel.setVisible(true);
 
         rotateButton.addActionListener(rotateButtonEventListener());
@@ -170,8 +170,16 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.validate();
         this.repaint();
-        this.updateFooter();
-        this.updatePadding();
+    }
+    
+    @Override
+    public void setVisible(final boolean visible) {
+        if (visible) {
+            this.update();
+            this.updatePadding();
+        }
+
+        super.setVisible(visible);
     }
 
     private void updatePadding() {
@@ -194,10 +202,12 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
     private ActionListener rotateButtonEventListener(){
         return (e) -> {
-            gameView.removePlacedTile();
-            userInterface.getController().rotateCurrentTile();
-            this.tileImage.rotate();
-            tileImagePanel.repaint();
+            if (tileImage.isPresent()) {
+                gameView.removePlacedTile();
+                userInterface.getController().rotateCurrentTile();
+                this.tileImage.get().rotate();
+                tileImagePanel.repaint();
+            }
         };
     }
 
@@ -209,26 +219,21 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     @Override
     public void updateCurrentTile() {
         final TileImage currentTileImage = gameView.getCurrentTileImage();
-        if (!tileImage.equals(currentTileImage)) {
-            this.tileImage = currentTileImage;
+        if (tileImage.isEmpty() || !tileImage.get().equals(currentTileImage)) {
+            this.tileImage = Optional.of(currentTileImage);
         }
         tileImagePanel.repaint();
     }
 
     @Override
-    public void updateRemainingTiles() {
-        remainingTilesLabel.setText(LocaleHelper.getRemainingTilesText() + userInterface.getController().getNotPlacedTiles().size());
-    }
-
-    @Override
-    public void updateFooter() {
+    public void update() {
         updateCurrentTile();
         meepleComponent.update();
         playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
         playerScoreLabel.setText(LocaleHelper.getScoreText() + userInterface.getController().getCurrentPlayer().getScore());
-        updateRemainingTiles();
-        if (userInterface.getController().getCurrentTile().isPlaced()) {
+        remainingTilesLabel.setText(LocaleHelper.getRemainingTilesText() + userInterface.getController().getNotPlacedTiles().size());
+        if (tileImage.get().getTile().isPlaced()) {
             rotateButton.setEnabled(false);
         } else {
             rotateButton.setEnabled(true);

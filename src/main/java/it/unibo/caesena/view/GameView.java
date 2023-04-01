@@ -1,6 +1,5 @@
 package it.unibo.caesena.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -29,15 +28,13 @@ public class GameView extends JPanel implements View<JPanel> {
     private final MainComponent<JPanel> mainComponent;
     private final FooterComponent<JPanel> footer;
     private final SideBarComponent<JPanel> sidebar;
-    private TileImage currentTileImage;
+    private Optional<TileImage> currentTileImage;
 
     public GameView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
-        this.userInterface.getController().startGame();
-        this.generateCurrentTileImage();
+        this.currentTileImage = Optional.empty();
         this.mainComponent = new MainComponentImpl(this);
-        this.setLayout(new BorderLayout());
         this.footer = new FooterComponentImpl(this);
         this.sidebar = new SideBarComponentImpl(this);
         this.setLayout(new GridBagLayout());
@@ -68,27 +65,39 @@ public class GameView extends JPanel implements View<JPanel> {
         footer.getComponent().setPreferredSize(
                 new Dimension((int) Math.round(10 * 1.0), (int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO))));
         this.add(footer.getComponent(), gridBagConstraints);
+        this.setVisible(false);
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        if (visible) {
+            this.mainComponent.getBoard().getComponent().setVisible(true);
+            update();
+        }
+        
+        super.setVisible(visible);
     }
 
     private void generateCurrentTileImage() {
         final Tile currentTile = userInterface.getController().getCurrentTile();
-        final Player currentPlayer = userInterface.getController().getCurrentPlayer();
-        final Color currentPlayerColor = userInterface.getPlayerColor(currentPlayer);
-        this.currentTileImage = new TileImage(currentTile, currentPlayerColor);
+        if (currentTileImage.isEmpty() || !currentTile.equals(currentTileImage.get().getTile())) {
+            final Player currentPlayer = userInterface.getController().getCurrentPlayer();
+            final Color currentPlayerColor = userInterface.getPlayerColor(currentPlayer);
+            this.currentTileImage = Optional.of(new TileImage(currentTile, currentPlayerColor));
+        }
     }
 
     public final void updateHUD() {
-        this.footer.updateFooter();
+        this.footer.update();
         this.sidebar.update();
     }
 
     public TileImage getCurrentTileImage() {
-        return this.currentTileImage;
+        return this.currentTileImage.get();
     }
 
     public void placeMeeple() {
         mainComponent.toggleComponents();
-        updateHUD();
     }
 
     public boolean placeTile() {
@@ -96,7 +105,6 @@ public class GameView extends JPanel implements View<JPanel> {
         if (placedTilePosition.isPresent()) {
             if (this.userInterface.getController().placeCurrentTile(placedTilePosition.get())) {
                 mainComponent.getBoard().placeTile();
-                updateHUD();
                 return true;
             }
         }
@@ -105,12 +113,6 @@ public class GameView extends JPanel implements View<JPanel> {
 
     public void endTurn() {
         this.mainComponent.endTurn();
-        generateCurrentTileImage();
-        if (this.userInterface.getController().isGameOver()) {
-            userInterface.showGameOverView();
-        } else {
-            updateHUD();
-        }
     }
 
     public void zoomIn() {
@@ -154,5 +156,12 @@ public class GameView extends JPanel implements View<JPanel> {
     @SuppressWarnings("unchecked")
     public final GUI getUserInterface() {
         return this.userInterface;
+    }
+
+    @Override
+    public void update() {
+        this.generateCurrentTileImage();
+        this.updateComponents();
+        this.updateHUD();
     }
 }

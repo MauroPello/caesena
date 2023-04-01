@@ -56,7 +56,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         discardTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
         endTurnButton.setFont(GUI.MEDIUM_BOLD_FONT);
 
-
         final int iconSize = (int) GUI.SCREEN_WIDTH / 80;
         Image img = ResourceUtil.getBufferedImage("up.png", List.of());
         Icon icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize,  java.awt.Image.SCALE_SMOOTH));
@@ -284,6 +283,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
     @Override
     public void update() {
-        this.leaderBoard.updateLeaderBoard();
+        this.leaderBoard.update();
     }
 }

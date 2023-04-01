@@ -21,20 +21,24 @@ import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.view.UserInterface;
 
 public final class ControllerImpl implements Controller {
     private static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
     private static final int POINTS_TILE_NEARBY_MONASTERY = 1;
     private static final int POINTS_CLOSED_MONASTERY = 9;
     private static final int MEEPLES_PER_PLAYER = 8;
+    private final List<UserInterface> userInterfaces;
     private GameSetTileMediator mediator;
     private List<Meeple> meeples;
     private List<Player> players;
     private List<Tile> tiles;
     private Tile currentTile;
+    private boolean gameOver;
     private int turn;
 
     public ControllerImpl() {
+        userInterfaces = new ArrayList<>();
         resetGame();
     }
 
@@ -45,19 +49,22 @@ public final class ControllerImpl implements Controller {
             throw new IllegalStateException("Can't start the game without players");
         }
         Collections.shuffle(players);
-        tiles = new ConfigurationLoader("config.json").getTiles(new TileFactoryWithBuilder(mediator));
         drawNewTile();
         this.placeCurrentTile(new Pair<Integer, Integer>(0, 0));
         drawNewTile();
+        updateUserInterfaces();
     }
-
+    
     @Override
     public void resetGame() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
-        tiles = new ArrayList<>();
+        // TODO check
+        tiles = new ConfigurationLoader("config.json").getTiles(new TileFactoryWithBuilder(mediator));
         meeples = new ArrayList<>();
         players = new ArrayList<>();
+        gameOver = false;
         turn = 0;
+        // updateUserInterfaces();
     }
 
     @Override
@@ -78,6 +85,7 @@ public final class ControllerImpl implements Controller {
     @Override
     public void rotateCurrentTile() {
         this.mediator.rotateTileClockwise(currentTile);
+        updateUserInterfaces();
     }
 
     @Override
@@ -89,6 +97,7 @@ public final class ControllerImpl implements Controller {
             return true;
         }
 
+        // TODO
         return mediator.isPositionValid(position, currentTile);
     }
 
@@ -101,17 +110,17 @@ public final class ControllerImpl implements Controller {
     @Override
     public boolean placeCurrentTile(final Pair<Integer, Integer> position) {
         if (!isPositionValidForCurrentTile(position)) {
+            // TODO
             return false;
         }
 
         this.currentTile.setPosition(position);
 
-        if (getPlacedTiles().size() == 1) {
-            return true;
+        if (getPlacedTiles().size() > 1) {
+            mediator.getTileNeighbours(position).forEach(n -> mediator.joinTiles(currentTile, n));
         }
 
-        mediator.getTileNeighbours(position).forEach(n -> mediator.joinTiles(currentTile, n));
-
+        updateUserInterfaces();
         return true;
     }
 
@@ -143,7 +152,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public boolean isGameOver() {
-        return getNotPlacedTiles().isEmpty();
+        return this.gameOver;
     }
 
     @Override
@@ -174,10 +183,12 @@ public final class ControllerImpl implements Controller {
 
         this.turn += 1;
         drawNewTile();
+        updateUserInterfaces();
     }
 
     private void drawNewTile() {
-        if (isGameOver()) {
+        if (getNotPlacedTiles().isEmpty()) {
+            gameOver = true;
             endGame();
         } else {
             this.currentTile = this.getNotPlacedTiles().get(0);
@@ -205,11 +216,15 @@ public final class ControllerImpl implements Controller {
                 g.setPoints(g.getPoints() / g.getType().getEndGameRatio());
                 g.close();
         });
+
+        updateUserInterfaces();
     }
 
     @Override
     public void exitGame() {
+        // TODO aggiustare reset game
         this.resetGame();
+        updateUserInterfaces();
     }
 
     @Override
@@ -219,7 +234,9 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
-        return getCurrentTileGameSetInSection(section).addMeeple(meeple);
+        final boolean outcome = getCurrentTileGameSetInSection(section).addMeeple(meeple);
+        updateUserInterfaces();
+        return outcome;
     }
 
     private boolean isGameSetClosed(final GameSet gameSet) {
@@ -278,7 +295,18 @@ public final class ControllerImpl implements Controller {
         }
         tiles.remove(currentTile);
         this.drawNewTile();
+        updateUserInterfaces();
         return true;
+    }
+
+    private void updateUserInterfaces() {
+        this.userInterfaces.forEach(UserInterface::update);
+    }
+
+    @Override
+    public void addUserInterface(UserInterface userInterface) {
+        this.userInterfaces.add(userInterface);
+        userInterface.update();
     }
 
 }

@@ -42,8 +42,6 @@ public class GUI extends JFrame implements UserInterface {
     private static final float MINIMUM_SIZE_RATIO = 0.2f;
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
-    private static final boolean GAME_DEBUG_VIEW = true;
-    private static final boolean GAME_DEBUG_OVER_VIEW = false;
     private final Controller controller;
     private View<JPanel> startView;
     private View<JPanel> gameView;
@@ -86,17 +84,12 @@ public class GUI extends JFrame implements UserInterface {
         this.setIconImage(ResourceUtil.getBufferedImage("TILE_BACK.png", List.of("tiles")));
         this.setVisible(true);
 
-        // TODO rimuovere
-        if (GAME_DEBUG_VIEW || GAME_DEBUG_OVER_VIEW) {
-            this.addPlayer("Giocatore1", Color.RED);
-            this.addPlayer("Giocatore2", Color.GREEN);
-            this.startGame();
-            if (GAME_DEBUG_OVER_VIEW) {
-                this.showGameOverView();
-            }
-        } else {
-            this.showStartView();
-        }
+        this.startView = new StartView(this);
+        this.gameView = new GameView(this);
+        this.pauseView = new PauseView(this);
+        this.gameOverView = new GameOverView(this);
+
+        this.controller.addUserInterface(this);
     }
 
     /**
@@ -104,13 +97,10 @@ public class GUI extends JFrame implements UserInterface {
      */
     public void showStartView() {
         this.setTitle(LocaleHelper.getViewTitle("StartView", true));
-        this.startView = new StartView(this);
-        this.pauseView = null;
-        this.gameView = null;
-        this.gameOverView = null;
-        this.gamePanel = null;
-
         this.startView.setVisible(true);
+        this.gameView.setVisible(false);
+        this.pauseView.setVisible(false);
+        this.gameOverView.setVisible(false);
         this.setContentPane(startView.getComponent());
         this.validate();
         this.repaint();
@@ -119,11 +109,8 @@ public class GUI extends JFrame implements UserInterface {
     /**
      * Shows only GameView and PauseView if called.
      */
-    public void startGame() {
+    public void showGameView() {
         this.setTitle(LocaleHelper.getViewTitle("GameView", true));
-        this.startView = null;
-        this.gameView = new GameView(this);
-        this.pauseView = new PauseView(this);
         this.gamePanel = new JPanel();
         this.gamePanel.setLayout(new OverlayLayout(this.gamePanel));
 
@@ -136,8 +123,10 @@ public class GUI extends JFrame implements UserInterface {
             }
         });
 
+        this.startView.setVisible(false);
         this.gameView.setVisible(true);
         this.pauseView.setVisible(false);
+        this.gameOverView.setVisible(false);
         this.gamePanel.add(this.pauseView.getComponent());
         this.gamePanel.add(this.gameView.getComponent());
 
@@ -158,14 +147,13 @@ public class GUI extends JFrame implements UserInterface {
     /**
      * Shows only GameOverView.
      */
-    public void showGameOverView() {
+    private void showGameOverView() {
         this.setTitle(LocaleHelper.getViewTitle("GameOverView", true));
-        this.gameOverView = new GameOverView(this);
 
+        this.startView.setVisible(false);
         this.gameView.setVisible(false);
         this.pauseView.setVisible(false);
         this.gameOverView.setVisible(true);
-
         this.setContentPane(gameOverView.getComponent());
         this.validate();
         this.repaint();
@@ -191,6 +179,8 @@ public class GUI extends JFrame implements UserInterface {
                 LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
+            this.controller.resetGame();
+            // TODO togliere
             showStartView();
         }
     }
@@ -242,5 +232,28 @@ public class GUI extends JFrame implements UserInterface {
      */
     public Color getPlayerColor(final Player player) {
         return this.players.get(player);
+    }
+
+    @Override
+    public void update() {
+        if (controller.isGameOver()) {
+            if (!gameOverView.isVisible()) {
+                showGameOverView();
+            }
+
+            gameOverView.update();
+        } else if (!controller.getPlacedTiles().isEmpty()) {
+            if (!gameView.isVisible()) {
+                showGameView();
+            }
+
+            gameView.update();
+        } else {
+            if (!startView.isVisible()) {
+                showStartView();
+            }
+
+            startView.update();
+        }
     }
 }

@@ -8,6 +8,7 @@ import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.view.UserInterface;
 
 public interface Controller {
 
@@ -48,4 +49,6 @@ public interface Controller {
     void exitGame();
 
     boolean discardCurrentTile();
+
+    void addUserInterface(UserInterface userInterface);
 }

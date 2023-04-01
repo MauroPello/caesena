@@ -47,20 +47,26 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         this.playersPanel = new JPanel();
         this.playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         this.add(playersPanel);
-
-        updateLeaderBoard();
-
-        this.setVisible(true);
+        // this.setVisible(false);
     }
 
     @Override
-    public void updateLeaderBoard() {
+    public void setVisible(final boolean visible) {
+        if (visible) {
+            update();
+        }
+
+        super.setVisible(visible);
+    }
+
+    @Override
+    public void update() {
         playersPanel.removeAll();
         playersPanel.revalidate();
         playersPanel.repaint();
 
         final List<Player> players = userInterface.getController().getPlayers().stream()
-            .sorted((p1, p2) -> Integer.compare(p1.getScore(), p2.getScore())).toList();
+            .sorted((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore())).toList();
 
         for (final var player : players) {
             final var playerPanel = new JPanel();

@@ -39,7 +39,7 @@ public class StartView extends JPanel implements View<JPanel> {
     public StartView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
-        userInterface.getController().resetGame();
+        // userInterface.getController().resetGame();
         this.playerInputs = new ArrayList<>();
 
         this.setLayout(new GridBagLayout());
@@ -47,7 +47,6 @@ public class StartView extends JPanel implements View<JPanel> {
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
 
         mainPanel.add(new JPanel());
         final JPanel imagePanel = new JPanel() {
@@ -84,7 +83,7 @@ public class StartView extends JPanel implements View<JPanel> {
         playersNumPanel.add(playersLabel);
 
         playersNum = new NumericUpDownImpl(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
-        playersNum.getComponent().addChangeListener((e) -> updatePlayerPanel());
+        playersNum.getComponent().addChangeListener((e) -> update());
         playersNumPanel.add(playersNum.getComponent());
 
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -105,7 +104,7 @@ public class StartView extends JPanel implements View<JPanel> {
                 userInterface.addPlayer(player.getX(), player.getY());
             }
 
-            userInterface.startGame();
+            userInterface.getController().startGame();
         });
         final JPanel startGamePanel = new JPanel();
         startGamePanel.add(startButton);
@@ -126,22 +125,16 @@ public class StartView extends JPanel implements View<JPanel> {
         }
 
         this.add(mainPanel);
-        updatePlayerPanel();
+        this.setVisible(false);
     }
 
-    private void updatePlayerPanel() {
-        if (playersNum.getValueAsInt() < this.playerInputs.size()) {
-            while (this.playerInputs.size() > playersNum.getValueAsInt()) {
-                removePlayerInput();
-            }
-        } else {
-            while (this.playerInputs.size() < playersNum.getValueAsInt()) {
-                addPlayerInput();
-            }
+    @Override
+    public void setVisible(final boolean visible) {
+        if (visible) {
+            update();
         }
 
-        this.revalidate();
-        this.repaint();
+        super.setVisible(visible);
     }
 
     /**
@@ -177,5 +170,21 @@ public class StartView extends JPanel implements View<JPanel> {
     @SuppressWarnings("unchecked")
     public final GUI getUserInterface() {
         return this.userInterface;
+    }
+
+    @Override
+    public void update() {
+        if (playersNum.getValueAsInt() < this.playerInputs.size()) {
+            while (this.playerInputs.size() > playersNum.getValueAsInt()) {
+                removePlayerInput();
+            }
+        } else {
+            while (this.playerInputs.size() < playersNum.getValueAsInt()) {
+                addPlayerInput();
+            }
+        }
+
+        this.revalidate();
+        this.repaint();
     }
 }
