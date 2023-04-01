@@ -1,8 +1,11 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.util.Locale;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
@@ -55,10 +58,22 @@ public class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
         final JButton playerColorButton = new JButton(LocaleHelper.getPickColorText());
         playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
 
-        this.add(nameLabel);
-        this.add(playerName);
-        this.add(colorLabel);
-        this.add(playerColorPanel);
+        this.setLayout(new GridBagLayout());
+        
+        final JPanel namePanel = new JPanel();
+        namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
+        namePanel.add(nameLabel);
+        namePanel.add(playerName);
+
+        final JPanel colorPanel = new JPanel();
+        colorPanel.setLayout(new BoxLayout(colorPanel, BoxLayout.X_AXIS));
+        colorPanel.add(colorLabel);
+        colorPanel.add(playerColorPanel);
+
+        namePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.add(namePanel);
+        colorPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.add(colorPanel);
         this.add(playerColorButton);
     }
 
