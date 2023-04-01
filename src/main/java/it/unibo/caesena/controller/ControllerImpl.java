@@ -96,7 +96,6 @@ public final class ControllerImpl implements Controller {
             return true;
         }
 
-        // TODO
         return mediator.isPositionValid(position, currentTile);
     }
 
@@ -109,7 +108,6 @@ public final class ControllerImpl implements Controller {
     @Override
     public boolean placeCurrentTile(final Pair<Integer, Integer> position) {
         if (!isPositionValidForCurrentTile(position)) {
-            // TODO
             return false;
         }
 
@@ -221,9 +219,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void exitGame() {
-        // TODO aggiustare reset game
         this.resetGame();
-        updateUserInterfaces();
     }
 
     @Override

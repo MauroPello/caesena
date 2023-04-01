@@ -45,10 +45,10 @@ public class GUI extends JFrame implements UserInterface {
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
     private final Controller controller;
-    private final View<JPanel> startView;
-    private final View<JPanel> gameView;
-    private final View<JPanel> pauseView;
-    private final View<JPanel> gameOverView;
+    private View<JPanel> startView;
+    private View<JPanel> gameView;
+    private View<JPanel> pauseView;
+    private View<JPanel> gameOverView;
     private final Map<Player, Color> players;
 
     public GUI(final Controller controller) {
@@ -87,10 +87,7 @@ public class GUI extends JFrame implements UserInterface {
         this.setIconImage(ResourceUtil.getBufferedImage("TILE_BACK.png", List.of("tiles")));
         this.setVisible(true);
 
-        this.startView = new StartView(this);
-        this.gameView = new GameView(this);
-        this.pauseView = new PauseView(this);
-        this.gameOverView = new GameOverView(this);
+        resetViews();
 
         this.controller.addUserInterface(this);
     }
@@ -182,10 +179,16 @@ public class GUI extends JFrame implements UserInterface {
                 LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
+            resetViews();
             this.controller.resetGame();
-            // TODO togliere
-            showStartView();
         }
+    }
+
+    private void resetViews() {
+        this.startView = new StartView(this);
+        this.gameView = new GameView(this);
+        this.pauseView = new PauseView(this);
+        this.gameOverView = new GameOverView(this);
     }
 
     /**

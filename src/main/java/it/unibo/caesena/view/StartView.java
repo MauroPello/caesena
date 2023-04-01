@@ -37,7 +37,6 @@ public class StartView extends JPanel implements View<JPanel> {
     public StartView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
-        // userInterface.getController().resetGame();
         this.playerInputs = new ArrayList<>();
 
         this.setLayout(new GridBagLayout());
