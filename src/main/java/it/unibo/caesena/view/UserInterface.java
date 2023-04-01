@@ -4,6 +4,8 @@ import it.unibo.caesena.controller.Controller;
 
 public interface UserInterface {
 
+    void update();
+
     /**
      * Close GUI and view's
      */
