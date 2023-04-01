@@ -15,3 +15,13 @@ bin/
 *.fdb_latexmk
 *.fls
 *.pdf
+
+# Ignore VScode customizations
+.vscode/
+
+# Ignore IntelliJ Idea customizations
+.idea/
+out/
+
+# Ignore MacOS file for directories
+.DS_Store
