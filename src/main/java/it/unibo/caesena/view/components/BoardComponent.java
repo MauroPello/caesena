@@ -29,8 +29,6 @@ public interface BoardComponent<X> {
 
     Optional<Pair<Integer, Integer>> getUnlockedTileButtonPosition();
 
-    <T> Optional<TileButton<T>> getPlacedUnlockedTile();
-
     void placeTile();
 
     X getComponent();

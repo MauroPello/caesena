@@ -1,6 +1,5 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -154,7 +153,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         final var placedTiles = controller.getPlacedTiles();
         for (final Tile tile : placedTiles) {
             final TileButton<JButton> button = findTileButton(tile).get();
-            button.addTile(new TileImage(tile));
+            button.addTile(tile);
             button.lock();
         }
     }
@@ -176,27 +175,22 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         TileButton<JButton> foundTileButton;
         final Pair<Integer, Integer> coordinates = new Pair<>(horizontalCoordinate, verticalCoordinate);
         final Controller controller = this.gameView.getUserInterface().getController();
-        final int red = controller.getCurrentPlayer().getColor().getRed();
-        final int blue = controller.getCurrentPlayer().getColor().getBlue();
-        final int green = controller.getCurrentPlayer().getColor().getGreen();
-        final Color currentColor = new Color(red, blue, green);
 
         Optional<Tile> searchedTile = controller.getPlacedTiles().stream()
                 .filter(t -> t.getPosition().get().equals(coordinates))
                 .findFirst();
-        final Optional<TileButton<JButton>> searchedTileButton = allTileButtons.entrySet().stream()
+        Optional<TileButton<JButton>> searchedTileButton = allTileButtons.entrySet().stream()
                 .filter(x -> x.getValue().equals(coordinates))
                 .map(x -> x.getKey())
                 .findFirst();
         if (searchedTile.isPresent() && searchedTileButton.isEmpty()) {
-            foundTileButton = new TileButtonImpl(gameView, getTileButtonActionListener());
-            foundTileButton.addTile(new TileImage(searchedTile.get(), currentColor));
+            foundTileButton = new TileButtonImpl(getTileButtonActionListener());
+            foundTileButton.addTile(searchedTile.get());
             foundTileButton.lock();
             allTileButtons.put(foundTileButton, coordinates);
         } else if (searchedTile.isPresent() && searchedTileButton.isPresent()) {
             if (!searchedTileButton.get().containsTile()) {
-                searchedTileButton.get()
-                        .addTile(new TileImage(searchedTile.get(), currentColor));
+                searchedTileButton.get().addTile(searchedTile.get());
                 searchedTileButton.get().lock();
             } else if (searchedTileButton.get().getMeeple().isEmpty()) {
                 Optional<Meeple> placedMeeple = controller.getMeeples().stream()
@@ -204,6 +198,8 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
                         .filter(m -> m.getPosition().getX().equals(searchedTile.get()))
                         .findFirst();
                 if (placedMeeple.isPresent()) {
+                    // TODO ripiazza i meeple dopo che sono stati rimossi 
+                    // (quando viene premuto place meeple ritornando alla board senza aver selezionato nulla)
                     searchedTileButton.get().setMeeple(placedMeeple.get());
                 }
             } else if (searchedTileButton.get().getMeeple().isPresent()) {
@@ -213,7 +209,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
             }
             foundTileButton = searchedTileButton.get();
         } else if (searchedTile.isEmpty() && searchedTileButton.isEmpty()) {
-            foundTileButton = new TileButtonImpl(this.gameView, getTileButtonActionListener());
+            foundTileButton = new TileButtonImpl(getTileButtonActionListener());
             allTileButtons.put(foundTileButton, coordinates);
         } else {
             foundTileButton = searchedTileButton.get();
@@ -228,7 +224,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
             final Controller controller = this.gameView.getUserInterface().getController();
             if (controller.isPositionValidForCurrentTile(this.allTileButtons.get(selectedTileButton))) {
                 getPlacedUnlockedTile().ifPresent(TileButton::removeTile);
-                selectedTileButton.addTile(gameView.getCurrentTileImage());
+                selectedTileButton.setTileImage(gameView.getCurrentTileImage());
             }
         };
     }
@@ -242,9 +238,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         }
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public Optional<TileButton<JButton>> getPlacedUnlockedTile() {
+    private Optional<TileButton<JButton>> getPlacedUnlockedTile() {
         return allTileButtons.keySet().stream()
                 .filter(k -> !k.isLocked() && k.containsTile())
                 .findFirst();
@@ -269,8 +263,9 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     @Override
     public void updateMeeplePrecence() {
         allTileButtons.keySet().stream()
-                .filter(t -> t.getMeeple().isPresent())
-                .filter(t -> !t.getMeeple().get().isPlaced())
-                .forEach(t -> t.unsetMeeple());
+            .filter(TileButton::containsTile)
+            .filter(t -> t.getMeeple().isPresent())
+            .filter(t -> !t.getMeeple().get().isPlaced())
+            .forEach(t -> t.unsetMeeple());
     }
 }
