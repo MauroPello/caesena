@@ -7,6 +7,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -34,6 +36,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     private static final long serialVersionUID = -7370776246509188750L;
     private static final float INTERNAL_PADDING_RATIO = 0.02f;
     private static final int MINIMUM_PADDING = 3;
+    private static final float SPACER_RATIO = 0.2f;
     private final GameView gameView;
     private final GUI userInterface;
     private final JPanel tileImagePanel;
@@ -42,6 +45,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     private final JLabel remainingTilesLabel;
     private final JPanel playerNameMeeplesPanel;
     private final JPanel tilesLeaderboardPanel;
+    private final JPanel spacerPanel;
     private final RemainingMeeplesComponent<JPanel> meepleComponent;
     private final PlayerImage<JPanel> playerImageComponent;
     private final LeaderBoardComponent<JPanel> leaderboard;
@@ -137,16 +141,24 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.rotateButton.setBorderPainted(false);
 
         this.playerNameMeeplesPanel = new JPanel();
+        playerNameMeeplesPanel.setLayout(new GridBagLayout());
         playerNameMeeplesPanel.setOpaque(false);
-        playerNameMeeplesPanel.setLayout(new BoxLayout(playerNameMeeplesPanel, BoxLayout.Y_AXIS));
 
+        final GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        
         this.playerNameLabel = new JLabel();
         playerNameLabel.setFont(GUI.MEDIUM_BOLD_FONT);
-        playerNameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        playerNameMeeplesPanel.add(playerNameLabel);
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        playerNameMeeplesPanel.add(playerNameLabel, gridBagConstraints);
         this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
-        meepleComponent.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
-        playerNameMeeplesPanel.add(meepleComponent.getComponent());
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        playerNameMeeplesPanel.add(meepleComponent.getComponent(), gridBagConstraints);
 
         this.tilesLeaderboardPanel = new JPanel();
         tilesLeaderboardPanel.setOpaque(false);
@@ -164,9 +176,12 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.playerImageComponent.getComponent().setAlignmentY(Component.CENTER_ALIGNMENT);
         innerPanel.add(playerImageComponent.getComponent());
         innerPanel.add(playerNameMeeplesPanel);
+        this.spacerPanel = new JPanel();
+        this.spacerPanel.setOpaque(false);
+        innerPanel.add(spacerPanel);
+        innerPanel.add(tilesLeaderboardPanel);
         innerPanel.add(rotateButton);
         innerPanel.add(tileImagePanel);
-        innerPanel.add(tilesLeaderboardPanel);
         innerPanel.setOpaque(false);
         this.add(innerPanel, BorderLayout.CENTER);
 
@@ -177,7 +192,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(final ComponentEvent e) {
-                updatePadding();
+                updateSize();
             }
         });
 
@@ -192,13 +207,13 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             this.leaderboard.getComponent().setVisible(true);
             this.meepleComponent.getComponent().setVisible(true);
             this.update();
-            this.updatePadding();
+            this.updateSize();
         }
 
         super.setVisible(visible);
     }
 
-    private void updatePadding() {
+    private void updateSize() {
         final Dimension frameSize = userInterface.getSize();
         if (frameSize.getHeight() > frameSize.getWidth()) {
             innerPaddingSize = (int) Math.round(frameSize.getWidth() * INTERNAL_PADDING_RATIO);
@@ -214,6 +229,20 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.rotateButton.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.tilesLeaderboardPanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, 0));
+        
+        double width = getWidth();
+        double height = getHeight();
+        if (width == 0) {
+            width = GUI.SCREEN_WIDTH;
+        }
+        if (height == 0) {
+            height = GUI.SCREEN_HEIGHT;
+        }
+        width *= SPACER_RATIO;
+        height *= SPACER_RATIO;
+        spacerPanel.setMinimumSize(new Dimension((int) Math.round(width), (int) Math.round(height)));
+        spacerPanel.setMaximumSize(new Dimension((int) Math.round(width), (int) Math.round(height)));
+        spacerPanel.setPreferredSize(new Dimension((int) Math.round(width), (int) Math.round(height)));
     }
 
     private ActionListener rotateButtonEventListener() {
