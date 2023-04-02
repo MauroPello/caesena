@@ -1,6 +1,9 @@
 package it.unibo.caesena.model.meeple;
 
 import it.unibo.caesena.model.Player;
+import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.utils.Pair;
 
 /**
  * An interface defining a Meeple.
@@ -19,12 +22,11 @@ public interface Meeple {
      */
     Player getOwner();
 
-    /**
-     * Set the meeple as placed or not.
-     *
-     * @param placed whether the meeple is placed or not.
-     */
-    void setPlaced(boolean placed);
+    void place(Pair<Tile, TileSection> position);
+
+    void remove();
+
+    Pair<Tile, TileSection> getPosition();
 
     /**
      *

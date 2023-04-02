@@ -35,14 +35,8 @@ public final class GameSetImpl implements GameSet {
      * {@inheritDoc}
      */
     @Override
-    public boolean addMeeple(final Meeple meeple) {
-        if (!isMeepleFree()) {
-            return false;
-        }
-
-        meeple.setPlaced(true);
+    public void addMeeple(final Meeple meeple) {
         this.meeples.add(meeple);
-        return true;
     }
 
     /**
@@ -85,7 +79,7 @@ public final class GameSetImpl implements GameSet {
         }
 
         this.closed = true;
-        meeples.forEach(m -> m.setPlaced(false));
+        meeples.forEach(m -> m.remove());
         return true;
 
     }

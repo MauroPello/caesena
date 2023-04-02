@@ -244,7 +244,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public boolean placeMeeple(final Meeple meeple, final TileSection section) {
-        final boolean outcome = getCurrentTileGameSetInSection(section).addMeeple(meeple);
+        final boolean outcome = mediator.placeMeeple(meeple, currentTile, section);
         updateUserInterfaces();
         return outcome;
     }

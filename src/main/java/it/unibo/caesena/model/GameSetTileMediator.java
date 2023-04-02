@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import it.unibo.caesena.model.gameset.GameSet;
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
@@ -29,5 +30,7 @@ public interface GameSetTileMediator {
     Set<GameSet> getAllGameSets();
 
     Map<Tile, Set<TileSection>> getTilesFromGameSet(GameSet gameSet);
+
+    boolean placeMeeple(Meeple meeple, Tile tile, TileSection tileSection);
 
 }

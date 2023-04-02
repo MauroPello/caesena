@@ -1,19 +1,22 @@
 package it.unibo.caesena.model.meeple;
 
+import java.util.Optional;
+
 import it.unibo.caesena.model.Player;
+import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
 public class NormalMeeple implements Meeple {
 
     private static final int STRENGTH = 1;
     private final Player owner;
-
-    private boolean placed;
+    private Optional<Pair<Tile, TileSection>> position;
 
     public NormalMeeple(final Player owner) {
         this.owner = owner;
-
-        this.placed = false;
+        this.position = Optional.empty();
     }
 
     /**
@@ -36,8 +39,18 @@ public class NormalMeeple implements Meeple {
      * {@inheritDoc}
      */
     @Override
-    public void setPlaced(final boolean placed) {
-        this.placed = placed;
+    public void place(final Pair<Tile, TileSection> position) {
+        this.position = Optional.of(position);
+    }
+
+    @Override
+    public void remove() {
+        this.position = Optional.empty();
+    }
+
+    @Override
+    public Pair<Tile, TileSection> getPosition() {
+        return this.position.get();
     }
 
     /**
@@ -45,7 +58,7 @@ public class NormalMeeple implements Meeple {
      */
     @Override
     public boolean isPlaced() {
-        return this.placed;
+        return this.position.isPresent();
     }
 
     /**
