@@ -19,7 +19,6 @@ import net.coobird.thumbnailator.Thumbnails;
 public class TileImage {
 
     private final Tile tile;
-    private int rotationCount;
     private Color color;
     private Optional<Meeple> meeple;
     private BufferedImage temporaryImage;
@@ -33,7 +32,6 @@ public class TileImage {
      */
     public TileImage(final Tile tile, final Color color) {
         this.tile = tile;
-        this.rotationCount = 0;
         this.meeple = Optional.empty();
     }
 
@@ -44,16 +42,7 @@ public class TileImage {
      */
     public TileImage(final Tile tile) {
         this.tile = tile;
-        this.rotationCount = 0;
         this.meeple = Optional.empty();
-    }
-
-    /**
-     * update the rotation count to rotate the tile image.
-     */
-    public void rotate() {
-        this.rotationCount = (this.rotationCount + 1) % 4;
-        somethingChanged = true;
     }
 
     /**
@@ -86,7 +75,7 @@ public class TileImage {
             if (shouldUpdateImage()) {
                 final BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
                         List.of("tiles"));
-                temporaryImage = Thumbnails.of(imageName).size(width, height).rotate(90 * rotationCount)
+                temporaryImage = Thumbnails.of(imageName).size(width, height).rotate(tile.getRotationCount() * 90)
                         .asBufferedImage();
                 if (meeple.isPresent()) {
                     temporaryImage = getTileImageWithMeeple(temporaryImage);
@@ -108,7 +97,7 @@ public class TileImage {
         try {
             final BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
                     List.of("tiles"));
-            image = Thumbnails.of(imageName).size(width, height).rotate(90 * rotationCount).asBufferedImage();
+            image = Thumbnails.of(imageName).size(width, height).rotate(tile.getRotationCount() * 90).asBufferedImage();
             return image;
         } catch (final IOException e) {
             return null;

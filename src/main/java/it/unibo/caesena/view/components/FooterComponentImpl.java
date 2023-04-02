@@ -149,7 +149,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        
+
         this.playerNameLabel = new JLabel();
         playerNameLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         gridBagConstraints.gridx = 0;
@@ -171,7 +171,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.leaderboard = new LeaderBoardComponentImpl(gameView.getUserInterface());
         leaderboard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
         tilesLeaderboardPanel.add(leaderboard.getComponent());
-        
+
         this.playerImageComponent = new PlayerImageImpl();
         this.playerImageComponent.getComponent().setAlignmentY(Component.CENTER_ALIGNMENT);
         innerPanel.add(playerImageComponent.getComponent());
@@ -229,7 +229,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.rotateButton.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.tilesLeaderboardPanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, 0));
-        
+
         double width = getWidth();
         double height = getHeight();
         if (width == 0) {
@@ -250,7 +250,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             if (tileImage.isPresent()) {
                 gameView.removePlacedTile();
                 userInterface.getController().rotateCurrentTile();
-                this.tileImage.get().rotate();
                 tileImagePanel.repaint();
             }
         };

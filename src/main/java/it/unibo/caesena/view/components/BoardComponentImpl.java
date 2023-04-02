@@ -159,6 +159,19 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         }
     }
 
+    /**
+     * The findTileButton function is used to find the TileButton that corresponds
+     * to a given pair of coordinates.
+     * If no such TileButton exists, it is created and added to the allTileButtons
+     * map.
+     *
+     *
+     * @param int   Used to Know the number of tilebutton to create.
+     * @param final Used to Pass the coordinates of the tile button to be created.
+     * @return A tilebutton.
+     *
+     * @doc-author Trelent
+     */
     private TileButton<JButton> findTileButton(final int horizontalCoordinate, final int verticalCoordinate) {
         TileButton<JButton> foundTileButton;
         final Pair<Integer, Integer> coordinates = new Pair<>(horizontalCoordinate, verticalCoordinate);
@@ -169,8 +182,8 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         final Color currentColor = new Color(red, blue, green);
 
         Optional<Tile> searchedTile = controller.getPlacedTiles().stream()
-        .filter(t -> t.getPosition().get().equals(coordinates))
-        .findFirst();
+                .filter(t -> t.getPosition().get().equals(coordinates))
+                .findFirst();
         final Optional<TileButton<JButton>> searchedTileButton = allTileButtons.entrySet().stream()
                 .filter(x -> x.getValue().equals(coordinates))
                 .map(x -> x.getKey())
@@ -185,7 +198,6 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
                 searchedTileButton.get()
                         .addTile(new TileImage(searchedTile.get(), currentColor));
                 searchedTileButton.get().lock();
-                // manca la rotazione perchè non è nel model
             } else if (searchedTileButton.get().getMeeple().isEmpty()) {
                 Optional<Meeple> placedMeeple = controller.getMeeples().stream()
                         .filter(m -> m.isPlaced())
@@ -194,12 +206,16 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
                 if (placedMeeple.isPresent()) {
                     searchedTileButton.get().setMeeple(placedMeeple.get());
                 }
+            } else if (searchedTileButton.get().getMeeple().isPresent()) {
+                if (!searchedTileButton.get().getMeeple().get().isPlaced()) {
+                    searchedTileButton.get().unsetMeeple();
+                }
             }
             foundTileButton = searchedTileButton.get();
         } else if (searchedTile.isEmpty() && searchedTileButton.isEmpty()) {
             foundTileButton = new TileButtonImpl(this.gameView, getTileButtonActionListener());
             allTileButtons.put(foundTileButton, coordinates);
-        } else { // if (searchedTile.isEmpty() && searchedTileButton.isPresent())
+        } else {
             foundTileButton = searchedTileButton.get();
         }
 
