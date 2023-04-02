@@ -266,22 +266,23 @@ public final class ControllerImpl implements Controller {
     }
 
     private boolean isCurrentTilePlaceable() {
+        boolean outcome = false;
         for (int i = 0; i < 4; i++) {
-            for (final Tile tile : tiles) {
+            for (final Tile tile : getPlacedTiles()) {
                 final int numberOfNeighbours = mediator.getTileNeighbours(tile.getPosition().get()).size();
-                if (numberOfNeighbours >= 1 && numberOfNeighbours <= 3) {
+                if (numberOfNeighbours >= 0 && numberOfNeighbours <= 3) {
                     final Set<Pair<Integer, Integer>> emptyPositions = this
                             .getEmptyNeighbouringPositions(tile.getPosition().get());
                     for (final Pair<Integer, Integer> position : emptyPositions) {
                         if (this.isPositionValidForCurrentTile(position)) {
-                            return true;
+                            outcome = true;
                         }
                     }
                 }
             }
-            this.rotateCurrentTile();
+            this.mediator.rotateTileClockwise(currentTile);
         }
-        return false;
+        return outcome;
     }
 
     @Override

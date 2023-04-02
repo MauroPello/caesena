@@ -191,12 +191,13 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
      */
     private ActionListener endTurnEventListener() {
         return (e) -> {
-            this.gameView.endTurn();
             placeTileButton.setVisible(true);
             placeMeepleButton.setVisible(false);
             placeMeepleButton.setEnabled(true);
             endTurnButton.setVisible(false);
             discardTileButton.setVisible(true);
+            discardTileButton.setEnabled(true);
+            this.gameView.endTurn();
         };
     }
 
@@ -270,9 +271,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
     private ActionListener discardTileEventListener() {
         return (e) -> {
-            if (controller.discardCurrentTile()) {
-                gameView.updateHUD();
-            } else {
+            if (!controller.discardCurrentTile()) {
                 ((JButton) e.getSource()).setEnabled(false);
             }
         };
