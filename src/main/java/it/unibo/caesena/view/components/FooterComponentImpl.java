@@ -40,6 +40,8 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     private final JButton rotateButton;
     private final JLabel playerNameLabel;
     private final JLabel remainingTilesLabel;
+    private final JPanel playerNameMeeplesPanel;
+    private final JPanel tilesLeaderboardPanel;
     private final RemainingMeeplesComponent<JPanel> meepleComponent;
     private final PlayerImage<JPanel> playerImageComponent;
     private final LeaderBoardComponent<JPanel> leaderboard;
@@ -63,11 +65,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.setBackground(Color.ORANGE);
         this.setLayout(new BorderLayout());
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
-
-        this.playerNameLabel = new JLabel();
-        playerNameLabel.setFont(GUI.MEDIUM_BOLD_FONT);
-        this.remainingTilesLabel = new JLabel();
-        remainingTilesLabel.setFont(GUI.MEDIUM_BOLD_FONT);
 
         this.tileImage = Optional.empty();
         this.tileImagePanel = new JPanel() {
@@ -108,10 +105,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.tileImagePanel.setOpaque(false);
         this.tileImagePanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
-        this.playerImageComponent = new PlayerImageImpl();
-        this.playerImageComponent.getComponent().setAlignmentY(Component.CENTER_ALIGNMENT);
-
         this.rotateButton = new JButton() {
 
             @Override
@@ -142,21 +135,38 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.rotateButton.setContentAreaFilled(false);
         this.rotateButton.setOpaque(false);
         this.rotateButton.setBorderPainted(false);
-        this.leaderboard = new LeaderBoardComponentImpl(gameView.getUserInterface());
-        final JPanel verticalPanel = new JPanel();
-        verticalPanel.setOpaque(false);
-        verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
-        remainingTilesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        verticalPanel.add(remainingTilesLabel);
-        leaderboard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
-        verticalPanel.add(leaderboard.getComponent());
 
+        this.playerNameMeeplesPanel = new JPanel();
+        playerNameMeeplesPanel.setOpaque(false);
+        playerNameMeeplesPanel.setLayout(new BoxLayout(playerNameMeeplesPanel, BoxLayout.Y_AXIS));
+
+        this.playerNameLabel = new JLabel();
+        playerNameLabel.setFont(GUI.MEDIUM_BOLD_FONT);
+        playerNameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        playerNameMeeplesPanel.add(playerNameLabel);
+        this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
+        meepleComponent.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
+        playerNameMeeplesPanel.add(meepleComponent.getComponent());
+
+        this.tilesLeaderboardPanel = new JPanel();
+        tilesLeaderboardPanel.setOpaque(false);
+        tilesLeaderboardPanel.setLayout(new BoxLayout(tilesLeaderboardPanel, BoxLayout.Y_AXIS));
+
+        this.remainingTilesLabel = new JLabel();
+        remainingTilesLabel.setFont(GUI.MEDIUM_BOLD_FONT);
+        remainingTilesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tilesLeaderboardPanel.add(remainingTilesLabel);
+        this.leaderboard = new LeaderBoardComponentImpl(gameView.getUserInterface());
+        leaderboard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
+        tilesLeaderboardPanel.add(leaderboard.getComponent());
+        
+        this.playerImageComponent = new PlayerImageImpl();
+        this.playerImageComponent.getComponent().setAlignmentY(Component.CENTER_ALIGNMENT);
         innerPanel.add(playerImageComponent.getComponent());
-        innerPanel.add(playerNameLabel);
-        innerPanel.add(meepleComponent.getComponent());
-        innerPanel.add(tileImagePanel);
+        innerPanel.add(playerNameMeeplesPanel);
         innerPanel.add(rotateButton);
-        innerPanel.add(verticalPanel);
+        innerPanel.add(tileImagePanel);
+        innerPanel.add(tilesLeaderboardPanel);
         innerPanel.setOpaque(false);
         this.add(innerPanel, BorderLayout.CENTER);
 
@@ -199,13 +209,11 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.setBorder(BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize, innerPaddingSize,
                 innerPaddingSize));
         this.playerImageComponent.getComponent()
-                .setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
-        this.meepleComponent.getComponent()
-                .setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
-        this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+                .setBorder(BorderFactory.createEmptyBorder(0, 0, 0, innerPaddingSize));
+        this.playerNameMeeplesPanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.rotateButton.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
-        this.playerNameLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
-        this.remainingTilesLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+        this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
+        this.tilesLeaderboardPanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, 0));
     }
 
     private ActionListener rotateButtonEventListener() {

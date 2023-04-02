@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
 import it.unibo.caesena.model.Player;
@@ -43,7 +44,10 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
 
         this.playersPanel = new JPanel();
         this.playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
-        this.add(playersPanel);
+        final JScrollPane playersScrollPane = new JScrollPane(playersPanel);
+        playersScrollPane.setAutoscrolls(true);
+        playersScrollPane.setBorder(null);
+        this.add(playersScrollPane);
         super.setVisible(false);
     }
 

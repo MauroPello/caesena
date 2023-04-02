@@ -70,7 +70,6 @@ public class GameView extends JPanel implements View<JPanel> {
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
-            // update();
             this.generateCurrentTileImage();
             this.mainComponent.getBoard().getComponent().setVisible(true);
             this.footer.getComponent().setVisible(true);
