@@ -3,29 +3,23 @@
 
 Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassone" 1 ispirandosi anche alla sua controparte videoludica 2. Il gioco consiste in un posizionamento tessere a turni, da 2 a 6 giocatori, in cui l’obiettivo di ogni giocatore è quello di accumulare più entro la fine della partita. Ogni tessera ha quattro lati e raffigura una particolare parte di mappa composta da strade, città, campi e monasteri e deve essere posizionata adiacentemente ad almeno un lato identico di un'altra pedina. La meccanica principale del gioco è quella di “chiudere” le strutture come raffigurato nelle figure 1 e 2 e 3 con al loro interno una pedina del proprio colore.
 
-\vfill
+\begin{figure}[]
+    {\includegraphics[]{images/Città.png}}
 
-        {\includegraphics[scale=.42]{images/Città.png}}
+    \caption{chiudere una città comporta l’assenza di parti non murate per un totale di 2 punti per ogni tessera, aggiungendo 2 per ogni tessera con lo stemma}
+\end{figure}
 
-\vfill
+\begin{figure}[]
+    {\includegraphics[]{images/Monastero.png}}
 
-chiudere una città comporta l’assenza di parti non murate per un totale di 2 punti per ogni tessera, aggiungendo 2 per ogni tessera con lo stemma
+    \caption{chiudere un monastero comporta la presenza di tutte e 8 le tessere a circondarlo a circondarlo per un totale di 9 punti}
+\end{figure}
 
-\vfill
+\begin{figure}[]
+    {\includegraphics[]{images/Strada.png}}
 
-        {\includegraphics[scale=.42]{images/Monastero.png}}
-
-\vfill
-
-chiudere un monastero comporta la presenza di tutte e 8 le tessere a circondarlo a circondarlo per un totale di 9 punti
-
-\vfill
-
-        {\includegraphics[scale=.42]{images/Strada.png}}
-
-\vfill
-
-chiudere una strada comporta la presenza di un incrocio o un un’entrata ad un monastero o città da ambo i lati per un totale di 1 punto per ogni tessera, estremi compresi
+    \caption{chiudere una strada comporta la presenza di un incrocio o un un’entrata ad un monastero o città da ambo i lati per un totale di 1 punto per ogni tessera, estremi compresi}
+\end{figure}
 
 \subsection*{Requisiti funzionali}
 \subsubsection*{Requisiti funzionali obbligatori}
