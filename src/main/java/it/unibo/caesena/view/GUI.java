@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -50,13 +51,16 @@ public class GUI extends JFrame implements UserInterface {
     public GUI(final Controller controller) {
         super();
 
-            try {
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                    | UnsupportedLookAndFeelException e) {
-                System.exit(ABORT);
-            }
-
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+            System.exit(ABORT);
+        }
+        UIManager.put("OptionPane.messageFont", MEDIUM_NORMAL_FONT);
+        UIManager.put("OptionPane.buttonFont", MEDIUM_BOLD_FONT);
+        UIManager.put("OptionPane.questionIcon", new ImageIcon());
+        
         this.controller = controller;
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

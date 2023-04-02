@@ -1,6 +1,8 @@
 package it.unibo.caesena.view.components;
 
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
@@ -18,7 +20,7 @@ import it.unibo.caesena.view.LocaleHelper;
 
 public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     private static final long serialVersionUID = 6860767233870664780L;
-    private static final int TEXT_FIELD_COLUMNS = 4;
+    private static final int TEXT_FIELD_COLUMNS = 5;
     private final PlayerImageImpl playerColorPanel;
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
@@ -49,10 +51,13 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
             }
         }
 
+        this.playerColorChooser.setFont(GUI.MEDIUM_BOLD_FONT);
         this.playerColorDialog = JColorChooser.createDialog(this, LocaleHelper.getPickColorDialogTitle(), true,
                 this.playerColorChooser,
                 (e) -> updateColor(this.playerColorChooser.getColor()),
                 (e) -> updateColor(getBackground()));
+        setFontForAllComponents(playerColorDialog, GUI.SMALL_NORMAL_FONT);
+        this.playerColorDialog.pack();
 
         final JButton playerColorButton = new JButton(LocaleHelper.getPickColorText());
         playerColorButton.setFont(GUI.MEDIUM_BOLD_FONT);
@@ -75,6 +80,15 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         colorPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         this.add(colorPanel);
         this.add(playerColorButton);
+    }
+
+    private void setFontForAllComponents(final Container container, final Font font) {
+        for (final var component : container.getComponents()) {
+            component.setFont(font);
+            if (component instanceof Container) {
+                setFontForAllComponents((Container) component, font);
+            }
+        }
     }
 
     @Override
