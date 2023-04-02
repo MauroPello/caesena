@@ -16,5 +16,9 @@ public interface Tile {
 
     boolean isSectionClosed(TileSection section);
 
+    void rotate();
+
+    int getRotationCount();
+
     TileType getTileType();
 }
