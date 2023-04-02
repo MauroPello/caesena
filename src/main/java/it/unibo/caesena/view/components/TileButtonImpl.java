@@ -1,36 +1,35 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 import javax.swing.JButton;
 
-import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.view.GameView;
+import it.unibo.caesena.model.tile.Tile;
 
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private static final long serialVersionUID = 3246088701705856082L;
-    private final GameView gameView;
-    private Optional<Meeple> meeple;
     private Optional<TileImage> tileImage;
     private boolean locked;
 
-
-    public TileButtonImpl(GameView gameView, final ActionListener onClickActionListener) {
+    public TileButtonImpl(final ActionListener onClickActionListener) {
         super();
         this.locked = false;
-        this.meeple = Optional.empty();
         this.tileImage = Optional.empty();
-        this.gameView = gameView;
         this.addActionListener(onClickActionListener);
         this.setContentAreaFilled(false);
         this.setFocusable(false);
     }
 
     @Override
-    public void addTile(final TileImage tileImage) {
+    public void addTile(final Tile tile) {
+        this.tileImage = Optional.of(new TileImage(tile));
+        this.repaint();
+    }
+
+    @Override
+    public void setTileImage(final TileImage tileImage) {
         this.tileImage = Optional.of(tileImage);
         this.repaint();
     }
@@ -68,13 +67,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
 
     @Override
     public void setMeeple(final Meeple meeple) {
-        this.meeple = Optional.of(meeple);
-        Controller controller = gameView.getUserInterface().getController();
-        final int red = controller.getCurrentPlayer().getColor().getRed();
-        final int green = controller.getCurrentPlayer().getColor().getGreen();
-        final int blue = controller.getCurrentPlayer().getColor().getBlue();
-        final Color currentColor = new Color(red, green, blue);
-        this.tileImage.get().addMeeple(this.meeple.get(), currentColor);
+        this.tileImage.get().addMeeple(meeple);
         this.repaint();
     }
 
@@ -85,14 +78,13 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
 
     @Override
     public void unsetMeeple() {
-        this.meeple = Optional.empty();
         this.tileImage.get().removeMeeple();
         this.repaint();
     }
 
     @Override
     public Optional<Meeple> getMeeple() {
-        return this.meeple;
+        return this.tileImage.get().getMeeple();
     }
 
 }

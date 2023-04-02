@@ -19,21 +19,9 @@ import net.coobird.thumbnailator.Thumbnails;
 public class TileImage {
 
     private final Tile tile;
-    private Color color;
     private Optional<Meeple> meeple;
     private BufferedImage temporaryImage;
     private boolean somethingChanged = true;
-
-    /**
-     * make the tile image by the tile and set the color fort the meeple.
-     *
-     * @param tile
-     * @param color
-     */
-    public TileImage(final Tile tile, final Color color) {
-        this.tile = tile;
-        this.meeple = Optional.empty();
-    }
 
     /**
      * make the tile image by the tile.
@@ -104,15 +92,18 @@ public class TileImage {
         }
     }
 
+    public Optional<Meeple> getMeeple() {
+        return this.meeple;
+    }
+
     /**
      * add the meeple in the tile image.
      *
      * @param meeple
      * @param section
      */
-    public void addMeeple(final Meeple meeple, final Color color) {
+    public void addMeeple(final Meeple meeple) {
         this.meeple = Optional.of(meeple);
-        this.color = color;
         somethingChanged = true;
     }
 
@@ -129,7 +120,11 @@ public class TileImage {
         finalGraphics.drawImage(image, 0, 0, null);
         if (this.meeple.isPresent()) {
             final int meepleSize = (int) ((double) image.getHeight(null) / 5);
-            final MeepleImage meepleimage = new MeepleImage(this.meeple.get(), this.color);
+            final int red = meeple.get().getOwner().getColor().getRed();
+            final int green = meeple.get().getOwner().getColor().getGreen();
+            final int blue = meeple.get().getOwner().getColor().getBlue();
+            final Color color = new Color(red, green, blue);
+            final MeepleImage meepleimage = new MeepleImage(this.meeple.get(), color);
             final Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null) - meepleSize);
             finalGraphics.drawImage(meepleimage.getNormalImage(), meeplePosition.getX(), meeplePosition.getY(),
                     meepleSize, meepleSize, null);

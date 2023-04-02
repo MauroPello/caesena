@@ -1,6 +1,5 @@
 package it.unibo.caesena.view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,7 +7,6 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
-import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -82,9 +80,7 @@ public class GameView extends JPanel implements View<JPanel> {
     private void generateCurrentTileImage() {
         final Tile currentTile = userInterface.getController().getCurrentTile();
         if (currentTileImage.isEmpty() || !currentTile.equals(currentTileImage.get().getTile())) {
-            final Player currentPlayer = userInterface.getController().getCurrentPlayer();
-            final var color = currentPlayer.getColor();
-            this.currentTileImage = Optional.of(new TileImage(currentTile, new Color(color.getRed(), color.getGreen(), color.getBlue())));
+            this.currentTileImage = Optional.of(new TileImage(currentTile));
         }
     }
 

@@ -3,10 +3,13 @@ package it.unibo.caesena.view.components;
 import java.util.Optional;
 
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.tile.Tile;
 
 public interface TileButton<X> {
 
-    void addTile(TileImage tileImage);
+    void addTile(Tile tile);
+
+    void setTileImage(TileImage tileImage);
 
     boolean isLocked();
 
