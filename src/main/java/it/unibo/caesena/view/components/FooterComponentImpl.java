@@ -230,19 +230,23 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.tilesLeaderboardPanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, 0));
 
-        double width = getWidth();
-        double height = getHeight();
-        if (width == 0) {
+        double width = userInterface.getWidth();
+        double height = userInterface.getHeight();
+        if (width == 0 || height == 0) {
             width = GUI.SCREEN_WIDTH;
-        }
-        if (height == 0) {
             height = GUI.SCREEN_HEIGHT;
         }
-        width *= SPACER_RATIO;
-        height *= SPACER_RATIO;
-        spacerPanel.setMinimumSize(new Dimension((int) Math.round(width), (int) Math.round(height)));
-        spacerPanel.setMaximumSize(new Dimension((int) Math.round(width), (int) Math.round(height)));
-        spacerPanel.setPreferredSize(new Dimension((int) Math.round(width), (int) Math.round(height)));
+
+        if (width > height) {
+            width *= SPACER_RATIO;
+            height *= SPACER_RATIO;
+            spacerPanel.setVisible(true);
+            spacerPanel.setMinimumSize(new Dimension((int) Math.round(width), (int) Math.round(height)));
+            spacerPanel.setMaximumSize(new Dimension((int) Math.round(width), (int) Math.round(height)));
+            spacerPanel.setPreferredSize(new Dimension((int) Math.round(width), (int) Math.round(height)));
+        } else {
+            spacerPanel.setVisible(false);
+        }
     }
 
     private ActionListener rotateButtonEventListener() {
