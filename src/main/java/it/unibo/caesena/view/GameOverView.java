@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,20 +27,19 @@ public class GameOverView extends JPanel implements View<JPanel> {
         this.userInterface = userInterface;
         final JPanel mainPanel = new JPanel();
 
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainPanel.setPreferredSize(new Dimension(
-                (int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO),
-                (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
+            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO)));
         mainPanel.setMinimumSize(new Dimension(
-                (int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO),
-                (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
+            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO)));
         mainPanel.setMaximumSize(new Dimension(
-                (int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO),
-                (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
-        if (screenSize.getHeight() > screenSize.getWidth()) {
-            playerImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
+            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO)));
+        if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
+            playerImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
         } else {
-            playerImageSize = (int) Math.round(screenSize.getHeight() * PLAYER_IMAGE_RATIO);
+            playerImageSize = (int) Math.round(GUI.SCREEN_HEIGHT * PLAYER_IMAGE_RATIO);
         }
 
         this.setBackground(Color.BLACK);
@@ -121,7 +119,8 @@ public class GameOverView extends JPanel implements View<JPanel> {
             volatailePanel.add(volataileLabel);
 
             final var playerColorPanel = new PlayerImageImpl();
-            playerColorPanel.setColor(userInterface.getPlayerColor(player));
+            final var color = player.getColor();
+            playerColorPanel.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
             playerColorPanel.forceSize(playerImageSize);
             volatailePanel.add(playerColorPanel);
 

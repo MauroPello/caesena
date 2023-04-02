@@ -147,8 +147,18 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         placeMeepleButton.addActionListener(placeMeepleEventListener());
         endTurnButton.addActionListener(endTurnEventListener());
         discardTileButton.addActionListener(discardTileEventListener());
+        super.setVisible(false);
     }
 
+    @Override
+    public void setVisible(final boolean visible) {
+        if (visible) {
+            this.update();
+            this.leaderBoard.getComponent().setVisible(true);
+        }
+
+        super.setVisible(visible);
+    }
     /**
      * @return JPanel
      */

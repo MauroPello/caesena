@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.GameSetTileMediatorImpl;
 import it.unibo.caesena.model.Player;
@@ -41,7 +42,7 @@ public final class ControllerImpl implements Controller {
     * Class constructor.
     */
     public ControllerImpl() {
-        userInterfaces = new ArrayList<>();
+        this.userInterfaces = new ArrayList<>();
         resetGame();
     }
 
@@ -64,18 +65,17 @@ public final class ControllerImpl implements Controller {
     @Override
     public void resetGame() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
-        // TODO check
         tiles = new ConfigurationLoader("config.json").getTiles(new TileFactoryWithBuilder(mediator));
         meeples = new ArrayList<>();
         players = new ArrayList<>();
         gameOver = false;
         turn = 0;
-        // updateUserInterfaces();
+        updateUserInterfaces();
     }
 
     @Override
-    public Player addPlayer(final String name) {
-        final Player newPlayer = new PlayerImpl(name);
+    public Player addPlayer(final String name, final Color color) {
+        final Player newPlayer = new PlayerImpl(name, color);
         players.add(newPlayer);
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
             meeples.add(new NormalMeeple(newPlayer));
@@ -103,7 +103,6 @@ public final class ControllerImpl implements Controller {
             return true;
         }
 
-        // TODO
         return mediator.isPositionValid(position, currentTile);
     }
 
@@ -116,7 +115,6 @@ public final class ControllerImpl implements Controller {
     @Override
     public boolean placeCurrentTile(final Pair<Integer, Integer> position) {
         if (!isPositionValidForCurrentTile(position)) {
-            // TODO
             return false;
         }
 
@@ -228,9 +226,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void exitGame() {
-        // TODO aggiustare reset game
         this.resetGame();
-        updateUserInterfaces();
     }
 
     @Override

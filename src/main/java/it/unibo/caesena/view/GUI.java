@@ -1,6 +1,5 @@
 package it.unibo.caesena.view;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,9 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -24,7 +21,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
@@ -45,11 +41,10 @@ public class GUI extends JFrame implements UserInterface {
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
     private final Controller controller;
-    private final View<JPanel> startView;
-    private final View<JPanel> gameView;
-    private final View<JPanel> pauseView;
-    private final View<JPanel> gameOverView;
-    private final Map<Player, Color> players;
+    private View<JPanel> startView;
+    private View<JPanel> gameView;
+    private View<JPanel> pauseView;
+    private View<JPanel> gameOverView;
 
     public GUI(final Controller controller) {
         super();
@@ -62,7 +57,6 @@ public class GUI extends JFrame implements UserInterface {
         }
 
         this.controller = controller;
-        this.players = new HashMap<>();
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -87,10 +81,7 @@ public class GUI extends JFrame implements UserInterface {
         this.setIconImage(ResourceUtil.getBufferedImage("TILE_BACK.png", List.of("tiles")));
         this.setVisible(true);
 
-        this.startView = new StartView(this);
-        this.gameView = new GameView(this);
-        this.pauseView = new PauseView(this);
-        this.gameOverView = new GameOverView(this);
+        resetViews();
 
         this.controller.addUserInterface(this);
     }
@@ -182,10 +173,16 @@ public class GUI extends JFrame implements UserInterface {
                 LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
+            resetViews();
             this.controller.resetGame();
-            // TODO togliere
-            showStartView();
         }
+    }
+
+    private void resetViews() {
+        this.startView = new StartView(this);
+        this.gameView = new GameView(this);
+        this.pauseView = new PauseView(this);
+        this.gameOverView = new GameOverView(this);
     }
 
     /**
@@ -217,24 +214,6 @@ public class GUI extends JFrame implements UserInterface {
                 setEnabledAllComponents((Container) component, enabled);
             }
         }
-    }
-
-    /**
-     *
-     * @param name  to add.
-     * @param color to add on relative name.
-     */
-    public void addPlayer(final String name, final Color color) {
-        this.players.put(this.controller.addPlayer(name), color);
-    }
-
-    /**
-     *
-     * @param player
-     * @return color of player.
-     */
-    public Color getPlayerColor(final Player player) {
-        return this.players.get(player);
     }
 
     @Override

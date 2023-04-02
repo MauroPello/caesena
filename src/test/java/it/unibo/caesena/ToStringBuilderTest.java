@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.PlayerImpl;
 import it.unibo.caesena.utils.StringUtil;
 
@@ -14,7 +15,7 @@ final class ToStringBuilderTest {
 
     @BeforeAll
     static void init() {
-        player = new PlayerImpl("Giocatore1");
+        player = new PlayerImpl("Giocatore1", new Color(50, 50, 50));
     }
 
     @Test

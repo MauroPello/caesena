@@ -168,11 +168,13 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.validate();
         this.repaint();
+        super.setVisible(false);
     }
 
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
+            this.meepleComponent.getComponent().setVisible(true);
             this.update();
             this.updatePadding();
         }
@@ -230,7 +232,8 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     public void update() {
         updateCurrentTile();
         meepleComponent.update();
-        playerImageComponent.setColor(userInterface.getPlayerColor(userInterface.getController().getCurrentPlayer()));
+        final var color = userInterface.getController().getCurrentPlayer().getColor();
+        playerImageComponent.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
         playerScoreLabel
                 .setText(LocaleHelper.getScoreText() + userInterface.getController().getCurrentPlayer().getScore());

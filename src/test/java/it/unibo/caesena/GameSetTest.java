@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.PlayerImpl;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactory;
@@ -30,7 +31,7 @@ final class GameSetTest {
         gamesetCity2 = gamesetFactory.createCitySet();
         gamesetField = gamesetFactory.createFieldSet();
 
-        meeple = new NormalMeeple(new PlayerImpl("Giocatore1"));
+        meeple = new NormalMeeple(new PlayerImpl("Giocatore1", new Color(50, 50, 50)));
     }
 
     @Test

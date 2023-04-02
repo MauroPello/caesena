@@ -47,11 +47,18 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
 
         this.add(allMeeplesPanel);
         this.allMeeplesPanel.setVisible(true);
+        super.setVisible(false);
     }
 
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
+            for (final var player : controller.getPlayers()) {
+                final Color color = new Color(player.getColor().getRed(),
+                    player.getColor().getGreen(), player.getColor().getBlue());
+                meeples.put(player, controller.getPlayerMeeples(player).stream()
+                    .map(m -> new MeepleImage(m, color)).toList());
+            }
             update();
         }
 
@@ -60,17 +67,10 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
 
     @Override
     public void update() {
-        if (meeples.isEmpty()) {
-            for (final var player : controller.getPlayers()) {
-                final Color color = userInterface.getPlayerColor(player);
-                meeples.put(player, controller.getPlayerMeeples(player).stream()
-                        .map(m -> new MeepleImage(m, color)).toList());
-            }
-        } else {
-            this.allMeeplesPanel.removeAll();
-            this.allMeeplesPanel.revalidate();
-            this.allMeeplesPanel.repaint();
-        }
+        this.allMeeplesPanel.removeAll();
+        this.allMeeplesPanel.revalidate();
+        this.allMeeplesPanel.repaint();
+
 
         final Player currentPlayer = controller.getCurrentPlayer();
         this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.get(currentPlayer).size()));

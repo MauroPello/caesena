@@ -5,13 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.PlayerImpl;
 
 final class PlayerTest {
     private final PlayerImpl player;
 
     PlayerTest() {
-        this.player = new PlayerImpl("Giocatore1");
+        this.player = new PlayerImpl("Giocatore1", new Color(50, 50, 50));
     }
 
     @Test

@@ -2,8 +2,6 @@ package it.unibo.caesena.view.components;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -28,11 +26,10 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         this.userInterface = userInterface;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        if (screenSize.getHeight() > screenSize.getWidth()) {
-            playerImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
+        if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
+            playerImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
         } else {
-            playerImageSize = (int) Math.round(screenSize.getHeight() * PLAYER_IMAGE_RATIO);
+            playerImageSize = (int) Math.round(GUI.SCREEN_HEIGHT * PLAYER_IMAGE_RATIO);
         }
 
         final JLabel titleLabel = new JLabel(LocaleHelper.getLeaderboardName());
@@ -47,7 +44,7 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         this.playersPanel = new JPanel();
         this.playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         this.add(playersPanel);
-        // this.setVisible(false);
+        super.setVisible(false);
     }
 
     @Override
@@ -72,7 +69,8 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
             final var playerPanel = new JPanel();
 
             final var playerColorPanel = new PlayerImageImpl();
-            playerColorPanel.setColor(userInterface.getPlayerColor(player));
+            final var color = player.getColor();
+            playerColorPanel.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
             playerColorPanel.forceSize(playerImageSize);
 
             final JLabel playerLabel = new JLabel(player.getName() + " " + player.getScore());

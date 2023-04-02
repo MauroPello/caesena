@@ -70,8 +70,11 @@ public class GameView extends JPanel implements View<JPanel> {
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
+            // update();
+            this.generateCurrentTileImage();
             this.mainComponent.getBoard().getComponent().setVisible(true);
-            update();
+            this.footer.getComponent().setVisible(true);
+            this.sidebar.getComponent().setVisible(true);
         }
 
         super.setVisible(visible);
@@ -81,8 +84,8 @@ public class GameView extends JPanel implements View<JPanel> {
         final Tile currentTile = userInterface.getController().getCurrentTile();
         if (currentTileImage.isEmpty() || !currentTile.equals(currentTileImage.get().getTile())) {
             final Player currentPlayer = userInterface.getController().getCurrentPlayer();
-            final Color currentPlayerColor = userInterface.getPlayerColor(currentPlayer);
-            this.currentTileImage = Optional.of(new TileImage(currentTile, currentPlayerColor));
+            final var color = currentPlayer.getColor();
+            this.currentTileImage = Optional.of(new TileImage(currentTile, new Color(color.getRed(), color.getGreen(), color.getBlue())));
         }
     }
 

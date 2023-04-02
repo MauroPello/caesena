@@ -24,7 +24,6 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
         this.sectionSelector = new SectionSelectorComponentImpl(this.gameView);
         this.showingBoard = true;
         this.endingTurn = false;
-        // TODO put background
         this.setBackground(Color.DARK_GRAY);
         this.add(this.getBoard().getComponent());
     }

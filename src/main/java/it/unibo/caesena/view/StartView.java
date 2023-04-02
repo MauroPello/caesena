@@ -1,11 +1,9 @@
 package it.unibo.caesena.view;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.components.NumericUpDown;
 import it.unibo.caesena.view.components.NumericUpDownImpl;
@@ -37,12 +36,10 @@ public class StartView extends JPanel implements View<JPanel> {
 
     public StartView(final GUI userInterface) {
         super();
-        this.userInterface = (GUI) this.getParent();
-        // userInterface.getController().resetGame();
+        this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
 
         this.setLayout(new GridBagLayout());
-        this.setBackground(Color.BLACK);
 
         final JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -101,7 +98,8 @@ public class StartView extends JPanel implements View<JPanel> {
         startButton.addActionListener((e) -> {
             for (final var playerInput : this.playerInputs) {
                 final var player = playerInput.getPlayerData();
-                userInterface.addPlayer(player.getX(), player.getY());
+                final var color = player.getY();
+                userInterface.getController().addPlayer(player.getX(), new Color(color.getRed(), color.getGreen(), color.getBlue()));
             }
 
             userInterface.getController().startGame();
@@ -111,17 +109,16 @@ public class StartView extends JPanel implements View<JPanel> {
         startGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(startGamePanel);
 
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO),
-                (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
-        mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO),
-                (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
-        mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO),
-                (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
-        if (screenSize.getHeight() > screenSize.getWidth()) {
-            playerInputImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
+        mainPanel.setPreferredSize(new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO)));
+        mainPanel.setMinimumSize(new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO)));
+        mainPanel.setMaximumSize(new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO)));
+        if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
+            playerInputImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
         } else {
-            playerInputImageSize = (int) Math.round(screenSize.getHeight() * PLAYER_IMAGE_RATIO);
+            playerInputImageSize = (int) Math.round(GUI.SCREEN_HEIGHT * PLAYER_IMAGE_RATIO);
         }
 
         this.add(mainPanel);

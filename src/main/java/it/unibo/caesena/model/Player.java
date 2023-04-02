@@ -10,6 +10,12 @@ public interface Player {
 
     /**
      * 
+     * @return color of the player
+     */
+    Color getColor();
+
+    /**
+     * 
      * @return score of the player
      */
     int getScore();
