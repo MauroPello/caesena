@@ -1,29 +1,28 @@
 \section{Analisi}
 \subsection{Requisiti}
-Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassone" 1 ispirandosi anche alla sua controparte videoludica 2. 
+Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassonne", con la possibilità di poter far giocare da 2 a 6 giocatori e la scelta individuale del proprio colore. Durante il gioco il gioco, il giocatore potrà piazzare tessere (obbligatoriamente) e pupazzetti (a discrezione) al fine di poter prendere più punti possibili. 
 
-\subsubsection*{Requisiti funzionali}
+\subsection*{Requisiti funzionali}
+\subsubsection*{Requisiti funzionali obbligatori}
 \begin{itemize}
 \item Calcolo del punteggio progressivo
-\item Calcolo del punteggio al termine del gioco
-\item Menù principale, con selezione numero giocatori
-\item Gestione turno del giocatore
-\item Gestione posizionamento pedine
-\item Calcolo delle posizioni valide per le tessere
-\item Gestione della creazione o ampliamento di prati, città e strade
+\end{itemize}
+\subsubsection*{Requisiti funzionali non obbligatori}
+\begin{itemize}
+\item Calcolo del punteggio progressivo
 \end{itemize}
 
 \subsubsection*{Requisiti non funzionali}
 \begin{itemize}
 \item Menù di pausa e salvataggio sessione
-\item Possibilità di visualizzare le tessere rimanenti
-\item Scelta del colore dell’avatar
-\item Gestione dell’audio
-\item Aggiunta di espansioni del gioco (nuove tessere e regole modificate)
-\item Sviluppo di una semplice AI per permettere una modalità singleplayer
 \end{itemize}
 
 \subsection{Analisi e modello del dominio}
-Caesena permette ai giocatori di poter piazzare delle pedine figurate (Tile) e dei pupazzetti (Meeple); alla chiusura dell'immagine raffigurata composta, se presenti meeple all'interno dell'immagine, il giocatore relativo al meeple prenderà tanti punti tanti quanti il valore associato alla figura chiusa e i meeple presenti su quell'immagine verrano ripristinati al relativo proprietario.
-Ogni tile può rappresentare più di una tipologia di figura differente, ogni singola tipologia di figura viene chiamata GameSet. Il giocatore, per poter piazzare la tile, dovrà far combaciare tutti i gameset della tile da piazzare con almeno un gameset di tile precedentemente posizionate.
-In caso la tile mostrata inizialmente non permette di essere posizionata, il giocatore potrà ruotare la tile ogni volta di novanta gradi. Le difficoltà presenti all'interno del progetto sono rivolte sopratutto rivolte alla parte grafica, infatti la prima versione software verrà fornita con un'interfaccia minimale.
+L'analisi e il modello di dominio di Carcassonne possono essere suddivisi in diversi componenti chiave, tra cui il tabellone di gioco, le tessere, i meeples e il sistema di punteggio.
+\begin{itemize}
+    \item Tabellone di gioco (Mappa): Il tabellone di Carcassonne rappresenta la regione di Carcassonne ed è composto da una serie di tessere che vengono posizionate sul tabellone durante il gioco. Il tabellone è suddiviso in diverse regioni, tra cui città, strade, campi e monasteri. Ognuna di queste regioni ha le proprie regole e il proprio sistema di punteggio, che aggiungono profondità e complessità al gioco.
+    \item Le tessere (Tiles): Le tessere di Carcassonne rappresentano diversi tipi di terreno, tra cui città, strade, campi e monasteri. Queste tessere vengono estratte casualmente da una pila e devono essere posizionate sul tabellone di gioco in modo che corrispondano al tipo di terreno delle tessere circostanti. Ogni tessera ha le sue regole e il suo sistema di punteggio, che i giocatori devono seguire per massimizzare i loro punti.
+    \item Meeples: I meeple sono i pezzi di gioco che i giocatori usano per controllare le diverse regioni del tabellone. 
+    \item Sistema di punteggio: Il sistema di punteggio di Carcassonne si basa sul completamento di diverse regioni sul tabellone di gioco. Quando una città, una strada o un monastero vengono completati, il giocatore che ha il maggior numero di meeples su di essi ottiene i punti. Se più giocatori hanno meeples su un elemento completato, ognuno di loro ottiene i punti. Alla fine della partita, i giocatori ottengono punti anche per i loro contadini sui campi completati. Il giocatore con il maggior numero di punti alla fine del gioco è il vincitore.
+\end{itemize}
+Le difficoltà che il progetto mantiene sono sopratutto presenti nella parte grafica, non ancora ottimizzata a causa dell'utilizzo del framework grafico Java Swing.
