@@ -39,10 +39,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     private final JPanel tileImagePanel;
     private final JButton rotateButton;
     private final JLabel playerNameLabel;
-    private final JLabel playerScoreLabel;
     private final JLabel remainingTilesLabel;
     private final RemainingMeeplesComponent<JPanel> meepleComponent;
     private final PlayerImage<JPanel> playerImageComponent;
+    private final LeaderBoardComponent<JPanel> leaderboard;
     private Optional<TileImage> tileImage;
     private int innerPaddingSize;
 
@@ -66,8 +66,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.playerNameLabel = new JLabel();
         playerNameLabel.setFont(GUI.MEDIUM_BOLD_FONT);
-        this.playerScoreLabel = new JLabel();
-        playerScoreLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         this.remainingTilesLabel = new JLabel();
         remainingTilesLabel.setFont(GUI.MEDIUM_BOLD_FONT);
 
@@ -144,14 +142,21 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.rotateButton.setContentAreaFilled(false);
         this.rotateButton.setOpaque(false);
         this.rotateButton.setBorderPainted(false);
+        this.leaderboard = new LeaderBoardComponentImpl(gameView.getUserInterface());
+        final JPanel verticalPanel = new JPanel();
+        verticalPanel.setOpaque(false);
+        verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
+        remainingTilesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        verticalPanel.add(remainingTilesLabel);
+        leaderboard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
+        verticalPanel.add(leaderboard.getComponent());
 
         innerPanel.add(playerImageComponent.getComponent());
         innerPanel.add(playerNameLabel);
         innerPanel.add(meepleComponent.getComponent());
-        innerPanel.add(playerScoreLabel);
         innerPanel.add(tileImagePanel);
         innerPanel.add(rotateButton);
-        innerPanel.add(remainingTilesLabel);
+        innerPanel.add(verticalPanel);
         innerPanel.setOpaque(false);
         this.add(innerPanel, BorderLayout.CENTER);
 
@@ -174,6 +179,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
+            this.leaderboard.getComponent().setVisible(true);
             this.meepleComponent.getComponent().setVisible(true);
             this.update();
             this.updatePadding();
@@ -199,7 +205,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.rotateButton.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.playerNameLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
-        this.playerScoreLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.remainingTilesLabel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
     }
 
@@ -232,11 +237,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     public void update() {
         updateCurrentTile();
         meepleComponent.update();
+        leaderboard.update();
         final var color = userInterface.getController().getCurrentPlayer().getColor();
         playerImageComponent.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
         playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
-        playerScoreLabel
-                .setText(LocaleHelper.getScoreText() + userInterface.getController().getCurrentPlayer().getScore());
         remainingTilesLabel.setText(
                 LocaleHelper.getRemainingTilesText() + userInterface.getController().getNotPlacedTiles().size());
         if (tileImage.get().getTile().isPlaced()) {

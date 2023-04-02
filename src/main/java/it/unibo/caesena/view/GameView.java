@@ -22,7 +22,7 @@ import it.unibo.caesena.view.components.TileImage;
 
 public class GameView extends JPanel implements View<JPanel> {
     private static final long serialVersionUID = -4620026742191171535L;
-    private static final float MAIN_COMPONENT_RATIO = 0.8f;
+    private static final float MAIN_COMPONENT_RATIO = 0.75f;
     private final GUI userInterface;
     private final MainComponent<JPanel> mainComponent;
     private final FooterComponent<JPanel> footer;
@@ -91,7 +91,6 @@ public class GameView extends JPanel implements View<JPanel> {
 
     public final void updateHUD() {
         this.footer.update();
-        this.sidebar.update();
     }
 
     public TileImage getCurrentTileImage() {

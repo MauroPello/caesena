@@ -38,8 +38,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     private final JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());
     private final JButton endTurnButton = new JButton(LocaleHelper.getEndTurnText());
 
-    private final LeaderBoardComponent<JPanel> leaderBoard;
-
     /**
      * SideBarComponent constructor
      *
@@ -123,13 +121,9 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(endTurnButton);
 
-        this.leaderBoard = new LeaderBoardComponentImpl(gameView.getUserInterface());
-        leaderBoard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
-
         innerPanel.add(zoomPanel);
         innerPanel.add(arrowsPanel);
         innerPanel.add(actionsPanel);
-        innerPanel.add(leaderBoard.getComponent());
 
         placeMeepleButton.setVisible(false);
         endTurnButton.setVisible(false);
@@ -150,15 +144,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         super.setVisible(false);
     }
 
-    @Override
-    public void setVisible(final boolean visible) {
-        if (visible) {
-            this.update();
-            this.leaderBoard.getComponent().setVisible(true);
-        }
-
-        super.setVisible(visible);
-    }
     /**
      * @return JPanel
      */
@@ -287,10 +272,5 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
                 ((JButton) e.getSource()).setEnabled(false);
             }
         };
-    }
-
-    @Override
-    public void update() {
-        this.leaderBoard.update();
     }
 }

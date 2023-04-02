@@ -25,19 +25,19 @@ import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
     private static final long serialVersionUID = 8950849192853252728L;
-    public static final float MODAL_PREFERRED_RATIO = 0.3f;
+    public static final float MODAL_PREFERRED_RATIO = 0.4f;
     public static final float MODAL_MAXIMUM_RATIO = 0.5f;
-    public static final float MODAL_MINIMUM_RATIO = 0.1f;
+    public static final float MODAL_MINIMUM_RATIO = 0.2f;
     public static final double SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     public static final double SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-    public static final Font BIG_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) SCREEN_WIDTH / 60);
-    public static final Font BIG_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) SCREEN_WIDTH / 60);
-    public static final Font MEDIUM_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) SCREEN_WIDTH / 80);
-    public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) SCREEN_WIDTH / 80);
-    public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) SCREEN_WIDTH / 100);
-    public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) SCREEN_WIDTH / 100);
+    public static final Font BIG_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.009f));
+    public static final Font BIG_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.009f));
+    public static final Font MEDIUM_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.008f));
+    public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.008f));
+    public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.007f));
+    public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.007f));
     public static final float SMALL_MODAL_RATIO = 0.5f;
-    private static final float MINIMUM_SIZE_RATIO = 0.2f;
+    private static final float MINIMUM_SIZE_RATIO = 0.3f;
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
     private final Controller controller;
