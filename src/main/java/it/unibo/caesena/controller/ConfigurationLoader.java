@@ -16,19 +16,26 @@ import it.unibo.caesena.model.tile.TileFactory;
 import it.unibo.caesena.model.tile.TileType;
 import it.unibo.caesena.utils.ResourceUtil;
 
-public class ConfigurationLoader {
 
+public class ConfigurationLoader {
     private final List<Tile> tiles = new ArrayList<>();
     private final String fileName;
 
+    /**
+    * Class constructor.
+    */
     public ConfigurationLoader(final String fileName) {
         this.fileName = fileName;
     }
 
+
     /**
-     * 
-     * @param factory a factory that specifies what type of TileFactory to create
-     * @return a list of all the tiles
+     * The getTiles function takes in a TileFactory and returns a list of tiles.
+     * It does this by reading the JSON file, parsing it into an object, then iterating through the array of tiles to create them.
+     * The function also shuffles the list of tiles and sets one tile as firstTile so that it can be placed on top when starting up.
+     *
+     * @param TileFactory Used to Create the tiles.
+     * @return A list of tiles.
      */
     public final List<Tile> getTiles(final TileFactory factory) {
         try {

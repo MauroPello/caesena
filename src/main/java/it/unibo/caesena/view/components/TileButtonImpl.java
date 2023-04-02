@@ -44,10 +44,11 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         if (this.containsTile() && isEnabled()) {
-            g.drawImage(this.tileImage.get().getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0, this.getWidth(),
+            g.drawImage(this.tileImage.get().getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0,
+                    this.getWidth(),
                     this.getHeight(), null);
-            //this.setOpaque(true);
-            //this.repaint();
+            // this.setOpaque(true);
+            // this.repaint();
         }
     }
 
@@ -68,22 +69,21 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         this.repaint();
     }
 
-
     @Override
     public void lock() {
         this.locked = true;
     }
 
-	@Override
+    @Override
     public void unsetMeeple() {
-		this.meeple = Optional.empty();
+        this.meeple = Optional.empty();
         this.tileImage.get().removeMeeple();
         this.repaint();
-	}
+    }
 
-	@Override
+    @Override
     public Optional<Meeple> getMeeple() {
-		return this.meeple;
-	}
+        return this.meeple;
+    }
 
 }

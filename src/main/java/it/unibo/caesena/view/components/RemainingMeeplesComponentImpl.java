@@ -64,7 +64,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
             for (final var player : controller.getPlayers()) {
                 final Color color = userInterface.getPlayerColor(player);
                 meeples.put(player, controller.getPlayerMeeples(player).stream()
-                    .map(m -> new MeepleImage(m, color)).toList());
+                        .map(m -> new MeepleImage(m, color)).toList());
             }
         } else {
             this.allMeeplesPanel.removeAll();
@@ -72,11 +72,10 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
             this.allMeeplesPanel.repaint();
         }
 
-
         final Player currentPlayer = controller.getCurrentPlayer();
         this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.get(currentPlayer).size()));
         this.meepleLabel.setText(LocaleHelper.getRemainingMeeplesText() + meeples.get(currentPlayer).stream()
-            .filter(m -> !m.getMeeple().isPlaced()).count());
+                .filter(m -> !m.getMeeple().isPlaced()).count());
         for (final MeepleImage meeple : meeples.get(currentPlayer)) {
             final JPanel meeplePanel = new JPanel() {
                 @Override

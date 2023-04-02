@@ -53,7 +53,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
         this.setLayout(new GridLayout(fieldSize, fieldSize));
         getTileButtonsToBeDrawn(this.horizontalOffset, this.verticalOffset, this.zoom)
-            .forEach(t -> this.add(t.getComponent()));
+                .forEach(t -> this.add(t.getComponent()));
         this.repaint();
         this.validate();
     }
@@ -220,8 +220,8 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     @Override
     public void updateMeeplePrecence() {
         allTileButtons.keySet().stream()
-        .filter(t -> t.getMeeple().isPresent())
-        .filter(t -> !t.getMeeple().get().isPlaced())
-        .forEach(t -> t.unsetMeeple());
+                .filter(t -> t.getMeeple().isPresent())
+                .filter(t -> !t.getMeeple().get().isPlaced())
+                .forEach(t -> t.unsetMeeple());
     }
 }

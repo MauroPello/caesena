@@ -12,6 +12,11 @@ import it.unibo.caesena.view.UserInterface;
 
 public interface Controller {
 
+    /**
+     * The startGame function is used to start the game.
+     * It shuffles the players, draws the first tile and places it on the board at
+     * position (0,0).
+     */
     void startGame();
 
     void resetGame();

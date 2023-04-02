@@ -66,7 +66,7 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         playersPanel.repaint();
 
         final List<Player> players = userInterface.getController().getPlayers().stream()
-            .sorted((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore())).toList();
+                .sorted((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore())).toList();
 
         for (final var player : players) {
             final var playerPanel = new JPanel();

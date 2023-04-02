@@ -30,14 +30,14 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainPanel.setPreferredSize(new Dimension(
-            (int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO),
-            (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
+                (int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO),
+                (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
         mainPanel.setMinimumSize(new Dimension(
-            (int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO),
-            (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
+                (int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO),
+                (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
         mainPanel.setMaximumSize(new Dimension(
-            (int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO),
-            (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
+                (int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO),
+                (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
         if (screenSize.getHeight() > screenSize.getWidth()) {
             playerImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
         } else {

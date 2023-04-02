@@ -100,9 +100,10 @@ public class GameView extends JPanel implements View<JPanel> {
     }
 
     public boolean placeTile() {
-        final Optional<Pair<Integer, Integer>> placedTilePosition = mainComponent.getBoard().getUnlockedTileButtonPosition();
+        final Optional<Pair<Integer, Integer>> placedTilePosition = mainComponent.getBoard()
+                .getUnlockedTileButtonPosition();
         if (placedTilePosition.isPresent()
-               && this.userInterface.getController().placeCurrentTile(placedTilePosition.get())) {
+                && this.userInterface.getController().placeCurrentTile(placedTilePosition.get())) {
             mainComponent.getBoard().placeTile();
             return true;
         }

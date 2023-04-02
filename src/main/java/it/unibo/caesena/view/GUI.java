@@ -54,12 +54,12 @@ public class GUI extends JFrame implements UserInterface {
     public GUI(final Controller controller) {
         super();
 
-            try {
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                    | UnsupportedLookAndFeelException e) {
-                System.exit(ABORT);
-            }
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                | UnsupportedLookAndFeelException e) {
+            System.exit(ABORT);
+        }
 
         this.controller = controller;
         this.players = new HashMap<>();

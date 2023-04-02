@@ -14,8 +14,8 @@ public final class StringUtil {
     }
 
     /**
-     * 
-     * @param string to be capitalized 
+     *
+     * @param string to be capitalized
      * @return a capitalized string
      */
     public static String capitalize(final String string) {
@@ -35,8 +35,8 @@ public final class StringUtil {
         }
 
         /**
-         * 
-         * @param field 
+         *
+         * @param field
          * @param value
          * @return
          */
@@ -51,7 +51,7 @@ public final class StringUtil {
         }
 
         /**
-         * 
+         *
          * @param method
          * @return
          */
@@ -62,7 +62,7 @@ public final class StringUtil {
         }
 
         /**
-         * 
+         *
          * @param name
          * @return
          */
@@ -83,8 +83,8 @@ public final class StringUtil {
         }
 
         /**
-         * 
-         * @param method 
+         *
+         * @param method
          * @return
          */
         private boolean isGetter(final Method method) {
@@ -92,7 +92,7 @@ public final class StringUtil {
         }
 
         /**
-         * 
+         *
          * @param obj
          * @return
          */
@@ -111,7 +111,7 @@ public final class StringUtil {
         }
 
         /**
-         * 
+         *
          * @param method to be checked if empty
          * @return if method has arguments
          */
@@ -120,7 +120,7 @@ public final class StringUtil {
         }
 
         /**
-         * 
+         *
          * @return a string made by a List of arguments
          */
         public final String build() {

@@ -37,13 +37,18 @@ public final class ControllerImpl implements Controller {
     private boolean gameOver;
     private int turn;
 
+    /**
+    * Class constructor.
+    */
     public ControllerImpl() {
         userInterfaces = new ArrayList<>();
         resetGame();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    // public void startGame() throws IllegalStateException
     public void startGame() {
         if (players.isEmpty()) {
             throw new IllegalStateException("Can't start the game without players");
@@ -54,6 +59,7 @@ public final class ControllerImpl implements Controller {
         drawNewTile();
         updateUserInterfaces();
     }
+
 
     @Override
     public void resetGame() {
@@ -103,8 +109,8 @@ public final class ControllerImpl implements Controller {
 
     private boolean areTilesNear(final Tile t1, final Tile t2) {
         return Math.abs(t1.getPosition().get().getX() - t2.getPosition().get().getX()) <= 1
-            && Math.abs(t1.getPosition().get().getY() - t2.getPosition().get().getY()) <= 1
-            && !t1.getPosition().get().equals(t2.getPosition().get());
+                && Math.abs(t1.getPosition().get().getY() - t2.getPosition().get().getY()) <= 1
+                && !t1.getPosition().get().equals(t2.getPosition().get());
     }
 
     @Override
@@ -132,22 +138,22 @@ public final class ControllerImpl implements Controller {
     @Override
     public List<Tile> getPlacedTiles() {
         return tiles.stream()
-            .filter(Tile::isPlaced)
-            .toList();
+                .filter(Tile::isPlaced)
+                .toList();
     }
 
     @Override
     public List<Tile> getNotPlacedTiles() {
         return tiles.stream()
-            .filter(x -> !x.isPlaced())
-            .toList();
+                .filter(x -> !x.isPlaced())
+                .toList();
     }
 
     @Override
     public List<Meeple> getPlayerMeeples(final Player player) {
         return meeples.stream()
-            .filter(m -> m.getOwner().equals(player))
-            .toList();
+                .filter(m -> m.getOwner().equals(player))
+                .toList();
     }
 
     @Override
@@ -158,8 +164,8 @@ public final class ControllerImpl implements Controller {
     @Override
     public void endTurn() {
         mediator.getGameSetsInTile(currentTile).stream()
-            .filter(this::isGameSetClosed)
-            .forEach(GameSet::close);
+                .filter(this::isGameSetClosed)
+                .forEach(GameSet::close);
 
         for (final var nearTile : getPlacedTiles()) {
             if (areTilesNear(currentTile, nearTile)) {
@@ -203,19 +209,19 @@ public final class ControllerImpl implements Controller {
     @Override
     public void endGame() {
         final Set<GameSet> fieldsToClose = mediator.getAllGameSets().stream()
-            .filter(c -> c.getType().equals(GameSetType.CITY))
-            .filter(GameSet::isClosed)
-            .flatMap(c -> mediator.getFieldGameSetsNearGameSet(c).stream())
-            .peek(f -> f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD))
-            .collect(Collectors.toSet());
+                .filter(c -> c.getType().equals(GameSetType.CITY))
+                .filter(GameSet::isClosed)
+                .flatMap(c -> mediator.getFieldGameSetsNearGameSet(c).stream())
+                .peek(f -> f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD))
+                .collect(Collectors.toSet());
         fieldsToClose.forEach(GameSet::close);
 
         mediator.getAllGameSets().stream()
-            .filter(x -> !x.isClosed())
-            .forEach(g -> {
-                g.setPoints(g.getPoints() / g.getType().getEndGameRatio());
-                g.close();
-        });
+                .filter(x -> !x.isClosed())
+                .forEach(g -> {
+                    g.setPoints(g.getPoints() / g.getType().getEndGameRatio());
+                    g.close();
+                });
 
         updateUserInterfaces();
     }
@@ -245,7 +251,7 @@ public final class ControllerImpl implements Controller {
         }
 
         return mediator.getTilesFromGameSet(gameSet).entrySet().stream()
-            .allMatch(p -> p.getValue().stream().allMatch(s -> p.getKey().isSectionClosed(s)));
+                .allMatch(p -> p.getValue().stream().allMatch(s -> p.getKey().isSectionClosed(s)));
     }
 
     private boolean isPositionOccupied(final Pair<Integer, Integer> position) {

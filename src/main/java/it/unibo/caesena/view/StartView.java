@@ -37,7 +37,7 @@ public class StartView extends JPanel implements View<JPanel> {
 
     public StartView(final GUI userInterface) {
         super();
-        this.userInterface = userInterface;
+        this.userInterface = (GUI) this.getParent();
         // userInterface.getController().resetGame();
         this.playerInputs = new ArrayList<>();
 
@@ -65,7 +65,8 @@ public class StartView extends JPanel implements View<JPanel> {
             public Dimension getPreferredSize() {
                 final Dimension d = this.getParent().getSize();
                 final double height = (image.getHeight() * d.getWidth()) / image.getWidth();
-                return new Dimension((int) Math.round(d.width * GAME_IMAGE_RATIO), (int) Math.round(height * GAME_IMAGE_RATIO));
+                return new Dimension((int) Math.round(d.width * GAME_IMAGE_RATIO),
+                        (int) Math.round(height * GAME_IMAGE_RATIO));
             }
 
             @Override
@@ -112,11 +113,11 @@ public class StartView extends JPanel implements View<JPanel> {
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         mainPanel.setPreferredSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_PREFERRED_RATIO),
-            (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
+                (int) Math.round(screenSize.getHeight() * GUI.MODAL_PREFERRED_RATIO)));
         mainPanel.setMinimumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MINIMUM_RATIO),
-            (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
+                (int) Math.round(screenSize.getHeight() * GUI.MODAL_MINIMUM_RATIO)));
         mainPanel.setMaximumSize(new Dimension((int) Math.round(screenSize.getWidth() * GUI.MODAL_MAXIMUM_RATIO),
-            (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
+                (int) Math.round(screenSize.getHeight() * GUI.MODAL_MAXIMUM_RATIO)));
         if (screenSize.getHeight() > screenSize.getWidth()) {
             playerInputImageSize = (int) Math.round(screenSize.getWidth() * PLAYER_IMAGE_RATIO);
         } else {

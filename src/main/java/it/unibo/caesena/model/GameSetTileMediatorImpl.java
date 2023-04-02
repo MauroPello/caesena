@@ -18,16 +18,21 @@ import it.unibo.caesena.utils.Pair;
 
 public class GameSetTileMediatorImpl implements GameSetTileMediator {
 
-    private static final Map<Direction, Pair<List<TileSection>, List<TileSection>>> NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
-        Direction.UP, new Pair<>(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT),
-            List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT)),
-        Direction.DOWN, new Pair<>(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT),
-            List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT)),
-        Direction.LEFT, new Pair<>(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN),
-            List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN)),
-        Direction.RIGHT, new Pair<>(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN),
-            List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN))));
-        private final Map<GameSet, Map<Tile, Set<TileSection>>> crossReferences;
+    private static final Map<Direction, Pair<List<TileSection>, List<TileSection>>> NEIGHBOUR_TILES_CHECK = new HashMap<>(
+            Map.of(
+                    Direction.UP,
+                    new Pair<>(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT),
+                            List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT)),
+                    Direction.DOWN,
+                    new Pair<>(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT),
+                            List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT)),
+                    Direction.LEFT,
+                    new Pair<>(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN),
+                            List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN)),
+                    Direction.RIGHT,
+                    new Pair<>(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN),
+                            List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN))));
+    private final Map<GameSet, Map<Tile, Set<TileSection>>> crossReferences;
     private final GameSetFactory gameSetFactory;
 
     public GameSetTileMediatorImpl(final GameSetFactory gameSetFactory) {
