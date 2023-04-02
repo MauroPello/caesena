@@ -39,8 +39,8 @@ public final class ControllerImpl implements Controller {
     private int turn;
 
     /**
-    * Class constructor.
-    */
+     * Class constructor.
+     */
     public ControllerImpl() {
         this.userInterfaces = new ArrayList<>();
         resetGame();
@@ -61,7 +61,9 @@ public final class ControllerImpl implements Controller {
         updateUserInterfaces();
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void resetGame() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
@@ -73,6 +75,9 @@ public final class ControllerImpl implements Controller {
         updateUserInterfaces();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Player addPlayer(final String name, final Color color) {
         final Player newPlayer = new PlayerImpl(name, color);
@@ -83,17 +88,35 @@ public final class ControllerImpl implements Controller {
         return newPlayer;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile getCurrentTile() {
         return this.currentTile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void rotateCurrentTile() {
         this.mediator.rotateTileClockwise(currentTile);
         updateUserInterfaces();
     }
 
+    /**
+     * The isPositionValidForCurrentTile function checks if the position is valid
+     * for the current tile.
+     * It checks if there are any tiles placed on the board, and then checks to see
+     * if that position is occupied by another tile.
+     * If it isn't, it returns true. Otherwise, it returns false.
+     *
+     * @param Pair<Integer Used to Store the x and y coordinates of a position.
+     * @param Integer>     Used to Specify the position of the tile.
+     * @return True if the position is not occupied and either there are no placed
+     *         tiles or the mediator returns true for that position.
+     */
     @Override
     public boolean isPositionValidForCurrentTile(final Pair<Integer, Integer> position) {
         if (isPositionOccupied(position)) {
@@ -104,12 +127,6 @@ public final class ControllerImpl implements Controller {
         }
 
         return mediator.isPositionValid(position, currentTile);
-    }
-
-    private boolean areTilesNear(final Tile t1, final Tile t2) {
-        return Math.abs(t1.getPosition().get().getX() - t2.getPosition().get().getX()) <= 1
-                && Math.abs(t1.getPosition().get().getY() - t2.getPosition().get().getY()) <= 1
-                && !t1.getPosition().get().equals(t2.getPosition().get());
     }
 
     @Override
@@ -190,15 +207,6 @@ public final class ControllerImpl implements Controller {
         updateUserInterfaces();
     }
 
-    private void drawNewTile() {
-        if (getNotPlacedTiles().isEmpty()) {
-            gameOver = true;
-            endGame();
-        } else {
-            this.currentTile = this.getNotPlacedTiles().get(0);
-        }
-    }
-
     @Override
     public GameSet getCurrentTileGameSetInSection(final TileSection section) {
         return mediator.getGameSetInSection(currentTile, section);
@@ -239,6 +247,38 @@ public final class ControllerImpl implements Controller {
         final boolean outcome = getCurrentTileGameSetInSection(section).addMeeple(meeple);
         updateUserInterfaces();
         return outcome;
+    }
+
+    @Override
+    public boolean discardCurrentTile() {
+        if (this.isCurrentTilePlaceable()) {
+            return false;
+        }
+        tiles.remove(currentTile);
+        this.drawNewTile();
+        updateUserInterfaces();
+        return true;
+    }
+
+    @Override
+    public void addUserInterface(final UserInterface userInterface) {
+        this.userInterfaces.add(userInterface);
+        userInterface.update();
+    }
+
+    private boolean areTilesNear(final Tile t1, final Tile t2) {
+        return Math.abs(t1.getPosition().get().getX() - t2.getPosition().get().getX()) <= 1
+                && Math.abs(t1.getPosition().get().getY() - t2.getPosition().get().getY()) <= 1
+                && !t1.getPosition().get().equals(t2.getPosition().get());
+    }
+
+    private void drawNewTile() {
+        if (getNotPlacedTiles().isEmpty()) {
+            gameOver = true;
+            endGame();
+        } else {
+            this.currentTile = this.getNotPlacedTiles().get(0);
+        }
     }
 
     private boolean isGameSetClosed(final GameSet gameSet) {
@@ -290,25 +330,8 @@ public final class ControllerImpl implements Controller {
         return false;
     }
 
-    @Override
-    public boolean discardCurrentTile() {
-        if (this.isCurrentTilePlaceable()) {
-            return false;
-        }
-        tiles.remove(currentTile);
-        this.drawNewTile();
-        updateUserInterfaces();
-        return true;
-    }
-
     private void updateUserInterfaces() {
         this.userInterfaces.forEach(UserInterface::update);
-    }
-
-    @Override
-    public void addUserInterface(final UserInterface userInterface) {
-        this.userInterfaces.add(userInterface);
-        userInterface.update();
     }
 
 }
