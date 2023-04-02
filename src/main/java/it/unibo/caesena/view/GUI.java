@@ -232,6 +232,7 @@ public class GUI extends JFrame implements UserInterface {
             gameView.update();
         } else {
             if (!startView.isVisible()) {
+                resetViews();
                 showStartView();
             }
 
