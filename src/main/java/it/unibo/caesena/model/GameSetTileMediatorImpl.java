@@ -179,6 +179,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
                         sections.stream().map(TileSection::rotateClockwise).toList()));
             }
         }
+        tile.rotate();
     }
 
     /**

@@ -8,14 +8,16 @@ import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
 public final class TileImpl implements Tile {
-
+    private final static int MAX_ROTATIONS = 4;
     private final Map<TileSection, Boolean> sections;
     private final TileType type;
 
     private Optional<Pair<Integer, Integer>> currentPosition;
+    private int rotationCount;
 
     public TileImpl(final TileType type) {
         this.type = type;
+        this.rotationCount = 0;
 
         this.currentPosition = Optional.empty();
         this.sections = new HashMap<>();
@@ -57,5 +59,15 @@ public final class TileImpl implements Tile {
     @Override
     public TileType getTileType() {
         return this.type;
+    }
+
+    @Override
+    public void rotate() {
+        this.rotationCount = (this.rotationCount + 1) % MAX_ROTATIONS;
+    }
+
+    @Override
+    public int getRotationCount() {
+        return this.rotationCount;
     }
 }
