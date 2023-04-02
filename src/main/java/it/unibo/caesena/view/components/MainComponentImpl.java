@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
+import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
 
 public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
@@ -69,7 +71,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
             if (!meeples.isEmpty()) {
                 final var section = this.getSectionSelector().getSelectedSection().get();
                 if (this.gameView.getUserInterface().getController().placeMeeple(meeples.get(0), section)) {
-                    this.board.getCurrentTileButton().setMeeple(meeples.get(0), section);
+                    this.board.getCurrentTileButton().setMeeple(meeples.get(0));
                 } else {
                     throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
                 }
@@ -106,11 +108,12 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     private void showBoard() {
         if (!endingTurn) {
             if (this.getSectionSelector().isSectionSelected()) {
-                final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
-                final Meeple meeple = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer)
+                Controller controller = this.gameView.getUserInterface().getController();
+                final var currentPlayer = controller.getCurrentPlayer();
+                final Meeple meeple = controller.getPlayerMeeples(currentPlayer)
                         .stream().filter(m -> !m.isPlaced()).findFirst().get();
-                this.board.getCurrentTileButton().setMeeple(meeple,
-                        this.getSectionSelector().getSelectedSection().get());
+                meeple.place(new Pair<>(controller.getCurrentTile(), this.sectionSelector.getSelectedSection().get()));
+                this.board.getCurrentTileButton().setMeeple(meeple);
             } else {
                 this.board.getCurrentTileButton().unsetMeeple();
             }

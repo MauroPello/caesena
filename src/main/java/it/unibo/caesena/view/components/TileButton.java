@@ -3,7 +3,6 @@ package it.unibo.caesena.view.components;
 import java.util.Optional;
 
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.model.tile.TileSection;
 
 public interface TileButton<X> {
 
@@ -17,7 +16,7 @@ public interface TileButton<X> {
 
     Optional<Meeple> getMeeple();
 
-    void setMeeple(Meeple meeple, TileSection section);
+    void setMeeple(Meeple meeple);
 
     void unsetMeeple();
 

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.ResourceUtil;
 
@@ -22,7 +21,7 @@ public class TileImage {
     private final Tile tile;
     private int rotationCount;
     private Color color;
-    private Optional<Pair<Meeple, TileSection>> meeple;
+    private Optional<Meeple> meeple;
     private BufferedImage temporaryImage;
     private boolean somethingChanged = true;
 
@@ -34,7 +33,6 @@ public class TileImage {
      */
     public TileImage(final Tile tile, final Color color) {
         this.tile = tile;
-        this.color = color;
         this.rotationCount = 0;
         this.meeple = Optional.empty();
     }
@@ -123,8 +121,9 @@ public class TileImage {
      * @param meeple
      * @param section
      */
-    public void addMeeple(final Meeple meeple, final TileSection section) {
-        this.meeple = Optional.of(new Pair<>(meeple, section));
+    public void addMeeple(final Meeple meeple, final Color color) {
+        this.meeple = Optional.of(meeple);
+        this.color = color;
         somethingChanged = true;
     }
 
@@ -141,7 +140,7 @@ public class TileImage {
         finalGraphics.drawImage(image, 0, 0, null);
         if (this.meeple.isPresent()) {
             final int meepleSize = (int) ((double) image.getHeight(null) / 5);
-            final MeepleImage meepleimage = new MeepleImage(this.meeple.get().getX(), this.color);
+            final MeepleImage meepleimage = new MeepleImage(this.meeple.get(), this.color);
             final Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null) - meepleSize);
             finalGraphics.drawImage(meepleimage.getNormalImage(), meeplePosition.getX(), meeplePosition.getY(),
                     meepleSize, meepleSize, null);
@@ -154,7 +153,7 @@ public class TileImage {
         final int closePadding = max / 10;
         final int farPadding = max / 5;
         final int centralPadding = max / 2;
-        return switch (meeple.get().getY()) {
+        return switch (meeple.get().getPosition().getY()) {
             case CENTER -> new Pair<Integer, Integer>(centralPadding, centralPadding);
             case DOWN_CENTER -> new Pair<Integer, Integer>(centralPadding, max - closePadding);
             case DOWN_LEFT -> new Pair<Integer, Integer>(farPadding, max - closePadding);

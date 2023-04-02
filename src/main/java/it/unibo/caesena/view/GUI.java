@@ -58,6 +58,7 @@ public class GUI extends JFrame implements UserInterface {
 
         this.controller = controller;
 
+
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -73,7 +74,7 @@ public class GUI extends JFrame implements UserInterface {
         height = height < MINIMUM_HEIGHT ? MINIMUM_HEIGHT : height;
         this.setMinimumSize(new Dimension(Math.round(width), Math.round(height)));
 
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
 

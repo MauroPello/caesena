@@ -68,6 +68,8 @@ public interface Controller {
 
     List<Meeple> getPlayerMeeples(Player player);
 
+    List<Meeple> getMeeples();
+
     boolean isGameOver();
 
     void endTurn();

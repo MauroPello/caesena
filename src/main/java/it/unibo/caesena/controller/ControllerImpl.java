@@ -334,4 +334,9 @@ public final class ControllerImpl implements Controller {
         this.userInterfaces.forEach(UserInterface::update);
     }
 
+    @Override
+    public List<Meeple> getMeeples() {
+        return this.meeples;
+    }
+
 }

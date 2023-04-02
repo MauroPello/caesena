@@ -1,23 +1,29 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 import javax.swing.JButton;
+
+import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.view.GameView;
 
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private static final long serialVersionUID = 3246088701705856082L;
+    private final GameView gameView;
     private Optional<Meeple> meeple;
     private Optional<TileImage> tileImage;
     private boolean locked;
 
-    public TileButtonImpl(final ActionListener onClickActionListener) {
+
+    public TileButtonImpl(GameView gameView, final ActionListener onClickActionListener) {
         super();
         this.locked = false;
         this.meeple = Optional.empty();
         this.tileImage = Optional.empty();
+        this.gameView = gameView;
         this.addActionListener(onClickActionListener);
         this.setContentAreaFilled(false);
         this.setFocusable(false);
@@ -47,8 +53,6 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
             g.drawImage(this.tileImage.get().getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0,
                     this.getWidth(),
                     this.getHeight(), null);
-            // this.setOpaque(true);
-            // this.repaint();
         }
     }
 
@@ -63,9 +67,14 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     }
 
     @Override
-    public void setMeeple(final Meeple meeple, final TileSection section) {
+    public void setMeeple(final Meeple meeple) {
         this.meeple = Optional.of(meeple);
-        this.tileImage.get().addMeeple(this.meeple.get(), section);
+        Controller controller = gameView.getUserInterface().getController();
+        final int red = controller.getCurrentPlayer().getColor().getRed();
+        final int green = controller.getCurrentPlayer().getColor().getGreen();
+        final int blue = controller.getCurrentPlayer().getColor().getBlue();
+        final Color currentColor = new Color(red, green, blues);
+        this.tileImage.get().addMeeple(this.meeple.get(), currentColor);
         this.repaint();
     }
 

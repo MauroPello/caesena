@@ -1,5 +1,6 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -158,19 +160,50 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     }
 
     private TileButton<JButton> findTileButton(final int horizontalCoordinate, final int verticalCoordinate) {
-        TileButton<JButton> searchedTile;
+        TileButton<JButton> foundTileButton;
         final Pair<Integer, Integer> coordinates = new Pair<>(horizontalCoordinate, verticalCoordinate);
-        final Optional<TileButton<JButton>> searchedTileOptional = allTileButtons.entrySet().stream()
+        final Controller controller = this.gameView.getUserInterface().getController();
+        final int red = controller.getCurrentPlayer().getColor().getRed();
+        final int blue = controller.getCurrentPlayer().getColor().getBlue();
+        final int green = controller.getCurrentPlayer().getColor().getGreen();
+        final Color currentColor = new Color(red, blue, green);
+
+        Optional<Tile> searchedTile = controller.getPlacedTiles().stream()
+        .filter(t -> t.getPosition().get().equals(coordinates))
+        .findFirst();
+        final Optional<TileButton<JButton>> searchedTileButton = allTileButtons.entrySet().stream()
                 .filter(x -> x.getValue().equals(coordinates))
                 .map(x -> x.getKey())
                 .findFirst();
-        if (searchedTileOptional.isEmpty()) {
-            searchedTile = new TileButtonImpl(getTileButtonActionListener());
-            allTileButtons.put(searchedTile, coordinates);
-        } else {
-            searchedTile = searchedTileOptional.get();
+        if (searchedTile.isPresent() && searchedTileButton.isEmpty()) {
+            foundTileButton = new TileButtonImpl(gameView, getTileButtonActionListener());
+            foundTileButton.addTile(new TileImage(searchedTile.get(), currentColor));
+            foundTileButton.lock();
+            allTileButtons.put(foundTileButton, coordinates);
+        } else if (searchedTile.isPresent() && searchedTileButton.isPresent()) {
+            if (!searchedTileButton.get().containsTile()) {
+                searchedTileButton.get()
+                        .addTile(new TileImage(searchedTile.get(), currentColor));
+                searchedTileButton.get().lock();
+                // manca la rotazione perchè non è nel model
+            } else if (searchedTileButton.get().getMeeple().isEmpty()) {
+                Optional<Meeple> placedMeeple = controller.getMeeples().stream()
+                        .filter(m -> m.isPlaced())
+                        .filter(m -> m.getPosition().getX().equals(searchedTile.get()))
+                        .findFirst();
+                if (placedMeeple.isPresent()) {
+                    searchedTileButton.get().setMeeple(placedMeeple.get());
+                }
+            }
+            foundTileButton = searchedTileButton.get();
+        } else if (searchedTile.isEmpty() && searchedTileButton.isEmpty()) {
+            foundTileButton = new TileButtonImpl(this.gameView, getTileButtonActionListener());
+            allTileButtons.put(foundTileButton, coordinates);
+        } else { // if (searchedTile.isEmpty() && searchedTileButton.isPresent())
+            foundTileButton = searchedTileButton.get();
         }
-        return searchedTile;
+
+        return foundTileButton;
     }
 
     private ActionListener getTileButtonActionListener() {
