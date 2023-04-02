@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -25,19 +26,20 @@ import it.unibo.caesena.utils.ResourceUtil;
 
 public class GUI extends JFrame implements UserInterface {
     private static final long serialVersionUID = 8950849192853252728L;
-    public static final float MODAL_PREFERRED_RATIO = 0.3f;
+    public static final float MODAL_PREFERRED_RATIO = 0.4f;
     public static final float MODAL_MAXIMUM_RATIO = 0.5f;
-    public static final float MODAL_MINIMUM_RATIO = 0.1f;
+    public static final float MODAL_MINIMUM_RATIO = 0.2f;
     public static final double SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     public static final double SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-    public static final Font BIG_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) SCREEN_WIDTH / 60);
-    public static final Font BIG_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) SCREEN_WIDTH / 60);
-    public static final Font MEDIUM_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) SCREEN_WIDTH / 80);
-    public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) SCREEN_WIDTH / 80);
-    public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) SCREEN_WIDTH / 100);
-    public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) SCREEN_WIDTH / 100);
+    public static final Font BIG_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.009f));
+    public static final Font BIG_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.009f));
+    public static final Font MEDIUM_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.008f));
+    public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.008f));
+    public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.007f));
+    public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.007f));
+    public static final int DEFAULT_PADDING = 10;
     public static final float SMALL_MODAL_RATIO = 0.5f;
-    private static final float MINIMUM_SIZE_RATIO = 0.2f;
+    private static final float MINIMUM_SIZE_RATIO = 0.3f;
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
     private final Controller controller;
@@ -55,6 +57,9 @@ public class GUI extends JFrame implements UserInterface {
                 | UnsupportedLookAndFeelException e) {
             System.exit(ABORT);
         }
+        UIManager.put("OptionPane.messageFont", MEDIUM_NORMAL_FONT);
+        UIManager.put("OptionPane.buttonFont", MEDIUM_BOLD_FONT);
+        UIManager.put("OptionPane.questionIcon", new ImageIcon());
 
         this.controller = controller;
 
@@ -74,7 +79,7 @@ public class GUI extends JFrame implements UserInterface {
         height = height < MINIMUM_HEIGHT ? MINIMUM_HEIGHT : height;
         this.setMinimumSize(new Dimension(Math.round(width), Math.round(height)));
 
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
 
@@ -233,6 +238,7 @@ public class GUI extends JFrame implements UserInterface {
             gameView.update();
         } else {
             if (!startView.isVisible()) {
+                resetViews();
                 showStartView();
             }
 

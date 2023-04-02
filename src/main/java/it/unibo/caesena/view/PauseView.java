@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 public class PauseView extends JPanel implements View<JPanel> {
     private static final long serialVersionUID = 3027253762177464276L;
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 80);
-    private static final int PADDING_SIZE = 10;
     private final GUI userInterface;
 
     public PauseView(final GUI userInterface) {
@@ -30,13 +29,13 @@ public class PauseView extends JPanel implements View<JPanel> {
 
         final JLabel titleLbl = new JLabel(LocaleHelper.getViewTitle("PauseView", false));
         titleLbl.setFont(GUI.BIG_BOLD_FONT);
-        titleLbl.setBorder(BorderFactory.createEmptyBorder(PADDING_SIZE, 0, PADDING_SIZE, 0));
+        titleLbl.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, 0, GUI.DEFAULT_PADDING, 0));
         titleLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridBagLayout());
         final GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.insets = new Insets(PADDING_SIZE, 0, PADDING_SIZE, 0);
+        gridBagConstraints.insets = new Insets(GUI.DEFAULT_PADDING, 0, GUI.DEFAULT_PADDING, 0);
 
         final JButton resumeGameButton = new JButton(LocaleHelper.getResumeGameText());
         resumeGameButton.setFont(GUI.MEDIUM_BOLD_FONT);

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Optional;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -37,8 +38,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     private final JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());
     private final JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());
     private final JButton endTurnButton = new JButton(LocaleHelper.getEndTurnText());
-
-    private final LeaderBoardComponent<JPanel> leaderBoard;
 
     /**
      * SideBarComponent constructor
@@ -81,9 +80,12 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
 
         final JPanel zoomPanel = new JPanel();
+        zoomPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         final JPanel arrowsPanel = new JPanel();
+        arrowsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         final JPanel centerArrowsPanel = new JPanel();
         final JPanel actionsPanel = new JPanel();
+        actionsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
 
         zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.Y_AXIS));
         arrowsPanel.setLayout(new BoxLayout(arrowsPanel, BoxLayout.Y_AXIS));
@@ -123,13 +125,9 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(endTurnButton);
 
-        this.leaderBoard = new LeaderBoardComponentImpl(gameView.getUserInterface());
-        leaderBoard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
-
         innerPanel.add(zoomPanel);
         innerPanel.add(arrowsPanel);
         innerPanel.add(actionsPanel);
-        innerPanel.add(leaderBoard.getComponent());
 
         placeMeepleButton.setVisible(false);
         endTurnButton.setVisible(false);
@@ -150,15 +148,6 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         super.setVisible(false);
     }
 
-    @Override
-    public void setVisible(final boolean visible) {
-        if (visible) {
-            this.update();
-            this.leaderBoard.getComponent().setVisible(true);
-        }
-
-        super.setVisible(visible);
-    }
     /**
      * @return JPanel
      */
@@ -202,12 +191,13 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
      */
     private ActionListener endTurnEventListener() {
         return (e) -> {
-            this.gameView.endTurn();
             placeTileButton.setVisible(true);
             placeMeepleButton.setVisible(false);
             placeMeepleButton.setEnabled(true);
             endTurnButton.setVisible(false);
             discardTileButton.setVisible(true);
+            discardTileButton.setEnabled(true);
+            this.gameView.endTurn();
         };
     }
 
@@ -281,16 +271,9 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
 
     private ActionListener discardTileEventListener() {
         return (e) -> {
-            if (controller.discardCurrentTile()) {
-                gameView.updateHUD();
-            } else {
+            if (!controller.discardCurrentTile()) {
                 ((JButton) e.getSource()).setEnabled(false);
             }
         };
-    }
-
-    @Override
-    public void update() {
-        this.leaderBoard.update();
     }
 }

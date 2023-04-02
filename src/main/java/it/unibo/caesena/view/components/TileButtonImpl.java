@@ -73,7 +73,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         final int red = controller.getCurrentPlayer().getColor().getRed();
         final int green = controller.getCurrentPlayer().getColor().getGreen();
         final int blue = controller.getCurrentPlayer().getColor().getBlue();
-        final Color currentColor = new Color(red, green, blues);
+        final Color currentColor = new Color(red, green, blue);
         this.tileImage.get().addMeeple(this.meeple.get(), currentColor);
         this.repaint();
     }
