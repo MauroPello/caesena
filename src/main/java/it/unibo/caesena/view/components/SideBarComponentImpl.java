@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Optional;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -79,9 +80,12 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
 
         final JPanel zoomPanel = new JPanel();
+        zoomPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         final JPanel arrowsPanel = new JPanel();
+        arrowsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         final JPanel centerArrowsPanel = new JPanel();
         final JPanel actionsPanel = new JPanel();
+        actionsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
 
         zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.Y_AXIS));
         arrowsPanel.setLayout(new BoxLayout(arrowsPanel, BoxLayout.Y_AXIS));

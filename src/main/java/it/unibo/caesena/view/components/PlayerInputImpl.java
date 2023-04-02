@@ -19,7 +19,6 @@ import it.unibo.caesena.view.LocaleHelper;
 public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     private static final long serialVersionUID = 6860767233870664780L;
     private static final int TEXT_FIELD_COLUMNS = 4;
-    private static final int PADDING_SIZE = 10;
     private final PlayerImageImpl playerColorPanel;
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
@@ -71,9 +70,9 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         colorPanel.add(colorLabel);
         colorPanel.add(playerColorPanel);
 
-        namePanel.setBorder(BorderFactory.createEmptyBorder(PADDING_SIZE, PADDING_SIZE, PADDING_SIZE, PADDING_SIZE));
+        namePanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         this.add(namePanel);
-        colorPanel.setBorder(BorderFactory.createEmptyBorder(PADDING_SIZE, PADDING_SIZE, PADDING_SIZE, PADDING_SIZE));
+        colorPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         this.add(colorPanel);
         this.add(playerColorButton);
     }

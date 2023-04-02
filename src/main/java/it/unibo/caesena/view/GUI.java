@@ -36,6 +36,7 @@ public class GUI extends JFrame implements UserInterface {
     public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.008f));
     public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.007f));
     public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.007f));
+    public static final int DEFAULT_PADDING = 10;
     public static final float SMALL_MODAL_RATIO = 0.5f;
     private static final float MINIMUM_SIZE_RATIO = 0.3f;
     private static final int MINIMUM_WIDTH = 200;
