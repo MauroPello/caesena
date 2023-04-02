@@ -14,7 +14,7 @@ public interface GameSet {
      * @param meeple to be placed
      * @return if meeple is added in current GameSet
      */
-    boolean addMeeple(Meeple meeple);
+    void addMeeple(Meeple meeple);
 
     /**
      * 

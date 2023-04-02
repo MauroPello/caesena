@@ -11,6 +11,7 @@ import java.util.HashSet;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactory;
 import it.unibo.caesena.model.gameset.GameSetType;
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Direction;
@@ -229,5 +230,17 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     @Override
     public Map<Tile, Set<TileSection>> getTilesFromGameSet(final GameSet gameSet) {
         return this.crossReferences.get(gameSet);
+    }
+
+    @Override
+    public boolean placeMeeple(Meeple meeple, Tile tile, TileSection tileSection) {
+        final GameSet gameSet = getGameSetInSection(tile, tileSection);
+        if (meeple.isPlaced() || !gameSet.isMeepleFree()) {
+            return false;
+        }
+
+        gameSet.addMeeple(meeple);
+        meeple.place(new Pair<>(tile, tileSection));
+        return true;
     }
 }
