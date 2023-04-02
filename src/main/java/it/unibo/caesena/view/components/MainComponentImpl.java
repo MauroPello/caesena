@@ -33,12 +33,12 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     @Override
     public void toggleComponents() {
         final Player currentPlayer = gameView.getUserInterface().getController().getCurrentPlayer();
-        final Optional<Meeple> ramainingMeeple = gameView.getUserInterface().getController()
+        final Optional<Meeple> remainingMeeples = gameView.getUserInterface().getController()
                 .getPlayerMeeples(currentPlayer)
                 .stream()
                 .filter(m -> !m.isPlaced())
                 .findAny();
-        if (ramainingMeeple.isPresent()) {
+        if (remainingMeeples.isPresent()) {
             showingBoard = !showingBoard;
             updateComponents();
         }
@@ -61,6 +61,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     @Override
     public void endTurn() {
+        // TODO check if needed
         this.endingTurn = true;
         final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
         final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer)
@@ -80,7 +81,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
             }
         }
         if (!showingBoard) {
-            showingBoard = !showingBoard;
+            showingBoard = true;
         }
         this.updateComponents();
         this.getSectionSelector().reset();
@@ -112,9 +113,11 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
                 final var currentPlayer = controller.getCurrentPlayer();
                 final Meeple meeple = controller.getPlayerMeeples(currentPlayer)
                         .stream().filter(m -> !m.isPlaced()).findFirst().get();
+                // TODO ogni volta ne piazza uno diverso e non fa mai remove sul precedente
                 meeple.place(new Pair<>(controller.getCurrentTile(), this.sectionSelector.getSelectedSection().get()));
                 this.board.getCurrentTileButton().setMeeple(meeple);
             } else {
+                // TODO fare meeple remove?
                 this.board.getCurrentTileButton().unsetMeeple();
             }
         }
