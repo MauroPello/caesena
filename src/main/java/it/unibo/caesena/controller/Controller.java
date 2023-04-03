@@ -29,19 +29,56 @@ public interface Controller {
     void resetGame();
 
     /**
+     * Ends the current turn and starts the next one.
+     * It checks if any of the gamesets should be closed, and closes them if they
+     * are.
+     * It also adds points to monasteries that have tiles placed next to them, in
+     * which case it
+     * closes those gamesets as well.
+     */
+    void endTurn();
+
+    /**
+     * Ends the game.
+     * Its checks if there are closed cities, in which case it assings points to
+     * players with meeples in surrounding fields.
+     */
+    void endGame();
+
+    /**
+     * Exits the current name.
+     */
+    void exitGame();
+
+    /**
+     * Checks if game is over.
+     *
+     * @return true if the game is over, false otherwise
+     */
+    boolean isGameOver();
+
+    /**
      * Adds a player to the game.
      *
-     * @param name name of the player to add
+     * @param name  name of the player to add
      * @param color color of the player to add
      * @return the newly created player
      */
     Player addPlayer(String name, Color color);
 
+    /**
+     * Gets the player playing in the current turn
+     *
+     * @return the current player
+     */
     Player getCurrentPlayer();
 
+    /**
+     * Gets a list of all the players.
+     *
+     * @return the list of players
+     */
     List<Player> getPlayers();
-
-    boolean placeMeeple(Meeple meeple, TileSection section);
 
     /**
      * Returns the current tile drawn in the current turn.
@@ -50,35 +87,81 @@ public interface Controller {
      */
     Tile getCurrentTile();
 
-    GameSet getCurrentTileGameSetInSection(TileSection section);
-
+    /**
+     * Places the current tile at the passed position on the board.
+     * It also joins the gamesets of the tile with the once of the neighbours.
+     *
+     * @param position the position at which place the current tile
+     * @return true if the position was valide, false otherwise
+     */
+    boolean placeCurrentTile(Pair<Integer, Integer> position);
 
     /**
      * Rotates the current tile clockwise
      */
     void rotateCurrentTile();
 
+    /**
+     * Discards the current tile if there is no way to place it in the current turn.
+     * Draws a new one so the player che play his turn.
+     *
+     * @return true if was fair to discard the card, false otherwise
+     */
+    boolean discardCurrentTile();
+
+    /**
+     * Checks if the given position is valid for the current tile to be placed at.
+     *
+     * @param position the position to check
+     * @return True if the position is valide, false otherwise
+     */
     boolean isPositionValidForCurrentTile(Pair<Integer, Integer> position);
 
-    boolean placeCurrentTile(Pair<Integer, Integer> position);
-
+    /**
+     * Returns a list of all the tiles that have been placed on the board.
+     *
+     * @return the list of placed tiles
+     */
     List<Tile> getPlacedTiles();
 
+    /**
+     * Returns a list of all the tiles that haven't been placed on the board yet.
+     *
+     * @return the list of not placed tiles
+     */
     List<Tile> getNotPlacedTiles();
 
+    /**
+     * Gets the GameSet that is in the section of the current tile.
+     *
+     * @param section the section of the game board to check for a gameset
+     * @return the gameset in the section
+     */
+    GameSet getCurrentTileGameSetInSection(TileSection section);
+
+    /**
+     * Places a meeple on the current tile at the passed section.
+     *
+     * @param meeple  meeple to be placed
+     * @param section section on which the tile should be placed
+     * @return true if placement is valid, false otherwise
+     */
+    boolean placeMeeple(Meeple meeple, TileSection section);
+
+    /**
+     * Gets the list of meeples that belong to a passed player.
+     *
+     * @param player player that owns the meeples
+     * @return the list of meeple that belogn to the player
+     */
     List<Meeple> getPlayerMeeples(Player player);
 
+    /**
+     * Gets the list of all the meeples of all the players.
+     *
+     * @return the list of all the meeples of all the players
+     */
     List<Meeple> getMeeples();
-
-    boolean isGameOver();
-
-    void endTurn();
-
-    void endGame();
-
-    void exitGame();
-
-    boolean discardCurrentTile();
 
     void addUserInterface(UserInterface userInterface);
 }

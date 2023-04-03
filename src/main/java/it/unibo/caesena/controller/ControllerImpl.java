@@ -79,104 +79,6 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public Player addPlayer(final String name, final Color color) {
-        final Player newPlayer = new PlayerImpl(name, color);
-        players.add(newPlayer);
-        for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
-            meeples.add(new NormalMeeple(newPlayer));
-        }
-        return newPlayer;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Tile getCurrentTile() {
-        return this.currentTile;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void rotateCurrentTile() {
-        this.mediator.rotateTileClockwise(currentTile);
-        updateUserInterfaces();
-    }
-
-    /**
-     * The isPositionValidForCurrentTile function checks if the position is valid
-     * for the current tile.
-     * It checks if there are any tiles placed on the board, and then checks to see
-     * if that position is occupied by another tile.
-     * If it isn't, it returns true. Otherwise, it returns false.
-     *
-     * @param Pair<Integer Used to Store the x and y coordinates of a position.
-     * @param Integer>     Used to Specify the position of the tile.
-     * @return True if the position is not occupied and either there are no placed
-     *         tiles or the mediator returns true for that position.
-     */
-    @Override
-    public boolean isPositionValidForCurrentTile(final Pair<Integer, Integer> position) {
-        if (isPositionOccupied(position)) {
-            return false;
-        }
-        if (getPlacedTiles().isEmpty()) {
-            return true;
-        }
-
-        return mediator.isPositionValid(position, currentTile);
-    }
-
-    @Override
-    public boolean placeCurrentTile(final Pair<Integer, Integer> position) {
-        if (!isPositionValidForCurrentTile(position)) {
-            return false;
-        }
-
-        this.currentTile.setPosition(position);
-
-        if (getPlacedTiles().size() > 1) {
-            mediator.getTileNeighbours(position).forEach(n -> mediator.joinTiles(currentTile, n));
-        }
-
-        updateUserInterfaces();
-        return true;
-    }
-
-    @Override
-    public List<Player> getPlayers() {
-        return Collections.unmodifiableList(players);
-    }
-
-    @Override
-    public List<Tile> getPlacedTiles() {
-        return tiles.stream()
-                .filter(Tile::isPlaced)
-                .toList();
-    }
-
-    @Override
-    public List<Tile> getNotPlacedTiles() {
-        return tiles.stream()
-                .filter(x -> !x.isPlaced())
-                .toList();
-    }
-
-    @Override
-    public List<Meeple> getPlayerMeeples(final Player player) {
-        return meeples.stream()
-                .filter(m -> m.getOwner().equals(player))
-                .toList();
-    }
-
-    @Override
-    public boolean isGameOver() {
-        return this.gameOver;
-    }
-
-    @Override
     public void endTurn() {
         mediator.getGameSetsInTile(currentTile).stream()
                 .filter(this::isGameSetClosed)
@@ -207,11 +109,9 @@ public final class ControllerImpl implements Controller {
         updateUserInterfaces();
     }
 
-    @Override
-    public GameSet getCurrentTileGameSetInSection(final TileSection section) {
-        return mediator.getGameSetInSection(currentTile, section);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void endGame() {
         final Set<GameSet> fieldsToClose = mediator.getAllGameSets().stream()
@@ -232,23 +132,91 @@ public final class ControllerImpl implements Controller {
         updateUserInterfaces();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void exitGame() {
         this.resetGame();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isGameOver() {
+        return this.gameOver;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Player addPlayer(final String name, final Color color) {
+        final Player newPlayer = new PlayerImpl(name, color);
+        players.add(newPlayer);
+        for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
+            meeples.add(new NormalMeeple(newPlayer));
+        }
+        return newPlayer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Player getCurrentPlayer() {
         return this.players.get(this.turn % this.players.size());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public boolean placeMeeple(final Meeple meeple, final TileSection section) {
-        final boolean outcome = mediator.placeMeeple(meeple, currentTile, section);
-        updateUserInterfaces();
-        return outcome;
+    public List<Player> getPlayers() {
+        return Collections.unmodifiableList(players);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Tile getCurrentTile() {
+        return this.currentTile;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean placeCurrentTile(final Pair<Integer, Integer> position) {
+        if (!isPositionValidForCurrentTile(position)) {
+            return false;
+        }
+
+        this.currentTile.setPosition(position);
+
+        if (getPlacedTiles().size() > 1) {
+            mediator.getTileNeighbours(position).forEach(n -> mediator.joinTiles(currentTile, n));
+        }
+
+        updateUserInterfaces();
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void rotateCurrentTile() {
+        this.mediator.rotateTileClockwise(currentTile);
+        updateUserInterfaces();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public boolean discardCurrentTile() {
         if (this.isCurrentTilePlaceable()) {
@@ -260,6 +228,83 @@ public final class ControllerImpl implements Controller {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isPositionValidForCurrentTile(final Pair<Integer, Integer> position) {
+        if (isPositionOccupied(position)) {
+            return false;
+        }
+        if (getPlacedTiles().isEmpty()) {
+            return true;
+        }
+
+        return mediator.isPositionValid(position, currentTile);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Tile> getPlacedTiles() {
+        return tiles.stream()
+                .filter(Tile::isPlaced)
+                .toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Tile> getNotPlacedTiles() {
+        return tiles.stream()
+                .filter(x -> !x.isPlaced())
+                .toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameSet getCurrentTileGameSetInSection(final TileSection section) {
+        return mediator.getGameSetInSection(currentTile, section);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     */
+    @Override
+    public boolean placeMeeple(final Meeple meeple, final TileSection section) {
+        final boolean outcome = mediator.placeMeeple(meeple, currentTile, section);
+        updateUserInterfaces();
+        return outcome;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     */
+    @Override
+    public List<Meeple> getPlayerMeeples(final Player player) {
+        return meeples.stream()
+                .filter(m -> m.getOwner().equals(player))
+                .toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     */
+    @Override
+    public List<Meeple> getMeeples() {
+        return this.meeples;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addUserInterface(final UserInterface userInterface) {
         this.userInterfaces.add(userInterface);
@@ -333,11 +378,6 @@ public final class ControllerImpl implements Controller {
 
     private void updateUserInterfaces() {
         this.userInterfaces.forEach(UserInterface::update);
-    }
-
-    @Override
-    public List<Meeple> getMeeples() {
-        return this.meeples;
     }
 
 }
