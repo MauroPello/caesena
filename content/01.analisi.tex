@@ -1,7 +1,37 @@
 \section{Analisi}
 \subsection{Requisiti}
 
-Il gruppo si pone come obiettivo quello di realizzare la trasposizione videoludica del gioco da tavolo Carcassonne. Si tratta di un gioco da 2 a 6 giocatori dove ognuno deve posizionare delle tessere e dei seguaci, o pedine, con lo scopo di realizzare punti. Chi alla fine della partita avrà totalizzato più punti verrà proclamato vincitore. Le tessere devono essere poste in maniera adiacente in modo che combacino tra di loro e formino strutture, ovvero strade, praterie, città e monasteri. Posizionando un seguace su una struttura, il giocatore ne prende la proprietà, guadagnandone poi i punti alla sua chiusura. A fine partita ogni proprietario di una struttura ne guadagna i punti anche se non chiusa, con il caso speciale delle città nel quale ne guadagna la metà.
+Il gruppo si pone come obiettivo quello di realizzare la trasposizione videoludica del gioco da tavolo Carcassonne. Si tratta di un gioco da 2 a 6 giocatori dove ognuno deve posizionare delle tessere e dei seguaci, o pedine, con lo scopo di realizzare punti. Chi alla fine della partita avrà totalizzato più punti verrà proclamato vincitore.
+
+\subsection*{Requisiti funzionali}
+Il gioco dovrà permettere ai giocatori che ne partecipano, ognuno identificato univocamente da nome e colore, di piazzare e ruotare tessere ed eventualmente posizionarvi sopra un seguace. E' necessario:
+
+\begin{itemize}
+\item Permettere il posizionamento delle tessere solo se posizionate in modo adiacente alle tessere già in campo ed esclusivamente nel caso in cui ogni lato della tessera corrente combaci con il lato della tessera vicina
+\item Permettere il posizionamento di seguaci su strutture appartenenti alla tessera appena piazzata e senza altri seguaci
+\item Calcolare il punteggio dei giocatori, sia nel momento in cui viene chiusa una struttura, che alla fine della partita
+\item Permettere la navigazione del campo di gioco
+\item Permettere di scartare una tessera che non possa essere piazzata in nessuna delle posizioni libere
+\item Permettere la selezione del numero dei giocatori e assegnare un nome ed un colore ad ognuno
+\item Gestire l'ampliamento e l'unione di praterie, città e strade
+\end{itemize}
+
+\subsection*{Requisiti non funzionali}
+\begin{itemize}
+\item Menù di pausa
+\item Visualizzazione grafica e dinamica dei seguaci rimanenti 
+\item Pannello per la scelta del colore del giocatore
+\item Decorazioni, sfondi e distanziamento fra i vari componenti grafici
+\item Supporto di espandibilità futura per l'implementazione di immagini di profilo dei giocatori
+\item Supporto alla lingua italiana e inglese
+\item Supporto per partecipare alla stessa partita da più interfacce
+\item Supporto per future espansioni con l'aggiunta di nuove tessere e seguaci
+\end{itemize}
+
+\subsection{Analisi e modello del dominio}
+L'analisi e il modello di dominio di Caesena possono essere suddivisi in diversi componenti chiave: le tessere, i seguaci e il sistema di punteggio.
+
+Le tessere, estratte casualmente, devono essere poste in maniera adiacente in modo che combacino tra di loro e formino strutture, ovvero strade, praterie, città e monasteri. Posizionando un seguace su una struttura, il giocatore ne prende la proprietà, guadagnandone poi i punti alla sua chiusura. A fine partita ogni proprietario di una struttura ne guadagna i punti anche se non chiusa, con il caso speciale delle città nel quale ne guadagna la metà.
 
 \begin{figure}[hb]
     {\includegraphics[]{images/CittàMeeple.png}}
@@ -29,48 +59,11 @@ Il gruppo si pone come obiettivo quello di realizzare la trasposizione videoludi
 
 è possibile che due strutture in cui sono piazzati due o più seguaci (anche dello stesso colore) vengano unite tramite una tessera di congiunzione. In questo caso alla chiusura della struttura il giocatore che avrà la maggioranza di seguaci otterrà i punti vincendo su tutti gli altri. In caso di pareggio ogni giocatore otterrà la totalità dei punti.
 
-\subsection*{Requisiti funzionali}
-Il gioco dovrà permettere ai giocatori che ne partecipano, ognuno identificato univocamente da nome e colore, di piazzare e ruotare tessere ed eventualmente posizionarvi sopra un seguace. E' necessario:
-
+Le difficoltà primarie sono:
 \begin{itemize}
-\item Permettere il posizionamento delle tessere solo se posizionate in modo adiacente alle tessere già in campo ed esclusivamente nel caso in cui ogni lato della tessera corrente combaci con il lato della tessera vicina
-\item Permettere il posizionamento di seguaci su strutture appartenenti alla tessera appena piazzata e senza altri seguaci
-\item Calcolare il punteggio dei giocatori, sia nel momento in cui viene chiusa una struttura, che alla fine della partita
-\item Permettere la navigazione del campo di gioco
-\item Permettere di scartare una tessera che non possa essere piazzata in nessuna delle posizioni libere
-\item Permettere la selezione del numero dei giocatori e assegnare un nome ed un colore ad ognuno
-\item Gestire l'ampliamento e l'unione di praterie, città e strade
+    \item rappresentare il concetto di tessera coerentemente con la sua rappresentazione grafica
+    \item rappresentare il concetto di struttura
+    \item unire strutture dello stesso tipo
+    \item fare il conteggio dei punti rispettando le regole del gioco
 \end{itemize}
 
-\subsection*{Requisiti non funzionali}
-\begin{itemize}
-\item Menù di pausa
-\end{itemize}
-\begin{itemize}
-\item Visualizzazione grafica e dinamica dei seguaci rimanenti 
-\end{itemize}
-\begin{itemize}
-\item Pannello per la scelta del colore del giocatore
-\end{itemize}
-\begin{itemize}
-\item Decorazioni, sfondi e distanziamento fra i vari componenti grafici
-\end{itemize}
-\begin{itemize}
-\item Supporto di espandibilità futura per l'implementazione di immagini di profilo dei giocatori
-\end{itemize}
-\begin{itemize}
-\item Supporto per partecipare alla stessa partita da più interfacce
-\end{itemize}
-\begin{itemize}
-\item Supporto per future espansioni con l'aggiunta di nuove tessere e seguaci
-\end{itemize}
-
-\subsection{Analisi e modello del dominio}
-L'analisi e il modello di dominio di Carcassonne possono essere suddivisi in diversi componenti chiave, tra cui il tabellone di gioco, le tessere, i meeples e il sistema di punteggio.
-\begin{itemize}
-    \item Tabellone di gioco (Mappa): Il tabellone di Carcassonne rappresenta la regione di Carcassonne ed è composto da una serie di tessere che vengono posizionate sul tabellone durante il gioco. Il tabellone è suddiviso in diverse regioni, tra cui città, strade, campi e monasteri. Ognuna di queste regioni ha le proprie regole e il proprio sistema di punteggio, che aggiungono profondità e complessità al gioco.
-    \item Le tessere (Tiles): Le tessere di Carcassonne rappresentano diversi tipi di terreno, tra cui città, strade, campi e monasteri. Queste tessere vengono estratte casualmente da una pila e devono essere posizionate sul tabellone di gioco in modo che corrispondano al tipo di terreno delle tessere circostanti. Ogni tessera ha le sue regole e il suo sistema di punteggio, che i giocatori devono seguire per massimizzare i loro punti.
-    \item Meeples: I meeple sono i pezzi di gioco che i giocatori usano per controllare le diverse regioni del tabellone. 
-    \item Sistema di punteggio: Il sistema di punteggio di Carcassonne si basa sul completamento di diverse regioni sul tabellone di gioco. Quando una città, una strada o un monastero vengono completati, il giocatore che ha il maggior numero di meeples su di essi ottiene i punti. Se più giocatori hanno meeples su un elemento completato, ognuno di loro ottiene i punti. Alla fine della partita, i giocatori ottengono punti anche per i loro contadini sui campi completati. Il giocatore con il maggior numero di punti alla fine del gioco è il vincitore.
-\end{itemize}
-Le difficoltà che il progetto mantiene sono sopratutto presenti nella parte grafica, non ancora ottimizzata a causa dell'utilizzo del framework grafico Java Swing.
