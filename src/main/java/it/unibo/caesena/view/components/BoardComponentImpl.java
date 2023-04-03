@@ -198,7 +198,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
                         .filter(m -> m.getPosition().getX().equals(searchedTile.get()))
                         .findFirst();
                 if (placedMeeple.isPresent()) {
-                    // TODO ripiazza i meeple dopo che sono stati rimossi 
+                    // TODO ripiazza i meeple dopo che sono stati rimossi
                     // (quando viene premuto place meeple ritornando alla board senza aver selezionato nulla)
                     searchedTileButton.get().setMeeple(placedMeeple.get());
                 }

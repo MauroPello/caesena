@@ -6,10 +6,8 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
-import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GameView;
 
 public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
@@ -18,14 +16,12 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     private final BoardComponent<JPanel> board;
     private final SectionSelectorComponent<JPanel> sectionSelector;
     private boolean showingBoard;
-    private boolean endingTurn;
 
     public MainComponentImpl(final GameView gameView) {
         this.gameView = gameView;
         this.board = new BoardComponentImpl(this.gameView);
         this.sectionSelector = new SectionSelectorComponentImpl(this.gameView);
         this.showingBoard = true;
-        this.endingTurn = false;
         this.setBackground(Color.DARK_GRAY);
         this.add(this.getBoard().getComponent());
     }
@@ -61,8 +57,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
 
     @Override
     public void endTurn() {
-        // TODO check if needed
-        this.endingTurn = true;
+
         final var currentPlayer = this.gameView.getUserInterface().getController().getCurrentPlayer();
         final List<Meeple> meeples = this.gameView.getUserInterface().getController().getPlayerMeeples(currentPlayer)
                 .stream()
@@ -87,7 +82,6 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
         this.getSectionSelector().reset();
         this.gameView.getUserInterface().getController().endTurn();
         this.getBoard().updateMeeplePrecence();
-        this.endingTurn = false;
     }
 
     @Override
@@ -107,20 +101,7 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     }
 
     private void showBoard() {
-        if (!endingTurn) {
-            if (this.getSectionSelector().isSectionSelected()) {
-                Controller controller = this.gameView.getUserInterface().getController();
-                final var currentPlayer = controller.getCurrentPlayer();
-                final Meeple meeple = controller.getPlayerMeeples(currentPlayer)
-                        .stream().filter(m -> !m.isPlaced()).findFirst().get();
-                // TODO ogni volta ne piazza uno diverso e non fa mai remove sul precedente
-                meeple.place(new Pair<>(controller.getCurrentTile(), this.sectionSelector.getSelectedSection().get()));
-                this.board.getCurrentTileButton().setMeeple(meeple);
-            } else {
-                // TODO fare meeple remove?
-                this.board.getCurrentTileButton().unsetMeeple();
-            }
-        }
+        this.getSectionSelector().reset();
         this.removeAll();
         this.getBoard().draw();
         this.add(this.getBoard().getComponent());

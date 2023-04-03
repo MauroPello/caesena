@@ -7,7 +7,7 @@ import it.unibo.caesena.view.GUI;
 public final class App {
 
     /**
-     * Private constructor, used in restricting object creation.
+     * Private constructor, used for restricting object creation.
      */
     private App() {
 

@@ -78,6 +78,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
 
     @Override
     public void unsetMeeple() {
+        this.getMeeple().ifPresent(Meeple::remove);
         this.tileImage.get().removeMeeple();
         this.repaint();
     }
