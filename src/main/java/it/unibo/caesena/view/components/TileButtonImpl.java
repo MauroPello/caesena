@@ -15,6 +15,7 @@ import it.unibo.caesena.model.tile.Tile;
 
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private static final long serialVersionUID = 3246088701705856082L;
+    private final MouseAdapter mouseAdapter;
     private Optional<TileImage> tileImage;
     private boolean locked;
 
@@ -26,7 +27,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         this.setContentAreaFilled(false);
         this.setFocusable(false);
         this.setBorder(new LineBorder(Color.BLACK));
-        this.addMouseListener(new MouseAdapter() {
+        this.mouseAdapter = new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (tileImage.isEmpty()) {
@@ -38,7 +39,18 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
             public void mouseExited(MouseEvent e) {
                 TileButtonImpl.this.setBorder(new LineBorder(Color.BLACK));
             }
-        });
+        };
+        this.addMouseListener(this.mouseAdapter);
+    }
+
+    @Override
+    public void setEnabled(boolean b) {
+        super.setEnabled(b);
+        if (b) {
+            this.addMouseListener(this.mouseAdapter);
+        } else {
+            this.removeMouseListener(this.mouseAdapter);
+        }
     }
 
     @Override
