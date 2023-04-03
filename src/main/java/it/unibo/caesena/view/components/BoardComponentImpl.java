@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -192,16 +191,6 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
             if (!searchedTileButton.get().containsTile()) {
                 searchedTileButton.get().addTile(searchedTile.get());
                 searchedTileButton.get().lock();
-            } else if (searchedTileButton.get().getMeeple().isEmpty()) {
-                Optional<Meeple> placedMeeple = controller.getMeeples().stream()
-                        .filter(m -> m.isPlaced())
-                        .filter(m -> m.getPosition().getX().equals(searchedTile.get()))
-                        .findFirst();
-                if (placedMeeple.isPresent()) {
-                    // TODO ripiazza i meeple dopo che sono stati rimossi
-                    // (quando viene premuto place meeple ritornando alla board senza aver selezionato nulla)
-                    searchedTileButton.get().setMeeple(placedMeeple.get());
-                }
             } else if (searchedTileButton.get().getMeeple().isPresent()) {
                 if (!searchedTileButton.get().getMeeple().get().isPlaced()) {
                     searchedTileButton.get().unsetMeeple();
@@ -263,9 +252,9 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     @Override
     public void updateMeeplePrecence() {
         allTileButtons.keySet().stream()
-            .filter(TileButton::containsTile)
-            .filter(t -> t.getMeeple().isPresent())
-            .filter(t -> !t.getMeeple().get().isPlaced())
-            .forEach(t -> t.unsetMeeple());
+                .filter(TileButton::containsTile)
+                .filter(t -> t.getMeeple().isPresent())
+                .filter(t -> !t.getMeeple().get().isPlaced())
+                .forEach(t -> t.unsetMeeple());
     }
 }

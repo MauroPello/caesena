@@ -3,7 +3,9 @@ package it.unibo.caesena.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.model.Player;
+import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.components.PlayerImageImpl;
 
 public class GameOverView extends JPanel implements View<JPanel> {
@@ -21,21 +24,23 @@ public class GameOverView extends JPanel implements View<JPanel> {
     private final GUI userInterface;
     private final int playerImageSize;
     private final JPanel playersPanels;
+    private final BufferedImage backgroundImage;
 
     public GameOverView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
+        this.backgroundImage = ResourceUtil.getBufferedImage("background_GameOverView.jpeg", List.of());
         final JPanel mainPanel = new JPanel();
 
         mainPanel.setPreferredSize(new Dimension(
-            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO)));
+                (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO)));
         mainPanel.setMinimumSize(new Dimension(
-            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO)));
+                (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO)));
         mainPanel.setMaximumSize(new Dimension(
-            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO)));
+                (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO)));
         if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
             playerImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
         } else {
@@ -75,6 +80,18 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
         this.add(mainPanel);
         super.setVisible(false);
+    }
+
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        double ratioWidht = (double)this.getWidth() / (double)backgroundImage.getWidth();
+        double ratioHeight = (double)this.getHeight() / (double)backgroundImage.getHeight();
+        double width = backgroundImage.getWidth() * (ratioHeight > ratioWidht ? ratioHeight : ratioWidht);
+        double height = backgroundImage.getHeight() * (ratioHeight > ratioWidht ? ratioHeight : ratioWidht);
+        graphics.drawImage(backgroundImage, 0, 0,
+                (int) Math.round(width),
+                (int) Math.round(height), null);
     }
 
     @Override
