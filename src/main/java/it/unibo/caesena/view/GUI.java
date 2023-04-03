@@ -83,8 +83,7 @@ public class GUI extends JFrame implements UserInterface {
         this.setLocationRelativeTo(null);
         this.setLocationByPlatform(true);
 
-        // TODO set immagine logo
-        this.setIconImage(ResourceUtil.getBufferedImage("TILE_BACK.png", List.of("tiles")));
+        this.setIconImage(ResourceUtil.getBufferedImage("logo.png", List.of()));
         this.setVisible(true);
 
         resetViews();
