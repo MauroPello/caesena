@@ -16,6 +16,10 @@ import it.unibo.caesena.model.tile.TileFactory;
 import it.unibo.caesena.model.tile.TileType;
 import it.unibo.caesena.utils.ResourceUtil;
 
+/**
+ * The ConfigurationLoader is able to create all the tiles needed for the game
+ * using a JSON file.
+ */
 public class ConfigurationLoader {
     private final List<Tile> tiles = new ArrayList<>();
     private final String fileName;
@@ -35,7 +39,7 @@ public class ConfigurationLoader {
      * The function also shuffles the list of tiles and sets one tile as firstTile
      * so that it can be placed on top when starting up.
      *
-     * @param TileFactory factory with which the tiles are created
+     * @param factory with which the tiles are created
      * @return the list of newly created tiles
      */
     public final List<Tile> getTiles(final TileFactory factory) {

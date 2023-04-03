@@ -24,6 +24,11 @@ import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
 
+/**
+ * {@inheritDoc}
+ *
+ * Implementation of the Controller inteface.
+ */
 public final class ControllerImpl implements Controller {
     private static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
     private static final int POINTS_TILE_NEARBY_MONASTERY = 1;
@@ -327,8 +332,6 @@ public final class ControllerImpl implements Controller {
 
     /**
      * Draws a new tile from the list of not placed tiles.
-     *
-     * @return The current tile
      */
     private void drawNewTile() {
         if (getNotPlacedTiles().isEmpty()) {

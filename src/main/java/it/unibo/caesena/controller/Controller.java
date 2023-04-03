@@ -11,6 +11,10 @@ import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
 
+/**
+ * The controller is one of the components of the MVC architetture.
+ * Its job is to interface the model with the view, it controlls the flow of the game.
+ */
 public interface Controller {
 
     /**
@@ -67,7 +71,7 @@ public interface Controller {
     Player addPlayer(String name, Color color);
 
     /**
-     * Gets the player playing in the current turn
+     * Gets the player playing in the current turn.
      *
      * @return the current player
      */
@@ -97,7 +101,7 @@ public interface Controller {
     boolean placeCurrentTile(Pair<Integer, Integer> position);
 
     /**
-     * Rotates the current tile clockwise
+     * Rotates the current tile clockwise.
      */
     void rotateCurrentTile();
 
