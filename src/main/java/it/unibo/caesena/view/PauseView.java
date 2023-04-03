@@ -3,15 +3,21 @@ package it.unibo.caesena.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import it.unibo.caesena.utils.ResourceUtil;
 
 public class PauseView extends JPanel implements View<JPanel> {
     private static final long serialVersionUID = 3027253762177464276L;
@@ -24,15 +30,43 @@ public class PauseView extends JPanel implements View<JPanel> {
 
         this.setBackground(BACKGROUND_COLOR);
 
-        final JPanel mainPanel = new JPanel();
+        final JPanel mainPanel = new JPanel() {
+            private final BufferedImage image = ResourceUtil.getBufferedImage("background_Modal.png", List.of());
+
+            @Override
+            public Dimension getMaximumSize() {
+                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO));
+            }
+
+            @Override
+            public Dimension getMinimumSize() {
+                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO));
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO));
+            }
+
+            @Override
+            protected void paintComponent(final Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH), 0, 0, this.getWidth(), this.getHeight(), null);
+            }        
+        };
+        mainPanel.setOpaque(false);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         final JLabel titleLbl = new JLabel(LocaleHelper.getViewTitle("PauseView", false));
         titleLbl.setFont(GUI.BIG_BOLD_FONT);
-        titleLbl.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, 0, GUI.DEFAULT_PADDING, 0));
+        titleLbl.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING * 10, 0, GUI.DEFAULT_PADDING, 0));
         titleLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setOpaque(false);
         buttonsPanel.setLayout(new GridBagLayout());
         final GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.insets = new Insets(GUI.DEFAULT_PADDING, 0, GUI.DEFAULT_PADDING, 0);
