@@ -1,7 +1,7 @@
 \section{Analisi}
 \subsection{Requisiti}
 
-Il gruppo si pone come obiettivo quello di realizzare la trasposizione videoludica del gioco da tavolo Carcassonne. Si tratta di un gioco da 2 a 6 giocatori dove ognuno deve posizionare delle tessere e dei seguaci, o pedine, con lo scopo di realizzare punti. Chi alla fine della partita avrà totalizzato più punti verrà proclamato vincitore. Le tessere devono essere poste in maniera adiacente in modo che combacino tra di loro e formino strutture, ovvero strade, praterie, città e monasteri. Posizionando un seguace su una struttura, il giocatore ne prende la proprietà, guadagnandone poi i punti alla sua chiusura. A fine partita ogni proprietario di una struttura ne guadagna i punti anche se non chiusa, con il caso speciale delle città nel quale ne guadagna la metà. Ulteriormente, sempre a fine partita il proprietario di ogni prateria otterrà 3 punti per ogni città chiusa confinante.
+Il gruppo si pone come obiettivo quello di realizzare la trasposizione videoludica del gioco da tavolo Carcassonne. Si tratta di un gioco da 2 a 6 giocatori dove ognuno deve posizionare delle tessere e dei seguaci, o pedine, con lo scopo di realizzare punti. Chi alla fine della partita avrà totalizzato più punti verrà proclamato vincitore. Le tessere devono essere poste in maniera adiacente in modo che combacino tra di loro e formino strutture, ovvero strade, praterie, città e monasteri. Posizionando un seguace su una struttura, il giocatore ne prende la proprietà, guadagnandone poi i punti alla sua chiusura. A fine partita ogni proprietario di una struttura ne guadagna i punti anche se non chiusa, con il caso speciale delle città nel quale ne guadagna la metà.
 
 \begin{figure}[hb]
     {\includegraphics[]{images/CittàMeeple.png}}
@@ -24,11 +24,10 @@ Il gruppo si pone come obiettivo quello di realizzare la trasposizione videoludi
 \begin{figure}[hb]
     %{\includegraphics[]{images/Prato.png}}
 
-    \caption{Ogni prateria è delimitata e rappresentata da ogni strada e città che la circonda}
-    
-    % , ed è rappresentato dall'insieme di ogni tessera
-    % Un prato è rappresentato dall'insieme di ogni sezione verde presente sulle tessere che ne delimitano i lati tramite strade e città}
+    \caption{Chiudere una prateria non fa guadagnare punti al proprietario, ma a fine partita esso otterrà 3 punti per ogni città chiusa confinante. Questo comporta che un seguace posizinato su una prateria non verrà mai ripreso dal giocatore fino a fine della partita}
 \end{figure}
+
+è possibile che due strutture in cui sono piazzati due o più seguaci (anche dello stesso colore) vengano unite tramite una tessera di congiunzione. In questo caso alla chiusura della struttura il giocatore che avrà la maggioranza di seguaci otterrà i punti vincendo su tutti gli altri. In caso di pareggio ogni giocatore otterrà la totalità dei punti.
 
 \subsection*{Requisiti funzionali}
 Il gioco dovrà permettere ai giocatori che ne partecipano, ognuno identificato univocamente da nome e colore, di piazzare e ruotare tessere ed eventualmente posizionarvi sopra un seguace. E' necessario:
@@ -38,26 +37,9 @@ Il gioco dovrà permettere ai giocatori che ne partecipano, ognuno identificato 
 \item Permettere il posizionamento di seguaci su strutture appartenenti alla tessera appena piazzata e senza altri seguaci
 \item Calcolare il punteggio dei giocatori, sia nel momento in cui viene chiusa una struttura, che alla fine della partita
 \item Permettere la navigazione del campo di gioco
-\end{itemize}
-
-\subitem i punteggi residui di ogni seguace posizionato in una struttura non "chiusa"
-
-\subitem i punteggi ottenuti da ogni seguace posizionato in un prateria seguendo le regole del gioco come nella figura 4
-
-\begin{itemize}
-\item Menù principale, con selezione numero giocatori
-\end{itemize}
-\begin{itemize}
-\item Gestione turno del giocatore
-\end{itemize}
-\begin{itemize}
-\item Gestione posizionamento pedine
-\end{itemize}
-\begin{itemize}
-\item Calcolo delle posizioni valide per le tessere: ad ogni tentativo di posizionamento della tessera dovrà essere verificata la possibilità di effettuare l'azione. Si gestirà anche il caso in cui la tessera dovrà esssere obbligatoriamente scartata in quanto non esistono posti validi in cui in cui posizionarla
-\end{itemize}
-\begin{itemize}
-\item Gestione della creazione o ampliamento di prateria, città e strade
+\item Permettere di scartare una tessera che non possa essere piazzata in nessuna delle posizioni libere
+\item Permettere la selezione del numero dei giocatori e assegnare un nome ed un colore ad ognuno
+\item Gestire l'ampliamento e l'unione di praterie, città e strade
 \end{itemize}
 
 \subsection*{Requisiti non funzionali}
