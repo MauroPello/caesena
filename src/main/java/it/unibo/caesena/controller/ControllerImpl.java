@@ -352,13 +352,18 @@ public final class ControllerImpl implements Controller {
      * structure).
      * In other words, if there is no way to make a gameset(or structure) bigger by
      * adding a new tile, it can be considered a closed gameset.
-     * A special case is a monastery that is considered closed if the eight
+     * A special case are monasteries that are considered closed if the eight
      * surrounding positions contain a tile.
-     *
+     * Another special case are fields that can't be closed.
+     * 
      * @param gameSet to be verified as closed
      * @return true if the gameset is closed, false otherwise
      */
     private boolean isGameSetClosed(final GameSet gameSet) {
+        if (gameSet.getType().equals(GameSetType.FIELD)) {
+            return false;
+        }
+
         if (gameSet.getType().equals(GameSetType.MONASTERY)) {
             return gameSet.getPoints() == POINTS_CLOSED_MONASTERY;
         }
