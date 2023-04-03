@@ -4,10 +4,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -33,18 +37,47 @@ public class StartView extends JPanel implements View<JPanel> {
     private final JPanel playersPanel;
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
+    private final BufferedImage backgroundImage;
 
     public StartView(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
-
+        this.backgroundImage = ResourceUtil.getBufferedImage("background_StartView.png", List.of());
+        
         this.setLayout(new GridBagLayout());
+        this.setOpaque(false);
+        
+        final JPanel mainPanel = new JPanel() {
+            private final BufferedImage image = ResourceUtil.getBufferedImage("background_Modal.png", List.of());
 
-        final JPanel mainPanel = new JPanel();
+            @Override
+            public Dimension getMaximumSize() {
+                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO));
+            }
+
+            @Override
+            public Dimension getMinimumSize() {
+                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO));
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO));
+            }
+
+            @Override
+            protected void paintComponent(final Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH), 0, 0, this.getWidth(), this.getHeight(), null);
+            }        
+        };
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setOpaque(false);
 
-        mainPanel.add(new JPanel());
         final JPanel imagePanel = new JPanel() {
             private final BufferedImage image = ResourceUtil.getBufferedImage("caesena.png", List.of());
 
@@ -69,12 +102,19 @@ public class StartView extends JPanel implements View<JPanel> {
             @Override
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
+                g.drawImage(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH),
+                    0, 0, this.getWidth(), this.getHeight(), null);
             }
         };
-        mainPanel.add(imagePanel);
+        imagePanel.setOpaque(false);
+        final var imagePanelWithPadding = new JPanel();
+        imagePanelWithPadding.setOpaque(false);
+        imagePanelWithPadding.add(imagePanel);
+        imagePanelWithPadding.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING * 4, 0, 0, 0));
+        mainPanel.add(imagePanelWithPadding);
 
         final JPanel playersNumPanel = new JPanel();
+        playersNumPanel.setOpaque(false);
         final JLabel playersLabel = new JLabel(LocaleHelper.getPlayersText());
         playersLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         playersNumPanel.add(playersLabel);
@@ -89,6 +129,9 @@ public class StartView extends JPanel implements View<JPanel> {
         this.playersPanel = new JPanel();
         this.playersPanel.setLayout(new BoxLayout(this.playersPanel, BoxLayout.Y_AXIS));
         final JScrollPane playersScrollPane = new JScrollPane(playersPanel);
+        playersPanel.setOpaque(false);
+        playersScrollPane.setOpaque(false);
+        playersScrollPane.getViewport().setOpaque(false);
         playersScrollPane.setAutoscrolls(true);
         playersScrollPane.setBorder(null);
         mainPanel.add(playersScrollPane);
@@ -105,21 +148,25 @@ public class StartView extends JPanel implements View<JPanel> {
             userInterface.getController().startGame();
         });
         final JPanel startGamePanel = new JPanel();
+        startGamePanel.setOpaque(false);
         startGamePanel.add(startButton);
         startGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        startGamePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, GUI.DEFAULT_PADDING * 4, 0));
         mainPanel.add(startGamePanel);
 
-        mainPanel.setPreferredSize(new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO)));
-        mainPanel.setMinimumSize(new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO)));
-        mainPanel.setMaximumSize(new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO)));
         if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
             playerInputImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
         } else {
             playerInputImageSize = (int) Math.round(GUI.SCREEN_HEIGHT * PLAYER_IMAGE_RATIO);
         }
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                imagePanel.revalidate();
+                imagePanel.repaint();
+            }
+        });
 
         this.add(mainPanel);
         super.setVisible(false);
@@ -134,15 +181,32 @@ public class StartView extends JPanel implements View<JPanel> {
         super.setVisible(visible);
     }
 
+    @Override
+    protected void paintComponent(final Graphics g) {
+        super.paintComponent(g);
+
+        double width = this.getWidth();
+        double height = this.getHeight();
+        if (this.getWidth() > backgroundImage.getWidth()) {
+            height = (backgroundImage.getHeight() * this.getWidth()) / backgroundImage.getWidth();
+        }
+        if (this.getHeight() > backgroundImage.getHeight()) {
+            width = (backgroundImage.getHeight() * this.getHeight()) / backgroundImage.getWidth();
+        }
+        g.drawImage(backgroundImage.getScaledInstance((int) Math.round(width), (int) Math.round(height), Image.SCALE_SMOOTH), 
+            0, 0, (int) Math.round(width), (int) Math.round(height), null);
+    }  
+
     /**
      * Adds new player.
      */
     private void addPlayerInput() {
         final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
         playerPanel.setColorPanelSize(playerInputImageSize);
+        playerPanel.getComponent().setOpaque(false);
 
-        this.playersPanel.add(playerPanel.getComponent());
         this.playerInputs.add(playerPanel);
+        this.playersPanel.add(playerPanel.getComponent());
     }
 
     /**
