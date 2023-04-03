@@ -35,6 +35,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         this.horizontalOffset = 0;
         this.verticalOffset = 0;
         this.allTileButtons = new HashMap<>();
+        this.setOpaque(false);
         this.setVisible(false);
     }
 

@@ -1,9 +1,14 @@
 package it.unibo.caesena.view.components;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Optional;
+
 import javax.swing.JButton;
+import javax.swing.border.LineBorder;
 
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
@@ -20,6 +25,20 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         this.addActionListener(onClickActionListener);
         this.setContentAreaFilled(false);
         this.setFocusable(false);
+        this.setBorder(new LineBorder(Color.BLACK));
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (tileImage.isEmpty()) {
+                    TileButtonImpl.this.setBorder(new LineBorder(Color.RED));
+                }
+            }
+            
+            @Override
+            public void mouseExited(MouseEvent e) {
+                TileButtonImpl.this.setBorder(new LineBorder(Color.BLACK));
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,8 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +10,7 @@ import javax.swing.JPanel;
 
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GameView;
 
 public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
@@ -16,15 +19,32 @@ public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
     private final BoardComponent<JPanel> board;
     private final SectionSelectorComponent<JPanel> sectionSelector;
     private boolean showingBoard;
+    private final BufferedImage backgroundImage;
 
     public MainComponentImpl(final GameView gameView) {
         this.gameView = gameView;
         this.board = new BoardComponentImpl(this.gameView);
         this.sectionSelector = new SectionSelectorComponentImpl(this.gameView);
         this.showingBoard = true;
-        this.setBackground(Color.DARK_GRAY);
         this.add(this.getBoard().getComponent());
+        this.backgroundImage = ResourceUtil.getBufferedImage("background_Board.png", List.of());
     }
+
+    @Override
+    protected void paintComponent(final Graphics g) {
+        super.paintComponent(g);
+
+        double width = this.getWidth();
+        double height = this.getHeight();
+        if (this.getWidth() > backgroundImage.getWidth()) {
+            height = (backgroundImage.getHeight() * this.getWidth()) / backgroundImage.getWidth();
+        }
+        if (this.getHeight() > backgroundImage.getHeight()) {
+            width = (backgroundImage.getHeight() * this.getHeight()) / backgroundImage.getWidth();
+        }
+        g.drawImage(backgroundImage.getScaledInstance((int) Math.round(width), (int) Math.round(height), Image.SCALE_SMOOTH), 
+            0, 0, (int) Math.round(width), (int) Math.round(height), null);
+    } 
 
     @Override
     public void toggleComponents() {
