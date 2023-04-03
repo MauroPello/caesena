@@ -92,6 +92,10 @@ public class TileImage {
         }
     }
 
+    /**
+     * 
+     * @return the meeple in the tile image if it is present
+     */
     public Optional<Meeple> getMeeple() {
         return this.meeple;
     }
