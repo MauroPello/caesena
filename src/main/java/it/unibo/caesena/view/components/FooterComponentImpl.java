@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -22,6 +23,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.CompoundBorder;
 
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
@@ -51,6 +53,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     private final LeaderBoardComponent<JPanel> leaderboard;
     private Optional<TileImage> tileImage;
     private int innerPaddingSize;
+    private final BufferedImage backgroundImage;
 
     /**
      *
@@ -63,6 +66,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.gameView = gameView;
         this.userInterface = gameView.getUserInterface();
+        this.backgroundImage = ResourceUtil.getBufferedImage("background_Footer.png", List.of());
 
         final JPanel innerPanel = new JPanel();
 
@@ -198,6 +202,7 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         this.validate();
         this.repaint();
+        this.setOpaque(false);
         super.setVisible(false);
     }
 
@@ -213,6 +218,22 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
         super.setVisible(visible);
     }
 
+    @Override
+    protected void paintComponent(final Graphics g) {
+        super.paintComponent(g);
+
+        double width = this.getWidth();
+        double height = this.getHeight();
+        if (this.getWidth() > backgroundImage.getWidth()) {
+            height = (backgroundImage.getHeight() * this.getWidth()) / backgroundImage.getWidth();
+        }
+        if (this.getHeight() > backgroundImage.getHeight()) {
+            width = (backgroundImage.getHeight() * this.getHeight()) / backgroundImage.getWidth();
+        }
+        g.drawImage(backgroundImage.getScaledInstance((int) Math.round(width), (int) Math.round(height), Image.SCALE_SMOOTH), 
+            0, 0, (int) Math.round(width), (int) Math.round(height), null);
+    }  
+
     private void updateSize() {
         final Dimension frameSize = userInterface.getSize();
         if (frameSize.getHeight() > frameSize.getWidth()) {
@@ -221,8 +242,8 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
             innerPaddingSize = (int) Math.round(frameSize.getHeight() * INTERNAL_PADDING_RATIO);
         }
         innerPaddingSize = innerPaddingSize < MINIMUM_PADDING ? MINIMUM_PADDING : innerPaddingSize;
-        this.setBorder(BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize, innerPaddingSize,
-                innerPaddingSize));
+        this.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2), BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize, innerPaddingSize,
+                innerPaddingSize)));
         this.playerImageComponent.getComponent()
                 .setBorder(BorderFactory.createEmptyBorder(0, 0, 0, innerPaddingSize));
         this.playerNameMeeplesPanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));

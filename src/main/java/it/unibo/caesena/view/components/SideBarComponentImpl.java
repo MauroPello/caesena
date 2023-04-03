@@ -2,9 +2,11 @@ package it.unibo.caesena.view.components;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +40,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
     private final JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());
     private final JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());
     private final JButton endTurnButton = new JButton(LocaleHelper.getEndTurnText());
+    private final BufferedImage backgroundImage;
 
     /**
      * SideBarComponent constructor
@@ -52,6 +55,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         placeMeepleButton.setFont(GUI.MEDIUM_BOLD_FONT);
         discardTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
         endTurnButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        this.backgroundImage = ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of());
 
         final int iconSize = (int) GUI.SCREEN_WIDTH / 80;
         Image img = ResourceUtil.getBufferedImage("up.png", List.of());
@@ -134,6 +138,7 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         innerPanel.setVisible(true);
 
         this.add(innerPanel);
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
         zoomInButton.addActionListener(zoomInEventListener());
         zoomOutButton.addActionListener(zoomOutEventListener());
@@ -147,6 +152,22 @@ public class SideBarComponentImpl extends JPanel implements SideBarComponent<JPa
         discardTileButton.addActionListener(discardTileEventListener());
         super.setVisible(false);
     }
+
+    @Override
+    protected void paintComponent(final Graphics g) {
+        super.paintComponent(g);
+
+        double width = this.getWidth();
+        double height = this.getHeight();
+        if (this.getWidth() > backgroundImage.getWidth()) {
+            height = (backgroundImage.getHeight() * this.getWidth()) / backgroundImage.getWidth();
+        }
+        if (this.getHeight() > backgroundImage.getHeight()) {
+            width = (backgroundImage.getHeight() * this.getHeight()) / backgroundImage.getWidth();
+        }
+        g.drawImage(backgroundImage.getScaledInstance((int) Math.round(width), (int) Math.round(height), Image.SCALE_SMOOTH), 
+            0, 0, (int) Math.round(width), (int) Math.round(height), null);
+    } 
 
     /**
      * @return JPanel
