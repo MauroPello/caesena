@@ -19,6 +19,6 @@ public final class App {
     public static void main(final String[] args) {
         final Controller controller = new ControllerImpl();
         new GUI(controller);
-        new GUI(controller);
+        // new GUI(controller);
     }
 }

@@ -66,11 +66,13 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         this.setLayout(new GridBagLayout());
 
         final JPanel namePanel = new JPanel();
+        namePanel.setOpaque(false);
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
         namePanel.add(nameLabel);
         namePanel.add(playerName);
 
         final JPanel colorPanel = new JPanel();
+        colorPanel.setOpaque(false);
         colorPanel.setLayout(new BoxLayout(colorPanel, BoxLayout.X_AXIS));
         colorPanel.add(colorLabel);
         colorPanel.add(playerColorPanel);
