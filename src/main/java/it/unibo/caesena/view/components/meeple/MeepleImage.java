@@ -43,7 +43,11 @@ public class MeepleImage {
             for (int x = 0; x < image.getWidth(); x++) {
                 final int pixel = image.getRGB(x, y);
                 if (pixel != 0) {
-                    image.setRGB(x, y, color.getRGB());
+                    if(pixel == -1){
+                        image.setRGB(x, y, Color.black.getRGB());
+                    } else if (pixel != 0) {
+                        image.setRGB(x, y, color.getRGB());
+                    }
                 }
             }
         }
