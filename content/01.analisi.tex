@@ -1,7 +1,7 @@
 \section{Analisi}
 \subsection{Requisiti}
 
-Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassone" 1 ispirandosi anche alla sua controparte videoludica 2. Il gioco consiste in un posizionamento tessere a turni, da 2 a 6 giocatori, in cui l’obiettivo di ogni giocatore è quello di accumulare più entro la fine della partita. Ogni tessera ha quattro lati e raffigura una particolare parte di mappa composta da strade, città, campi e monasteri e deve essere posizionata adiacentemente ad almeno un lato identico di un'altra pedina. La meccanica principale del gioco è quella di “chiudere” le strutture come raffigurato nelle figure 1 e 2 e 3 con al loro interno una pedina del proprio colore.
+Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassone" 1 ispirandosi anche alla sua controparte videoludica 2. Il gioco consiste in un posizionamento tessere a turni, da 2 a 6 giocatori, in cui l’obiettivo di ogni giocatore è quello di accumulare più entro la fine della partita. Ogni tessera ha quattro lati e raffigura una particolare parte di mappa composta da strade, città, campi e monasteri e deve essere posizionata adiacentemente ad almeno un lato identico di un'altra tessera. La meccanica principale del gioco è quella di “chiudere” le strutture come raffigurato nelle figure 1 e 2 e 3 con al loro interno un seguace del proprio colore.
 
 \begin{figure}[]
     {\includegraphics[]{images/Città.png}}
@@ -22,11 +22,27 @@ Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassone" 1 is
 \end{figure}
 
 \subsection{Requisiti funzionali}
+
 \begin{itemize}
-\item Calcolo del punteggio progressivo
+\item Calcolo del punteggio progressivo: ogni giocatore avrà il suo punteggio corrente che incrementerà ogni volta che durante il suo turo "chiuderà" una struttura seguendo le regole del gioco
 \end{itemize}
+
 \begin{itemize}
-\item Calcolo del punteggio al termine del gioco
+\item Calcolo del punteggio al termine del gioco: ogni giocatore otterrà il suo punteggio finale sommando al suo punteggio corrente il punteggio ogni seguace ancora presente nel terreno quindi
+
+\subitem i punteggi residui di ogni seguace posizionato in una struttura non "chiusa"
+
+\subitem i punteggi ottenuti da ogni seguace posizionato in un prato seguendo le regole del gioco come nella figura 4
+
+\begin{figure}[]
+    %{\includegraphics[]{images/Prato.png}}
+
+    \caption{Ogni prato è delimitato e rappresentato da ogni strada e città che lo circonda}
+    
+    % , ed è rappresentato dall'insieme di ogni tessera
+    % Un prato è rappresentato dall'insieme di ogni sezione verde presente sulle tessere che ne delimitano i lati tramite strade e città}
+\end{figure}
+
 \end{itemize}
 \begin{itemize}
 \item Menù principale, con selezione numero giocatori
@@ -38,7 +54,7 @@ Il progetto si pone l'obiettivo di ricreare il gioco da tavolo "Carcassone" 1 is
 \item Gestione posizionamento pedine
 \end{itemize}
 \begin{itemize}
-\item Calcolo delle posizioni valide per le tessere
+\item Calcolo delle posizioni valide per le tessere: ad ogni tentativo di posizionamento della tessera dovrà essere verificata la possibilità di effettuare l'azione. Si gestirà anche il caso in cui la tessera dovrà esssere obbligatoriamente scartata in quanto non esistono posti validi in cui in cui posizionarla
 \end{itemize}
 \begin{itemize}
 \item Gestione della creazione o ampliamento di prati, città e strade
