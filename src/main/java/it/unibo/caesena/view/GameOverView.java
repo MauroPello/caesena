@@ -5,10 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,17 +32,35 @@ public class GameOverView extends JPanel implements View<JPanel> {
         super();
         this.userInterface = userInterface;
         this.backgroundImage = ResourceUtil.getBufferedImage("background_GameOverView.jpeg", List.of());
-        final JPanel mainPanel = new JPanel();
+        final JPanel mainPanel = new JPanel() {
+            private final BufferedImage image = ResourceUtil.getBufferedImage("background_Modal.png", List.of());
 
-        mainPanel.setPreferredSize(new Dimension(
-                (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
-                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO)));
-        mainPanel.setMinimumSize(new Dimension(
-                (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
-                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO)));
-        mainPanel.setMaximumSize(new Dimension(
-                (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
-                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO)));
+            @Override
+            public Dimension getMaximumSize() {
+                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO));
+            }
+
+            @Override
+            public Dimension getMinimumSize() {
+                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO));
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
+                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO));
+            }
+
+            @Override
+            protected void paintComponent(final Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH), 0, 0, this.getWidth(), this.getHeight(), null);
+            }        
+        };
+        mainPanel.setOpaque(false);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
             playerImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
         } else {
@@ -49,20 +69,24 @@ public class GameOverView extends JPanel implements View<JPanel> {
 
         this.setBackground(Color.BLACK);
         this.setLayout(new GridBagLayout());
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         final JLabel playersLabel = new JLabel(LocaleHelper.getViewTitle("GameOverView", false));
         playersLabel.setFont(GUI.BIG_BOLD_FONT);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playersLabel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING * 8, 0, 0, 0));
         mainPanel.add(playersLabel);
 
         this.playersPanels = new JPanel();
+        playersPanels.setOpaque(false);
         this.playersPanels.setLayout(new BoxLayout(this.playersPanels, BoxLayout.Y_AXIS));
         this.playersPanels.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(this.playersPanels);
 
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setOpaque(false);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, GUI.DEFAULT_PADDING * 8, 0));
+
 
         final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
         backToStartMenuButton.setFont(GUI.MEDIUM_BOLD_FONT);
@@ -128,6 +152,7 @@ public class GameOverView extends JPanel implements View<JPanel> {
         players.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
         for (final var player : players) {
             final JPanel volatailePanel = new JPanel();
+            volatailePanel.setOpaque(false);
 
             final JLabel volataileLabel = new JLabel();
             volataileLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
