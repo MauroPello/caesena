@@ -163,5 +163,12 @@ public interface Controller {
      */
     List<Meeple> getMeeples();
 
+    /**
+     * Adds a user interface to the list of user interfaces.
+     * This means that more that one user interface can be used at the same time.
+     * In stardard MVC a user interface would be the "view"
+     *
+     * @param userInterface the user interface to add
+     */
     void addUserInterface(UserInterface userInterface);
 }

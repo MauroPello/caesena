@@ -115,19 +115,19 @@ public final class ControllerImpl implements Controller {
     @Override
     public void endGame() {
         final Set<GameSet> fieldsToClose = mediator.getAllGameSets().stream()
-                .filter(c -> c.getType().equals(GameSetType.CITY))
-                .filter(GameSet::isClosed)
-                .flatMap(c -> mediator.getFieldGameSetsNearGameSet(c).stream())
-                .peek(f -> f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD))
-                .collect(Collectors.toSet());
+            .filter(c -> c.getType().equals(GameSetType.CITY))
+            .filter(GameSet::isClosed)
+            .flatMap(c -> mediator.getFieldGameSetsNearGameSet(c).stream())
+            .peek(f -> f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD))
+            .collect(Collectors.toSet());
         fieldsToClose.forEach(GameSet::close);
 
         mediator.getAllGameSets().stream()
-                .filter(x -> !x.isClosed())
-                .forEach(g -> {
-                    g.setPoints(g.getPoints() / g.getType().getEndGameRatio());
-                    g.close();
-                });
+            .filter(x -> !x.isClosed())
+            .forEach(g -> {
+                g.setPoints(g.getPoints() / g.getType().getEndGameRatio());
+                g.close();
+            });
 
         updateUserInterfaces();
     }
@@ -249,8 +249,8 @@ public final class ControllerImpl implements Controller {
     @Override
     public List<Tile> getPlacedTiles() {
         return tiles.stream()
-                .filter(Tile::isPlaced)
-                .toList();
+            .filter(Tile::isPlaced)
+            .toList();
     }
 
     /**
@@ -259,8 +259,8 @@ public final class ControllerImpl implements Controller {
     @Override
     public List<Tile> getNotPlacedTiles() {
         return tiles.stream()
-                .filter(x -> !x.isPlaced())
-                .toList();
+            .filter(x -> !x.isPlaced())
+            .toList();
     }
 
     /**
@@ -289,8 +289,8 @@ public final class ControllerImpl implements Controller {
     @Override
     public List<Meeple> getPlayerMeeples(final Player player) {
         return meeples.stream()
-                .filter(m -> m.getOwner().equals(player))
-                .toList();
+            .filter(m -> m.getOwner().equals(player))
+            .toList();
     }
 
     /**
@@ -304,19 +304,32 @@ public final class ControllerImpl implements Controller {
 
     /**
      * {@inheritDoc}
-     */
+    */
     @Override
     public void addUserInterface(final UserInterface userInterface) {
         this.userInterfaces.add(userInterface);
         userInterface.update();
     }
 
+    /**
+     * Checks if two tile are next to eachother in any direction.
+     *
+     * @param t1 the first tile
+     * @param t2 the second tile
+     * @return true if the two tiles are next to each other, false otherwise
+     */
     private boolean areTilesNear(final Tile t1, final Tile t2) {
         return Math.abs(t1.getPosition().get().getX() - t2.getPosition().get().getX()) <= 1
-                && Math.abs(t1.getPosition().get().getY() - t2.getPosition().get().getY()) <= 1
-                && !t1.getPosition().get().equals(t2.getPosition().get());
+            && Math.abs(t1.getPosition().get().getY() - t2.getPosition().get().getY()) <= 1
+            && !t1.getPosition().get().equals(t2.getPosition().get());
     }
 
+
+    /**
+     * Draws a new tile from the list of not placed tiles.
+     *
+     * @return The current tile
+     */
     private void drawNewTile() {
         if (getNotPlacedTiles().isEmpty()) {
             gameOver = true;
@@ -326,6 +339,22 @@ public final class ControllerImpl implements Controller {
         }
     }
 
+    /**
+     * Checks if a given GameSet is closed.
+     * A GameSet is considered closed if all the tiles that partake in it complete a
+     * full structure together.
+     * As an example, we can take two tiles next to each other where the matching
+     * side has a single city piece.
+     * In that case, we would have closed(or completed) a city gameset(or
+     * structure).
+     * In other words, if there is no way to make a gameset(or structure) bigger by
+     * adding a new tile, it can be considered a closed gameset.
+     * A special case is a monastery that is considered closed if the eight
+     * surrounding positions contain a tile.
+     *
+     * @param gameSet to be verified as closed
+     * @return true if the gameset is closed, false otherwise
+     */
     private boolean isGameSetClosed(final GameSet gameSet) {
         if (gameSet.getType().equals(GameSetType.MONASTERY)) {
             return gameSet.getPoints() == POINTS_CLOSED_MONASTERY;
@@ -335,6 +364,12 @@ public final class ControllerImpl implements Controller {
                 .allMatch(p -> p.getValue().stream().allMatch(s -> p.getKey().isSectionClosed(s)));
     }
 
+    /**
+     * Checks to see if a given position is occupied by any other tile.
+     *
+     * @param position to check if occupied
+     * @return true if the provided position is occupied, false otherwise
+     */
     private boolean isPositionOccupied(final Pair<Integer, Integer> position) {
         for (final Tile tile : getPlacedTiles()) {
             if (tile.getPosition().get().equals(position)) {
@@ -344,6 +379,13 @@ public final class ControllerImpl implements Controller {
         return false;
     }
 
+    /**
+     * Gets a set of all the empty neighbouring positions to the given position.
+     *
+     * @param position at which to check for empty neighbour
+     * @return A set of positions that are empty and neighbouring to the given
+     *         position
+     */
     private Set<Pair<Integer, Integer>> getEmptyNeighbouringPositions(final Pair<Integer, Integer> position) {
         final Set<Pair<Integer, Integer>> neighbouringPositions = new HashSet<>();
         for (final var direction : Direction.values()) {
@@ -356,6 +398,13 @@ public final class ControllerImpl implements Controller {
         return neighbouringPositions;
     }
 
+    /**
+     * Checks if the current tile is placeable.
+     * A tile can not be placeable if there aren't any possible way to place it
+     * next to other tile, in any orientation.
+     *
+     * @return true if the current tile can be placed on the board, false otherwise
+     */
     private boolean isCurrentTilePlaceable() {
         boolean outcome = false;
         for (int i = 0; i < 4; i++) {
@@ -376,6 +425,10 @@ public final class ControllerImpl implements Controller {
         return outcome;
     }
 
+
+    /**
+     * Updates all of the user interfaces.
+     */
     private void updateUserInterfaces() {
         this.userInterfaces.forEach(UserInterface::update);
     }
