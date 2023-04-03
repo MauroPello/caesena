@@ -1,8 +1,5 @@
 package it.unibo.caesena.view.components;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,38 +10,21 @@ import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GameView;
 
-public class MainComponentImpl extends JPanel implements MainComponent<JPanel> {
+public class MainComponentImpl extends PanelWithBackgroundImage implements MainComponent<JPanel> {
     private static final long serialVersionUID = 1073591515646435610L;
     private final GameView gameView;
     private final BoardComponent<JPanel> board;
     private final SectionSelectorComponent<JPanel> sectionSelector;
     private boolean showingBoard;
-    private final BufferedImage backgroundImage;
 
     public MainComponentImpl(final GameView gameView) {
+        super(ResourceUtil.getBufferedImage("background_Board.png", List.of()));
         this.gameView = gameView;
         this.board = new BoardComponentImpl(this.gameView);
         this.sectionSelector = new SectionSelectorComponentImpl(this.gameView);
         this.showingBoard = true;
         this.add(this.getBoard().getComponent());
-        this.backgroundImage = ResourceUtil.getBufferedImage("background_Board.png", List.of());
     }
-
-    @Override
-    protected void paintComponent(final Graphics g) {
-        super.paintComponent(g);
-
-        double width = this.getWidth();
-        double height = this.getHeight();
-        if (this.getWidth() > backgroundImage.getWidth()) {
-            height = (backgroundImage.getHeight() * this.getWidth()) / backgroundImage.getWidth();
-        }
-        if (this.getHeight() > backgroundImage.getHeight()) {
-            width = (backgroundImage.getHeight() * this.getHeight()) / backgroundImage.getWidth();
-        }
-        g.drawImage(backgroundImage.getScaledInstance((int) Math.round(width), (int) Math.round(height), Image.SCALE_SMOOTH), 
-            0, 0, (int) Math.round(width), (int) Math.round(height), null);
-    } 
 
     @Override
     public void toggleComponents() {

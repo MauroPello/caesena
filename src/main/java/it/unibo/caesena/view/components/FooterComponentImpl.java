@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -34,7 +33,7 @@ import it.unibo.caesena.view.LocaleHelper;
  *
  * FooterComponent implementation.
  */
-public class FooterComponentImpl extends JPanel implements FooterComponent<JPanel> {
+public class FooterComponentImpl extends PanelWithBackgroundImage implements FooterComponent<JPanel> {
     private static final long serialVersionUID = -7370776246509188750L;
     private static final float INTERNAL_PADDING_RATIO = 0.02f;
     private static final int MINIMUM_PADDING = 3;
@@ -53,7 +52,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
     private final LeaderBoardComponent<JPanel> leaderboard;
     private Optional<TileImage> tileImage;
     private int innerPaddingSize;
-    private final BufferedImage backgroundImage;
 
     /**
      *
@@ -62,11 +60,10 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
      * @param gameView
      */
     public FooterComponentImpl(final GameView gameView) {
-        super();
+        super(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
 
         this.gameView = gameView;
         this.userInterface = gameView.getUserInterface();
-        this.backgroundImage = ResourceUtil.getBufferedImage("background_Footer.png", List.of());
 
         final JPanel innerPanel = new JPanel();
 
@@ -217,22 +214,6 @@ public class FooterComponentImpl extends JPanel implements FooterComponent<JPane
 
         super.setVisible(visible);
     }
-
-    @Override
-    protected void paintComponent(final Graphics g) {
-        super.paintComponent(g);
-
-        double width = this.getWidth();
-        double height = this.getHeight();
-        if (this.getWidth() > backgroundImage.getWidth()) {
-            height = (backgroundImage.getHeight() * this.getWidth()) / backgroundImage.getWidth();
-        }
-        if (this.getHeight() > backgroundImage.getHeight()) {
-            width = (backgroundImage.getHeight() * this.getHeight()) / backgroundImage.getWidth();
-        }
-        g.drawImage(backgroundImage.getScaledInstance((int) Math.round(width), (int) Math.round(height), Image.SCALE_SMOOTH), 
-            0, 0, (int) Math.round(width), (int) Math.round(height), null);
-    }  
 
     private void updateSize() {
         final Dimension frameSize = userInterface.getSize();

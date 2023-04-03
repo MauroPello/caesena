@@ -2,13 +2,9 @@ package it.unibo.caesena.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -18,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.utils.ResourceUtil;
+import it.unibo.caesena.view.components.ModalPanel;
 
 public class PauseView extends JPanel implements View<JPanel> {
     private static final long serialVersionUID = 3027253762177464276L;
@@ -30,33 +27,7 @@ public class PauseView extends JPanel implements View<JPanel> {
 
         this.setBackground(BACKGROUND_COLOR);
 
-        final JPanel mainPanel = new JPanel() {
-            private final BufferedImage image = ResourceUtil.getBufferedImage("background_Modal.png", List.of());
-
-            @Override
-            public Dimension getMaximumSize() {
-                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
-                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO));
-            }
-
-            @Override
-            public Dimension getMinimumSize() {
-                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
-                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO));
-            }
-
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
-                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO));
-            }
-
-            @Override
-            protected void paintComponent(final Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH), 0, 0, this.getWidth(), this.getHeight(), null);
-            }        
-        };
+        final JPanel mainPanel = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), true);
         mainPanel.setOpaque(false);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -100,16 +71,6 @@ public class PauseView extends JPanel implements View<JPanel> {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         buttonsPanel.add(exitButton, gridBagConstraints);
-
-        mainPanel.setPreferredSize(new Dimension(
-            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO)));
-        mainPanel.setMinimumSize(new Dimension(
-            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO)));
-        mainPanel.setMaximumSize(new Dimension(
-            (int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO)));
 
         mainPanel.add(titleLbl);
         mainPanel.add(buttonsPanel);

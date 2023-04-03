@@ -21,12 +21,14 @@ import javax.swing.JSpinner;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.utils.ResourceUtil;
+import it.unibo.caesena.view.components.ModalPanel;
 import it.unibo.caesena.view.components.NumericUpDown;
 import it.unibo.caesena.view.components.NumericUpDownImpl;
+import it.unibo.caesena.view.components.PanelWithBackgroundImage;
 import it.unibo.caesena.view.components.PlayerInput;
 import it.unibo.caesena.view.components.PlayerInputImpl;
 
-public class StartView extends JPanel implements View<JPanel> {
+public class StartView extends PanelWithBackgroundImage implements View<JPanel> {
     private static final long serialVersionUID = 1213185959652967528L;
     private static final float GAME_IMAGE_RATIO = 0.6f;
     private static final float PLAYER_IMAGE_RATIO = 0.05f;
@@ -37,44 +39,16 @@ public class StartView extends JPanel implements View<JPanel> {
     private final JPanel playersPanel;
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
-    private final BufferedImage backgroundImage;
 
     public StartView(final GUI userInterface) {
-        super();
+        super(ResourceUtil.getBufferedImage("background_StartView.png", List.of()));
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
-        this.backgroundImage = ResourceUtil.getBufferedImage("background_StartView.png", List.of());
         
         this.setLayout(new GridBagLayout());
         this.setOpaque(false);
         
-        final JPanel mainPanel = new JPanel() {
-            private final BufferedImage image = ResourceUtil.getBufferedImage("background_Modal.png", List.of());
-
-            @Override
-            public Dimension getMaximumSize() {
-                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
-                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO));
-            }
-
-            @Override
-            public Dimension getMinimumSize() {
-                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
-                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO));
-            }
-
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
-                (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO));
-            }
-
-            @Override
-            protected void paintComponent(final Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH), 0, 0, this.getWidth(), this.getHeight(), null);
-            }        
-        };
+        final JPanel mainPanel = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), false);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setOpaque(false);
 
@@ -179,23 +153,7 @@ public class StartView extends JPanel implements View<JPanel> {
         }
 
         super.setVisible(visible);
-    }
-
-    @Override
-    protected void paintComponent(final Graphics g) {
-        super.paintComponent(g);
-
-        double width = this.getWidth();
-        double height = this.getHeight();
-        if (this.getWidth() > backgroundImage.getWidth()) {
-            height = (backgroundImage.getHeight() * this.getWidth()) / backgroundImage.getWidth();
-        }
-        if (this.getHeight() > backgroundImage.getHeight()) {
-            width = (backgroundImage.getHeight() * this.getHeight()) / backgroundImage.getWidth();
-        }
-        g.drawImage(backgroundImage.getScaledInstance((int) Math.round(width), (int) Math.round(height), Image.SCALE_SMOOTH), 
-            0, 0, (int) Math.round(width), (int) Math.round(height), null);
-    }  
+    } 
 
     /**
      * Adds new player.

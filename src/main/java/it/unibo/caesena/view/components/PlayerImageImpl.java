@@ -27,7 +27,7 @@ public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel>
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
         final Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(4));
+        g2d.setStroke(new BasicStroke(3));
         g2d.setColor(Color.BLACK);
         g2d.drawRect(0, 0, getWidth(), getHeight());
     }
