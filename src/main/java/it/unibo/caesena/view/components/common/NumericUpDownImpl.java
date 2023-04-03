@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.common;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;

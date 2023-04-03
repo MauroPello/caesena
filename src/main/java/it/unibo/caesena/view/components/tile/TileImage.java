@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.tile;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,7 +10,7 @@ import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.ResourceUtil;
-
+import it.unibo.caesena.view.components.meeple.MeepleImage;
 import net.coobird.thumbnailator.Thumbnails;
 
 /**

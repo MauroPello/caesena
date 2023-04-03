@@ -23,6 +23,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.utils.ResourceUtil;
+import it.unibo.caesena.view.scene.GameOverScene;
+import it.unibo.caesena.view.scene.GameScene;
+import it.unibo.caesena.view.scene.PauseScene;
+import it.unibo.caesena.view.scene.StartScene;
+import it.unibo.caesena.view.scene.Scene;
 
 public class GUI extends JFrame implements UserInterface {
     private static final long serialVersionUID = 8950849192853252728L;
@@ -43,10 +48,10 @@ public class GUI extends JFrame implements UserInterface {
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
     private final Controller controller;
-    private View<JPanel> startView;
-    private View<JPanel> gameView;
-    private View<JPanel> pauseView;
-    private View<JPanel> gameOverView;
+    private Scene<JPanel> startView;
+    private Scene<JPanel> gameView;
+    private Scene<JPanel> pauseView;
+    private Scene<JPanel> gameOverView;
 
     public GUI(final Controller controller) {
         super();
@@ -184,10 +189,10 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     private void resetViews() {
-        this.startView = new StartView(this);
-        this.gameView = new GameView(this);
-        this.pauseView = new PauseView(this);
-        this.gameOverView = new GameOverView(this);
+        this.startView = new StartScene(this);
+        this.gameView = new GameScene(this);
+        this.pauseView = new PauseScene(this);
+        this.gameOverView = new GameOverScene(this);
     }
 
     /**

@@ -1,4 +1,4 @@
-package it.unibo.caesena.view;
+package it.unibo.caesena.view.scene;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -14,14 +14,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.utils.ResourceUtil;
-import it.unibo.caesena.view.components.ModalPanel;
+import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.components.common.ModalPanel;
 
-public class PauseView extends JPanel implements View<JPanel> {
+public class PauseScene extends JPanel implements Scene<JPanel> {
     private static final long serialVersionUID = 3027253762177464276L;
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 80);
     private final GUI userInterface;
 
-    public PauseView(final GUI userInterface) {
+    public PauseScene(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
 

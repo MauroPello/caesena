@@ -26,8 +26,16 @@ import javax.swing.border.CompoundBorder;
 
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
-import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.components.meeple.RemainingMeeplesComponent;
+import it.unibo.caesena.view.components.meeple.RemainingMeeplesComponentImpl;
+import it.unibo.caesena.view.components.player.LeaderBoardComponent;
+import it.unibo.caesena.view.components.player.LeaderBoardComponentImpl;
+import it.unibo.caesena.view.components.player.PlayerImage;
+import it.unibo.caesena.view.components.player.PlayerImageImpl;
+import it.unibo.caesena.view.components.tile.TileImage;
+import it.unibo.caesena.view.scene.GameScene;
 
 /**
  *
@@ -38,7 +46,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
     private static final float INTERNAL_PADDING_RATIO = 0.02f;
     private static final int MINIMUM_PADDING = 3;
     private static final float SPACER_RATIO = 0.2f;
-    private final GameView gameView;
+    private final GameScene gameView;
     private final GUI userInterface;
     private final JPanel tileImagePanel;
     private final JButton rotateButton;
@@ -59,7 +67,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
      *
      * @param gameView
      */
-    public FooterComponentImpl(final GameView gameView) {
+    public FooterComponentImpl(final GameScene gameView) {
         super(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
 
         this.gameView = gameView;

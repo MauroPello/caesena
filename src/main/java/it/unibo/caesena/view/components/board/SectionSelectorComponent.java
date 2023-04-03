@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.board;
 
 import java.util.Optional;
 

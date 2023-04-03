@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.board;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,14 +18,14 @@ import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
-import it.unibo.caesena.view.GameView;
+import it.unibo.caesena.view.scene.GameScene;
 
 class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
     private static final long serialVersionUID = 6200143818308185153L;
     private final Map<SectionButton, GridBagConstraints> sectionButtons = new HashMap<>();
-    private final GameView gameView;
+    private final GameScene gameView;
 
-    SectionSelectorComponentImpl(final GameView gameView) {
+    SectionSelectorComponentImpl(final GameScene gameView) {
         super();
         this.gameView = gameView;
     }

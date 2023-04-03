@@ -21,13 +21,14 @@ import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
-import it.unibo.caesena.view.GameView;
 import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.scene.GameScene;
 
 public class SideBarComponentImpl extends PanelWithBackgroundImage implements SideBarComponent<JPanel> {
     private static final long serialVersionUID = 10997719332807770L;
     private final Controller controller;
-    private final GameView gameView;
+    private final GameScene gameView;
     private final JButton zoomInButton = new JButton("Zoom +");
     private final JButton zoomOutButton = new JButton("Zoom -");
     private final JButton upRowButton = new JButton();
@@ -44,7 +45,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
      *
      * @param gameView
      */
-    public SideBarComponentImpl(final GameView gameView) {
+    public SideBarComponentImpl(final GameScene gameView) {
         super(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
         zoomInButton.setFont(GUI.MEDIUM_BOLD_FONT);
         zoomOutButton.setFont(GUI.MEDIUM_BOLD_FONT);

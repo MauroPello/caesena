@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.meeple;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -15,7 +15,7 @@ public class MeepleImage {
     private final Image normalImage;
     private final Image blurredImage;
 
-    MeepleImage(final Meeple meeple, final Color color) {
+    public MeepleImage(final Meeple meeple, final Color color) {
         this.meeple = meeple;
         final BufferedImage image = ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple"));
         this.normalImage = colorAllPixels(image, color);

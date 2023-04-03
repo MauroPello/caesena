@@ -1,4 +1,4 @@
-package it.unibo.caesena.view;
+package it.unibo.caesena.view.scene;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -10,28 +10,29 @@ import javax.swing.JPanel;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.components.FooterComponent;
 import it.unibo.caesena.view.components.FooterComponentImpl;
-import it.unibo.caesena.view.components.MainComponent;
-import it.unibo.caesena.view.components.MainComponentImpl;
 import it.unibo.caesena.view.components.SideBarComponent;
 import it.unibo.caesena.view.components.SideBarComponentImpl;
-import it.unibo.caesena.view.components.TileImage;
+import it.unibo.caesena.view.components.board.BoardManager;
+import it.unibo.caesena.view.components.board.BoardManagerImpl;
+import it.unibo.caesena.view.components.tile.TileImage;
 
-public class GameView extends JPanel implements View<JPanel> {
+public class GameScene extends JPanel implements Scene<JPanel> {
     private static final long serialVersionUID = -4620026742191171535L;
     private static final float MAIN_COMPONENT_RATIO = 0.75f;
     private final GUI userInterface;
-    private final MainComponent<JPanel> mainComponent;
+    private final BoardManager<JPanel> mainComponent;
     private final FooterComponent<JPanel> footer;
     private final SideBarComponent<JPanel> sidebar;
     private Optional<TileImage> currentTileImage;
 
-    public GameView(final GUI userInterface) {
+    public GameScene(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
         this.currentTileImage = Optional.empty();
-        this.mainComponent = new MainComponentImpl(this);
+        this.mainComponent = new BoardManagerImpl(this);
         this.footer = new FooterComponentImpl(this);
         this.sidebar = new SideBarComponentImpl(this);
         this.setLayout(new GridBagLayout());

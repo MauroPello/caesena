@@ -1,6 +1,8 @@
-package it.unibo.caesena.view;
+package it.unibo.caesena.view.scene;
 
-public interface View<X> {
+import it.unibo.caesena.view.UserInterface;
+
+public interface Scene<X> {
 
     void update();
 

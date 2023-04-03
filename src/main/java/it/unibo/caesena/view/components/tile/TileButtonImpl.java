@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.tile;
 
 import java.awt.Color;
 import java.awt.Graphics;

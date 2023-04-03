@@ -1,4 +1,4 @@
-package it.unibo.caesena.view;
+package it.unibo.caesena.view.scene;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -14,18 +14,20 @@ import javax.swing.JPanel;
 
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.utils.ResourceUtil;
-import it.unibo.caesena.view.components.ModalPanel;
-import it.unibo.caesena.view.components.PanelWithBackgroundImage;
-import it.unibo.caesena.view.components.PlayerImageImpl;
+import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.components.common.ModalPanel;
+import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.components.player.PlayerImageImpl;
 
-public class GameOverView extends PanelWithBackgroundImage implements View<JPanel> {
+public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPanel> {
     private static final long serialVersionUID = 1981212936830265900L;
     private static final float PLAYER_IMAGE_RATIO = 0.02f;
     private final GUI userInterface;
     private final int playerImageSize;
     private final JPanel playersPanels;
 
-    public GameOverView(final GUI userInterface) {
+    public GameOverScene(final GUI userInterface) {
         super(ResourceUtil.getBufferedImage("background_GameOverView.jpeg", List.of()));
         this.userInterface = userInterface;
 

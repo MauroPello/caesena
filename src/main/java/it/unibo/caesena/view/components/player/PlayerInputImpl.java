@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.player;
 
 import java.awt.Color;
 import java.awt.Container;

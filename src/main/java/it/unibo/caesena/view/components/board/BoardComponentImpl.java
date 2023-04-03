@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.board;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -16,20 +16,22 @@ import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
-import it.unibo.caesena.view.GameView;
+import it.unibo.caesena.view.components.tile.TileButton;
+import it.unibo.caesena.view.components.tile.TileButtonImpl;
+import it.unibo.caesena.view.scene.GameScene;
 
 final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private static final long serialVersionUID = -8835542981559590335L;
     private static final int DEFAULT_ZOOM_LEVEL = 5;
     private static final int MAX_FIELD_SIZE = 50;
-    private final GameView gameView;
+    private final GameScene gameView;
     private final Map<TileButton<JButton>, Pair<Integer, Integer>> allTileButtons;
     private int fieldSize = DEFAULT_ZOOM_LEVEL;
     private int zoom;
     private int horizontalOffset;
     private int verticalOffset;
 
-    BoardComponentImpl(final GameView gameView) {
+    BoardComponentImpl(final GameScene gameView) {
         this.gameView = gameView;
         this.zoom = 0;
         this.horizontalOffset = 0;

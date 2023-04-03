@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.board;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,16 +8,17 @@ import javax.swing.JPanel;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.ResourceUtil;
-import it.unibo.caesena.view.GameView;
+import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.scene.GameScene;
 
-public class MainComponentImpl extends PanelWithBackgroundImage implements MainComponent<JPanel> {
+public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardManager<JPanel> {
     private static final long serialVersionUID = 1073591515646435610L;
-    private final GameView gameView;
+    private final GameScene gameView;
     private final BoardComponent<JPanel> board;
     private final SectionSelectorComponent<JPanel> sectionSelector;
     private boolean showingBoard;
 
-    public MainComponentImpl(final GameView gameView) {
+    public BoardManagerImpl(final GameScene gameView) {
         super(ResourceUtil.getBufferedImage("background_Board.png", List.of()));
         this.gameView = gameView;
         this.board = new BoardComponentImpl(this.gameView);

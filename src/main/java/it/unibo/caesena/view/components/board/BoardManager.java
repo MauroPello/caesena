@@ -1,6 +1,6 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.board;
 
-public interface MainComponent<X> {
+public interface BoardManager<X> {
 
     void toggleComponents();
 

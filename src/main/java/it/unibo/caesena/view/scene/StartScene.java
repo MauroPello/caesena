@@ -1,4 +1,4 @@
-package it.unibo.caesena.view;
+package it.unibo.caesena.view.scene;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -21,14 +21,16 @@ import javax.swing.JSpinner;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.utils.ResourceUtil;
-import it.unibo.caesena.view.components.ModalPanel;
-import it.unibo.caesena.view.components.NumericUpDown;
-import it.unibo.caesena.view.components.NumericUpDownImpl;
-import it.unibo.caesena.view.components.PanelWithBackgroundImage;
-import it.unibo.caesena.view.components.PlayerInput;
-import it.unibo.caesena.view.components.PlayerInputImpl;
+import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.components.common.ModalPanel;
+import it.unibo.caesena.view.components.common.NumericUpDown;
+import it.unibo.caesena.view.components.common.NumericUpDownImpl;
+import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.components.player.PlayerInput;
+import it.unibo.caesena.view.components.player.PlayerInputImpl;
 
-public class StartView extends PanelWithBackgroundImage implements View<JPanel> {
+public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel> {
     private static final long serialVersionUID = 1213185959652967528L;
     private static final float GAME_IMAGE_RATIO = 0.6f;
     private static final float PLAYER_IMAGE_RATIO = 0.05f;
@@ -40,7 +42,7 @@ public class StartView extends PanelWithBackgroundImage implements View<JPanel> 
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
 
-    public StartView(final GUI userInterface) {
+    public StartScene(final GUI userInterface) {
         super(ResourceUtil.getBufferedImage("background_StartView.png", List.of()));
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();

@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.meeple;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,7 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.view.GUI;
-import it.unibo.caesena.view.GameView;
+import it.unibo.caesena.view.scene.GameScene;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 
@@ -22,7 +22,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
     private final JPanel allMeeplesPanel;
     private final Map<Player, List<MeepleImage>> meeples;
 
-    public RemainingMeeplesComponentImpl(final GameView gameView) {
+    public RemainingMeeplesComponentImpl(final GameScene gameView) {
         super();
 
         this.userInterface = gameView.getUserInterface();
