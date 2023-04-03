@@ -1,7 +1,7 @@
 \section{Analisi}
 \subsection{Requisiti}
 
-Il gruppo si pone come obiettivo quello di realizzare la trasposizione videoludica del gioco da tavolo Carcassonne. Si tratta di un gioco da 2 a 6 giocatori dove ognuno deve posizionare delle tessere e delle pedine con lo scopo di realizzare punti vittoria. Chi alla fine avrà totalizzato più punti vittoria verrà proclamato vincitore. Le tessere devono essere poste in maniera adiacente in modo che combacino tra di loro e formino strade, praterie, città e monasteri. Posizionando un seguace, il giocatore dichiara proprietà dell'eventuale città, strada, prateria e monastero, guadagnandone dei punti alla loro chiusura.
+Il gruppo si pone come obiettivo quello di realizzare la trasposizione videoludica del gioco da tavolo Carcassonne. Si tratta di un gioco da 2 a 6 giocatori dove ognuno deve posizionare delle tessere e delle pedine con lo scopo di realizzare punti vittoria. Chi alla fine avrà totalizzato più punti vittoria verrà proclamato vincitore. Le tessere devono essere poste in maniera adiacente in modo che combacino tra di loro e formino strutture, ovvero strade, praterie, città o monasteri. Posizionando un seguace su una struttura, il giocatore ne prende la proprietà, guadagnandone poi i punti alla sua chiusura.
 
 \begin{figure}[]
     {\includegraphics[]{images/Città.png}}
@@ -12,20 +12,22 @@ Il gruppo si pone come obiettivo quello di realizzare la trasposizione videoludi
 \begin{figure}[]
     {\includegraphics[]{images/MonasteroMeeple.png}}
 
-    \caption{chiudere un monastero comporta la presenza di tutte e 8 le tessere a circondarlo, facendo guadagnare al proprietario 9 punti}
+    \caption{Chiudere un monastero comporta che questo sia circondato da 8 tessere, facendo guadagnare al proprietario 9 punti}
 \end{figure}
 
 \begin{figure}[]
     {\includegraphics[]{images/Strada.png}}
 
-    \caption{chiudere una strada comporta la presenza di un incrocio o un un’entrata ad un monastero o città da ambo i lati per un totale di 1 punto per ogni tessera, estremi compresi}
+    \caption{Chiudere una strada comporta la presenza di un incrocio o un’entrata ad un monastero/città da ambo i lati, facendo guadagnare al proprietario 1 punto per ogni tessera, estremi compresi}
 \end{figure}
 
 \subsection*{Requisiti funzionali}
-il gioco dovrà permettere ai giocatori che ne partecipano, ognuno identificato univocamente da nome e colore, di piazzare e ruotare tessere ed eventualmente posizionarvi sopra un seguace.
+Il gioco dovrà permettere ai giocatori che ne partecipano, ognuno identificato univocamente da nome e colore, di piazzare e ruotare tessere ed eventualmente posizionarvi sopra un seguace. E' necessario:
 
 \begin{itemize}
-\item 
+\item Permettere il posizionamento delle tessere solo se posizionate in modo adiacente alle tessere già in campo ed esclusivamente nel caso in cui ogni lato della tessera corrente combaci con il lato della tessera vicina
+\item Permettere la navigazione del campo di gioco
+\item Permettere il posizionamento di seguaci solamente nella tessera appena piazzata appurato che non ci siano altri seguaci nella stessa struttura
 \end{itemize}
 
 Calcolo dei punteggi dei giocatori: ogni giocatore avrà il suo punteggio corrente che incrementerà ogni volta che durante il suo turo "chiuderà" una struttura seguendo le regole del gioco
