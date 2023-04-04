@@ -24,6 +24,8 @@ public final class GameSetImpl implements GameSet {
 
     /**
      * Class constructor.
+     *
+     * @param type type of GameSet
      */
     public GameSetImpl(final GameSetType type) {
         this.type = type;
@@ -34,6 +36,9 @@ public final class GameSetImpl implements GameSet {
 
     /**
      * Class second constructor.
+     *
+     * @param type type of GameSet
+     * @param meeples to put in GameSet
      */
     public GameSetImpl(final GameSetType type, final List<Meeple> meeples) {
         this.type = type;

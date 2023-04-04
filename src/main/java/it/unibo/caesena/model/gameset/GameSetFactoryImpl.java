@@ -4,6 +4,11 @@ import java.util.List;
 
 import it.unibo.caesena.model.meeple.Meeple;
 
+/**
+ * {@inheritDoc}
+ *
+ * Implementation of the GameSetFactory interface.
+ */
 public final class GameSetFactoryImpl implements GameSetFactory {
 
     /**
