@@ -13,7 +13,8 @@ public final class LocaleHelper {
     private static Locale currentLocale = Locale.getDefault();
 
     /**
-     * Private Class constructor as its not needed. 
+     * Class constructor marked as private as its not needed and all the methods are
+     * static.
      */
     private LocaleHelper() {
     }
@@ -144,6 +145,15 @@ public final class LocaleHelper {
      */
     public static String getPlaceMeepleText() {
         return getResourceBundle().getString("placeMeeple");
+    }
+
+    /**
+     * Gets the text for the sentence "show board" according to the current Locale. 
+     * 
+     * @return the sentence "show board" according to the current Locale
+     */
+    public static String getShowBoardText() {
+        return getResourceBundle().getString("showBoard");
     }
 
     /**

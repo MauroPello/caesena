@@ -12,6 +12,12 @@ public final class Pair<X, Y> {
     private final X x;
     private final Y y;
 
+    /**
+     * Public constructor.
+     * 
+     * @param x
+     * @param y
+     */
     public Pair(final X x, final Y y) {
         super();
         this.x = x;

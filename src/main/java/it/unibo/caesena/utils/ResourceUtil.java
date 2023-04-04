@@ -10,11 +10,19 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
+/**
+ * This class contains methods that are meant to help developers
+ * access resources like images and files.
+ */
 public final class ResourceUtil {
 
     private static final String SEP = File.separator;
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP;
 
+    /**
+     * Class constructor marked as private as its not needed and all the methods are
+     * static.
+     */
     private ResourceUtil() {
 
     }
