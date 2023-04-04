@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -269,9 +270,17 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
             if (!searchedTileButton.get().containsTile()) {
                 searchedTileButton.get().addTile(searchedTile.get());
                 searchedTileButton.get().lock();
+            } else if (searchedTileButton.get().getMeeple().isEmpty()) {
+                Optional<Meeple> placedMeeple = controller.getMeeples().stream()
+                        .filter(m -> m.isPlaced())
+                        .filter(m -> m.getPosition().getX().equals(searchedTile.get()))
+                        .findFirst();
+                if (placedMeeple.isPresent()) {
+                    searchedTileButton.get().setMeeple(placedMeeple.get());
+                }
             } else if (searchedTileButton.get().getMeeple().isPresent()
-                    && !searchedTileButton.get().getMeeple().get().isPlaced()) {
-                searchedTileButton.get().unsetMeeple();
+                && !searchedTileButton.get().getMeeple().get().isPlaced()) {
+                    searchedTileButton.get().unsetMeeple();
             }
             foundTileButton = searchedTileButton.get();
         } else if (searchedTile.isEmpty() && searchedTileButton.isEmpty()) {
