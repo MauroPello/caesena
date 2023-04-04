@@ -23,45 +23,45 @@ import it.unibo.caesena.view.components.player.PlayerImageImpl;
 /**
  * A class defining the scene to be showed at the of the game.
  */
-public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPanel> {
-    private static final long serialVersionUID = 1981212936830265900L;
+public class GameOverScene implements Scene<JPanel> {
     private static final float PLAYER_IMAGE_RATIO = 0.02f;
     private final GUI userInterface;
+    private final JPanel mainPanel;
     private final int playerImageSize;
     private final JPanel playersPanels;
 
     /**
      * Public constructor that sets up the components and places them.
-     * 
+     *
      * @param userInterface the interface in which this scene is displayed
      */
     public GameOverScene(final GUI userInterface) {
-        super(ResourceUtil.getBufferedImage("background_GameOverScene.jpeg", List.of()));
+        this.mainPanel = new PanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_GameOverScene.jpeg", List.of()));
         this.userInterface = userInterface;
 
-        final JPanel mainPanel = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), false);
-        mainPanel.setOpaque(false);
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        final JPanel modal = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), false);
+        modal.setOpaque(false);
+        modal.setLayout(new BoxLayout(modal, BoxLayout.Y_AXIS));
         if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
             playerImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
         } else {
             playerImageSize = (int) Math.round(GUI.SCREEN_HEIGHT * PLAYER_IMAGE_RATIO);
         }
 
-        this.setBackground(Color.BLACK);
-        this.setLayout(new GridBagLayout());
+        this.mainPanel.setBackground(Color.BLACK);
+        this.mainPanel.setLayout(new GridBagLayout());
 
         final JLabel playersLabel = new JLabel(LocaleHelper.getSceneTitle("GameOverScene", false));
         playersLabel.setFont(GUI.BIG_BOLD_FONT);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playersLabel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING * 8, 0, 0, 0));
-        mainPanel.add(playersLabel);
+        modal.add(playersLabel);
 
         this.playersPanels = new JPanel();
         playersPanels.setOpaque(false);
         this.playersPanels.setLayout(new BoxLayout(this.playersPanels, BoxLayout.Y_AXIS));
         this.playersPanels.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(this.playersPanels);
+        modal.add(this.playersPanels);
 
         final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -81,10 +81,10 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(exitButton);
 
-        mainPanel.add(buttonPanel);
+        modal.add(buttonPanel);
 
-        this.add(mainPanel);
-        super.setVisible(false);
+        this.mainPanel.add(modal);
+        this.setVisible(false);
     }
 
     /**
@@ -96,7 +96,7 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
             update();
         }
 
-        super.setVisible(visible);
+        this.mainPanel.setVisible(visible);
     }
 
     /**
@@ -104,7 +104,7 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
      */
     @Override
     public final JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 
     /**
@@ -142,5 +142,10 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
 
             this.playersPanels.add(volatailePanel);
         }
+    }
+
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
     }
 }

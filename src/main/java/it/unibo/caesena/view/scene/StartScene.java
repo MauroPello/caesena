@@ -35,13 +35,13 @@ import it.unibo.caesena.view.components.player.PlayerInputImpl;
 /**
  * A class defining the start menu for the game.
  */
-public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel> {
-    private static final long serialVersionUID = 1213185959652967528L;
+public class StartScene implements Scene<JPanel> {
     private static final float GAME_IMAGE_RATIO = 0.6f;
     private static final float PLAYER_IMAGE_RATIO = 0.05f;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 6;
     private final GUI userInterface;
+    private final JPanel mainPanel;
     private final List<PlayerInputImpl> playerInputs;
     private final JPanel playersPanel;
     private final NumericUpDown<JSpinner> playersNum;
@@ -55,16 +55,16 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
      * @param userInterface the interface in which this scene is displayed
      */
     public StartScene(final GUI userInterface) {
-        super(ResourceUtil.getBufferedImage("background_StartScene.png", List.of()));
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
 
-        this.setLayout(new GridBagLayout());
-        this.setOpaque(false);
+        this.mainPanel = new PanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_StartScene.png", List.of()));
+        this.mainPanel.setLayout(new GridBagLayout());
+        this.mainPanel.setOpaque(false);
 
-        final JPanel mainPanel = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), false);
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setOpaque(false);
+        final JPanel modal = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), false);
+        modal.setLayout(new BoxLayout(modal, BoxLayout.Y_AXIS));
+        modal.setOpaque(false);
 
         final JPanel imagePanel = new JPanel() {
             private final BufferedImage image = ResourceUtil.getBufferedImage("caesena.png", List.of());
@@ -99,7 +99,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         imagePanelWithPadding.setOpaque(false);
         imagePanelWithPadding.add(imagePanel);
         imagePanelWithPadding.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING * 4, 0, 0, 0));
-        mainPanel.add(imagePanelWithPadding);
+        modal.add(imagePanelWithPadding);
 
         final JPanel playersNumPanel = new JPanel();
         playersNumPanel.setOpaque(false);
@@ -112,7 +112,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         playersNumPanel.add(playersNum.getComponent());
 
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(playersNumPanel);
+        modal.add(playersNumPanel);
 
         this.playersPanel = new JPanel();
         this.playersPanel.setLayout(new BoxLayout(this.playersPanel, BoxLayout.Y_AXIS));
@@ -122,7 +122,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         playersScrollPane.getViewport().setOpaque(false);
         playersScrollPane.setAutoscrolls(true);
         playersScrollPane.setBorder(null);
-        mainPanel.add(playersScrollPane);
+        modal.add(playersScrollPane);
 
         final JButton startButton = new JButton(LocaleHelper.getStartGameText());
         startButton.setFont(GUI.BIG_BOLD_FONT);
@@ -141,7 +141,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         startGamePanel.add(startButton);
         startGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         startGamePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, GUI.DEFAULT_PADDING * 4, 0));
-        mainPanel.add(startGamePanel);
+        modal.add(startGamePanel);
 
         if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
             playerInputImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
@@ -149,7 +149,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
             playerInputImageSize = (int) Math.round(GUI.SCREEN_HEIGHT * PLAYER_IMAGE_RATIO);
         }
 
-        this.addComponentListener(new ComponentAdapter() {
+        this.mainPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(final ComponentEvent e) {
                 imagePanel.revalidate();
@@ -157,8 +157,8 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
             }
         });
 
-        this.add(mainPanel);
-        super.setVisible(false);
+        this.mainPanel.add(modal);
+        this.setVisible(false);
     }
 
 
@@ -177,7 +177,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
             }
         }
 
-        super.setVisible(visible);
+        this.mainPanel.setVisible(visible);
     }
 
     /**
@@ -204,7 +204,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
      */
     @Override
     public final JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 
     /**
@@ -231,7 +231,13 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
             }
         }
 
-        this.revalidate();
-        this.repaint();
+        this.mainPanel.revalidate();
+        this.mainPanel.repaint();
+    }
+
+
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
     }
 }

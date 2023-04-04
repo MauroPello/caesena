@@ -22,10 +22,10 @@ import it.unibo.caesena.view.components.tile.TileImage;
 /**
  * A class defining the scene where players can actually play the game.
  */
-public class GameScene extends JPanel implements Scene<JPanel> {
-    private static final long serialVersionUID = -4620026742191171535L;
+public class GameScene implements Scene<JPanel> {
     private static final float MAIN_COMPONENT_RATIO = 0.75f;
     private final GUI userInterface;
+    private final JPanel mainPanel;
     private final BoardManager<JPanel> boardManager;
     private final FooterComponent<JPanel> footer;
     private final SideBarComponent<JPanel> sidebar;
@@ -37,13 +37,13 @@ public class GameScene extends JPanel implements Scene<JPanel> {
      * @param userInterface the interface in which this scene is displayed
      */
     public GameScene(final GUI userInterface) {
-        super();
+        this.mainPanel = new JPanel();
         this.userInterface = userInterface;
         this.currentTileImage = Optional.empty();
         this.boardManager = new BoardManagerImpl(this);
         this.footer = new FooterComponentImpl(this);
         this.sidebar = new SideBarComponentImpl(this);
-        this.setLayout(new GridBagLayout());
+        this.mainPanel.setLayout(new GridBagLayout());
         final GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.BOTH;
 
@@ -53,7 +53,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         gridBagConstraints.weighty = MAIN_COMPONENT_RATIO;
         boardManager.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * MAIN_COMPONENT_RATIO),
                 (int) Math.round(10 * MAIN_COMPONENT_RATIO)));
-        this.add(boardManager.getComponent(), gridBagConstraints);
+        this.mainPanel.add(boardManager.getComponent(), gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -61,7 +61,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         gridBagConstraints.weighty = MAIN_COMPONENT_RATIO;
         sidebar.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO)),
                 (int) Math.round(10 * MAIN_COMPONENT_RATIO)));
-        this.add(sidebar.getComponent(), gridBagConstraints);
+        this.mainPanel.add(sidebar.getComponent(), gridBagConstraints);
 
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -70,8 +70,8 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         gridBagConstraints.weighty = 1 - MAIN_COMPONENT_RATIO;
         footer.getComponent().setPreferredSize(
                 new Dimension(1, (int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO))));
-        this.add(footer.getComponent(), gridBagConstraints);
-        super.setVisible(false);
+        this.mainPanel.add(footer.getComponent(), gridBagConstraints);
+        this.setVisible(false);
     }
 
     /**
@@ -86,7 +86,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
             this.sidebar.getComponent().setVisible(true);
         }
 
-        super.setVisible(visible);
+        this.mainPanel.setVisible(visible);
     }
 
     /**
@@ -213,7 +213,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
      */
     @Override
     public final JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 
     /**
@@ -233,5 +233,10 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         this.generateCurrentTileImage();
         this.boardManager.updateComponents();
         this.footer.update();
+    }
+
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
     }
 }

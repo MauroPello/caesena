@@ -21,25 +21,25 @@ import it.unibo.caesena.view.components.common.ModalPanel;
 /**
  * A class defining the pause menu for the game.
  */
-public class PauseScene extends JPanel implements Scene<JPanel> {
-    private static final long serialVersionUID = 3027253762177464276L;
+public class PauseScene implements Scene<JPanel> {
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 80);
     private final GUI userInterface;
+    private final JPanel mainPanel;
 
     /**
      * Public constructor that sets up the components and places them.
-     * 
+     *
      * @param userInterface the interface in which this scene is displayed
      */
     public PauseScene(final GUI userInterface) {
-        super();
         this.userInterface = userInterface;
 
-        this.setBackground(BACKGROUND_COLOR);
+        this.mainPanel = new JPanel();
+        this.mainPanel.setBackground(BACKGROUND_COLOR);
 
-        final JPanel mainPanel = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), true);
-        mainPanel.setOpaque(false);
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        final JPanel modal = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), true);
+        modal.setOpaque(false);
+        modal.setLayout(new BoxLayout(modal, BoxLayout.Y_AXIS));
 
         final JLabel titleLbl = new JLabel(LocaleHelper.getSceneTitle("PauseScene", false));
         titleLbl.setFont(GUI.BIG_BOLD_FONT);
@@ -82,10 +82,10 @@ public class PauseScene extends JPanel implements Scene<JPanel> {
         gridBagConstraints.gridy = 2;
         buttonsPanel.add(exitButton, gridBagConstraints);
 
-        mainPanel.add(titleLbl);
-        mainPanel.add(buttonsPanel);
-        this.setLayout(new GridBagLayout());
-        this.add(mainPanel);
+        modal.add(titleLbl);
+        modal.add(buttonsPanel);
+        this.mainPanel.setLayout(new GridBagLayout());
+        this.mainPanel.add(modal);
         this.setVisible(false);
     }
 
@@ -94,7 +94,7 @@ public class PauseScene extends JPanel implements Scene<JPanel> {
      */
     @Override
     public final JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 
     /**
@@ -111,5 +111,15 @@ public class PauseScene extends JPanel implements Scene<JPanel> {
      */
     @Override
     public void update() {
+    }
+
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        this.mainPanel.setVisible(visible);
     }
 }
