@@ -43,6 +43,7 @@ final class TileTest {
     @Test
     void testRotation() {
         mediator.rotateTileClockwise(tile);
+        assertEquals(tile.getRotationCount() , 1);
         final Tile tile2 = new TileBuilder(TileType.CITY_EDGE, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))

@@ -10,9 +10,10 @@ import it.unibo.caesena.model.PlayerImpl;
 
 final class PlayerTest {
     private final PlayerImpl player;
+    private final Color playerColor = new Color(50, 50, 50);
 
     PlayerTest() {
-        this.player = new PlayerImpl("Giocatore1", new Color(50, 50, 50));
+        this.player = new PlayerImpl("Giocatore1", playerColor);
     }
 
     @Test
@@ -31,5 +32,10 @@ final class PlayerTest {
         assertEquals(10 + 10, player.getScore());
         assertThrows(IllegalStateException.class, () -> player.addScore(-1 * 10));
         assertThrows(IllegalStateException.class, () -> player.setScore(10));
+    }
+
+    @Test
+    void testColor () {
+        assertEquals(player.getColor(), playerColor);
     }
 }
