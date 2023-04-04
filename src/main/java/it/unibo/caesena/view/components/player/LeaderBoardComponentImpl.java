@@ -73,8 +73,7 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
             final var playerPanel = new JPanel();
 
             final var playerColorPanel = new PlayerImageImpl();
-            final var color = player.getColor();
-            playerColorPanel.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
+            playerColorPanel.setColor(player.getColor().asSwingColor());
             playerColorPanel.forceSize(playerImageSize);
 
             final JLabel playerLabel = new JLabel(player.getName() + " " + player.getScore());

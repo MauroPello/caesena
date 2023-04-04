@@ -122,8 +122,7 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
             volatailePanel.add(volataileLabel);
 
             final var playerColorPanel = new PlayerImageImpl();
-            final var color = player.getColor();
-            playerColorPanel.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
+            playerColorPanel.setColor(player.getColor().asSwingColor());
             playerColorPanel.forceSize(playerImageSize);
             volatailePanel.add(playerColorPanel);
 
