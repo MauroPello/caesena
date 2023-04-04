@@ -106,7 +106,7 @@ public class GUI extends JFrame implements UserInterface {
     /**
      * Shows only startScene.
      */
-    public void showstartScene() {
+    public void showStartScene() {
         this.setTitle(LocaleHelper.getSceneTitle("StartScene", true));
         this.startScene.setVisible(true);
         this.gameScene.setVisible(false);
@@ -120,7 +120,7 @@ public class GUI extends JFrame implements UserInterface {
     /**
      * Shows only gameScene and pauseScene.
      */
-    public void showgameScene() {
+    public void showGameScene() {
         this.setTitle(LocaleHelper.getSceneTitle("GameScene", true));
         final JPanel gamePanel = new JPanel();
         gamePanel.setLayout(new OverlayLayout(gamePanel));
@@ -130,7 +130,7 @@ public class GUI extends JFrame implements UserInterface {
         gamePanel.getActionMap().put("togglePauseScene", new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent arg0) {
-                togglepauseScene();
+                togglePauseScene();
             }
         });
 
@@ -149,7 +149,7 @@ public class GUI extends JFrame implements UserInterface {
     /**
      * Toggles the pauseScene.
      */
-    public void togglepauseScene() {
+    public void togglePauseScene() {
         this.pauseScene.setVisible(!this.pauseScene.isVisible());
         setEnabledAllComponents(gameScene.getComponent(), !this.pauseScene.isVisible());
         setEnabledAllComponents(pauseScene.getComponent(), this.pauseScene.isVisible());
@@ -158,7 +158,7 @@ public class GUI extends JFrame implements UserInterface {
     /**
      * Shows only gameOverScene.
      */
-    private void showgameOverScene() {
+    private void showGameOverScene() {
         this.setTitle(LocaleHelper.getSceneTitle("GameOverScene", true));
 
         this.startScene.setVisible(false);
@@ -244,19 +244,19 @@ public class GUI extends JFrame implements UserInterface {
     public void update() {
         if (controller.isGameOver()) {
             if (!gameOverScene.isVisible()) {
-                showgameOverScene();
+                showGameOverScene();
             }
 
             gameOverScene.update();
         } else if (!controller.getPlacedTiles().isEmpty()) {
             if (!gameScene.isVisible()) {
-                showgameScene();
+                showGameScene();
             }
 
             gameScene.update();
         } else {
             if (!startScene.isVisible()) {
-                showstartScene();
+                showStartScene();
             }
 
             startScene.update();

@@ -48,7 +48,7 @@ public class PauseScene extends JPanel implements Scene<JPanel> {
         resumeGameButton.setFont(GUI.MEDIUM_BOLD_FONT);
         resumeGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resumeGameButton.addActionListener((e) -> {
-            userInterface.togglepauseScene();
+            userInterface.togglePauseScene();
         });
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
