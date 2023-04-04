@@ -246,7 +246,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
         }
 
         gameSet.addMeeple(meeple);
-        meeple.place(new Pair<>(tile, tileSection));
+        meeple.place(tile, tileSection);
         return true;
     }
 }

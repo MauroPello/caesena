@@ -8,12 +8,22 @@ import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
+/**
+ * {@inheritDoc}
+ * 
+ * A class representing a normal Meeple with strength always equal to 1.
+ */
 public class NormalMeeple implements Meeple {
 
     private static final int STRENGTH = 1;
     private final Player owner;
     private Optional<Pair<Tile, TileSection>> position;
 
+    /**
+     * Public constructor that accepts as argument the player that owns the meeple.
+     * 
+     * @param owner the player that owns the meeple
+     */
     public NormalMeeple(final Player owner) {
         this.owner = owner;
         this.position = Optional.empty();
@@ -39,15 +49,21 @@ public class NormalMeeple implements Meeple {
      * {@inheritDoc}
      */
     @Override
-    public void place(final Pair<Tile, TileSection> position) {
-        this.position = Optional.of(position);
+    public void place(final Tile tile, final TileSection tileSection) {
+        this.position = Optional.of(new Pair<>(tile, tileSection));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void remove() {
         this.position = Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Pair<Tile, TileSection> getPosition() {
         return this.position.get();
