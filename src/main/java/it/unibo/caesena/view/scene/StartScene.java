@@ -30,6 +30,9 @@ import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
 import it.unibo.caesena.view.components.player.PlayerInput;
 import it.unibo.caesena.view.components.player.PlayerInputImpl;
 
+/**
+ * A class defining the start menu for the game.
+ */
 public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel> {
     private static final long serialVersionUID = 1213185959652967528L;
     private static final float GAME_IMAGE_RATIO = 0.6f;
@@ -42,6 +45,11 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
 
+    /**
+     * Public constructor that sets up the components and places them.
+     * 
+     * @param userInterface the interface in which this scene is displayed
+     */
     public StartScene(final GUI userInterface) {
         super(ResourceUtil.getBufferedImage("background_StartScene.png", List.of()));
         this.userInterface = userInterface;
@@ -148,6 +156,10 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         super.setVisible(false);
     }
 
+    
+    /** 
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
@@ -158,7 +170,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
     }
 
     /**
-     * Adds new player.
+     * Adds a new player input to be filled.
      */
     private void addPlayerInput() {
         final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
@@ -170,7 +182,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
     }
 
     /**
-     * Removes player.
+     * Removes the last player input in the playerInputs list.
      */
     private void removePlayerInput() {
         this.playersPanel.remove(this.playerInputs.remove(this.playerInputs.size() - 1).getComponent());
@@ -193,6 +205,9 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         return this.userInterface;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         if (playersNum.getValueAsInt() < this.playerInputs.size()) {

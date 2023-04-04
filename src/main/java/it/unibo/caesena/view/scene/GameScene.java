@@ -19,20 +19,28 @@ import it.unibo.caesena.view.components.board.BoardManager;
 import it.unibo.caesena.view.components.board.BoardManagerImpl;
 import it.unibo.caesena.view.components.tile.TileImage;
 
+/**
+ * A class defining the scene where players can actually play the game.
+ */
 public class GameScene extends JPanel implements Scene<JPanel> {
     private static final long serialVersionUID = -4620026742191171535L;
     private static final float MAIN_COMPONENT_RATIO = 0.75f;
     private final GUI userInterface;
-    private final BoardManager<JPanel> mainComponent;
+    private final BoardManager<JPanel> boardManager;
     private final FooterComponent<JPanel> footer;
     private final SideBarComponent<JPanel> sidebar;
     private Optional<TileImage> currentTileImage;
 
+    /**
+     * Public constructor that sets up the components and places them.
+     * 
+     * @param userInterface the interface in which this scene is displayed
+     */
     public GameScene(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
         this.currentTileImage = Optional.empty();
-        this.mainComponent = new BoardManagerImpl(this);
+        this.boardManager = new BoardManagerImpl(this);
         this.footer = new FooterComponentImpl(this);
         this.sidebar = new SideBarComponentImpl(this);
         this.setLayout(new GridBagLayout());
@@ -43,9 +51,9 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.weightx = MAIN_COMPONENT_RATIO;
         gridBagConstraints.weighty = MAIN_COMPONENT_RATIO;
-        mainComponent.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * MAIN_COMPONENT_RATIO),
+        boardManager.getComponent().setPreferredSize(new Dimension((int) Math.round(10 * MAIN_COMPONENT_RATIO),
                 (int) Math.round(10 * MAIN_COMPONENT_RATIO)));
-        this.add(mainComponent.getComponent(), gridBagConstraints);
+        this.add(boardManager.getComponent(), gridBagConstraints);
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -65,12 +73,15 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         this.add(footer.getComponent(), gridBagConstraints);
         super.setVisible(false);
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
             this.generateCurrentTileImage();
-            this.mainComponent.getBoard().getComponent().setVisible(true);
+            this.boardManager.getBoard().getComponent().setVisible(true);
             this.footer.getComponent().setVisible(true);
             this.sidebar.getComponent().setVisible(true);
         }
@@ -78,6 +89,10 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         super.setVisible(visible);
     }
 
+    /**
+     * Generates the image for the current tile only if it's different from the one
+     * already stored.
+     */
     private void generateCurrentTileImage() {
         final Tile currentTile = userInterface.getController().getCurrentTile();
         if (currentTileImage.isEmpty() || !currentTile.equals(currentTileImage.get().getTile())) {
@@ -85,80 +100,129 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         }
     }
 
-    public final void updateHUD() {
-        this.footer.update();
-    }
-
+    /** 
+     * Gets the image for the current tile being played.
+     * 
+     * @return the image for the current tile being played
+     */
     public TileImage getCurrentTileImage() {
         return this.currentTileImage.get();
     }
 
-    public void placeMeeple() {
-        mainComponent.toggleComponents();
+    /**
+     * Toggles the components displayed inside the boardManager.
+     */
+    public void toggleBoard() {
+        this.boardManager.toggleComponents();
     }
 
+    /**
+     * Confirms the placement of the current tile in the board in the previously
+     * selected position.
+     * 
+     * @return whether or not the operation was successfull
+     */
     public boolean placeTile() {
-        final Optional<Pair<Integer, Integer>> placedTilePosition = mainComponent.getBoard()
+        final Optional<Pair<Integer, Integer>> placedTilePosition = boardManager.getBoard()
                 .getUnlockedTileButtonPosition();
         if (placedTilePosition.isPresent()
                 && this.userInterface.getController().placeCurrentTile(placedTilePosition.get())) {
-            mainComponent.getBoard().placeTile();
+            boardManager.getBoard().placeTile();
             return true;
         }
         return false;
     }
 
+    /** 
+     * Ends the current turn.
+     */
     public void endTurn() {
-        this.mainComponent.endTurn();
+        this.boardManager.endTurn();
     }
 
+    /** 
+     * Zooms in on the board.
+     */
     public void zoomIn() {
-        this.mainComponent.getBoard().zoomIn();
+        this.boardManager.getBoard().zoomIn();
     }
 
+    /** 
+     * Zooms out on the board.
+     */
     public void zoomOut() {
-        this.mainComponent.getBoard().zoomOut();
+        this.boardManager.getBoard().zoomOut();
     }
 
+    /**
+     * Moves the player point of view of the board.
+     * 
+     * @param direction in which the point of view should be moved
+     */
     public void move(final Direction direction) {
-        this.mainComponent.getBoard().move(direction);
+        this.boardManager.getBoard().move(direction);
     }
-
+    
+    /**
+     * Checks whether or not the player can zoom in on the board.
+     * 
+     * @return whether or not the player can zoom in on the board
+     */
     public boolean canZoomIn() {
-        return this.mainComponent.getBoard().canZoomIn();
+        return this.boardManager.getBoard().canZoomIn();
     }
-
+    
+    /**
+     * Checks whether or not the player can zoom out on the board.
+     * 
+     * @return whether or not the player can zoom out on the board
+     */
     public boolean canZoomOut() {
-        return this.mainComponent.getBoard().canZoomOut();
+        return this.boardManager.getBoard().canZoomOut();
     }
-
+    
+    /**
+     * Checks whether or not the player point of view of the board can be moved by
+     * as much as <code>direction</code>.
+     * 
+     * @param direction in which the point of view could be moved
+     * @return whether or not the point of view can be actually moved
+     */
     public boolean canMove(final Direction direction) {
-        return this.mainComponent.getBoard().canMove(direction);
+        return this.boardManager.getBoard().canMove(direction);
     }
 
+    /**
+     * Removes from the board the tile currently placed but not yet confirmed.
+     */
     public void removePlacedTile() {
-        this.mainComponent.getBoard().removePlacedTile();
+        this.boardManager.getBoard().removePlacedTile();
     }
 
-    public void updateComponents() {
-        this.mainComponent.getBoard().draw();
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final JPanel getComponent() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public final GUI getUserInterface() {
         return this.userInterface;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         this.generateCurrentTileImage();
-        this.updateComponents();
-        this.updateHUD();
+        this.boardManager.getBoard().draw();
+        this.footer.update();
     }
 }
