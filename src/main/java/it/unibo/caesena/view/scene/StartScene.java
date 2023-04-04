@@ -47,7 +47,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
 
     /**
      * Public constructor that sets up the components and places them.
-     * 
+     *
      * @param userInterface the interface in which this scene is displayed
      */
     public StartScene(final GUI userInterface) {
@@ -126,7 +126,8 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
             for (final var playerInput : this.playerInputs) {
                 final var player = playerInput.getPlayerData();
                 final var color = player.getY();
-                userInterface.getController().addPlayer(player.getX(), new Color(color.getRed(), color.getGreen(), color.getBlue()));
+                userInterface.getController().addPlayer(player.getX(),
+                    new Color(color.getRed(), color.getGreen(), color.getBlue()));
             }
 
             userInterface.getController().startGame();
@@ -146,7 +147,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
 
         this.addComponentListener(new ComponentAdapter() {
             @Override
-            public void componentResized(ComponentEvent e) {
+            public void componentResized(final ComponentEvent e) {
                 imagePanel.revalidate();
                 imagePanel.repaint();
             }
@@ -156,8 +157,8 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         super.setVisible(false);
     }
 
-    
-    /** 
+
+    /**
      * {@inheritDoc}
      */
     @Override

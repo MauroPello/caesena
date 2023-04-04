@@ -33,7 +33,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
 
     /**
      * Public constructor that sets up the components and places them.
-     * 
+     *
      * @param userInterface the interface in which this scene is displayed
      */
     public GameScene(final GUI userInterface) {
@@ -73,7 +73,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         this.add(footer.getComponent(), gridBagConstraints);
         super.setVisible(false);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -100,9 +100,9 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         }
     }
 
-    /** 
+    /**
      * Gets the image for the current tile being played.
-     * 
+     *
      * @return the image for the current tile being played
      */
     public TileImage getCurrentTileImage() {
@@ -118,7 +118,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
 
     /**
      * Gets whether or not the board is currently being showed.
-     * 
+     *
      * @return whether or not the board is currently being showed
      */
     public boolean isShowingBoard() {
@@ -128,7 +128,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
     /**
      * Confirms the placement of the current tile in the board in the previously
      * selected position.
-     * 
+     *
      * @return whether or not the operation was successfull
      */
     public boolean placeTile() {
@@ -142,21 +142,21 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         return false;
     }
 
-    /** 
+    /**
      * Ends the current turn.
      */
     public void endTurn() {
         this.boardManager.endTurn();
     }
 
-    /** 
+    /**
      * Zooms in on the board.
      */
     public void zoomIn() {
         this.boardManager.getBoard().zoomIn();
     }
 
-    /** 
+    /**
      * Zooms out on the board.
      */
     public void zoomOut() {
@@ -165,35 +165,35 @@ public class GameScene extends JPanel implements Scene<JPanel> {
 
     /**
      * Moves the player point of view of the board.
-     * 
+     *
      * @param direction in which the point of view should be moved
      */
     public void move(final Direction direction) {
         this.boardManager.getBoard().move(direction);
     }
-    
+
     /**
      * Checks whether or not the player can zoom in on the board.
-     * 
+     *
      * @return whether or not the player can zoom in on the board
      */
     public boolean canZoomIn() {
         return this.boardManager.getBoard().canZoomIn();
     }
-    
+
     /**
      * Checks whether or not the player can zoom out on the board.
-     * 
+     *
      * @return whether or not the player can zoom out on the board
      */
     public boolean canZoomOut() {
         return this.boardManager.getBoard().canZoomOut();
     }
-    
+
     /**
      * Checks whether or not the player point of view of the board can be moved by
      * as much as <code>direction</code>.
-     * 
+     *
      * @param direction in which the point of view could be moved
      * @return whether or not the point of view can be actually moved
      */
