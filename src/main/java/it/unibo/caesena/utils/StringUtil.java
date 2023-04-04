@@ -8,7 +8,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
- * This class ontains methods that are meant to help developers
+ * This class contains methods that are meant to help developers
  * managing strings.
  */
 public final class StringUtil {

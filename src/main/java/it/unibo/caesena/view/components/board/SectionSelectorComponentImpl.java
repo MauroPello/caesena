@@ -23,11 +23,11 @@ import it.unibo.caesena.view.scene.GameScene;
 class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
     private static final long serialVersionUID = 6200143818308185153L;
     private final Map<SectionButton, GridBagConstraints> sectionButtons = new HashMap<>();
-    private final GameScene gameView;
+    private final GameScene gameScene;
 
-    SectionSelectorComponentImpl(final GameScene gameView) {
+    SectionSelectorComponentImpl(final GameScene gameScene) {
         super();
-        this.gameView = gameView;
+        this.gameScene = gameScene;
     }
 
     @Override
@@ -54,7 +54,7 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
     @Override
     protected void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
-        final BufferedImage tileButton = gameView.getCurrentTileImage().getAsBufferedImageWithoutMeeple(this.getWidth(),
+        final BufferedImage tileButton = gameScene.getCurrentTileImage().getAsBufferedImageWithoutMeeple(this.getWidth(),
                 this.getHeight());
         graphics.drawImage(tileButton, 0, 0, this.getWidth(), this.getHeight(), null);
     }
@@ -124,7 +124,7 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
     }
 
     private String getLabelFromSection(final TileSection section) {
-        final Controller controller = gameView.getUserInterface().getController();
+        final Controller controller = gameScene.getUserInterface().getController();
         final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
         return String.valueOf(gameSet.getType().name().toCharArray()[0]);
     }
@@ -154,7 +154,7 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
         SectionButton(final TileSection section) {
             super();
             this.section = section;
-            final Controller controller = gameView.getUserInterface().getController();
+            final Controller controller = gameScene.getUserInterface().getController();
             final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
             this.toBeDrawn = gameSet.isMeepleFree() && !gameSet.isClosed();
             if (this.toBeDrawn) {

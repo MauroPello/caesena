@@ -29,6 +29,9 @@ import it.unibo.caesena.view.scene.PauseScene;
 import it.unibo.caesena.view.scene.StartScene;
 import it.unibo.caesena.view.scene.Scene;
 
+/**
+ * Implementation of UserInterface using Java Swing.
+ */
 public class GUI extends JFrame implements UserInterface {
     private static final long serialVersionUID = 8950849192853252728L;
     public static final float MODAL_PREFERRED_RATIO = 0.4f;
@@ -48,11 +51,16 @@ public class GUI extends JFrame implements UserInterface {
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
     private final Controller controller;
-    private Scene<JPanel> startView;
-    private Scene<JPanel> gameView;
-    private Scene<JPanel> pauseView;
-    private Scene<JPanel> gameOverView;
+    private Scene<JPanel> startScene;
+    private Scene<JPanel> gameScene;
+    private Scene<JPanel> pauseScene;
+    private Scene<JPanel> gameOverScene;
 
+    /**
+     * Public constructor used to set UIManager and JFrame properties.
+     * 
+     * @param controller the controller to be used by the GUI
+     */
     public GUI(final Controller controller) {
         super();
 
@@ -67,7 +75,6 @@ public class GUI extends JFrame implements UserInterface {
         UIManager.put("OptionPane.questionIcon", new ImageIcon());
 
         this.controller = controller;
-
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -91,48 +98,48 @@ public class GUI extends JFrame implements UserInterface {
         this.setIconImage(ResourceUtil.getBufferedImage("logo.png", List.of()));
         this.setVisible(true);
 
-        resetViews();
+        resetScenes();
 
         this.controller.addUserInterface(this);
     }
 
     /**
-     * Shows only startview.
+     * Shows only startScene.
      */
-    public void showStartView() {
-        this.setTitle(LocaleHelper.getViewTitle("StartView", true));
-        this.startView.setVisible(true);
-        this.gameView.setVisible(false);
-        this.pauseView.setVisible(false);
-        this.gameOverView.setVisible(false);
-        this.setContentPane(startView.getComponent());
+    public void showStartScene() {
+        this.setTitle(LocaleHelper.getSceneTitle("StartScene", true));
+        this.startScene.setVisible(true);
+        this.gameScene.setVisible(false);
+        this.pauseScene.setVisible(false);
+        this.gameOverScene.setVisible(false);
+        this.setContentPane(startScene.getComponent());
         this.validate();
         this.repaint();
     }
 
     /**
-     * Shows only GameView and PauseView if called.
+     * Shows only gameScene and pauseScene.
      */
-    public void showGameView() {
-        this.setTitle(LocaleHelper.getViewTitle("GameView", true));
+    public void showGameScene() {
+        this.setTitle(LocaleHelper.getSceneTitle("GameScene", true));
         final JPanel gamePanel = new JPanel();
         gamePanel.setLayout(new OverlayLayout(gamePanel));
 
         gamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "togglePauseView");
-        gamePanel.getActionMap().put("togglePauseView", new AbstractAction() {
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "togglePauseScene");
+        gamePanel.getActionMap().put("togglePauseScene", new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent arg0) {
-                togglePauseView();
+                togglePauseScene();
             }
         });
 
-        this.startView.setVisible(false);
-        this.gameView.setVisible(true);
-        this.pauseView.setVisible(false);
-        this.gameOverView.setVisible(false);
-        gamePanel.add(this.pauseView.getComponent());
-        gamePanel.add(this.gameView.getComponent());
+        this.startScene.setVisible(false);
+        this.gameScene.setVisible(true);
+        this.pauseScene.setVisible(false);
+        this.gameOverScene.setVisible(false);
+        gamePanel.add(this.pauseScene.getComponent());
+        gamePanel.add(this.gameScene.getComponent());
 
         this.setContentPane(gamePanel);
         this.validate();
@@ -140,31 +147,31 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * Shows PauseView.
+     * Toggles the pauseScene.
      */
-    public void togglePauseView() {
-        this.pauseView.setVisible(!this.pauseView.isVisible());
-        setEnabledAllComponents(gameView.getComponent(), !this.pauseView.isVisible());
-        setEnabledAllComponents(pauseView.getComponent(), this.pauseView.isVisible());
+    public void togglePauseScene() {
+        this.pauseScene.setVisible(!this.pauseScene.isVisible());
+        setEnabledAllComponents(gameScene.getComponent(), !this.pauseScene.isVisible());
+        setEnabledAllComponents(pauseScene.getComponent(), this.pauseScene.isVisible());
     }
 
     /**
-     * Shows only GameOverView.
+     * Shows only gameOverScene.
      */
-    private void showGameOverView() {
-        this.setTitle(LocaleHelper.getViewTitle("GameOverView", true));
+    private void showGameOverScene() {
+        this.setTitle(LocaleHelper.getSceneTitle("GameOverScene", true));
 
-        this.startView.setVisible(false);
-        this.gameView.setVisible(false);
-        this.pauseView.setVisible(false);
-        this.gameOverView.setVisible(true);
-        this.setContentPane(gameOverView.getComponent());
+        this.startScene.setVisible(false);
+        this.gameScene.setVisible(false);
+        this.pauseScene.setVisible(false);
+        this.gameOverScene.setVisible(true);
+        this.setContentPane(gameOverScene.getComponent());
         this.validate();
         this.repaint();
     }
 
     /**
-     * If called, show exit dialog.
+     * Shows the exit dialog used to the exit the game.
      */
     public void showExitDialog() {
         final int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmExitText(),
@@ -176,23 +183,26 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * If called, show backtoStart dialog.
+     * Shows the back to startScene dialog used to go back to the start menu.
      */
-    public void showBackToStartViewDialog() {
+    public void showBackTostartSceneDialog() {
         final int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
                 LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
-            resetViews();
+            resetScenes();
             this.controller.resetGame();
         }
     }
 
-    private void resetViews() {
-        this.startView = new StartScene(this);
-        this.gameView = new GameScene(this);
-        this.pauseView = new PauseScene(this);
-        this.gameOverView = new GameOverScene(this);
+    /**
+     * Resets all the scenes.
+     */
+    private void resetScenes() {
+        this.startScene = new StartScene(this);
+        this.gameScene = new GameScene(this);
+        this.pauseScene = new PauseScene(this);
+        this.gameOverScene = new GameOverScene(this);
     }
 
     /**
@@ -213,9 +223,10 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     *
-     * @param container specifies the type of containers.
-     * @param enabled   to enable or disable containers.
+     * Sets the property enabled to all components inside the given Container
+     * 
+     * @param container the container of which components setEnabled will be called.
+     * @param enabled   value to be used when calling setEnabled for every component.
      */
     private void setEnabledAllComponents(final Container container, final boolean enabled) {
         for (final var component : container.getComponents()) {
@@ -226,26 +237,29 @@ public class GUI extends JFrame implements UserInterface {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         if (controller.isGameOver()) {
-            if (!gameOverView.isVisible()) {
-                showGameOverView();
+            if (!gameOverScene.isVisible()) {
+                showGameOverScene();
             }
 
-            gameOverView.update();
+            gameOverScene.update();
         } else if (!controller.getPlacedTiles().isEmpty()) {
-            if (!gameView.isVisible()) {
-                showGameView();
+            if (!gameScene.isVisible()) {
+                showGameScene();
             }
 
-            gameView.update();
+            gameScene.update();
         } else {
-            if (!startView.isVisible()) {
-                showStartView();
+            if (!startScene.isVisible()) {
+                showStartScene();
             }
 
-            startView.update();
+            startScene.update();
         }
     }
 }

@@ -21,10 +21,10 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
     private final JPanel allMeeplesPanel;
     private final Map<Player, List<MeepleImage>> meeples;
 
-    public RemainingMeeplesComponentImpl(final GameScene gameView) {
+    public RemainingMeeplesComponentImpl(final GameScene gameScene) {
         super();
 
-        this.userInterface = gameView.getUserInterface();
+        this.userInterface = gameScene.getUserInterface();
         this.controller = userInterface.getController();
 
         this.meeples = new HashMap<>();

@@ -43,7 +43,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
     private final int playerInputImageSize;
 
     public StartScene(final GUI userInterface) {
-        super(ResourceUtil.getBufferedImage("background_StartView.png", List.of()));
+        super(ResourceUtil.getBufferedImage("background_StartScene.png", List.of()));
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
 

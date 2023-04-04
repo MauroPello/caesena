@@ -33,7 +33,7 @@ public class PauseScene extends JPanel implements Scene<JPanel> {
         mainPanel.setOpaque(false);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        final JLabel titleLbl = new JLabel(LocaleHelper.getViewTitle("PauseView", false));
+        final JLabel titleLbl = new JLabel(LocaleHelper.getSceneTitle("PauseScene", false));
         titleLbl.setFont(GUI.BIG_BOLD_FONT);
         titleLbl.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING * 10, 0, GUI.DEFAULT_PADDING, 0));
         titleLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -48,7 +48,7 @@ public class PauseScene extends JPanel implements Scene<JPanel> {
         resumeGameButton.setFont(GUI.MEDIUM_BOLD_FONT);
         resumeGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resumeGameButton.addActionListener((e) -> {
-            userInterface.togglePauseView();
+            userInterface.togglePauseScene();
         });
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -58,7 +58,7 @@ public class PauseScene extends JPanel implements Scene<JPanel> {
         backToStartMenuButton.setFont(GUI.MEDIUM_BOLD_FONT);
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backToStartMenuButton.addActionListener((e) -> {
-            userInterface.showBackToStartViewDialog();
+            userInterface.showBackTostartSceneDialog();
         });
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;

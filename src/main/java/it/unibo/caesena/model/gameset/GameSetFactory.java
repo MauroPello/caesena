@@ -4,31 +4,31 @@ public interface GameSetFactory {
 
     /**
      * 
-     * @return a GameSet wich type is city
+     * @return a GameSet which type is city
      */
     GameSet createCitySet();
 
     /**
      * 
-     * @return a GameSet wich type is monastery
+     * @return a GameSet which type is monastery
      */
     GameSet createMonasterySet();
 
     /**
      * 
-     * @return a GameSet wich type is road
+     * @return a GameSet which type is road
      */
     GameSet createRoadSet();
 
     /**
      * 
-     * @return a GameSet wich type is field
+     * @return a GameSet which type is field
      */
     GameSet createFieldSet();
 
     /**
      * 
-     * @return a GameSet wich type is junction
+     * @return a GameSet which type is junction
      */
     GameSet createJunctionSet();
 

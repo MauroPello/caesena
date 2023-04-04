@@ -46,14 +46,14 @@ public final class LocaleHelper {
     }
 
     /**
-     * Gets the corresponding title for the given <code>currentView</code>.
+     * Gets the corresponding title for the given <code>currentScene</code>.
      * 
-     * @param currentView view to get the title of
+     * @param currentScene scene to get the title of
      * @param withApplicationName whether or not the application name should be included in the title
-     * @return the corresponding title to the given <code>currentView</code>
+     * @return the corresponding title to the given <code>currentScene</code>
      */
-    public static String getViewTitle(final String currentView, final boolean withApplicationName) {
-        final char[] charArray = currentView.toCharArray();
+    public static String getSceneTitle(final String currentScene, final boolean withApplicationName) {
+        final char[] charArray = currentScene.toCharArray();
         charArray[0] = Character.toLowerCase(charArray[0]);
         if (withApplicationName) {
             return getApplicationName() + " | " + getResourceBundle().getString(String.valueOf(charArray) + "Title");
@@ -95,7 +95,7 @@ public final class LocaleHelper {
      * @return the sentence "start game" according to the current Locale
      */
     public static String getStartGameText() {
-        return getResourceBundle().getString("startViewTitle");
+        return getResourceBundle().getString("startSceneTitle");
     }
 
     /**
