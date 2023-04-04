@@ -271,7 +271,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
                 searchedTileButton.get().addTile(searchedTile.get());
                 searchedTileButton.get().lock();
             } else if (searchedTileButton.get().getMeeple().isEmpty()) {
-                Optional<Meeple> placedMeeple = controller.getMeeples().stream()
+                final Optional<Meeple> placedMeeple = controller.getMeeples().stream()
                         .filter(m -> m.isPlaced())
                         .filter(m -> m.getPosition().getX().equals(searchedTile.get()))
                         .findFirst();

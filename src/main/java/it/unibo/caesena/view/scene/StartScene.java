@@ -9,7 +9,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -18,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.event.ChangeListener;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.utils.ResourceUtil;
@@ -43,6 +46,8 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
     private final JPanel playersPanel;
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
+
+    private Optional<ChangeListener> playersNumChangeListener;
 
     /**
      * Public constructor that sets up the components and places them.
@@ -103,6 +108,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         playersNumPanel.add(playersLabel);
 
         playersNum = new NumericUpDownImpl(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
+        playersNumChangeListener = Optional.empty();
         playersNumPanel.add(playersNum.getComponent());
 
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -163,8 +169,11 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
     public void setVisible(final boolean visible) {
         if (visible) {
             update();
-            if (playersNum.getComponent().getChangeListeners().length == 0) {
-                playersNum.getComponent().addChangeListener((e) -> update());
+            if (this.playersNumChangeListener.isEmpty()) {
+                this.playersNumChangeListener = Optional.of((e) -> update());
+            }
+            if (!Arrays.asList(playersNum.getComponent().getChangeListeners()).contains(playersNumChangeListener.get())) {
+                playersNum.getComponent().addChangeListener(playersNumChangeListener.get());
             }
         }
 

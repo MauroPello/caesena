@@ -2,7 +2,7 @@ package it.unibo.caesena.controller;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,8 +45,8 @@ public class ConfigurationLoader {
      */
     public final List<Tile> getTiles(final TileFactory factory) {
         try {
-            final Object fileJson = new JSONParser()
-                    .parse(new InputStreamReader(ResourceUtil.getInputStreamFromFile(fileName, List.of()), Charset.forName("UTF-8")));
+            final Object fileJson = new JSONParser().parse(new InputStreamReader(ResourceUtil.
+                getInputStreamFromFile(fileName, List.of()), StandardCharsets.UTF_8));
             final JSONObject jsonObject = (JSONObject) fileJson;
             final JSONArray array = (JSONArray) jsonObject.get("Tiles");
             for (int i = 0; i < array.size(); i++) {

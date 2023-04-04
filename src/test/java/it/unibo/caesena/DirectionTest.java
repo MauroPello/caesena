@@ -17,12 +17,8 @@ final class DirectionTest {
     }
 
     @Test
-    void getX() {
+    void testGetters() {
         assertEquals(direction.getX(), 0);
-    }
-
-    @Test
-    void getY() {
         assertEquals(direction.getY(), -1);
     }
 

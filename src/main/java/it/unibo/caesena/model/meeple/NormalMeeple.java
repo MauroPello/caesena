@@ -42,8 +42,7 @@ public class NormalMeeple implements Meeple {
      */
     @Override
     public Player getOwner() {
-        final Player player = this.owner;
-        return player;
+        return this.owner;
     }
 
     /**

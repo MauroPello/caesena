@@ -25,7 +25,8 @@ public final class App {
     public static void main(final String[] args) {
         final Controller controller = new ControllerImpl();
         final UserInterface gui = new GUI();
+        // final UserInterface gui2 = new GUI();
         gui.setController(controller);
-        //new GUI(controller);
+        // gui2.setController(controller);
     }
 }

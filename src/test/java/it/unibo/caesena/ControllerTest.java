@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.controller.Controller;
@@ -72,19 +71,18 @@ final class ControllerTest {
 
     @Test
     void testIsCurrentTilePleceable() {
-        Tile citytile = new TileFactoryWithBuilder(mediator).createCity();
-        Tile tubetile = new TileFactoryWithBuilder(mediator).createCityTube();
+        final Tile citytile = new TileFactoryWithBuilder(mediator).createCity();
+        final Tile tubetile = new TileFactoryWithBuilder(mediator).createCityTube();
 
         this.controller.resetGame();
         this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);
         this.controller.startGame();
 
-        Pair<Integer, Integer> pos = new Pair<Integer,Integer>(0, -1);
-        while(!this.controller.getCurrentTile().equals(citytile) &&
+        while (!this.controller.getCurrentTile().equals(citytile) &&
             !this.controller.getCurrentTile().equals(tubetile)) {
             this.controller.endTurn();
         }
-        if(this.controller.getCurrentTile().equals(tubetile)) {
+        if (this.controller.getCurrentTile().equals(tubetile)) {
             this.controller.rotateCurrentTile();
         }
         assertTrue(this.controller.isPositionValidForCurrentTile(new Pair<>(0, -1)));

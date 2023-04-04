@@ -35,7 +35,6 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
         this.board = new BoardComponentImpl(this.gameScene);
         this.sectionSelector = new SectionSelectorComponentImpl(this.gameScene);
         this.showingBoard = true;
-        this.add(this.getBoard().getComponent());
     }
 
     /**
@@ -84,7 +83,6 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
      */
     @Override
     public void endTurn() {
-
         final var currentPlayer = this.gameScene.getUserInterface().getController().getCurrentPlayer();
         final List<Meeple> meeples = this.gameScene.getUserInterface().getController().getPlayerMeeples(currentPlayer)
                 .stream()

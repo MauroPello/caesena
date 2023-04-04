@@ -231,7 +231,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
     @Override
     public void update() {
         this.generateCurrentTileImage();
-        this.boardManager.getBoard().draw();
+        this.boardManager.updateComponents();
         this.footer.update();
     }
 }

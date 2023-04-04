@@ -106,7 +106,7 @@ public class GUI extends JFrame implements UserInterface {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
-            this.exit();
+            Runtime.getRuntime().exit(0);
         }
         UIManager.put("OptionPane.messageFont", MEDIUM_NORMAL_FONT);
         UIManager.put("OptionPane.buttonFont", MEDIUM_BOLD_FONT);
@@ -255,7 +255,7 @@ public class GUI extends JFrame implements UserInterface {
     @Override
     public void exit() {
         this.controller.exitGame();
-        dispose();
+        Runtime.getRuntime().exit(0);
     }
 
     /**

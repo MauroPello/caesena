@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -16,8 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.Player;
-import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
@@ -206,15 +203,6 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
                 toggleBoardButton.setVisible(true);
                 endTurnButton.setVisible(true);
                 discardTileButton.setVisible(false);
-                final Player currentPlayer = gameScene.getUserInterface().getController().getCurrentPlayer();
-                final Optional<Meeple> remainingMeeple = gameScene.getUserInterface().getController()
-                        .getPlayerMeeples(currentPlayer)
-                        .stream()
-                        .filter(m -> !m.isPlaced())
-                        .findAny();
-                if (remainingMeeple.isEmpty()) {
-                    toggleBoardButton.setEnabled(false);
-                }
             }
         };
     }
