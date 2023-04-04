@@ -29,16 +29,16 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     private static final long serialVersionUID = 10997719332807770L;
     private final Controller controller;
     private final GameScene gameScene;
-    private final JButton zoomInButton = new JButton("Zoom +");
-    private final JButton zoomOutButton = new JButton("Zoom -");
-    private final JButton upRowButton = new JButton();
-    private final JButton downRowButton = new JButton();
-    private final JButton leftRowButton = new JButton();
-    private final JButton rightRowButton = new JButton();
-    private final JButton placeTileButton = new JButton(LocaleHelper.getPlaceTileText());
-    private final JButton placeMeepleButton = new JButton(LocaleHelper.getPlaceMeepleText());
-    private final JButton discardTileButton = new JButton(LocaleHelper.getDiscardText());
-    private final JButton endTurnButton = new JButton(LocaleHelper.getEndTurnText());
+    private final JButton zoomInButton;
+    private final JButton zoomOutButton;
+    private final JButton upRowButton;
+    private final JButton downRowButton;
+    private final JButton leftRowButton;
+    private final JButton rightRowButton;
+    private final JButton placeTileButton;
+    private final JButton toggleBoardButton;
+    private final JButton discardTileButton;
+    private final JButton endTurnButton;
 
     /**
      * SideBarComponent constructor
@@ -47,10 +47,21 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
      */
     public SideBarComponentImpl(final GameScene gameScene) {
         super(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
+        zoomInButton = new JButton("Zoom +");
+        zoomOutButton = new JButton("Zoom -");
+        upRowButton = new JButton();
+        downRowButton = new JButton();
+        leftRowButton = new JButton();
+        rightRowButton = new JButton();
+        placeTileButton = new JButton(LocaleHelper.getPlaceTileText());
+        toggleBoardButton = new JButton(LocaleHelper.getPlaceMeepleText());
+        discardTileButton = new JButton(LocaleHelper.getDiscardText());
+        endTurnButton = new JButton(LocaleHelper.getEndTurnText());
+
         zoomInButton.setFont(GUI.MEDIUM_BOLD_FONT);
         zoomOutButton.setFont(GUI.MEDIUM_BOLD_FONT);
         placeTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
-        placeMeepleButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        toggleBoardButton.setFont(GUI.MEDIUM_BOLD_FONT);
         discardTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
         endTurnButton.setFont(GUI.MEDIUM_BOLD_FONT);
 
@@ -121,8 +132,8 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         actionsPanel.add(placeTileButton);
         discardTileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(discardTileButton);
-        placeMeepleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        actionsPanel.add(placeMeepleButton);
+        toggleBoardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionsPanel.add(toggleBoardButton);
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(endTurnButton);
 
@@ -130,7 +141,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         innerPanel.add(arrowsPanel);
         innerPanel.add(actionsPanel);
 
-        placeMeepleButton.setVisible(false);
+        toggleBoardButton.setVisible(false);
         endTurnButton.setVisible(false);
         innerPanel.setVisible(true);
 
@@ -144,7 +155,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         downRowButton.addActionListener(moveDownEventListener());
         rightRowButton.addActionListener(moveRightEventListener());
         placeTileButton.addActionListener(placeTileEventListener());
-        placeMeepleButton.addActionListener(placeMeepleEventListener());
+        toggleBoardButton.addActionListener(placeMeepleEventListener());
         endTurnButton.addActionListener(endTurnEventListener());
         discardTileButton.addActionListener(discardTileEventListener());
         super.setVisible(false);
@@ -162,7 +173,14 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
      * @return ActionListener
      */
     private ActionListener placeMeepleEventListener() {
-        return (e) -> this.gameScene.toggleBoard();
+        return (e) -> {
+            this.gameScene.toggleBoard();
+            if (this.gameScene.isShowingBoard()) {
+                this.toggleBoardButton.setText(LocaleHelper.getPlaceMeepleText());
+            } else {
+                this.toggleBoardButton.setText(LocaleHelper.getShowBoardText());
+            }
+        };
     }
 
     /**
@@ -172,17 +190,17 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         return (e) -> {
             if (this.gameScene.placeTile()) {
                 placeTileButton.setVisible(false);
-                placeMeepleButton.setVisible(true);
+                toggleBoardButton.setVisible(true);
                 endTurnButton.setVisible(true);
                 discardTileButton.setVisible(false);
                 final Player currentPlayer = gameScene.getUserInterface().getController().getCurrentPlayer();
-                final Optional<Meeple> ramainingMeeple = gameScene.getUserInterface().getController()
+                final Optional<Meeple> remainingMeeple = gameScene.getUserInterface().getController()
                         .getPlayerMeeples(currentPlayer)
                         .stream()
                         .filter(m -> !m.isPlaced())
                         .findAny();
-                if (ramainingMeeple.isEmpty()) {
-                    placeMeepleButton.setEnabled(false);
+                if (remainingMeeple.isEmpty()) {
+                    toggleBoardButton.setEnabled(false);
                 }
             }
         };
@@ -194,8 +212,8 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     private ActionListener endTurnEventListener() {
         return (e) -> {
             placeTileButton.setVisible(true);
-            placeMeepleButton.setVisible(false);
-            placeMeepleButton.setEnabled(true);
+            toggleBoardButton.setVisible(false);
+            toggleBoardButton.setEnabled(true);
             endTurnButton.setVisible(false);
             discardTileButton.setVisible(true);
             discardTileButton.setEnabled(true);

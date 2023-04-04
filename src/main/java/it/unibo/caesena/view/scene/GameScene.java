@@ -117,6 +117,15 @@ public class GameScene extends JPanel implements Scene<JPanel> {
     }
 
     /**
+     * Gets whether or not the board is currently being showed.
+     * 
+     * @return whether or not the board is currently being showed
+     */
+    public boolean isShowingBoard() {
+        return this.boardManager.isShowingBoard();
+    }
+
+    /**
      * Confirms the placement of the current tile in the board in the previously
      * selected position.
      * 

@@ -147,6 +147,15 @@ public final class LocaleHelper {
     }
 
     /**
+     * Gets the text for the sentence "show board" according to the current Locale. 
+     * 
+     * @return the sentence "show board" according to the current Locale
+     */
+    public static String getShowBoardText() {
+        return getResourceBundle().getString("showBoard");
+    }
+
+    /**
      * Gets the text for the sentence "discard" according to the current Locale. 
      * 
      * @return the sentence "discard" according to the current Locale
