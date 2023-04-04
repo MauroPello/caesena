@@ -1,5 +1,8 @@
 package it.unibo.caesena.view.components;
 
+/**
+ * An interface for sidebars to be used in Scene
+ */
 public interface SideBarComponent<X> {
 
     /**
