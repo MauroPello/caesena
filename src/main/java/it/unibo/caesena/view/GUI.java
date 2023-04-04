@@ -89,31 +89,28 @@ public class GUI extends JFrame implements UserInterface {
     private static final float MINIMUM_SIZE_RATIO = 0.3f;
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
-    private final Controller controller;
     private Scene<JPanel> startScene;
     private Scene<JPanel> gameScene;
     private Scene<JPanel> pauseScene;
     private Scene<JPanel> gameOverScene;
+    private boolean forceScenesReset;
+    private Controller controller;
 
     /**
      * Public constructor used to set UIManager and JFrame properties.
-     *
-     * @param controller the controller to be used by the GUI
      */
-    public GUI(final Controller controller) {
+    public GUI() {
         super();
 
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
-            System.exit(ABORT);
+            this.exit();
         }
         UIManager.put("OptionPane.messageFont", MEDIUM_NORMAL_FONT);
         UIManager.put("OptionPane.buttonFont", MEDIUM_BOLD_FONT);
         UIManager.put("OptionPane.questionIcon", new ImageIcon());
-
-        this.controller = controller;
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -137,8 +134,15 @@ public class GUI extends JFrame implements UserInterface {
         this.setIconImage(ResourceUtil.getBufferedImage("logo.png", List.of()));
         this.setVisible(true);
 
-        resetScenes();
+        this.forceScenesReset = true;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setController(final Controller controller) {
+        this.controller = controller;
         this.controller.addUserInterface(this);
     }
 
@@ -229,7 +233,7 @@ public class GUI extends JFrame implements UserInterface {
                 LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
-            resetScenes();
+            this.forceScenesReset = true;
             this.controller.resetGame();
         }
     }
@@ -238,6 +242,7 @@ public class GUI extends JFrame implements UserInterface {
      * Resets all the scenes.
      */
     private void resetScenes() {
+        this.forceScenesReset = false;
         this.startScene = new StartScene(this);
         this.gameScene = new GameScene(this);
         this.pauseScene = new PauseScene(this);
@@ -250,7 +255,7 @@ public class GUI extends JFrame implements UserInterface {
     @Override
     public void exit() {
         this.controller.exitGame();
-        System.exit(0);
+        dispose();
     }
 
     /**
@@ -281,6 +286,10 @@ public class GUI extends JFrame implements UserInterface {
      */
     @Override
     public void update() {
+        if (forceScenesReset) {
+            resetScenes();
+        }
+
         if (controller.isGameOver()) {
             if (!gameOverScene.isVisible()) {
                 showGameOverScene();
