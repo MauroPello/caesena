@@ -71,7 +71,7 @@ public class GameScene implements Scene<JPanel> {
         footer.getComponent().setPreferredSize(
                 new Dimension(1, (int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO))));
         this.mainPanel.add(footer.getComponent(), gridBagConstraints);
-        this.setVisible(false);
+        this.mainPanel.setVisible(false);
     }
 
     /**
@@ -235,6 +235,9 @@ public class GameScene implements Scene<JPanel> {
         this.footer.update();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.mainPanel.isVisible();

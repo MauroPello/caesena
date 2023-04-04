@@ -86,7 +86,7 @@ public class PauseScene implements Scene<JPanel> {
         modal.add(buttonsPanel);
         this.mainPanel.setLayout(new GridBagLayout());
         this.mainPanel.add(modal);
-        this.setVisible(false);
+        this.mainPanel.setVisible(false);
     }
 
     /**
@@ -113,13 +113,19 @@ public class PauseScene implements Scene<JPanel> {
     public void update() {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.mainPanel.isVisible();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setVisible(boolean visible) {
+    public void setVisible(final boolean visible) {
         this.mainPanel.setVisible(visible);
     }
 }

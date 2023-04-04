@@ -158,7 +158,7 @@ public class StartScene implements Scene<JPanel> {
         });
 
         this.mainPanel.add(modal);
-        this.setVisible(false);
+        this.mainPanel.setVisible(false);
     }
 
 
@@ -235,7 +235,9 @@ public class StartScene implements Scene<JPanel> {
         this.mainPanel.repaint();
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.mainPanel.isVisible();

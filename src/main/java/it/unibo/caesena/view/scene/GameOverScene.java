@@ -84,7 +84,7 @@ public class GameOverScene implements Scene<JPanel> {
         modal.add(buttonPanel);
 
         this.mainPanel.add(modal);
-        this.setVisible(false);
+        this.mainPanel.setVisible(false);
     }
 
     /**
@@ -144,6 +144,9 @@ public class GameOverScene implements Scene<JPanel> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.mainPanel.isVisible();
