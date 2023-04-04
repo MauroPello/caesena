@@ -9,16 +9,29 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
+/**
+ * A class implementing PlayerImage only allowing colors as images and squared
+ * sizes.
+ */
 public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel> {
     private static final long serialVersionUID = 4042423466614441883L;
     private Optional<Integer> forcedSize;
     private Color color = Color.black;
 
+    /**
+     * Public constructor, by default there is no forced size.
+     */
     public PlayerImageImpl() {
         this.forcedSize = Optional.empty();
         this.setOpaque(false);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Uses {@link java.awt.Graphics2D} to draw a stroke around the player image and
+     * draws a rectangle with the same color as the player.
+     */
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
@@ -32,16 +45,32 @@ public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel>
         g2d.drawRect(0, 0, getWidth(), getHeight());
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Makes the maximum size equal to the preferred size.
+     */
     @Override
     public Dimension getMaximumSize() {
         return getPreferredSize();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Makes the minimum size equal to the preferred size.
+     */
     @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Forces an already set size if present, otherwise set the biggest possible
+     * square size.
+     */
     @Override
     public Dimension getPreferredSize() {
         if (forcedSize.isPresent()) {
@@ -53,6 +82,11 @@ public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel>
         return new Dimension(newSize, newSize);
     }
 
+    /**
+     * Sets a size to force.
+     *
+     * @param size to force
+     */
     public void forceSize(final int size) {
         this.forcedSize = Optional.ofNullable(size);
         this.setPreferredSize(new Dimension(size, size));
@@ -60,6 +94,9 @@ public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel>
         this.setMaximumSize(new Dimension(size, size));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setColor(final Color color) {
         this.color = color;
@@ -67,6 +104,9 @@ public final class PlayerImageImpl extends JPanel implements PlayerImage<JPanel>
         this.revalidate();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getComponent() {
         return this;
