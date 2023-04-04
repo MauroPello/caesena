@@ -20,16 +20,32 @@ import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.scene.GameScene;
 
+/**
+ * {@inheritDoc}
+ *
+ * Implements the interface {@link it.unibo.caesena.view.components.board.SectionSelectorComponent}
+ * using a {@link javax.swing.JPanel}.
+ * It extends {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
+ */
 class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
     private static final long serialVersionUID = 6200143818308185153L;
     private final Map<SectionButton, GridBagConstraints> sectionButtons = new HashMap<>();
+
     private final GameScene gameScene;
 
+    /**
+     * Class constructor.
+     *
+     * @param gameScene the parent GameScene
+     */
     SectionSelectorComponentImpl(final GameScene gameScene) {
         super();
         this.gameScene = gameScene;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final Optional<TileSection> getSelectedSection() {
         return sectionButtons.keySet().stream()
@@ -38,6 +54,9 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
                 .findFirst();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final Dimension getPreferredSize() {
         final Dimension d = this.getParent().getSize();
@@ -46,19 +65,17 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
         return new Dimension(newSize, newSize);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final Boolean isSectionSelected() {
         return getSelectedSection().isPresent();
     }
 
-    @Override
-    protected void paintComponent(final Graphics graphics) {
-        super.paintComponent(graphics);
-        final BufferedImage tileButton = gameScene.getCurrentTileImage().getAsBufferedImageWithoutMeeple(this.getWidth(),
-                this.getHeight());
-        graphics.drawImage(tileButton, 0, 0, this.getWidth(), this.getHeight(), null);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw() {
         this.removeAll();
@@ -67,17 +84,37 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
         this.repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void reset() {
         this.sectionButtons.clear();
         this.removeAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getComponent() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void paintComponent(final Graphics graphics) {
+        super.paintComponent(graphics);
+        final BufferedImage tileButton = gameScene.getCurrentTileImage().getAsBufferedImageWithoutMeeple(this.getWidth(),
+                this.getHeight());
+        graphics.drawImage(tileButton, 0, 0, this.getWidth(), this.getHeight(), null);
+    }
+
+    /**
+     * Draws all the tile sections to this component.
+     */
     private void drawSections() {
         this.setLayout(new GridBagLayout());
         this.setOpaque(false);
@@ -87,12 +124,20 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
         sectionButtons.entrySet().forEach(e -> this.add(e.getKey(), e.getValue()));
     }
 
+    /**
+     * Populates the list of section buttons for each possible section.
+     */
     private void populateSectionButtons() {
         for (final var section : TileSection.values()) {
             createButton(section);
         }
     }
 
+    /**
+     * Create a TileButton for the provided Section.
+     *
+     * @param section used to create the corresponding SectionButton.
+     */
     private void createButton(final TileSection section) {
         final var coordinates = this.getCoordinates(section);
         final GridBagConstraints constraints = new GridBagConstraints();
@@ -104,6 +149,11 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
         sectionButtons.put(sectionButton, constraints);
     }
 
+    /**
+     * Gets the coordinates at which place a tile button section based on a given section.
+     * @param section used to find the correct placement
+     * @return the coordinates at which place a tile button section based on a given section
+     */
     private Pair<Integer, Integer> getCoordinates(final TileSection section) {
         return switch (section) {
             case CENTER -> new Pair<>(2, 2);
@@ -123,12 +173,23 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
         };
     }
 
+    /**
+     * Gets the label to place inside a TileButton based on a given section.
+     *
+     * @param section from which extrapolate the label
+     * @return the label rappresenting the given section
+     */
     private String getLabelFromSection(final TileSection section) {
         final Controller controller = gameScene.getUserInterface().getController();
         final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
         return String.valueOf(gameSet.getType().name().toCharArray()[0]);
     }
 
+    /**
+     * Gets the action listener that every SectionButton should have.
+     *
+     * @return the action listener that every SectionButton should have
+     */
     private ActionListener getSectionButtonListener() {
         return (e) -> {
             final SectionButton newSectionButton = (SectionButton) e.getSource();
@@ -143,14 +204,23 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
         };
     }
 
+    /**
+     * This class rappresents a section button, used to pick which section to
+     * select. Every SectionButton object rappresent a single section.
+     */
     private class SectionButton extends JButton {
         private static final long serialVersionUID = 3246088701705856082L;
-        private final TileSection section;
         private static final Color UNSELECTED_COLOR = Color.WHITE;
         private static final Color SELECTED_COLOR = Color.GREEN;
+        private final TileSection section;
         private boolean selected;
         private final boolean toBeDrawn;
 
+        /**
+         * Class constructor.
+         *
+         * @param section that is rappresented by the SectionButton object
+         */
         SectionButton(final TileSection section) {
             super();
             this.section = section;
@@ -172,14 +242,28 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
             }
         }
 
+        /**
+         * Specifies if the SectionButton should be drawn.
+         * Namely if a Section is selectable.
+         *
+         * @return true if the SectionButton should be drawn
+         */
         public boolean shouldBeDrawn() {
             return this.toBeDrawn;
         }
 
+        /**
+         * Speficied if the section has been selected.
+         *
+         * @return true if the section has been selected, false otherwise
+         */
         public boolean hasBeenSelected() {
             return selected;
         }
 
+        /**
+         * Selects the SectionButton.
+         */
         public void select() {
             selected = true;
             this.setBackground(SELECTED_COLOR);
@@ -187,6 +271,9 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
             this.repaint();
         }
 
+        /**
+         * Deselects the SectionButton.
+         */
         public void deselect() {
             selected = false;
             this.setBackground(UNSELECTED_COLOR);
@@ -194,10 +281,18 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
             this.repaint();
         }
 
+        /**
+         * Gets the section that has been selected.
+         *
+         * @return the section that has been selected
+         */
         public TileSection getSection() {
             return section;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Dimension getPreferredSize() {
             final Dimension d = super.getPreferredSize();

@@ -20,6 +20,12 @@ import it.unibo.caesena.view.components.tile.TileButton;
 import it.unibo.caesena.view.components.tile.TileButtonImpl;
 import it.unibo.caesena.view.scene.GameScene;
 
+/**
+ * {@inheritDoc}
+ *
+ * Implements the interface {@link it.unibo.caesena.view.components.board.BoardComponent} using a {@link javax.swing.JPanel}.
+ * It extends {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
+ */
 final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private static final long serialVersionUID = -8835542981559590335L;
     private static final int DEFAULT_ZOOM_LEVEL = 5;
@@ -31,6 +37,11 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     private int horizontalOffset;
     private int verticalOffset;
 
+    /**
+     * Class constructor.
+     *
+     * @param gameScene the parent GameScene
+     */
     BoardComponentImpl(final GameScene gameScene) {
         this.gameScene = gameScene;
         this.zoom = 0;
@@ -41,15 +52,20 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         this.setVisible(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
-            this.setFirstTileButton();
             this.draw();
         }
         super.setVisible(visible);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw() {
         this.removeAll();
@@ -61,6 +77,9 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         this.validate();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getPreferredSize() {
         final Dimension d = this.getParent().getSize();
@@ -69,6 +88,9 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         return new Dimension(newSize, newSize);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void zoomIn() {
         if (canZoomIn()) {
@@ -79,6 +101,9 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void zoomOut() {
         if (canZoomOut()) {
@@ -89,6 +114,9 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void move(final Direction direction) {
         if (canMove(direction)) {
@@ -100,16 +128,25 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean canZoomIn() {
         return this.fieldSize > 1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean canZoomOut() {
         return fieldSize < this.getHeight() / MAX_FIELD_SIZE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean canMove(final Direction direction) {
         final int tempVerticalOffset = this.verticalOffset + direction.getY();
@@ -118,11 +155,17 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
                 .anyMatch(x -> x.containsTile());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getComponent() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removePlacedTile() {
         if (this.getPlacedUnlockedTile().isPresent()) {
@@ -130,6 +173,9 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void placeTile() {
         if (this.getPlacedUnlockedTile().isPresent()) {
@@ -137,6 +183,51 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<Pair<Integer, Integer>> getUnlockedTileButtonPosition() {
+        final Optional<TileButton<JButton>> unlockedTileButton = this.getPlacedUnlockedTile();
+        if (unlockedTileButton.isPresent()) {
+            return Optional.of(allTileButtons.get(unlockedTileButton.get()));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public TileButton<JButton> getCurrentTileButton() {
+        return findTileButton(gameScene.getUserInterface().getController().getCurrentTile()).get();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateMeeplePresence() {
+        allTileButtons.keySet().stream()
+                .filter(TileButton::containsTile)
+                .filter(t -> t.getMeeple().isPresent())
+                .filter(t -> !t.getMeeple().get().isPlaced())
+                .forEach(t -> t.unsetMeeple());
+    }
+
+    /**
+     * Gets a list of the TileButtons that have to be drawn.
+     * It does so basing itseft by the horizontal offset, the vertical offset and
+     * the zoom level.
+     *
+     * @param horizontalOffset is the horizontal offset from which to draw the tile
+     * @param verticalOffset   is the horizontal offset from which to draw the tile
+     * @param zoom             is the level of zoom, it can be seen as the ammount
+     *                         of lines/rows to draw
+     * @return the list of the TileButtons that have to be drawn
+     */
     private List<TileButton<JButton>> getTileButtonsToBeDrawn(final int horizontalOffset, final int verticalOffset,
             final int zoom) {
         final List<TileButton<JButton>> tileButtons = new ArrayList<>();
@@ -150,38 +241,23 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         return tileButtons;
     }
 
-    private void setFirstTileButton() {
-        final Controller controller = this.gameScene.getUserInterface().getController();
-        final var placedTiles = controller.getPlacedTiles();
-        for (final Tile tile : placedTiles) {
-            final TileButton<JButton> button = findTileButton(tile).get();
-            button.addTile(tile);
-            button.lock();
-        }
-    }
-
     /**
-     * The findTileButton function is used to find the TileButton that corresponds
-     * to a given pair of coordinates.
-     * If no such TileButton exists, it is created and added to the allTileButtons
-     * map.
+     * Finds the TileButton that is present at a given pair of coordinates.
+     * If no such TileButton exists, it is created.
      *
-     *
-     * @param int   Used to Know the number of tilebutton to create.
-     * @param final Used to Pass the coordinates of the tile button to be created.
-     * @return A tilebutton.
-     *
-     * @doc-author Trelent
+     * @param horizontalCoordinate used to find the needed TileButton
+     * @param verticalCoordinate   used to find the needed TileButton
+     * @return the TileButton that is present at a given pair of coordinates.
      */
     private TileButton<JButton> findTileButton(final int horizontalCoordinate, final int verticalCoordinate) {
         TileButton<JButton> foundTileButton;
         final Pair<Integer, Integer> coordinates = new Pair<>(horizontalCoordinate, verticalCoordinate);
         final Controller controller = this.gameScene.getUserInterface().getController();
 
-        Optional<Tile> searchedTile = controller.getPlacedTiles().stream()
+        final Optional<Tile> searchedTile = controller.getPlacedTiles().stream()
                 .filter(t -> t.getPosition().get().equals(coordinates))
                 .findFirst();
-        Optional<TileButton<JButton>> searchedTileButton = allTileButtons.entrySet().stream()
+        final Optional<TileButton<JButton>> searchedTileButton = allTileButtons.entrySet().stream()
                 .filter(x -> x.getValue().equals(coordinates))
                 .map(x -> x.getKey())
                 .findFirst();
@@ -210,6 +286,11 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         return foundTileButton;
     }
 
+    /**
+     * Defines the action listener that every TileButton should have.
+     *
+     * @return the action listener that every TileButton should have
+     */
     private ActionListener getTileButtonActionListener() {
         return (e) -> {
             final TileButtonImpl selectedTileButton = (TileButtonImpl) e.getSource();
@@ -221,6 +302,12 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         };
     }
 
+    /**
+     * Finds the TileButton corrisponding to any tile.
+     *
+     * @param tile to search the corrisponding TileButton
+     * @return the TileButton corrisponding to the given tile
+     */
     private Optional<TileButton<JButton>> findTileButton(final Tile tile) {
         if (!tile.isPlaced()) {
             return Optional.empty();
@@ -230,34 +317,14 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         }
     }
 
+/**
+ * Gets the current TileButton as long as its placed but not locked.
+ *
+ * @return the current TileButton as long as its placed but not locked
+ */
     private Optional<TileButton<JButton>> getPlacedUnlockedTile() {
         return allTileButtons.keySet().stream()
                 .filter(k -> !k.isLocked() && k.containsTile())
                 .findFirst();
-    }
-
-    @Override
-    public Optional<Pair<Integer, Integer>> getUnlockedTileButtonPosition() {
-        final Optional<TileButton<JButton>> unlockedTileButton = this.getPlacedUnlockedTile();
-        if (unlockedTileButton.isPresent()) {
-            return Optional.of(allTileButtons.get(unlockedTileButton.get()));
-        } else {
-            return Optional.empty();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public TileButton<JButton> getCurrentTileButton() {
-        return findTileButton(gameScene.getUserInterface().getController().getCurrentTile()).get();
-    }
-
-    @Override
-    public void updateMeeplePrecence() {
-        allTileButtons.keySet().stream()
-                .filter(TileButton::containsTile)
-                .filter(t -> t.getMeeple().isPresent())
-                .filter(t -> !t.getMeeple().get().isPlaced())
-                .forEach(t -> t.unsetMeeple());
     }
 }

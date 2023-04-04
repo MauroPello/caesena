@@ -14,7 +14,7 @@ import it.unibo.caesena.model.tile.Tile;
  * It uses a generic type to allow the interface to be used in any GUI framework
  * (such as Swing or JavaFX).
  *
- * @param <X> the type of the component
+ * @param <X> the type of the GUI component
  */
 public interface TileButton<X> {
 
@@ -80,7 +80,7 @@ public interface TileButton<X> {
     void lock();
 
     /**
-     * Gets the TileButton a specific component of a GUI framework, such as JButton.
+     * Gets the TileButton as a specific component of a GUI framework, such as JButton.
      *
      * @return the TileButton a specific component of a GUI framework.
      */

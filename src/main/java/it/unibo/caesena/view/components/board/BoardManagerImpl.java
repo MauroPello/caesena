@@ -11,6 +11,12 @@ import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
 import it.unibo.caesena.view.scene.GameScene;
 
+/**
+ * {@inheritDoc}
+ *
+ * Implements the class using a {@link javax.swing.JPanel}.
+ * It extends {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
+ */
 public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardManager<JPanel> {
     private static final long serialVersionUID = 1073591515646435610L;
     private final GameScene gameScene;
@@ -18,6 +24,11 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
     private final SectionSelectorComponent<JPanel> sectionSelector;
     private boolean showingBoard;
 
+    /**
+     * Class constructor.
+     *
+     * @param gameScene the parent GameScene
+     */
     public BoardManagerImpl(final GameScene gameScene) {
         super(ResourceUtil.getBufferedImage("background_Board.png", List.of()));
         this.gameScene = gameScene;
@@ -27,6 +38,9 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
         this.add(this.getBoard().getComponent());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void toggleComponents() {
         final Player currentPlayer = gameScene.getUserInterface().getController().getCurrentPlayer();
@@ -41,21 +55,33 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SectionSelectorComponent<JPanel> getSectionSelector() {
         return this.sectionSelector;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getComponent() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isShowingBoard() {
         return this.showingBoard;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void endTurn() {
 
@@ -82,14 +108,20 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
         this.updateComponents();
         this.getSectionSelector().reset();
         this.gameScene.getUserInterface().getController().endTurn();
-        this.getBoard().updateMeeplePrecence();
+        this.getBoard().updateMeeplePresence();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public BoardComponent<JPanel> getBoard() {
         return this.board;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateComponents() {
         if (this.showingBoard) {
@@ -101,6 +133,9 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
         this.repaint();
     }
 
+    /**
+     * Shows the board and resets the section selector.
+     */
     private void showBoard() {
         this.getSectionSelector().reset();
         this.removeAll();
@@ -108,6 +143,9 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
         this.add(this.getBoard().getComponent());
     }
 
+    /**
+     * Shows the section selector.
+     */
     private void showSectionSelector() {
         this.removeAll();
         this.getSectionSelector().draw();
