@@ -1,19 +1,24 @@
 package it.unibo.caesena.view.components;
 
+/**
+ * TODO
+ */
 public interface FooterComponent<X> {
 
     /**
-     * Update the JPanel with the current tile image.
+     * Updates the current tile image.
      */
     void updateCurrentTile();
 
     /**
-     * @return the component which rapresent the footer.
+     * Gets the component which represents the footer.
+     * 
+     * @return the component which represents the footer.
      */
     X getComponent();
 
     /**
-     * Update every component in the footer.
+     * Updates every component in the footer.
      */
     void update();
 }

@@ -38,7 +38,6 @@ import it.unibo.caesena.view.components.tile.TileImage;
 import it.unibo.caesena.view.scene.GameScene;
 
 /**
- *
  * FooterComponent implementation.
  */
 public class FooterComponentImpl extends PanelWithBackgroundImage implements FooterComponent<JPanel> {
@@ -62,7 +61,6 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
     private int innerPaddingSize;
 
     /**
-     *
      * FooterComponent constructor.
      *
      * @param gameScene
@@ -211,6 +209,9 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         super.setVisible(false);
     }
 
+    /**
+     * TODO
+     */
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
@@ -223,6 +224,9 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         super.setVisible(visible);
     }
 
+    /**
+     * TODO
+     */
     private void updateSize() {
         final Dimension frameSize = userInterface.getSize();
         if (frameSize.getHeight() > frameSize.getWidth()) {
@@ -259,6 +263,9 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         }
     }
 
+    /**
+     * TODO
+     */
     private ActionListener rotateButtonEventListener() {
         return (e) -> {
             if (tileImage.isPresent()) {
@@ -269,11 +276,17 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getComponent() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateCurrentTile() {
         final TileImage currentTileImage = gameScene.getCurrentTileImage();
@@ -283,6 +296,9 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         tileImagePanel.repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         updateCurrentTile();

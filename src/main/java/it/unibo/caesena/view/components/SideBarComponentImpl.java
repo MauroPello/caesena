@@ -25,6 +25,9 @@ import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
 import it.unibo.caesena.view.scene.GameScene;
 
+/**
+ * TODO
+ */
 public class SideBarComponentImpl extends PanelWithBackgroundImage implements SideBarComponent<JPanel> {
     private static final long serialVersionUID = 10997719332807770L;
     private final Controller controller;
@@ -162,7 +165,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     }
 
     /**
-     * @return JPanel
+     * {@inheritDoc}
      */
     @Override
     public JPanel getComponent() {

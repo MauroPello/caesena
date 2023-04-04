@@ -6,7 +6,9 @@ package it.unibo.caesena.view.components;
 public interface SideBarComponent<X> {
 
     /**
-     * @return the component which rapresent the footer.
+     * Gets the component which represents the sidebar.
+     * 
+     * @return the component which represents the sidebar.
      */
     X getComponent();
 }
