@@ -1,5 +1,7 @@
 package it.unibo.caesena.model;
 
+import it.unibo.caesena.utils.StringUtil;
+
 public class Color {
     private final int red;
     private final int green;
@@ -22,6 +24,17 @@ public class Color {
 
     public int getBlue(){
         return this.blue;
+    }
+
+    public java.awt.Color asSwingColor() {
+        return new java.awt.Color(this.getRed(), this.getGreen(), this.getBlue());
+    }
+
+    @Override
+    public String toString() {
+        return new StringUtil.ToStringBuilder()
+            .addFromObjectGetters(this)
+            .build();
     }
 
 }

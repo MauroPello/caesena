@@ -54,10 +54,10 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         super(ResourceUtil.getBufferedImage("background_StartScene.png", List.of()));
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
-        
+
         this.setLayout(new GridBagLayout());
         this.setOpaque(false);
-        
+
         final JPanel mainPanel = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), false);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setOpaque(false);
@@ -167,7 +167,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         }
 
         super.setVisible(visible);
-    } 
+    }
 
     /**
      * Adds a new player input to be filled.

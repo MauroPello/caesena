@@ -1,6 +1,5 @@
 package it.unibo.caesena.view.components.meeple;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.HashMap;
@@ -45,10 +44,8 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
     public void setVisible(final boolean visible) {
         if (visible) {
             for (final var player : controller.getPlayers()) {
-                final Color color = new Color(player.getColor().getRed(),
-                    player.getColor().getGreen(), player.getColor().getBlue());
                 meeples.put(player, controller.getPlayerMeeples(player).stream()
-                    .map(m -> new MeepleImage(m, color)).toList());
+                    .map(m -> new MeepleImage(m, player.getColor().asSwingColor())).toList());
             }
             update();
         }
