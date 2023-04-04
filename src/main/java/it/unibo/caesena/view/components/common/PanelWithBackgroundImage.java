@@ -5,15 +5,28 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+/**
+ * A class defining a JPanel with an Image as background.
+ */
 public class PanelWithBackgroundImage extends JPanel {
-    
+
     private final BufferedImage image;
 
+    /**
+     * Public constructor that accepts an image to be placed as background.
+     *
+     * @param image to set as background
+     */
     public PanelWithBackgroundImage(final BufferedImage image) {
         super();
         this.image = image;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Places the image in the background without stretching it.
+     */
     @Override
     protected void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
