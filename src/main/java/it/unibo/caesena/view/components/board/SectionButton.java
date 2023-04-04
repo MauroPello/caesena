@@ -29,8 +29,11 @@ public class SectionButton extends JButton {
      * Class constructor.
      *
      * @param section that is rappresented by the SectionButton object
+     * @param gameScene the parent GameScene
+     * @param onClickActionListener action listener that specifies what to do in case of a click
      */
-    SectionButton(final TileSection section, GameScene gameScene, ActionListener onClickActionListener) {
+    //TODO verificare che rendere GameScene e l'action listener final non faccia esplodere tutto
+    SectionButton(final TileSection section, final GameScene gameScene, final ActionListener onClickActionListener) {
         super();
         this.gameScene = gameScene;
         this.section = section;

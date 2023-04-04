@@ -69,7 +69,8 @@ public class MeepleImage {
      */
     public Image getNormalImage() {
         final BufferedImage outImage;
-        outImage = new BufferedImage(this.normalImage.getWidth(null), this.normalImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        outImage = new BufferedImage(this.normalImage.getWidth(null),
+        this.normalImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         outImage.getGraphics().drawImage(this.normalImage, 0, 0, null);
         return outImage;
     }

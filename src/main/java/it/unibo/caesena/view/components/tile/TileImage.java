@@ -77,7 +77,8 @@ public class TileImage {
                 }
             }
             final BufferedImage outImage;
-            outImage = new BufferedImage(this.temporaryImage.getWidth(null), this.temporaryImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            outImage = new BufferedImage(this.temporaryImage.getWidth(null),
+            this.temporaryImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
             outImage.getGraphics().drawImage(this.temporaryImage, 0, 0, null);
             return outImage;
         } catch (final IOException e) {

@@ -13,12 +13,23 @@ import it.unibo.caesena.view.scene.GameScene;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 
+/**
+ * {@inheritDoc}
+ *
+ * Implements the interface {@link it.unibo.caesena.view.components.meeple.RemainingMeeplesComponent} using a
+ * {@link java.swing.JPanel}.
+ */
 public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMeeplesComponent<JPanel> {
     private static final long serialVersionUID = 5371662486606196479L;
     private final Controller controller;
     private final JPanel allMeeplesPanel;
     private final Map<Player, List<MeepleImage>> meeples;
 
+    /**
+     * RemainingMeeples constructor.
+     * 
+     * @param gameScene
+     */
     public RemainingMeeplesComponentImpl(final GameScene gameScene) {
         super();
 
@@ -38,6 +49,9 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         super.setVisible(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
@@ -51,6 +65,9 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         super.setVisible(visible);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         this.allMeeplesPanel.removeAll();
@@ -77,6 +94,9 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getComponent() {
         return this;

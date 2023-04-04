@@ -279,9 +279,9 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     }
 
     /**
-     * get the direction of the button.
+     * get the correct the button by the direction.
      * @param direction
-     * @return the direction of the button
+     * @return the JButton of the desired direction
      */
     private JButton getButton(final Direction direction) {
         return switch (direction) {

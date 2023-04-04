@@ -66,7 +66,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
     /**
      * FooterComponent constructor.
      *
-     * @param gameScene
+     * @param gameScene the parente GameScene
      */
     public FooterComponentImpl(final GameScene gameScene) {
         super(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
