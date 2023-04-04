@@ -3,7 +3,7 @@ package it.unibo.caesena.view;
 import it.unibo.caesena.controller.Controller;
 
 /**
- * Defines an interface for views in the MVC model
+ * An interface for views in the MVC model.
  */
 public interface UserInterface {
 

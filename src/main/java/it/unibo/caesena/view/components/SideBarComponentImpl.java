@@ -162,7 +162,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
      * @return ActionListener
      */
     private ActionListener placeMeepleEventListener() {
-        return (e) -> this.gameScene.placeMeeple();
+        return (e) -> this.gameScene.toggleBoard();
     }
 
     /**

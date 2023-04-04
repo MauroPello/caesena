@@ -20,6 +20,9 @@ import it.unibo.caesena.view.components.common.ModalPanel;
 import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
 import it.unibo.caesena.view.components.player.PlayerImageImpl;
 
+/**
+ * A class defining the scene to be showed at the of the game.
+ */
 public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPanel> {
     private static final long serialVersionUID = 1981212936830265900L;
     private static final float PLAYER_IMAGE_RATIO = 0.02f;
@@ -27,6 +30,11 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
     private final int playerImageSize;
     private final JPanel playersPanels;
 
+    /**
+     * Public constructor that sets up the components and places them.
+     * 
+     * @param userInterface the interface in which this scene is displayed
+     */
     public GameOverScene(final GUI userInterface) {
         super(ResourceUtil.getBufferedImage("background_GameOverScene.jpeg", List.of()));
         this.userInterface = userInterface;
@@ -79,6 +87,9 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
         super.setVisible(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
@@ -105,6 +116,9 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
         return this.userInterface;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         this.playersPanels.removeAll();

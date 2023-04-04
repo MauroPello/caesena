@@ -18,11 +18,19 @@ import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.components.common.ModalPanel;
 
+/**
+ * A class defining the pause menu for the game.
+ */
 public class PauseScene extends JPanel implements Scene<JPanel> {
     private static final long serialVersionUID = 3027253762177464276L;
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255, 80);
     private final GUI userInterface;
 
+    /**
+     * Public constructor that sets up the components and places them.
+     * 
+     * @param userInterface the interface in which this scene is displayed
+     */
     public PauseScene(final GUI userInterface) {
         super();
         this.userInterface = userInterface;
@@ -98,6 +106,9 @@ public class PauseScene extends JPanel implements Scene<JPanel> {
         return this.userInterface;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
     }
