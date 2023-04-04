@@ -5,6 +5,9 @@ import java.lang.reflect.Method;
 
 import it.unibo.caesena.utils.StringUtil;
 
+/**
+ * Enum representing the different types of Tiles that can be created.
+ */
 public enum TileType {
     CITY_EDGE,
     CITY_EDGE_PENNANT,
@@ -32,6 +35,14 @@ public enum TileType {
     ROAD_STRAIGHT,
     ROAD_TURN;
 
+    /**
+     * Creates a new tile from the name of the enum on which it's called.
+     * It uses {@link java.lang.reflect} to call the proper method inside the
+     * factory to create the new tile.
+     *
+     * @param tileFactory used to create the new Tile
+     * @return a new tile with the same type as the enum on which it's called
+     */
     public Tile createTile(final TileFactory tileFactory) {
         final StringBuilder methodNameBuilder = new StringBuilder();
         methodNameBuilder.append("create");

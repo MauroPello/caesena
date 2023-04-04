@@ -1,5 +1,8 @@
 package it.unibo.caesena.model.tile;
 
+/**
+ * Enum representing the different possible portions of the sides of a Tile.
+ */
 public enum TileSection {
     UP_LEFT,
     UP_CENTER,
@@ -15,10 +18,25 @@ public enum TileSection {
     LEFT_UP,
     CENTER;
 
+    /**
+     * Gets the number of different TileSections contained in the side of a tile
+     *
+     * @return the number of different TileSections contained in the side of a tile
+     */
     public static int getSectionsPerSide() {
         return 3;
     }
 
+    /**
+     * Shifts the provided section around the borders by as many times as the
+     * offset. If the offset is positive than the section will be shifted clockwise,
+     * otherwise it will be shifted counter clockwise. Shifting around the borders
+     * means shifting ignoring the center section of the tile.
+     *
+     * @param section the section to be shifted
+     * @param offset how many times should the section be shifted and in which direction
+     * @return the tile section shifted by the provided offset
+     */
     private static TileSection shiftAroundBorders(final TileSection section, final int offset) {
         if (section == TileSection.CENTER) {
             return TileSection.CENTER;
@@ -39,14 +57,33 @@ public enum TileSection {
         return values()[index];
     }
 
+    /**
+     * Rotates clockwise the provided section.
+     * For example UP_LEFT becomes RIGHT_UP.
+     *
+     * @param section the section to be rotated
+     * @return the provided section rotated
+     */
     public static TileSection rotateClockwise(final TileSection section) {
         return shiftAroundBorders(section, getSectionsPerSide());
     }
 
+    /**
+     * Shifts the provided section clockwise around the borders by 1.
+     *
+     * @param section the section to be shifted
+     * @return the provided section shifted
+     */
     public static TileSection next(final TileSection section) {
         return shiftAroundBorders(section, 1);
     }
 
+    /**
+     * Shifts the provided section counter clockwise around the borders by 1.
+     *
+     * @param section the section to be shifted
+     * @return the provided section shifted
+     */
     public static TileSection previous(final TileSection section) {
         return shiftAroundBorders(section, -1);
     }
