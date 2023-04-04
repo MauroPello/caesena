@@ -46,7 +46,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
     private static final float INTERNAL_PADDING_RATIO = 0.02f;
     private static final int MINIMUM_PADDING = 3;
     private static final float SPACER_RATIO = 0.2f;
-    private final GameScene gameView;
+    private final GameScene gameScene;
     private final GUI userInterface;
     private final JPanel tileImagePanel;
     private final JButton rotateButton;
@@ -65,13 +65,13 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
      *
      * FooterComponent constructor.
      *
-     * @param gameView
+     * @param gameScene
      */
-    public FooterComponentImpl(final GameScene gameView) {
+    public FooterComponentImpl(final GameScene gameScene) {
         super(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
 
-        this.gameView = gameView;
-        this.userInterface = gameView.getUserInterface();
+        this.gameScene = gameScene;
+        this.userInterface = gameScene.getUserInterface();
 
         final JPanel innerPanel = new JPanel();
 
@@ -164,7 +164,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         playerNameMeeplesPanel.add(playerNameLabel, gridBagConstraints);
-        this.meepleComponent = new RemainingMeeplesComponentImpl(gameView);
+        this.meepleComponent = new RemainingMeeplesComponentImpl(gameScene);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         playerNameMeeplesPanel.add(meepleComponent.getComponent(), gridBagConstraints);
@@ -177,7 +177,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         remainingTilesLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         remainingTilesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         tilesLeaderboardPanel.add(remainingTilesLabel);
-        this.leaderboard = new LeaderBoardComponentImpl(gameView.getUserInterface());
+        this.leaderboard = new LeaderBoardComponentImpl(gameScene.getUserInterface());
         leaderboard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
         tilesLeaderboardPanel.add(leaderboard.getComponent());
 
@@ -262,7 +262,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
     private ActionListener rotateButtonEventListener() {
         return (e) -> {
             if (tileImage.isPresent()) {
-                gameView.removePlacedTile();
+                gameScene.removePlacedTile();
                 userInterface.getController().rotateCurrentTile();
                 tileImagePanel.repaint();
             }
@@ -276,7 +276,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
 
     @Override
     public void updateCurrentTile() {
-        final TileImage currentTileImage = gameView.getCurrentTileImage();
+        final TileImage currentTileImage = gameScene.getCurrentTileImage();
         if (tileImage.isEmpty() || !tileImage.get().equals(currentTileImage)) {
             this.tileImage = Optional.of(currentTileImage);
         }

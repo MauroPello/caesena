@@ -28,7 +28,7 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
     private final JPanel playersPanels;
 
     public GameOverScene(final GUI userInterface) {
-        super(ResourceUtil.getBufferedImage("background_GameOverView.jpeg", List.of()));
+        super(ResourceUtil.getBufferedImage("background_GameOverScene.jpeg", List.of()));
         this.userInterface = userInterface;
 
         final JPanel mainPanel = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), false);
@@ -43,7 +43,7 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
         this.setBackground(Color.BLACK);
         this.setLayout(new GridBagLayout());
 
-        final JLabel playersLabel = new JLabel(LocaleHelper.getViewTitle("GameOverView", false));
+        final JLabel playersLabel = new JLabel(LocaleHelper.getSceneTitle("GameOverScene", false));
         playersLabel.setFont(GUI.BIG_BOLD_FONT);
         playersLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playersLabel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING * 8, 0, 0, 0));
@@ -63,7 +63,7 @@ public class GameOverScene extends PanelWithBackgroundImage implements Scene<JPa
 
         final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
         backToStartMenuButton.setFont(GUI.MEDIUM_BOLD_FONT);
-        backToStartMenuButton.addActionListener(e -> userInterface.showBackToStartViewDialog());
+        backToStartMenuButton.addActionListener(e -> userInterface.showBackTostartSceneDialog());
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(backToStartMenuButton);
 

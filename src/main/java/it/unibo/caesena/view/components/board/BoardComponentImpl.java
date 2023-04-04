@@ -24,15 +24,15 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     private static final long serialVersionUID = -8835542981559590335L;
     private static final int DEFAULT_ZOOM_LEVEL = 5;
     private static final int MAX_FIELD_SIZE = 50;
-    private final GameScene gameView;
+    private final GameScene gameScene;
     private final Map<TileButton<JButton>, Pair<Integer, Integer>> allTileButtons;
     private int fieldSize = DEFAULT_ZOOM_LEVEL;
     private int zoom;
     private int horizontalOffset;
     private int verticalOffset;
 
-    BoardComponentImpl(final GameScene gameView) {
-        this.gameView = gameView;
+    BoardComponentImpl(final GameScene gameScene) {
+        this.gameScene = gameScene;
         this.zoom = 0;
         this.horizontalOffset = 0;
         this.verticalOffset = 0;
@@ -151,7 +151,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     }
 
     private void setFirstTileButton() {
-        final Controller controller = this.gameView.getUserInterface().getController();
+        final Controller controller = this.gameScene.getUserInterface().getController();
         final var placedTiles = controller.getPlacedTiles();
         for (final Tile tile : placedTiles) {
             final TileButton<JButton> button = findTileButton(tile).get();
@@ -176,7 +176,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     private TileButton<JButton> findTileButton(final int horizontalCoordinate, final int verticalCoordinate) {
         TileButton<JButton> foundTileButton;
         final Pair<Integer, Integer> coordinates = new Pair<>(horizontalCoordinate, verticalCoordinate);
-        final Controller controller = this.gameView.getUserInterface().getController();
+        final Controller controller = this.gameScene.getUserInterface().getController();
 
         Optional<Tile> searchedTile = controller.getPlacedTiles().stream()
                 .filter(t -> t.getPosition().get().equals(coordinates))
@@ -213,10 +213,10 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     private ActionListener getTileButtonActionListener() {
         return (e) -> {
             final TileButtonImpl selectedTileButton = (TileButtonImpl) e.getSource();
-            final Controller controller = this.gameView.getUserInterface().getController();
+            final Controller controller = this.gameScene.getUserInterface().getController();
             if (controller.isPositionValidForCurrentTile(this.allTileButtons.get(selectedTileButton))) {
                 getPlacedUnlockedTile().ifPresent(TileButton::removeTile);
-                selectedTileButton.setTileImage(gameView.getCurrentTileImage());
+                selectedTileButton.setTileImage(gameScene.getCurrentTileImage());
             }
         };
     }
@@ -249,7 +249,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     @SuppressWarnings("unchecked")
     @Override
     public TileButton<JButton> getCurrentTileButton() {
-        return findTileButton(gameView.getUserInterface().getController().getCurrentTile()).get();
+        return findTileButton(gameScene.getUserInterface().getController().getCurrentTile()).get();
     }
 
     @Override

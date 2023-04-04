@@ -28,7 +28,7 @@ import it.unibo.caesena.view.scene.GameScene;
 public class SideBarComponentImpl extends PanelWithBackgroundImage implements SideBarComponent<JPanel> {
     private static final long serialVersionUID = 10997719332807770L;
     private final Controller controller;
-    private final GameScene gameView;
+    private final GameScene gameScene;
     private final JButton zoomInButton = new JButton("Zoom +");
     private final JButton zoomOutButton = new JButton("Zoom -");
     private final JButton upRowButton = new JButton();
@@ -43,9 +43,9 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     /**
      * SideBarComponent constructor
      *
-     * @param gameView
+     * @param gameScene
      */
-    public SideBarComponentImpl(final GameScene gameView) {
+    public SideBarComponentImpl(final GameScene gameScene) {
         super(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
         zoomInButton.setFont(GUI.MEDIUM_BOLD_FONT);
         zoomOutButton.setFont(GUI.MEDIUM_BOLD_FONT);
@@ -71,8 +71,8 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         icon = new ImageIcon(img.getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
         rightRowButton.setIcon(icon);
 
-        this.gameView = gameView;
-        this.controller = gameView.getUserInterface().getController();
+        this.gameScene = gameScene;
+        this.controller = gameScene.getUserInterface().getController();
 
         this.setBackground(Color.CYAN);
         this.setLayout(new GridBagLayout());
@@ -162,7 +162,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
      * @return ActionListener
      */
     private ActionListener placeMeepleEventListener() {
-        return (e) -> this.gameView.placeMeeple();
+        return (e) -> this.gameScene.placeMeeple();
     }
 
     /**
@@ -170,13 +170,13 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
      */
     private ActionListener placeTileEventListener() {
         return (e) -> {
-            if (this.gameView.placeTile()) {
+            if (this.gameScene.placeTile()) {
                 placeTileButton.setVisible(false);
                 placeMeepleButton.setVisible(true);
                 endTurnButton.setVisible(true);
                 discardTileButton.setVisible(false);
-                final Player currentPlayer = gameView.getUserInterface().getController().getCurrentPlayer();
-                final Optional<Meeple> ramainingMeeple = gameView.getUserInterface().getController()
+                final Player currentPlayer = gameScene.getUserInterface().getController().getCurrentPlayer();
+                final Optional<Meeple> ramainingMeeple = gameScene.getUserInterface().getController()
                         .getPlayerMeeples(currentPlayer)
                         .stream()
                         .filter(m -> !m.isPlaced())
@@ -199,14 +199,14 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
             endTurnButton.setVisible(false);
             discardTileButton.setVisible(true);
             discardTileButton.setEnabled(true);
-            this.gameView.endTurn();
+            this.gameScene.endTurn();
         };
     }
 
     private ActionListener zoomInEventListener() {
         return (e) -> {
-            this.gameView.zoomIn();
-            if (!this.gameView.canZoomIn()) {
+            this.gameScene.zoomIn();
+            if (!this.gameScene.canZoomIn()) {
                 ((JButton) e.getSource()).setEnabled(false);
             }
             this.zoomOutButton.setEnabled(true);
@@ -215,8 +215,8 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
 
     private ActionListener zoomOutEventListener() {
         return (e) -> {
-            this.gameView.zoomOut();
-            if (!this.gameView.canZoomOut()) {
+            this.gameScene.zoomOut();
+            if (!this.gameScene.canZoomOut()) {
                 ((JButton) e.getSource()).setEnabled(false);
             }
             this.zoomInButton.setEnabled(true);
@@ -225,7 +225,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
 
     private void updateMoveButtons() {
         for (final var direction : Direction.values()) {
-            if (this.gameView.canMove(direction)) {
+            if (this.gameScene.canMove(direction)) {
                 getButton(direction).setEnabled(true);
             } else {
                 getButton(direction).setEnabled(false);
@@ -245,28 +245,28 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
 
     private ActionListener moveUpEventListener() {
         return (e) -> {
-            this.gameView.move(Direction.UP);
+            this.gameScene.move(Direction.UP);
             this.updateMoveButtons();
         };
     }
 
     private ActionListener moveLeftEventListener() {
         return (e) -> {
-            this.gameView.move(Direction.LEFT);
+            this.gameScene.move(Direction.LEFT);
             this.updateMoveButtons();
         };
     }
 
     private ActionListener moveDownEventListener() {
         return (e) -> {
-            this.gameView.move(Direction.DOWN);
+            this.gameScene.move(Direction.DOWN);
             this.updateMoveButtons();
         };
     }
 
     private ActionListener moveRightEventListener() {
         return (e) -> {
-            this.gameView.move(Direction.RIGHT);
+            this.gameScene.move(Direction.RIGHT);
             this.updateMoveButtons();
         };
     }
