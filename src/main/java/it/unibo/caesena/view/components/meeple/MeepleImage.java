@@ -48,11 +48,16 @@ public class MeepleImage {
      * @return the image
      */
     public Image getImage() {
+        final BufferedImage outImage;
+        final Image tmpImage;
         if (meeple.isPlaced()) {
-            return blurredImage;
+            tmpImage = this.blurredImage;
         } else {
-            return normalImage;
+            tmpImage = this.normalImage;
         }
+        outImage = new BufferedImage(tmpImage.getWidth(null), tmpImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        outImage.getGraphics().drawImage(tmpImage, 0, 0, null);
+        return outImage;
     }
 
     /**
@@ -63,7 +68,10 @@ public class MeepleImage {
      * @return the image
      */
     public Image getNormalImage() {
-        return normalImage;
+        final BufferedImage outImage;
+        outImage = new BufferedImage(this.normalImage.getWidth(null), this.normalImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        outImage.getGraphics().drawImage(this.normalImage, 0, 0, null);
+        return outImage;
     }
 
     /**

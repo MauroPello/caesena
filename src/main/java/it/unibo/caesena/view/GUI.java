@@ -107,7 +107,7 @@ public class GUI extends JFrame implements UserInterface {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
-            System.exit(ABORT);
+            this.exit();
         }
         UIManager.put("OptionPane.messageFont", MEDIUM_NORMAL_FONT);
         UIManager.put("OptionPane.buttonFont", MEDIUM_BOLD_FONT);

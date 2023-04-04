@@ -68,7 +68,7 @@ public class ConfigurationLoader {
                 }
             }
 
-            return this.tiles;
+            return new ArrayList<>(this.tiles);
         } catch (final IOException | ParseException e) {
             throw new IllegalStateException("Configuration file not found ", e);
         }

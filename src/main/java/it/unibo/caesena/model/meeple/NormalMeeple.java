@@ -10,7 +10,7 @@ import it.unibo.caesena.utils.StringUtil;
 
 /**
  * {@inheritDoc}
- * 
+ *
  * A class representing a normal Meeple with strength always equal to 1.
  */
 public class NormalMeeple implements Meeple {
@@ -21,7 +21,7 @@ public class NormalMeeple implements Meeple {
 
     /**
      * Public constructor that accepts as argument the player that owns the meeple.
-     * 
+     *
      * @param owner the player that owns the meeple
      */
     public NormalMeeple(final Player owner) {
@@ -42,7 +42,8 @@ public class NormalMeeple implements Meeple {
      */
     @Override
     public Player getOwner() {
-        return this.owner;
+        final Player player = this.owner;
+        return player;
     }
 
     /**
