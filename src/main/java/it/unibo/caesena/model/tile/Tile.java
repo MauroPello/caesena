@@ -4,43 +4,61 @@ import java.util.Optional;
 
 import it.unibo.caesena.utils.Pair;
 
+/**
+ * An interface defining a Tile.
+ */
 public interface Tile {
+
     /**
+     * Gets the position in which the tile is placed.
      * 
-     * @return the position of the tile.
+     * @return the position of the tile, Optional.empty() if the tile is not placed.
      */
     Optional<Pair<Integer, Integer>> getPosition();
+
     /**
-     * set the position of the tile.
-     * @param pos
-     */
-    void setPosition(Pair<Integer, Integer> pos);
-    /**
+     * Sets the position in which the tile is placed. 
      * 
-     * @return true if the tile is placed.
+     * @param position of the tile.
+     */
+    void setPosition(Pair<Integer, Integer> position);
+
+    /**
+     * Gets whether or not the tile is placed. 
+     * 
+     * @return whether or not the tile is placed. 
      */
     boolean isPlaced();
+
     /**
-     * close the section of the tile.
-     * @param section
+     * Closes the provided section in the tile.
+     * 
+     * @param section the section to close
      */
     void closeSection(TileSection section);
+
     /**
+     * Gets whether or not the provided section in the tile is closed. 
      * 
-     * @param section
-     * @return true if the section is closed.
+     * @param section the provided section
+     * @return whether or not the provided section in the tile is closed. 
      */
     boolean isSectionClosed(TileSection section);
+
     /**
-     * rotate the tile.
+     * Rotates the tile.
      */
     void rotate();
+
     /**
+     * Gets the rotation count.
      * 
      * @return the rotation count.
      */
     int getRotationCount();
+
     /**
+     * Gets the TileType of the tile.
      * 
      * @return the TileType of the tile.
      */

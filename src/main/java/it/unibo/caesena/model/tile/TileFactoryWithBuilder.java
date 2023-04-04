@@ -4,15 +4,28 @@ import java.util.List;
 
 import it.unibo.caesena.model.GameSetTileMediator;
 
+/**
+ * A class implemeting a TileFactory where Pennants are only placed in cities
+ * and increase their values by 2 points, as the rules say.
+ */
 public final class TileFactoryWithBuilder implements TileFactory {
 
     private static final int PENNANT_POINTS = 2;
     private final GameSetTileMediator mediator;
 
+    /**
+     * Public constructor that accepts a mediator used to add points to cities
+     * containing Pennants. 
+     * 
+     * @param mediator used to add points in tiles with Pennants
+     */
     public TileFactoryWithBuilder(final GameSetTileMediator mediator) {
         this.mediator = mediator;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityEdge() {
         return new TileBuilder(TileType.CITY_EDGE, mediator)
@@ -24,6 +37,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityEdgePennant() {
         final Tile tile = new TileBuilder(TileType.CITY_EDGE_PENNANT, mediator)
@@ -38,6 +54,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
         return tile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityEdgeRoad() {
         return new TileBuilder(TileType.CITY_EDGE_ROAD, mediator)
@@ -50,6 +69,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityEdgeRoadPennant() {
         final Tile tile = new TileBuilder(TileType.CITY_EDGE_ROAD_PENNANT, mediator)
@@ -65,6 +87,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
         return tile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityLarge() {
         return new TileBuilder(TileType.CITY_LARGE, mediator)
@@ -76,6 +101,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityLargePennant() {
         final Tile tile = new TileBuilder(TileType.CITY_LARGE_PENNANT, mediator)
@@ -90,6 +118,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
         return tile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityLargeRoad() {
         return new TileBuilder(TileType.CITY_LARGE_ROAD, mediator)
@@ -103,6 +134,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityLargeRoadPennant() {
         final Tile tile = new TileBuilder(TileType.CITY_LARGE_ROAD_PENNANT, mediator)
@@ -119,6 +153,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
         return tile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCity() {
         return new TileBuilder(TileType.CITY, mediator)
@@ -130,6 +167,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityPennant() {
         final Tile tile = new TileBuilder(TileType.CITY_PENNANT, mediator)
@@ -144,6 +184,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
         return tile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCitySideDoubleNext() {
         return new TileBuilder(TileType.CITY_SIDE_DOUBLE_NEXT, mediator)
@@ -155,6 +198,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCitySideDouble() {
         return new TileBuilder(TileType.CITY_SIDE_DOUBLE, mediator)
@@ -166,6 +212,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCitySideJunction() {
         return new TileBuilder(TileType.CITY_SIDE_JUNCTION, mediator)
@@ -181,6 +230,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCitySide() {
         return new TileBuilder(TileType.CITY_SIDE, mediator)
@@ -192,6 +244,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCitySideRoad() {
         return new TileBuilder(TileType.CITY_SIDE_ROAD, mediator)
@@ -204,6 +259,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCitySideTurnLeft() {
         return new TileBuilder(TileType.CITY_SIDE_TURN_LEFT, mediator)
@@ -215,6 +273,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCitySideTurnRight() {
         return new TileBuilder(TileType.CITY_SIDE_TURN_RIGHT, mediator)
@@ -226,6 +287,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityTube() {
         return new TileBuilder(TileType.CITY_TUBE, mediator)
@@ -237,6 +301,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createCityTubePennant() {
         final Tile tile = new TileBuilder(TileType.CITY_TUBE_PENNANT, mediator)
@@ -251,6 +318,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
         return tile;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createMonastery() {
         return new TileBuilder(TileType.MONASTERY, mediator)
@@ -262,6 +332,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createMonasteryRoad() {
         return new TileBuilder(TileType.MONASTERY_ROAD, mediator)
@@ -274,6 +347,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createRoadJunctionLarge() {
         return new TileBuilder(TileType.ROAD_JUNCTION_LARGE, mediator)
@@ -290,6 +366,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createRoadJunctionSmall() {
         return new TileBuilder(TileType.ROAD_JUNCTION_SMALL, mediator)
@@ -305,6 +384,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createRoadStraight() {
         return new TileBuilder(TileType.ROAD_STRAIGHT, mediator)
@@ -317,6 +399,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tile createRoadTurn() {
         return new TileBuilder(TileType.ROAD_TURN, mediator)
