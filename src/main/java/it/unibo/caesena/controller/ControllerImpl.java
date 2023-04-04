@@ -354,7 +354,7 @@ public final class ControllerImpl implements Controller {
      * A special case are monasteries that are considered closed if the eight
      * surrounding positions contain a tile.
      * Another special case are fields that can't be closed.
-     * 
+     *
      * @param gameSet to be verified as closed
      * @return true if the gameset is closed, false otherwise
      */
@@ -417,7 +417,7 @@ public final class ControllerImpl implements Controller {
         for (int i = 0; i < 4; i++) {
             for (final Tile tile : getPlacedTiles()) {
                 final int numberOfNeighbours = mediator.getTileNeighbours(tile.getPosition().get()).size();
-                if (numberOfNeighbours >= 0 && numberOfNeighbours <= 3) {
+                if (numberOfNeighbours <= 3) {
                     final Set<Pair<Integer, Integer>> emptyPositions = this
                             .getEmptyNeighbouringPositions(tile.getPosition().get());
                     for (final Pair<Integer, Integer> position : emptyPositions) {
