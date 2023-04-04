@@ -229,7 +229,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
      * updates the size of the FooterComponent.
      */
     private void updateSize() {
-        final Dimension frameSize = userInterface.getSize();
+        final Dimension frameSize = userInterface.getFrameSize();
         if (frameSize.getHeight() > frameSize.getWidth()) {
             innerPaddingSize = (int) Math.round(frameSize.getWidth() * INTERNAL_PADDING_RATIO);
         } else {
@@ -246,8 +246,8 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         this.tileImagePanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
         this.tilesLeaderboardPanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, 0));
 
-        double width = userInterface.getWidth();
-        double height = userInterface.getHeight();
+        double width = frameSize.getWidth();
+        double height = frameSize.getHeight();
         if (width == 0 || height == 0) {
             width = GUI.SCREEN_WIDTH;
             height = GUI.SCREEN_HEIGHT;

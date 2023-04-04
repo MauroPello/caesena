@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -32,9 +33,7 @@ import it.unibo.caesena.view.scene.Scene;
 /**
  * Implementation of UserInterface using Java Swing.
  */
-public class GUI extends JFrame implements UserInterface {
-    private static final long serialVersionUID = 8950849192853252728L;
-
+public class GUI implements UserInterface {
     private static final float BIG_FONT_RATIO = 0.009f;
     private static final float MEDIUM_FONT_RATIO = 0.009f;
     private static final float SMALL_FONT_RATIO = 0.009f;
@@ -94,13 +93,14 @@ public class GUI extends JFrame implements UserInterface {
     private Scene<JPanel> pauseScene;
     private Scene<JPanel> gameOverScene;
     private boolean forceScenesReset;
-    private Controller controller;
+    private Optional<Controller> controller;
+    private final JFrame mainFrame;
 
     /**
      * Public constructor used to set UIManager and JFrame properties.
      */
     public GUI() {
-        super();
+        this.mainFrame = new JFrame();
 
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -112,8 +112,8 @@ public class GUI extends JFrame implements UserInterface {
         UIManager.put("OptionPane.buttonFont", MEDIUM_BOLD_FONT);
         UIManager.put("OptionPane.questionIcon", new ImageIcon());
 
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new WindowAdapter() {
+        this.mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.mainFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
                 showExitDialog();
@@ -125,16 +125,17 @@ public class GUI extends JFrame implements UserInterface {
         width = width < MINIMUM_WIDTH ? MINIMUM_WIDTH : width;
         float height = screenSize.height * MINIMUM_SIZE_RATIO;
         height = height < MINIMUM_HEIGHT ? MINIMUM_HEIGHT : height;
-        this.setMinimumSize(new Dimension(Math.round(width), Math.round(height)));
+        this.mainFrame.setMinimumSize(new Dimension(Math.round(width), Math.round(height)));
 
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setLocationRelativeTo(null);
-        this.setLocationByPlatform(true);
+        this.mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.mainFrame.setLocationRelativeTo(null);
+        this.mainFrame.setLocationByPlatform(true);
 
-        this.setIconImage(ResourceUtil.getBufferedImage("logo.png", List.of()));
-        this.setVisible(true);
+        this.mainFrame.setIconImage(ResourceUtil.getBufferedImage("logo.png", List.of()));
+        this.mainFrame.setVisible(true);
 
         this.forceScenesReset = true;
+        this.controller = Optional.empty();
     }
 
     /**
@@ -142,29 +143,29 @@ public class GUI extends JFrame implements UserInterface {
      */
     @Override
     public void setController(final Controller controller) {
-        this.controller = controller;
-        this.controller.addUserInterface(this);
+        this.controller = Optional.of(controller);
+        this.controller.get().addUserInterface(this);
     }
 
     /**
      * Shows only startScene.
      */
     public void showStartScene() {
-        this.setTitle(LocaleHelper.getSceneTitle("StartScene", true));
+        this.mainFrame.setTitle(LocaleHelper.getSceneTitle("StartScene", true));
         this.startScene.setVisible(true);
         this.gameScene.setVisible(false);
         this.pauseScene.setVisible(false);
         this.gameOverScene.setVisible(false);
-        this.setContentPane(startScene.getComponent());
-        this.validate();
-        this.repaint();
+        this.mainFrame.setContentPane(startScene.getComponent());
+        this.mainFrame.validate();
+        this.mainFrame.repaint();
     }
 
     /**
      * Shows only gameScene and pauseScene.
      */
     public void showGameScene() {
-        this.setTitle(LocaleHelper.getSceneTitle("GameScene", true));
+        this.mainFrame.setTitle(LocaleHelper.getSceneTitle("GameScene", true));
         final JPanel gamePanel = new JPanel();
         gamePanel.setLayout(new OverlayLayout(gamePanel));
 
@@ -184,9 +185,9 @@ public class GUI extends JFrame implements UserInterface {
         gamePanel.add(this.pauseScene.getComponent());
         gamePanel.add(this.gameScene.getComponent());
 
-        this.setContentPane(gamePanel);
-        this.validate();
-        this.repaint();
+        this.mainFrame.setContentPane(gamePanel);
+        this.mainFrame.validate();
+        this.mainFrame.repaint();
     }
 
     /**
@@ -202,22 +203,22 @@ public class GUI extends JFrame implements UserInterface {
      * Shows only gameOverScene.
      */
     private void showGameOverScene() {
-        this.setTitle(LocaleHelper.getSceneTitle("GameOverScene", true));
+        this.mainFrame.setTitle(LocaleHelper.getSceneTitle("GameOverScene", true));
 
         this.startScene.setVisible(false);
         this.gameScene.setVisible(false);
         this.pauseScene.setVisible(false);
         this.gameOverScene.setVisible(true);
-        this.setContentPane(gameOverScene.getComponent());
-        this.validate();
-        this.repaint();
+        this.mainFrame.setContentPane(gameOverScene.getComponent());
+        this.mainFrame.validate();
+        this.mainFrame.repaint();
     }
 
     /**
      * Shows the exit dialog used to the exit the game.
      */
     public void showExitDialog() {
-        final int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmExitText(),
+        final int result = JOptionPane.showConfirmDialog(this.mainFrame, LocaleHelper.getConfirmExitText(),
                 LocaleHelper.getExitDialogTitle(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
@@ -229,13 +230,22 @@ public class GUI extends JFrame implements UserInterface {
      * Shows the back to startScene dialog used to go back to the start menu.
      */
     public void showBackTostartSceneDialog() {
-        final int result = JOptionPane.showConfirmDialog(this, LocaleHelper.getConfirmBackToStartMenuText(),
+        final int result = JOptionPane.showConfirmDialog(this.mainFrame, LocaleHelper.getConfirmBackToStartMenuText(),
                 LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
             this.forceScenesReset = true;
-            this.controller.resetGame();
+            this.controller.ifPresent(Controller::resetGame);
         }
+    }
+
+    /**
+     * Gets the size of the mainFrame representing the GUI.
+     *
+     * @return the size of the mainFrame representing the GUI
+     */
+    public Dimension getFrameSize() {
+        return this.mainFrame.getSize();
     }
 
     /**
@@ -254,7 +264,7 @@ public class GUI extends JFrame implements UserInterface {
      */
     @Override
     public void exit() {
-        this.controller.exitGame();
+        this.controller.ifPresent(Controller::exitGame);
         Runtime.getRuntime().exit(0);
     }
 
@@ -263,7 +273,7 @@ public class GUI extends JFrame implements UserInterface {
      */
     @Override
     public Controller getController() {
-        return this.controller;
+        return this.controller.get();
     }
 
     /**
@@ -290,24 +300,26 @@ public class GUI extends JFrame implements UserInterface {
             resetScenes();
         }
 
-        if (controller.isGameOver()) {
-            if (!gameOverScene.isVisible()) {
-                showGameOverScene();
-            }
+        if (this.controller.isPresent()) {
+            if (controller.get().isGameOver()) {
+                if (!gameOverScene.isVisible()) {
+                    showGameOverScene();
+                }
 
-            gameOverScene.update();
-        } else if (!controller.getPlacedTiles().isEmpty()) {
-            if (!gameScene.isVisible()) {
-                showGameScene();
-            }
+                gameOverScene.update();
+            } else if (!controller.get().getPlacedTiles().isEmpty()) {
+                if (!gameScene.isVisible()) {
+                    showGameScene();
+                }
 
-            gameScene.update();
-        } else {
-            if (!startScene.isVisible()) {
-                showStartScene();
-            }
+                gameScene.update();
+            } else {
+                if (!startScene.isVisible()) {
+                    showStartScene();
+                }
 
-            startScene.update();
+                startScene.update();
+            }
         }
     }
 }
