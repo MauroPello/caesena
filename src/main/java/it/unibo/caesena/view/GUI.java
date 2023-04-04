@@ -34,50 +34,83 @@ import it.unibo.caesena.view.scene.Scene;
  */
 public class GUI extends JFrame implements UserInterface {
     private static final long serialVersionUID = 8950849192853252728L;
-    public static final float MODAL_PREFERRED_RATIO = 0.4f;
-    public static final float MODAL_MAXIMUM_RATIO = 0.5f;
-    public static final float MODAL_MINIMUM_RATIO = 0.2f;
+
+    private static final float BIG_FONT_RATIO = 0.009f;
+    private static final float MEDIUM_FONT_RATIO = 0.009f;
+    private static final float SMALL_FONT_RATIO = 0.009f;
+    /**
+     * Default padding ratio.
+     */
     public static final float DEFAULT_PADDING_RATIO = 0.005f;
+    /**
+     * User's screen width in pixels.
+     */
     public static final float SCREEN_WIDTH = (float) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    /**
+     * User's screen height in pixels.
+     */
     public static final float SCREEN_HEIGHT = (float) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-    public static final Font BIG_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.009f));
-    public static final Font BIG_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.009f));
-    public static final Font MEDIUM_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.008f));
-    public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.008f));
-    public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.007f));
-    public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.007f));
+    /**
+     * Big normal font.
+     */
+    public static final Font BIG_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN,
+            (int) Math.round(SCREEN_WIDTH * BIG_FONT_RATIO));
+    /**
+     * Big bold font.
+     */
+    public static final Font BIG_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD,
+            (int) Math.round(SCREEN_WIDTH * BIG_FONT_RATIO));
+    /**
+     * Medium normal font.
+     */
+    public static final Font MEDIUM_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN,
+            (int) Math.round(SCREEN_WIDTH * MEDIUM_FONT_RATIO));
+    /**
+     * Medium bold font.
+     */
+    public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD,
+            (int) Math.round(SCREEN_WIDTH * MEDIUM_FONT_RATIO));
+    /**
+     * Small normal font.
+     */
+    public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN,
+            (int) Math.round(SCREEN_WIDTH * SMALL_FONT_RATIO));
+    /**
+     * Small bold font.
+     */
+    public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD,
+            (int) Math.round(SCREEN_WIDTH * SMALL_FONT_RATIO));
+    /**
+     * Default padding beetween components.
+     */
     public static final int DEFAULT_PADDING = (int) Math
             .round(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_WIDTH * DEFAULT_PADDING_RATIO
                     : SCREEN_HEIGHT * DEFAULT_PADDING_RATIO);
-    public static final float SMALL_MODAL_RATIO = 0.5f;
     private static final float MINIMUM_SIZE_RATIO = 0.3f;
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
-    private final Controller controller;
     private Scene<JPanel> startScene;
     private Scene<JPanel> gameScene;
     private Scene<JPanel> pauseScene;
     private Scene<JPanel> gameOverScene;
+    private boolean forceScenesReset;
+    private Controller controller;
 
     /**
      * Public constructor used to set UIManager and JFrame properties.
-     *
-     * @param controller the controller to be used by the GUI
      */
-    public GUI(final Controller controller) {
+    public GUI() {
         super();
 
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
-            System.exit(ABORT);
+            this.exit();
         }
         UIManager.put("OptionPane.messageFont", MEDIUM_NORMAL_FONT);
         UIManager.put("OptionPane.buttonFont", MEDIUM_BOLD_FONT);
         UIManager.put("OptionPane.questionIcon", new ImageIcon());
-
-        this.controller = controller;
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -101,8 +134,15 @@ public class GUI extends JFrame implements UserInterface {
         this.setIconImage(ResourceUtil.getBufferedImage("logo.png", List.of()));
         this.setVisible(true);
 
-        resetScenes();
+        this.forceScenesReset = true;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setController(final Controller controller) {
+        this.controller = controller;
         this.controller.addUserInterface(this);
     }
 
@@ -193,7 +233,7 @@ public class GUI extends JFrame implements UserInterface {
                 LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
-            resetScenes();
+            this.forceScenesReset = true;
             this.controller.resetGame();
         }
     }
@@ -202,6 +242,7 @@ public class GUI extends JFrame implements UserInterface {
      * Resets all the scenes.
      */
     private void resetScenes() {
+        this.forceScenesReset = false;
         this.startScene = new StartScene(this);
         this.gameScene = new GameScene(this);
         this.pauseScene = new PauseScene(this);
@@ -214,7 +255,7 @@ public class GUI extends JFrame implements UserInterface {
     @Override
     public void exit() {
         this.controller.exitGame();
-        System.exit(0);
+        dispose();
     }
 
     /**
@@ -245,6 +286,10 @@ public class GUI extends JFrame implements UserInterface {
      */
     @Override
     public void update() {
+        if (forceScenesReset) {
+            resetScenes();
+        }
+
         if (controller.isGameOver()) {
             if (!gameOverScene.isVisible()) {
                 showGameOverScene();

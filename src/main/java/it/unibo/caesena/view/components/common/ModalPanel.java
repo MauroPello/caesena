@@ -10,7 +10,11 @@ import it.unibo.caesena.view.GUI;
  * as background.
  */
 public class ModalPanel extends PanelWithBackgroundImage {
-
+    private static final long serialVersionUID = -4095427840403035675L;
+    private static final float MODAL_PREFERRED_RATIO = 0.4f;
+    private static final float MODAL_MAXIMUM_RATIO = 0.5f;
+    private static final float MODAL_MINIMUM_RATIO = 0.2f;
+    private static final float SMALL_MODAL_RATIO = 0.5f;
     private final boolean small;
 
     /**
@@ -33,11 +37,11 @@ public class ModalPanel extends PanelWithBackgroundImage {
     @Override
     public Dimension getMaximumSize() {
         if (small) {
-            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO * GUI.SMALL_MODAL_RATIO));
+            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * MODAL_MAXIMUM_RATIO * SMALL_MODAL_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * MODAL_MAXIMUM_RATIO * SMALL_MODAL_RATIO));
         } else {
-            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MAXIMUM_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MAXIMUM_RATIO));
+            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * MODAL_MAXIMUM_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * MODAL_MAXIMUM_RATIO));
         }
     }
 
@@ -49,11 +53,11 @@ public class ModalPanel extends PanelWithBackgroundImage {
     @Override
     public Dimension getMinimumSize() {
         if (small) {
-            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO * GUI.SMALL_MODAL_RATIO));
+            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * MODAL_MINIMUM_RATIO * SMALL_MODAL_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * MODAL_MINIMUM_RATIO * SMALL_MODAL_RATIO));
         } else {
-            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_MINIMUM_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_MINIMUM_RATIO));
+            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * MODAL_MINIMUM_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * MODAL_MINIMUM_RATIO));
         }
     }
 
@@ -65,11 +69,11 @@ public class ModalPanel extends PanelWithBackgroundImage {
     @Override
     public Dimension getPreferredSize() {
         if (small) {
-            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO * GUI.SMALL_MODAL_RATIO));
+            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * MODAL_PREFERRED_RATIO * SMALL_MODAL_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * MODAL_PREFERRED_RATIO * SMALL_MODAL_RATIO));
         } else {
-            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * GUI.MODAL_PREFERRED_RATIO),
-            (int) Math.round(GUI.SCREEN_HEIGHT * GUI.MODAL_PREFERRED_RATIO));
+            return new Dimension((int) Math.round(GUI.SCREEN_WIDTH * MODAL_PREFERRED_RATIO),
+            (int) Math.round(GUI.SCREEN_HEIGHT * MODAL_PREFERRED_RATIO));
         }
     }
 }

@@ -4,18 +4,69 @@ package it.unibo.caesena.model.tile;
  * Enum representing the different possible portions of the sides of a Tile.
  */
 public enum TileSection {
+    /**
+     * TileSection.UP_LEFT means that the section is on the left portion of
+     * the top side of the tile.
+     */
     UP_LEFT,
+    /**
+     * TileSection.UP_CENTER means that the section is on the center portion of the
+     * top side of the tile.
+     */
     UP_CENTER,
+    /**
+     * TileSection.UP_RIGHT means that the section is on the right portion of the top
+     * side of the tile.
+     */
     UP_RIGHT,
+    /**
+     * TileSection.RIGHT_UP means that the section is on the top portion of the
+     * right side of the tile.
+     */
     RIGHT_UP,
+    /**
+     * TileSection.RIGHT_CENTER means that the section is on the center portion of
+     * the right side of the tile.
+     */
     RIGHT_CENTER,
+    /**
+     * TileSection.RIGHT_DOWN means that the section is on the lower portion of the
+     * right side of the tile.
+     */
     RIGHT_DOWN,
+    /**
+     * TileSection.DOWN_RIGHT means that the section is on the right portion of the
+     * lower side of the tile.
+     */
     DOWN_RIGHT,
+    /**
+     * TileSection.DOWN_CENTER means that the section is on the center portion of
+     * the lower side of the tile.
+     */
     DOWN_CENTER,
+    /**
+     * TileSection.DOWN_LEFT means that the section is on the left portion of the
+     * lower side of the tile.
+     */
     DOWN_LEFT,
+    /**
+     * TileSection.LEFT_DOWN means that the section is on the lower portion of the
+     * left side of the tile.
+     */
     LEFT_DOWN,
+    /**
+     * TileSection.LEFT_CENTER means that the section is on the center portion of
+     * the left side of the tile.
+     */
     LEFT_CENTER,
+    /**
+     * TileSection.LEFT_UP means that the section is on the top portion of the left
+     * side of the tile.
+     */
     LEFT_UP,
+    /**
+     * TileSection.CENTER means that the section is on the center of the tile.
+     */
     CENTER;
 
     /**

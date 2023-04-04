@@ -206,8 +206,6 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
             }
         });
 
-        this.validate();
-        this.repaint();
         this.setOpaque(false);
         super.setVisible(false);
     }

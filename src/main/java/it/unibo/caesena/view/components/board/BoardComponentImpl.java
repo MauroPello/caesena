@@ -269,10 +269,9 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
             if (!searchedTileButton.get().containsTile()) {
                 searchedTileButton.get().addTile(searchedTile.get());
                 searchedTileButton.get().lock();
-            } else if (searchedTileButton.get().getMeeple().isPresent()) {
-                if (!searchedTileButton.get().getMeeple().get().isPlaced()) {
-                    searchedTileButton.get().unsetMeeple();
-                }
+            } else if (searchedTileButton.get().getMeeple().isPresent()
+                    && !searchedTileButton.get().getMeeple().get().isPlaced()) {
+                searchedTileButton.get().unsetMeeple();
             }
             foundTileButton = searchedTileButton.get();
         } else if (searchedTile.isEmpty() && searchedTileButton.isEmpty()) {

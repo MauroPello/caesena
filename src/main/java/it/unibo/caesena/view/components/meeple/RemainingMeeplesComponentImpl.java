@@ -9,14 +9,12 @@ import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.scene.GameScene;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Player;
 
 public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMeeplesComponent<JPanel> {
     private static final long serialVersionUID = 5371662486606196479L;
-    private final GUI userInterface;
     private final Controller controller;
     private final JPanel allMeeplesPanel;
     private final Map<Player, List<MeepleImage>> meeples;
@@ -24,8 +22,8 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
     public RemainingMeeplesComponentImpl(final GameScene gameScene) {
         super();
 
-        this.userInterface = gameScene.getUserInterface();
-        this.controller = userInterface.getController();
+
+        this.controller = gameScene.getUserInterface().getController();
 
         this.meeples = new HashMap<>();
 

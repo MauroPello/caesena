@@ -8,6 +8,13 @@ import it.unibo.caesena.controller.Controller;
 public interface UserInterface {
 
     /**
+     * Sets the controller to be used by the UserInterface.
+     *
+     * @param controller to be used by the UserInterface
+     */
+    void setController(Controller controller);
+
+    /**
      * Updates the UserInterface.
      */
     void update();
@@ -19,7 +26,7 @@ public interface UserInterface {
 
     /**
      * Gets the controller used by the UserInterface.
-     * 
+     *
      * @return the controller used by the UserInterface
      */
     Controller getController();
