@@ -27,7 +27,7 @@ import it.unibo.caesena.view.UserInterface;
 /**
  * {@inheritDoc}
  *
- * Implementation of the Controller inteface.
+ * Implementation of the Controller interface.
  */
 public final class ControllerImpl implements Controller {
     private static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
@@ -328,7 +328,6 @@ public final class ControllerImpl implements Controller {
             && Math.abs(t1.getPosition().get().getY() - t2.getPosition().get().getY()) <= 1
             && !t1.getPosition().get().equals(t2.getPosition().get());
     }
-
 
     /**
      * Draws a new tile from the list of not placed tiles.
