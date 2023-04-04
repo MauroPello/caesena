@@ -4,9 +4,25 @@ package it.unibo.caesena.utils;
  * Enum containing 4 different directions used for nearby tiles.
  */
 public enum Direction {
+    /**
+     * Direction.UP means that the difference between the coordinates of the two
+     * positions is 0 for the x coordinate and -1 for the y coordinate.
+     */
     UP(0, -1),
+    /**
+     * Direction.RIGHT means that the difference between the coordinates of the two
+     * positions is 1 for the x coordinate and 0 for the y coordinate.
+     */
     RIGHT(1, 0),
+    /**
+     * Direction.DOWN means that the difference between the coordinates of the two
+     * positions is 0 for the x coordinate and 1 for the y coordinate.
+     */
     DOWN(0, 1),
+    /**
+     * Direction.LEFT means that the difference between the coordinates of the two
+     * positions is -1 for the x coordinate and 0 for the y coordinate.
+     */
     LEFT(-1, 0);
 
     private Pair<Integer, Integer> coordinates;

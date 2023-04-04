@@ -80,7 +80,6 @@ public class GUI extends JFrame implements UserInterface {
     public static final int DEFAULT_PADDING = (int) Math
             .round(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_WIDTH * DEFAULT_PADDING_RATIO
                     : SCREEN_HEIGHT * DEFAULT_PADDING_RATIO);
-    public static final float SMALL_MODAL_RATIO = 0.5f;
     private static final float MINIMUM_SIZE_RATIO = 0.3f;
     private static final int MINIMUM_WIDTH = 200;
     private static final int MINIMUM_HEIGHT = 200;
