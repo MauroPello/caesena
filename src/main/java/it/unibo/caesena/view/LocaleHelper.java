@@ -13,7 +13,8 @@ public final class LocaleHelper {
     private static Locale currentLocale = Locale.getDefault();
 
     /**
-     * Private Class constructor as its not needed. 
+     * Class constructor marked as private as its not needed and all the methods are
+     * static.
      */
     private LocaleHelper() {
     }

@@ -1,37 +1,44 @@
 package it.unibo.caesena.utils;
 
+/**
+ * Enum containing 4 different directions used for nearby tiles.
+ */
 public enum Direction {
     UP(0, -1),
     RIGHT(1, 0),
     DOWN(0, 1),
     LEFT(-1, 0);
 
-    private int x;
-    private int y;
+    private Pair<Integer, Integer> coordinates;
 
-    Direction(final int x, final int y) {
-        this.x = x;
-        this.y = y;
+    /**
+     * Enum constructor marked as private to not allow creation of directions other
+     * than UP, RIGHT, DOWN and LEFT
+     */
+    private Direction(final int x, final int y) {
+        this.coordinates = new Pair<>(x, y);
     }
 
     /**
+     * Gets the x value of direction. 
      * 
-     * @return value of x
+     * @return x value of direction
      */
     public int getX() {
-        return this.x;
+        return this.coordinates.getX();
     }
 
     /**
+     * Gets the y value of direction. 
      * 
-     * @return value of y
+     * @return y value of direction
      */
     public int getY() {
-        return this.y;
+        return this.coordinates.getY();
     }
 
     /**
-     * checks whether two positions coincide with the same direction.
+     * Checks whether two positions coincide with the same direction.
      * 
      * @param direction for the matching
      * @param p1        first position of first tile
