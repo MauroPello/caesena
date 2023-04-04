@@ -38,9 +38,6 @@ public class GUI extends JFrame implements UserInterface {
     private static final float BIG_FONT_RATIO = 0.009f;
     private static final float MEDIUM_FONT_RATIO = 0.009f;
     private static final float SMALL_FONT_RATIO = 0.009f;
-    public static final float MODAL_PREFERRED_RATIO = 0.4f;
-    public static final float MODAL_MAXIMUM_RATIO = 0.5f;
-    public static final float MODAL_MINIMUM_RATIO = 0.2f;
     /**
      * Default padding ratio
      */
