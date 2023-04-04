@@ -24,7 +24,6 @@ import it.unibo.caesena.view.scene.GameScene;
  * {@inheritDoc}
  *
  * Implements the interface {@link it.unibo.caesena.view.components.board.BoardComponent} using a {@link javax.swing.JPanel}.
- * It extends {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
  */
 final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
     private static final long serialVersionUID = -8835542981559590335L;

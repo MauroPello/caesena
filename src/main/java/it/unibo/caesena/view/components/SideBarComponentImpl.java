@@ -26,7 +26,10 @@ import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
 import it.unibo.caesena.view.scene.GameScene;
 
 /**
- * TODO
+ * {@inheritDoc}
+ *
+ * Implements the interface {@link it.unibo.caesena.view.components.SideBarComponent} using a
+ * {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
  */
 public class SideBarComponentImpl extends PanelWithBackgroundImage implements SideBarComponent<JPanel> {
     private static final long serialVersionUID = 10997719332807770L;
@@ -44,9 +47,9 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     private final JButton endTurnButton;
 
     /**
-     * SideBarComponent constructor
+     * Class constructor.
      *
-     * @param gameScene
+     * @param gameScene the parent GameScene
      */
     public SideBarComponentImpl(final GameScene gameScene) {
         super(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
@@ -95,12 +98,17 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
 
         final JPanel zoomPanel = new JPanel();
-        zoomPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+        zoomPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
+            GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+
         final JPanel arrowsPanel = new JPanel();
-        arrowsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+        arrowsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
+            GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+
         final JPanel centerArrowsPanel = new JPanel();
         final JPanel actionsPanel = new JPanel();
-        actionsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+        actionsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
+            GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
 
         zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.Y_AXIS));
         arrowsPanel.setLayout(new BoxLayout(arrowsPanel, BoxLayout.Y_AXIS));
@@ -173,7 +181,8 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     }
 
     /**
-     * @return ActionListener
+     * allows to switch from the board to the place meeple scene.
+     * @return ActionListener that allows to switch from the board to the place meeple scene
      */
     private ActionListener placeMeepleEventListener() {
         return (e) -> {
@@ -187,7 +196,8 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     }
 
     /**
-     * @return ActionListener
+     * allows to place the current tile.
+     * @return ActionListener that allows to place the current tile
      */
     private ActionListener placeTileEventListener() {
         return (e) -> {
@@ -210,7 +220,8 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     }
 
     /**
-     * @return ActionListener
+     * allows to end the turn of the current player.
+     * @return ActionListener that allows to end the turn of the current player
      */
     private ActionListener endTurnEventListener() {
         return (e) -> {
@@ -224,6 +235,10 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         };
     }
 
+    /**
+     * allows to zoom in the BoardComponent.
+     * @return ActionListener that allows to zoom in the BoardComponent
+     */
     private ActionListener zoomInEventListener() {
         return (e) -> {
             this.gameScene.zoomIn();
@@ -234,6 +249,10 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         };
     }
 
+    /**
+    * allows to zoom out the BoardComponent.
+    * @return ActionListener that allows to zoom out the BoardComponent
+    */
     private ActionListener zoomOutEventListener() {
         return (e) -> {
             this.gameScene.zoomOut();
@@ -244,6 +263,11 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         };
     }
 
+    /**
+     * get the direction of every button, updating every
+     * move button checking for each if it is possible to move
+     * the board in that direction.
+     */
     private void updateMoveButtons() {
         for (final var direction : Direction.values()) {
             if (this.gameScene.canMove(direction)) {
@@ -254,6 +278,11 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         }
     }
 
+    /**
+     * get the direction of the button.
+     * @param direction
+     * @return the direction of the button
+     */
     private JButton getButton(final Direction direction) {
         return switch (direction) {
             case DOWN -> downRowButton;
@@ -264,6 +293,10 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         };
     }
 
+    /**
+     * allows to move up in the BoardComponent.
+     * @return ActionListener that allows to move up the BoardComponent
+     */
     private ActionListener moveUpEventListener() {
         return (e) -> {
             this.gameScene.move(Direction.UP);
@@ -271,6 +304,10 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         };
     }
 
+    /**
+     * allows to move left the BoardComponent.
+     * @return ActionListener that allows to move left the BoardComponent
+     */
     private ActionListener moveLeftEventListener() {
         return (e) -> {
             this.gameScene.move(Direction.LEFT);
@@ -278,6 +315,10 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         };
     }
 
+    /**
+     * allows to move down the BoardComponent.
+     * @return ActionListener that allows to move down the BoardComponent
+     */
     private ActionListener moveDownEventListener() {
         return (e) -> {
             this.gameScene.move(Direction.DOWN);
@@ -285,6 +326,10 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         };
     }
 
+    /**
+     * allows to move right the BoardComponent.
+     * @return ActionListener that allows to move right the BoardComponent
+     */
     private ActionListener moveRightEventListener() {
         return (e) -> {
             this.gameScene.move(Direction.RIGHT);
@@ -292,6 +337,10 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         };
     }
 
+    /**
+     * allows to discard the current tile.
+     * @return ActionListener that allows discard the current tile
+     */
     private ActionListener discardTileEventListener() {
         return (e) -> {
             if (!controller.discardCurrentTile()) {

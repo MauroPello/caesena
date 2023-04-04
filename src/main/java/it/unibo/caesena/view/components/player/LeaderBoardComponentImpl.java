@@ -14,6 +14,12 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 
+/**
+ * {@inheritDoc}
+ *
+ * Implements the interface {@link it.unibo.caesena.view.components.player.LeaderBoardComponent} using a
+ * {@link java.swing.JPanel}.
+ */
 public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoardComponent<JPanel> {
     private static final long serialVersionUID = 4401972577759091952L;
     private static final float PLAYER_IMAGE_RATIO = 0.01f;
@@ -21,6 +27,11 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
     private final JPanel playersPanel;
     private final int playerImageSize;
 
+    /**
+     * Class constructor.
+     *
+     * @param userInterface the parent GUI
+     */
     public LeaderBoardComponentImpl(final GUI userInterface) {
         super();
 
@@ -51,6 +62,9 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         super.setVisible(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
@@ -60,6 +74,9 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         super.setVisible(visible);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update() {
         playersPanel.removeAll();
@@ -86,6 +103,9 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getComponent() {
         return this;

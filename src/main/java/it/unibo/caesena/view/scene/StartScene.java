@@ -103,7 +103,6 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
         playersNumPanel.add(playersLabel);
 
         playersNum = new NumericUpDownImpl(MIN_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
-        playersNum.getComponent().addChangeListener((e) -> update());
         playersNumPanel.add(playersNum.getComponent());
 
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -164,6 +163,9 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
     public void setVisible(final boolean visible) {
         if (visible) {
             update();
+            if (playersNum.getComponent().getChangeListeners().length == 0) {
+                playersNum.getComponent().addChangeListener((e) -> update());
+            }
         }
 
         super.setVisible(visible);
