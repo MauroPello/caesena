@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactory;
 import it.unibo.caesena.model.tile.TileType;
@@ -43,6 +44,7 @@ public class ConfigurationLoader {
      * @param factory with which the tiles are created
      * @return the list of newly created tiles
      */
+    @SuppressFBWarnings(value = "WMI_WRONG_MAP_ITERATOR", justification = "The only other solution is making an unchecked cast")
     public final List<Tile> getTiles(final TileFactory factory) {
         try {
             final Object fileJson = new JSONParser().parse(new InputStreamReader(ResourceUtil.
