@@ -300,11 +300,10 @@ public final class ControllerImpl implements Controller {
 
     /**
      * {@inheritDoc}
-     *
      */
     @Override
     public List<Meeple> getMeeples() {
-        return this.meeples;
+        return new ArrayList<>(this.meeples);
     }
 
     /**

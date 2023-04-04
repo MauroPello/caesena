@@ -153,7 +153,7 @@ public final class GameSetImpl implements GameSet {
      */
     @Override
     public List<Meeple> getMeeples() {
-        return this.meeples;
+        return new ArrayList<>(this.meeples);
     }
 
 }
