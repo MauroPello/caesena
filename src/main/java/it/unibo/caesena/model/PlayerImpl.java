@@ -2,12 +2,22 @@ package it.unibo.caesena.model;
 
 import it.unibo.caesena.utils.StringUtil;
 
+/**
+ * {@inheritDoc}
+ * Implementation of the {@link it.unibo.caesena.model.Player} interface.
+ */
 public final class PlayerImpl implements Player {
 
     private final String name;
     private final Color color;
     private int score;
 
+    /**
+     * Class constructor.
+     *
+     * @param name of the player
+     * @param color of the player
+     */
     public PlayerImpl(final String name, final Color color) {
         this.name = name;
         this.color = color;
@@ -90,6 +100,9 @@ public final class PlayerImpl implements Player {
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Color getColor() {
         return this.color;
