@@ -9,7 +9,7 @@ import javax.swing.JPanel;
  * A class defining a JPanel with an Image as background.
  */
 public class PanelWithBackgroundImage extends JPanel {
-
+    private static final long serialVersionUID = -3728080344667767964L;
     private final BufferedImage image;
 
     /**
@@ -30,10 +30,10 @@ public class PanelWithBackgroundImage extends JPanel {
     @Override
     protected void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
-        double ratioWidht = (double) this.getWidth() / (double) image.getWidth();
-        double ratioHeight = (double) this.getHeight() / (double) image.getHeight();
-        double width = image.getWidth() * (ratioHeight > ratioWidht ? ratioHeight : ratioWidht);
-        double height = image.getHeight() * (ratioHeight > ratioWidht ? ratioHeight : ratioWidht);
+        final double ratioWidht = (double) this.getWidth() / (double) image.getWidth();
+        final double ratioHeight = (double) this.getHeight() / (double) image.getHeight();
+        final double width = image.getWidth() * (ratioHeight > ratioWidht ? ratioHeight : ratioWidht);
+        final double height = image.getHeight() * (ratioHeight > ratioWidht ? ratioHeight : ratioWidht);
         graphics.drawImage(image, 0, 0,
                 (int) Math.round(width),
                 (int) Math.round(height), null);

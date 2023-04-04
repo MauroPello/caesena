@@ -10,7 +10,7 @@ import it.unibo.caesena.view.GUI;
  * as background.
  */
 public class ModalPanel extends PanelWithBackgroundImage {
-
+    private static final long serialVersionUID = -4095427840403035675L;
     private final boolean small;
 
     /**
