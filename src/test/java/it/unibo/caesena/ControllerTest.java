@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.controller.Controller;
@@ -36,6 +38,7 @@ final class ControllerTest {
 
     @Test
     void testStartGameAndAddPlayer() {
+        this.controller.resetGame();
         assertThrows(IllegalStateException.class, () -> this.controller.startGame());
         this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);
         assertDoesNotThrow(() -> this.controller.startGame());
@@ -43,6 +46,7 @@ final class ControllerTest {
 
     @Test
     void testTilesBuild() {
+        this.controller.resetGame();
         this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);
         this.controller.startGame();
         assertFalse(this.controller.getNotPlacedTiles().isEmpty());
@@ -50,6 +54,7 @@ final class ControllerTest {
 
     @Test
     void testAddPlayer() {
+        this.controller.resetGame();
         this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);
         this.controller.startGame();
         assertEquals(this.controller.getPlayers().get(0), this.controller.getCurrentPlayer());
@@ -59,6 +64,7 @@ final class ControllerTest {
 
     @Test
     void testGetMeeples() {
+        this.controller.resetGame();
         this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);
         this.controller.startGame();
         assertEquals(this.controller.getPlayerMeeples(this.controller.getCurrentPlayer()).size(), 8);
@@ -69,20 +75,18 @@ final class ControllerTest {
         Tile citytile = new TileFactoryWithBuilder(mediator).createCity();
         Tile tubetile = new TileFactoryWithBuilder(mediator).createCityTube();
 
-        this.controller.startGame(); //crea la tile iniziale in 0,0
+        this.controller.resetGame();
+        this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);
+        this.controller.startGame();
 
-        for(int y = -1; y > -3; y--)
-        {
-            Pair<Integer, Integer> pos = new Pair<Integer,Integer>(0, y);
-            while(!this.controller.getCurrentTile().equals(citytile) ||
+        Pair<Integer, Integer> pos = new Pair<Integer,Integer>(0, -1);
+        while(!this.controller.getCurrentTile().equals(citytile) &&
             !this.controller.getCurrentTile().equals(tubetile)) {
-                this.controller.endTurn();
-            }
-            if(this.controller.getCurrentTile().equals(tubetile)) {
-                this.controller.rotateCurrentTile();
-            }
-            this.controller.placeCurrentTile(pos);
             this.controller.endTurn();
-        };
+        }
+        if(this.controller.getCurrentTile().equals(tubetile)) {
+            this.controller.rotateCurrentTile();
+        }
+        assertTrue(this.controller.isPositionValidForCurrentTile(new Pair<>(0, -1)));
     }
 }
