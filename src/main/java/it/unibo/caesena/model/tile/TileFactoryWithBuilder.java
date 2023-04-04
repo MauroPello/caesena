@@ -14,10 +14,9 @@ public final class TileFactoryWithBuilder implements TileFactory {
     private final GameSetTileMediator mediator;
 
     /**
-     * Public constructor that accepts a mediator used to add points to cities
-     * containing Pennants. 
-     * 
-     * @param mediator used to add points in tiles with Pennants
+     * Public constructor that accepts a mediator.
+     *
+     * @param mediator used to add points in tiles with Pennants and create GameSets
      */
     public TileFactoryWithBuilder(final GameSetTileMediator mediator) {
         this.mediator = mediator;
