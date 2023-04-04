@@ -18,6 +18,10 @@ import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 
+/**
+ * A class implementing the PlayerInput interface by using a
+ * {@link javax.swing.JPanel}
+ */
 public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     private static final long serialVersionUID = 6860767233870664780L;
     private static final int TEXT_FIELD_COLUMNS = 5;
@@ -25,8 +29,11 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
     private final JTextField playerName;
-    private Color playerColor;
+    private Color currentColor;
 
+    /**
+     * Public constructor that sets up the components and places them.
+     */
     public PlayerInputImpl() {
         super();
 
@@ -54,8 +61,8 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         this.playerColorChooser.setFont(GUI.MEDIUM_BOLD_FONT);
         this.playerColorDialog = JColorChooser.createDialog(this, LocaleHelper.getPickColorDialogTitle(), true,
                 this.playerColorChooser,
-                (e) -> updateColor(this.playerColorChooser.getColor()),
-                (e) -> updateColor(getBackground()));
+                (e) -> setCurrentColor(this.playerColorChooser.getColor()),
+                (e) -> setCurrentColor(getBackground()));
         setFontForAllComponents(playerColorDialog, GUI.SMALL_NORMAL_FONT);
         this.playerColorDialog.pack();
 
@@ -84,6 +91,12 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         this.add(playerColorButton);
     }
 
+    /**
+     * Sets the same font for all the components placed in the provided container.
+     *
+     * @param container of which components fonts should be set
+     * @param font to set
+     */
     private void setFontForAllComponents(final Container container, final Font font) {
         for (final var component : container.getComponents()) {
             component.setFont(font);
@@ -93,21 +106,36 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         }
     }
 
-    @Override
+    /**
+     * Sets the forced size of the PlayerImageImpl component.
+     *
+     * @param size to be forced
+     */
     public void setColorPanelSize(final int size) {
         this.playerColorPanel.forceSize(size);
     }
 
-    private void updateColor(final Color color) {
+    /**
+     * Sets the current color selected by the player.
+     *
+     * @param color to set.
+     */
+    private void setCurrentColor(final Color color) {
         this.playerColorPanel.setColor(color);
-        this.playerColor = color;
+        this.currentColor = color;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Pair<String, Color> getPlayerData() {
-        return new Pair<>(playerName.getText(), playerColor);
+        return new Pair<>(playerName.getText(), currentColor);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getComponent() {
         return this;

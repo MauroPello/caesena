@@ -27,7 +27,6 @@ import it.unibo.caesena.view.components.common.ModalPanel;
 import it.unibo.caesena.view.components.common.NumericUpDown;
 import it.unibo.caesena.view.components.common.NumericUpDownImpl;
 import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
-import it.unibo.caesena.view.components.player.PlayerInput;
 import it.unibo.caesena.view.components.player.PlayerInputImpl;
 
 /**
@@ -40,7 +39,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 6;
     private final GUI userInterface;
-    private final List<PlayerInput<JPanel>> playerInputs;
+    private final List<PlayerInputImpl> playerInputs;
     private final JPanel playersPanel;
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
@@ -174,7 +173,7 @@ public class StartScene extends PanelWithBackgroundImage implements Scene<JPanel
      * Adds a new player input to be filled.
      */
     private void addPlayerInput() {
-        final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
+        final PlayerInputImpl playerPanel = new PlayerInputImpl();
         playerPanel.setColorPanelSize(playerInputImageSize);
         playerPanel.getComponent().setOpaque(false);
 
