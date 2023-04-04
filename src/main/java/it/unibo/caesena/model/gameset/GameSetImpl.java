@@ -9,6 +9,11 @@ import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.StringUtil;
 
+/**
+ * {@inheritDoc}
+ *
+ * Implementation of the GameSet interface.
+ */
 public final class GameSetImpl implements GameSet {
 
     private final GameSetType type;
@@ -17,6 +22,9 @@ public final class GameSetImpl implements GameSet {
     private int points;
     private boolean closed;
 
+    /**
+     * Class constructor.
+     */
     public GameSetImpl(final GameSetType type) {
         this.type = type;
         this.points = type.getStartingPoints();
@@ -24,6 +32,9 @@ public final class GameSetImpl implements GameSet {
         this.closed = false;
     }
 
+    /**
+     * Class second constructor.
+     */
     public GameSetImpl(final GameSetType type, final List<Meeple> meeples) {
         this.type = type;
         this.points = type.getStartingPoints();
@@ -92,6 +103,9 @@ public final class GameSetImpl implements GameSet {
         return this.type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
