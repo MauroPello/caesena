@@ -38,7 +38,10 @@ import it.unibo.caesena.view.components.tile.TileImage;
 import it.unibo.caesena.view.scene.GameScene;
 
 /**
- * FooterComponent implementation.
+ * {@inheritDoc}
+ *
+ * Implements the interface {@link it.unibo.caesena.view.components.FooterComponent} using a
+ * {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
  */
 public class FooterComponentImpl extends PanelWithBackgroundImage implements FooterComponent<JPanel> {
     private static final long serialVersionUID = -7370776246509188750L;
@@ -210,7 +213,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
     }
 
     /**
-     * TODO
+     * {@inheritDoc}
      */
     @Override
     public void setVisible(final boolean visible) {
@@ -225,7 +228,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
     }
 
     /**
-     * TODO
+     * updates the size of the FooterComponent.
      */
     private void updateSize() {
         final Dimension frameSize = userInterface.getSize();
@@ -235,8 +238,9 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
             innerPaddingSize = (int) Math.round(frameSize.getHeight() * INTERNAL_PADDING_RATIO);
         }
         innerPaddingSize = innerPaddingSize < MINIMUM_PADDING ? MINIMUM_PADDING : innerPaddingSize;
-        this.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2), BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize, innerPaddingSize,
-                innerPaddingSize)));
+        this.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2),
+            BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize,
+            innerPaddingSize, innerPaddingSize)));
         this.playerImageComponent.getComponent()
                 .setBorder(BorderFactory.createEmptyBorder(0, 0, 0, innerPaddingSize));
         this.playerNameMeeplesPanel.setBorder(BorderFactory.createEmptyBorder(0, innerPaddingSize, 0, innerPaddingSize));
@@ -264,7 +268,8 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
     }
 
     /**
-     * TODO
+     * allows to rotate the current tileImage and his image.
+     * @return ActionListener that allows to rotate the current tileImage and his image
      */
     private ActionListener rotateButtonEventListener() {
         return (e) -> {
