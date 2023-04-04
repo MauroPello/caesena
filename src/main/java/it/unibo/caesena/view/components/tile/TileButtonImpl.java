@@ -13,12 +13,22 @@ import javax.swing.border.LineBorder;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 
+/**
+ * {@inheritDoc}
+ *
+ * Implementation of the {@link it.unibo.caesena.view.components.tile.TileButton} interface.
+ * It utilizes a JButton from the {@link javax.swing}.
+ */
 public class TileButtonImpl extends JButton implements TileButton<JButton> {
     private static final long serialVersionUID = 3246088701705856082L;
     private final MouseAdapter mouseAdapter;
     private Optional<TileImage> tileImage;
     private boolean locked;
 
+    /**
+     * Class constructor.
+     * @param onClickActionListener action listener that specifies what to do in case of a click
+     */
     public TileButtonImpl(final ActionListener onClickActionListener) {
         super();
         this.locked = false;
@@ -29,22 +39,25 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         this.setBorder(new LineBorder(Color.BLACK));
         this.mouseAdapter = new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
+            public void mouseEntered(final MouseEvent e) {
                 if (tileImage.isEmpty()) {
                     TileButtonImpl.this.setBorder(new LineBorder(Color.RED));
                 }
             }
-            
+
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void mouseExited(final MouseEvent e) {
                 TileButtonImpl.this.setBorder(new LineBorder(Color.BLACK));
             }
         };
         this.addMouseListener(this.mouseAdapter);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setEnabled(boolean b) {
+    public void setEnabled(final boolean b) {
         super.setEnabled(b);
         if (b) {
             this.addMouseListener(this.mouseAdapter);
@@ -53,29 +66,44 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addTile(final Tile tile) {
         this.tileImage = Optional.of(new TileImage(tile));
         this.repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setTileImage(final TileImage tileImage) {
         this.tileImage = Optional.of(tileImage);
         this.repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeTile() {
         this.tileImage = Optional.empty();
         this.repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean containsTile() {
         return this.tileImage.isPresent();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
@@ -86,27 +114,42 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JButton getComponent() {
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isLocked() {
         return locked;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setMeeple(final Meeple meeple) {
         this.tileImage.get().addMeeple(meeple);
         this.repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void lock() {
         this.locked = true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void unsetMeeple() {
         this.getMeeple().ifPresent(Meeple::remove);
@@ -114,6 +157,9 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
         this.repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Meeple> getMeeple() {
         return this.tileImage.get().getMeeple();

@@ -14,7 +14,9 @@ import it.unibo.caesena.view.components.meeple.MeepleImage;
 import net.coobird.thumbnailator.Thumbnails;
 
 /**
- * manages the tile images.
+ * This class rappresent the image of a tile.
+ * Its also responsible of overlaying any placed meeple in the correct
+ * {@link it.unibo.caesena.model.tile.TileSection}.
  */
 public class TileImage {
 
@@ -24,9 +26,9 @@ public class TileImage {
     private boolean somethingChanged = true;
 
     /**
-     * make the tile image by the tile.
+     * Class contructor.
      *
-     * @param tile
+     * @param tile of which to manage the image
      */
     public TileImage(final Tile tile) {
         this.tile = tile;
@@ -34,16 +36,18 @@ public class TileImage {
     }
 
     /**
-     * @return the current tile.
+     * Gets the tile of which this object is the image.
+     *
+     * @return the tile of which this object is the image
      */
     public Tile getTile() {
         return this.tile;
     }
 
     /**
-     * return a boolea based on the need to update the image.
+     * Decides if an image should be update of not, for perfomance porpouses.
      *
-     * @return true if nothing changed
+     * @return true if the image should be updated, false otherwise
      */
     private boolean shouldUpdateImage() {
         if (somethingChanged) {
@@ -53,9 +57,12 @@ public class TileImage {
     }
 
     /**
-     * @param width
-     * @param height
-     * @return the tile image, with the meeple above in case it is present.
+     * Gets the image as a {@link java.awt.image.BufferedImage}.
+     * It also overlay any placed meeple.
+     *
+     * @param width  of the new {@link java.awt.image.BufferedImage}
+     * @param height of the new {@link java.awt.image.BufferedImage}
+     * @return the image as a {@link java.awt.image.BufferedImage}
      */
     public BufferedImage getAsBufferedImage(final int width, final int height) {
 
@@ -76,9 +83,12 @@ public class TileImage {
     }
 
     /**
-     * @param width
-     * @param height
-     * @return the tile image without the meeple above it.
+     * Gets the image as a {@link java.awt.image.BufferedImage}.
+     * It DOESN'T overlay any placed meeple.
+     *
+     * @param width  of the new {@link java.awt.image.BufferedImage}
+     * @param height of the new {@link java.awt.image.BufferedImage}
+     * @return the image as a {@link java.awt.image.BufferedImage}
      */
     public BufferedImage getAsBufferedImageWithoutMeeple(final int width, final int height) {
         BufferedImage image;
@@ -93,18 +103,18 @@ public class TileImage {
     }
 
     /**
-     * 
-     * @return the meeple in the tile image if it is present
+     * Gets the placed meeple.
+     *
+     * @return the placed meeple
      */
     public Optional<Meeple> getMeeple() {
         return this.meeple;
     }
 
     /**
-     * add the meeple in the tile image.
+     * Adds a meeple.
      *
-     * @param meeple
-     * @param section
+     * @param meeple to be add
      */
     public void addMeeple(final Meeple meeple) {
         this.meeple = Optional.of(meeple);
@@ -112,13 +122,19 @@ public class TileImage {
     }
 
     /**
-     * remove the meeple in the tile image.
+     * Removes the meeple in the tile image.
      */
     public void removeMeeple() {
         this.meeple = Optional.empty();
         somethingChanged = true;
     }
 
+    /**
+     * Overlays the given image with a meeple, if present.
+     *
+     * @param image to be overlayed
+     * @return the overlayed image as a {@link java.awt.image.BufferedImage}
+     */
     private BufferedImage getTileImageWithMeeple(final BufferedImage image) {
         final Graphics2D finalGraphics = image.createGraphics();
         finalGraphics.drawImage(image, 0, 0, null);
@@ -137,6 +153,14 @@ public class TileImage {
         return image;
     }
 
+    /**
+     * Gets the coordinates in pixel at which to place a
+     * {@link it.unibo.caesena.model.meeple.Meeple} based on a specific
+     * {@link it.unibo.caesena.model.tile.TileSection}.
+     *
+     * @param max is the max value a meeple can be placed at
+     * @return the coordinated in pixel
+     */
     private Pair<Integer, Integer> getMeeplePosition(final int max) {
         final int closePadding = max / 10;
         final int farPadding = max / 5;
