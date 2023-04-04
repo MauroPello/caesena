@@ -3,6 +3,7 @@ package it.unibo.caesena.application;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.controller.ControllerImpl;
 import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.view.UserInterface;
 
 /**
  * Entry point of the application.
@@ -23,7 +24,8 @@ public final class App {
      */
     public static void main(final String[] args) {
         final Controller controller = new ControllerImpl();
-        new GUI(controller);
+        final UserInterface gui = new GUI();
+        gui.setController(controller);
         //new GUI(controller);
     }
 }

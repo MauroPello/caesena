@@ -74,11 +74,11 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * @return whether or not two tiles match and can be placed next to each other
      */
     private boolean tilesMatch(final Pair<Integer, Integer> position, final Tile t1, final Tile t2) {
-        for (final var direction : NEIGHBOUR_TILES_CHECK.keySet()) {
-            if (Direction.match(direction, position, t2.getPosition().get())) {
+        for (final var entry : NEIGHBOUR_TILES_CHECK.entrySet()) {
+            if (Direction.match(entry.getKey(), position, t2.getPosition().get())) {
                 for (int i = 0; i < TileSection.getSectionsPerSide(); i++) {
-                    final TileSection t1Section = NEIGHBOUR_TILES_CHECK.get(direction).getY().get(i);
-                    final TileSection t2Section = NEIGHBOUR_TILES_CHECK.get(direction).getX().get(i);
+                    final TileSection t1Section = entry.getValue().getY().get(i);
+                    final TileSection t2Section = entry.getValue().getX().get(i);
 
                     if (!getGameSetInSection(t1, t1Section).getType()
                             .equals(getGameSetInSection(t2, t2Section).getType())) {
@@ -121,11 +121,11 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      */
     @Override
     public void joinTiles(final Tile t1, final Tile t2) {
-        for (final var direction : NEIGHBOUR_TILES_CHECK.keySet()) {
-            if (Direction.match(direction, t1.getPosition().get(), t2.getPosition().get())) {
+        for (final var entry : NEIGHBOUR_TILES_CHECK.entrySet()) {
+            if (Direction.match(entry.getKey(), t1.getPosition().get(), t2.getPosition().get())) {
                 for (int i = 0; i < TileSection.getSectionsPerSide(); i++) {
-                    final TileSection t1Section = NEIGHBOUR_TILES_CHECK.get(direction).getY().get(i);
-                    final TileSection t2Section = NEIGHBOUR_TILES_CHECK.get(direction).getX().get(i);
+                    final TileSection t1Section = entry.getValue().getY().get(i);
+                    final TileSection t2Section = entry.getValue().getX().get(i);
 
                     t1.closeSection(t1Section);
                     t2.closeSection(t2Section);
@@ -135,16 +135,16 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
                     if (!t1GameSet.equals(t2GameSet)) {
                         final GameSet joinedGameSet = gameSetFactory.createJoinedSet(t1GameSet, t2GameSet);
 
-                        for (final var entry : crossReferences.remove(t2GameSet).entrySet()) {
-                            for (final var section : entry.getValue()) {
-                                addSection(joinedGameSet, entry.getKey(), section);
+                        for (final var tileEntry : crossReferences.remove(t2GameSet).entrySet()) {
+                            for (final var section : tileEntry.getValue()) {
+                                addSection(joinedGameSet, tileEntry.getKey(), section);
                             }
                         }
                         addSection(joinedGameSet, t2, t2Section);
 
-                        for (final var entry : crossReferences.remove(t1GameSet).entrySet()) {
-                            for (final var section : entry.getValue()) {
-                                addSection(joinedGameSet, entry.getKey(), section);
+                        for (final var tileEntry : crossReferences.remove(t1GameSet).entrySet()) {
+                            for (final var section : tileEntry.getValue()) {
+                                addSection(joinedGameSet, tileEntry.getKey(), section);
                             }
                         }
                         addSection(joinedGameSet, t1, t1Section);

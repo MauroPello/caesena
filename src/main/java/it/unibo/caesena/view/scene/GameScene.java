@@ -69,7 +69,7 @@ public class GameScene extends JPanel implements Scene<JPanel> {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1 - MAIN_COMPONENT_RATIO;
         footer.getComponent().setPreferredSize(
-                new Dimension((int) Math.round(10 * 1.0), (int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO))));
+                new Dimension(1, (int) Math.round(10 * (1 - MAIN_COMPONENT_RATIO))));
         this.add(footer.getComponent(), gridBagConstraints);
         super.setVisible(false);
     }
