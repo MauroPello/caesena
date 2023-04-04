@@ -17,6 +17,9 @@ import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 
+/**
+ * Simple implementation of GameSetTileMediator.
+ */
 public class GameSetTileMediatorImpl implements GameSetTileMediator {
 
     private static final Map<Direction, Pair<List<TileSection>, List<TileSection>>> NEIGHBOUR_TILES_CHECK = new HashMap<>(
@@ -36,15 +39,18 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     private final Map<GameSet, Map<Tile, Set<TileSection>>> crossReferences;
     private final GameSetFactory gameSetFactory;
 
+    /**
+     * Public constructor that accepts a GameSetFactory used to create new GameSets.
+     * 
+     * @param gameSetFactory to be used when creating new GameSets
+     */
     public GameSetTileMediatorImpl(final GameSetFactory gameSetFactory) {
         this.crossReferences = new HashMap<>();
         this.gameSetFactory = gameSetFactory;
     }
 
     /**
-     * @param gameSet
-     * @param tile
-     * @param tileSection
+     * {@inheritDoc}
      */
     @Override
     public void addSection(final GameSet gameSet, final Tile tile, final TileSection tileSection) {
@@ -60,10 +66,12 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param position
-     * @param t1
-     * @param t2
-     * @return boolean
+     * Gets whether or not two tiles match and can be placed next to each other.
+     * 
+     * @param position the position to use if <code>t1</code> is not placed
+     * @param t1 one of two tile to check
+     * @param t2 one of two tile to check
+     * @return whether or not two tiles match and can be placed next to each other
      */
     private boolean tilesMatch(final Pair<Integer, Integer> position, final Tile t1, final Tile t2) {
         for (final var direction : NEIGHBOUR_TILES_CHECK.keySet()) {
@@ -84,9 +92,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param position
-     * @param tile
-     * @return boolean
+     * {@inheritDoc}
      */
     @Override
     public boolean isPositionValid(final Pair<Integer, Integer> position, final Tile tile) {
@@ -95,8 +101,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param position
-     * @return Set<Tile>
+     * {@inheritDoc}
      */
     @Override
     public Set<Tile> getTileNeighbours(final Pair<Integer, Integer> position) {
@@ -112,8 +117,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param t1
-     * @param t2
+     * {@inheritDoc}
      */
     @Override
     public void joinTiles(final Tile t1, final Tile t2) {
@@ -151,8 +155,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param gameSet
-     * @return Set<GameSet>
+     * {@inheritDoc}
      */
     @Override
     public Set<GameSet> getFieldGameSetsNearGameSet(final GameSet gameSet) {
@@ -173,7 +176,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param tile
+     * {@inheritDoc}
      */
     @Override
     public void rotateTileClockwise(final Tile tile) {
@@ -188,10 +191,13 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param tile
-     * @param tileSection
-     * @param gameSet
-     * @return boolean
+     * 
+     * Gets whether or not the specific section in a Tile is near a certain GameSet. 
+     * 
+     * @param tile the tile that contains the specific section
+     * @param tileSection the section to add to the gameSet
+     * @param gameSet the GameSet to check if it's near
+     * @return whether or not the specific section in a Tile is near a certain GameSet
      */
     private boolean isSectionNearToGameset(final Tile tile, final TileSection tileSection, final GameSet gameSet) {
         return getGameSetInSection(tile, TileSection.next(tileSection)).equals(gameSet)
@@ -199,9 +205,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param tile
-     * @param tileSection
-     * @return GameSet
+     * {@inheritDoc}
      */
     @Override
     public GameSet getGameSetInSection(final Tile tile, final TileSection tileSection) {
@@ -211,8 +215,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param tile
-     * @return Set<GameSet>
+     * {@inheritDoc}
      */
     @Override
     public Set<GameSet> getGameSetsInTile(final Tile tile) {
@@ -222,7 +225,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @return Set<GameSet>
+     * {@inheritDoc}
      */
     @Override
     public Set<GameSet> getAllGameSets() {
@@ -230,14 +233,16 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * @param gameSet
-     * @return Map<Tile, Set<TileSection>>
+     * {@inheritDoc}
      */
     @Override
     public Map<Tile, Set<TileSection>> getTilesFromGameSet(final GameSet gameSet) {
         return this.crossReferences.get(gameSet);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean placeMeeple(Meeple meeple, Tile tile, TileSection tileSection) {
         final GameSet gameSet = getGameSetInSection(tile, tileSection);
