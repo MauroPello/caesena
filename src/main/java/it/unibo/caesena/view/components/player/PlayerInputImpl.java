@@ -20,7 +20,7 @@ import it.unibo.caesena.view.LocaleHelper;
 
 /**
  * A class implementing the PlayerInput interface by using a
- * {@link javax.swing.JPanel}
+ * {@link javax.swing.JPanel}.
  */
 public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
     private static final long serialVersionUID = 6860767233870664780L;
@@ -84,9 +84,11 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         colorPanel.add(colorLabel);
         colorPanel.add(playerColorPanel);
 
-        namePanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+        namePanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
+                GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         this.add(namePanel);
-        colorPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+        colorPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
+                GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         this.add(colorPanel);
         this.add(playerColorButton);
     }
@@ -95,7 +97,7 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
      * Sets the same font for all the components placed in the provided container.
      *
      * @param container of which components fonts should be set
-     * @param font to set
+     * @param font      to set
      */
     private void setFontForAllComponents(final Container container, final Font font) {
         for (final var component : container.getComponents()) {

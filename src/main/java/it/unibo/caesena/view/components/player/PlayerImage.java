@@ -4,6 +4,8 @@ import java.awt.Color;
 
 /**
  * An interface describing the image of a player.
+ *
+ * @param <X> the type of the GUI component containing the player image
  */
 public interface PlayerImage<X> {
 

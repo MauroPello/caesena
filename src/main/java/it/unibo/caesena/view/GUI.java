@@ -37,6 +37,7 @@ public class GUI extends JFrame implements UserInterface {
     public static final float MODAL_PREFERRED_RATIO = 0.4f;
     public static final float MODAL_MAXIMUM_RATIO = 0.5f;
     public static final float MODAL_MINIMUM_RATIO = 0.2f;
+    public static final float DEFAULT_PADDING_RATIO = 0.005f;
     public static final float SCREEN_WIDTH = (float) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     public static final float SCREEN_HEIGHT = (float) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     public static final Font BIG_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.009f));
@@ -45,7 +46,9 @@ public class GUI extends JFrame implements UserInterface {
     public static final Font MEDIUM_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.008f));
     public static final Font SMALL_NORMAL_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, (int) Math.round(SCREEN_WIDTH * 0.007f));
     public static final Font SMALL_BOLD_FONT = new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(SCREEN_WIDTH * 0.007f));
-    public static final int DEFAULT_PADDING = (int) Math.round(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_WIDTH * 0.005f : SCREEN_HEIGHT * 0.005f);
+    public static final int DEFAULT_PADDING = (int) Math
+            .round(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_WIDTH * DEFAULT_PADDING_RATIO
+                    : SCREEN_HEIGHT * DEFAULT_PADDING_RATIO);
     public static final float SMALL_MODAL_RATIO = 0.5f;
     private static final float MINIMUM_SIZE_RATIO = 0.3f;
     private static final int MINIMUM_WIDTH = 200;
@@ -58,7 +61,7 @@ public class GUI extends JFrame implements UserInterface {
 
     /**
      * Public constructor used to set UIManager and JFrame properties.
-     * 
+     *
      * @param controller the controller to be used by the GUI
      */
     public GUI(final Controller controller) {
@@ -223,8 +226,8 @@ public class GUI extends JFrame implements UserInterface {
     }
 
     /**
-     * Sets the property enabled to all components inside the given Container
-     * 
+     * Sets the property enabled to all components inside the given Container.
+     *
      * @param container the container of which components setEnabled will be called.
      * @param enabled   value to be used when calling setEnabled for every component.
      */

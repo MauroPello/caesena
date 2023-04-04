@@ -17,7 +17,7 @@ public interface GameSetTileMediator {
 
     /**
      * Adds to a GameSet a specific section in a Tile.
-     * 
+     *
      * @param gameSet     in which to add the specific section
      * @param tile        the tile that contains the specific section
      * @param tileSection the section to add to the gameSet
@@ -25,8 +25,8 @@ public interface GameSetTileMediator {
     void addSection(GameSet gameSet, Tile tile, TileSection tileSection);
 
     /**
-     * Checks whether or not a certain tile can be placed in a certain position
-     * 
+     * Checks whether or not a certain tile can be placed in a certain position.
+     *
      * @param position the position in which to check if the placement is valid
      * @param tile     the tile that is being checked
      * @return whether or not a certain tile can be placed in a certain position
@@ -35,7 +35,7 @@ public interface GameSetTileMediator {
 
     /**
      * Joins two adiacent tiles and their respective gameSets together.
-     * 
+     *
      * @param t1 one of two tiles to join
      * @param t2 one of two tiles to join
      */
@@ -43,7 +43,7 @@ public interface GameSetTileMediator {
 
     /**
      * Gets all the tiles that are near a certain position.
-     * 
+     *
      * @param position at which to check for neighbours
      * @return all the tiles that are near a certain position
      */
@@ -51,7 +51,7 @@ public interface GameSetTileMediator {
 
     /**
      * Gets all GameSets of type field near a certain GameSet.
-     * 
+     *
      * @param gameSet of which to check neighbouring field GameSets
      * @return all GameSets of type field near a certain GameSet
      */
@@ -59,14 +59,14 @@ public interface GameSetTileMediator {
 
     /**
      * Rotates the tile and its respective GameSets.
-     * 
+     *
      * @param tile the tile to be rotated
      */
     void rotateTileClockwise(Tile tile);
 
     /**
      * Gets the GameSet contained in a specific section in a tile.
-     * 
+     *
      * @param tile        the tile that contains the specific section
      * @param tileSection the specific section that contains the desired GameSet
      * @return the gameSet contained in the specific section in a tile
@@ -75,7 +75,7 @@ public interface GameSetTileMediator {
 
     /**
      * Gets all the GameSets contained in a specific tile.
-     * 
+     *
      * @param tile the specific tile
      * @return all the GameSets contained in the specific tile
      */
@@ -83,14 +83,14 @@ public interface GameSetTileMediator {
 
     /**
      * Gets all the GameSets ever created.
-     * 
+     *
      * @return all the GameSets ever created
      */
     Set<GameSet> getAllGameSets();
 
     /**
      * Gets all the tiles that contain a specific GameSet.
-     * 
+     *
      * @param gameSet the specific GameSet
      * @return all the tiles that contain the specific GameSet
      */

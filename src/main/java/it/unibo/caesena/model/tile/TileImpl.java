@@ -8,10 +8,10 @@ import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
 /**
- * A class representing a simple Tile. 
+ * A class representing a simple Tile.
  */
 public final class TileImpl implements Tile {
-    private final static int MAX_ROTATIONS = 4;
+    private static final int MAX_ROTATIONS = 4;
     private final Map<TileSection, Boolean> sections;
     private final TileType type;
 
@@ -21,7 +21,7 @@ public final class TileImpl implements Tile {
     /**
      * Public constructor that accepts a TileType for the Tile to be created.
      * By default all sections are not closed and the rotation count is equal to 0.
-     * 
+     *
      * @param type of Tile just created
      */
     public TileImpl(final TileType type) {

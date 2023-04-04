@@ -12,16 +12,18 @@ public enum Direction {
     private Pair<Integer, Integer> coordinates;
 
     /**
-     * Enum constructor marked as private to not allow creation of directions other
-     * than UP, RIGHT, DOWN and LEFT
+     * Constructor to associate coordinates with every value of the enum.
+     *
+     * @param x coordinate of the direction to create
+     * @param y coordinate of the direction to create
      */
-    private Direction(final int x, final int y) {
+    Direction(final int x, final int y) {
         this.coordinates = new Pair<>(x, y);
     }
 
     /**
-     * Gets the x value of direction. 
-     * 
+     * Gets the x value of direction.
+     *
      * @return x value of direction
      */
     public int getX() {
@@ -29,8 +31,8 @@ public enum Direction {
     }
 
     /**
-     * Gets the y value of direction. 
-     * 
+     * Gets the y value of direction.
+     *
      * @return y value of direction
      */
     public int getY() {
@@ -39,7 +41,7 @@ public enum Direction {
 
     /**
      * Checks whether two positions coincide with the same direction.
-     * 
+     *
      * @param direction for the matching
      * @param p1        first position of first tile
      * @param p2        second position of second tile

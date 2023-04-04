@@ -7,7 +7,7 @@ import it.unibo.caesena.view.GUI;
 
 /**
  * A class implementing the NumericUpDown interface by using a
- * {@link javax.swing.JSpinner}
+ * {@link javax.swing.JSpinner}.
  */
 public class NumericUpDownImpl extends JSpinner implements NumericUpDown<JSpinner> {
     private static final long serialVersionUID = 6772468670772793467L;

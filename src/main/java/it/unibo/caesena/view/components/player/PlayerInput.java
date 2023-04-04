@@ -7,6 +7,8 @@ import it.unibo.caesena.utils.Pair;
 /**
  * An interface defining a component that allows to enter all the needed
  * information for a player that wants to take part in the game.
+ *
+ * @param <X> the type of the GUI component containing the player input
  */
 public interface PlayerInput<X> {
 

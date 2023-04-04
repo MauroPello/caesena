@@ -41,7 +41,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
 
     /**
      * Public constructor that accepts a GameSetFactory used to create new GameSets.
-     * 
+     *
      * @param gameSetFactory to be used when creating new GameSets
      */
     public GameSetTileMediatorImpl(final GameSetFactory gameSetFactory) {
@@ -67,7 +67,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
 
     /**
      * Gets whether or not two tiles match and can be placed next to each other.
-     * 
+     *
      * @param position the position to use if <code>t1</code> is not placed
      * @param t1 one of two tile to check
      * @param t2 one of two tile to check
@@ -191,9 +191,9 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     }
 
     /**
-     * 
-     * Gets whether or not the specific section in a Tile is near a certain GameSet. 
-     * 
+     *
+     * Gets whether or not the specific section in a Tile is near a certain GameSet.
+     *
      * @param tile the tile that contains the specific section
      * @param tileSection the section to add to the gameSet
      * @param gameSet the GameSet to check if it's near
@@ -244,7 +244,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public boolean placeMeeple(Meeple meeple, Tile tile, TileSection tileSection) {
+    public boolean placeMeeple(final Meeple meeple, final Tile tile, final TileSection tileSection) {
         final GameSet gameSet = getGameSetInSection(tile, tileSection);
         if (meeple.isPlaced() || !gameSet.isMeepleFree()) {
             return false;

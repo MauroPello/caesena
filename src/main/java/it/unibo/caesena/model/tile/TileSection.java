@@ -19,7 +19,7 @@ public enum TileSection {
     CENTER;
 
     /**
-     * Gets the number of different TileSections contained in the side of a tile
+     * Gets the number of different TileSections contained in the side of a tile.
      *
      * @return the number of different TileSections contained in the side of a tile
      */
