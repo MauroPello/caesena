@@ -6,7 +6,7 @@ import it.unibo.caesena.utils.StringUtil;
  * {@inheritDoc}
  * Implementation of the {@link it.unibo.caesena.model.Player} interface.
  */
-public final class PlayerImpl implements Player {
+public final class PlayerImpl implements MutablePlayer {
 
     private final String name;
     private final Color color;

@@ -10,7 +10,7 @@ import it.unibo.caesena.utils.StringUtil;
 /**
  * A class representing a simple Tile.
  */
-public final class TileImpl implements Tile {
+public final class TileImpl implements MutableTile {
     private static final int MAX_ROTATIONS = 4;
     private final Map<TileSection, Boolean> sections;
     private final TileType type;

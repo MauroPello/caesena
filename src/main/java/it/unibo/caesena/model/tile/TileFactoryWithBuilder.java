@@ -26,7 +26,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityEdge() {
+    public MutableTile createCityEdge() {
         return new TileBuilder(TileType.CITY_EDGE, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
@@ -40,8 +40,8 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityEdgePennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_EDGE_PENNANT, mediator)
+    public MutableTile createCityEdgePennant() {
+        final MutableTile tile = new TileBuilder(TileType.CITY_EDGE_PENNANT, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
                 .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT,
@@ -57,7 +57,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityEdgeRoad() {
+    public MutableTile createCityEdgeRoad() {
         return new TileBuilder(TileType.CITY_EDGE_ROAD, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
@@ -72,8 +72,8 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityEdgeRoadPennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_EDGE_ROAD_PENNANT, mediator)
+    public MutableTile createCityEdgeRoadPennant() {
+        final MutableTile tile = new TileBuilder(TileType.CITY_EDGE_ROAD_PENNANT, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
                 .field(List.of(TileSection.DOWN_LEFT, TileSection.LEFT_DOWN))
@@ -90,7 +90,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityLarge() {
+    public MutableTile createCityLarge() {
         return new TileBuilder(TileType.CITY_LARGE, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
@@ -104,8 +104,8 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityLargePennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_LARGE_PENNANT, mediator)
+    public MutableTile createCityLargePennant() {
+        final MutableTile tile = new TileBuilder(TileType.CITY_LARGE_PENNANT, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                         TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -121,7 +121,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityLargeRoad() {
+    public MutableTile createCityLargeRoad() {
         return new TileBuilder(TileType.CITY_LARGE_ROAD, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
@@ -137,8 +137,8 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityLargeRoadPennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_LARGE_ROAD_PENNANT, mediator)
+    public MutableTile createCityLargeRoadPennant() {
+        final MutableTile tile = new TileBuilder(TileType.CITY_LARGE_ROAD_PENNANT, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                         TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -156,7 +156,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCity() {
+    public MutableTile createCity() {
         return new TileBuilder(TileType.CITY, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
@@ -170,8 +170,8 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityPennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_PENNANT, mediator)
+    public MutableTile createCityPennant() {
+        final MutableTile tile = new TileBuilder(TileType.CITY_PENNANT, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT, TileSection.CENTER,
                         TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
@@ -187,7 +187,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCitySideDoubleNext() {
+    public MutableTile createCitySideDoubleNext() {
         return new TileBuilder(TileType.CITY_SIDE_DOUBLE_NEXT, mediator)
                 .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
                 .city(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN))
@@ -201,7 +201,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCitySideDouble() {
+    public MutableTile createCitySideDouble() {
         return new TileBuilder(TileType.CITY_SIDE_DOUBLE, mediator)
                 .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
                 .city(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
@@ -215,7 +215,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCitySideJunction() {
+    public MutableTile createCitySideJunction() {
         return new TileBuilder(TileType.CITY_SIDE_JUNCTION, mediator)
                 .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
                 .field(List.of(TileSection.DOWN_LEFT, TileSection.LEFT_DOWN))
@@ -233,7 +233,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCitySide() {
+    public MutableTile createCitySide() {
         return new TileBuilder(TileType.CITY_SIDE, mediator)
                 .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
                 .field(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
@@ -247,7 +247,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCitySideRoad() {
+    public MutableTile createCitySideRoad() {
         return new TileBuilder(TileType.CITY_SIDE_ROAD, mediator)
                 .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
                 .field(List.of(TileSection.LEFT_DOWN, TileSection.RIGHT_DOWN,
@@ -262,7 +262,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCitySideTurnLeft() {
+    public MutableTile createCitySideTurnLeft() {
         return new TileBuilder(TileType.CITY_SIDE_TURN_LEFT, mediator)
                 .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
                 .field(List.of(TileSection.LEFT_UP, TileSection.DOWN_RIGHT, TileSection.CENTER,
@@ -276,7 +276,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCitySideTurnRight() {
+    public MutableTile createCitySideTurnRight() {
         return new TileBuilder(TileType.CITY_SIDE_TURN_RIGHT, mediator)
                 .city(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
                 .field(List.of(TileSection.RIGHT_UP, TileSection.DOWN_LEFT, TileSection.CENTER,
@@ -290,7 +290,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityTube() {
+    public MutableTile createCityTube() {
         return new TileBuilder(TileType.CITY_TUBE, mediator)
                 .city(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
                         TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, TileSection.CENTER))
@@ -304,8 +304,8 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createCityTubePennant() {
-        final Tile tile = new TileBuilder(TileType.CITY_TUBE_PENNANT, mediator)
+    public MutableTile createCityTubePennant() {
+        final MutableTile tile = new TileBuilder(TileType.CITY_TUBE_PENNANT, mediator)
                 .city(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
                         TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN, TileSection.CENTER))
                 .field(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT))
@@ -321,7 +321,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createMonastery() {
+    public MutableTile createMonastery() {
         return new TileBuilder(TileType.MONASTERY, mediator)
                 .field(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
                         TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
@@ -335,7 +335,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createMonasteryRoad() {
+    public MutableTile createMonasteryRoad() {
         return new TileBuilder(TileType.MONASTERY_ROAD, mediator)
                 .field(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_RIGHT,
                         TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN,
@@ -350,7 +350,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createRoadJunctionLarge() {
+    public MutableTile createRoadJunctionLarge() {
         return new TileBuilder(TileType.ROAD_JUNCTION_LARGE, mediator)
                 .road(List.of(TileSection.UP_CENTER))
                 .road(List.of(TileSection.DOWN_CENTER))
@@ -369,7 +369,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createRoadJunctionSmall() {
+    public MutableTile createRoadJunctionSmall() {
         return new TileBuilder(TileType.ROAD_JUNCTION_SMALL, mediator)
                 .road(List.of(TileSection.DOWN_CENTER))
                 .road(List.of(TileSection.LEFT_CENTER))
@@ -387,7 +387,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createRoadStraight() {
+    public MutableTile createRoadStraight() {
         return new TileBuilder(TileType.ROAD_STRAIGHT, mediator)
                 .road(List.of(TileSection.DOWN_CENTER, TileSection.CENTER, TileSection.UP_CENTER))
                 .field(List.of(TileSection.UP_LEFT, TileSection.DOWN_LEFT,
@@ -402,7 +402,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      * {@inheritDoc}
      */
     @Override
-    public Tile createRoadTurn() {
+    public MutableTile createRoadTurn() {
         return new TileBuilder(TileType.ROAD_TURN, mediator)
                 .field(List.of(TileSection.DOWN_RIGHT, TileSection.LEFT_UP,
                         TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,

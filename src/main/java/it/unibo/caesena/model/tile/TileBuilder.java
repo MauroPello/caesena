@@ -14,7 +14,7 @@ public final class TileBuilder {
 
     private final GameSetTileMediator mediator;
     private final GameSetFactory factory;
-    private final Tile tile;
+    private MutableTile tile;
 
     /**
      * Public constructor that accepts a TileType and a mediator.
@@ -111,8 +111,10 @@ public final class TileBuilder {
      *
      * @return the build tile.
      */
-    public Tile build() {
-        return this.tile;
+    public MutableTile build() {
+        final MutableTile builtTile = this.tile;
+        this.tile = null;
+        return builtTile;
     }
 
 }

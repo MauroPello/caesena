@@ -42,7 +42,7 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
      */
     @Override
     public void toggleComponents() {
-        final Player currentPlayer = gameScene.getUserInterface().getController().getCurrentPlayer();
+        final Player currentPlayer = gameScene.getUserInterface().getController().getCurrentPlayer().get();
         final Optional<Meeple> remainingMeeples = gameScene.getUserInterface().getController()
                 .getPlayerMeeples(currentPlayer)
                 .stream()
@@ -84,14 +84,14 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
     @Override
     public void endTurn() {
         final var currentPlayer = this.gameScene.getUserInterface().getController().getCurrentPlayer();
-        final List<Meeple> meeples = this.gameScene.getUserInterface().getController().getPlayerMeeples(currentPlayer)
+        final List<Meeple> meeples = this.gameScene.getUserInterface().getController().getPlayerMeeples(currentPlayer.get())
                 .stream()
                 .filter(m -> !m.isPlaced())
                 .toList();
         if (this.getSectionSelector().isSectionSelected()) {
             if (!meeples.isEmpty()) {
                 final var section = this.getSectionSelector().getSelectedSection().get();
-                if (this.gameScene.getUserInterface().getController().placeMeeple(meeples.get(0), section)) {
+                if (this.gameScene.getUserInterface().getController().placeMeeple(section)) {
                     this.board.getCurrentTileButton().setMeeple(meeples.get(0));
                 } else {
                     throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");

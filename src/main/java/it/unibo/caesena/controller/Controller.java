@@ -1,6 +1,7 @@
 package it.unibo.caesena.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.Player;
@@ -75,7 +76,7 @@ public interface Controller {
      *
      * @return the current player
      */
-    Player getCurrentPlayer();
+    Optional<Player> getCurrentPlayer();
 
     /**
      * Gets a list of all the players.
@@ -89,7 +90,7 @@ public interface Controller {
      *
      * @return the current tile
      */
-    Tile getCurrentTile();
+    Optional<Tile> getCurrentTile();
 
     /**
      * Places the current tile at the passed position on the board.
@@ -144,13 +145,12 @@ public interface Controller {
     GameSet getCurrentTileGameSetInSection(TileSection section);
 
     /**
-     * Places a meeple on the current tile at the passed section.
+     * Places a meeple of the current player on the current tile at the given section.
      *
-     * @param meeple  meeple to be placed
      * @param section section on which the tile should be placed
      * @return true if placement is valid, false otherwise
      */
-    boolean placeMeeple(Meeple meeple, TileSection section);
+    boolean placeMeeple(TileSection section);
 
     /**
      * Gets the list of meeples that belong to a passed player.

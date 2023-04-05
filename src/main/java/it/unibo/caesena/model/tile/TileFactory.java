@@ -1,183 +1,183 @@
 package it.unibo.caesena.model.tile;
 
 /**
- * An interface defining a method for each Tile part of the normal version of
+ * An interface defining a method for each MutableTile part of the normal version of
  * the game.
  */
 public interface TileFactory {
 
     /**
-     * Creates a Tile with type CITY_EDGE.
+     * Creates a MutableTile with type CITY_EDGE.
      *
-     * @return a Tile with type CITY_EDGE
+     * @return a MutableTile with type CITY_EDGE
      */
-    Tile createCityEdge();
+    MutableTile createCityEdge();
 
     /**
-     * Creates a Tile with type CITY_EDGE_ROAD.
+     * Creates a MutableTile with type CITY_EDGE_ROAD.
      *
-     * @return a Tile with type CITY_EDGE_ROAD
+     * @return a MutableTile with type CITY_EDGE_ROAD
      */
-    Tile createCityEdgeRoad();
+    MutableTile createCityEdgeRoad();
 
     /**
-     * Creates a Tile with type CITY_LARGE.
+     * Creates a MutableTile with type CITY_LARGE.
      *
-     * @return a Tile with type CITY_LARGE
+     * @return a MutableTile with type CITY_LARGE
      */
-    Tile createCityLarge();
+    MutableTile createCityLarge();
 
     /**
-     * Creates a Tile with type CITY_LARGE_ROAD.
+     * Creates a MutableTile with type CITY_LARGE_ROAD.
      *
-     * @return a Tile with type CITY_LARGE_ROAD
+     * @return a MutableTile with type CITY_LARGE_ROAD
      */
-    Tile createCityLargeRoad();
+    MutableTile createCityLargeRoad();
 
     /**
-     * Creates a Tile with type CITY.
+     * Creates a MutableTile with type CITY.
      *
-     * @return a Tile with type CITY
+     * @return a MutableTile with type CITY
      */
-    Tile createCity();
+    MutableTile createCity();
 
     /**
-     * Creates a Tile with type CITY_SIDE_DOUBLE_NEXT.
+     * Creates a MutableTile with type CITY_SIDE_DOUBLE_NEXT.
      *
-     * @return a Tile with type CITY_SIDE_DOUBLE_NEXT
+     * @return a MutableTile with type CITY_SIDE_DOUBLE_NEXT
      */
-    Tile createCitySideDoubleNext();
+    MutableTile createCitySideDoubleNext();
 
     /**
-     * Creates a Tile with type CITY_SIDE_DOUBLE.
+     * Creates a MutableTile with type CITY_SIDE_DOUBLE.
      *
-     * @return a Tile with type CITY_SIDE_DOUBLE
+     * @return a MutableTile with type CITY_SIDE_DOUBLE
      */
-    Tile createCitySideDouble();
+    MutableTile createCitySideDouble();
 
     /**
-     * Creates a Tile with type CITY_SIDE_JUNCTION.
+     * Creates a MutableTile with type CITY_SIDE_JUNCTION.
      *
-     * @return a Tile with type CITY_SIDE_JUNCTION
+     * @return a MutableTile with type CITY_SIDE_JUNCTION
      */
-    Tile createCitySideJunction();
+    MutableTile createCitySideJunction();
 
     /**
-     * Creates a Tile with type CITY_SIDE.
+     * Creates a MutableTile with type CITY_SIDE.
      *
-     * @return a Tile with type CITY_SIDE
+     * @return a MutableTile with type CITY_SIDE
      */
-    Tile createCitySide();
+    MutableTile createCitySide();
 
     /**
-     * Creates a Tile with type CITY_SIDE_ROAD.
+     * Creates a MutableTile with type CITY_SIDE_ROAD.
      *
-     * @return a Tile with type CITY_SIDE_ROAD
+     * @return a MutableTile with type CITY_SIDE_ROAD
      */
-    Tile createCitySideRoad();
+    MutableTile createCitySideRoad();
 
     /**
-     * Creates a Tile with type CITY_SIDE_TURN_LEFT.
+     * Creates a MutableTile with type CITY_SIDE_TURN_LEFT.
      *
-     * @return a Tile with type CITY_SIDE_TURN_LEFT
+     * @return a MutableTile with type CITY_SIDE_TURN_LEFT
      */
-    Tile createCitySideTurnLeft();
+    MutableTile createCitySideTurnLeft();
 
     /**
-     * Creates a Tile with type CITY_SIDE_TURN_RIGHT.
+     * Creates a MutableTile with type CITY_SIDE_TURN_RIGHT.
      *
-     * @return a Tile with type CITY_SIDE_TURN_RIGHT
+     * @return a MutableTile with type CITY_SIDE_TURN_RIGHT
      */
-    Tile createCitySideTurnRight();
+    MutableTile createCitySideTurnRight();
 
     /**
-     * Creates a Tile with type CITY_TUBE.
+     * Creates a MutableTile with type CITY_TUBE.
      *
-     * @return a Tile with type CITY_TUBE
+     * @return a MutableTile with type CITY_TUBE
      */
-    Tile createCityTube();
+    MutableTile createCityTube();
 
     /**
-     * Creates a Tile with type MONASTERY.
+     * Creates a MutableTile with type MONASTERY.
      *
-     * @return a Tile with type MONASTERY
+     * @return a MutableTile with type MONASTERY
      */
-    Tile createMonastery();
+    MutableTile createMonastery();
 
     /**
-     * Creates a Tile with type MONASTERY_ROAD.
+     * Creates a MutableTile with type MONASTERY_ROAD.
      *
-     * @return a Tile with type MONASTERY_ROAD
+     * @return a MutableTile with type MONASTERY_ROAD
      */
-    Tile createMonasteryRoad();
+    MutableTile createMonasteryRoad();
 
     /**
-     * Creates a Tile with type ROAD_JUNCTION_LARGE.
+     * Creates a MutableTile with type ROAD_JUNCTION_LARGE.
      *
-     * @return a Tile with type ROAD_JUNCTION_LARGE
+     * @return a MutableTile with type ROAD_JUNCTION_LARGE
      */
-    Tile createRoadJunctionLarge();
+    MutableTile createRoadJunctionLarge();
 
     /**
-     * Creates a Tile with type ROAD_JUNCTION_SMALL.
+     * Creates a MutableTile with type ROAD_JUNCTION_SMALL.
      *
-     * @return a Tile with type ROAD_JUNCTION_SMALL
+     * @return a MutableTile with type ROAD_JUNCTION_SMALL
      */
-    Tile createRoadJunctionSmall();
+    MutableTile createRoadJunctionSmall();
 
     /**
-     * Creates a Tile with type ROAD_STRAIGHT.
+     * Creates a MutableTile with type ROAD_STRAIGHT.
      *
-     * @return a Tile with type ROAD_STRAIGHT
+     * @return a MutableTile with type ROAD_STRAIGHT
      */
-    Tile createRoadStraight();
+    MutableTile createRoadStraight();
 
     /**
-     * Creates a Tile with type ROAD_TURN.
+     * Creates a MutableTile with type ROAD_TURN.
      *
-     * @return a Tile with type ROAD_TURN
+     * @return a MutableTile with type ROAD_TURN
      */
-    Tile createRoadTurn();
+    MutableTile createRoadTurn();
 
     /**
-     * Creates a Tile with type CITY_EDGE_PENNANT.
+     * Creates a MutableTile with type CITY_EDGE_PENNANT.
      *
-     * @return a Tile with type CITY_EDGE_PENNANT
+     * @return a MutableTile with type CITY_EDGE_PENNANT
      */
-    Tile createCityEdgePennant();
+    MutableTile createCityEdgePennant();
 
     /**
-     * Creates a Tile with type CITY_EDGE_ROAD_PENNANT.
+     * Creates a MutableTile with type CITY_EDGE_ROAD_PENNANT.
      *
-     * @return a Tile with type CITY_EDGE_ROAD_PENNANT
+     * @return a MutableTile with type CITY_EDGE_ROAD_PENNANT
      */
-    Tile createCityEdgeRoadPennant();
+    MutableTile createCityEdgeRoadPennant();
 
     /**
-     * Creates a Tile with type CITY_LARGE_PENNANT.
+     * Creates a MutableTile with type CITY_LARGE_PENNANT.
      *
-     * @return a Tile with type CITY_LARGE_PENNANT
+     * @return a MutableTile with type CITY_LARGE_PENNANT
      */
-    Tile createCityLargePennant();
+    MutableTile createCityLargePennant();
 
     /**
-     * Creates a Tile with type CITY_LARGE_ROAD_PENNANT.
+     * Creates a MutableTile with type CITY_LARGE_ROAD_PENNANT.
      *
-     * @return a Tile with type CITY_LARGE_ROAD_PENNANT
+     * @return a MutableTile with type CITY_LARGE_ROAD_PENNANT
      */
-    Tile createCityLargeRoadPennant();
+    MutableTile createCityLargeRoadPennant();
 
     /**
-     * Creates a Tile with type CITY_PENNANT.
+     * Creates a MutableTile with type CITY_PENNANT.
      *
-     * @return a Tile with type CITY_PENNANT
+     * @return a MutableTile with type CITY_PENNANT
      */
-    Tile createCityPennant();
+    MutableTile createCityPennant();
 
     /**
-     * Creates a Tile with type CITY_TUBE_PENNANT.
+     * Creates a MutableTile with type CITY_TUBE_PENNANT.
      *
-     * @return a Tile with type CITY_TUBE_PENNANT
+     * @return a MutableTile with type CITY_TUBE_PENNANT
      */
-    Tile createCityTubePennant();
+    MutableTile createCityTubePennant();
 }

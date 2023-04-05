@@ -2,6 +2,7 @@ package it.unibo.caesena.model.meeple;
 
 import java.util.Optional;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
@@ -13,7 +14,7 @@ import it.unibo.caesena.utils.StringUtil;
  *
  * A class representing a normal Meeple with strength always equal to 1.
  */
-public class NormalMeeple implements Meeple {
+public class NormalMeeple implements MutableMeeple {
 
     private static final int STRENGTH = 1;
     private final Player owner;
@@ -85,4 +86,8 @@ public class NormalMeeple implements Meeple {
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
 
+    @Override
+    public Color getColor() {
+        return this.owner.getColor();
+    }
 }

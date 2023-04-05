@@ -1,6 +1,5 @@
 package it.unibo.caesena.view.components.tile;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -144,11 +143,7 @@ public class TileImage {
         finalGraphics.drawImage(image, 0, 0, null);
         if (this.meeple.isPresent()) {
             final int meepleSize = (int) ((double) image.getHeight(null) / 5);
-            final int red = meeple.get().getOwner().getColor().getRed();
-            final int green = meeple.get().getOwner().getColor().getGreen();
-            final int blue = meeple.get().getOwner().getColor().getBlue();
-            final Color color = new Color(red, green, blue);
-            final MeepleImage meepleimage = new MeepleImage(this.meeple.get(), color);
+            final MeepleImage meepleimage = new MeepleImage(this.meeple.get(), this.meeple.get().getColor().asSwingColor());
             final Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null) - meepleSize);
             finalGraphics.drawImage(meepleimage.getNormalImage(), meeplePosition.getX(), meeplePosition.getY(),
                     meepleSize, meepleSize, null);

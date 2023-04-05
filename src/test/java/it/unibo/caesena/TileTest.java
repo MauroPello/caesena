@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.GameSetTileMediatorImpl;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
-import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileBuilder;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;
@@ -21,7 +21,7 @@ import it.unibo.caesena.utils.Pair;
 
 final class TileTest {
 
-    private static Tile tile;
+    private static MutableTile tile;
     private static GameSetTileMediator mediator;
     private static Pair<Integer, Integer> position;
 
@@ -44,7 +44,7 @@ final class TileTest {
     void testRotation() {
         mediator.rotateTileClockwise(tile);
         assertEquals(tile.getRotationCount() , 1);
-        final Tile tile2 = new TileBuilder(TileType.CITY_EDGE, mediator)
+        final MutableTile tile2 = new TileBuilder(TileType.CITY_EDGE, mediator)
                 .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
                 .field(List.of(TileSection.UP_RIGHT, TileSection.UP_CENTER, TileSection.UP_LEFT,

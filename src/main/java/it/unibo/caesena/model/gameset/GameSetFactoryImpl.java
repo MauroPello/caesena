@@ -2,7 +2,7 @@ package it.unibo.caesena.model.gameset;
 
 import java.util.List;
 
-import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MutableMeeple;
 
 /**
  * {@inheritDoc}
@@ -63,7 +63,7 @@ public final class GameSetFactoryImpl implements GameSetFactory {
             }
 
             final int points = gs1.getPoints() + gs2.getPoints();
-            final List<Meeple> meeples = gs1.getMeeples();
+            final List<MutableMeeple> meeples = gs1.getMeeples();
             meeples.addAll(gs2.getMeeples());
             final GameSet joinedGameset = new GameSetImpl(gs1.getType(), meeples);
             joinedGameset.setPoints(points);

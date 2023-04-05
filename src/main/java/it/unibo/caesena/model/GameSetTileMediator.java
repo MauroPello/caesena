@@ -4,25 +4,25 @@ import java.util.Map;
 import java.util.Set;
 
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.meeple.MutableMeeple;
+import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 
 /**
- * An interface defining a mediator for GameSet and Tile. It keeps track of
+ * An interface defining a mediator for GameSet and MutableTile. It keeps track of
  * GameSets contained in Tiles and vice versa.
  */
 public interface GameSetTileMediator {
 
     /**
-     * Adds to a GameSet a specific section in a Tile.
+     * Adds to a GameSet a specific section in a MutableTile.
      *
      * @param gameSet     in which to add the specific section
      * @param tile        the tile that contains the specific section
      * @param tileSection the section to add to the gameSet
      */
-    void addSection(GameSet gameSet, Tile tile, TileSection tileSection);
+    void addSection(GameSet gameSet, MutableTile tile, TileSection tileSection);
 
     /**
      * Checks whether or not a certain tile can be placed in a certain position.
@@ -31,7 +31,7 @@ public interface GameSetTileMediator {
      * @param tile     the tile that is being checked
      * @return whether or not a certain tile can be placed in a certain position
      */
-    boolean isPositionValid(Pair<Integer, Integer> position, Tile tile);
+    boolean isPositionValid(Pair<Integer, Integer> position, MutableTile tile);
 
     /**
      * Joins two adiacent tiles and their respective gameSets together.
@@ -39,7 +39,7 @@ public interface GameSetTileMediator {
      * @param t1 one of two tiles to join
      * @param t2 one of two tiles to join
      */
-    void joinTiles(Tile t1, Tile t2);
+    void joinTiles(MutableTile t1, MutableTile t2);
 
     /**
      * Gets all the tiles that are near a certain position.
@@ -47,7 +47,7 @@ public interface GameSetTileMediator {
      * @param position at which to check for neighbours
      * @return all the tiles that are near a certain position
      */
-    Set<Tile> getTileNeighbours(Pair<Integer, Integer> position);
+    Set<MutableTile> getTileNeighbours(Pair<Integer, Integer> position);
 
     /**
      * Gets all GameSets of type field near a certain GameSet.
@@ -62,7 +62,7 @@ public interface GameSetTileMediator {
      *
      * @param tile the tile to be rotated
      */
-    void rotateTileClockwise(Tile tile);
+    void rotateTileClockwise(MutableTile tile);
 
     /**
      * Gets the GameSet contained in a specific section in a tile.
@@ -71,7 +71,7 @@ public interface GameSetTileMediator {
      * @param tileSection the specific section that contains the desired GameSet
      * @return the gameSet contained in the specific section in a tile
      */
-    GameSet getGameSetInSection(Tile tile, TileSection tileSection);
+    GameSet getGameSetInSection(MutableTile tile, TileSection tileSection);
 
     /**
      * Gets all the GameSets contained in a specific tile.
@@ -79,7 +79,7 @@ public interface GameSetTileMediator {
      * @param tile the specific tile
      * @return all the GameSets contained in the specific tile
      */
-    Set<GameSet> getGameSetsInTile(Tile tile);
+    Set<GameSet> getGameSetsInTile(MutableTile tile);
 
     /**
      * Gets all the GameSets ever created.
@@ -94,7 +94,7 @@ public interface GameSetTileMediator {
      * @param gameSet the specific GameSet
      * @return all the tiles that contain the specific GameSet
      */
-    Map<Tile, Set<TileSection>> getTilesFromGameSet(GameSet gameSet);
+    Map<MutableTile, Set<TileSection>> getTilesFromGameSet(GameSet gameSet);
 
     /**
      * Places a meeple in a specific section in a tile.
@@ -104,6 +104,6 @@ public interface GameSetTileMediator {
      * @param tileSection the specific section where the meeple should be placed
      * @return whether or not the operation was successfull
      */
-    boolean placeMeeple(Meeple meeple, Tile tile, TileSection tileSection);
+    boolean placeMeeple(MutableMeeple meeple, MutableTile tile, TileSection tileSection);
 
 }

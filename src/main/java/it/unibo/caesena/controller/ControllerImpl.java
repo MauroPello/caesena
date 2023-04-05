@@ -4,19 +4,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.GameSetTileMediatorImpl;
+import it.unibo.caesena.model.MutablePlayer;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.PlayerImpl;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.NormalMeeple;
+import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;
@@ -36,10 +40,10 @@ public final class ControllerImpl implements Controller {
     private static final int MEEPLES_PER_PLAYER = 8;
     private final List<UserInterface> userInterfaces;
     private GameSetTileMediator mediator;
-    private List<Meeple> meeples;
-    private List<Player> players;
-    private List<Tile> tiles;
-    private Tile currentTile;
+    private List<MutableMeeple> meeples;
+    private List<MutablePlayer> players;
+    private List<MutableTile> tiles;
+    private Optional<MutableTile> currentTile;
     private boolean gameOver;
     private int turn;
 
@@ -61,7 +65,7 @@ public final class ControllerImpl implements Controller {
         }
         Collections.shuffle(players);
         drawNewTile();
-        this.placeCurrentTile(new Pair<Integer, Integer>(0, 0));
+        this.placeCurrentTile(new Pair<>(0, 0));
         drawNewTile();
         updateUserInterfaces();
     }
@@ -85,12 +89,15 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void endTurn() {
-        mediator.getGameSetsInTile(currentTile).stream()
+        mediator.getGameSetsInTile(currentTile.get()).stream()
                 .filter(this::isGameSetClosed)
                 .forEach(GameSet::close);
 
-        for (final var nearTile : getPlacedTiles()) {
-            if (areTilesNear(currentTile, nearTile)) {
+        final List<MutableTile> placedTiles = tiles.stream()
+            .filter(MutableTile::isPlaced)
+            .toList();
+        for (final var nearTile : placedTiles) {
+            if (areTilesNear(currentTile.get(), nearTile)) {
                 GameSet centerGameset = mediator.getGameSetInSection(nearTile, TileSection.CENTER);
                 if (centerGameset.getType().equals(GameSetType.MONASTERY)) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
@@ -99,7 +106,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
 
-                centerGameset = mediator.getGameSetInSection(currentTile, TileSection.CENTER);
+                centerGameset = mediator.getGameSetInSection(currentTile.get(), TileSection.CENTER);
                 if (centerGameset.getType().equals(GameSetType.MONASTERY)) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
@@ -158,7 +165,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public Player addPlayer(final String name, final Color color) {
-        final Player newPlayer = new PlayerImpl(name, color);
+        final MutablePlayer newPlayer = new PlayerImpl(name, color);
         players.add(newPlayer);
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
             meeples.add(new NormalMeeple(newPlayer));
@@ -170,8 +177,9 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public Player getCurrentPlayer() {
-        return this.players.get(this.turn % this.players.size());
+    public Optional<Player> getCurrentPlayer() {
+        return this.players.isEmpty() ? Optional.empty()
+            : Optional.of(this.players.get(this.turn % this.players.size()));
     }
 
     /**
@@ -186,8 +194,8 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public Tile getCurrentTile() {
-        return this.currentTile;
+    public Optional<Tile> getCurrentTile() {
+        return this.currentTile.isPresent() ? Optional.of(this.currentTile.get()) : Optional.empty();
     }
 
     /**
@@ -199,10 +207,10 @@ public final class ControllerImpl implements Controller {
             return false;
         }
 
-        this.currentTile.setPosition(position);
+        this.currentTile.get().setPosition(position);
 
         if (getPlacedTiles().size() > 1) {
-            mediator.getTileNeighbours(position).forEach(n -> mediator.joinTiles(currentTile, n));
+            mediator.getTileNeighbours(position).forEach(n -> mediator.joinTiles(currentTile.get(), n));
         }
 
         updateUserInterfaces();
@@ -214,7 +222,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void rotateCurrentTile() {
-        this.mediator.rotateTileClockwise(currentTile);
+        this.mediator.rotateTileClockwise(currentTile.get());
         updateUserInterfaces();
     }
 
@@ -227,7 +235,7 @@ public final class ControllerImpl implements Controller {
         if (this.isCurrentTilePlaceable()) {
             return false;
         }
-        tiles.remove(currentTile);
+        tiles.remove(currentTile.get());
         this.drawNewTile();
         updateUserInterfaces();
         return true;
@@ -245,7 +253,7 @@ public final class ControllerImpl implements Controller {
             return true;
         }
 
-        return mediator.isPositionValid(position, currentTile);
+        return mediator.isPositionValid(position, currentTile.get());
     }
 
     /**
@@ -253,9 +261,9 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public List<Tile> getPlacedTiles() {
-        return tiles.stream()
+        return new ArrayList<Tile>(tiles.stream()
             .filter(Tile::isPlaced)
-            .toList();
+            .toList());
     }
 
     /**
@@ -263,9 +271,9 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public List<Tile> getNotPlacedTiles() {
-        return tiles.stream()
+        return new ArrayList<Tile>(tiles.stream()
             .filter(x -> !x.isPlaced())
-            .toList();
+            .toList());
     }
 
     /**
@@ -273,7 +281,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public GameSet getCurrentTileGameSetInSection(final TileSection section) {
-        return mediator.getGameSetInSection(currentTile, section);
+        return mediator.getGameSetInSection(currentTile.get(), section);
     }
 
     /**
@@ -281,10 +289,19 @@ public final class ControllerImpl implements Controller {
      *
      */
     @Override
-    public boolean placeMeeple(final Meeple meeple, final TileSection section) {
-        final boolean outcome = mediator.placeMeeple(meeple, currentTile, section);
-        updateUserInterfaces();
-        return outcome;
+    public boolean placeMeeple(final TileSection section) {
+
+        final Optional<MutableMeeple> currentMeeple = this.meeples.stream()
+            .filter(m -> m.getOwner().equals(this.getCurrentPlayer().get()))
+            .filter(m -> !m.isPlaced())
+            .findFirst();
+        if(currentMeeple.isPresent()) {
+            final boolean outcome = mediator.placeMeeple(currentMeeple.get(), currentTile.get(), section);
+            updateUserInterfaces();
+            return outcome;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -293,9 +310,9 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public List<Meeple> getPlayerMeeples(final Player player) {
-        return meeples.stream()
+        return new ArrayList<Meeple>(meeples.stream()
             .filter(m -> m.getOwner().equals(player))
-            .toList();
+            .toList());
     }
 
     /**
@@ -322,7 +339,7 @@ public final class ControllerImpl implements Controller {
      * @param t2 the second tile
      * @return true if the two tiles are next to each other, false otherwise
      */
-    private boolean areTilesNear(final Tile t1, final Tile t2) {
+    private boolean areTilesNear(final MutableTile t1, final MutableTile t2) {
         return Math.abs(t1.getPosition().get().getX() - t2.getPosition().get().getX()) <= 1
             && Math.abs(t1.getPosition().get().getY() - t2.getPosition().get().getY()) <= 1
             && !t1.getPosition().get().equals(t2.getPosition().get());
@@ -336,7 +353,8 @@ public final class ControllerImpl implements Controller {
             gameOver = true;
             endGame();
         } else {
-            this.currentTile = this.getNotPlacedTiles().get(0);
+            this.currentTile = this.tiles.stream()
+                .filter(x -> !x.isPlaced()).findFirst();
         }
     }
 
@@ -426,7 +444,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
             }
-            this.mediator.rotateTileClockwise(currentTile);
+            this.mediator.rotateTileClockwise(currentTile.get());
         }
         return outcome;
     }

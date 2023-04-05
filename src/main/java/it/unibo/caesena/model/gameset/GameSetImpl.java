@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.unibo.caesena.model.Player;
-import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.MutablePlayer;
+import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.utils.StringUtil;
 
 /**
@@ -17,7 +17,7 @@ import it.unibo.caesena.utils.StringUtil;
 public final class GameSetImpl implements GameSet {
 
     private final GameSetType type;
-    private final List<Meeple> meeples;
+    private final List<MutableMeeple> meeples;
 
     private int points;
     private boolean closed;
@@ -40,7 +40,7 @@ public final class GameSetImpl implements GameSet {
      * @param type type of GameSet
      * @param meeples to put in GameSet
      */
-    public GameSetImpl(final GameSetType type, final List<Meeple> meeples) {
+    public GameSetImpl(final GameSetType type, final List<MutableMeeple> meeples) {
         this.type = type;
         this.points = type.getStartingPoints();
         this.meeples = new ArrayList<>(meeples);
@@ -51,7 +51,7 @@ public final class GameSetImpl implements GameSet {
      * {@inheritDoc}
      */
     @Override
-    public void addMeeple(final Meeple meeple) {
+    public void addMeeple(final MutableMeeple meeple) {
         this.meeples.add(meeple);
     }
 
@@ -73,10 +73,10 @@ public final class GameSetImpl implements GameSet {
         }
 
         if (!this.isMeepleFree()) {
-            final Map<Player, Integer> playerMeepleStrength = new HashMap<>();
+            final Map<MutablePlayer, Integer> playerMeepleStrength = new HashMap<>();
 
-            for (final Meeple meeple : meeples) {
-                final Player currentPlayer = meeple.getOwner();
+            for (final MutableMeeple meeple : meeples) {
+                final MutablePlayer currentPlayer = (MutablePlayer) meeple.getOwner();
 
                 if (!playerMeepleStrength.containsKey(currentPlayer)) {
                     playerMeepleStrength.put(currentPlayer, 0);
@@ -152,7 +152,7 @@ public final class GameSetImpl implements GameSet {
      * {@inheritDoc}
      */
     @Override
-    public List<Meeple> getMeeples() {
+    public List<MutableMeeple> getMeeples() {
         return new ArrayList<>(this.meeples);
     }
 

@@ -13,7 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileFactory;
 import it.unibo.caesena.model.tile.TileType;
 import it.unibo.caesena.utils.ResourceUtil;
@@ -23,7 +23,7 @@ import it.unibo.caesena.utils.ResourceUtil;
  * using a JSON file.
  */
 public class ConfigurationLoader {
-    private final List<Tile> tiles = new ArrayList<>();
+    private final List<MutableTile> tiles = new ArrayList<>();
     private final String fileName;
 
     /**
@@ -45,7 +45,7 @@ public class ConfigurationLoader {
      * @return the list of newly created tiles
      */
     @SuppressFBWarnings(value = "WMI_WRONG_MAP_ITERATOR", justification = "The only other solution is making an unchecked cast")
-    public final List<Tile> getTiles(final TileFactory factory) {
+    public final List<MutableTile> getTiles(final TileFactory factory) {
         try {
             final Object fileJson = new JSONParser().parse(new InputStreamReader(ResourceUtil.
                 getInputStreamFromFile(fileName, List.of()), StandardCharsets.UTF_8));
@@ -64,8 +64,8 @@ public class ConfigurationLoader {
 
             for (int i = 0; i < tiles.size(); i++) {
                 if (tiles.get(i).getTileType().equals(TileType.valueOf(jsonObject.get("Starting Tile").toString()))) {
-                    final Tile firstTile = tiles.get(i);
-                    final Tile currentTile = tiles.get(0);
+                    final MutableTile firstTile = tiles.get(i);
+                    final MutableTile currentTile = tiles.get(0);
                     tiles.set(i, currentTile);
                     tiles.set(0, firstTile);
                 }

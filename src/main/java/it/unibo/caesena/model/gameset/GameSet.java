@@ -2,7 +2,7 @@ package it.unibo.caesena.model.gameset;
 
 import java.util.List;
 
-import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MutableMeeple;
 
 /**
  * An interface defining a GameSet.
@@ -16,10 +16,10 @@ public interface GameSet {
      *
      * @param meeple meeple to be placed.
      */
-    void addMeeple(Meeple meeple);
+    void addMeeple(MutableMeeple meeple);
 
     /**
-     * 
+     *
      * @return Returns true if meeples are present, false otherwise.
      */
     boolean isMeepleFree();
@@ -36,41 +36,41 @@ public interface GameSet {
     boolean close();
 
     /**
-     * 
+     *
      * @return type of current GameSet (city, road, ...).
      */
     GameSetType getType();
 
     /**
-     * 
+     *
      * @return if current GameSet is close.
      */
     boolean isClosed();
 
     /**
-     * 
+     *
      * @return points of current GameSet.
      */
     int getPoints();
 
     /**
      * Set points of current GameSet.
-     * 
+     *
      * @param points for current GameSet.
      */
     void setPoints(int points);
 
     /**
      * Add points in current GameSet.
-     * 
+     *
      * @param points added with those already present.
      */
     void addPoints(int points);
 
     /**
-     * 
+     *
      * @return list of meeples in current GameSet.
      */
-    List<Meeple> getMeeples();
+    List<MutableMeeple> getMeeples();
 
 }

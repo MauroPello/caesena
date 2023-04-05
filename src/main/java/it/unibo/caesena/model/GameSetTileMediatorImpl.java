@@ -11,8 +11,8 @@ import java.util.HashSet;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactory;
 import it.unibo.caesena.model.gameset.GameSetType;
-import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.meeple.MutableMeeple;
+import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -36,7 +36,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
                     Direction.RIGHT,
                     new Pair<>(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN),
                             List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN))));
-    private final Map<GameSet, Map<Tile, Set<TileSection>>> crossReferences;
+    private final Map<GameSet, Map<MutableTile, Set<TileSection>>> crossReferences;
     private final GameSetFactory gameSetFactory;
 
     /**
@@ -53,7 +53,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public void addSection(final GameSet gameSet, final Tile tile, final TileSection tileSection) {
+    public void addSection(final GameSet gameSet, final MutableTile tile, final TileSection tileSection) {
         if (!this.crossReferences.containsKey(gameSet)) {
             this.crossReferences.put(gameSet, new HashMap<>());
         }
@@ -73,7 +73,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * @param t2 one of two tile to check
      * @return whether or not two tiles match and can be placed next to each other
      */
-    private boolean tilesMatch(final Pair<Integer, Integer> position, final Tile t1, final Tile t2) {
+    private boolean tilesMatch(final Pair<Integer, Integer> position, final MutableTile t1, final MutableTile t2) {
         for (final var entry : NEIGHBOUR_TILES_CHECK.entrySet()) {
             if (Direction.match(entry.getKey(), position, t2.getPosition().get())) {
                 for (int i = 0; i < TileSection.getSectionsPerSide(); i++) {
@@ -95,8 +95,8 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public boolean isPositionValid(final Pair<Integer, Integer> position, final Tile tile) {
-        final Set<Tile> neighbours = getTileNeighbours(position);
+    public boolean isPositionValid(final Pair<Integer, Integer> position, final MutableTile tile) {
+        final Set<MutableTile> neighbours = getTileNeighbours(position);
         return !neighbours.isEmpty() && neighbours.stream().allMatch(t -> tilesMatch(position, tile, t));
     }
 
@@ -104,14 +104,14 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public Set<Tile> getTileNeighbours(final Pair<Integer, Integer> position) {
+    public Set<MutableTile> getTileNeighbours(final Pair<Integer, Integer> position) {
         final var neighboursDirections = Stream.of(Direction.values())
                 .map(d -> new Pair<Integer, Integer>(position.getX() + d.getX(), position.getY() + d.getY()))
                 .toList();
 
         return crossReferences.values().stream()
                 .flatMap(m -> m.keySet().stream())
-                .filter(Tile::isPlaced)
+                .filter(MutableTile::isPlaced)
                 .filter(t -> neighboursDirections.contains(t.getPosition().get()))
                 .collect(Collectors.toSet());
     }
@@ -120,7 +120,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public void joinTiles(final Tile t1, final Tile t2) {
+    public void joinTiles(final MutableTile t1, final MutableTile t2) {
         for (final var entry : NEIGHBOUR_TILES_CHECK.entrySet()) {
             if (Direction.match(entry.getKey(), t1.getPosition().get(), t2.getPosition().get())) {
                 for (int i = 0; i < TileSection.getSectionsPerSide(); i++) {
@@ -179,7 +179,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public void rotateTileClockwise(final Tile tile) {
+    public void rotateTileClockwise(final MutableTile tile) {
         for (final var entry : crossReferences.entrySet()) {
             if (entry.getValue().containsKey(tile)) {
                 final var sections = entry.getValue().get(tile);
@@ -192,14 +192,14 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
 
     /**
      *
-     * Gets whether or not the specific section in a Tile is near a certain GameSet.
+     * Gets whether or not the specific section in a MutableTile is near a certain GameSet.
      *
      * @param tile the tile that contains the specific section
      * @param tileSection the section to add to the gameSet
      * @param gameSet the GameSet to check if it's near
-     * @return whether or not the specific section in a Tile is near a certain GameSet
+     * @return whether or not the specific section in a MutableTile is near a certain GameSet
      */
-    private boolean isSectionNearToGameset(final Tile tile, final TileSection tileSection, final GameSet gameSet) {
+    private boolean isSectionNearToGameset(final MutableTile tile, final TileSection tileSection, final GameSet gameSet) {
         return getGameSetInSection(tile, TileSection.next(tileSection)).equals(gameSet)
                 || getGameSetInSection(tile, TileSection.previous(tileSection)).equals(gameSet);
     }
@@ -208,7 +208,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public GameSet getGameSetInSection(final Tile tile, final TileSection tileSection) {
+    public GameSet getGameSetInSection(final MutableTile tile, final TileSection tileSection) {
         return crossReferences.entrySet().stream()
                 .filter(e -> e.getValue().containsKey(tile) && e.getValue().get(tile).contains(tileSection))
                 .findFirst().get().getKey();
@@ -218,7 +218,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public Set<GameSet> getGameSetsInTile(final Tile tile) {
+    public Set<GameSet> getGameSetsInTile(final MutableTile tile) {
         return new HashSet<>(crossReferences.entrySet().stream()
                 .filter(e -> e.getValue().containsKey(tile))
                 .map(e -> e.getKey()).toList());
@@ -236,7 +236,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public Map<Tile, Set<TileSection>> getTilesFromGameSet(final GameSet gameSet) {
+    public Map<MutableTile, Set<TileSection>> getTilesFromGameSet(final GameSet gameSet) {
         return this.crossReferences.get(gameSet);
     }
 
@@ -244,7 +244,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public boolean placeMeeple(final Meeple meeple, final Tile tile, final TileSection tileSection) {
+    public boolean placeMeeple(final MutableMeeple meeple, final MutableTile tile, final TileSection tileSection) {
         final GameSet gameSet = getGameSetInSection(tile, tileSection);
         if (meeple.isPlaced() || !gameSet.isMeepleFree()) {
             return false;

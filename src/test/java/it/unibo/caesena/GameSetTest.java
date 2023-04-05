@@ -1,9 +1,9 @@
 package it.unibo.caesena;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.Player;
+import it.unibo.caesena.model.MutablePlayer;
 import it.unibo.caesena.model.PlayerImpl;
-import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.NormalMeeple;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,9 +22,9 @@ final class GameSetTest {
     private static GameSet gamesetCity;
     private static GameSet gamesetCity2;
     private static GameSet gamesetField;
-    private static  GameSet gamesetToClose;
-    private static Meeple meepleTest;
-    private static Player owner;
+    private static GameSet gamesetToClose;
+    private static MutableMeeple meepleTest;
+    private static MutablePlayer owner;
 
     @BeforeAll
     static void init() {

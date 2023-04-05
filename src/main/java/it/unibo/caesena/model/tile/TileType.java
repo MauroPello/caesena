@@ -123,7 +123,7 @@ public enum TileType {
      * @param tileFactory used to create the new Tile
      * @return a new tile with the same type as the enum on which it's called
      */
-    public Tile createTile(final TileFactory tileFactory) {
+    public MutableTile createTile(final TileFactory tileFactory) {
         final StringBuilder methodNameBuilder = new StringBuilder();
         methodNameBuilder.append("create");
         final String[] words = this.name().split("_");
@@ -135,7 +135,7 @@ public enum TileType {
 
         try {
             final Method method = TileFactory.class.getMethod(methodName);
-            return (Tile) method.invoke(tileFactory);
+            return (MutableTile) method.invoke(tileFactory);
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException e) {
             throw new IllegalStateException("Error using reflection, devs fault", e);

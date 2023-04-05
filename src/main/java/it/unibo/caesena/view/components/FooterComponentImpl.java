@@ -307,8 +307,8 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         updateCurrentTile();
         meepleComponent.update();
         leaderboard.update();
-        playerImageComponent.setColor(userInterface.getController().getCurrentPlayer().getColor().asSwingColor());
-        playerNameLabel.setText(userInterface.getController().getCurrentPlayer().getName());
+        playerImageComponent.setColor(userInterface.getController().getCurrentPlayer().get().getColor().asSwingColor());
+        playerNameLabel.setText(userInterface.getController().getCurrentPlayer().get().getName());
         remainingTilesLabel.setText(
                 LocaleHelper.getRemainingTilesText() + userInterface.getController().getNotPlacedTiles().size());
         if (tileImage.get().getTile().isPlaced()) {

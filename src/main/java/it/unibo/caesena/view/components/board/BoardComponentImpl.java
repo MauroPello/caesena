@@ -202,7 +202,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     @SuppressWarnings("unchecked")
     @Override
     public TileButton<JButton> getCurrentTileButton() {
-        return findTileButton(gameScene.getUserInterface().getController().getCurrentTile()).get();
+        return findTileButton(gameScene.getUserInterface().getController().getCurrentTile().get()).get();
     }
 
     /**

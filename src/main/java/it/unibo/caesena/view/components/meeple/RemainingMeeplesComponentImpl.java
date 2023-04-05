@@ -27,7 +27,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
 
     /**
      * RemainingMeeples constructor.
-     * 
+     *
      * @param gameScene
      */
     public RemainingMeeplesComponentImpl(final GameScene gameScene) {
@@ -75,7 +75,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
         this.allMeeplesPanel.repaint();
 
 
-        final Player currentPlayer = controller.getCurrentPlayer();
+        final Player currentPlayer = controller.getCurrentPlayer().get();
         this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.get(currentPlayer).size()));
         for (final MeepleImage meeple : meeples.get(currentPlayer)) {
             final JPanel meeplePanel = new JPanel() {

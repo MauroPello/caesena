@@ -66,7 +66,7 @@ final class ControllerTest {
         this.controller.resetGame();
         this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);
         this.controller.startGame();
-        assertEquals(this.controller.getPlayerMeeples(this.controller.getCurrentPlayer()).size(), 8);
+        assertEquals(this.controller.getPlayerMeeples(this.controller.getCurrentPlayer().get()).size(), 8);
     }
 
     @Test

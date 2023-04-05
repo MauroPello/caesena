@@ -11,55 +11,36 @@ public interface Tile {
 
     /**
      * Gets the position in which the tile is placed.
-     * 
+     *
      * @return the position of the tile, Optional.empty() if the tile is not placed.
      */
     Optional<Pair<Integer, Integer>> getPosition();
 
     /**
-     * Sets the position in which the tile is placed. 
-     * 
-     * @param position of the tile.
-     */
-    void setPosition(Pair<Integer, Integer> position);
-
-    /**
-     * Gets whether or not the tile is placed. 
-     * 
-     * @return whether or not the tile is placed. 
+     * Gets whether or not the tile is placed.
+     *
+     * @return whether or not the tile is placed.
      */
     boolean isPlaced();
 
     /**
-     * Closes the provided section in the tile.
-     * 
-     * @param section the section to close
-     */
-    void closeSection(TileSection section);
-
-    /**
-     * Gets whether or not the provided section in the tile is closed. 
-     * 
+     * Gets whether or not the provided section in the tile is closed.
+     *
      * @param section the provided section
-     * @return whether or not the provided section in the tile is closed. 
+     * @return whether or not the provided section in the tile is closed.
      */
     boolean isSectionClosed(TileSection section);
 
     /**
-     * Rotates the tile.
-     */
-    void rotate();
-
-    /**
      * Gets the rotation count.
-     * 
+     *
      * @return the rotation count.
      */
     int getRotationCount();
 
     /**
      * Gets the TileType of the tile.
-     * 
+     *
      * @return the TileType of the tile.
      */
     TileType getTileType();
