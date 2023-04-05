@@ -7,35 +7,35 @@ package it.unibo.caesena.model.gameset;
 public interface GameSetFactory {
 
     /**
-     * Creates a GameSet of type city
+     * Creates a GameSet of type city.
      *
      * @return a GameSet which type is city
      */
     GameSet createCitySet();
 
     /**
-     * Creates a GameSet of type monastery
+     * Creates a GameSet of type monastery.
      *
      * @return a GameSet which type is monastery
      */
     GameSet createMonasterySet();
 
     /**
-     * Creates a GameSet of type road
+     * Creates a GameSet of type road.
      *
      * @return a GameSet which type is road
      */
     GameSet createRoadSet();
 
     /**
-     * Creates a GameSet of type field
+     * Creates a GameSet of type field.
      *
      * @return a GameSet which type is field
      */
     GameSet createFieldSet();
 
     /**
-     * Creates a GameSet of type junction
+     * Creates a GameSet of type junction.
      *
      * @return a GameSet which type is junction
      */

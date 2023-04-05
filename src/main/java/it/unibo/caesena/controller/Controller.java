@@ -67,7 +67,6 @@ public interface Controller {
      *
      * @param name  name of the player to add
      * @param color color of the player to add
-     * @return the newly created player
      */
     void addPlayer(String name, Color color);
 

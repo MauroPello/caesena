@@ -177,11 +177,9 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         remainingTilesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         tilesLeaderboardPanel.add(remainingTilesLabel);
         this.leaderboard = new LeaderBoardComponentImpl(gameScene.getUserInterface());
-        leaderboard.getComponent().setAlignmentX(Component.CENTER_ALIGNMENT);
         tilesLeaderboardPanel.add(leaderboard.getComponent());
 
         this.playerImageComponent = new PlayerImageImpl();
-        this.playerImageComponent.getComponent().setAlignmentY(Component.CENTER_ALIGNMENT);
         innerPanel.add(playerImageComponent.getComponent());
         innerPanel.add(playerNameMeeplesPanel);
         this.spacerPanel = new JPanel();
@@ -209,8 +207,9 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
     }
 
     /**
-     * TODO.
      * {@inheritDoc}
+     *
+     * When the footer is set to visible it automatically updates its components.
      */
     @Override
     public void setVisible(final boolean visible) {

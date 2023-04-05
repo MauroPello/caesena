@@ -175,7 +175,6 @@ public final class ControllerImpl implements Controller {
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
             meeples.add(new NormalMeeple(newPlayer));
         }
-        System.out.println(name + " N :" + players.size());
     }
 
     /**

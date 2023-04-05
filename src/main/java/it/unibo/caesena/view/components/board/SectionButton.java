@@ -33,7 +33,6 @@ public class SectionButton implements BasicComponent<JButton> {
      * @param gameScene the parent GameScene
      * @param onClickActionListener action listener that specifies what to do in case of a click
      */
-    //TODO verificare che rendere GameScene e l'action listener final non faccia esplodere tutto
     SectionButton(final TileSection section, final GameScene gameScene, final ActionListener onClickActionListener) {
         this.button = new JButton() {
             @Override
