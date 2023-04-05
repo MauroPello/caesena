@@ -1,4 +1,4 @@
-package it.unibo.caesena.model;
+package it.unibo.caesena.model.player;
 
 public interface MutablePlayer extends Player {
     /**

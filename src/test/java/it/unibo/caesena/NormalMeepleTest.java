@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.GameSetTileMediatorImpl;
-import it.unibo.caesena.model.MutablePlayer;
-import it.unibo.caesena.model.PlayerImpl;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.NormalMeeple;
+import it.unibo.caesena.model.player.MutablePlayer;
+import it.unibo.caesena.model.player.PlayerImpl;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;

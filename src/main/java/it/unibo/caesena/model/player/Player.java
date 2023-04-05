@@ -1,4 +1,6 @@
-package it.unibo.caesena.model;
+package it.unibo.caesena.model.player;
+
+import it.unibo.caesena.model.Color;
 
 /**
  * This interface models a player. It needs to have a Name, a Color and a

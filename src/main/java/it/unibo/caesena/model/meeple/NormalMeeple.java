@@ -3,7 +3,7 @@ package it.unibo.caesena.model.meeple;
 import java.util.Optional;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.Player;
+import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;

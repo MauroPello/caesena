@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.GameSetTileMediatorImpl;
-import it.unibo.caesena.model.MutablePlayer;
-import it.unibo.caesena.model.Player;
-import it.unibo.caesena.model.PlayerImpl;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.NormalMeeple;
+import it.unibo.caesena.model.player.MutablePlayer;
+import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerImpl;
 import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
@@ -286,7 +286,6 @@ public final class ControllerImpl implements Controller {
 
     /**
      * {@inheritDoc}
-     *
      */
     @Override
     public boolean placeMeeple(final TileSection section) {
@@ -295,7 +294,7 @@ public final class ControllerImpl implements Controller {
             .filter(m -> m.getOwner().equals(this.getCurrentPlayer().get()))
             .filter(m -> !m.isPlaced())
             .findFirst();
-        if(currentMeeple.isPresent()) {
+        if (currentMeeple.isPresent()) {
             final boolean outcome = mediator.placeMeeple(currentMeeple.get(), currentTile.get(), section);
             updateUserInterfaces();
             return outcome;
@@ -306,7 +305,6 @@ public final class ControllerImpl implements Controller {
 
     /**
      * {@inheritDoc}
-     *
      */
     @Override
     public List<Meeple> getPlayerMeeples(final Player player) {
