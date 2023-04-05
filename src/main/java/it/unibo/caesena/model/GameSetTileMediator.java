@@ -16,13 +16,13 @@ import it.unibo.caesena.utils.Pair;
 public interface GameSetTileMediator {
 
     /**
-     * Adds to a GameSet a specific section in a MutableTile.
+     * Adds to a GameSet many sections in a MutableTile.
      *
      * @param gameSet     in which to add the specific section
      * @param tile        the tile that contains the specific section
-     * @param tileSection the section to add to the gameSet
+     * @param tileSections the sections to add to the gameSet
      */
-    void addSection(GameSet gameSet, MutableTile tile, TileSection tileSection);
+    void addSections(GameSet gameSet, MutableTile tile, Set<TileSection> tileSections);
 
     /**
      * Checks whether or not a certain tile can be placed in a certain position.

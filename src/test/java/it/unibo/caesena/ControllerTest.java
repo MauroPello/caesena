@@ -11,9 +11,6 @@ import org.junit.jupiter.api.Test;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.controller.ControllerImpl;
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.GameSetTileMediator;
-import it.unibo.caesena.model.GameSetTileMediatorImpl;
-import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.utils.Pair;
@@ -24,7 +21,6 @@ final class ControllerTest {
     private final Color firstPlayerColor;
     private final String secondPlayerName;
     private final Color secondPlayerColor;
-    private final GameSetTileMediator mediator;
 
     ControllerTest() {
         this.controller = new ControllerImpl();
@@ -32,7 +28,6 @@ final class ControllerTest {
         this.secondPlayerName = "Giocatore2";
         this.firstPlayerColor = new Color(0, 0, 0);
         this.secondPlayerColor = new Color(50, 50, 50);
-        mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
     }
 
     @Test
@@ -56,7 +51,7 @@ final class ControllerTest {
         this.controller.resetGame();
         this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);
         this.controller.startGame();
-        assertEquals(this.controller.getPlayers().get(0), this.controller.getCurrentPlayer());
+        assertEquals(this.controller.getPlayers().get(0), this.controller.getCurrentPlayer().get());
         this.controller.addPlayer(this.secondPlayerName, this.secondPlayerColor);
         assertEquals(2, this.controller.getPlayers().size());
     }
@@ -71,8 +66,8 @@ final class ControllerTest {
 
     @Test
     void testIsCurrentTilePleceable() {
-        final Tile citytile = new TileFactoryWithBuilder(mediator).createCity();
-        final Tile tubetile = new TileFactoryWithBuilder(mediator).createCityTube();
+        final Tile citytile = new TileFactoryWithBuilder().createCity().getX();
+        final Tile tubetile = new TileFactoryWithBuilder().createCityTube().getX();
 
         this.controller.resetGame();
         this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);

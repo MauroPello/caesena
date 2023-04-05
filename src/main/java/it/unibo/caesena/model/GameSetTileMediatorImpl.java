@@ -53,7 +53,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * {@inheritDoc}
      */
     @Override
-    public void addSection(final GameSet gameSet, final MutableTile tile, final TileSection tileSection) {
+    public void addSections(final GameSet gameSet, final MutableTile tile, final Set<TileSection> tileSections) {
         if (!this.crossReferences.containsKey(gameSet)) {
             this.crossReferences.put(gameSet, new HashMap<>());
         }
@@ -62,7 +62,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
             this.crossReferences.get(gameSet).put(tile, new HashSet<>());
         }
 
-        this.crossReferences.get(gameSet).get(tile).add(tileSection);
+        this.crossReferences.get(gameSet).get(tile).addAll(tileSections);
     }
 
     /**
@@ -135,19 +135,11 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
                     if (!t1GameSet.equals(t2GameSet)) {
                         final GameSet joinedGameSet = gameSetFactory.createJoinedSet(t1GameSet, t2GameSet);
 
-                        for (final var tileEntry : crossReferences.remove(t2GameSet).entrySet()) {
-                            for (final var section : tileEntry.getValue()) {
-                                addSection(joinedGameSet, tileEntry.getKey(), section);
-                            }
-                        }
-                        addSection(joinedGameSet, t2, t2Section);
+                        crossReferences.remove(t2GameSet).forEach((k, v) -> addSections(joinedGameSet, k, v));
+                        addSections(joinedGameSet, t2, Set.of(t2Section));
 
-                        for (final var tileEntry : crossReferences.remove(t1GameSet).entrySet()) {
-                            for (final var section : tileEntry.getValue()) {
-                                addSection(joinedGameSet, tileEntry.getKey(), section);
-                            }
-                        }
-                        addSection(joinedGameSet, t1, t1Section);
+                        crossReferences.remove(t1GameSet).forEach((k, v) -> addSections(joinedGameSet, k, v));
+                        addSections(joinedGameSet, t1, Set.of(t1Section));
                     }
                 }
             }

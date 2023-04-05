@@ -2,7 +2,11 @@ package it.unibo.caesena.model.tile;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Set;
 
+import it.unibo.caesena.model.gameset.GameSet;
+import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
 /**
@@ -123,7 +127,8 @@ public enum TileType {
      * @param tileFactory used to create the new Tile
      * @return a new tile with the same type as the enum on which it's called
      */
-    public MutableTile createTile(final TileFactory tileFactory) {
+    @SuppressWarnings("unchecked")
+    public Pair<MutableTile, Map<GameSet, Set<TileSection>>> createTile(final TileFactory tileFactory) {
         final StringBuilder methodNameBuilder = new StringBuilder();
         methodNameBuilder.append("create");
         final String[] words = this.name().split("_");
@@ -135,7 +140,7 @@ public enum TileType {
 
         try {
             final Method method = TileFactory.class.getMethod(methodName);
-            return (MutableTile) method.invoke(tileFactory);
+            return (Pair<MutableTile, Map<GameSet, Set<TileSection>>>) method.invoke(tileFactory);
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException e) {
             throw new IllegalStateException("Error using reflection, devs fault", e);

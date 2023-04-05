@@ -76,7 +76,7 @@ public final class ControllerImpl implements Controller {
     @Override
     public void resetGame() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
-        tiles = new ConfigurationLoader("config.json").getTiles(new TileFactoryWithBuilder(mediator));
+        tiles = new ConfigurationLoader("config.json").getTiles(new TileFactoryWithBuilder(), mediator);
         meeples = new ArrayList<>();
         players = new ArrayList<>();
         gameOver = false;
