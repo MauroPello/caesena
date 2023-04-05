@@ -11,7 +11,12 @@ Per effettuare i test necessari per i corretti controlli di funzionalità del no
     \item DirectionTest: questa classe ci permette di testare l'enum Direction e il suo metodo match che controlla se la differenza delle coordinate di due punti combacia con la direzione fornita
     \item GameSetTileMediatorTest: questa classe ci permette di testare i vari metodi della classe GameSetTileMediator, per esempio la rotazione di una Tila con i GameSet ad essa associata, e la corretta corrispondenza tra Tiles con le proprie TileSection e i GameSet.
 \end{itemize}
-Non sono stati creati test JUnit nella View poichè 
+
+Per quanto riguarda la parte di view non sono stati scritti dei veri e propri test JUnit, ma si è ritenuto più opportuno testare manualmente le funzionalità principali:
+\begin{itemize}
+    \item utilizzando schermi di diverse dimensioni e risoluzioni per verificare che il gioco funzionasse ugualmente per ognuno di essi ed il ridimensionamento fosse corretto.
+    \item utilizzando variabili di debug per accedere direttamente ad una Scene da testare evitando la logica di gioco che avrebbe portato ad essa.
+\end{itemize}
 
 \subsection{Metodologia di lavoro}
 Nelle prime ore dedicate al nostro progetto, abbiamo deciso e impostato l'architettura software da usare, l'MVC, successivamente abbiamo impostato e sviluppato le interfacce generiche che poi sarebbero state utilizzate come guida nello sviluppo software nelle singole parti di model, controller e view. Abbiamo utilizzato il software visto a lezione GitHub per la gestione e condivisione di software da noi creato e sviluppato individualmente.
