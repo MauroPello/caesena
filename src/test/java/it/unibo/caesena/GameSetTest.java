@@ -1,10 +1,11 @@
 package it.unibo.caesena;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.MutablePlayer;
-import it.unibo.caesena.model.PlayerImpl;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.NormalMeeple;
+import it.unibo.caesena.model.player.MutablePlayer;
+import it.unibo.caesena.model.player.PlayerImpl;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

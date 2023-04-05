@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
-import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.scene.GameScene;

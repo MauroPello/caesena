@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.PlayerImpl;
+import it.unibo.caesena.model.player.PlayerImpl;
 import it.unibo.caesena.utils.StringUtil;
 
 final class ToStringBuilderTest {

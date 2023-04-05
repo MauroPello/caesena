@@ -1,10 +1,11 @@
-package it.unibo.caesena.model;
+package it.unibo.caesena.model.player;
 
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.utils.StringUtil;
 
 /**
  * {@inheritDoc}
- * Implementation of the {@link it.unibo.caesena.model.Player} interface.
+ * Implementation of the {@link it.unibo.caesena.model.player.Player} interface.
  */
 public final class PlayerImpl implements MutablePlayer {
 

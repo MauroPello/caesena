@@ -1,7 +1,7 @@
 package it.unibo.caesena.model.meeple;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.Player;
+import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
@@ -33,6 +33,11 @@ public interface Meeple {
      */
     boolean isPlaced();
 
+    /**
+     * Gets the owner's color.
+     *
+     * @return the owner's color
+     */
     Color getColor();
 
     /**

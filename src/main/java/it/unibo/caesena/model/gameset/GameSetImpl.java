@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.unibo.caesena.model.MutablePlayer;
 import it.unibo.caesena.model.meeple.MutableMeeple;
+import it.unibo.caesena.model.player.MutablePlayer;
 import it.unibo.caesena.utils.StringUtil;
 
 /**

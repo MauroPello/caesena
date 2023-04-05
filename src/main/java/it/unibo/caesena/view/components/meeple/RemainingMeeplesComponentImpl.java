@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import it.unibo.caesena.view.scene.GameScene;
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.Player;
+import it.unibo.caesena.model.player.Player;
 
 /**
  * {@inheritDoc}
