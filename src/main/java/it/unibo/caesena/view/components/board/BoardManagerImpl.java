@@ -83,21 +83,13 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
      */
     @Override
     public void endTurn() {
-        final var currentPlayer = this.gameScene.getUserInterface().getController().getCurrentPlayer();
-        final List<Meeple> meeples = this.gameScene.getUserInterface().getController().getPlayerMeeples(currentPlayer.get())
-                .stream()
-                .filter(m -> !m.isPlaced())
-                .toList();
         if (this.getSectionSelector().isSectionSelected()) {
-            if (!meeples.isEmpty()) {
-                final var section = this.getSectionSelector().getSelectedSection().get();
-                if (this.gameScene.getUserInterface().getController().placeMeeple(section)) {
-                    this.board.getCurrentTileButton().setMeeple(meeples.get(0));
-                } else {
-                    throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
-                }
+            final var section = this.getSectionSelector().getSelectedSection().get();
+            final var meeple = this.gameScene.getUserInterface().getController().placeMeeple(section);
+            if (meeple.isPresent()) {
+                this.board.getCurrentTileButton().setMeeple(meeple.get());
             } else {
-                throw new IllegalStateException("Tried to add meeple but run out of them");
+                throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
             }
         }
         if (!showingBoard) {

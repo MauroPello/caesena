@@ -150,7 +150,7 @@ public interface Controller {
      * @param section section on which the tile should be placed
      * @return true if placement is valid, false otherwise
      */
-    boolean placeMeeple(TileSection section);
+    Optional<Meeple> placeMeeple(TileSection section);
 
     /**
      * Gets the list of meeples that belong to a passed player.

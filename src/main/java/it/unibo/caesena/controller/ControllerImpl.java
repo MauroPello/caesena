@@ -289,19 +289,21 @@ public final class ControllerImpl implements Controller {
      *
      */
     @Override
-    public boolean placeMeeple(final TileSection section) {
-
+    public Optional<Meeple> placeMeeple(final TileSection section) {
         final Optional<MutableMeeple> currentMeeple = this.meeples.stream()
             .filter(m -> m.getOwner().equals(this.getCurrentPlayer().get()))
             .filter(m -> !m.isPlaced())
             .findFirst();
+
         if(currentMeeple.isPresent()) {
-            final boolean outcome = mediator.placeMeeple(currentMeeple.get(), currentTile.get(), section);
-            updateUserInterfaces();
-            return outcome;
-        } else {
-            return false;
+            if (!mediator.placeMeeple(currentMeeple.get(), currentTile.get(), section)) {
+                updateUserInterfaces();
+                return Optional.empty();
+            }
         }
+
+        updateUserInterfaces();
+        return currentMeeple.isPresent() ? Optional.of(currentMeeple.get()) : Optional.empty();
     }
 
     /**
