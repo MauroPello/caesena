@@ -33,6 +33,11 @@ public interface Meeple {
      */
     boolean isPlaced();
 
+    /**
+     * Gets the owner's color.
+     *
+     * @return the owner's color
+     */
     Color getColor();
 
     /**

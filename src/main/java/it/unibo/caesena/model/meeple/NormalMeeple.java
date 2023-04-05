@@ -86,6 +86,9 @@ public class NormalMeeple implements MutableMeeple {
         return new StringUtil.ToStringBuilder().addFromObjectGetters(this).build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Color getColor() {
         return this.owner.getColor();

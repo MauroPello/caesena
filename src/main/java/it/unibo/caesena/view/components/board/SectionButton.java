@@ -73,6 +73,11 @@ public class SectionButton {
         return this.toBeDrawn;
     }
 
+    /**
+     * Gets the Section button as a JButton.
+     *
+     * @return the Section button as a JButton
+     */
     public JButton getComponent() {
         return this.button;
     }
