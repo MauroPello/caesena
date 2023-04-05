@@ -28,8 +28,7 @@ import it.unibo.caesena.view.scene.GameScene;
  * Implements the interface {@link it.unibo.caesena.view.components.SideBarComponent} using a
  * {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
  */
-public class SideBarComponentImpl extends PanelWithBackgroundImage implements SideBarComponent<JPanel> {
-    private static final long serialVersionUID = 10997719332807770L;
+public class SideBarComponentImpl implements SideBarComponent<JPanel> {
     private final Controller controller;
     private final GameScene gameScene;
     private final JButton zoomInButton;
@@ -42,6 +41,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
     private final JButton toggleBoardButton;
     private final JButton discardTileButton;
     private final JButton endTurnButton;
+    private final PanelWithBackgroundImage mainPanel;
 
     /**
      * Class constructor.
@@ -49,7 +49,10 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
      * @param gameScene the parent GameScene
      */
     public SideBarComponentImpl(final GameScene gameScene) {
-        super(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
+        this.mainPanel = new PanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
+        this.mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        this.mainPanel.setLayout(new GridBagLayout());
+
         zoomInButton = new JButton("Zoom +");
         zoomOutButton = new JButton("Zoom -");
         upRowButton = new JButton();
@@ -87,9 +90,6 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
 
         this.gameScene = gameScene;
         this.controller = gameScene.getUserInterface().getController();
-
-        this.setBackground(Color.CYAN);
-        this.setLayout(new GridBagLayout());
 
         final JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
@@ -153,8 +153,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         endTurnButton.setVisible(false);
         innerPanel.setVisible(true);
 
-        this.add(innerPanel);
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        this.mainPanel.add(innerPanel);
 
         zoomInButton.addActionListener(zoomInEventListener());
         zoomOutButton.addActionListener(zoomOutEventListener());
@@ -166,7 +165,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
         toggleBoardButton.addActionListener(placeMeepleEventListener());
         endTurnButton.addActionListener(endTurnEventListener());
         discardTileButton.addActionListener(discardTileEventListener());
-        super.setVisible(false);
+        this.mainPanel.setVisible(false);
     }
 
     /**
@@ -174,7 +173,7 @@ public class SideBarComponentImpl extends PanelWithBackgroundImage implements Si
      */
     @Override
     public JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 
     /**
