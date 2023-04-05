@@ -40,10 +40,10 @@ import it.unibo.caesena.view.scene.GameScene;
 /**
  * {@inheritDoc}
  *
- * Implements the interface {@link FooterBasicComponent} using a
+ * Implements the interface {@link FooterComponent} using a
  * {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
-public class FooterBasicComponentImpl implements FooterBasicComponent<JPanel> {
+public class FooterComponentImpl implements FooterComponent<JPanel> {
     private static final float INTERNAL_PADDING_RATIO = 0.02f;
     private static final int MINIMUM_PADDING = 3;
     private static final float SPACER_RATIO = 0.2f;
@@ -68,7 +68,7 @@ public class FooterBasicComponentImpl implements FooterBasicComponent<JPanel> {
      *
      * @param gameScene the parente GameScene
      */
-    public FooterBasicComponentImpl(final GameScene gameScene) {
+    public FooterComponentImpl(final GameScene gameScene) {
         this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
         this.mainPanel.setLayout(new BorderLayout());
 

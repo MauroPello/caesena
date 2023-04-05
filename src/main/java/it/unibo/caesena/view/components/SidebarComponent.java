@@ -12,6 +12,6 @@ import it.unibo.caesena.view.BasicComponent;
  *
  * @param <X> the type of the GUI component
  */
-public interface SideBarBasicComponent<X> extends BasicComponent<X> {
+public interface SidebarComponent<X> extends BasicComponent<X> {
 
 }

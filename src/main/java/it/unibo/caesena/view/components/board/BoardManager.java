@@ -1,12 +1,11 @@
 package it.unibo.caesena.view.components.board;
 
-import it.unibo.caesena.view.BasicComponent;
 import it.unibo.caesena.view.UpdatableComponent;
 
 /**
  * This class rapresents a maneger of what should be shown in the center of the
  * screen either a {@link BoardComponent}
- * or a {@link SectionSelectorBasicComponent}.
+ * or a {@link SectionSelectorComponent}.
  *
  * @param <X> is the type of both the components
  */
@@ -16,7 +15,7 @@ public interface BoardManager<X> extends UpdatableComponent<X> {
      * Toggles beetwen the
      * {@link BoardComponent}
      * and a
-     * {@link SectionSelectorBasicComponent}.
+     * {@link SectionSelectorComponent}.
      */
     void toggleComponents();
 
@@ -28,12 +27,12 @@ public interface BoardManager<X> extends UpdatableComponent<X> {
     BoardComponent<X> getBoard();
 
     /**
-     * Gets the {@link SectionSelectorBasicComponent}.
+     * Gets the {@link SectionSelectorComponent}.
      *
      * @return the
-     *         {@link SectionSelectorBasicComponent}
+     *         {@link SectionSelectorComponent}
      */
-    SectionSelectorBasicComponent<X> getSectionSelector();
+    SectionSelectorComponent<X> getSectionSelector();
 
     /**
      * Specifies if the manager is currently showing the

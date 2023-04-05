@@ -15,7 +15,7 @@ import it.unibo.caesena.view.UpdatableComponent;
  *
  * @param <X> the type of the GameScene component
  */
-public interface FooterBasicComponent<X> extends UpdatableComponent<X> {
+public interface FooterComponent<X> extends UpdatableComponent<X> {
 
     /**
      * Updates the current tile image.

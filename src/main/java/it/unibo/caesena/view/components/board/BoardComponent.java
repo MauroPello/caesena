@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
-import it.unibo.caesena.view.BasicComponent;
 import it.unibo.caesena.view.UpdatableComponent;
 import it.unibo.caesena.view.components.tile.TileButton;
 

@@ -12,7 +12,7 @@ import it.unibo.caesena.view.BasicComponent;
  *
  * @param <X> is the type of the component
  */
-public interface SectionSelectorBasicComponent<X> extends BasicComponent<X> {
+public interface SectionSelectorComponent<X> extends BasicComponent<X> {
 
     /**
      * Gets the section that has been selected.

@@ -19,11 +19,11 @@ import it.unibo.caesena.view.scene.GameScene;
 /**
  * {@inheritDoc}
  *
- * Implements the interface {@link SectionSelectorBasicComponent}
+ * Implements the interface {@link SectionSelectorComponent}
  * using a {@link javax.swing.JPanel}.
  * It extends {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
-class SectionSelectorBasicComponentImpl implements SectionSelectorBasicComponent<JPanel> {
+class SectionSelectorComponentImpl implements SectionSelectorComponent<JPanel> {
     private final Map<SectionButton, GridBagConstraints> sectionButtons = new HashMap<>();
     private final GameScene gameScene;
     private final JPanel mainPanel;
@@ -33,7 +33,7 @@ class SectionSelectorBasicComponentImpl implements SectionSelectorBasicComponent
      *
      * @param gameScene the parent GameScene
      */
-    SectionSelectorBasicComponentImpl(final GameScene gameScene) {
+    SectionSelectorComponentImpl(final GameScene gameScene) {
         this.gameScene = gameScene;
         this.mainPanel = new JPanel() {
             @Override
