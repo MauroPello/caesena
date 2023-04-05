@@ -68,10 +68,9 @@ public final class PlayerImageImpl implements PlayerImage<JPanel> {
     }
 
     /**
-     * Sets a size to force.
-     *
-     * @param size to force
+     * {@inheritDoc}
      */
+    @Override
     public void forceSize(final int size) {
         this.forcedSize = Optional.ofNullable(size);
         this.mainPanel.setPreferredSize(new Dimension(size, size));

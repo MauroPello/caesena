@@ -97,7 +97,7 @@ public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPan
         for (final var player : players) {
             final var playerPanel = new JPanel();
 
-            final var playerColorPanel = new PlayerImageImpl();
+            final PlayerImage<JPanel> playerColorPanel = new PlayerImageImpl();
             playerColorPanel.setColor(player.getColor().asSwingColor());
             playerColorPanel.forceSize(playerImageSize);
 

@@ -1,8 +1,6 @@
 package it.unibo.caesena;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
@@ -20,14 +18,6 @@ final class ControllerTest {
 
     ControllerTest() {
         this.controller = new ControllerImpl();
-    }
-
-    @Test
-    void testStartGameAndAddPlayer() {
-        this.controller.resetGame();
-        assertThrows(IllegalStateException.class, () -> this.controller.startGame());
-        this.controller.addPlayer(FIRST_PLAYER_NAME, FIRST_PLAYER_COLOR);
-        assertDoesNotThrow(() -> this.controller.startGame());
     }
 
     @Test

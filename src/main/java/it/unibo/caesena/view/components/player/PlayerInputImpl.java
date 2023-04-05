@@ -26,7 +26,7 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
 
     private static final Color DEFAULT_COLOR = Color.WHITE;
     private static final int TEXT_FIELD_COLUMNS = 5;
-    private final PlayerImageImpl playerColorPanel;
+    private final PlayerImage<JPanel> playerImage;
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
     private final JTextField playerName;
@@ -48,7 +48,7 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
         final JLabel colorLabel = new JLabel(LocaleHelper.getColorText());
         colorLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
 
-        this.playerColorPanel = new PlayerImageImpl();
+        this.playerImage = new PlayerImageImpl();
         setCurrentColor(DEFAULT_COLOR);
 
         this.playerColorChooser = new JColorChooser();
@@ -84,7 +84,7 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
         colorPanel.setOpaque(false);
         colorPanel.setLayout(new BoxLayout(colorPanel, BoxLayout.X_AXIS));
         colorPanel.add(colorLabel);
-        colorPanel.add(playerColorPanel.getComponent());
+        colorPanel.add(playerImage.getComponent());
 
         namePanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
                 GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
@@ -111,12 +111,11 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
     }
 
     /**
-     * Sets the forced size of the PlayerImageImpl component.
-     *
-     * @param size to be forced
+     * {@inheritDoc}
      */
-    public void setColorPanelSize(final int size) {
-        this.playerColorPanel.forceSize(size);
+    @Override
+    public void setPlayerImageSize(final int size) {
+        this.playerImage.forceSize(size);
     }
 
     /**
@@ -125,7 +124,7 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
      * @param color to set.
      */
     private void setCurrentColor(final Color color) {
-        this.playerColorPanel.setColor(color);
+        this.playerImage.setColor(color);
         this.currentColor = color;
     }
 

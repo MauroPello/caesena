@@ -18,6 +18,7 @@ import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.components.common.ModalPanel;
 import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
+import it.unibo.caesena.view.components.player.PlayerImage;
 import it.unibo.caesena.view.components.player.PlayerImageImpl;
 
 /**
@@ -135,7 +136,7 @@ public class GameOverScene implements Scene<JPanel> {
                     + player.getScore());
             volatailePanel.add(volataileLabel);
 
-            final var playerColorPanel = new PlayerImageImpl();
+            final PlayerImage<JPanel> playerColorPanel = new PlayerImageImpl();
             playerColorPanel.setColor(player.getColor().asSwingColor());
             playerColorPanel.forceSize(playerImageSize);
             volatailePanel.add(playerColorPanel.getComponent());

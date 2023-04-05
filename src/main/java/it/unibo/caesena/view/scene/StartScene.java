@@ -184,8 +184,8 @@ public class StartScene implements Scene<JPanel> {
      * Adds a new player input to be filled.
      */
     private void addPlayerInput() {
-        final PlayerInputImpl playerPanel = new PlayerInputImpl();
-        playerPanel.setColorPanelSize(playerInputImageSize);
+        final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
+        playerPanel.setPlayerImageSize(playerInputImageSize);
         playerPanel.getComponent().setOpaque(false);
 
         this.playerInputs.add(playerPanel);
