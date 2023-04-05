@@ -8,8 +8,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.GameSetTileMediatorImpl;
-import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.NormalMeeple;
 import it.unibo.caesena.model.player.MutablePlayer;
@@ -40,7 +38,7 @@ final class NormalMeepleTest {
 
     @Test
     void testPlace() {
-        final Tile tile = new TileFactoryWithBuilder(new GameSetTileMediatorImpl(new GameSetFactoryImpl())).createCity();
+        final Tile tile = new TileFactoryWithBuilder().createCity().getX();
         assertFalse(meeple.isPlaced());
         meeple.place(tile, TileSection.CENTER);
 

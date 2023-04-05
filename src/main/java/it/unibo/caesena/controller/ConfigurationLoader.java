@@ -13,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileFactory;
 import it.unibo.caesena.model.tile.TileType;
@@ -42,10 +43,11 @@ public class ConfigurationLoader {
      * so that it can be placed on top when starting up.
      *
      * @param factory with which the tiles are created
+     * @param mediator used to add just created GameSets
      * @return the list of newly created tiles
      */
     @SuppressFBWarnings(value = "WMI_WRONG_MAP_ITERATOR", justification = "The only other solution is making an unchecked cast")
-    public final List<MutableTile> getTiles(final TileFactory factory) {
+    public final List<MutableTile> getTiles(final TileFactory factory, final GameSetTileMediator mediator) {
         try {
             final Object fileJson = new JSONParser().parse(new InputStreamReader(ResourceUtil.
                 getInputStreamFromFile(fileName, List.of()), StandardCharsets.UTF_8));
@@ -55,7 +57,9 @@ public class ConfigurationLoader {
                 final JSONObject object = (JSONObject) array.get(i);
                 for (final var key : object.keySet()) {
                     for (int j = 0; j < Integer.parseInt(object.get(key).toString()); j++) {
-                        tiles.add(TileType.valueOf(key.toString()).createTile(factory));
+                        final var tileMap = TileType.valueOf(key.toString()).createTile(factory);
+                        tileMap.getY().forEach((k, v) -> mediator.addSections(k, tileMap.getX(), v));
+                        tiles.add(tileMap.getX());
                     }
                 }
             }

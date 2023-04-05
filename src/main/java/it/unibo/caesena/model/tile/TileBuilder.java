@@ -1,30 +1,31 @@
 package it.unibo.caesena.model.tile;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Map;
 
-import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactory;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
+import it.unibo.caesena.utils.Pair;
 
 /**
  * A class defining a Builder for Tiles.
  */
 public final class TileBuilder {
 
-    private final GameSetTileMediator mediator;
+    private final Map<GameSet, Set<TileSection>> gameSets;
     private final GameSetFactory factory;
-    private MutableTile tile;
+    private final MutableTile tile;
 
     /**
      * Public constructor that accepts a TileType and a mediator.
      *
      * @param type of the tile to be created
-     * @param mediator used to create GameSets
      */
-    public TileBuilder(final TileType type, final GameSetTileMediator mediator) {
+    public TileBuilder(final TileType type) {
         this.factory = new GameSetFactoryImpl();
-        this.mediator = mediator;
+        this.gameSets = new HashMap<>();
         this.tile = new TileImpl(type);
     }
 
@@ -34,8 +35,8 @@ public final class TileBuilder {
      * @param sections to be marked as cities
      * @return the builder itself
      */
-    public TileBuilder city(final List<TileSection> sections) {
-        applySet(sections, this.factory.createCitySet());
+    public TileBuilder city(final Set<TileSection> sections) {
+        gameSets.put(this.factory.createCitySet(), sections);
         return this;
     }
 
@@ -45,8 +46,8 @@ public final class TileBuilder {
      * @param sections to be marked as roads
      * @return the builder itself
      */
-    public TileBuilder road(final List<TileSection> sections) {
-        applySet(sections, this.factory.createRoadSet());
+    public TileBuilder road(final Set<TileSection> sections) {
+        gameSets.put(this.factory.createRoadSet(), sections);
         return this;
     }
 
@@ -56,8 +57,8 @@ public final class TileBuilder {
      * @param sections to be marked as fields
      * @return the builder itself
      */
-    public TileBuilder field(final List<TileSection> sections) {
-        applySet(sections, this.factory.createFieldSet());
+    public TileBuilder field(final Set<TileSection> sections) {
+        gameSets.put(this.factory.createFieldSet(), sections);
         return this;
     }
 
@@ -67,8 +68,8 @@ public final class TileBuilder {
      * @param sections to be marked as monasteries
      * @return the builder itself
      */
-    public TileBuilder monastery(final List<TileSection> sections) {
-        applySet(sections, this.factory.createMonasterySet());
+    public TileBuilder monastery(final Set<TileSection> sections) {
+        gameSets.put(this.factory.createMonasterySet(), sections);
         return this;
     }
 
@@ -78,10 +79,10 @@ public final class TileBuilder {
      * @param sections to be marked as junctions
      * @return the builder itself
      */
-    public TileBuilder junction(final List<TileSection> sections) {
+    public TileBuilder junction(final Set<TileSection> sections) {
         final GameSet junctionGameSet = this.factory.createJunctionSet();
         junctionGameSet.close();
-        applySet(sections, junctionGameSet);
+        gameSets.put(junctionGameSet, sections);
         return this;
     }
 
@@ -91,19 +92,9 @@ public final class TileBuilder {
      * @param sections to be marked as closed
      * @return the builder itself
      */
-    public TileBuilder close(final List<TileSection> sections) {
+    public TileBuilder close(final Set<TileSection> sections) {
         sections.forEach(tile::closeSection);
         return this;
-    }
-
-    /**
-     * Applies the given GameSet to all the given sections.
-     *
-     * @param sections to have the GameSet applied to
-     * @param gameSet to apply to all the sections
-     */
-    private void applySet(final List<TileSection> sections, final GameSet gameSet) {
-        sections.forEach(s -> mediator.addSection(gameSet, tile, s));
     }
 
     /**
@@ -111,10 +102,8 @@ public final class TileBuilder {
      *
      * @return the build tile.
      */
-    public MutableTile build() {
-        final MutableTile builtTile = this.tile;
-        this.tile = null;
-        return builtTile;
+    public Pair<MutableTile, Map<GameSet, Set<TileSection>>> build() {
+        return new Pair<>(tile, gameSets);
     }
 
 }

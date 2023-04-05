@@ -4,13 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.GameSetTileMediator;
 import it.unibo.caesena.model.GameSetTileMediatorImpl;
+import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileBuilder;
@@ -28,7 +30,9 @@ final class TileTest {
     @BeforeAll
     static void init() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
-        tile = new TileFactoryWithBuilder(mediator).createCityEdge();
+        final var tileMap = new TileFactoryWithBuilder().createCityEdge();
+        tile = tileMap.getX();
+        tileMap.getY().forEach((k,v) -> mediator.addSections(k, tile, v));
         position = new Pair<>(1, 1);
     }
 
@@ -44,16 +48,17 @@ final class TileTest {
     void testRotation() {
         mediator.rotateTileClockwise(tile);
         assertEquals(tile.getRotationCount() , 1);
-        final MutableTile tile2 = new TileBuilder(TileType.CITY_EDGE, mediator)
-                .city(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
+        final Pair<MutableTile, Map<GameSet, Set<TileSection>>> tile2 = new TileBuilder(TileType.CITY_EDGE)
+                .city(Set.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
                         TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
-                .field(List.of(TileSection.UP_RIGHT, TileSection.UP_CENTER, TileSection.UP_LEFT,
+                .field(Set.of(TileSection.UP_RIGHT, TileSection.UP_CENTER, TileSection.UP_LEFT,
                         TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN, TileSection.CENTER))
                 .build();
 
-        for (final TileSection section : TileSection.values()) {
-            assertEquals(mediator.getGameSetInSection(tile2, section).getType(),
-                mediator.getGameSetInSection(tile, section).getType());
+        for (final var entry : tile2.getY().entrySet()) {
+            for (final var section : entry.getValue()) {
+                assertEquals(entry.getKey().getType(), mediator.getGameSetInSection(tile, section).getType());
+            }
         }
     }
 
