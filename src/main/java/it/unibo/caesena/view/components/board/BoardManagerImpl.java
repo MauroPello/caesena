@@ -19,7 +19,7 @@ import it.unibo.caesena.view.scene.GameScene;
  */
 public class BoardManagerImpl implements BoardManager<JPanel> {
     private final JPanelWithBackgroundImage mainPanel;
-    private final SectionSelectorComponent<JPanel> sectionSelector;
+    private final SectionSelectorBasicComponent<JPanel> sectionSelector;
     private final BoardComponent<JPanel> board;
     private final GameScene gameScene;
     private boolean showingBoard;
@@ -33,7 +33,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
         this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Board.png", List.of()));
         this.gameScene = gameScene;
         this.board = new BoardComponentImpl(this.gameScene);
-        this.sectionSelector = new SectionSelectorComponentImpl(this.gameScene);
+        this.sectionSelector = new SectionSelectorBasicComponentImpl(this.gameScene);
         this.showingBoard = true;
     }
 
@@ -50,7 +50,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
                 .findAny();
         if (remainingMeeples.isPresent()) {
             showingBoard = !showingBoard;
-            updateComponents();
+            update();
         }
     }
 
@@ -58,8 +58,18 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    public SectionSelectorComponent<JPanel> getSectionSelector() {
+    public SectionSelectorBasicComponent<JPanel> getSectionSelector() {
         return this.sectionSelector;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        this.mainPanel.setVisible(visible);
     }
 
     /**
@@ -95,7 +105,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
         if (!showingBoard) {
             showingBoard = true;
         }
-        this.updateComponents();
+        this.update();
         this.getSectionSelector().reset();
         this.gameScene.getUserInterface().getController().endTurn();
         //this.getBoard().updateBoard();
@@ -113,7 +123,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    public void updateComponents() {
+    public void update() {
         if (this.showingBoard) {
             this.showBoard();
         } else {
@@ -129,7 +139,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
     private void showBoard() {
         this.getSectionSelector().reset();
         this.mainPanel.removeAll();
-        this.getBoard().draw();
+        this.getBoard().update();
         this.mainPanel.add(this.getBoard().getComponent());
     }
 

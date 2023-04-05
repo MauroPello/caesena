@@ -10,13 +10,14 @@ import it.unibo.caesena.controller.Controller;
 
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.view.BasicComponent;
 import it.unibo.caesena.view.scene.GameScene;
 
 /**
  * This class rappresents a section button, used to pick which section to
  * select. Every SectionButton object rappresent a single section.
  */
-public class SectionButton {
+public class SectionButton implements BasicComponent<JButton> {
     private static final Color UNSELECTED_COLOR = Color.WHITE;
     private static final Color SELECTED_COLOR = Color.GREEN;
     private final TileSection section;
@@ -71,6 +72,16 @@ public class SectionButton {
      */
     public boolean shouldBeDrawn() {
         return this.toBeDrawn;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return this.button.isVisible();
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        this.button.setVisible(visible);
     }
 
     /**

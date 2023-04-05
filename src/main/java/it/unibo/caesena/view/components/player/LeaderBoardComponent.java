@@ -1,5 +1,7 @@
 package it.unibo.caesena.view.components.player;
 
+import it.unibo.caesena.view.UpdatableComponent;
+
 /**
  * This interface rappresents a LeaderBoard to be used in Scene.
  *
@@ -8,24 +10,6 @@ package it.unibo.caesena.view.components.player;
  *
  * @param <X> the type of the GUI component
  */
-public interface LeaderBoardComponent<X> {
+public interface LeaderBoardComponent<X> extends UpdatableComponent<X> {
 
-    /**
-     * Sets whether or not the component should be visible.
-     *
-     * @param visible boolean representing whether or not the component should be
-     *                visible
-     */
-    void setVisible(boolean visible);
-
-    /**
-    * Updates the LeaderBoardComponent.
-    */
-    void update();
-    /**
-    * Gets the GUI component containing the LeaderBoardComponent.
-    *
-    * @return the GUI component containing the LeaderBoardComponent
-    */
-    X getComponent();
 }

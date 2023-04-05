@@ -46,6 +46,11 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
         this.mainPanel.setVisible(false);
     }
 
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
+    }
+
     /**
      * {@inheritDoc}
      */

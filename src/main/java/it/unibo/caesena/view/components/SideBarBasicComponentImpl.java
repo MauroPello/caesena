@@ -25,10 +25,10 @@ import it.unibo.caesena.view.scene.GameScene;
 /**
  * {@inheritDoc}
  *
- * Implements the interface {@link it.unibo.caesena.view.components.SideBarComponent} using a
+ * Implements the interface {@link SideBarBasicComponent} using a
  * {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
-public class SideBarComponentImpl implements SideBarComponent<JPanel> {
+public class SideBarBasicComponentImpl implements SideBarBasicComponent<JPanel> {
     private final Controller controller;
     private final GameScene gameScene;
     private final JButton zoomInButton;
@@ -48,7 +48,7 @@ public class SideBarComponentImpl implements SideBarComponent<JPanel> {
      *
      * @param gameScene the parent GameScene
      */
-    public SideBarComponentImpl(final GameScene gameScene) {
+    public SideBarBasicComponentImpl(final GameScene gameScene) {
         this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
         this.mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         this.mainPanel.setLayout(new GridBagLayout());
@@ -334,6 +334,11 @@ public class SideBarComponentImpl implements SideBarComponent<JPanel> {
                 ((JButton) e.getSource()).setEnabled(false);
             }
         };
+    }
+
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package it.unibo.caesena.view.scene;
 
+import it.unibo.caesena.view.UpdatableComponent;
 import it.unibo.caesena.view.UserInterface;
 
 /**
@@ -9,34 +10,7 @@ import it.unibo.caesena.view.UserInterface;
  * 
  * @param <X> the type of the GUI component containing the scene
  */
-public interface Scene<X> {
-
-    /**
-     * Updates the Scene.
-     */
-    void update();
-
-    /**
-     * Gets whether or not the scene is visible. 
-     * 
-     * @return whether or not the scene is visible
-     */
-    boolean isVisible();
-
-    /**
-     * Sets whether or not the scene should be visible. 
-     * 
-     * @param visible boolean representing whether or not the scene should be
-     *                visible
-     */
-    void setVisible(boolean visible);
-
-    /**
-     * Gets the GUI component containing the scene. 
-     * 
-     * @return the GUI component containing the scene
-     */
-    X getComponent();
+public interface Scene<X> extends UpdatableComponent<X> {
 
     /**
      * Gets the UserInterface in which the Scene is displayed.

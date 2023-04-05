@@ -109,6 +109,16 @@ public class TileButtonImpl implements TileButton<JButton> {
         return this.tileImage.isPresent();
     }
 
+    @Override
+    public boolean isVisible() {
+        return this.button.isVisible();
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        this.button.setVisible(visible);
+    }
+
     /**
      * {@inheritDoc}
      */

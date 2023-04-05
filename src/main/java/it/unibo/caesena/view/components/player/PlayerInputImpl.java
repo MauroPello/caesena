@@ -135,6 +135,16 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
         return new Pair<>(playerName.getText(), currentColor);
     }
 
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        this.mainPanel.setVisible(visible);
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -40,6 +40,16 @@ public class NumericUpDownImpl implements NumericUpDown<JSpinner> {
         return this.model.getNumber().intValue();
     }
 
+    @Override
+    public boolean isVisible() {
+        return this.spinner.isVisible();
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        this.spinner.setVisible(visible);
+    }
+
     /**
      * {@inheritDoc}
      */

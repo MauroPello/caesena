@@ -3,6 +3,7 @@ package it.unibo.caesena.view.components.board;
 import java.util.Optional;
 
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.view.BasicComponent;
 
 /**
  * This class rappresents a section selector.
@@ -11,7 +12,7 @@ import it.unibo.caesena.model.tile.TileSection;
  *
  * @param <X> is the type of the component
  */
-public interface SectionSelectorComponent<X> {
+public interface SectionSelectorBasicComponent<X> extends BasicComponent<X> {
 
     /**
      * Gets the section that has been selected.
@@ -37,10 +38,4 @@ public interface SectionSelectorComponent<X> {
      */
     void reset();
 
-    /**
-     * Gets the section selector as a specific component of a GUI framework, such as JPanel.
-     *
-     * @return the section selector as a specific component of a GUI framework.
-     */
-    X getComponent();
 }

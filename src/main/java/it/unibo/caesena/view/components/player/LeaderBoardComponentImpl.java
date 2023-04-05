@@ -62,6 +62,11 @@ public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPan
         this.mainPanel.setVisible(false);
     }
 
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
+    }
+
     /**
      * {@inheritDoc}
      */
