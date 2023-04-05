@@ -30,6 +30,7 @@ import it.unibo.caesena.view.components.common.ModalPanel;
 import it.unibo.caesena.view.components.common.NumericUpDown;
 import it.unibo.caesena.view.components.common.NumericUpDownImpl;
 import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
+import it.unibo.caesena.view.components.player.PlayerInput;
 import it.unibo.caesena.view.components.player.PlayerInputImpl;
 
 /**
@@ -42,7 +43,7 @@ public class StartScene implements Scene<JPanel> {
     private static final int MAX_PLAYERS = 6;
     private final GUI userInterface;
     private final JPanel mainPanel;
-    private final List<PlayerInputImpl> playerInputs;
+    private final List<PlayerInput<JPanel>> playerInputs;
     private final JPanel playersPanel;
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;

@@ -23,6 +23,8 @@ import it.unibo.caesena.view.LocaleHelper;
  * {@link javax.swing.JPanel}.
  */
 public final class PlayerInputImpl implements PlayerInput<JPanel> {
+
+    private static final Color DEFAULT_COLOR = Color.WHITE;
     private static final int TEXT_FIELD_COLUMNS = 5;
     private final PlayerImageImpl playerColorPanel;
     private final JColorChooser playerColorChooser;
@@ -47,7 +49,7 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
         colorLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
 
         this.playerColorPanel = new PlayerImageImpl();
-        this.playerColorPanel.setColor(this.mainPanel.getBackground());
+        setCurrentColor(DEFAULT_COLOR);
 
         this.playerColorChooser = new JColorChooser();
         this.playerColorChooser.setPreviewPanel(new JPanel());
@@ -62,7 +64,7 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
         this.playerColorDialog = JColorChooser.createDialog(this.mainPanel, LocaleHelper.getPickColorDialogTitle(), true,
                 this.playerColorChooser,
                 (e) -> setCurrentColor(this.playerColorChooser.getColor()),
-                (e) -> setCurrentColor(this.mainPanel.getBackground()));
+                (e) -> setCurrentColor(DEFAULT_COLOR));
         setFontForAllComponents(playerColorDialog, GUI.SMALL_NORMAL_FONT);
         this.playerColorDialog.pack();
 

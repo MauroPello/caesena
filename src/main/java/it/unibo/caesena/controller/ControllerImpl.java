@@ -60,14 +60,19 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void startGame() {
-        if (players.isEmpty()) {
-            throw new IllegalStateException("Can't start the game without players");
+        if (!players.isEmpty()) {
+            if (players.stream().map(Player::getName).collect(Collectors.toSet()).size() == players.size()
+                && players.stream().map(Player::getColor).collect(Collectors.toSet()).size() == players.size()) {
+                Collections.shuffle(players);
+                drawNewTile();
+                this.placeCurrentTile(new Pair<>(0, 0));
+                drawNewTile();
+                updateUserInterfaces();
+            } else {
+                this.players = new ArrayList<>();
+                this.meeples = new ArrayList<>();
+            }
         }
-        Collections.shuffle(players);
-        drawNewTile();
-        this.placeCurrentTile(new Pair<>(0, 0));
-        drawNewTile();
-        updateUserInterfaces();
     }
 
     /**
@@ -164,13 +169,13 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public Player addPlayer(final String name, final Color color) {
+    public void addPlayer(final String name, final Color color) {
         final MutablePlayer newPlayer = new PlayerImpl(name, color);
         players.add(newPlayer);
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
             meeples.add(new NormalMeeple(newPlayer));
         }
-        return newPlayer;
+        System.out.println(name + " N :" + players.size());
     }
 
     /**

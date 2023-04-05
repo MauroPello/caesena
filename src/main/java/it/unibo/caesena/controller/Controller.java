@@ -69,7 +69,7 @@ public interface Controller {
      * @param color color of the player to add
      * @return the newly created player
      */
-    Player addPlayer(String name, Color color);
+    void addPlayer(String name, Color color);
 
     /**
      * Gets the player playing in the current turn.

@@ -114,7 +114,6 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
         this.update();
         this.getSectionSelector().reset();
         this.gameScene.getUserInterface().getController().endTurn();
-        //this.getBoard().updateBoard();
     }
 
     /**
