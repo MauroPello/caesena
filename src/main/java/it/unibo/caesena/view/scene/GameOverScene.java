@@ -17,7 +17,7 @@ import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.components.common.ModalPanel;
-import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.components.player.PlayerImageImpl;
 
 /**
@@ -36,7 +36,7 @@ public class GameOverScene implements Scene<JPanel> {
      * @param userInterface the interface in which this scene is displayed
      */
     public GameOverScene(final GUI userInterface) {
-        this.mainPanel = new PanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_GameOverScene.jpeg", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_GameOverScene.jpeg", List.of()));
         this.userInterface = userInterface;
 
         final JPanel modal = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), false);
@@ -138,7 +138,7 @@ public class GameOverScene implements Scene<JPanel> {
             final var playerColorPanel = new PlayerImageImpl();
             playerColorPanel.setColor(player.getColor().asSwingColor());
             playerColorPanel.forceSize(playerImageSize);
-            volatailePanel.add(playerColorPanel);
+            volatailePanel.add(playerColorPanel.getComponent());
 
             this.playersPanels.add(volatailePanel);
         }

@@ -9,7 +9,7 @@ import it.unibo.caesena.view.GUI;
  * A class defining a simple modal panel with two different sizes and an image
  * as background.
  */
-public class ModalPanel extends PanelWithBackgroundImage {
+public class ModalPanel extends JPanelWithBackgroundImage {
     private static final long serialVersionUID = -4095427840403035675L;
     private static final float MODAL_PREFERRED_RATIO = 0.4f;
     private static final float MODAL_MAXIMUM_RATIO = 0.5f;

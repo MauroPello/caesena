@@ -21,13 +21,12 @@ import it.unibo.caesena.view.scene.GameScene;
  *
  * Implements the interface {@link it.unibo.caesena.view.components.board.SectionSelectorComponent}
  * using a {@link javax.swing.JPanel}.
- * It extends {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
+ * It extends {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
-class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComponent<JPanel> {
-    private static final long serialVersionUID = 6200143818308185153L;
+class SectionSelectorComponentImpl implements SectionSelectorComponent<JPanel> {
     private final Map<SectionButton, GridBagConstraints> sectionButtons = new HashMap<>();
-
     private final GameScene gameScene;
+    private final JPanel mainPanel;
 
     /**
      * Class constructor.
@@ -35,8 +34,24 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
      * @param gameScene the parent GameScene
      */
     SectionSelectorComponentImpl(final GameScene gameScene) {
-        super();
         this.gameScene = gameScene;
+        this.mainPanel = new JPanel() {
+            @Override
+            public Dimension getPreferredSize() {
+                final Dimension d = this.getParent().getSize();
+                int newSize = d.width > d.height ? d.height : d.width;
+                newSize = newSize == 0 ? 100 : newSize;
+                return new Dimension(newSize, newSize);
+            }
+
+            @Override
+            public void paintComponent(final Graphics graphics) {
+                super.paintComponent(graphics);
+                final BufferedImage tileButton = gameScene.getCurrentTileImage().getAsBufferedImageWithoutMeeple(this.getWidth(),
+                        this.getHeight());
+                graphics.drawImage(tileButton, 0, 0, this.getWidth(), this.getHeight(), null);
+            }
+        };
     }
 
     /**
@@ -54,17 +69,6 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
      * {@inheritDoc}
      */
     @Override
-    public final Dimension getPreferredSize() {
-        final Dimension d = this.getParent().getSize();
-        int newSize = d.width > d.height ? d.height : d.width;
-        newSize = newSize == 0 ? 100 : newSize;
-        return new Dimension(newSize, newSize);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final Boolean isSectionSelected() {
         return getSelectedSection().isPresent();
     }
@@ -74,10 +78,10 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
      */
     @Override
     public void draw() {
-        this.removeAll();
+        this.mainPanel.removeAll();
         this.drawSections();
-        this.validate();
-        this.repaint();
+        this.mainPanel.validate();
+        this.mainPanel.repaint();
     }
 
     /**
@@ -86,7 +90,7 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
     @Override
     public void reset() {
         this.sectionButtons.clear();
-        this.removeAll();
+        this.mainPanel.removeAll();
     }
 
     /**
@@ -94,30 +98,19 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
      */
     @Override
     public JPanel getComponent() {
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void paintComponent(final Graphics graphics) {
-        super.paintComponent(graphics);
-        final BufferedImage tileButton = gameScene.getCurrentTileImage().getAsBufferedImageWithoutMeeple(this.getWidth(),
-                this.getHeight());
-        graphics.drawImage(tileButton, 0, 0, this.getWidth(), this.getHeight(), null);
+        return this.mainPanel;
     }
 
     /**
      * Draws all the tile sections to this component.
      */
     private void drawSections() {
-        this.setLayout(new GridBagLayout());
-        this.setOpaque(false);
+        this.mainPanel.setLayout(new GridBagLayout());
+        this.mainPanel.setOpaque(false);
         if (sectionButtons.isEmpty()) {
             populateSectionButtons();
         }
-        sectionButtons.entrySet().forEach(e -> this.add(e.getKey().getComponent(), e.getValue()));
+        sectionButtons.entrySet().forEach(e -> this.mainPanel.add(e.getKey().getComponent(), e.getValue()));
     }
 
     /**

@@ -20,11 +20,11 @@ import it.unibo.caesena.view.LocaleHelper;
  * Implements the interface {@link it.unibo.caesena.view.components.player.LeaderBoardComponent} using a
  * {@link java.swing.JPanel}.
  */
-public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoardComponent<JPanel> {
-    private static final long serialVersionUID = 4401972577759091952L;
+public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPanel> {
     private static final float PLAYER_IMAGE_RATIO = 0.01f;
     private final GUI userInterface;
     private final JPanel playersPanel;
+    private final JPanel mainPanel;
     private final int playerImageSize;
 
     /**
@@ -33,10 +33,10 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
      * @param userInterface the parent GUI
      */
     public LeaderBoardComponentImpl(final GUI userInterface) {
-        super();
+        this.mainPanel = new JPanel();
+        this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 
         this.userInterface = userInterface;
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
             playerImageSize = (int) Math.round(GUI.SCREEN_WIDTH * PLAYER_IMAGE_RATIO);
@@ -48,18 +48,18 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         titleLabel.setFont(GUI.BIG_BOLD_FONT);
 
-        this.add(titleLabel);
+        this.mainPanel.add(titleLabel);
         final JSeparator separator = new JSeparator();
         separator.setForeground(Color.black);
-        this.add(separator);
+        this.mainPanel.add(separator);
 
         this.playersPanel = new JPanel();
         this.playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
         final JScrollPane playersScrollPane = new JScrollPane(playersPanel);
         playersScrollPane.setAutoscrolls(true);
         playersScrollPane.setBorder(null);
-        this.add(playersScrollPane);
-        super.setVisible(false);
+        this.mainPanel.add(playersScrollPane);
+        this.mainPanel.setVisible(false);
     }
 
     /**
@@ -71,7 +71,7 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
             update();
         }
 
-        super.setVisible(visible);
+        this.mainPanel.setVisible(visible);
     }
 
     /**
@@ -97,7 +97,7 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
             playerLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
             playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            playerPanel.add(playerColorPanel);
+            playerPanel.add(playerColorPanel.getComponent());
             playerPanel.add(playerLabel);
             playersPanel.add(playerPanel);
         }
@@ -108,6 +108,6 @@ public final class LeaderBoardComponentImpl extends JPanel implements LeaderBoar
      */
     @Override
     public JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 }

@@ -29,7 +29,7 @@ import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.components.common.ModalPanel;
 import it.unibo.caesena.view.components.common.NumericUpDown;
 import it.unibo.caesena.view.components.common.NumericUpDownImpl;
-import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.components.player.PlayerInputImpl;
 
 /**
@@ -58,7 +58,7 @@ public class StartScene implements Scene<JPanel> {
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
 
-        this.mainPanel = new PanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_StartScene.png", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_StartScene.png", List.of()));
         this.mainPanel.setLayout(new GridBagLayout());
         this.mainPanel.setOpaque(false);
 

@@ -22,20 +22,20 @@ import it.unibo.caesena.view.LocaleHelper;
  * A class implementing the PlayerInput interface by using a
  * {@link javax.swing.JPanel}.
  */
-public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel> {
-    private static final long serialVersionUID = 6860767233870664780L;
+public final class PlayerInputImpl implements PlayerInput<JPanel> {
     private static final int TEXT_FIELD_COLUMNS = 5;
     private final PlayerImageImpl playerColorPanel;
     private final JColorChooser playerColorChooser;
     private final JDialog playerColorDialog;
     private final JTextField playerName;
+    private final JPanel mainPanel;
     private Color currentColor;
 
     /**
      * Public constructor that sets up the components and places them.
      */
     public PlayerInputImpl() {
-        super();
+        this.mainPanel = new JPanel();
 
         final JLabel nameLabel = new JLabel(LocaleHelper.getNameText());
         nameLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
@@ -47,7 +47,7 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         colorLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
 
         this.playerColorPanel = new PlayerImageImpl();
-        this.playerColorPanel.setColor(getBackground());
+        this.playerColorPanel.setColor(this.mainPanel.getBackground());
 
         this.playerColorChooser = new JColorChooser();
         this.playerColorChooser.setPreviewPanel(new JPanel());
@@ -59,10 +59,10 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         }
 
         this.playerColorChooser.setFont(GUI.MEDIUM_BOLD_FONT);
-        this.playerColorDialog = JColorChooser.createDialog(this, LocaleHelper.getPickColorDialogTitle(), true,
+        this.playerColorDialog = JColorChooser.createDialog(this.mainPanel, LocaleHelper.getPickColorDialogTitle(), true,
                 this.playerColorChooser,
                 (e) -> setCurrentColor(this.playerColorChooser.getColor()),
-                (e) -> setCurrentColor(getBackground()));
+                (e) -> setCurrentColor(this.mainPanel.getBackground()));
         setFontForAllComponents(playerColorDialog, GUI.SMALL_NORMAL_FONT);
         this.playerColorDialog.pack();
 
@@ -70,7 +70,7 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         playerColorButton.setFont(GUI.MEDIUM_BOLD_FONT);
         playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
 
-        this.setLayout(new GridBagLayout());
+        this.mainPanel.setLayout(new GridBagLayout());
 
         final JPanel namePanel = new JPanel();
         namePanel.setOpaque(false);
@@ -82,15 +82,15 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
         colorPanel.setOpaque(false);
         colorPanel.setLayout(new BoxLayout(colorPanel, BoxLayout.X_AXIS));
         colorPanel.add(colorLabel);
-        colorPanel.add(playerColorPanel);
+        colorPanel.add(playerColorPanel.getComponent());
 
         namePanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
                 GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
-        this.add(namePanel);
+        this.mainPanel.add(namePanel);
         colorPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
                 GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
-        this.add(colorPanel);
-        this.add(playerColorButton);
+        this.mainPanel.add(colorPanel);
+        this.mainPanel.add(playerColorButton);
     }
 
     /**
@@ -140,7 +140,7 @@ public final class PlayerInputImpl extends JPanel implements PlayerInput<JPanel>
      */
     @Override
     public JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 
 }

@@ -27,7 +27,7 @@ import javax.swing.border.CompoundBorder;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
-import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.components.meeple.RemainingMeeplesComponent;
 import it.unibo.caesena.view.components.meeple.RemainingMeeplesComponentImpl;
 import it.unibo.caesena.view.components.player.LeaderBoardComponent;
@@ -41,10 +41,9 @@ import it.unibo.caesena.view.scene.GameScene;
  * {@inheritDoc}
  *
  * Implements the interface {@link it.unibo.caesena.view.components.FooterComponent} using a
- * {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
+ * {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
-public class FooterComponentImpl extends PanelWithBackgroundImage implements FooterComponent<JPanel> {
-    private static final long serialVersionUID = -7370776246509188750L;
+public class FooterComponentImpl implements FooterComponent<JPanel> {
     private static final float INTERNAL_PADDING_RATIO = 0.02f;
     private static final int MINIMUM_PADDING = 3;
     private static final float SPACER_RATIO = 0.2f;
@@ -60,6 +59,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
     private final RemainingMeeplesComponent<JPanel> meepleComponent;
     private final PlayerImage<JPanel> playerImageComponent;
     private final LeaderBoardComponent<JPanel> leaderboard;
+    private final JPanelWithBackgroundImage mainPanel;
     private Optional<TileImage> tileImage;
     private int innerPaddingSize;
 
@@ -69,15 +69,13 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
      * @param gameScene the parente GameScene
      */
     public FooterComponentImpl(final GameScene gameScene) {
-        super(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
+        this.mainPanel.setLayout(new BorderLayout());
 
         this.gameScene = gameScene;
         this.userInterface = gameScene.getUserInterface();
 
         final JPanel innerPanel = new JPanel();
-
-        this.setBackground(Color.ORANGE);
-        this.setLayout(new BorderLayout());
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
 
         this.tileImage = Optional.empty();
@@ -193,36 +191,37 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         innerPanel.add(rotateButton);
         innerPanel.add(tileImagePanel);
         innerPanel.setOpaque(false);
-        this.add(innerPanel, BorderLayout.CENTER);
+        this.mainPanel.add(innerPanel, BorderLayout.CENTER);
 
         innerPanel.setVisible(true);
 
         rotateButton.addActionListener(rotateButtonEventListener());
 
-        this.addComponentListener(new ComponentAdapter() {
+        this.mainPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(final ComponentEvent e) {
                 updateSize();
             }
         });
 
-        this.setOpaque(false);
-        super.setVisible(false);
+        this.mainPanel.setOpaque(false);
+        this.mainPanel.setVisible(false);
     }
 
     /**
+     * TODO.
      * {@inheritDoc}
      */
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
-            this.leaderboard.getComponent().setVisible(true);
-            this.meepleComponent.getComponent().setVisible(true);
+            this.leaderboard.setVisible(true);
+            this.meepleComponent.setVisible(true);
             this.update();
             this.updateSize();
         }
 
-        super.setVisible(visible);
+        this.mainPanel.setVisible(visible);
     }
 
     /**
@@ -236,7 +235,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
             innerPaddingSize = (int) Math.round(frameSize.getHeight() * INTERNAL_PADDING_RATIO);
         }
         innerPaddingSize = innerPaddingSize < MINIMUM_PADDING ? MINIMUM_PADDING : innerPaddingSize;
-        this.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2),
+        this.mainPanel.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 2),
             BorderFactory.createEmptyBorder(innerPaddingSize, innerPaddingSize,
             innerPaddingSize, innerPaddingSize)));
         this.playerImageComponent.getComponent()
@@ -284,7 +283,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
      */
     @Override
     public JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 
     /**
@@ -316,7 +315,7 @@ public class FooterComponentImpl extends PanelWithBackgroundImage implements Foo
         } else {
             rotateButton.setEnabled(true);
         }
-        this.revalidate();
-        this.repaint();
+        this.mainPanel.revalidate();
+        this.mainPanel.repaint();
     }
 }

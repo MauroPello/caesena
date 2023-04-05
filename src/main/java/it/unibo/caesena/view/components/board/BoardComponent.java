@@ -16,6 +16,14 @@ import it.unibo.caesena.view.components.tile.TileButton;
 public interface BoardComponent<X> {
 
     /**
+     * Sets whether or not the component should be visible.
+     *
+     * @param visible boolean representing whether or not the component should be
+     *                visible
+     */
+    void setVisible(boolean visible);
+
+    /**
      * Zooms in.
      */
     void zoomIn();

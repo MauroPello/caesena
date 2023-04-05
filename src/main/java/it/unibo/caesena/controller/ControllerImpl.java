@@ -294,11 +294,9 @@ public final class ControllerImpl implements Controller {
             .filter(m -> !m.isPlaced())
             .findFirst();
 
-        if (currentMeeple.isPresent()) {
-            if (!mediator.placeMeeple(currentMeeple.get(), currentTile.get(), section)) {
-                updateUserInterfaces();
-                return Optional.empty();
-            }
+        if (currentMeeple.isPresent() && !mediator.placeMeeple(currentMeeple.get(), currentTile.get(), section)) {
+            updateUserInterfaces();
+            return Optional.empty();
         }
 
         updateUserInterfaces();

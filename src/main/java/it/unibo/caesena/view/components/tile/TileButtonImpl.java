@@ -19,9 +19,9 @@ import it.unibo.caesena.model.tile.Tile;
  * Implementation of the {@link it.unibo.caesena.view.components.tile.TileButton} interface.
  * It utilizes a JButton from the {@link javax.swing}.
  */
-public class TileButtonImpl extends JButton implements TileButton<JButton> {
-    private static final long serialVersionUID = 3246088701705856082L;
+public class TileButtonImpl implements TileButton<JButton> {
     private final MouseAdapter mouseAdapter;
+    private final JButton button;
     private Optional<TileImage> tileImage;
     private boolean locked;
 
@@ -30,40 +30,48 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
      * @param onClickActionListener action listener that specifies what to do in case of a click
      */
     public TileButtonImpl(final ActionListener onClickActionListener) {
-        super();
         this.locked = false;
         this.tileImage = Optional.empty();
-        this.addActionListener(onClickActionListener);
-        this.setContentAreaFilled(false);
-        this.setFocusable(false);
-        this.setBorder(new LineBorder(Color.BLACK));
+        this.button = new JButton() {
+            @Override
+            protected void paintComponent(final Graphics g) {
+                super.paintComponent(g);
+                if (TileButtonImpl.this.containsTile() && isEnabled()) {
+                    g.drawImage(TileButtonImpl.this.tileImage.get().getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0,
+                            this.getWidth(),
+                            this.getHeight(), null);
+                }
+            }
+
+            @Override
+            public void setEnabled(final boolean b) {
+                if (b) {
+                    this.addMouseListener(TileButtonImpl.this.mouseAdapter);
+                } else {
+                    this.removeMouseListener(TileButtonImpl.this.mouseAdapter);
+                }
+
+                super.setEnabled(b);
+            }
+        };
+        this.button.addActionListener(onClickActionListener);
+        this.button.setContentAreaFilled(false);
+        this.button.setFocusable(false);
+        this.button.setBorder(new LineBorder(Color.BLACK));
         this.mouseAdapter = new MouseAdapter() {
             @Override
             public void mouseEntered(final MouseEvent e) {
                 if (tileImage.isEmpty()) {
-                    TileButtonImpl.this.setBorder(new LineBorder(Color.RED));
+                    TileButtonImpl.this.button.setBorder(new LineBorder(Color.RED));
                 }
             }
 
             @Override
             public void mouseExited(final MouseEvent e) {
-                TileButtonImpl.this.setBorder(new LineBorder(Color.BLACK));
+                TileButtonImpl.this.button.setBorder(new LineBorder(Color.BLACK));
             }
         };
-        this.addMouseListener(this.mouseAdapter);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setEnabled(final boolean b) {
-        super.setEnabled(b);
-        if (b) {
-            this.addMouseListener(this.mouseAdapter);
-        } else {
-            this.removeMouseListener(this.mouseAdapter);
-        }
+        this.button.addMouseListener(this.mouseAdapter);
     }
 
     /**
@@ -72,7 +80,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     @Override
     public void addTile(final Tile tile) {
         this.tileImage = Optional.of(new TileImage(tile));
-        this.repaint();
+        this.button.repaint();
     }
 
     /**
@@ -81,7 +89,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     @Override
     public void setTileImage(final TileImage tileImage) {
         this.tileImage = Optional.of(tileImage);
-        this.repaint();
+        this.button.repaint();
     }
 
     /**
@@ -90,7 +98,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     @Override
     public void removeTile() {
         this.tileImage = Optional.empty();
-        this.repaint();
+        this.button.repaint();
     }
 
     /**
@@ -105,21 +113,8 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
      * {@inheritDoc}
      */
     @Override
-    protected void paintComponent(final Graphics g) {
-        super.paintComponent(g);
-        if (this.containsTile() && isEnabled()) {
-            g.drawImage(this.tileImage.get().getAsBufferedImage(this.getWidth(), this.getHeight()), 0, 0,
-                    this.getWidth(),
-                    this.getHeight(), null);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public JButton getComponent() {
-        return this;
+        return this.button;
     }
 
     /**
@@ -136,7 +131,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     @Override
     public void setMeeple(final Meeple meeple) {
         this.tileImage.get().addMeeple(meeple);
-        this.repaint();
+        this.button.repaint();
     }
 
     /**
@@ -153,7 +148,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
     @Override
     public void unsetMeeple() {
         this.tileImage.get().removeMeeple();
-        this.repaint();
+        this.button.repaint();
     }
 
     /**

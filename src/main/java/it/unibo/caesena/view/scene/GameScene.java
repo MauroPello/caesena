@@ -82,8 +82,8 @@ public class GameScene implements Scene<JPanel> {
         if (visible) {
             this.generateCurrentTileImage();
             this.boardManager.getBoard().getComponent().setVisible(true);
-            this.footer.getComponent().setVisible(true);
-            this.sidebar.getComponent().setVisible(true);
+            this.footer.setVisible(true);
+            this.sidebar.setVisible(true);
         }
 
         this.mainPanel.setVisible(visible);

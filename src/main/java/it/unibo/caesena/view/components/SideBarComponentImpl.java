@@ -19,14 +19,14 @@ import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
-import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.scene.GameScene;
 
 /**
  * {@inheritDoc}
  *
  * Implements the interface {@link it.unibo.caesena.view.components.SideBarComponent} using a
- * {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
+ * {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
 public class SideBarComponentImpl implements SideBarComponent<JPanel> {
     private final Controller controller;
@@ -41,7 +41,7 @@ public class SideBarComponentImpl implements SideBarComponent<JPanel> {
     private final JButton toggleBoardButton;
     private final JButton discardTileButton;
     private final JButton endTurnButton;
-    private final PanelWithBackgroundImage mainPanel;
+    private final JPanelWithBackgroundImage mainPanel;
 
     /**
      * Class constructor.
@@ -49,7 +49,7 @@ public class SideBarComponentImpl implements SideBarComponent<JPanel> {
      * @param gameScene the parent GameScene
      */
     public SideBarComponentImpl(final GameScene gameScene) {
-        this.mainPanel = new PanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
         this.mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         this.mainPanel.setLayout(new GridBagLayout());
 
@@ -334,5 +334,10 @@ public class SideBarComponentImpl implements SideBarComponent<JPanel> {
                 ((JButton) e.getSource()).setEnabled(false);
             }
         };
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        this.mainPanel.setVisible(visible);
     }
 }
