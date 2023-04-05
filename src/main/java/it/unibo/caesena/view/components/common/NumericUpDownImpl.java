@@ -2,6 +2,7 @@ package it.unibo.caesena.view.components.common;
 
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JSpinner.DefaultEditor;
 
 import it.unibo.caesena.view.GUI;
 
@@ -9,9 +10,9 @@ import it.unibo.caesena.view.GUI;
  * A class implementing the NumericUpDown interface by using a
  * {@link javax.swing.JSpinner}.
  */
-public class NumericUpDownImpl extends JSpinner implements NumericUpDown<JSpinner> {
-    private static final long serialVersionUID = 6772468670772793467L;
+public class NumericUpDownImpl implements NumericUpDown<JSpinner> {
     private final SpinnerNumberModel model;
+    private final JSpinner spinner;
 
     /**
      * Public constructor.
@@ -22,16 +23,13 @@ public class NumericUpDownImpl extends JSpinner implements NumericUpDown<JSpinne
      * @param step the amount to increase/decrease the value at every click
      */
     public NumericUpDownImpl(final int start, final int min, final int max, final int step) {
-        super();
-        final DefaultEditor editor;
-
         this.model = new SpinnerNumberModel(start, min, max, step);
-        this.setModel(model);
+        this.spinner = new JSpinner(model);
 
-        editor = new DefaultEditor(this);
+        final DefaultEditor editor = new DefaultEditor(this.spinner);
         editor.getTextField().setEditable(false);
         editor.getTextField().setFont(GUI.MEDIUM_BOLD_FONT);
-        this.setEditor(editor);
+        this.spinner.setEditor(editor);
     }
 
     /**
@@ -47,7 +45,7 @@ public class NumericUpDownImpl extends JSpinner implements NumericUpDown<JSpinne
      */
     @Override
     public JSpinner getComponent() {
-        return this;
+        return this.spinner;
     }
 
 }

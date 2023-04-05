@@ -16,14 +16,14 @@ import it.unibo.caesena.view.scene.GameScene;
  * This class rappresents a section button, used to pick which section to
  * select. Every SectionButton object rappresent a single section.
  */
-public class SectionButton extends JButton {
-    private static final long serialVersionUID = 3246088701705856082L;
+public class SectionButton {
     private static final Color UNSELECTED_COLOR = Color.WHITE;
     private static final Color SELECTED_COLOR = Color.GREEN;
     private final TileSection section;
     private final GameScene gameScene;
-    private boolean selected;
     private final boolean toBeDrawn;
+    private final JButton button;
+    private boolean selected;
 
     /**
      * Class constructor.
@@ -34,7 +34,15 @@ public class SectionButton extends JButton {
      */
     //TODO verificare che rendere GameScene e l'action listener final non faccia esplodere tutto
     SectionButton(final TileSection section, final GameScene gameScene, final ActionListener onClickActionListener) {
-        super();
+        this.button = new JButton() {
+            @Override
+            public Dimension getPreferredSize() {
+                final Dimension d = super.getPreferredSize();
+                final int s = (int) (d.getWidth() < d.getHeight() ? d.getHeight() : d.getWidth());
+                return new Dimension(s, s);
+            }
+        };
+
         this.gameScene = gameScene;
         this.section = section;
         final Controller controller = gameScene.getUserInterface().getController();
@@ -43,15 +51,15 @@ public class SectionButton extends JButton {
         if (this.toBeDrawn) {
             selected = false;
             final String buttonLabel = getLabelFromSection(section);
-            this.setText(buttonLabel);
-            this.addActionListener(onClickActionListener);
-            this.setOpaque(true);
-            this.setBackground(UNSELECTED_COLOR);
+            this.button.setText(buttonLabel);
+            this.button.addActionListener(onClickActionListener);
+            this.button.setOpaque(true);
+            this.button.setBackground(UNSELECTED_COLOR);
         } else {
-            this.setContentAreaFilled(false);
-            this.setBorderPainted(false);
-            this.setBackground(new Color(0, 0, 0, 0));
-            this.setOpaque(false);
+            this.button.setContentAreaFilled(false);
+            this.button.setBorderPainted(false);
+            this.button.setBackground(new Color(0, 0, 0, 0));
+            this.button.setOpaque(false);
         }
     }
 
@@ -63,6 +71,10 @@ public class SectionButton extends JButton {
      */
     public boolean shouldBeDrawn() {
         return this.toBeDrawn;
+    }
+
+    public JButton getComponent() {
+        return this.button;
     }
 
     /**
@@ -79,9 +91,9 @@ public class SectionButton extends JButton {
      */
     public void select() {
         selected = true;
-        this.setBackground(SELECTED_COLOR);
-        this.setOpaque(true);
-        this.repaint();
+        this.button.setBackground(SELECTED_COLOR);
+        this.button.setOpaque(true);
+        this.button.repaint();
     }
 
     /**
@@ -89,9 +101,9 @@ public class SectionButton extends JButton {
      */
     public void deselect() {
         selected = false;
-        this.setBackground(UNSELECTED_COLOR);
-        this.setOpaque(true);
-        this.repaint();
+        this.button.setBackground(UNSELECTED_COLOR);
+        this.button.setOpaque(true);
+        this.button.repaint();
     }
 
     /**
@@ -101,16 +113,6 @@ public class SectionButton extends JButton {
      */
     public TileSection getSection() {
         return section;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Dimension getPreferredSize() {
-        final Dimension d = super.getPreferredSize();
-        final int s = (int) (d.getWidth() < d.getHeight() ? d.getHeight() : d.getWidth());
-        return new Dimension(s, s);
     }
 
     /**

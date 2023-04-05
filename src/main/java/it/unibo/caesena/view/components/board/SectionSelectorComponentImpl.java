@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
@@ -116,7 +117,7 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
         if (sectionButtons.isEmpty()) {
             populateSectionButtons();
         }
-        sectionButtons.entrySet().forEach(e -> this.add(e.getKey(), e.getValue()));
+        sectionButtons.entrySet().forEach(e -> this.add(e.getKey().getComponent(), e.getValue()));
     }
 
     /**
@@ -175,7 +176,9 @@ class SectionSelectorComponentImpl extends JPanel implements SectionSelectorComp
      */
     private ActionListener getSectionButtonListener() {
         return (e) -> {
-            final SectionButton newSectionButton = (SectionButton) e.getSource();
+            final JButton button = (JButton) e.getSource();
+            final SectionButton newSectionButton = sectionButtons.keySet().stream()
+                    .filter(b -> b.getComponent().equals(button)).findFirst().get();
             final Boolean wasSelected = newSectionButton.hasBeenSelected();
             sectionButtons.keySet().stream()
                     .filter(s -> s.shouldBeDrawn())
