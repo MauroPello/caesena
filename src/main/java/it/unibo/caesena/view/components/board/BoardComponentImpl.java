@@ -77,6 +77,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
      */
     @Override
     public void draw() {
+        mainPanel.removeAll();
         this.updateMapContent();
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
         this.mainPanel.setLayout(new GridLayout(fieldSize, fieldSize));
@@ -204,18 +205,6 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void updateMeeplePresence() {
-        allTileButtons.keySet().stream()
-                .filter(TileButton::containsTile)
-                .filter(t -> t.getMeeple().isPresent())
-                .filter(t -> !t.getMeeple().get().isPlaced())
-                .forEach(t -> t.unsetMeeple());
-    }
-
-    /**
      * Gets a list of the TileButtons that have to be drawn.
      * It does so basing itseft by the horizontal offset, the vertical offset and
      * the zoom level.
@@ -266,7 +255,8 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
     }
 
     /**
-     * Checks wheter or not there are any new tiles or meeples placed on the board.
+     * Checks wheter or not there are any new tiles or meeples placed on the board, if so it adds them.
+     * It check both for tiles and for meeples.
      */
     public void updateMapContent() {
         final Controller controller = this.gameScene.getUserInterface().getController();
@@ -274,11 +264,13 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
             .filter(m -> m.isPlaced())
             .toList();
         final List<Tile> placedTiles = controller.getPlacedTiles();
-        for (var tile : placedTiles) {
-            TileButton<JButton> tileButton = findTileButton(tile);
-            tileButton.addTile(tile);
-            tileButton.lock();
-            Optional<Meeple> meepleInTile = placedMeeples.stream()
+        for (final var tile : placedTiles) {
+            final TileButton<JButton> tileButton = findTileButton(tile);
+            if (!tileButton.isLocked()) {
+                tileButton.addTile(tile);
+                tileButton.lock();
+            }
+            final Optional<Meeple> meepleInTile = placedMeeples.stream()
                 .filter(m -> m.getPosition().getX().equals(tile))
                 .findFirst();
             if (meepleInTile.isPresent()) {
@@ -287,7 +279,6 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
                 tileButton.unsetMeeple();
             }
         }
-
     }
 
     /**

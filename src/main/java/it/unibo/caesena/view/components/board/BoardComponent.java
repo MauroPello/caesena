@@ -73,12 +73,6 @@ public interface BoardComponent<X> {
     void removePlacedTile();
 
     /**
-     * Updates the presence of meeples.
-     * This is necessary to sync different user interfaces.
-     */
-    void updateMeeplePresence();
-
-    /**
      * Gets the TileButton of the current tile being played.
      *
      * @param <T> the type of the TileButton
