@@ -69,6 +69,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     @Override
     public void draw() {
         this.removeAll();
+        this.updateMapContent();
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
         this.setLayout(new GridLayout(fieldSize, fieldSize));
         getTileButtonsToBeDrawn(this.horizontalOffset, this.verticalOffset, this.zoom)
@@ -202,7 +203,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     @SuppressWarnings("unchecked")
     @Override
     public TileButton<JButton> getCurrentTileButton() {
-        return findTileButton(gameScene.getUserInterface().getController().getCurrentTile().get()).get();
+        return findTileButton(gameScene.getUserInterface().getController().getCurrentTile().get());
     }
 
     /**
@@ -243,7 +244,8 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
 
     /**
      * Finds the TileButton that is present at a given pair of coordinates.
-     * If no such TileButton exists, it is created.
+     * If the TileButton doesn't exists, this method will create it, but it won't
+     * place it or lock it.
      *
      * @param horizontalCoordinate used to find the needed TileButton
      * @param verticalCoordinate   used to find the needed TileButton
@@ -252,38 +254,11 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
     private TileButton<JButton> findTileButton(final int horizontalCoordinate, final int verticalCoordinate) {
         TileButton<JButton> foundTileButton;
         final Pair<Integer, Integer> coordinates = new Pair<>(horizontalCoordinate, verticalCoordinate);
-        final Controller controller = this.gameScene.getUserInterface().getController();
-
-        final Optional<Tile> searchedTile = controller.getPlacedTiles().stream()
-                .filter(t -> t.getPosition().get().equals(coordinates))
-                .findFirst();
         final Optional<TileButton<JButton>> searchedTileButton = allTileButtons.entrySet().stream()
-                .filter(x -> x.getValue().equals(coordinates))
+        .filter(x -> x.getValue().equals(coordinates))
                 .map(x -> x.getKey())
                 .findFirst();
-        if (searchedTile.isPresent() && searchedTileButton.isEmpty()) {
-            foundTileButton = new TileButtonImpl(getTileButtonActionListener());
-            foundTileButton.addTile(searchedTile.get());
-            foundTileButton.lock();
-            allTileButtons.put(foundTileButton, coordinates);
-        } else if (searchedTile.isPresent() && searchedTileButton.isPresent()) {
-            if (!searchedTileButton.get().containsTile()) {
-                searchedTileButton.get().addTile(searchedTile.get());
-                searchedTileButton.get().lock();
-            } else if (searchedTileButton.get().getMeeple().isEmpty()) {
-                final Optional<Meeple> placedMeeple = controller.getMeeples().stream()
-                        .filter(m -> m.isPlaced())
-                        .filter(m -> m.getPosition().getX().equals(searchedTile.get()))
-                        .findFirst();
-                if (placedMeeple.isPresent()) {
-                    searchedTileButton.get().setMeeple(placedMeeple.get());
-                }
-            } else if (searchedTileButton.get().getMeeple().isPresent()
-                && !searchedTileButton.get().getMeeple().get().isPlaced()) {
-                    searchedTileButton.get().unsetMeeple();
-            }
-            foundTileButton = searchedTileButton.get();
-        } else if (searchedTile.isEmpty() && searchedTileButton.isEmpty()) {
+        if (searchedTileButton.isEmpty()) {
             foundTileButton = new TileButtonImpl(getTileButtonActionListener());
             allTileButtons.put(foundTileButton, coordinates);
         } else {
@@ -291,6 +266,31 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         }
 
         return foundTileButton;
+    }
+
+    /**
+     * Checks wheter or not there are any new tiles or meeples placed on the board.
+     */
+    public void updateMapContent() {
+        final Controller controller = this.gameScene.getUserInterface().getController();
+        final List<Meeple> placedMeeples = controller.getMeeples().stream()
+            .filter(m -> m.isPlaced())
+            .toList();
+        final List<Tile> placedTiles = controller.getPlacedTiles();
+        for (var tile : placedTiles) {
+            TileButton<JButton> tileButton = findTileButton(tile);
+            tileButton.addTile(tile);
+            tileButton.lock();
+            Optional<Meeple> meepleInTile = placedMeeples.stream()
+                .filter(m -> m.getPosition().getX().equals(tile))
+                .findFirst();
+            if (meepleInTile.isPresent()) {
+                tileButton.setMeeple(meepleInTile.get());
+            } else if (tileButton.getMeeple().isPresent()) {
+                tileButton.unsetMeeple();
+            }
+        }
+
     }
 
     /**
@@ -311,17 +311,15 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
 
     /**
      * Finds the TileButton corrisponding to any tile.
+     * If the TileButton doesn't exists, this method will create it, but it won't
+     * place it or lock it.
      *
      * @param tile to search the corrisponding TileButton
      * @return the TileButton corrisponding to the given tile
      */
-    private Optional<TileButton<JButton>> findTileButton(final Tile tile) {
-        if (!tile.isPlaced()) {
-            return Optional.empty();
-        } else {
-            final Pair<Integer, Integer> tilePosition = tile.getPosition().get();
-            return Optional.of(findTileButton(tilePosition.getX(), tilePosition.getY()));
-        }
+    private TileButton<JButton> findTileButton(final Tile tile) {
+        final Pair<Integer, Integer> tilePosition = tile.getPosition().get();
+        return findTileButton(tilePosition.getX(), tilePosition.getY());
     }
 
 /**

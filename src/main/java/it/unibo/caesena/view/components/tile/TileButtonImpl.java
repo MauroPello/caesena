@@ -161,7 +161,7 @@ public class TileButtonImpl extends JButton implements TileButton<JButton> {
      */
     @Override
     public Optional<Meeple> getMeeple() {
-        return this.tileImage.get().getMeeple();
+        return this.tileImage.isPresent() ? this.tileImage.get().getMeeple() : Optional.empty();
     }
 
 }

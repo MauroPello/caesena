@@ -78,11 +78,11 @@ final class ControllerTest {
         this.controller.addPlayer(this.firstPlayerName, this.firstPlayerColor);
         this.controller.startGame();
 
-        while (!this.controller.getCurrentTile().equals(citytile) &&
-            !this.controller.getCurrentTile().equals(tubetile)) {
+        while (!this.controller.getCurrentTile().get().equals(citytile) &&
+            !this.controller.getCurrentTile().get().equals(tubetile)) {
             this.controller.endTurn();
         }
-        if (this.controller.getCurrentTile().equals(tubetile)) {
+        if (this.controller.getCurrentTile().get().equals(tubetile)) {
             this.controller.rotateCurrentTile();
         }
         assertTrue(this.controller.isPositionValidForCurrentTile(new Pair<>(0, -1)));

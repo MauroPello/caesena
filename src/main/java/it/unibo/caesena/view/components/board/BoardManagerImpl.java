@@ -98,7 +98,7 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
         this.updateComponents();
         this.getSectionSelector().reset();
         this.gameScene.getUserInterface().getController().endTurn();
-        this.getBoard().updateMeeplePresence();
+        //this.getBoard().updateBoard();
     }
 
     /**
