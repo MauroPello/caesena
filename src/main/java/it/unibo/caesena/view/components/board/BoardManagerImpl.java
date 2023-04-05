@@ -8,20 +8,20 @@ import javax.swing.JPanel;
 import it.unibo.caesena.model.Player;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.utils.ResourceUtil;
-import it.unibo.caesena.view.components.common.PanelWithBackgroundImage;
+import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.scene.GameScene;
 
 /**
  * {@inheritDoc}
  *
  * Implements the class using a {@link javax.swing.JPanel}.
- * It extends {@link it.unibo.caesena.view.components.common.PanelWithBackgroundImage}.
+ * It extends {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
-public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardManager<JPanel> {
-    private static final long serialVersionUID = 1073591515646435610L;
-    private final GameScene gameScene;
-    private final BoardComponent<JPanel> board;
+public class BoardManagerImpl implements BoardManager<JPanel> {
+    private final JPanelWithBackgroundImage mainPanel;
     private final SectionSelectorComponent<JPanel> sectionSelector;
+    private final BoardComponent<JPanel> board;
+    private final GameScene gameScene;
     private boolean showingBoard;
 
     /**
@@ -30,7 +30,7 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
      * @param gameScene the parent GameScene
      */
     public BoardManagerImpl(final GameScene gameScene) {
-        super(ResourceUtil.getBufferedImage("background_Board.png", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Board.png", List.of()));
         this.gameScene = gameScene;
         this.board = new BoardComponentImpl(this.gameScene);
         this.sectionSelector = new SectionSelectorComponentImpl(this.gameScene);
@@ -67,7 +67,7 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
      */
     @Override
     public JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 
     /**
@@ -119,8 +119,8 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
         } else {
             this.showSectionSelector();
         }
-        this.validate();
-        this.repaint();
+        this.mainPanel.validate();
+        this.mainPanel.repaint();
     }
 
     /**
@@ -128,18 +128,18 @@ public class BoardManagerImpl extends PanelWithBackgroundImage implements BoardM
      */
     private void showBoard() {
         this.getSectionSelector().reset();
-        this.removeAll();
+        this.mainPanel.removeAll();
         this.getBoard().draw();
-        this.add(this.getBoard().getComponent());
+        this.mainPanel.add(this.getBoard().getComponent());
     }
 
     /**
      * Shows the section selector.
      */
     private void showSectionSelector() {
-        this.removeAll();
+        this.mainPanel.removeAll();
         this.getSectionSelector().draw();
-        this.add(this.getSectionSelector().getComponent());
+        this.mainPanel.add(this.getSectionSelector().getComponent());
     }
 
 }

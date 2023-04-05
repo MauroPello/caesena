@@ -8,16 +8,16 @@ import javax.swing.JPanel;
 /**
  * A class defining a JPanel with an Image as background.
  */
-public class PanelWithBackgroundImage extends JPanel {
+public class JPanelWithBackgroundImage extends JPanel {
     private static final long serialVersionUID = -3728080344667767964L;
-    private final BufferedImage image;
+    private final transient BufferedImage image;
 
     /**
      * Public constructor that accepts an image to be placed as background.
      *
      * @param image to set as background
      */
-    public PanelWithBackgroundImage(final BufferedImage image) {
+    public JPanelWithBackgroundImage(final BufferedImage image) {
         super();
         this.image = image;
     }

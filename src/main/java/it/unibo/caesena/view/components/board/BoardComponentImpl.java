@@ -26,16 +26,16 @@ import it.unibo.caesena.view.scene.GameScene;
  *
  * Implements the interface {@link it.unibo.caesena.view.components.board.BoardComponent} using a {@link javax.swing.JPanel}.
  */
-final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> {
-    private static final long serialVersionUID = -8835542981559590335L;
+final class BoardComponentImpl implements BoardComponent<JPanel> {
     private static final int DEFAULT_ZOOM_LEVEL = 5;
     private static final int MAX_FIELD_SIZE = 50;
-    private final GameScene gameScene;
     private final Map<TileButton<JButton>, Pair<Integer, Integer>> allTileButtons;
+    private final GameScene gameScene;
+    private final JPanel mainPanel;
     private int fieldSize = DEFAULT_ZOOM_LEVEL;
-    private int zoom;
     private int horizontalOffset;
     private int verticalOffset;
+    private int zoom;
 
     /**
      * Class constructor.
@@ -48,8 +48,17 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         this.horizontalOffset = 0;
         this.verticalOffset = 0;
         this.allTileButtons = new HashMap<>();
-        this.setOpaque(false);
-        this.setVisible(false);
+        this.mainPanel = new JPanel() {
+            @Override
+            public Dimension getPreferredSize() {
+                final Dimension d = this.getParent().getSize();
+                int newSize = d.width > d.height ? d.height : d.width;
+                newSize = newSize == 0 ? 100 : newSize;
+                return new Dimension(newSize, newSize);
+            }
+        };
+        this.mainPanel.setOpaque(false);
+        this.mainPanel.setVisible(false);
     }
 
     /**
@@ -60,7 +69,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
         if (visible) {
             this.draw();
         }
-        super.setVisible(visible);
+        this.mainPanel.setVisible(visible);
     }
 
     /**
@@ -68,24 +77,13 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
      */
     @Override
     public void draw() {
-        this.removeAll();
+        this.mainPanel.removeAll();
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
-        this.setLayout(new GridLayout(fieldSize, fieldSize));
+        this.mainPanel.setLayout(new GridLayout(fieldSize, fieldSize));
         getTileButtonsToBeDrawn(this.horizontalOffset, this.verticalOffset, this.zoom)
-                .forEach(t -> this.add(t.getComponent()));
-        this.repaint();
-        this.validate();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Dimension getPreferredSize() {
-        final Dimension d = this.getParent().getSize();
-        int newSize = d.width > d.height ? d.height : d.width;
-        newSize = newSize == 0 ? 100 : newSize;
-        return new Dimension(newSize, newSize);
+                .forEach(t -> this.mainPanel.add(t.getComponent()));
+        this.mainPanel.repaint();
+        this.mainPanel.validate();
     }
 
     /**
@@ -141,7 +139,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
      */
     @Override
     public boolean canZoomOut() {
-        return fieldSize < this.getHeight() / MAX_FIELD_SIZE;
+        return fieldSize < this.mainPanel.getHeight() / MAX_FIELD_SIZE;
     }
 
     /**
@@ -160,7 +158,7 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
      */
     @Override
     public JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 
     /**
@@ -300,7 +298,9 @@ final class BoardComponentImpl extends JPanel implements BoardComponent<JPanel> 
      */
     private ActionListener getTileButtonActionListener() {
         return (e) -> {
-            final TileButtonImpl selectedTileButton = (TileButtonImpl) e.getSource();
+            final JButton button = (JButton) e.getSource();
+            final TileButton<JButton> selectedTileButton = allTileButtons.keySet().stream()
+                    .filter(b -> b.getComponent().equals(button)).findFirst().get();
             final Controller controller = this.gameScene.getUserInterface().getController();
             if (controller.isPositionValidForCurrentTile(this.allTileButtons.get(selectedTileButton))) {
                 getPlacedUnlockedTile().ifPresent(TileButton::removeTile);

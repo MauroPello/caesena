@@ -19,11 +19,11 @@ import it.unibo.caesena.model.Player;
  * Implements the interface {@link it.unibo.caesena.view.components.meeple.RemainingMeeplesComponent} using a
  * {@link java.swing.JPanel}.
  */
-public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMeeplesComponent<JPanel> {
-    private static final long serialVersionUID = 5371662486606196479L;
+public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<JPanel> {
+    private final Map<Player, List<MeepleImage>> meeples;
     private final Controller controller;
     private final JPanel allMeeplesPanel;
-    private final Map<Player, List<MeepleImage>> meeples;
+    private final JPanel mainPanel;
 
     /**
      * RemainingMeeples constructor.
@@ -31,22 +31,19 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
      * @param gameScene
      */
     public RemainingMeeplesComponentImpl(final GameScene gameScene) {
-        super();
-
+        this.mainPanel = new JPanel();
+        this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
+        this.mainPanel.setOpaque(false);
 
         this.controller = gameScene.getUserInterface().getController();
-
         this.meeples = new HashMap<>();
-
-        this.setOpaque(false);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.allMeeplesPanel = new JPanel();
         this.allMeeplesPanel.setOpaque(false);
 
-        this.add(allMeeplesPanel);
+        this.mainPanel.add(allMeeplesPanel);
         this.allMeeplesPanel.setVisible(true);
-        super.setVisible(false);
+        this.mainPanel.setVisible(false);
     }
 
     /**
@@ -62,7 +59,7 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
             update();
         }
 
-        super.setVisible(visible);
+        this.mainPanel.setVisible(visible);
     }
 
     /**
@@ -99,6 +96,6 @@ public class RemainingMeeplesComponentImpl extends JPanel implements RemainingMe
      */
     @Override
     public JPanel getComponent() {
-        return this;
+        return this.mainPanel;
     }
 }
