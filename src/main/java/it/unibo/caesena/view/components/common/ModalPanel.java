@@ -3,10 +3,7 @@ package it.unibo.caesena.view.components.common;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
-import it.unibo.caesena.view.BasicComponent;
 import it.unibo.caesena.view.GUI;
-
-import javax.swing.*;
 
 /**
  * A class defining a simple modal panel with two different sizes and an image

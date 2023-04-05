@@ -61,6 +61,9 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
         this.mainPanel.setVisible(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.mainPanel.isVisible();
@@ -313,11 +316,11 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
         return findTileButton(tilePosition.getX(), tilePosition.getY());
     }
 
-/**
- * Gets the current TileButton as long as its placed but not locked.
- *
- * @return the current TileButton as long as its placed but not locked
- */
+    /**
+     * Gets the current TileButton as long as its placed but not locked.
+     *
+     * @return the current TileButton as long as its placed but not locked
+     */
     private Optional<TileButton<JButton>> getPlacedUnlockedTile() {
         return allTileButtons.keySet().stream()
                 .filter(k -> !k.isLocked() && k.containsTile())

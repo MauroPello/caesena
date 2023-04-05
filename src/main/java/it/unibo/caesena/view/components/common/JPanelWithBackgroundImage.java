@@ -41,6 +41,9 @@ public class JPanelWithBackgroundImage extends JPanel implements BasicComponent<
                 (int) Math.round(height), null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public JPanel getComponent() {
         return this;

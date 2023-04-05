@@ -319,6 +319,9 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         this.mainPanel.repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.mainPanel.isVisible();

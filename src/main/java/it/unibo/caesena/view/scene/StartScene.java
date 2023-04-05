@@ -161,7 +161,6 @@ public class StartScene implements Scene<JPanel> {
         this.mainPanel.setVisible(false);
     }
 
-
     /**
      * {@inheritDoc}
      */

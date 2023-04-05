@@ -1,5 +1,10 @@
 package it.unibo.caesena.view;
 
+/**
+ * An interface representing a basic Component used in the view package.
+ *
+ * @param <X> the type of the GUI component used
+ */
 public interface BasicComponent<X> {
     /**
      * Gets whether or not the component is visible.

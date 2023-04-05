@@ -89,13 +89,19 @@ public final class PlayerImageImpl implements PlayerImage<JPanel> {
         this.mainPanel.revalidate();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.mainPanel.isVisible();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void setVisible(boolean visible) {
+    public void setVisible(final boolean visible) {
         this.mainPanel.setVisible(visible);
     }
 

@@ -162,7 +162,8 @@ public class GUI implements UserInterface {
     }
 
     /**
-     * Shows only gameScene and pauseScene.
+     * Shows only gameScene and pauseScene, also sets up an Action to switch between
+     * gameScene and pauseScene by pressing ESC.
      */
     public void showGameScene() {
         this.mainFrame.setTitle(LocaleHelper.getSceneTitle("GameScene", true));
@@ -215,7 +216,7 @@ public class GUI implements UserInterface {
     }
 
     /**
-     * Shows the exit dialog used to the exit the game.
+     * Shows the exit dialog.
      */
     public void showExitDialog() {
         final int result = JOptionPane.showConfirmDialog(this.mainFrame, LocaleHelper.getConfirmExitText(),
@@ -227,7 +228,7 @@ public class GUI implements UserInterface {
     }
 
     /**
-     * Shows the back to startScene dialog used to go back to the start menu.
+     * Shows the back to startScene dialog.
      */
     public void showBackTostartSceneDialog() {
         final int result = JOptionPane.showConfirmDialog(this.mainFrame, LocaleHelper.getConfirmBackToStartMenuText(),

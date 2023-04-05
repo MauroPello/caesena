@@ -93,11 +93,17 @@ class SectionSelectorComponentImpl implements SectionSelectorComponent<JPanel> {
         this.mainPanel.removeAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.mainPanel.isVisible();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
     this.mainPanel.setVisible(visible);

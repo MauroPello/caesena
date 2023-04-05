@@ -74,11 +74,17 @@ public class SectionButton implements BasicComponent<JButton> {
         return this.toBeDrawn;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVisible() {
         return this.button.isVisible();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
         this.button.setVisible(visible);
@@ -89,6 +95,7 @@ public class SectionButton implements BasicComponent<JButton> {
      *
      * @return the Section button as a JButton
      */
+    @Override
     public JButton getComponent() {
         return this.button;
     }

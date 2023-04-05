@@ -14,6 +14,12 @@ public final class TileFactoryWithBuilder implements TileFactory {
 
     private static final int PENNANT_POINTS = 2;
 
+    /**
+     * Adds a Pennant to the GameSet in a certain section.
+     *
+     * @param gameSets map of all gameSets with their respective TileSections
+     * @param section in which to add a Pennant
+     */
     private void addPennantToGameSet(final Map<GameSet, Set<TileSection>> gameSets, final TileSection section) {
         for (final var entry : gameSets.entrySet()) {
             if (entry.getValue().contains(section)) {
