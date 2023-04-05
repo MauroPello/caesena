@@ -127,6 +127,7 @@ public enum TileType {
      * @param tileFactory used to create the new Tile
      * @return a new tile with the same type as the enum on which it's called
      */
+    @SuppressWarnings("unchecked")
     public Pair<MutableTile, Map<GameSet, Set<TileSection>>> createTile(final TileFactory tileFactory) {
         final StringBuilder methodNameBuilder = new StringBuilder();
         methodNameBuilder.append("create");
