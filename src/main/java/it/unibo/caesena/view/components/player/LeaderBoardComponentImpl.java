@@ -18,7 +18,7 @@ import it.unibo.caesena.view.LocaleHelper;
  * {@inheritDoc}
  *
  * Implements the interface {@link it.unibo.caesena.view.components.player.LeaderBoardComponent} using a
- * {@link java.swing.JPanel}.
+ * {@link javax.swing.JPanel}.
  */
 public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPanel> {
     private static final float PLAYER_IMAGE_RATIO = 0.01f;

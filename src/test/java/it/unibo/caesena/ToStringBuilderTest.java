@@ -11,11 +11,12 @@ import it.unibo.caesena.utils.StringUtil;
 
 final class ToStringBuilderTest {
 
+    private static final Color PLAYER_COLOR = new Color(50, 50, 50);
     private static PlayerImpl player;
 
     @BeforeAll
     static void init() {
-        player = new PlayerImpl("Giocatore1", new Color(50, 50, 50));
+        player = new PlayerImpl("Giocatore1", PLAYER_COLOR);
     }
 
     @Test

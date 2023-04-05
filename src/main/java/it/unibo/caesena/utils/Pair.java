@@ -1,12 +1,12 @@
 package it.unibo.caesena.utils;
 
 /**
- * A standard generic Pair<X,Y>, with getters, hashCode, equals, and toString
+ * A standard generic Pair of values, with getters, hashCode, equals, and toString
  * well implemented.
  * Code imported from Professor Viroli.
- * 
- * @param <X>
- * @param <Y>
+ *
+ * @param <X> type of the first value
+ * @param <Y> type of the second value
  */
 public final class Pair<X, Y> {
     private final X x;
@@ -14,9 +14,9 @@ public final class Pair<X, Y> {
 
     /**
      * Public constructor.
-     * 
-     * @param x
-     * @param y
+     *
+     * @param x first value
+     * @param y second value
      */
     public Pair(final X x, final Y y) {
         super();
@@ -25,16 +25,16 @@ public final class Pair<X, Y> {
     }
 
     /**
-     * 
-     * @return first value of Pair<X, Y>
+     *
+     * @return first value of Pair
      */
     public X getX() {
         return x;
     }
 
     /**
-     * 
-     * @return second value of Pair<X, Y>
+     *
+     * @return second value of Pair
      */
     public Y getY() {
         return y;

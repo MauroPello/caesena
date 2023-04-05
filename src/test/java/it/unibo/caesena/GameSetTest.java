@@ -13,12 +13,17 @@ import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactory;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 final class GameSetTest {
 
+    private static final Color PLAYER_COLOR = new Color(50, 50, 50);
+    private static final int POINTS_INCREMENT = 5;
     private static GameSetFactory gamesetFactory;
     private static GameSet gamesetCity;
     private static GameSet gamesetCity2;
@@ -34,7 +39,7 @@ final class GameSetTest {
         gamesetCity = gamesetFactory.createCitySet();
         gamesetCity2 = gamesetFactory.createCitySet();
         gamesetField = gamesetFactory.createFieldSet();
-        owner = new PlayerImpl("Giocatore1", new Color(50, 50, 50));
+        owner = new PlayerImpl("Giocatore1", PLAYER_COLOR);
         meepleTest = new NormalMeeple(owner);
     }
 
@@ -54,23 +59,21 @@ final class GameSetTest {
     }
 
     @Test
-    void testPoints () {
-        assertEquals(gamesetField.getPoints(), 0);
-        gamesetField.setPoints(5);
-        assertEquals(gamesetField.getPoints(), 5);
-        gamesetField.addPoints(5);
-        assertEquals(gamesetField.getPoints(), 10);
-        gamesetField.addPoints(5);
-        assertEquals(gamesetField.getPoints(), 15);
+    void testPoints() {
+        assertEquals(0, gamesetField.getPoints());
+        gamesetField.setPoints(POINTS_INCREMENT);
+        assertEquals(POINTS_INCREMENT, gamesetField.getPoints());
+        gamesetField.addPoints(POINTS_INCREMENT);
+        assertEquals(POINTS_INCREMENT + POINTS_INCREMENT, gamesetField.getPoints());
     }
 
     @Test
-    void testCloseGameSet () {
+    void testCloseGameSet() {
         assertFalse(gamesetToClose.isClosed());
-        gamesetToClose.setPoints(5);
+        gamesetToClose.setPoints(POINTS_INCREMENT);
         gamesetToClose.addMeeple(meepleTest);
         gamesetToClose.close();
         assertTrue(gamesetToClose.isClosed());
-        assertEquals(owner.getScore(), 5);
+        assertEquals(POINTS_INCREMENT, owner.getScore());
     }
 }

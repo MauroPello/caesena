@@ -10,16 +10,19 @@ import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 
 /**
- * An interface defining a mediator for GameSet and MutableTile. It keeps track of
- * GameSets contained in Tiles and vice versa.
+ * An interface defining a mediator for
+ * {@link it.unibo.caesena.model.gameset.GameSet} and
+ * {@link it.unibo.caesena.model.tile.MutableTile}. It keeps track of GameSets
+ * contained in Tiles and vice versa.
  */
 public interface GameSetTileMediator {
 
     /**
-     * Adds to a GameSet many sections in a MutableTile.
+     * Adds many <code>TileSection</code> in a <code>MutableTile</code> to a
+     * <code>GameSet</code>.
      *
-     * @param gameSet     in which to add the specific section
-     * @param tile        the tile that contains the specific section
+     * @param gameSet      in which to add the specific section
+     * @param tile         the tile that contains the specific section
      * @param tileSections the sections to add to the gameSet
      */
     void addSections(GameSet gameSet, MutableTile tile, Set<TileSection> tileSections);

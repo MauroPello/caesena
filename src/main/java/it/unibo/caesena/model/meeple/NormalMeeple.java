@@ -12,7 +12,7 @@ import it.unibo.caesena.utils.StringUtil;
 /**
  * {@inheritDoc}
  *
- * A class representing a normal Meeple with strength always equal to 1.
+ * A class representing a normal {@link it.unibo.caesena.model.meeple.Meeple} with strength always equal to 1.
  */
 public class NormalMeeple implements MutableMeeple {
 
@@ -21,7 +21,7 @@ public class NormalMeeple implements MutableMeeple {
     private Optional<Pair<Tile, TileSection>> position;
 
     /**
-     * Public constructor that accepts as argument the player that owns the meeple.
+     * Public constructor that accepts as argument the {@link it.unibo.caesena.model.player.Player} that owns the meeple.
      *
      * @param owner the player that owns the meeple
      */

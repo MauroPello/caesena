@@ -24,7 +24,7 @@ final class TileTest {
         final GameSetTileMediator mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
         final var tileMap = new TileFactoryWithBuilder().createCityEdge();
         tile = tileMap.getX();
-        tileMap.getY().forEach((k,v) -> mediator.addSections(k, tile, v));
+        tileMap.getY().forEach((k, v) -> mediator.addSections(k, tile, v));
     }
 
     @Test

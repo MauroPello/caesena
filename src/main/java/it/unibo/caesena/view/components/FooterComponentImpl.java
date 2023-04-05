@@ -66,7 +66,7 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
     /**
      * FooterComponent constructor.
      *
-     * @param gameScene the parente GameScene
+     * @param gameScene the parent GameScene
      */
     public FooterComponentImpl(final GameScene gameScene) {
         this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));

@@ -15,6 +15,9 @@ public class ModalPanel extends JPanelWithBackgroundImage {
     private static final float MODAL_MAXIMUM_RATIO = 0.5f;
     private static final float MODAL_MINIMUM_RATIO = 0.2f;
     private static final float SMALL_MODAL_RATIO = 0.5f;
+    /**
+     * Whether the panel should be small or not.
+     */
     private final boolean small;
 
     /**
