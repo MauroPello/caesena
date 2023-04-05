@@ -215,6 +215,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
             placeTileButton.setVisible(true);
             toggleBoardButton.setVisible(false);
             toggleBoardButton.setEnabled(true);
+            toggleBoardButton.setText(LocaleHelper.getPlaceMeepleText());
             endTurnButton.setVisible(false);
             discardTileButton.setVisible(true);
             discardTileButton.setEnabled(true);
