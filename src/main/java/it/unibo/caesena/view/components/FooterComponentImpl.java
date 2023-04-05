@@ -40,7 +40,7 @@ import it.unibo.caesena.view.scene.GameScene;
 /**
  * {@inheritDoc}
  *
- * Implements the interface {@link it.unibo.caesena.view.components.FooterComponent} using a
+ * Implements the interface {@link FooterComponent} using a
  * {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
 public class FooterComponentImpl implements FooterComponent<JPanel> {
@@ -66,7 +66,7 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
     /**
      * FooterComponent constructor.
      *
-     * @param gameScene the parente GameScene
+     * @param gameScene the parent GameScene
      */
     public FooterComponentImpl(final GameScene gameScene) {
         this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
@@ -317,5 +317,13 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         }
         this.mainPanel.revalidate();
         this.mainPanel.repaint();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
     }
 }

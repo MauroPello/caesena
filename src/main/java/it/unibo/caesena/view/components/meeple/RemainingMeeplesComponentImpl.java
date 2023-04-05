@@ -17,7 +17,7 @@ import it.unibo.caesena.model.player.Player;
  * {@inheritDoc}
  *
  * Implements the interface {@link it.unibo.caesena.view.components.meeple.RemainingMeeplesComponent} using a
- * {@link java.swing.JPanel}.
+ * {@link javax.swing.JPanel}.
  */
 public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<JPanel> {
     private final Map<Player, List<MeepleImage>> meeples;
@@ -28,7 +28,7 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
     /**
      * RemainingMeeples constructor.
      *
-     * @param gameScene
+     * @param gameScene the parent GameScene
      */
     public RemainingMeeplesComponentImpl(final GameScene gameScene) {
         this.mainPanel = new JPanel();
@@ -44,6 +44,14 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
         this.mainPanel.add(allMeeplesPanel);
         this.allMeeplesPanel.setVisible(true);
         this.mainPanel.setVisible(false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
     }
 
     /**

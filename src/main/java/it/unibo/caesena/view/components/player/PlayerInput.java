@@ -3,6 +3,7 @@ package it.unibo.caesena.view.components.player;
 import java.awt.Color;
 
 import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.view.BasicComponent;
 
 /**
  * An interface defining a component that allows to enter all the needed
@@ -10,7 +11,7 @@ import it.unibo.caesena.utils.Pair;
  *
  * @param <X> the type of the GUI component containing the player input
  */
-public interface PlayerInput<X> {
+public interface PlayerInput<X> extends BasicComponent<X> {
 
     /**
      * Gets all the entered information by the player.
@@ -18,12 +19,4 @@ public interface PlayerInput<X> {
      * @return all the entered information by the player
      */
     Pair<String, Color> getPlayerData();
-
-    /**
-     * Gets the GUI component containing the NumericUpDown.
-     *
-     * @return the GUI component containing the NumericUpDown
-     */
-    X getComponent();
-
 }

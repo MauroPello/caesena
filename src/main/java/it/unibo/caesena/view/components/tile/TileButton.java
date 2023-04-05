@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.view.BasicComponent;
 
 /**
  * This class rappresents a grid of the board.
@@ -16,7 +17,7 @@ import it.unibo.caesena.model.tile.Tile;
  *
  * @param <X> the type of the GUI component
  */
-public interface TileButton<X> {
+public interface TileButton<X> extends BasicComponent<X> {
 
     /**
      * Adds a tile.
@@ -78,12 +79,5 @@ public interface TileButton<X> {
      * can't be removed.
      */
     void lock();
-
-    /**
-     * Gets the TileButton as a specific component of a GUI framework, such as JButton.
-     *
-     * @return the TileButton a specific component of a GUI framework.
-     */
-    X getComponent();
 
 }

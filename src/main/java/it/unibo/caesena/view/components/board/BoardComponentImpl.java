@@ -24,7 +24,7 @@ import it.unibo.caesena.view.scene.GameScene;
 /**
  * {@inheritDoc}
  *
- * Implements the interface {@link it.unibo.caesena.view.components.board.BoardComponent} using a {@link javax.swing.JPanel}.
+ * Implements the interface {@link BoardComponent} using a {@link javax.swing.JPanel}.
  */
 final class BoardComponentImpl implements BoardComponent<JPanel> {
     private static final int DEFAULT_ZOOM_LEVEL = 5;
@@ -65,9 +65,17 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
      * {@inheritDoc}
      */
     @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setVisible(final boolean visible) {
         if (visible) {
-            this.draw();
+            this.update();
         }
         this.mainPanel.setVisible(visible);
     }
@@ -76,7 +84,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    public void draw() {
+    public void update() {
         mainPanel.removeAll();
         this.updateMapContent();
         this.fieldSize = DEFAULT_ZOOM_LEVEL - (zoom * 2);
@@ -94,7 +102,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
     public void zoomIn() {
         if (canZoomIn()) {
             zoom++;
-            draw();
+            update();
         } else {
             throw new IllegalStateException("Tried to zoom in but was not allowed");
         }
@@ -107,7 +115,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
     public void zoomOut() {
         if (canZoomOut()) {
             zoom--;
-            draw();
+            update();
         } else {
             throw new IllegalStateException("Tried to zoom out but was not allowed");
         }
@@ -121,7 +129,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
         if (canMove(direction)) {
             this.verticalOffset += direction.getY();
             this.horizontalOffset += direction.getX();
-            draw();
+            update();
         } else {
             throw new IllegalStateException("Tried to move up but was not allowed");
         }
@@ -188,11 +196,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
     @Override
     public Optional<Pair<Integer, Integer>> getUnlockedTileButtonPosition() {
         final Optional<TileButton<JButton>> unlockedTileButton = this.getPlacedUnlockedTile();
-        if (unlockedTileButton.isPresent()) {
-            return Optional.of(allTileButtons.get(unlockedTileButton.get()));
-        } else {
-            return Optional.empty();
-        }
+        return unlockedTileButton.map(allTileButtons::get);
     }
 
     /**
@@ -261,7 +265,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
     public void updateMapContent() {
         final Controller controller = this.gameScene.getUserInterface().getController();
         final List<Meeple> placedMeeples = controller.getMeeples().stream()
-            .filter(m -> m.isPlaced())
+            .filter(Meeple::isPlaced)
             .toList();
         final List<Tile> placedTiles = controller.getPlacedTiles();
         for (final var tile : placedTiles) {
@@ -312,14 +316,15 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
         return findTileButton(tilePosition.getX(), tilePosition.getY());
     }
 
-/**
- * Gets the current TileButton as long as its placed but not locked.
- *
- * @return the current TileButton as long as its placed but not locked
- */
+    /**
+     * Gets the current TileButton as long as its placed but not locked.
+     *
+     * @return the current TileButton as long as its placed but not locked
+     */
     private Optional<TileButton<JButton>> getPlacedUnlockedTile() {
         return allTileButtons.keySet().stream()
                 .filter(k -> !k.isLocked() && k.containsTile())
                 .findFirst();
     }
+
 }

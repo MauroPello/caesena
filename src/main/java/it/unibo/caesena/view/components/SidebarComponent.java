@@ -1,6 +1,8 @@
 package it.unibo.caesena.view.components;
 
 
+import it.unibo.caesena.view.BasicComponent;
+
 /**
  * This interface rappresents a sidebar to be used in Scene.
  *
@@ -10,20 +12,6 @@ package it.unibo.caesena.view.components;
  *
  * @param <X> the type of the GUI component
  */
-public interface SideBarComponent<X> {
+public interface SidebarComponent<X> extends BasicComponent<X> {
 
-    /**
-     * Sets whether or not the component should be visible.
-     *
-     * @param visible boolean representing whether or not the component should be
-     *                visible
-     */
-    void setVisible(boolean visible);
-
-    /**
-     * Gets the component which represents the sidebar.
-     *
-     * @return the component which represents the sidebar
-     */
-    X getComponent();
 }

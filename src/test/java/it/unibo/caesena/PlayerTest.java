@@ -9,11 +9,12 @@ import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.player.PlayerImpl;
 
 final class PlayerTest {
+
+    private static final Color PLAYER_COLOR = new Color(50, 50, 50);
     private final PlayerImpl player;
-    private final Color playerColor = new Color(50, 50, 50);
 
     PlayerTest() {
-        this.player = new PlayerImpl("Giocatore1", playerColor);
+        this.player = new PlayerImpl("Giocatore1", PLAYER_COLOR);
     }
 
     @Test
@@ -35,7 +36,7 @@ final class PlayerTest {
     }
 
     @Test
-    void testColor () {
-        assertEquals(player.getColor(), playerColor);
+    void testColor() {
+        assertEquals(PLAYER_COLOR, player.getColor());
     }
 }

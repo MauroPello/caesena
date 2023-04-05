@@ -25,10 +25,10 @@ import it.unibo.caesena.view.scene.GameScene;
 /**
  * {@inheritDoc}
  *
- * Implements the interface {@link it.unibo.caesena.view.components.SideBarComponent} using a
+ * Implements the interface {@link SidebarComponent} using a
  * {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
-public class SideBarComponentImpl implements SideBarComponent<JPanel> {
+public class SidebarComponentImpl implements SidebarComponent<JPanel> {
     private final Controller controller;
     private final GameScene gameScene;
     private final JButton zoomInButton;
@@ -48,7 +48,7 @@ public class SideBarComponentImpl implements SideBarComponent<JPanel> {
      *
      * @param gameScene the parent GameScene
      */
-    public SideBarComponentImpl(final GameScene gameScene) {
+    public SidebarComponentImpl(final GameScene gameScene) {
         this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
         this.mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         this.mainPanel.setLayout(new GridBagLayout());
@@ -215,6 +215,7 @@ public class SideBarComponentImpl implements SideBarComponent<JPanel> {
             placeTileButton.setVisible(true);
             toggleBoardButton.setVisible(false);
             toggleBoardButton.setEnabled(true);
+            toggleBoardButton.setText(LocaleHelper.getPlaceMeepleText());
             endTurnButton.setVisible(false);
             discardTileButton.setVisible(true);
             discardTileButton.setEnabled(true);
@@ -336,6 +337,17 @@ public class SideBarComponentImpl implements SideBarComponent<JPanel> {
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVisible(final boolean visible) {
         this.mainPanel.setVisible(visible);

@@ -50,7 +50,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
                 .findAny();
         if (remainingMeeples.isPresent()) {
             showingBoard = !showingBoard;
-            updateComponents();
+            update();
         }
     }
 
@@ -60,6 +60,22 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
     @Override
     public SectionSelectorComponent<JPanel> getSectionSelector() {
         return this.sectionSelector;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setVisible(final boolean visible) {
+        this.mainPanel.setVisible(visible);
     }
 
     /**
@@ -95,7 +111,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
         if (!showingBoard) {
             showingBoard = true;
         }
-        this.updateComponents();
+        this.update();
         this.getSectionSelector().reset();
         this.gameScene.getUserInterface().getController().endTurn();
         //this.getBoard().updateBoard();
@@ -113,7 +129,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    public void updateComponents() {
+    public void update() {
         if (this.showingBoard) {
             this.showBoard();
         } else {
@@ -129,7 +145,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
     private void showBoard() {
         this.getSectionSelector().reset();
         this.mainPanel.removeAll();
-        this.getBoard().draw();
+        this.getBoard().update();
         this.mainPanel.add(this.getBoard().getComponent());
     }
 

@@ -1,5 +1,7 @@
 package it.unibo.caesena.view.components.common;
 
+import it.unibo.caesena.view.BasicComponent;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -8,7 +10,7 @@ import javax.swing.JPanel;
 /**
  * A class defining a JPanel with an Image as background.
  */
-public class JPanelWithBackgroundImage extends JPanel {
+public class JPanelWithBackgroundImage extends JPanel implements BasicComponent<JPanel> {
     private static final long serialVersionUID = -3728080344667767964L;
     private final transient BufferedImage image;
 
@@ -37,5 +39,13 @@ public class JPanelWithBackgroundImage extends JPanel {
         graphics.drawImage(image, 0, 0,
                 (int) Math.round(width),
                 (int) Math.round(height), null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public JPanel getComponent() {
+        return this;
     }
 }

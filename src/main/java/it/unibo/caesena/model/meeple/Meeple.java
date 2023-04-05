@@ -19,8 +19,9 @@ public interface Meeple {
     int getStrength();
 
     /**
-     * Gets the current position for the meeple, namely the tile and section it's
-     * placed on.
+     * Gets the current position for the meeple, namely the
+     * {@link it.unibo.caesena.model.tile.Tile} and
+     * {@link it.unibo.caesena.model.tile.TileSection} it's placed on.
      *
      * @return the current position for the meeple.
      */

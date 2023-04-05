@@ -1,5 +1,7 @@
 package it.unibo.caesena.view.components;
 
+import it.unibo.caesena.view.UpdatableComponent;
+
 /**
  * This interface rappresents a footer to be used in Scene.
  *
@@ -13,30 +15,10 @@ package it.unibo.caesena.view.components;
  *
  * @param <X> the type of the GameScene component
  */
-public interface FooterComponent<X> {
-
-    /**
-     * Sets whether or not the component should be visible.
-     *
-     * @param visible boolean representing whether or not the component should be
-     *                visible
-     */
-    void setVisible(boolean visible);
+public interface FooterComponent<X> extends UpdatableComponent<X> {
 
     /**
      * Updates the current tile image.
      */
     void updateCurrentTile();
-
-    /**
-     * Gets the component which represents the footer.
-     *
-     * @return the component which represents the footer.
-     */
-    X getComponent();
-
-    /**
-     * Updates every component in the footer.
-     */
-    void update();
 }

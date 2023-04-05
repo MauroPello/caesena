@@ -19,7 +19,7 @@ import it.unibo.caesena.view.scene.GameScene;
 /**
  * {@inheritDoc}
  *
- * Implements the interface {@link it.unibo.caesena.view.components.board.SectionSelectorComponent}
+ * Implements the interface {@link SectionSelectorComponent}
  * using a {@link javax.swing.JPanel}.
  * It extends {@link it.unibo.caesena.view.components.common.JPanelWithBackgroundImage}.
  */
@@ -91,6 +91,22 @@ class SectionSelectorComponentImpl implements SectionSelectorComponent<JPanel> {
     public void reset() {
         this.sectionButtons.clear();
         this.mainPanel.removeAll();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isVisible() {
+        return this.mainPanel.isVisible();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setVisible(final boolean visible) {
+    this.mainPanel.setVisible(visible);
     }
 
     /**

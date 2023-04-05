@@ -13,8 +13,8 @@ import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.components.FooterComponent;
 import it.unibo.caesena.view.components.FooterComponentImpl;
-import it.unibo.caesena.view.components.SideBarComponent;
-import it.unibo.caesena.view.components.SideBarComponentImpl;
+import it.unibo.caesena.view.components.SidebarComponent;
+import it.unibo.caesena.view.components.SidebarComponentImpl;
 import it.unibo.caesena.view.components.board.BoardManager;
 import it.unibo.caesena.view.components.board.BoardManagerImpl;
 import it.unibo.caesena.view.components.tile.TileImage;
@@ -28,7 +28,7 @@ public class GameScene implements Scene<JPanel> {
     private final JPanel mainPanel;
     private final BoardManager<JPanel> boardManager;
     private final FooterComponent<JPanel> footer;
-    private final SideBarComponent<JPanel> sidebar;
+    private final SidebarComponent<JPanel> sidebar;
     private Optional<TileImage> currentTileImage;
 
     /**
@@ -42,7 +42,7 @@ public class GameScene implements Scene<JPanel> {
         this.currentTileImage = Optional.empty();
         this.boardManager = new BoardManagerImpl(this);
         this.footer = new FooterComponentImpl(this);
-        this.sidebar = new SideBarComponentImpl(this);
+        this.sidebar = new SidebarComponentImpl(this);
         this.mainPanel.setLayout(new GridBagLayout());
         final GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.BOTH;
@@ -231,7 +231,7 @@ public class GameScene implements Scene<JPanel> {
     @Override
     public void update() {
         this.generateCurrentTileImage();
-        this.boardManager.updateComponents();
+        this.boardManager.update();
         this.footer.update();
     }
 

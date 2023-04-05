@@ -18,12 +18,13 @@ import it.unibo.caesena.model.tile.TileSection;
 
 final class NormalMeepleTest {
 
+    private static final Color PLAYER_COLOR = new Color(50, 50, 50);
     private static MutableMeeple meeple;
     private static MutablePlayer owner;
 
     @BeforeAll
     static void init() {
-        owner = new PlayerImpl("Giocatore1", new Color(50, 50, 50));
+        owner = new PlayerImpl("Giocatore1", PLAYER_COLOR);
         meeple = new NormalMeeple(owner);
     }
 

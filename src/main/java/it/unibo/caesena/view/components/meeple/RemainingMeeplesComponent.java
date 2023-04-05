@@ -1,5 +1,7 @@
 package it.unibo.caesena.view.components.meeple;
 
+import it.unibo.caesena.view.UpdatableComponent;
+
 /**
  * This interface rappresents a meeple component to be used in Scene.
  *
@@ -7,25 +9,6 @@ package it.unibo.caesena.view.components.meeple;
  *
  * @param <X> the type of the GameScene component
  */
-public interface RemainingMeeplesComponent<X> {
+public interface RemainingMeeplesComponent<X> extends UpdatableComponent<X> {
 
-    /**
-     * Sets whether or not the component should be visible.
-     *
-     * @param visible boolean representing whether or not the component should be
-     *                visible
-     */
-    void setVisible(boolean visible);
-
-    /**
-     * Updates the current tile image.
-     */
-    void update();
-
-    /**
-     * Gets the component which represents the footer.
-     *
-     * @return the component which represents the footer.
-     */
-    X getComponent();
 }

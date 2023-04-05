@@ -44,6 +44,22 @@ public class NumericUpDownImpl implements NumericUpDown<JSpinner> {
      * {@inheritDoc}
      */
     @Override
+    public boolean isVisible() {
+        return this.spinner.isVisible();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setVisible(final boolean visible) {
+        this.spinner.setVisible(visible);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public JSpinner getComponent() {
         return this.spinner;
     }

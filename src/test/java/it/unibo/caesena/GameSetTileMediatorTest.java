@@ -21,16 +21,16 @@ import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileType;
 import it.unibo.caesena.utils.Pair;
 
-public class GameSetTileMediatorTest {
+final class GameSetTileMediatorTest {
 
-    private static Pair<MutableTile,Map<GameSet,Set<TileSection>>> tileMap;
+    private static Pair<MutableTile, Map<GameSet, Set<TileSection>>> tileMap;
     private static GameSetTileMediator mediator;
 
     @BeforeAll
     static void init() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
         tileMap = new TileFactoryWithBuilder().createCityEdge();
-        tileMap.getY().forEach((k,v) -> mediator.addSections(k, tileMap.getX(), v));
+        tileMap.getY().forEach((k, v) -> mediator.addSections(k, tileMap.getX(), v));
     }
 
     @Test
