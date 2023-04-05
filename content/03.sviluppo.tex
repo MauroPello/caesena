@@ -1,18 +1,20 @@
 \section{Sviluppo}
 \subsection{Testing automatizzato}
-Per effettuare i test necessari per i corretti controlli di funzionalità del nostro software abbiamo utilizzato la suite dedicata JUnit 5. I test che siamo andati ad implementare riguardando
+Per effettuare i test necessari per i corretti controlli di funzionalità del nostro software abbiamo utilizzato la suite dedicata JUnit 5. I test che siamo andati ad implementare riguardano:
 \begin{itemize}
-    \item ControllerTest: questa classe permette di testare la costruzione delle Tiles (che non ritornino) errori (.isEmpty()) durante il loro posizionamento, l'aggiunta di un nuovo giocatore e il ritorno del corretto numero di meeple's a inizio partita
-    \item GameSetTest: questa classe permette di testare la corretta creazione di vari GameSet (esempio: citySet, FieldSet), l'unione di due GameSet, il testing sui relativi meeple presenti sulle tile dei due GameSet appena uniti. Sono presenti test anche per il controllo della corretta assegnazione e modifica dei punti relativi ai GameSet, inclusa anche la gestione della corretta chiusura di un GameSet e dell'assegnazione dei punti ai player aventi meeples sul GameSet appena chiuso. 
-    \item NormalMeepleTest: questa classe permette di testare il corretto numero di meeple presenti e se sono stati piazzati in maniera corretta
-    \item PlayerTest: questa classe ci permette di testare il get di tutte le informazioni relative al giocatore, e la corretta gestione dello score relativo al giocatore
-    \item TileTest: questa classe ci permettedi andar a testare la corretta creazione e posizionamento di tiles, il get delle informazioni relative a quella tile (.isPlaced()), la corretta gestione della rotazione di una tile, la corretta gestione della chiusura di una section (chiusura di un'immagine) e lo shift della TileSection.
-    \item ToStringBuilderTest: 
+    \item ControllerTest: //TODO//
+    \item GameSetTest: questa classe permette di testare la corretta creazione di vari GameSet (esempio: citySet, FieldSet), l'unione di due GameSet, il piazzamento di meeple all'interno dei GameSet. Sono presenti test anche per il controllo della corretta assegnazione e modifica dei punti relativi ai GameSet, inclusa anche la gestione della corretta chiusura di un GameSet e dell'assegnazione dei punti ai player aventi meeples sul GameSet appena chiuso. 
+    \item NormalMeepleTest: questa classe permette di testare i metodi appartenenti al NormalMeeple e il posizionamento di esso all'interno di una Tile.
+    \item PlayerTest: questa classe ci permette di testare i metodi appartenenti al Player e la modifica progressiva dei punti assegnatogli.
+    \item TileTest: questa classe ci permette di andar a testare la corretta creazione di tiles e i metodi ad essa associata, più in specifico la chiusura di una TileSection all'interno della Tile. Viene testato anche lo scorrimento circolare di una TileSection all'interno di una Tile.
+    \item ToStringBuilderTest: questa classe ci permette di testare la classe ToStringBuilder, in particolar modo l'ottenimento di una stringa rappresentativa per un qualsiasi Object. Infine verifica la consistenza delle rappresentazioni letterali degli oggetti, garantendo che rimangano invariate.
+    \item DirectionTest: questa classe ci permette di testare l'enum Direction e il suo metodo match che controlla se la differenza delle coordinate di due punti combacia con la direzione fornita
+    \item GameSetTileMediatorTest: questa classe ci permette di testare i vari metodi della classe GameSetTileMediator, per esempio la rotazione di una Tila con i GameSet ad essa associata, e la corretta corrispondenza tra Tiles con le proprie TileSection e i GameSet.
 \end{itemize}
 Non sono stati creati test JUnit nella View poichè 
 
 \subsection{Metodologia di lavoro}
-Nelle prime ore dedicate per il nostro progetto, abbiamo deciso e impostato l'architettura software da noi usata, l'MVC, successivamente abbiamo impostato e sviluppato le interfacce generiche che poi sarebbero state utilizzate come guida nello sviluppo software nelle singole parti di model, controller e view. Abbiamo utilizzato il software visto a lezione GitHub per la gestione e condivisione di software da noi creato e sviluppato individualmente.
+Nelle prime ore dedicate al nostro progetto, abbiamo deciso e impostato l'architettura software da usare, l'MVC, successivamente abbiamo impostato e sviluppato le interfacce generiche che poi sarebbero state utilizzate come guida nello sviluppo software nelle singole parti di model, controller e view. Abbiamo utilizzato il software visto a lezione GitHub per la gestione e condivisione di software da noi creato e sviluppato individualmente.
 \subsubsection*{Mauro Pellonara} 
 In autonomia ho sviluppato:
 \begin{itemize}
