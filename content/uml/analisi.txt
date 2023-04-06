@@ -1,0 +1,38 @@
+classDiagram
+    Board --o Player
+    Board --o Meeple
+    Board --o Tile
+    Board --* GameSet
+    class Tile{
+        <<interface>>
+        +getPosition() Position
+        +getType() TileType
+        +rotate()
+    }
+    class Meeple{
+        <<interface>>
+        +isPlaced() boolean
+    }
+    class GameSet{
+        <<interface>>
+        +getType() GameSetType
+        +getPoints() int
+        +addPoints(int score)
+        +placeMeeple(Meeple meeple) boolean
+        +close() boolean
+    }
+    class Board{
+        <<interface>>
+        +startGame()
+        +isGameOver() boolean
+        +placeCurrentTile(Position position) boolean
+        +rotateCurrentTile()
+        +discardCurrentTile() boolean
+        +placeMeeple(Meeple meeple) boolean
+        +endTurn()
+    }
+    class Player{
+        <<interface>>
+        +getScore() int
+        +addScore(int score)
+    }
