@@ -56,11 +56,18 @@ public interface Controller {
     void exitGame();
 
     /**
-     * Checks if game is over.
+     * Checks if the game is over.
      *
      * @return true if the game is over, false otherwise
      */
     boolean isGameOver();
+
+    /**
+     * Checks if the game has started.
+     *
+     * @return true if the game has started, false otherwise
+     */
+    boolean hasGameStarted();
 
     /**
      * Adds a player to the game.

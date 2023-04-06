@@ -308,7 +308,7 @@ public class GUI implements UserInterface {
                 }
 
                 gameOverScene.update();
-            } else if (!controller.get().getPlacedTiles().isEmpty()) {
+            } else if (controller.get().hasGameStarted()) {
                 if (!gameScene.isVisible()) {
                     showGameScene();
                 }

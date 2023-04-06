@@ -459,4 +459,12 @@ public final class ControllerImpl implements Controller {
         this.userInterfaces.forEach(UserInterface::update);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean hasGameStarted() {
+        return !getPlacedTiles().isEmpty();
+    }
+
 }
