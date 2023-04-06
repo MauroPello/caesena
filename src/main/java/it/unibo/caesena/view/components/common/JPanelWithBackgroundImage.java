@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A class defining a JPanel with an Image as background.
  */
@@ -51,6 +53,8 @@ public class JPanelWithBackgroundImage extends JPanel implements BasicComponent<
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a bigger JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JPanel getComponent() {
         return this;
     }

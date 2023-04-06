@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
@@ -32,6 +33,8 @@ public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPan
      *
      * @param userInterface the parent GUI
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the UserInterface "
+        + "he's placed in as it retrieves information from it, like player scores")
     public LeaderBoardComponentImpl(final GUI userInterface) {
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
@@ -115,6 +118,8 @@ public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPan
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a bigger JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JPanel getComponent() {
         return this.mainPanel;
     }

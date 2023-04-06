@@ -4,6 +4,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JSpinner.DefaultEditor;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.view.GUI;
 
 /**
@@ -60,6 +61,8 @@ public class NumericUpDownImpl implements NumericUpDown<JSpinner> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JSpinner getComponent() {
         return this.spinner;
     }

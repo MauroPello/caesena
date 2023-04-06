@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.view.scene.GameScene;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.player.Player;
@@ -103,6 +104,8 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a bigger JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JPanel getComponent() {
         return this.mainPanel;
     }

@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
@@ -156,6 +157,8 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a bigger JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JPanel getComponent() {
         return this.mainPanel;
     }

@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeListener;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
@@ -55,6 +56,8 @@ public class StartScene implements Scene<JPanel> {
      *
      * @param userInterface the interface in which this scene is displayed
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the UserInterface "
+        + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public StartScene(final GUI userInterface) {
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
@@ -203,6 +206,8 @@ public class StartScene implements Scene<JPanel> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a JFrame which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public final JPanel getComponent() {
         return this.mainPanel;
     }
@@ -212,6 +217,8 @@ public class StartScene implements Scene<JPanel> {
      */
     @Override
     @SuppressWarnings("unchecked")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Needed to allow access to the Controller for lower-level "
+        + "dynamic components")
     public final GUI getUserInterface() {
         return this.userInterface;
     }

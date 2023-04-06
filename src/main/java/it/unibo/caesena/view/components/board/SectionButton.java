@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.controller.Controller;
 
 import it.unibo.caesena.model.gameset.GameSet;
@@ -95,6 +96,8 @@ public class SectionButton implements BasicComponent<JButton> {
      * @return the Section button as a JButton
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JButton getComponent() {
         return this.button;
     }

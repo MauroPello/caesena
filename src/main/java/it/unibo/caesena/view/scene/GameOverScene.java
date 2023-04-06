@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
@@ -36,6 +37,8 @@ public class GameOverScene implements Scene<JPanel> {
      *
      * @param userInterface the interface in which this scene is displayed
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the UserInterface "
+        + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public GameOverScene(final GUI userInterface) {
         this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_GameOverScene.jpeg", List.of()));
         this.userInterface = userInterface;
@@ -104,6 +107,8 @@ public class GameOverScene implements Scene<JPanel> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a JFrame which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public final JPanel getComponent() {
         return this.mainPanel;
     }
@@ -113,6 +118,8 @@ public class GameOverScene implements Scene<JPanel> {
      */
     @Override
     @SuppressWarnings("unchecked")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Needed to allow access to the Controller for lower-level "
+        + "dynamic components")
     public final GUI getUserInterface() {
         return this.userInterface;
     }

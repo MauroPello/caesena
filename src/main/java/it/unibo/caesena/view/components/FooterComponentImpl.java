@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
@@ -68,6 +69,8 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
      *
      * @param gameScene the parent GameScene
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the GameScene "
+        + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public FooterComponentImpl(final GameScene gameScene) {
         this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
         this.mainPanel.setLayout(new BorderLayout());
@@ -176,7 +179,7 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         remainingTilesLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         remainingTilesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         tilesLeaderboardPanel.add(remainingTilesLabel);
-        this.leaderboard = new LeaderBoardComponentImpl(gameScene.getUserInterface());
+        this.leaderboard = new LeaderBoardComponentImpl(this.userInterface);
         tilesLeaderboardPanel.add(leaderboard.getComponent());
 
         this.playerImageComponent = new PlayerImageImpl();
@@ -281,6 +284,8 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a bigger JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JPanel getComponent() {
         return this.mainPanel;
     }

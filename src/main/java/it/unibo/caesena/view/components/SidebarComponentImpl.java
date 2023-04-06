@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.ResourceUtil;
@@ -48,6 +49,8 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
      *
      * @param gameScene the parent GameScene
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the GameScene "
+        + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public SidebarComponentImpl(final GameScene gameScene) {
         this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
         this.mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -172,6 +175,8 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a bigger JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JPanel getComponent() {
         return this.mainPanel;
     }

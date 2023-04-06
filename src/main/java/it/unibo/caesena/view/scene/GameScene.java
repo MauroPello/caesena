@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -36,6 +37,8 @@ public class GameScene implements Scene<JPanel> {
      *
      * @param userInterface the interface in which this scene is displayed
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the UserInterface "
+        + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public GameScene(final GUI userInterface) {
         this.mainPanel = new JPanel();
         this.userInterface = userInterface;
@@ -212,6 +215,8 @@ public class GameScene implements Scene<JPanel> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a JFrame which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public final JPanel getComponent() {
         return this.mainPanel;
     }
@@ -221,6 +226,8 @@ public class GameScene implements Scene<JPanel> {
      */
     @Override
     @SuppressWarnings("unchecked")
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Needed to allow access to the Controller for lower-level "
+        + "dynamic components")
     public final GUI getUserInterface() {
         return this.userInterface;
     }
