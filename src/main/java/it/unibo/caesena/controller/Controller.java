@@ -44,13 +44,6 @@ public interface Controller {
     void endTurn();
 
     /**
-     * Ends the game.
-     * Its checks if there are closed cities, in which case it assings points to
-     * players with meeples in surrounding fields.
-     */
-    void endGame();
-
-    /**
      * Exits the current name.
      */
     void exitGame();

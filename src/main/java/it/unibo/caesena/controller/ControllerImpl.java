@@ -127,10 +127,11 @@ public final class ControllerImpl implements Controller {
     }
 
     /**
-     * {@inheritDoc}
+     * Ends the game.
+     * Its checks if there are closed cities, in which case it assings points to
+     * players with meeples in surrounding fields.
      */
-    @Override
-    public void endGame() {
+    private void endGame() {
         final Set<GameSet> fieldsToClose = mediator.getAllGameSets().stream()
             .filter(c -> c.getType().equals(GameSetType.CITY))
             .filter(GameSet::isClosed)
