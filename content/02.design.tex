@@ -43,3 +43,20 @@ La classe GameSetFactoryImpl implementa lo Strategy pattern, avendo come riferim
 \subsection*{Davide Speziali}
 
 \subsection*{Samuele Giancarli}
+
+
+Problema: piazzamento di una tessera 
+
+
+
+ecco cosa fa il getCurrentTile:
+
+\begin{itemize}
+\item va a verificare che la posizione selezionata non fosse stata già occupata da un’altra tessera, in caso negativo ritorna false
+\item va a verificare che esista almeno una tile neighbour, in caso negativo ritorna false
+\item va a verificare per ogni tile neighbour che la totalità delle section adiacenti alla current tile siano dello stesso tipo
+\item solo dopo aver controllato ogni section di ogni neighbour e aver appurato che la current tile sia piazzabile allora: setPosition(position)
+\item a questo punto ad ogni neighbour dovranno essere impostate a closed le section connesse con la current tile. La stessa cosa verrà fatta per le section della current tile connesse a quelle di un neighbour.
+\subitem la struttura del ciclo è la stessa di quello precedente, ma è solo grazie al completamento del ciclo precedente che si avrà la sicurezza di poter impostare tutte le section a closed
+\item (??????) solo a questo punto sarà possibile unire i gameset della tile corrente con quelli delle tile già presenti
+\end{itemize}
