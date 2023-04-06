@@ -1,25 +1,25 @@
 \section{Sviluppo}
 \subsection{Testing automatizzato}
-Per effettuare i test necessari per i corretti controlli di funzionalità del nostro software abbiamo utilizzato la suite dedicata JUnit 5. I test che siamo andati ad implementare riguardano:
+Per effettuare i test necessari per verificare la correttezza delle funzionalità del nostro software abbiamo utilizzato la suite dedicata JUnit 5. I test che siamo andati ad implementare sono:
 \begin{itemize}
     \item ControllerTest: //TODO//
-    \item GameSetTest: questa classe permette di testare la corretta creazione di vari GameSet (esempio: citySet, FieldSet), l'unione di due GameSet, il piazzamento di meeple all'interno dei GameSet. Sono presenti test anche per il controllo della corretta assegnazione e modifica dei punti relativi ai GameSet, inclusa anche la gestione della corretta chiusura di un GameSet e dell'assegnazione dei punti ai player aventi meeples sul GameSet appena chiuso.
+    \item GameSetTest: questa classe permette di testare la corretta creazione di vari GameSet (esempio: citySet, FieldSet), l'unione di due GameSet e il piazzamento di meeple all'interno dei GameSet. Sono presenti test anche per il controllo della corretta assegnazione e modifica dei punti relativi ai GameSet, è inclusa anche la verifica della gestione della corretta chiusura di un GameSet e dell'assegnazione dei punti ai Player aventi Meeple sul GameSet appena chiuso.
     \item NormalMeepleTest: questa classe permette di testare i metodi appartenenti al NormalMeeple e il posizionamento di esso all'interno di una Tile.
-    \item PlayerTest: questa classe ci permette di testare i metodi appartenenti al Player e la modifica progressiva dei punti assegnatogli.
-    \item TileTest: questa classe ci permette di andar a testare la corretta creazione di tiles e i metodi ad essa associata, più in specifico la chiusura di una TileSection all'interno della Tile. Viene testato anche lo scorrimento circolare di una TileSection all'interno di una Tile.
+    \item PlayerTest: questa classe ci permette di testare i metodi appartenenti al Player e la modifica progressiva dei punti a lui assegnati.
+    \item TileTest: questa classe ci permette di testare la corretta creazione di Tile e i metodi ad essa associata, più in specifico la chiusura di una TileSection e il suo scorrimento circolare all'interno della Tile.
     \item ToStringBuilderTest: questa classe ci permette di testare la classe ToStringBuilder, in particolar modo l'ottenimento di una stringa rappresentativa per un qualsiasi Object. Infine verifica la consistenza delle rappresentazioni letterali degli oggetti, garantendo che rimangano invariate.
-    \item DirectionTest: questa classe ci permette di testare l'enum Direction e il suo metodo match che controlla se la differenza delle coordinate di due punti combacia con la direzione fornita
-    \item GameSetTileMediatorTest: questa classe ci permette di testare i vari metodi della classe GameSetTileMediator, per esempio la rotazione di una Tila con i GameSet ad essa associata, e la corretta corrispondenza tra Tiles con le proprie TileSection e i GameSet.
+    \item DirectionTest: questa classe ci permette di testare l'enum Direction e il suo metodo match che controlla che la differenza delle coordinate di due punti combaci con la direzione fornita.
+    \item GameSetTileMediatorTest: questa classe ci permette di testare i vari metodi della classe GameSetTileMediator, per esempio la rotazione di una Tile con i GameSet ad essa associata, e la corretta corrispondenza tra i GameSet e le Tile con le proprie TileSection.
 \end{itemize}
 
 Per quanto riguarda la parte di view non sono stati scritti dei veri e propri test JUnit, ma si è ritenuto più opportuno testare manualmente le funzionalità principali:
 \begin{itemize}
-    \item utilizzando schermi di diverse dimensioni e risoluzioni per verificare che il gioco funzionasse ugualmente per ognuno di essi ed il ridimensionamento fosse corretto.
-    \item utilizzando variabili di debug per accedere direttamente ad una Scene da testare evitando la logica di gioco che avrebbe portato ad essa.
+    \item utilizzando schermi di diverse dimensioni e risoluzioni per verificare che il gioco funzionasse ugualmente per ognuno di essi e che il ridimensionamento fosse corretto.
+    \item utilizzando variabili di debug per accedere direttamente ad una Scene da testare evitando tutte le altre Scene che secondo la logica di gioco sarebbero dovute essere state visualizzate prima.
 \end{itemize}
 
 \subsection{Metodologia di lavoro}
-Ci siamo focalizzati molto sulla fase di progettazione in modo da avere interfacce ben definite una volta iniziata la fase di sviluppo. Sempre in questa fase una parte che ha richiesto altrettanta attenzione è stata la ricerca di tecniche per effettuare una trasposizione informatica fedele al gioco da tavolo originale. Inizialmente abbiamo suddiviso il lavoro in modo che ognuno potesse lavorare parallelamente. Ci sono stati casi in cui è stato deciso, per efficienza e semplicità, che un componente del gruppo lavorasse su classi non di sua competenza, questo è avvenuto per due possibili ragioni:
+Ci siamo focalizzati molto sulla fase di progettazione in modo da avere interfacce ben definite una volta iniziata la fase di sviluppo. Sempre in questa fase, una parte che ha richiesto altrettanta attenzione è stata la ricerca di tecniche per effettuare una trasposizione informatica fedele al gioco da tavolo originale. Inizialmente abbiamo suddiviso il lavoro in modo che ognuno potesse lavorare parallelamente. Ci sono stati però dei casi in cui è stato deciso, per efficienza e semplicità, che un componente del gruppo lavorasse su classi non di sua competenza, questo è avvenuto per due possibili ragioni:
 \begin{itemize}
     \item Individuazione e risoluzione tempestiva e continuativa di bug o errori di sorta.
     \item Implentazioni di tecniche o pattern da applicare nel medesimo modo in più classi e interfacce.
