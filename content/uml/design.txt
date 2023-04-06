@@ -4,7 +4,7 @@ classDiagram
     Scene --o UpdatableComponent
     UserInterface --o Scene
     Controller --o UserInterface
-    BasicComponent --|> UpdatableComponent
+    UpdatableComponent --|> BasicComponent
     Scene --|> UpdatableComponent
 
     class BasicComponent~componentType~ {
@@ -23,6 +23,8 @@ classDiagram
         +resetGame()
         +endTurn()
         +exitGame()
+        +hasGameStarted(): boolean
+        +placeMeeple(TileSection section): Optional~Meeple~
         +getCurrentTile(): Tile
         +getCurrentPlayer(): Player
         +placeCurrentTile(Position position): boolean
@@ -31,6 +33,7 @@ classDiagram
         +getPlayerMeeples(Player player): List~Meeple~
         +isGameOver(): boolean
         +discardCurrentTile(): boolean
+        +addUserInterface(UserInterface userInterface)
     }
 
     class UserInterface{
