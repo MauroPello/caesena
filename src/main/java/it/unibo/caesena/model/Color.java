@@ -105,7 +105,4 @@ public class Color {
             return false;
         return true;
     }
-
-
-
 }

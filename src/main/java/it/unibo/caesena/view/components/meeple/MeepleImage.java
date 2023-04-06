@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.GrayFilter;
 
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.ResourceUtil;
 
 /**
@@ -38,6 +39,15 @@ public class MeepleImage {
      */
     public Meeple getMeeple() {
         return this.meeple;
+    }
+
+    /**
+     * Gets the meeple associeted with the image.
+     *
+     * @return the meeple associeted with the image
+     */
+    public TileSection getSection() {
+        return this.meeple.getPosition().getY();
     }
 
     /**

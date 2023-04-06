@@ -20,9 +20,9 @@ import net.coobird.thumbnailator.Thumbnails;
 public class TileImage {
 
     private final Tile tile;
-    private Optional<Meeple> meeple;
     private BufferedImage temporaryImage;
-    private boolean somethingChanged = true;
+    private boolean somethingChanged;
+    private Optional<MeepleImage> meepleImage;
 
     /**
      * Class contructor.
@@ -30,8 +30,9 @@ public class TileImage {
      * @param tile of which to manage the image
      */
     public TileImage(final Tile tile) {
+        this.somethingChanged = true;
         this.tile = tile;
-        this.meeple = Optional.empty();
+        this.meepleImage = Optional.empty();
     }
 
     /**
@@ -71,7 +72,7 @@ public class TileImage {
                         List.of("tiles"));
                 temporaryImage = Thumbnails.of(imageName).size(width, height).rotate(tile.getRotationCount() * 90)
                         .asBufferedImage();
-                if (meeple.isPresent()) {
+                if (meepleImage.isPresent()) {
                     temporaryImage = getTileImageWithMeeple(temporaryImage);
                 }
             }
@@ -106,21 +107,12 @@ public class TileImage {
     }
 
     /**
-     * Gets the placed meeple.
-     *
-     * @return the placed meeple
-     */
-    public Optional<Meeple> getMeeple() {
-        return this.meeple;
-    }
-
-    /**
      * Adds a meeple.
      *
      * @param meeple to be add
      */
     public void addMeeple(final Meeple meeple) {
-        this.meeple = Optional.of(meeple);
+        this.meepleImage = Optional.of(new MeepleImage(meeple, meeple.getColor().asSwingColor()));
         somethingChanged = true;
     }
 
@@ -128,7 +120,7 @@ public class TileImage {
      * Removes the meeple in the tile image.
      */
     public void removeMeeple() {
-        this.meeple = Optional.empty();
+        this.meepleImage = Optional.empty();
         somethingChanged = true;
     }
 
@@ -141,11 +133,10 @@ public class TileImage {
     private BufferedImage getTileImageWithMeeple(final BufferedImage image) {
         final Graphics2D finalGraphics = image.createGraphics();
         finalGraphics.drawImage(image, 0, 0, null);
-        if (this.meeple.isPresent()) {
+        if (this.meepleImage.isPresent()) {
             final int meepleSize = (int) ((double) image.getHeight(null) / 5);
-            final MeepleImage meepleimage = new MeepleImage(this.meeple.get(), this.meeple.get().getColor().asSwingColor());
             final Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null) - meepleSize);
-            finalGraphics.drawImage(meepleimage.getNormalImage(), meeplePosition.getX(), meeplePosition.getY(),
+            finalGraphics.drawImage(meepleImage.get().getNormalImage(), meeplePosition.getX(), meeplePosition.getY(),
                     meepleSize, meepleSize, null);
         }
         finalGraphics.dispose();
@@ -164,7 +155,7 @@ public class TileImage {
         final int closePadding = max / 10;
         final int farPadding = max / 5;
         final int centralPadding = max / 2;
-        return switch (meeple.get().getPosition().getY()) {
+        return switch (meepleImage.get().getSection()) {
             case CENTER -> new Pair<Integer, Integer>(centralPadding, centralPadding);
             case DOWN_CENTER -> new Pair<Integer, Integer>(centralPadding, max - closePadding);
             case DOWN_LEFT -> new Pair<Integer, Integer>(farPadding, max - closePadding);

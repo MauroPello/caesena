@@ -23,6 +23,7 @@ public class TileButtonImpl implements TileButton<JButton> {
     private final MouseAdapter mouseAdapter;
     private final JButton button;
     private Optional<TileImage> tileImage;
+    private Optional<Meeple> meeple;
     private boolean locked;
 
     /**
@@ -32,6 +33,7 @@ public class TileButtonImpl implements TileButton<JButton> {
     public TileButtonImpl(final ActionListener onClickActionListener) {
         this.locked = false;
         this.tileImage = Optional.empty();
+        this.meeple = Optional.empty();
         this.button = new JButton() {
             @Override
             protected void paintComponent(final Graphics g) {
@@ -146,6 +148,7 @@ public class TileButtonImpl implements TileButton<JButton> {
      */
     @Override
     public void setMeeple(final Meeple meeple) {
+        this.meeple = Optional.of(meeple);
         this.tileImage.get().addMeeple(meeple);
         this.button.repaint();
     }
@@ -172,7 +175,7 @@ public class TileButtonImpl implements TileButton<JButton> {
      */
     @Override
     public Optional<Meeple> getMeeple() {
-        return this.tileImage.isPresent() ? this.tileImage.get().getMeeple() : Optional.empty();
+        return this.meeple;
     }
 
 }
