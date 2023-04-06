@@ -3,7 +3,7 @@
 Per effettuare i test necessari per i corretti controlli di funzionalità del nostro software abbiamo utilizzato la suite dedicata JUnit 5. I test che siamo andati ad implementare riguardano:
 \begin{itemize}
     \item ControllerTest: //TODO//
-    \item GameSetTest: questa classe permette di testare la corretta creazione di vari GameSet (esempio: citySet, FieldSet), l'unione di due GameSet, il piazzamento di meeple all'interno dei GameSet. Sono presenti test anche per il controllo della corretta assegnazione e modifica dei punti relativi ai GameSet, inclusa anche la gestione della corretta chiusura di un GameSet e dell'assegnazione dei punti ai player aventi meeples sul GameSet appena chiuso. 
+    \item GameSetTest: questa classe permette di testare la corretta creazione di vari GameSet (esempio: citySet, FieldSet), l'unione di due GameSet, il piazzamento di meeple all'interno dei GameSet. Sono presenti test anche per il controllo della corretta assegnazione e modifica dei punti relativi ai GameSet, inclusa anche la gestione della corretta chiusura di un GameSet e dell'assegnazione dei punti ai player aventi meeples sul GameSet appena chiuso.
     \item NormalMeepleTest: questa classe permette di testare i metodi appartenenti al NormalMeeple e il posizionamento di esso all'interno di una Tile.
     \item PlayerTest: questa classe ci permette di testare i metodi appartenenti al Player e la modifica progressiva dei punti assegnatogli.
     \item TileTest: questa classe ci permette di andar a testare la corretta creazione di tiles e i metodi ad essa associata, più in specifico la chiusura di una TileSection all'interno della Tile. Viene testato anche lo scorrimento circolare di una TileSection all'interno di una Tile.
@@ -19,15 +19,20 @@ Per quanto riguarda la parte di view non sono stati scritti dei veri e propri te
 \end{itemize}
 
 \subsection{Metodologia di lavoro}
-Nelle prime ore dedicate al nostro progetto, abbiamo deciso e impostato l'architettura software da usare, l'MVC, successivamente abbiamo impostato e sviluppato le interfacce generiche che poi sarebbero state utilizzate come guida nello sviluppo software nelle singole parti di model, controller e view. Abbiamo utilizzato il software visto a lezione GitHub per la gestione e condivisione di software da noi creato e sviluppato individualmente.
-\subsubsection*{Mauro Pellonara} 
+Ci siamo focalizzati molto sulla fase di progettazione in modo da avere interfacce ben definite una volta iniziata la fase di sviluppo. Sempre in questa fase una parte che ha richiesto altrettanta attenzione è stata la ricerca di tecniche per effettuare una trasposizione informatica fedele al gioco da tavolo originale. Inizialmente abbiamo suddiviso il lavoro in modo che ognuno potesse lavorare parallelamente. Ci sono stati casi in cui è stato deciso, per efficienza e semplicità, che un componente del gruppo lavorasse su classi non di sua competenza, questo è avvenuto per due possibili ragioni:
+\begin{itemize}
+    \item Individuazione e risoluzione tempestiva e continuativa di bug o errori di sorta.
+    \item Implentazioni di tecniche o pattern da applicare nel medesimo modo in più classi e interfacce.
+\end{itemize}
+Per quanto riguarda il DVCS abbiamo deciso di utilizzare Git, in particolare abbiamo creato due diversi branch, uno per la stesura della relazione e l'altro per lo sviluppo del codice. Ogni componente ha quindi avuto la resposabilità di clonare localmente la repository e di fare le operazioni di \textit{pull}, \textit{push} ed eventualmente \textit{merge}.
+\subsubsection*{Mauro Pellonara}
 In autonomia ho sviluppato:
 \begin{itemize}
-    \item 
+    \item
 \end{itemize}
 In collaborazione ho sviluppato:
 \begin{itemize}
-    \item 
+    \item
 \end{itemize}
 
 \subsubsection*{Alessandro Martini}
@@ -35,7 +40,7 @@ In autonomia ho sviluppato:
 \begin{itemize}
     \item Implementazione e gestione dei vari GameSet (package it.unibo.caesena.model.gameset)
     \item Implementazione della GameOverScene (package it.unibo.caesena.view.scene)
-    \item Implementazione Configuration Loader (package it.unibo.caesena.controller) 
+    \item Implementazione Configuration Loader (package it.unibo.caesena.controller)
     \item Controller.endTurn() (package it.unibo.caesena.controller)
     \item Controller.discardCurrentTile (package it.unibo.caesena.controller)
     \item Controller.isCurrentTilePlaceable (package it.unibo.caesena.controller)
@@ -44,7 +49,7 @@ In autonomia ho sviluppato:
 \end{itemize}
 In collaborazione ho sviluppato:
 \begin{itemize}
-    \item con Mauro Pellonara: 
+    \item con Mauro Pellonara:
     \begin{itemize}
         \item Controller.endGame() (package it.unibo.caesena controller)
     \end{itemize}
@@ -53,11 +58,11 @@ In collaborazione ho sviluppato:
 \subsubsection*{Davide Speziali}
 In autonomia ho sviluppato:
 \begin{itemize}
-    \item 
+    \item
 \end{itemize}
 In collaborazione ho sviluppato:
 \begin{itemize}
-    \item 
+    \item
 \end{itemize}
 
 \subsubsection*{Samuele Giancarli}
@@ -88,7 +93,7 @@ In collaborazione ho sviluppato:
 \end{itemize}
 
 \subsection{Note di sviluppo}
-\subsubsection*{Mauro Pellonara} 
+\subsubsection*{Mauro Pellonara}
 
 \subsubsection*{Alessandro Martini}
 \begin{itemize}
@@ -107,6 +112,6 @@ ecco cosa fa il getCurrentTile:
 \item va a verificare per ogni tile neighbour che la totalità delle section adiacenti alla current tile siano dello stesso tipo
 \item solo dopo aver controllato ogni section di ogni neighbour e aver appurato che la current tile sia piazzabile allora: setPosition(position)
 \item a questo punto ad ogni neighbour dovranno essere impostate a closed le section connesse con la current tile. La stessa cosa verrà fatta per le section della current tile connesse a quelle di un neighbour.
-\subitem la struttura del ciclo è la stessa di quello precedente, ma è solo grazie al completamento del ciclo precedente che si avrà la sicurezza di poter impostare tutte le section a closed 
+\subitem la struttura del ciclo è la stessa di quello precedente, ma è solo grazie al completamento del ciclo precedente che si avrà la sicurezza di poter impostare tutte le section a closed
 \item (??????) solo a questo punto sarà possibile unire i gameset della tile corrente con quelli delle tile già presenti
 \end{itemize}
