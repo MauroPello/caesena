@@ -1,14 +1,19 @@
 \section{Design}
 \subsection{Architettura}
 
-In fase di progettazione abbiamo scelto di adottare il pattern architetturale MVC, traendone quindi tutti i suoi vantaggi, principalmente che model e controller rimangono praticamente uguali a prescindere dalla view utilizzata. Infatti, abbiamo scelto nella view di usare il pattern Strategy e applicare il principio del "Composition over inheritance", definendo quindi delle interfacce generiche per i singoli componenti che potranno perciò adottare qualsiasi GUI framework. Per passare, per esempio da Swing a JavaFX basterebbe solo sostituire le implementazioni delle interfacce presenti nella parte di view. Ogni modulo del pattern Model-View-Controller ha quindi una propria organizzazione e scopo:
+In fase di progettazione è stato scelto di adottare il pattern architetturale MVC, traendone quindi tutti i suoi vantaggi, principalmente che model e controller rimangono praticamente uguali a prescindere dalla view utilizzata. Infatti, è stato scelto nella view di usare il pattern Strategy con delle interfacce generiche per i singoli componenti che potranno perciò adottare qualsiasi GUI framework. Per passare, per esempio da Swing a JavaFX basterebbe solo sostituire le implementazioni delle interfacce presenti nella parte di view. Ogni modulo del pattern Model-View-Controller ha quindi una propria organizzazione e scopo:
 \begin{itemize}
-    \item Model, (parlare del Mediator che gestisce la doppia referenza e del Mutable/non Mutable, insieme a Factory, Builder e Strategy)
-    \item View, (parlare del fatto che la UserInterface è l'interfaccia principale che pilota tutto, del Composition over inheritance e delle matrioska di Component/JPanel nella quale vengono diffusi aggiornamenti (update) ed informazioni)
-    \item Controller, (parlare di come gestisce la partita e di come si occupa della lettura della configurazione (ConfigurationLoader))
+    \item Nella parte di model sono state definite le entità che modellano: tessere (tile), seguaci (meeple), strutture (gameset) e giocatori (player). Esse vengono instanziate e gestite dal controller.
+    \item Nella parte di view è presente un componente principale, la UserInterface, che si occupa di gestire tutti i componenti grafici e di renderli visibili all'utente quando necessario. Quest'ultima si occupa anche di fornire ai vari componenti, ognuno con uno scopo ben preciso, l'accesso regolarizzato alla parte di controller. Nella maggior parte dei casi questi componenti sono annidati tra di loro.
+    \item La parte di controller si occupa della gestione della partita e di propagare sul model i risultati delle azioni compiute dall'utente attravarso la view.
 \end{itemize}
-Siccome ad ogni modifica di stato della partita, il Controller notifica le UserInterface collegate ad esso, possiamo giocare alla stessa partita contemporaneamente tramite varie interfacce utente aggiungendole tutte allo stesso controller. Queste possono essere diverse tra loro e di qualsiasi tipo, per esempio: Web, CLI o come nel nostro caso, GUI.
+Siccome ad ogni modifica di stato della partita, il Controller notifica le UserInterface collegate ad esso, è possibile giocare alla stessa partita contemporaneamente tramite varie interfacce utente aggiungendole tutte allo stesso controller. Queste possono essere diverse tra loro e di qualsiasi tipo, per esempio: Web, CLI o come nel nostro caso, GUI.
 
+
+% TODO spostare
+% (parlare del Mediator che gestisce la doppia referenza e del Mutable/non Mutable, insieme a Factory, Builder e Strategy)
+% (parlare del fatto che la UserInterface è l'interfaccia principale che pilota tutto, del Composition over inheritance e delle matrioska di Component/JPanel nella quale vengono diffusi aggiornamenti (update) ed informazioni)
+%  Per permettere l'aggiunta di nuovi tipi di seguaci con meccaniche diverse abbiamo adottato il pattern \textit{strategy}, lo stesso principio vale anche per tessere e strutture. Per facilitare la generazione di diverse tessere, che condividono la medesima rappresentazione grafica, abbiamo utilizzato il pattern \textit{factory method} che definisce per ognuna di esse un metodo per la creazione. Il medesimo design pattern è stato utilizzato anche per la creazione delle diverse strutture. Siccome le singole tessere di loro contengono già delle strutture al loro interno
 \subsection{Design dettagliato}
 
 \subsection*{Mauro Pellonara}
