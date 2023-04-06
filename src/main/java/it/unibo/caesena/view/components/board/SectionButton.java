@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.controller.Controller;
 
 import it.unibo.caesena.model.gameset.GameSet;
@@ -33,7 +34,6 @@ public class SectionButton implements BasicComponent<JButton> {
      * @param gameScene the parent GameScene
      * @param onClickActionListener action listener that specifies what to do in case of a click
      */
-    //TODO verificare che rendere GameScene e l'action listener final non faccia esplodere tutto
     SectionButton(final TileSection section, final GameScene gameScene, final ActionListener onClickActionListener) {
         this.button = new JButton() {
             @Override
@@ -96,6 +96,8 @@ public class SectionButton implements BasicComponent<JButton> {
      * @return the Section button as a JButton
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JButton getComponent() {
         return this.button;
     }

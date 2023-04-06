@@ -12,6 +12,13 @@ import java.awt.Color;
 public interface PlayerImage<X> extends BasicComponent<X> {
 
     /**
+     * Sets a size to force.
+     *
+     * @param size to force
+     */
+    void forceSize(int size);
+
+    /**
      * Sets the color for the player image.
      *
      * @param color to be set for the player image

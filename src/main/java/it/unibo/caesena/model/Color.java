@@ -89,20 +89,20 @@ public class Color {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Color other = (Color) obj;
-        if (red != other.red)
-            return false;
-        if (green != other.green)
-            return false;
-        if (blue != other.blue)
-            return false;
-        return true;
+        }
+
+        final Color other = (Color) obj;
+        return other.getRed() == this.getRed()
+            && other.getGreen() == this.getGreen()
+            && other.getBlue() == this.getBlue();
     }
 }

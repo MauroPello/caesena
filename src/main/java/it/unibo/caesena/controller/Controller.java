@@ -19,7 +19,7 @@ import it.unibo.caesena.view.UserInterface;
 public interface Controller {
 
     /**
-     * Strats the game.
+     * Strats the game, if all the players have different names and colors.
      * It shuffles the players, draws the first tile and places it on the board at
      * position (0,0).
      */
@@ -67,9 +67,8 @@ public interface Controller {
      *
      * @param name  name of the player to add
      * @param color color of the player to add
-     * @return the newly created player
      */
-    Player addPlayer(String name, Color color);
+    void addPlayer(String name, Color color);
 
     /**
      * Gets the player playing in the current turn.

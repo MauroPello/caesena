@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A class implementing PlayerImage only allowing colors as images and squared
  * sizes.
@@ -68,10 +70,9 @@ public final class PlayerImageImpl implements PlayerImage<JPanel> {
     }
 
     /**
-     * Sets a size to force.
-     *
-     * @param size to force
+     * {@inheritDoc}
      */
+    @Override
     public void forceSize(final int size) {
         this.forcedSize = Optional.ofNullable(size);
         this.mainPanel.setPreferredSize(new Dimension(size, size));
@@ -109,6 +110,8 @@ public final class PlayerImageImpl implements PlayerImage<JPanel> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a bigger JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JPanel getComponent() {
         return this.mainPanel;
     }

@@ -14,6 +14,13 @@ import it.unibo.caesena.view.BasicComponent;
 public interface PlayerInput<X> extends BasicComponent<X> {
 
     /**
+     * Sets the forced size of the PlayerImageImpl component.
+     *
+     * @param size to be forced
+     */
+    void setPlayerImageSize(int size);
+
+    /**
      * Gets all the entered information by the player.
      *
      * @return all the entered information by the player

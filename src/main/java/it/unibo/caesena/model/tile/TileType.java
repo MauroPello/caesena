@@ -125,7 +125,9 @@ public enum TileType {
      * factory to create the new tile.
      *
      * @param tileFactory used to create the new Tile
-     * @return a new tile with the same type as the enum on which it's called
+     * @return a pair containing the new tile with the same type as the enum on
+     *         which it's called and a map containing a set of tileSections for
+     *         every gameSet belonging the newly created tile
      */
     @SuppressWarnings("unchecked")
     public Pair<MutableTile, Map<GameSet, Set<TileSection>>> createTile(final TileFactory tileFactory) {

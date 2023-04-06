@@ -12,6 +12,8 @@ import java.util.Optional;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.scene.GameScene;
@@ -106,13 +108,15 @@ class SectionSelectorComponentImpl implements SectionSelectorComponent<JPanel> {
      */
     @Override
     public void setVisible(final boolean visible) {
-    this.mainPanel.setVisible(visible);
+        this.mainPanel.setVisible(visible);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a bigger JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JPanel getComponent() {
         return this.mainPanel;
     }

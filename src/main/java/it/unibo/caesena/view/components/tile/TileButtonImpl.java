@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
 
@@ -131,6 +132,8 @@ public class TileButtonImpl implements TileButton<JButton> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a JPanel which"
+        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JButton getComponent() {
         return this.button;
     }
