@@ -19,7 +19,7 @@ public final class TileBuilder {
     private final MutableTile tile;
 
     /**
-     * Public constructor that accepts a TileType and a mediator.
+     * Public constructor that accepts a TileType.
      *
      * @param type of the tile to be created
      */
@@ -98,7 +98,8 @@ public final class TileBuilder {
     }
 
     /**
-     * Gets the built tile.
+     * Gets a pair containing the built tile and a map containing a set of
+     * tileSections for every gameSet inside the newly created tile.
      *
      * @return the build tile.
      */

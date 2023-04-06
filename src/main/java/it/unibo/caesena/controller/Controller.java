@@ -19,7 +19,7 @@ import it.unibo.caesena.view.UserInterface;
 public interface Controller {
 
     /**
-     * Strats the game.
+     * Strats the game, if all the players have different names and colors.
      * It shuffles the players, draws the first tile and places it on the board at
      * position (0,0).
      */
