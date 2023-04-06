@@ -3,6 +3,7 @@ package it.unibo.caesena.view.components.common;
 import it.unibo.caesena.view.BasicComponent;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -16,12 +17,17 @@ public class JPanelWithBackgroundImage extends JPanel implements BasicComponent<
 
     /**
      * Public constructor that accepts an image to be placed as background.
+     * Makes a copy of the passed image because it's mutable.
      *
      * @param image to set as background
      */
     public JPanelWithBackgroundImage(final BufferedImage image) {
         super();
-        this.image = image;
+
+        this.image = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D bGr = this.image.createGraphics();
+        bGr.drawImage(image, 0, 0, null);
+        bGr.dispose();
     }
 
     /**
