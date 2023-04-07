@@ -1,7 +1,9 @@
 \section{Design}
 \subsection{Architettura}
+In fase di progettazione è stato scelto di adottare il pattern architetturale MVC, traendone quindi tutti i suoi vantaggi, principalmente che model e controller rimangono praticamente uguali a prescindere dalla view utilizzata. Infatti, è stato scelto nella view di usare il pattern Strategy con delle interfacce generiche per i singoli componenti che potranno perciò adottare qualsiasi GUI framework. Per passare, per esempio da Swing a JavaFX basterebbe solo sostituire le implementazioni delle interfacce presenti nella parte di view.
+\medskip
 
-In fase di progettazione è stato scelto di adottare il pattern architetturale MVC, traendone quindi tutti i suoi vantaggi, principalmente che model e controller rimangono praticamente uguali a prescindere dalla view utilizzata. Infatti, è stato scelto nella view di usare il pattern Strategy con delle interfacce generiche per i singoli componenti che potranno perciò adottare qualsiasi GUI framework. Per passare, per esempio da Swing a JavaFX basterebbe solo sostituire le implementazioni delle interfacce presenti nella parte di view. Ogni modulo del pattern Model-View-Controller ha quindi una propria organizzazione e scopo:
+Ogni modulo del pattern Model-View-Controller ha quindi una propria organizzazione e scopo:
 \begin{itemize}
     \item Nella parte di model sono state definite le entità che modellano: tessere (tile), seguaci (meeple), strutture (gameset) e giocatori (player). Esse vengono instanziate e gestite dal controller.
     \item Nella parte di view è presente un componente principale, la UserInterface, che si occupa di gestire tutti i componenti grafici e di renderli visibili all'utente quando necessario. Quest'ultima si occupa anche di fornire ai vari componenti, ognuno con uno scopo ben preciso, l'accesso regolarizzato alla parte di controller. Nella maggior parte dei casi questi componenti sono annidati l'uno dentro l'altro.
@@ -9,25 +11,26 @@ In fase di progettazione è stato scelto di adottare il pattern architetturale M
 \end{itemize}
 Siccome ad ogni modifica di stato della partita, il Controller notifica le UserInterface collegate ad esso, è possibile giocare alla stessa partita contemporaneamente tramite varie interfacce utente aggiungendole tutte allo stesso controller. Queste possono essere diverse tra loro e di qualsiasi tipo, per esempio: Web, CLI o come nel nostro caso, GUI.
 
+\begin{figure}[hb]
+    \centering\includegraphics[scale=0.23]{images/design_uml_orizzontale.png}
+    \caption{Schema UML architetturale.}
+\end{figure}
+\clearpage
 
-% TODO spostare
-% (parlare del Mediator che gestisce la doppia referenza e del Mutable/non Mutable, insieme a Factory, Builder e Strategy)
-% (parlare del fatto che la UserInterface è l'interfaccia principale che pilota tutto, del Composition over inheritance e delle matrioska di Component/JPanel nella quale vengono diffusi aggiornamenti (update) ed informazioni)
-%  Per permettere l'aggiunta di nuovi tipi di seguaci con meccaniche diverse abbiamo adottato il pattern \textit{strategy}, lo stesso principio vale anche per tessere e strutture. Per facilitare la generazione di diverse tessere, che condividono la medesima rappresentazione grafica, abbiamo utilizzato il pattern \textit{factory method} che definisce per ognuna di esse un metodo per la creazione. Il medesimo design pattern è stato utilizzato anche per la creazione delle diverse strutture. Siccome le singole tessere di loro contengono già delle strutture al loro interno
 \subsection{Design dettagliato}
-
 \subsection*{Mauro Pellonara}
 
 \subsection*{Alessandro Martini}
+
 \subsubsection*{Definizione di operazioni che vengono utilizzati su GameSet differenti}
 \begin{figure}[ht]
     \centering\includegraphics[scale=.4]{images/gameset.png}
     \caption{Rappresentazione UML dell'applicazione del pattern Strategy per il GameSet e GameSetImpl}
 \end{figure}
 \paragraph{Problema:}
-A ogni GameSet, va assegnato il relativo punteggio, il controllo se vi sono meeple presenti e la possibilità di piazzarli, la tipologia del GameSet e infine se è ancora aperto o chiuso.
+Assegnare logiche differenti per GameSet differnti. Si era posto il problema della scalabilità delle funzioni che ogni GameSet dovesse avere, anche per aggiornamenti futuri
 \paragraph{Soluzione:}
-La classe GameSetImpl implementa lo Strategy pattern, avendo come riferimento GameSet che serve come strategy per la gestione delle informazioni di ogni singolo GameSet.
+Tramite il patter Strategy, sono andato a creare un'interfaccia GameSet che definisse le funzioni generali di ogni GameSet, così facendo, ho reso scalabile anche per upgrade futuri la possibilità di creare nuove funzioni e nuove regole per i vari tipi di GameSet.
 
 \subsubsection*{Creazione di più GameSet con tipologie differenti}
 \begin{figure}[ht]
@@ -36,14 +39,14 @@ La classe GameSetImpl implementa lo Strategy pattern, avendo come riferimento Ga
 \end{figure}
 
 \paragraph{Problema:}
-Possono esistere più GameSet con informazioni differenti e relativi punteggi assegnati, in aggiunta si devono gestire l'unione di due GameSet.
+Creare una uguale implementazione di GameSet ma di tipi differenti
 \paragraph{Soluzione:}
-La classe GameSetFactoryImpl implementa lo Strategy pattern, avendo come riferimento GameSetFactory che serve come strategy per la creazione di nuovi GameSet.
+Tramite il pattern Strategy, siamo andati a implementare dei metodi che vanno a definire come i vari tipi di GameSet vengono creati, e inoltre come si possono creare dei GameSet da altri GameSet 
 
 \subsubsection*{Creazione di più BasicComponent con caratteristiche differenti}
 \begin{figure}[ht]
     \centering\includegraphics[scale=.5]{images/basiccomponent.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per la classe interfaccia BasicComponent, che viene estesa da TileButton, a sua volta implementato da TileButtonImpl}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per la classe interfaccia BasicComponent, che viene estesa da TileButton, a sua volta implementato da TileButtonImpl(Esempio)}
 \end{figure}
 
 \paragraph{Problema:}
