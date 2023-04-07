@@ -28,6 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.UserInterface;
 import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.components.meeple.RemainingMeeplesComponent;
 import it.unibo.caesena.view.components.meeple.RemainingMeeplesComponentImpl;
@@ -49,7 +50,7 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
     private static final int MINIMUM_PADDING = 3;
     private static final float SPACER_RATIO = 0.2f;
     private final GameScene gameScene;
-    private final GUI userInterface;
+    private final UserInterface userInterface;
     private final JPanel tileImagePanel;
     private final JButton rotateButton;
     private final JLabel playerNameLabel;
@@ -230,7 +231,7 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
      * updates the size of the FooterComponent.
      */
     private void updateSize() {
-        final Dimension frameSize = userInterface.getFrameSize();
+        final Dimension frameSize = gameScene.getComponent().getSize();
         if (frameSize.getHeight() > frameSize.getWidth()) {
             innerPaddingSize = (int) Math.round(frameSize.getWidth() * INTERNAL_PADDING_RATIO);
         } else {

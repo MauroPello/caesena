@@ -14,6 +14,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.UserInterface;
 
 /**
  * {@inheritDoc}
@@ -23,7 +24,7 @@ import it.unibo.caesena.view.LocaleHelper;
  */
 public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPanel> {
     private static final float PLAYER_IMAGE_RATIO = 0.01f;
-    private final GUI userInterface;
+    private final UserInterface userInterface;
     private final JPanel playersPanel;
     private final JPanel mainPanel;
     private final int playerImageSize;
@@ -35,7 +36,7 @@ public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPan
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the UserInterface "
         + "he's placed in as it retrieves information from it, like player scores")
-    public LeaderBoardComponentImpl(final GUI userInterface) {
+    public LeaderBoardComponentImpl(final UserInterface userInterface) {
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 

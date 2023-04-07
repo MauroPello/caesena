@@ -241,15 +241,6 @@ public class GUI implements UserInterface {
     }
 
     /**
-     * Gets the size of the mainFrame representing the GUI.
-     *
-     * @return the size of the mainFrame representing the GUI
-     */
-    public Dimension getFrameSize() {
-        return this.mainFrame.getSize();
-    }
-
-    /**
      * Resets all the scenes.
      */
     private void resetScenes() {

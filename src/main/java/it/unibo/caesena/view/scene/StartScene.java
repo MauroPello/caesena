@@ -27,6 +27,7 @@ import it.unibo.caesena.model.Color;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.UserInterface;
 import it.unibo.caesena.view.components.common.ModalPanel;
 import it.unibo.caesena.view.components.common.NumericUpDown;
 import it.unibo.caesena.view.components.common.NumericUpDownImpl;
@@ -42,7 +43,7 @@ public class StartScene implements Scene<JPanel> {
     private static final float PLAYER_IMAGE_RATIO = 0.05f;
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 6;
-    private final GUI userInterface;
+    private final UserInterface userInterface;
     private final JPanel mainPanel;
     private final List<PlayerInput<JPanel>> playerInputs;
     private final JPanel playersPanel;
@@ -58,7 +59,7 @@ public class StartScene implements Scene<JPanel> {
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the UserInterface "
         + "he's placed in as it uses its methods and needs to send and retrieve information from it")
-    public StartScene(final GUI userInterface) {
+    public StartScene(final UserInterface userInterface) {
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
 
@@ -167,6 +168,9 @@ public class StartScene implements Scene<JPanel> {
 
     /**
      * {@inheritDoc}
+     *
+     * When set to visible, if there is no change listener for the NumericUpDown it
+     * creates a new one and adds it.
      */
     @Override
     public void setVisible(final boolean visible) {
@@ -216,10 +220,9 @@ public class StartScene implements Scene<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("unchecked")
     @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Needed to allow access to the Controller for lower-level "
         + "dynamic components")
-    public final GUI getUserInterface() {
+    public final UserInterface getUserInterface() {
         return this.userInterface;
     }
 

@@ -17,6 +17,7 @@ import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.UserInterface;
 import it.unibo.caesena.view.components.common.ModalPanel;
 import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.components.player.PlayerImage;
@@ -117,10 +118,9 @@ public class GameOverScene implements Scene<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("unchecked")
     @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Needed to allow access to the Controller for lower-level "
         + "dynamic components")
-    public final GUI getUserInterface() {
+    public final UserInterface getUserInterface() {
         return this.userInterface;
     }
 

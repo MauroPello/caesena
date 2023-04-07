@@ -11,7 +11,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
-import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.view.UserInterface;
 import it.unibo.caesena.view.components.FooterComponent;
 import it.unibo.caesena.view.components.FooterComponentImpl;
 import it.unibo.caesena.view.components.SidebarComponent;
@@ -25,7 +25,7 @@ import it.unibo.caesena.view.components.tile.TileImage;
  */
 public class GameScene implements Scene<JPanel> {
     private static final float MAIN_COMPONENT_RATIO = 0.75f;
-    private final GUI userInterface;
+    private final UserInterface userInterface;
     private final JPanel mainPanel;
     private final BoardManager<JPanel> boardManager;
     private final FooterComponent<JPanel> footer;
@@ -39,7 +39,7 @@ public class GameScene implements Scene<JPanel> {
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the UserInterface "
         + "he's placed in as it uses its methods and needs to send and retrieve information from it")
-    public GameScene(final GUI userInterface) {
+    public GameScene(final UserInterface userInterface) {
         this.mainPanel = new JPanel();
         this.userInterface = userInterface;
         this.currentTileImage = Optional.empty();
@@ -225,10 +225,9 @@ public class GameScene implements Scene<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("unchecked")
     @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "Needed to allow access to the Controller for lower-level "
         + "dynamic components")
-    public final GUI getUserInterface() {
+    public final UserInterface getUserInterface() {
         return this.userInterface;
     }
 
