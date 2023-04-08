@@ -1,6 +1,6 @@
 \section{Design}
 \subsection{Architettura}
-In fase di progettazione è stato scelto di adottare il pattern architetturale MVC, traendone quindi tutti i suoi vantaggi, principalmente che model e controller rimangono praticamente uguali a prescindere dalla view utilizzata. Infatti, è stato scelto nella view di usare il pattern Strategy con delle interfacce generiche per i singoli componenti che potranno perciò adottare qualsiasi GUI framework. Per passare, per esempio da Swing a JavaFX basterebbe solo sostituire le implementazioni delle interfacce presenti nella parte di view.
+In fase di progettazione è stato scelto di adottare il pattern architetturale MVC, traendone quindi tutti i suoi vantaggi, principalmente che model e controller rimangono praticamente uguali a prescindere dalla view utilizzata. Infatti, per la view è stato scelto di usare il pattern Strategy con delle interfacce generiche per i singoli componenti che potranno perciò adottare qualsiasi GUI framework. Per passare per esempio da Swing a JavaFX basterebbe solo sostituire le implementazioni delle interfacce presenti nella parte di view.
 \medskip
 
 Ogni modulo del pattern Model-View-Controller ha quindi una propria organizzazione e scopo:
@@ -20,15 +20,44 @@ Siccome ad ogni modifica di stato della partita, il Controller notifica le UserI
 \subsection{Design dettagliato}
 \subsection*{Mauro Pellonara}
 
+\subsubsection*{Permettere di sviluppare Meeple con diverse caratteristiche}
+\begin{figure}[ht]
+    \centering\includegraphics[scale=.23]{images/meeple.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per Meeple e NormalMeeple}
+\end{figure}
+\paragraph{Problema}
+La versione classica del gioco supporta solo seguaci normali che non hanno funzioni speciali. Alcune espansioni introducono invece dei seguaci che valgono il doppio di quelli normali, è quindi necessario garantire espandibilità futura in caso di nuove espansioni.
+\paragraph{Soluzione}
+Usare il pattern Strategy sulla classe NormalMeeple introducendo un'interfaccia Meeple che può essere usata in futuro per introdurre nuovi seguaci di tipo diverso, un esempio sono quelli che hanno valore doppio rispetto ai normali.
+\subsubsection*{Facilitare la creazione di Tile assieme ai relativi GameSet}
+\begin{figure}[ht]
+    \centering\includegraphics[scale=.26]{images/tilebuilder.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Builder per Tile}
+\end{figure}
+\paragraph{Problema}
+La versione classica del gioco supporta solo seguaci normali che non hanno funzioni speciali. Alcune espansioni introducono invece dei seguaci che valgono il doppio di quelli normali, è quindi necessario garantire espandibilità futura in caso di nuove espansioni.
+\paragraph{Soluzione}
+Usare il pattern Strategy sulla classe NormalMeeple introducendo un'interfaccia Meeple che può essere usata in futuro per introdurre nuovi seguaci di tipo diverso, un esempio sono quelli che hanno valore doppio rispetto ai normali.
+\subsubsection*{Facilitare la creazione di Tile di tipo diverso}
+TileFactory
+\subsubsection*{Evitare di tenere riferimenti doppi tra GameSet e Tile}
+GameSetTileMediator
+\subsubsection*{Miglioramento delle prestazioni del gioco}
+VisualVM -> problema immagini -> Caching delle immagini in RemainingMeeplesComponent
+\subsubsection*{Aggiornare tutti i componenti a cascata}
+UserInterface e Scene
+\subsubsection*{Permettere diversi tipi di campi di input per la creazione di Player}
+Strategy nel PlayerInput
+
 \subsection*{Alessandro Martini}
 
 \subsubsection*{Definizione di operazioni che vengono utilizzati su GameSet differenti}
 \begin{figure}[ht]
     \centering\includegraphics[scale=.4]{images/gameset.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per il GameSet e GameSetImpl}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per GameSet e GameSetImpl}
 \end{figure}
 \paragraph{Problema:}
-Assegnare logiche differenti per GameSet differnti. Si era posto il problema della scalabilità delle funzioni che ogni GameSet dovesse avere, anche per aggiornamenti futuri
+Assegnare logiche differenti per GameSet differenti. Si era posto il problema della scalabilità delle funzioni che ogni GameSet dovesse avere, anche per aggiornamenti futuri
 \paragraph{Soluzione:}
 Tramite il patter Strategy, sono andato a creare un'interfaccia GameSet che definisse le funzioni generali di ogni GameSet, così facendo, ho reso scalabile anche per upgrade futuri la possibilità di creare nuove funzioni e nuove regole per i vari tipi di GameSet.
 
