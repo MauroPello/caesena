@@ -21,15 +21,16 @@ Siccome ad ogni modifica di stato della partita, il Controller notifica le UserI
 \subsection*{Mauro Pellonara}
 
 \subsection*{Alessandro Martini}
+
 \subsubsection*{Definizione di operazioni che vengono utilizzati su GameSet differenti}
 \begin{figure}[ht]
     \centering\includegraphics[scale=.4]{images/gameset.png}
     \caption{Rappresentazione UML dell'applicazione del pattern Strategy per il GameSet e GameSetImpl}
 \end{figure}
 \paragraph{Problema:}
-A ogni GameSet, va assegnato il relativo punteggio, il controllo se vi sono meeple presenti e la possibilità di piazzarli, la tipologia del GameSet e infine se è ancora aperto o chiuso.
+Assegnare logiche differenti per GameSet differnti. Si era posto il problema della scalabilità delle funzioni che ogni GameSet dovesse avere, anche per aggiornamenti futuri
 \paragraph{Soluzione:}
-La classe GameSetImpl implementa lo Strategy pattern, avendo come riferimento GameSet che serve come strategy per la gestione delle informazioni di ogni singolo GameSet.
+Tramite il patter Strategy, sono andato a creare un'interfaccia GameSet che definisse le funzioni generali di ogni GameSet, così facendo, ho reso scalabile anche per upgrade futuri la possibilità di creare nuove funzioni e nuove regole per i vari tipi di GameSet.
 
 \subsubsection*{Creazione di più GameSet con tipologie differenti}
 \begin{figure}[ht]
@@ -38,14 +39,14 @@ La classe GameSetImpl implementa lo Strategy pattern, avendo come riferimento Ga
 \end{figure}
 
 \paragraph{Problema:}
-Possono esistere più GameSet con informazioni differenti e relativi punteggi assegnati, in aggiunta si devono gestire l'unione di due GameSet.
+Creare una uguale implementazione di GameSet ma di tipi differenti
 \paragraph{Soluzione:}
-La classe GameSetFactoryImpl implementa lo Strategy pattern, avendo come riferimento GameSetFactory che serve come strategy per la creazione di nuovi GameSet.
+Tramite il pattern Strategy, siamo andati a implementare dei metodi che vanno a definire come i vari tipi di GameSet vengono creati, e inoltre come si possono creare dei GameSet da altri GameSet 
 
 \subsubsection*{Creazione di più BasicComponent con caratteristiche differenti}
 \begin{figure}[ht]
     \centering\includegraphics[scale=.5]{images/basiccomponent.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per la classe interfaccia BasicComponent, che viene estesa da TileButton, a sua volta implementato da TileButtonImpl}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per la classe interfaccia BasicComponent, che viene estesa da TileButton, a sua volta implementato da TileButtonImpl(Esempio)}
 \end{figure}
 
 \paragraph{Problema:}
@@ -57,6 +58,9 @@ La classe GameSetFactoryImpl implementa lo Strategy pattern, avendo come riferim
 
 \subsection*{Samuele Giancarli}
 
+%
+il posizionamento tessere è l'azione principale di tutto il gioco e la più complessa, in quanto bisognerà permettere il piazzamento solo nel caso in cui le tessere siano congiungibili. 
+%
 
 Problema: piazzamento di una tessera
 
