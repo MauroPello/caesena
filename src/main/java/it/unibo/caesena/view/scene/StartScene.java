@@ -63,7 +63,8 @@ public class StartScene implements Scene<JPanel> {
         this.userInterface = userInterface;
         this.playerInputs = new ArrayList<>();
 
-        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_StartScene.png", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(
+                ResourceUtil.getBufferedImage("background_StartScene.png", List.of()), true);
         this.mainPanel.setLayout(new GridBagLayout());
         this.mainPanel.setOpaque(false);
 

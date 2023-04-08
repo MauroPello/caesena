@@ -28,7 +28,7 @@ public class ModalPanel extends JPanelWithBackgroundImage {
      * @param small whether the panel should be small or not
      */
     public ModalPanel(final BufferedImage image, final boolean small) {
-        super(image);
+        super(image, false);
         this.small = small;
     }
 

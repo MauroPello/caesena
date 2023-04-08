@@ -15,16 +15,24 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class JPanelWithBackgroundImage extends JPanel implements BasicComponent<JPanel> {
     private static final long serialVersionUID = -3728080344667767964L;
+
     private final transient BufferedImage image;
+    /**
+     * Whether or not the image should keep its aspect ratio when resizing the panel.
+     */
+    private final boolean keepImageAspectRatio;
 
     /**
      * Public constructor that accepts an image to be placed as background.
      * Makes a copy of the passed image because it's mutable.
      *
-     * @param image to set as background
+     * @param image                to set as background
+     * @param keepImageAspectRatio whether or not the image should keep its aspect
+     *                             ratio when resizing the panel
      */
-    public JPanelWithBackgroundImage(final BufferedImage image) {
+    public JPanelWithBackgroundImage(final BufferedImage image, final boolean keepImageAspectRatio) {
         super();
+        this.keepImageAspectRatio = keepImageAspectRatio;
 
         this.image = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         final Graphics2D bGr = this.image.createGraphics();
@@ -40,10 +48,15 @@ public class JPanelWithBackgroundImage extends JPanel implements BasicComponent<
     @Override
     protected void paintComponent(final Graphics graphics) {
         super.paintComponent(graphics);
-        final double ratioWidht = (double) this.getWidth() / (double) image.getWidth();
-        final double ratioHeight = (double) this.getHeight() / (double) image.getHeight();
-        final double width = image.getWidth() * (ratioHeight > ratioWidht ? ratioHeight : ratioWidht);
-        final double height = image.getHeight() * (ratioHeight > ratioWidht ? ratioHeight : ratioWidht);
+        double width = this.getWidth();
+        double height = this.getHeight();
+        if (keepImageAspectRatio) {
+            final double ratioWidth = (double) this.getWidth() / (double) image.getWidth();
+            final double ratioHeight = (double) this.getHeight() / (double) image.getHeight();
+            width = image.getWidth() * (ratioHeight > ratioWidth ? ratioHeight : ratioWidth);
+            height = image.getHeight() * (ratioHeight > ratioWidth ? ratioHeight : ratioWidth);
+        }
+
         graphics.drawImage(image, 0, 0,
                 (int) Math.round(width),
                 (int) Math.round(height), null);

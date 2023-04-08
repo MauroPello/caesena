@@ -41,7 +41,8 @@ public class GameOverScene implements Scene<JPanel> {
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the UserInterface "
         + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public GameOverScene(final GUI userInterface) {
-        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_GameOverScene.jpeg", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(
+                ResourceUtil.getBufferedImage("background_GameOverScene.jpeg", List.of()), true);
         this.userInterface = userInterface;
 
         final JPanel modal = new ModalPanel(ResourceUtil.getBufferedImage("background_Modal.png", List.of()), false);

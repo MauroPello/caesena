@@ -52,7 +52,8 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the GameScene "
         + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public SidebarComponentImpl(final GameScene gameScene) {
-        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(
+                ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()), true);
         this.mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         this.mainPanel.setLayout(new GridBagLayout());
 

@@ -73,7 +73,8 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the GameScene "
         + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public FooterComponentImpl(final GameScene gameScene) {
-        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Footer.png", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(
+                ResourceUtil.getBufferedImage("background_Footer.png", List.of()), true);
         this.mainPanel.setLayout(new BorderLayout());
 
         this.gameScene = gameScene;

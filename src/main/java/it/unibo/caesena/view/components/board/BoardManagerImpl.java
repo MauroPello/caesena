@@ -33,7 +33,8 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the GameScene "
         + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public BoardManagerImpl(final GameScene gameScene) {
-        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Board.png", List.of()));
+        this.mainPanel = new JPanelWithBackgroundImage(ResourceUtil.getBufferedImage("background_Board.png", List.of()),
+                true);
         this.gameScene = gameScene;
         this.board = new BoardComponentImpl(this.gameScene);
         this.sectionSelector = new SectionSelectorComponentImpl(this.gameScene);
