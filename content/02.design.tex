@@ -12,7 +12,7 @@ Ogni modulo del pattern Model-View-Controller ha quindi una propria organizzazio
 Siccome ad ogni modifica di stato della partita, il Controller notifica le UserInterface collegate ad esso, è possibile giocare alla stessa partita contemporaneamente tramite varie interfacce utente aggiungendole tutte allo stesso controller. Queste possono essere diverse tra loro e di qualsiasi tipo, per esempio: Web, CLI o come nel nostro caso, GUI.
 
 \begin{figure}[hb]
-    \centering\includegraphics[scale=0.23]{images/design_uml_orizzontale.png}
+    \centering\includegraphics[scale=0.29]{images/design_uml.png}
     \caption{Schema UML architetturale.}
 \end{figure}
 \clearpage
@@ -41,7 +41,7 @@ Tramite il patter Strategy, sono andato a creare un'interfaccia GameSet che defi
 \paragraph{Problema:}
 Creare una uguale implementazione di GameSet ma di tipi differenti
 \paragraph{Soluzione:}
-Tramite il pattern Strategy, siamo andati a implementare dei metodi che vanno a definire come i vari tipi di GameSet vengono creati, e inoltre come si possono creare dei GameSet da altri GameSet 
+Tramite il pattern Strategy, siamo andati a implementare dei metodi che vanno a definire come i vari tipi di GameSet vengono creati, e inoltre come si possono creare dei GameSet da altri GameSet
 
 \subsubsection*{Creazione di più BasicComponent con caratteristiche differenti}
 \begin{figure}[ht]
@@ -59,7 +59,7 @@ Tramite il pattern Strategy, siamo andati a implementare dei metodi che vanno a 
 \subsection*{Samuele Giancarli}
 
 %
-il posizionamento tessere è l'azione principale di tutto il gioco e la più complessa, in quanto bisognerà permettere il piazzamento solo nel caso in cui le tessere siano congiungibili. 
+il posizionamento tessere è l'azione principale di tutto il gioco e la più complessa, in quanto bisognerà permettere il piazzamento solo nel caso in cui le tessere siano congiungibili.
 %
 
 Problema: piazzamento di una tessera

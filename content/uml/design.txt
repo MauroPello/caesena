@@ -1,48 +1,50 @@
 classDiagram
-    direction LR
-
     Scene --o UpdatableComponent
     UserInterface --o Scene
     Controller --o UserInterface
     UpdatableComponent --|> BasicComponent
     Scene --|> UpdatableComponent
 
-    class BasicComponent~componentType~ {
+    class BasicComponent~X~ {
         <<Interface>>
         +setVisible(boolean visible)
         +isVisible(): boolean
-        +getComponent(): ~componentType~
+        +getComponent(): ~X~
     }
 
     class UpdatableComponent {
+        <<Interface>>
         +update()
     }
 
     class Controller{
+        <<Interface>>
         +startGame()
         +resetGame()
-        +endTurn()
         +exitGame()
         +hasGameStarted(): boolean
-        +placeMeeple(TileSection section): Optional~Meeple~
-        +getCurrentTile(): Tile
-        +getCurrentPlayer(): Player
-        +placeCurrentTile(Position position): boolean
-        +getPlayers(): List~Player~
-        +getTiles(): List~Tile~
-        +getPlayerMeeples(Player player): List~Meeple~
         +isGameOver(): boolean
+        +endTurn()
+        +placeCurrentTile(Position position): boolean
+        +rotateCurrentTile()
         +discardCurrentTile(): boolean
+        +getCurrentTile(): Optional~Tile~
+        +placeMeeple(TileSection section): Optional~Meeple~
+        +getPlayerMeeples(Player player): List~Meeple~
+        +getCurrentPlayer(): Optional~Player~
+        +addPlayer()
         +addUserInterface(UserInterface userInterface)
     }
 
     class UserInterface{
+        <<Interface>>
         +update()
         +exit()
         +getController(): Controller
         +setController(Controller controller)
     }
 
-    class Scene ~userInteterfaceType~ {
-        +getUserInterface(): ~userInteterfaceType~
+    class Scene {
+        <<Interface>>
+        +getUserInterface(): UserInterface
     }
