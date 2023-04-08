@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,25 +28,24 @@ public final class ResourceUtil {
     }
 
     /**
-     * 
+     *
      * @param filename    name of file to search
-     * @param directories path where search filename
+     * @param imageDirectories path where search filename
      * @return a BufferedImage from a path
      */
-    public static BufferedImage getBufferedImage(final String filename, final List<String> directories) {
+    public static BufferedImage getBufferedImage(final String filename, final List<String> imageDirectories) {
         try {
-            final File file = new File(
-                    ClassLoader.getSystemResource(ROOT + "images" + SEP + joinDirectories(directories) + SEP + filename)
-                            .toURI());
-            return ImageIO.read(file);
-        } catch (IOException | URISyntaxException e) {
+            final List<String> directories = new ArrayList<>(imageDirectories);
+            directories.add(0, "images");
+            return ImageIO.read(getInputStreamFromFile(filename, directories));
+        } catch (IOException e) {
             throw new IllegalStateException("Image path not valid", e);
         }
 
     }
 
     /**
-     * 
+     *
      * @param filename    name of file to search
      * @param directories path where search filename
      * @return InputStream for finding the path for the filename
@@ -56,7 +55,7 @@ public final class ResourceUtil {
     }
 
     /**
-     * 
+     *
      * @param directories list of all directories
      * @return joined directories in String
      */
