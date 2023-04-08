@@ -29,18 +29,33 @@ Inizialmente abbiamo suddiviso il lavoro in modo che ognuno potesse lavorare par
 \end{itemize}
 
 Per quanto riguarda il DVCS abbiamo deciso di utilizzare Git, in particolare abbiamo creato due diversi branch, uno per la stesura della relazione e l'altro per lo sviluppo del codice. Ogni componente ha quindi avuto la resposabilità di clonare localmente la repository e di fare le operazioni di \textit{pull}, \textit{push} ed eventualmente \textit{merge}.
+
 \subsubsection*{Mauro Pellonara}
-In autonomia ho sviluppato:
+In autonomia mi sono occupato di:
 \begin{itemize}
-    \item
+    \item Interfaccia grafica principale (GUI in it.unibo.caesena.view)
+    \item Menù principale e di pausa (StartScene e PauseScene in it.unibo.caesena.view.scene)
+    \item Vari componenti con scopi generici (in it.unibo.caesena.view.components.common)
+    \item Componenti relativi al player (PlayerInput e PlayerImage in it.unibo.caesena.view.components.player)
+    \item Ridimensionamento dinamico di FooterComponentImpl (in it.unibo.caesena.view.components)
+    \item "Caching" delle immagini (RemainingMeeplesComponent in it.unibo.caesena.view.components.meeple)
+    \item Traduzione in italiano del gioco (LocaleHelper in it.unibo.caesena.view)
+    \item Gestione di inizio e reset della partita (Controller in it.unibo.caesena.controller)
+    \item Controllo della chiusura dei GameSet (Controller in it.unibo.caesena.controller)
+    \item Gestione delle UserInterfaces (Controller in it.unibo.caesena.controller)
+    \item Sviluppo di TileFactory e TileBuilder (in it.unibo.caesena.model.tile)
+    \item Sviluppo di GameSetTileMediator (in it.unibo.caesena.model)
+    \item Sviluppo del package Meeple (in it.unibo.caesena.model.meeple)
 \end{itemize}
-In collaborazione ho sviluppato:
+In collaborazione mi sono occupato di:
 \begin{itemize}
-    \item
+    \item Gestione della fine della partita con Alessandro Martini (Controller in it.unibo.caesena.controller)
+    \item Sviluppo del package Tile con Samuele Giancarli (in it.unibo.caesena.model.tile)
+    \item Sviluppo di TileType con Davide Speziali (in it.unibo.caesena.model.tile)
 \end{itemize}
 
 \subsubsection*{Alessandro Martini}
-In autonomia ho sviluppato:
+In autonomia mi sono occupato di:
 \begin{itemize}
     \item Implementazione e gestione dei vari GameSet (package it.unibo.caesena.model.gameset)
     \item Implementazione della GameOverScene (package it.unibo.caesena.view.scene)
@@ -53,7 +68,7 @@ In autonomia ho sviluppato:
     \item Controller.getEmptyNeighbouringPositions (package it.unibo.caesena.controller)
     \item Controller.isPositionOccupied (package it.unibo.caesena.controller)
 \end{itemize}
-In collaborazione ho sviluppato:
+In collaborazione mi sono occupato di:
 \begin{itemize}
     \item con Mauro Pellonara:
     \begin{itemize}
@@ -62,23 +77,23 @@ In collaborazione ho sviluppato:
 \end{itemize}
 
 \subsubsection*{Davide Speziali}
-In autonomia ho sviluppato:
+In autonomia mi sono occupato di:
 \begin{itemize}
     \item
 \end{itemize}
-In collaborazione ho sviluppato:
+In collaborazione mi sono occupato di:
 \begin{itemize}
     \item
 \end{itemize}
 
 \subsubsection*{Samuele Giancarli}
-In autonomia ho sviluppato:
+In autonomia mi sono occupato di:
 \begin{itemize}
     \item Controller.placeCurrentTile (package it.unibo.caesena.controller)
     \item Controller.rotateCurrentTile (package it.unibo.caesena.controller)
     \item Implementazione del LeaderBoardComponent (it.unibo.caesena.view.components.player)
     \item Implementazione del SideBarComponent (it.unibo.caesena.view.components)
-    \item Implementazione del RemainingMeeple RemainingMeepleComponent (it.unibo.caesena.view.components.meeple)
+    \item Implementazione del RemainingMeeple RemainingMeeplesComponent (it.unibo.caesena.view.components.meeple)
     \item Implementazione del ResourceUtil (it.unibo.caesena.utils)
     \item Inserimento delle Tessere PENNANT in TileType (it.unibo.caesena.model.tile)
     \item Implementazione delle Factory per le tessere PENNANT in TileFactoryWithBuilder (it.unibo.caesena.model.tile)
@@ -92,7 +107,7 @@ In autonomia ho sviluppato:
     %con quelle della tile corrente fossero dello stesso tipo
 \end{itemize}
 
-In collaborazione ho sviluppato:
+In collaborazione mi sono occupato di:
 \begin{itemize}
     \item Tile in collaborazione con mauro pellonara
     \item Footer in collaborazione con mauro pellonara
@@ -100,6 +115,17 @@ In collaborazione ho sviluppato:
 
 \subsection{Note di sviluppo}
 \subsubsection*{Mauro Pellonara}
+\begin{itemize}
+    \item Utilizzo di ResourceBundle e Locale per supporto di più lingue: \href{https://github.com/MauroPello/OOP22-caesena/blob/main/src/main/java/it/unibo/caesena/view/LocaleHelper.java}{permalink} dell'esempio
+    \item Utilizzo di Stream, Lambda e Method reference, alcuni esempi sono:
+    \begin{itemize}
+        \item \href{https://github.com/MauroPello/OOP22-caesena/blob/b817cad200379d563deda711ebf7773b572fb061/src/main/java/it/unibo/caesena/model/GameSetTileMediatorImpl.java#L107}{Permalink} del 1° esempio
+        \item \href{https://github.com/MauroPello/OOP22-caesena/blob/dff66c49fc9fb8e6bdd8d328986f4b9ee3a4b2dc/src/main/java/it/unibo/caesena/controller/ControllerImpl.java#L134}{Permalink} del 2° esempio
+        \item \href{https://github.com/MauroPello/OOP22-caesena/blob/dff66c49fc9fb8e6bdd8d328986f4b9ee3a4b2dc/src/main/java/it/unibo/caesena/controller/ControllerImpl.java#L390}{Permalink} del 3° esempio
+        \item \href{https://github.com/MauroPello/OOP22-caesena/blob/b817cad200379d563deda711ebf7773b572fb061/src/main/java/it/unibo/caesena/model/GameSetTileMediatorImpl.java#L203}{Permalink} del 4° esempio
+        \item \href{https://github.com/MauroPello/OOP22-caesena/blob/b817cad200379d563deda711ebf7773b572fb061/src/main/java/it/unibo/caesena/model/GameSetTileMediatorImpl.java#L213}{Permalink} del 5° esempio
+    \end{itemize}
+\end{itemize}
 
 \subsubsection*{Alessandro Martini}
 \begin{itemize}
