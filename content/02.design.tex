@@ -51,9 +51,9 @@ Usare il pattern Builder per la creazione di oggetti MutableTile rendendo più e
     \caption{Rappresentazione UML dell'applicazione del pattern Factory Method per MutableTile.}
 \end{figure}
 \paragraph{Problema}
-Creare istanze di MutableTile assieme ai relativi GameSet in modo facile e leggibile.
+All'inizio di ogni partita vengono generate numerose MutableTile per ogni tipo, è quindi necessaria una procedura facile per la generazione di esse.
 \paragraph{Soluzione}
-Usare il pattern Builder per la creazione di oggetti MutableTile rendendo più esplicite le istruzioni da eseguire. Assieme alla creazione di un'istanza di MutableTile possono anche essere creati i relativi GameSet e restituiti tutti assieme con il metodo build().
+TODO.
 \clearpage
 
 \subsubsection*{Evitare di tenere riferimenti doppi tra GameSet e Tile}
@@ -62,9 +62,9 @@ Usare il pattern Builder per la creazione di oggetti MutableTile rendendo più e
     \caption{Rappresentazione UML dell'applicazione del pattern Mediator per GameSet e Tile.}
 \end{figure}
 \paragraph{Problema}
-Creare istanze di MutableTile assieme ai relativi GameSet in modo facile e leggibile.
+TODO.
 \paragraph{Soluzione}
-Usare il pattern Builder per la creazione di oggetti MutableTile rendendo più esplicite le istruzioni da eseguire. Assieme alla creazione di un'istanza di MutableTile possono anche essere creati i relativi GameSet e restituiti tutti assieme con il metodo build().
+TODO.
 \clearpage
 
 \subsubsection*{Permettere diversi tipi di campi di input per la creazione di Player}
@@ -76,6 +76,7 @@ Usare il pattern Builder per la creazione di oggetti MutableTile rendendo più e
 Creare un componente grafico per l'inserimento delle informazioni necessarie alla creazione di un nuovo Player, rispettando quindi il Single Responsibility Principle. In oltre, far si che questo principio venga rispettato da qualsiasi view con interfaccia grafica.
 \paragraph{Soluzione}
 Creare una classe PlayerInputImpl che si occupa di ottenere e gestire le informazioni relative alla creazione di un nuovo Player. Ulteriormente, applicare il pattern Strategy alla classe PlayerInputImpl generalizzandone il comportamento e usando un tipo generico rappresentante il componente grafico utilizzato, che varia a seconda del GUI framework scelto.
+\clearpage
 
 \subsection*{Alessandro Martini}
 
