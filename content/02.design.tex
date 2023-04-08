@@ -22,32 +22,57 @@ Siccome ad ogni modifica di stato della partita, il Controller notifica le UserI
 
 \subsubsection*{Permettere di sviluppare Meeple con diverse caratteristiche}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=.23]{images/meeple.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per Meeple e NormalMeeple}
+    \centering\includegraphics[scale=.25]{images/meeple.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per Meeple e NormalMeeple.}
 \end{figure}
 \paragraph{Problema}
 La versione classica del gioco supporta solo seguaci normali che non hanno funzioni speciali. Alcune espansioni introducono invece dei seguaci che valgono il doppio di quelli normali, è quindi necessario garantire espandibilità futura in caso di nuove espansioni.
 \paragraph{Soluzione}
 Usare il pattern Strategy sulla classe NormalMeeple introducendo un'interfaccia Meeple che può essere usata in futuro per introdurre nuovi seguaci di tipo diverso, un esempio sono quelli che hanno valore doppio rispetto ai normali.
-\subsubsection*{Facilitare la creazione di Tile assieme ai relativi GameSet}
+\clearpage
+
+\subsubsection*{Facilitare la creazione di istanze di MutableTile assieme ai relativi GameSet}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=.26]{images/tilebuilder.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Builder per Tile}
+    \centering\includegraphics[scale=.30]{images/tilebuilder.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Builder per MutableTile.}
 \end{figure}
 \paragraph{Problema}
-La versione classica del gioco supporta solo seguaci normali che non hanno funzioni speciali. Alcune espansioni introducono invece dei seguaci che valgono il doppio di quelli normali, è quindi necessario garantire espandibilità futura in caso di nuove espansioni.
+Creare istanze di MutableTile assieme ai relativi GameSet in modo facile e leggibile.
 \paragraph{Soluzione}
-Usare il pattern Strategy sulla classe NormalMeeple introducendo un'interfaccia Meeple che può essere usata in futuro per introdurre nuovi seguaci di tipo diverso, un esempio sono quelli che hanno valore doppio rispetto ai normali.
-\subsubsection*{Facilitare la creazione di Tile di tipo diverso}
-TileFactory
+Usare il pattern Builder per la creazione di oggetti MutableTile rendendo più esplicite le istruzioni da eseguire. Assieme alla creazione di un'istanza di MutableTile possono anche essere creati i relativi GameSet e restituiti tutti assieme con il metodo build().
+\clearpage
+
+\subsubsection*{Facilitare la creazione di istanze di MutableTile di tipo diverso}
+\begin{figure}[ht]
+    \centering\includegraphics[scale=.35]{images/tilefactory.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Factory Method per MutableTile.}
+\end{figure}
+\paragraph{Problema}
+Creare istanze di MutableTile assieme ai relativi GameSet in modo facile e leggibile.
+\paragraph{Soluzione}
+Usare il pattern Builder per la creazione di oggetti MutableTile rendendo più esplicite le istruzioni da eseguire. Assieme alla creazione di un'istanza di MutableTile possono anche essere creati i relativi GameSet e restituiti tutti assieme con il metodo build().
+\clearpage
+
 \subsubsection*{Evitare di tenere riferimenti doppi tra GameSet e Tile}
-GameSetTileMediator
-\subsubsection*{Miglioramento delle prestazioni del gioco}
-VisualVM -> problema immagini -> Caching delle immagini in RemainingMeeplesComponent
-\subsubsection*{Aggiornare tutti i componenti a cascata}
-UserInterface e Scene
+\begin{figure}[ht]
+    \centering\includegraphics[scale=.35]{images/gamesettilemediator.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Mediator per GameSet e Tile.}
+\end{figure}
+\paragraph{Problema}
+Creare istanze di MutableTile assieme ai relativi GameSet in modo facile e leggibile.
+\paragraph{Soluzione}
+Usare il pattern Builder per la creazione di oggetti MutableTile rendendo più esplicite le istruzioni da eseguire. Assieme alla creazione di un'istanza di MutableTile possono anche essere creati i relativi GameSet e restituiti tutti assieme con il metodo build().
+\clearpage
+
 \subsubsection*{Permettere diversi tipi di campi di input per la creazione di Player}
-Strategy nel PlayerInput
+\begin{figure}[ht]
+    \centering\includegraphics[scale=.35]{images/playerinput.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per PlayerInput.}
+\end{figure}
+\paragraph{Problema}
+Creare un componente grafico per l'inserimento delle informazioni necessarie alla creazione di un nuovo Player, rispettando quindi il Single Responsibility Principle. In oltre, far si che questo principio venga rispettato da qualsiasi view con interfaccia grafica.
+\paragraph{Soluzione}
+Creare una classe PlayerInputImpl che si occupa di ottenere e gestire le informazioni relative alla creazione di un nuovo Player. Ulteriormente, applicare il pattern Strategy alla classe PlayerInputImpl generalizzandone il comportamento e usando un tipo generico rappresentante il componente grafico utilizzato, che varia a seconda del GUI framework scelto.
 
 \subsection*{Alessandro Martini}
 
