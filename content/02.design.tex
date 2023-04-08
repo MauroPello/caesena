@@ -10,6 +10,9 @@ Ogni modulo del pattern Model-View-Controller ha quindi una propria organizzazio
     \item La parte di controller si occupa della gestione della partita e di propagare sul model i risultati delle azioni compiute dall'utente attraverso la view.
 \end{itemize}
 Siccome ad ogni modifica di stato della partita, il Controller notifica le UserInterface collegate ad esso, è possibile giocare alla stessa partita contemporaneamente tramite varie interfacce utente aggiungendole tutte allo stesso controller. Queste possono essere diverse tra loro e di qualsiasi tipo, per esempio: Web, CLI o come nel nostro caso, GUI.
+\medskip
+
+Per la configurazione iniziale della partita viene utilizzato un file JSON. All'interno di esso vengono memorizzate informazioni riguardo quali e quante tile generare all'inizio della partita e quale deve essere la tile iniziale.
 
 \begin{figure}[hb]
     \centering\includegraphics[scale=0.29]{images/design_uml.png}
