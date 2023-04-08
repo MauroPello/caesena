@@ -51,20 +51,20 @@ Usare il pattern Builder per la creazione di oggetti MutableTile rendendo più e
     \caption{Rappresentazione UML dell'applicazione del pattern Factory Method per MutableTile.}
 \end{figure}
 \paragraph{Problema}
-All'inizio di ogni partita vengono generate numerose MutableTile per ogni tipo, è quindi necessaria una procedura facile per la generazione di esse.
+All'inizio di ogni partita vengono generate numerose MutableTile per ogni tipo rispettando il file di configurazione, è quindi necessario che per ogni tipo di Tile ci sia una procedura facile e ripetibile per la generazione di esse.
 \paragraph{Soluzione}
-TODO.
+Usare il pattern Factory Method includendo nella classe Factory, per ogni tipo di Tile, un metodo per la creazione di MutableTile di quel tipo. In aggiunta, è stato usato anche il pattern Strategy aggiungendo un'interfaccia per le Factory di MutableTile, in questo modo ogni Factory può impiegare algoritmi e strategie diverse per conseguire lo stesso risultato. In questo caso è stata sviluppata una factory che usasse la classe TileBuilder.
 \clearpage
 
-\subsubsection*{Evitare di tenere riferimenti doppi tra GameSet e Tile}
+\subsubsection*{Evitare di avere riferimenti doppi tra GameSet e Tile}
 \begin{figure}[ht]
     \centering\includegraphics[scale=.35]{images/gamesettilemediator.png}
     \caption{Rappresentazione UML dell'applicazione del pattern Mediator per GameSet e Tile.}
 \end{figure}
 \paragraph{Problema}
-TODO.
+Ogni singola Tile alla sua creazione ha su di essa diversi GameSet. Questi però non esistono solo sulle singole Tile ma riguardano il tabellone di gioco in generale, in quanto, con l'avanzamento progressivo della partita, vengono estesi ed uniti tra loro. Perciò, ogni Tile contiene dei GameSet e ogni GameSet contiene delle Tile, serve quindi un modo di gestire questo legame.
 \paragraph{Soluzione}
-TODO.
+Usare il pattern Mediator per creare una classe che si occupasse del legame tra GameSet e Tile, permettendo quindi di eseguire operazioni come ottenere i GameSet presenti in una Tile o ottenere le Tile sulla quale si estende un certo GameSet. Quindi, usando questo pattern non sarà necessario tenere e sincronizzare dei riferimenti doppi tra GameSet e Tile. In aggiunta, è stato usato anche il pattern Strategy aggiungendo un'interfaccia per GameSetTileMediator, in questo modo ogni Mediator può impiegare algoritmi e strategie diverse per conseguire lo stesso risultato.
 \clearpage
 
 \subsubsection*{Permettere diversi tipi di campi di input per la creazione di Player}
