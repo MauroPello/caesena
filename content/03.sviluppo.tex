@@ -2,7 +2,6 @@
 \subsection{Testing automatizzato}
 Per effettuare i test necessari per verificare la correttezza delle funzionalità del nostro software abbiamo utilizzato la suite dedicata JUnit 5. I test che siamo andati ad implementare sono:
 \begin{itemize}
-    \item ControllerTest: //TODO//
     \item GameSetTest: questa classe permette di testare la corretta creazione di vari GameSet (esempio: citySet, FieldSet), l'unione di due GameSet e il piazzamento di meeple all'interno dei GameSet. Sono presenti test anche per il controllo della corretta assegnazione e modifica dei punti relativi ai GameSet, è inclusa anche la verifica della gestione della corretta chiusura di un GameSet e dell'assegnazione dei punti ai Player aventi Meeple sul GameSet appena chiuso.
     \item NormalMeepleTest: questa classe permette di testare i metodi appartenenti al NormalMeeple e il posizionamento di esso all'interno di una Tile.
     \item PlayerTest: questa classe ci permette di testare i metodi appartenenti al Player e la modifica progressiva dei punti a lui assegnati.
@@ -70,10 +69,7 @@ In autonomia mi sono occupato di:
 \end{itemize}
 In collaborazione mi sono occupato di:
 \begin{itemize}
-    \item con Mauro Pellonara:
-    \begin{itemize}
-        \item Controller.endGame() (package it.unibo.caesena controller)
-    \end{itemize}
+    \item Gestione della fine della partita con Mauro Pellonara (Controller in it.unibo.caesena.controller)
 \end{itemize}
 
 \subsubsection*{Davide Speziali}
@@ -89,7 +85,7 @@ In collaborazione mi sono occupato di:
 \subsubsection*{Samuele Giancarli}
 In autonomia mi sono occupato di:
 \begin{itemize}
-    \item Gestione della rotazione e del piazzamento tessere (package it.unibo.caesena.controller) 
+    \item Gestione della rotazione e del piazzamento tessere (package it.unibo.caesena.controller)
     \item Inserimento delle Tessere pennant in TileType (it.unibo.caesena.model.tile)
     \item Implementazione delle Factory per le tessere PENNANT in TileFactoryWithBuilder (it.unibo.caesena.model.tile)
     \item Implementazione del FooterComponent (package it.unibo.caesena.view.components;)
