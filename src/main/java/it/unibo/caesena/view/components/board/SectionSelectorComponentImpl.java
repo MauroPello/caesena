@@ -194,9 +194,9 @@ class SectionSelectorComponentImpl implements SectionSelectorComponent<JPanel> {
                     .filter(b -> b.getComponent().equals(button)).findFirst().get();
             final Boolean wasSelected = newSectionButton.hasBeenSelected();
             sectionButtons.keySet().stream()
-                    .filter(s -> s.shouldBeDrawn())
-                    .filter(s -> s.hasBeenSelected())
-                    .forEach(s -> s.deselect());
+                    .filter(SectionButton::shouldBeDrawn)
+                    .filter(SectionButton::hasBeenSelected)
+                    .forEach(SectionButton::deselect);
             if (!wasSelected) {
                 newSectionButton.select();
             }
