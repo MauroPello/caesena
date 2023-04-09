@@ -34,8 +34,8 @@ import it.unibo.caesena.view.scene.Scene;
  * Implementation of UserInterface using Java Swing.
  */
 public class GUI implements UserInterface {
-    private static final float BIG_FONT_RATIO = 0.009f;
-    private static final float MEDIUM_FONT_RATIO = 0.009f;
+    private static final float BIG_FONT_RATIO = 0.015f;
+    private static final float MEDIUM_FONT_RATIO = 0.011f;
     private static final float SMALL_FONT_RATIO = 0.009f;
     /**
      * Default padding ratio.
@@ -86,8 +86,8 @@ public class GUI implements UserInterface {
             .round(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_WIDTH * DEFAULT_PADDING_RATIO
                     : SCREEN_HEIGHT * DEFAULT_PADDING_RATIO);
     private static final float MINIMUM_SIZE_RATIO = 0.3f;
-    private static final int MINIMUM_WIDTH = 200;
-    private static final int MINIMUM_HEIGHT = 200;
+    private static final int MINIMUM_WIDTH = 400;
+    private static final int MINIMUM_HEIGHT = 400;
     private Scene<JPanel> startScene;
     private Scene<JPanel> gameScene;
     private Scene<JPanel> pauseScene;

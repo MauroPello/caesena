@@ -50,7 +50,7 @@ public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPan
 
         final JLabel titleLabel = new JLabel(LocaleHelper.getLeaderboardName());
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titleLabel.setFont(GUI.BIG_BOLD_FONT);
+        titleLabel.setFont(GUI.MEDIUM_BOLD_FONT);
 
         this.mainPanel.add(titleLabel);
         final JSeparator separator = new JSeparator();
@@ -106,7 +106,7 @@ public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPan
             playerColorPanel.forceSize(playerImageSize);
 
             final JLabel playerLabel = new JLabel(player.getName() + " " + player.getScore());
-            playerLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
+            playerLabel.setFont(GUI.SMALL_NORMAL_FONT);
             playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             playerPanel.add(playerColorPanel.getComponent());

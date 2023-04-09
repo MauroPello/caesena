@@ -71,7 +71,7 @@ class SectionSelectorComponentImpl implements SectionSelectorComponent<JPanel> {
      * {@inheritDoc}
      */
     @Override
-    public final Boolean isSectionSelected() {
+    public final boolean isSectionSelected() {
         return getSelectedSection().isPresent();
     }
 
