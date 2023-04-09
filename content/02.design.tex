@@ -165,6 +165,7 @@ Questa tecnica è stata utilizzata per le interfacce:
     \item Player $\rightarrow$ MutablePlayer
     \item Tile $\rightarrow$ MutableTile
 \end{itemize}
+\clearpage
 
 \subsection*{Samuele Giancarli}
 \subsubsection*{Definizione di Tile}
@@ -172,9 +173,8 @@ Questa tecnica è stata utilizzata per le interfacce:
     \centering\includegraphics[]{images/tile_uml.png}
     \caption{Rappresentazione UML dell'applicazione del pattern Strategy per Tile.}
 \end{figure}
-Ogni tile è divisa in sezioni indipendenti (TileSection) ognuna definita dal una tipologia di struttura (GameSet)
 \paragraph{Problema:}
-Necessità di garantire espandibilità futura, in quanto nuove Tile potrebbero prevedere anche nuove meccaniche di gioco.
+Ogni tile è divisa in sezioni indipendenti (TileSection) ognuna definita dal una tipologia di struttura (GameSet). Necessità di garantire espandibilità futura, in quanto nuove Tile potrebbero prevedere anche nuove meccaniche di gioco.
 \paragraph{Soluzione:}
 Usare il pattern Strategy sulla classe TileImpl introducendo un'interfaccia Tile che potrà essere usata in futuro.
 \clearpage
