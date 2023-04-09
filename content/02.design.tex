@@ -103,14 +103,14 @@ Tramite il pattern Strategy, siamo andati a implementare dei metodi che vanno a 
 
 \subsubsection*{Creazione di più BasicComponent con caratteristiche differenti}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=.5]{images/basiccomponent.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per la classe interfaccia BasicComponent, che viene estesa da TileButton, a sua volta implementato da TileButtonImpl(Esempio)}
+    \centering\includegraphics[scale=.3]{images/basiccomponent.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per la classe interfaccia BasicComponent, che viene estesa dal'interfaccia  UpdatableComponent}
 \end{figure}
 
 \paragraph{Problema:}
-La maggior parte dei componenti aveva dei metodi in comune, ma sviluppati in maniera differente a seconda dell'oggetto identificato nella view. (nell'esempio TileButton)
+Erano presenti dei componenti Grafici che, oltre ai metodi in comune con gli altri, avevano necessità di essere aggiornati durante il gioco
 \paragraph{Soluzione:}
-Sempre tramite il pattern Strategy, sono andato ad implementare i metodi che vanno a definire i comportamenti (metodi) in comune tra i vari componenti della view, e una estesa l'interfaccia, ogni metodo potrà sviluppare a suo piacimento i metodi presenti in BasicComponent.
+Sempre tramite il pattern Strategy, sono andato ad implementare i metodi che vanno a definire i comportamenti (metodi) in comune tra i vari componenti della view, e successivamente ho creato un'altra interfaccia che, estende BasicComponent, e inoltre va a definire il comportamento (metodo) di update del componente.
 
 \subsection*{Davide Speziali}
 
