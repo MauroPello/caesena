@@ -164,7 +164,7 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         gridBagConstraints.weighty = 1.0;
 
         this.playerNameLabel = new JLabel();
-        playerNameLabel.setForeground(Color.BLACK);
+        playerNameLabel.setForeground(Color.WHITE);
         playerNameLabel.setFont(GUI.BIG_BOLD_FONT);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -179,7 +179,7 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         tilesLeaderboardPanel.setLayout(new BoxLayout(tilesLeaderboardPanel, BoxLayout.Y_AXIS));
 
         this.remainingTilesLabel = new JLabel();
-        remainingTilesLabel.setForeground(Color.BLACK);
+        remainingTilesLabel.setForeground(Color.WHITE);
         remainingTilesLabel.setFont(GUI.MEDIUM_BOLD_FONT);
         remainingTilesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         tilesLeaderboardPanel.add(remainingTilesLabel);
