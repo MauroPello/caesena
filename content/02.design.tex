@@ -116,26 +116,26 @@ Sempre tramite il pattern Strategy, sono andato ad implementare i metodi che van
 
 
 \subsubsection*{Associazione tra View e Model per quanto riguarda le immagini di tasselli e seguaci}
-% \begin{figure}[h]
-%     \centering\includegraphics[scale=.4]{DA FARE}
-%     \caption{}
-% \end{figure}
+\begin{figure}[h]
+    \centering\includegraphics[scale=.4]{images/uml_tilemeeple_images.png}
+    \caption{Rappresentazione UML della gestione delle immagini di tile e meeple}
+\end{figure}
 \paragraph{Problema:}
 Necessità di avere delle imamgini aggiornate sulla base dello stato dei singoli tasselli e seguaci presenti nel gioco. Che devono inoltre essere presenti
 sia nel footer che nel tabellone.
 \paragraph{Soluzione:}
-Per quanto riguarda i taselli la soluzione trovata è stata quella di creare una classe TileImage che al suo interno contenesse un oggetto della classe Tile. In questo modo viene fatta un'associazione diretta tra ogni singola tile e la sua immagine, senza necessità che il model sia a conoscenza dell'esistenza di quest'ultima. All'interno di TileImage viene infatti generata un'immagine sempre aggiornata corrisponendente alla tile, e viene rigenerata ogni volta che avviene una modifica, ossia quando avviene: una rotazione, il piazzamento di meeple, la rimozione di meeple. TileImage infatti utilizza la classe MeepleImage per ottenere l'overlay dei seguaci. Quest'ultima infatti è gestita in maniera analoga, contiene e si associa in maniera diretta a un oggetto della classe Meeple. Questo sistema, oltre a garantire la gestione dinamica delle immagici, ci permette di attuare una forma di caching, non essendo necessario generare una nuova immagine ogni qual volta un tassello viene girato o un tassello viene piazzato su di esso. Inoltre entrambi questi oggetti devono essere in grado di esistere indipendenti l'uno dall'altro. Infatti viene utilizzata la stessa classe MeepleImage per mostrare i seguaci rimasto all'interno del footer e allo stesso modo viene utilizzata la classe TileImage per la preview del tassello corrente sempre presente nel footer.
+Per quanto riguarda i taselli la soluzione trovata è stata quella di creare una classe TileImage che al suo interno contenesse una referenza ad oggetto della classe Tile. In questo modo viene fatta un'associazione diretta tra ogni singola instanza della classe Tile e la sua immagine, senza necessità che il model sia a conoscenza dell'esistenza di quest'ultima. All'interno di TileImage viene generata un'immagine corrisponendente alla tile che viene rigenerata ogni volta che avviene una modifica: rotazione, piazzamento di meeple o rimozione di meeple. Queste ultime due modifiche vengono gestite attraverso la classe MeepleImage che TileImage usa per ottenere l'overlay dei seguaci da applicare alle immagini dei tasselli. La classe MeepleImage è gestita in maniera analoga a TileImage, contiene e si associa in maniera diretta a un'istanza della classe Meeple. Questo sistema, oltre a garantire la gestione dinamica delle immagici, ci permette di attuare una forma di caching, non essendo necessario generare una nuova immagine ogni qual volta un tassello viene girato o un seguace viene piazzato su di esso. Questa soluzione garantisce che sia MeepleImage che TileImage vengano utilizzati anche indipendentemente.
 
-\subsubsection*{Permettere al giocatore l'utilizzo della Board}
-% \begin{figure}[h]
-%     \centering\includegraphics[scale=.4]{DA FARE}
-%     \caption{}
-% \end{figure}
+\subsubsection*{Permettere al giocatore l'utilizzo del tabellone di gioco}
+\begin{figure}[h]
+    \centering\includegraphics[scale=.3]{images/uml_board.png}
+    \caption{Rappresentazione UML della gestione dei componenti grafici del tabellone di gioco}
+\end{figure}
 \paragraph{Problema:}
 È necessaria la creazione di una GUI in grado di permettere al giocatore di:
 \begin{itemize}
-    \item Permettere la posizione di tessere
-    \item Permettere la posizione di un seguace dopo aver piazziato una tessera
+    \item Posizionare tessere
+    \item Posizionare seguaci su tessere appena piazzate
 \end{itemize}
 \paragraph{Soluzione:}
 Per garantire il \textit{single responsability principle} la soluzione trovata è stata quella di creare 4 componenti:
@@ -148,18 +148,19 @@ Per garantire il \textit{single responsability principle} la soluzione trovata �
 Inoltre per facilitare espandibilità e refactoring è stato utilizzato il pattern \textit{Strategy} per definire le operazioni richieste a ogni componente. Nel mio caso in particolare è stato utilizzato per definire il comportamento di tutti e quattro i componenti sopracitati.
 
 \subsubsection*{Condivisione di elementi del Model nella View}
-% \begin{figure}[h]
-%     \centering\includegraphics[scale=.4]{DA FARE}
-%     \caption{}
-% \end{figure}
-\paragraph{Problema: Come gestire la necessita di avere riferimenti a componenti del model all'interno della view, evitando di dare la possibilità a quest'ultima di apportare modifiche al model.}
+\begin{figure}[h]
+    \centering\includegraphics[scale=.4]{images/uml_mutability.png}
+    \caption{Rappresentazione UML dei componenti del Model nella gestione della mutabilità}
+\end{figure}
+\paragraph{Problema: Come gestire la necessità di avere riferimenti a componenti del Model all'interno della View, evitando di dare la possibilità a quest'ultima di apportare modifiche al Model.}
 \paragraph{Soluzione:}
-La soluzione trovata è stata quella di utilizzare il pattern "Immutability Through Interfaces". Esso consiste nell'avere un'interfaccia "interface", contenete soltanto metodi getter, che viene estesa dall'interfaccia "MutableInterface" contenente anche contiene anche medoti che comportano la modifica delle informazioni dell'istanza della classe "class". Quest'ultima infatti implementerà MutableInterface, e all'interno di model e controller gli oggetti della classe "class" saranno di tipo "MutableInterface", mentre nella view saranno di tipo "Interface" così da poterne verificare lo stato, aggiornato, ma non avere accesso ai metodi di modifica.
+La soluzione trovata è stata quella di utilizzare il concetto di \textit{Immutability Through Interfaces}. Esso consiste nell'avere un'interfaccia, contenete soltanto metodi di richiesta di informazioni, che viene estesa dall'ulteriore interfaccia contenente anche medoti che comportano la modifica delle informazioni delle istanze. Le classi implementeranno direttamente questa seconda interfaccia mutabile, la prima interfaccia verrà solo utilizzata come tipo all'interno della View, in modo che quest'ultima abbia accesso ai dati aggiornati riguardo il Model ma allo stesso tempo non possa in nessun modo modificarli.
+
 Questa tecnica è stata utilizzata per le interfacce:
 \begin{itemize}
-    \item Meeple \rightarrow MutableMeeple
-    \item Player \rightarrow MutablePlayer
-    \item Tile \rightarrow MutableTile
+    \item Meeple $\rightarrow$ MutableMeeple
+    \item Player $\rightarrow$ MutablePlayer
+    \item Tile $\rightarrow$ MutableTile
 \end{itemize}
 
 \subsection*{Samuele Giancarli}
