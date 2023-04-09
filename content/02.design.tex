@@ -89,6 +89,7 @@ Creare una classe PlayerInputImpl che si occupa di ottenere e gestire le informa
 Assegnare logiche differenti per GameSet differenti. Si era posto il problema della scalabilità delle funzioni che ogni GameSet dovesse avere, anche per aggiornamenti futuri
 \paragraph{Soluzione:}
 Tramite il patter Strategy, sono andato a creare un'interfaccia GameSet che definisse le funzioni generali di ogni GameSet, così facendo, ho reso scalabile anche per upgrade futuri la possibilità di creare nuove funzioni e nuove regole per i vari tipi di GameSet.
+\clearpage
 
 \subsubsection*{Creazione di più GameSet con tipologie differenti}
 \begin{figure}[ht]
@@ -100,6 +101,7 @@ Tramite il patter Strategy, sono andato a creare un'interfaccia GameSet che defi
 Creare una uguale implementazione di GameSet ma di tipi differenti
 \paragraph{Soluzione:}
 Tramite il pattern Strategy, siamo andati a implementare dei metodi che vanno a definire come i vari tipi di GameSet vengono creati, e inoltre come si possono creare dei GameSet da altri GameSet
+\clearpage
 
 \subsubsection*{Creazione di più BasicComponent con caratteristiche differenti}
 \begin{figure}[ht]
@@ -111,6 +113,7 @@ Tramite il pattern Strategy, siamo andati a implementare dei metodi che vanno a 
 Erano presenti dei componenti Grafici che, oltre ai metodi in comune con gli altri, avevano necessità di essere aggiornati durante il gioco
 \paragraph{Soluzione:}
 Sempre tramite il pattern Strategy, sono andato ad implementare i metodi che vanno a definire i comportamenti (metodi) in comune tra i vari componenti della view, e successivamente ho creato un'altra interfaccia che, estende BasicComponent, e inoltre va a definire il comportamento (metodo) di update del componente.
+\clearpage
 
 \subsection*{Davide Speziali}
 
