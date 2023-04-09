@@ -26,7 +26,7 @@ public interface SectionSelectorComponent<X> extends BasicComponent<X> {
      *
      * @return true if any section has been selected, false otherwise
      */
-    Boolean isSectionSelected();
+    boolean isSectionSelected();
 
     /**
      * Draws the section selector.

@@ -29,7 +29,7 @@ public class NumericUpDownImpl implements NumericUpDown<JSpinner> {
 
         final DefaultEditor editor = new DefaultEditor(this.spinner);
         editor.getTextField().setEditable(false);
-        editor.getTextField().setFont(GUI.MEDIUM_BOLD_FONT);
+        editor.getTextField().setFont(GUI.BIG_BOLD_FONT);
         this.spinner.setEditor(editor);
     }
 
