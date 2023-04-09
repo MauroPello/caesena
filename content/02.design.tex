@@ -157,17 +157,50 @@ Inoltre per facilitare espandibilità e refactoring è stato utilizzato il patte
 La soluzione trovata è stata quella di utilizzare il pattern "Immutability Through Interfaces". Esso consiste nell'avere un'interfaccia "interface", contenete soltanto metodi getter, che viene estesa dall'interfaccia "MutableInterface" contenente anche contiene anche medoti che comportano la modifica delle informazioni dell'istanza della classe "class". Quest'ultima infatti implementerà MutableInterface, e all'interno di model e controller gli oggetti della classe "class" saranno di tipo "MutableInterface", mentre nella view saranno di tipo "Interface" così da poterne verificare lo stato, aggiornato, ma non avere accesso ai metodi di modifica.
 Questa tecnica è stata utilizzata per le interfacce:
 \begin{itemize}
-    \item Meeple \rightarrow MutableMeeple
-    \item Player \rightarrow MutablePlayer
-    \item Tile \rightarrow MutableTile
+    \item Meeple $\rightarrow$ MutableMeeple
+    \item Player $\rightarrow$ MutablePlayer
+    \item Tile $\rightarrow$ MutableTile
 \end{itemize}
 
 \subsection*{Samuele Giancarli}
 \subsubsection*{Definizione di Tile}
+\begin{figure}[ht]
+    \centering\includegraphics[]{images/tile_uml.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per Tile.} % e tileImpl?
+\end{figure}
 \paragraph{Problema:}
 \paragraph{Soluzione:}
 
 \subsubsection*{Definizione di FooterComponent}
+\begin{figure}[ht]
+    \centering\includegraphics[]{images/FooterComponent_uml.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per FooterComponent.}
+\end{figure}
+\paragraph{Problema:}
+\paragraph{Soluzione:}
+
+\subsubsection*{Definizione di SideBarComponent}
+\begin{figure}[ht]
+    \centering\includegraphics[]{images/SideBar_uml.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per SideBarComponent.}
+\end{figure}
+\paragraph{Problema:}
+\paragraph{Soluzione:}
+
+\subsubsection*{Definizione di RemainingMeeplesComponent}
+\begin{figure}[ht]
+    \centering\includegraphics[]{images/RemainingMeeplesComponent_uml.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per RemainingMeeplesComponent.}
+\end{figure}
+\paragraph{Problema:}
+\paragraph{Soluzione:}
+
+
+\subsubsection*{Definizione di leaderBoardComponent}
+\begin{figure}[ht]
+    \centering\includegraphics[]{images/LeaderBoard_uml.png}
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per LeaderBoardComponent.}
+\end{figure}
 \paragraph{Problema:}
 \paragraph{Soluzione:}
 
