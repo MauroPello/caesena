@@ -170,59 +170,36 @@ Questa tecnica è stata utilizzata per le interfacce:
 \subsubsection*{Definizione di Tile}
 \begin{figure}[ht]
     \centering\includegraphics[]{images/tile_uml.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per Tile.} % e tileImpl?
+    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per Tile.}
 \end{figure}
+Ogni tile è divisa in sezioni indipendenti (TileSection) ognuna definita dal una tipologia di struttura (GameSet)
 \paragraph{Problema:}
+Necessità di garantire espandibilità futura, in quanto nuove Tile potrebbero prevedere anche nuove meccaniche di gioco.
 \paragraph{Soluzione:}
+Usare il pattern Strategy sulla classe TileImpl introducendo un'interfaccia Tile che potrà essere usata in futuro.
+\clearpage
 
 \subsubsection*{Definizione di FooterComponent}
 \begin{figure}[ht]
     \centering\includegraphics[]{images/FooterComponent_uml.png}
     \caption{Rappresentazione UML dell'applicazione del pattern Strategy per FooterComponent.}
 \end{figure}
-\paragraph{Problema:}
+\paragraph{Problema: Creare un componente grafico per la visualizzazione delle informazioni informazioni sul player, i suoi meeple e la tile corrente. si vuole che venga rispettata la Single Responsibility e che
+da qualsiasi view con interfaccia grafica.}
 \paragraph{Soluzione:}
 
-\subsubsection*{Definizione di SideBarComponent}
+\subsubsection*{Permettere al giocatore di compiere azioni all'interno del tabellone e visualizzarne i dati di gioco}
 \begin{figure}[ht]
-    \centering\includegraphics[]{images/SideBar_uml.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per SideBarComponent.}
+    \centering\includegraphics[]{images/HUD_uml.png}
+    \caption{Rappresentazione UML dei componenti grafici della HUD}
 \end{figure}
 \paragraph{Problema:}
-\paragraph{Soluzione:}
-
-\subsubsection*{Definizione di RemainingMeeplesComponent}
-\begin{figure}[ht]
-    \centering\includegraphics[]{images/RemainingMeeplesComponent_uml.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per RemainingMeeplesComponent.}
-\end{figure}
-\paragraph{Problema:}
-\paragraph{Soluzione:}
-
-
-\subsubsection*{Definizione di leaderBoardComponent}
-\begin{figure}[ht]
-    \centering\includegraphics[]{images/LeaderBoard_uml.png}
-    \caption{Rappresentazione UML dell'applicazione del pattern Strategy per LeaderBoardComponent.}
-\end{figure}
-\paragraph{Problema:}
-\paragraph{Soluzione:}
-
-%
-il posizionamento tessere è l'azione principale di tutto il gioco e la più complessa, in quanto bisognerà permettere il piazzamento solo nel caso in cui le tessere siano congiungibili.
-%
-
-Problema: piazzamento di una tessera
-
-
-ecco cosa fa il getCurrentTile:
-
+è necessaria la creazione di una HUD che permetta al giocatore di
 \begin{itemize}
-\item va a verificare che la posizione selezionata non fosse stata già occupata da un’altra tessera, in caso negativo ritorna false
-\item va a verificare che esista almeno una tile neighbour, in caso negativo ritorna false
-\item va a verificare per ogni tile neighbour che la totalità delle section adiacenti alla current tile siano dello stesso tipo
-\item solo dopo aver controllato ogni section di ogni neighbour e aver appurato che la current tile sia piazzabile allora: setPosition(position)
-\item a questo punto ad ogni neighbour dovranno essere impostate a closed le section connesse con la current tile. La stessa cosa verrà fatta per le section della current tile connesse a quelle di un neighbour.
-\subitem la struttura del ciclo è la stessa di quello precedente, ma è solo grazie al completamento del ciclo precedente che si avrà la sicurezza di poter impostare tutte le section a closed
-\item (??????) solo a questo punto sarà possibile unire i gameset della tile corrente con quelli delle tile già presenti
+    \item visualizzare i propri seguaci rimanenti
+    \item visualizzare la classifica dei giocatori
+    \item visualizzare i propri dati quali nome, colore e punteggio
+    \item dare comandi al tabellone
 \end{itemize}
+\paragraph{Soluzione:}
+Per garantire il single responsability sono stati creati 4 componenti principali ognuno 
