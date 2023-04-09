@@ -168,16 +168,15 @@ Questa tecnica è stata utilizzata per le interfacce:
 \clearpage
 
 \subsection*{Samuele Giancarli}
-\subsubsection*{Definizione di Tile}
+\subsubsection*{Permettere di sviluppare Tile con determinate peculiarità}
 \begin{figure}[ht]
     \centering\includegraphics[]{images/tile_uml.png}
     \caption{Rappresentazione UML dell'applicazione del pattern Strategy per Tile.}
 \end{figure}
 \paragraph{Problema:}
-Ogni tile è divisa in sezioni indipendenti (TileSection) ognuna definita dal una tipologia di struttura (GameSet). Necessità di garantire espandibilità futura, in quanto nuove Tile potrebbero prevedere anche nuove meccaniche di gioco.
+Nonostante le tile siano definite solamente dalle loro sezioni indipendenti (TileSection) ognuna definita dal una tipologia di struttura (GameSet), è necessario garantire espandibilità considerando che futuri aggiornamenti potrebbero necessitare l'implementazione di nuove meccaniche di gioco.
 \paragraph{Soluzione:}
-Usare il pattern Strategy sulla classe TileImpl introducendo un'interfaccia Tile che potrà essere usata in futuro.
-\clearpage
+utilizzo del Pattern Strategy per la rappresentazione e l'implementazione di nuove tessere.
 
 \subsubsection*{Gestione della HUD}
 \begin{figure}[ht]
@@ -197,9 +196,6 @@ Per garantire il single responsability sono stati creati 4 componenti principali
     \item FooterComponent per la visualizzazione dei dati di gioco
 \end{itemize}
 
-è stata utilizzata uno strategy pattern che vede un'interfaccia BasicComponent al vertice e che permette già l'implementazione di componenti con nessuna particolare necessità come SideBarComponent, unicamente utilizzato per l'inserimento in input dei comandi da parte dei giocatori. I restanti componenti dovendo invece mostrare dati di gioco hanno necessitato della funzione update(), ricavata dall'interfaccia UpdatableComponent che ha esteso BasicComponent.
-
-Da notare come LeaderBoardComponent, per esempio, sia un componente a se stante e quindi ottimo per essere utilizzato in altri contesti di view, per esempio come in gameOverScene.
-\clearpage
+è stato utilizzato uno strategy pattern che vede un'interfaccia BasicComponent al suo vertice. Questa permette già l'implementazione di componenti con nessuna particolare necessità, come SideBarComponent: unicamente utilizzato per l'inserimento in input dei comandi da parte dei giocatori. I restanti componenti dovendo invece mostrare dati di gioco hanno necessitato della funzione update(), ricavata dall'interfaccia UpdatableComponent che ha esteso BasicComponent. Da notare come LeaderBoardComponent, per esempio, sia un componente a se stante e quindi ottimo per essere utilizzato in altri contesti di view, per esempio come in gameOverScene.
 
 
