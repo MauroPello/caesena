@@ -1,7 +1,6 @@
 package it.unibo.caesena.utils;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import javax.imageio.ImageIO;
  */
 public final class ResourceUtil {
 
-    private static final String SEP = File.separator;
+    private static final String SEP = "/";
     private static final String ROOT = "it" + SEP + "unibo" + SEP + "caesena" + SEP;
 
     /**
