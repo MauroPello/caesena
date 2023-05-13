@@ -12,7 +12,6 @@ plugins {
      * The runnable jar will be found in build/libs/projectname-all.jar
      */
     id("com.github.johnrengelman.shadow") version "8.1.0"
-    id("org.danilopianini.gradle-java-qa") version "0.44.0"
 }
 
 repositories { // Where to search for dependencies
@@ -29,7 +28,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
 
-    // to import JSON 
+    // to import JSON
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
 
     // for image manipulation
