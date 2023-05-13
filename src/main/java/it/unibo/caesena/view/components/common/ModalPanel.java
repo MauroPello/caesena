@@ -11,10 +11,10 @@ import it.unibo.caesena.view.GUI;
  */
 public class ModalPanel extends JPanelWithBackgroundImage {
     private static final long serialVersionUID = -4095427840403035675L;
-    private static final float MODAL_PREFERRED_RATIO = 0.4f;
-    private static final float MODAL_MAXIMUM_RATIO = 0.5f;
-    private static final float MODAL_MINIMUM_RATIO = 0.3f;
-    private static final float SMALL_MODAL_RATIO = 0.8f;
+    private static final float MODAL_PREFERRED_RATIO = 0.5f;
+    private static final float MODAL_MAXIMUM_RATIO = 0.6f;
+    private static final float MODAL_MINIMUM_RATIO = 0.4f;
+    private static final float SMALL_MODAL_RATIO = 0.7f;
     /**
      * Whether the panel should be small or not.
      */
