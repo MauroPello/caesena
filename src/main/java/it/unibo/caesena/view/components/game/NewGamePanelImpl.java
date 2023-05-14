@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -84,7 +83,6 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         startGamePanel.setOpaque(false);
         startGamePanel.add(startButton);
         startGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        startGamePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, GUI.DEFAULT_PADDING * 4, 0));
         this.mainPanel.add(startGamePanel);
 
         if (GUI.SCREEN_HEIGHT > GUI.SCREEN_WIDTH) {
