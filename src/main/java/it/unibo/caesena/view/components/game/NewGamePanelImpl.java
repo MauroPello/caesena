@@ -17,11 +17,11 @@ import javax.swing.event.ChangeListener;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.view.LocaleHelper;
+import it.unibo.caesena.view.UserInterface;
 import it.unibo.caesena.view.components.common.NumericUpDown;
 import it.unibo.caesena.view.components.common.NumericUpDownImpl;
 import it.unibo.caesena.view.components.player.PlayerInput;
 import it.unibo.caesena.view.components.player.PlayerInputImpl;
-import it.unibo.caesena.view.scene.StartScene;
 import it.unibo.caesena.view.GUI;
 
 public class NewGamePanelImpl implements NewGamePanel<JPanel> {
@@ -38,7 +38,7 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
 
     private Optional<ChangeListener> playersNumChangeListener;
 
-    public NewGamePanelImpl(final StartScene startScene) {
+    public NewGamePanelImpl(final UserInterface userInterface) {
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         this.mainPanel.setOpaque(false);
@@ -74,21 +74,15 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
             for (final var playerInput : this.playerInputs) {
                 final var player = playerInput.getPlayerData();
                 final var color = player.getY();
-                startScene.getUserInterface().getController().addPlayer(player.getX(),
+                userInterface.getController().addPlayer(player.getX(),
                     new Color(color.getRed(), color.getGreen(), color.getBlue()));
             }
 
-            startScene.getUserInterface().getController().startGame();
-        });
-        final JButton backButton = new JButton(LocaleHelper.getBackText());
-        backButton.setFont(GUI.MEDIUM_BOLD_FONT);
-        backButton.addActionListener((e) -> {
-            startScene.backToButtonsMenu();
+            userInterface.getController().startGame();
         });
         final JPanel startGamePanel = new JPanel();
         startGamePanel.setOpaque(false);
         startGamePanel.add(startButton);
-        startGamePanel.add(backButton);
         startGamePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         startGamePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, GUI.DEFAULT_PADDING * 4, 0));
         this.mainPanel.add(startGamePanel);

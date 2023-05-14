@@ -23,6 +23,8 @@ import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.UserInterface;
 import it.unibo.caesena.view.components.common.ModalPanel;
+import it.unibo.caesena.view.components.common.StartScenePage;
+import it.unibo.caesena.view.components.common.StartScenePageImpl;
 import it.unibo.caesena.view.components.game.GameListPanel;
 import it.unibo.caesena.view.components.game.GameListPanelImpl;
 import it.unibo.caesena.view.components.game.NewGamePanel;
@@ -38,9 +40,9 @@ public class StartScene implements Scene<JPanel> {
 
     private static final float GAME_IMAGE_RATIO = 0.6f;
 
-    private final StatisticsPanel<JPanel> statisticsPanel;
-    private final GameListPanel<JPanel> gameListPanel;
-    private final NewGamePanel<JPanel> newGamePanel;
+    private final StartScenePage<JPanel, StatisticsPanel<JPanel>> statisticsPage;
+    private final StartScenePage<JPanel, GameListPanel<JPanel>> gameListPage;
+    private final StartScenePage<JPanel, NewGamePanel<JPanel>> newGamePage;
     private final UserInterface userInterface;
     private final JPanel mainPanel;
     private final JPanel buttonsPanel;
@@ -107,14 +109,14 @@ public class StartScene implements Scene<JPanel> {
             }
         });
 
-        this.newGamePanel = new NewGamePanelImpl(this);
-        modal.add(this.newGamePanel.getComponent());
+        this.newGamePage = new StartScenePageImpl<NewGamePanel<JPanel>>(this, new NewGamePanelImpl(this.userInterface));
+        modal.add(this.newGamePage.getComponent());
 
-        this.gameListPanel = new GameListPanelImpl(this);
-        modal.add(this.gameListPanel.getComponent());
+        this.gameListPage = new StartScenePageImpl<GameListPanel<JPanel>>(this, new GameListPanelImpl(this.userInterface));
+        modal.add(this.gameListPage.getComponent());
 
-        this.statisticsPanel = new StatisticsPanelImpl(this);
-        modal.add(this.statisticsPanel.getComponent());
+        this.statisticsPage = new StartScenePageImpl<StatisticsPanel<JPanel>>(this, new StatisticsPanelImpl(this.userInterface));
+        modal.add(this.statisticsPage.getComponent());
 
         this.buttonsPanel = new JPanel();
         buttonsPanel.setOpaque(false);
@@ -126,7 +128,7 @@ public class StartScene implements Scene<JPanel> {
         newGameButton.setFont(GUI.MEDIUM_BOLD_FONT);
         newGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         newGameButton.addActionListener((e) -> {
-            this.newGamePanel.setVisible(true);
+            this.newGamePage.setVisible(true);
             this.buttonsPanel.setVisible(false);
         });
         gridBagConstraints.gridx = 0;
@@ -137,7 +139,7 @@ public class StartScene implements Scene<JPanel> {
         gameListButton.setFont(GUI.MEDIUM_BOLD_FONT);
         gameListButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         gameListButton.addActionListener((e) -> {
-            this.gameListPanel.setVisible(true);
+            this.gameListPage.setVisible(true);
             this.buttonsPanel.setVisible(false);
         });
         gridBagConstraints.gridx = 0;
@@ -148,7 +150,7 @@ public class StartScene implements Scene<JPanel> {
         statisticsButton.setFont(GUI.MEDIUM_BOLD_FONT);
         statisticsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         statisticsButton.addActionListener((e) -> {
-            this.statisticsPanel.setVisible(true);
+            this.statisticsPage.setVisible(true);
             this.buttonsPanel.setVisible(false);
         });
         gridBagConstraints.gridx = 0;
@@ -202,18 +204,18 @@ public class StartScene implements Scene<JPanel> {
      */
     @Override
     public void update() {
-        this.newGamePanel.update();
-        this.gameListPanel.update();
-        this.statisticsPanel.update();
+        this.newGamePage.getContentComponent().update();
+        this.gameListPage.getContentComponent().update();
+        this.statisticsPage.getContentComponent().update();
 
         this.mainPanel.revalidate();
         this.mainPanel.repaint();
     }
 
     public void backToButtonsMenu() {
-        this.newGamePanel.setVisible(false);
-        this.gameListPanel.setVisible(false);
-        this.statisticsPanel.setVisible(false);
+        this.newGamePage.setVisible(false);
+        this.gameListPage.setVisible(false);
+        this.statisticsPage.setVisible(false);
 
         this.buttonsPanel.setVisible(true);
     }
