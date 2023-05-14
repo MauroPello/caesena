@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeListener;
 
-import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.components.common.NumericUpDown;
@@ -31,7 +30,6 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 6;
 
-    private final Controller controller;
     private final JPanel mainPanel;
     private final List<PlayerInput<JPanel>> playerInputs;
     private final JPanel playersPanel;
@@ -41,7 +39,6 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
     private Optional<ChangeListener> playersNumChangeListener;
 
     public NewGamePanelImpl(final StartScene startScene) {
-        this.controller = startScene.getUserInterface().getController();
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         this.mainPanel.setOpaque(false);
@@ -77,11 +74,11 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
             for (final var playerInput : this.playerInputs) {
                 final var player = playerInput.getPlayerData();
                 final var color = player.getY();
-                controller.addPlayer(player.getX(),
+                startScene.getUserInterface().getController().addPlayer(player.getX(),
                     new Color(color.getRed(), color.getGreen(), color.getBlue()));
             }
 
-            controller.startGame();
+            startScene.getUserInterface().getController().startGame();
         });
         final JButton backButton = new JButton(LocaleHelper.getBackText());
         backButton.setFont(GUI.MEDIUM_BOLD_FONT);
