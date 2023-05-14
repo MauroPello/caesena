@@ -43,7 +43,7 @@ public class StartScene implements Scene<JPanel> {
     private final StartScenePage<JPanel, StatisticsPanel<JPanel>> statisticsPage;
     private final StartScenePage<JPanel, GameListPanel<JPanel>> gameListPage;
     private final StartScenePage<JPanel, NewGamePanel<JPanel>> newGamePage;
-    private final UserInterface userInterface;
+    private final GUI userInterface;
     private final JPanel mainPanel;
     private final JPanel buttonsPanel;
 
@@ -54,7 +54,7 @@ public class StartScene implements Scene<JPanel> {
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the UserInterface "
         + "he's placed in as it uses its methods and needs to send and retrieve information from it")
-    public StartScene(final UserInterface userInterface) {
+    public StartScene(final GUI userInterface) {
         this.userInterface = userInterface;
 
         this.mainPanel = new JPanelWithBackgroundImage(
@@ -157,6 +157,15 @@ public class StartScene implements Scene<JPanel> {
         gridBagConstraints.gridy = 2;
         buttonsPanel.add(statisticsButton, gridBagConstraints);
 
+        final JButton exitButton = new JButton(LocaleHelper.getExitApplicationText());
+        exitButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitButton.addActionListener((e) -> {
+            userInterface.showExitDialog();
+        });
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        buttonsPanel.add(exitButton, gridBagConstraints);
         modal.add(buttonsPanel);
 
         this.mainPanel.add(modal);
