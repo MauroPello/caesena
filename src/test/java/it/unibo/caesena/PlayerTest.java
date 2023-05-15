@@ -6,15 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.player.PlayerImpl;
+import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 
 final class PlayerTest {
 
     private static final Color PLAYER_COLOR = new Color(50, 50, 50);
-    private final PlayerImpl player;
+    private final PlayerInGameImpl player;
 
     PlayerTest() {
-        this.player = new PlayerImpl("Giocatore1", PLAYER_COLOR);
+        this.player = new PlayerInGameImpl(new Player("Giocatore1"), PLAYER_COLOR);
     }
 
     @Test

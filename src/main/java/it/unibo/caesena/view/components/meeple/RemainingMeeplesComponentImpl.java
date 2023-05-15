@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.view.scene.GameScene;
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGame;
 
 /**
  * {@inheritDoc}
@@ -21,7 +21,7 @@ import it.unibo.caesena.model.player.Player;
  * {@link javax.swing.JPanel}.
  */
 public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<JPanel> {
-    private final Map<Player, List<MeepleImage>> meeples;
+    private final Map<PlayerInGame, List<MeepleImage>> meeples;
     private final Controller controller;
     private final JPanel allMeeplesPanel;
     private final JPanel mainPanel;
@@ -79,7 +79,7 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
         this.allMeeplesPanel.repaint();
 
 
-        final Player currentPlayer = controller.getCurrentPlayer().get();
+        final PlayerInGame currentPlayer = controller.getCurrentPlayer().get();
         this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.get(currentPlayer).size()));
         for (final MeepleImage meeple : meeples.get(currentPlayer)) {
             final JPanel meeplePanel = new JPanel() {

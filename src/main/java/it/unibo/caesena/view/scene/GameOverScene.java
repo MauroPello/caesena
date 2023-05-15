@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
@@ -132,7 +132,7 @@ public class GameOverScene implements Scene<JPanel> {
     public void update() {
         this.playersPanels.removeAll();
 
-        final List<Player> players = new ArrayList<>(userInterface.getController().getPlayers());
+        final List<PlayerInGame> players = new ArrayList<>(userInterface.getController().getPlayers());
         players.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
         for (final var player : players) {
             final JPanel volatailePanel = new JPanel();

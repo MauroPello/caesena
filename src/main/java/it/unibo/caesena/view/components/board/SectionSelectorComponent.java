@@ -2,7 +2,7 @@ package it.unibo.caesena.view.components.board;
 
 import java.util.Optional;
 
-import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.view.BasicComponent;
 
 /**
@@ -19,7 +19,7 @@ public interface SectionSelectorComponent<X> extends BasicComponent<X> {
      *
      * @return the section that has been selected
      */
-    Optional<TileSection> getSelectedSection();
+    Optional<TileSectionType> getSelectedSection();
 
     /**
      * Specifies if any section has been selected.

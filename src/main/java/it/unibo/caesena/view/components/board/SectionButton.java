@@ -11,6 +11,7 @@ import it.unibo.caesena.controller.Controller;
 
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.view.BasicComponent;
 import it.unibo.caesena.view.scene.GameScene;
 
@@ -21,7 +22,7 @@ import it.unibo.caesena.view.scene.GameScene;
 public class SectionButton implements BasicComponent<JButton> {
     private static final Color UNSELECTED_COLOR = Color.WHITE;
     private static final Color SELECTED_COLOR = Color.GREEN;
-    private final TileSection section;
+    private final TileSectionType section;
     private final GameScene gameScene;
     private final boolean toBeDrawn;
     private final JButton button;
@@ -34,7 +35,7 @@ public class SectionButton implements BasicComponent<JButton> {
      * @param gameScene the parent GameScene
      * @param onClickActionListener action listener that specifies what to do in case of a click
      */
-    SectionButton(final TileSection section, final GameScene gameScene, final ActionListener onClickActionListener) {
+    SectionButton(final TileSectionType section, final GameScene gameScene, final ActionListener onClickActionListener) {
         this.button = new JButton() {
             @Override
             public Dimension getPreferredSize() {
@@ -136,8 +137,8 @@ public class SectionButton implements BasicComponent<JButton> {
      *
      * @return the section that has been selected
      */
-    public TileSection getSection() {
-        return section;
+    public TileSectionType getSection() {
+        return this.section;
     }
 
     /**

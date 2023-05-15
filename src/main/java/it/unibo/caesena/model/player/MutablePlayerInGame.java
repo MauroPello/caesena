@@ -1,10 +1,10 @@
 package it.unibo.caesena.model.player;
 
 /**
- * Extension of the {@link it.unibo.caesena.model.player.Player} interface.
+ * Extension of the {@link it.unibo.caesena.model.player.PlayerInGame} interface.
  * It rappresents a Player as a mutable object.
  */
-public interface MutablePlayer extends Player {
+public interface MutablePlayerInGame extends PlayerInGame {
     /**
      * Sets a new score, if higher than the current.
      *

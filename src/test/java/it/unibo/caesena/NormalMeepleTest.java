@@ -11,21 +11,23 @@ import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.meeple.MeepleType;
-import it.unibo.caesena.model.player.MutablePlayer;
-import it.unibo.caesena.model.player.PlayerImpl;
+import it.unibo.caesena.model.player.MutablePlayerInGame;
+import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.model.tile.TileSectionType;
 
 final class NormalMeepleTest {
 
     private static final Color PLAYER_COLOR = new Color(50, 50, 50);
     private static MutableMeeple meeple;
-    private static MutablePlayer owner;
+    private static MutablePlayerInGame owner;
 
     @BeforeAll
     static void init() {
-        owner = new PlayerImpl("Giocatore1", PLAYER_COLOR);
+        owner = new PlayerInGameImpl(new Player("Giocatore1"), PLAYER_COLOR);
         meeple = new MeepleImpl(new MeepleType("Normal", 1), owner);
     }
 
@@ -42,7 +44,7 @@ final class NormalMeepleTest {
     void testPlace() {
         final Tile tile = new TileFactoryWithBuilder().createCity().getX();
         assertFalse(meeple.isPlaced());
-        meeple.place(tile, TileSection.CENTER);
+        meeple.place(tile, TileSectionType.getFromName("CENTER"));
 
         assertTrue(meeple.isPlaced());
 

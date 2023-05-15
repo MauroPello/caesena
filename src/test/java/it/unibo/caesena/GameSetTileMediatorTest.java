@@ -18,6 +18,7 @@ import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileBuilder;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.model.tile.TileType;
 import it.unibo.caesena.utils.Pair;
 
@@ -35,7 +36,7 @@ final class GameSetTileMediatorTest {
 
     @Test
     void testGetGameSetInSection() {
-        assertEquals(GameSetType.FIELD, mediator.getGameSetInSection(tileMap.getX(), TileSection.CENTER).getType());
+        assertEquals(GameSetType.FIELD, mediator.getGameSetInSection(tileMap.getX(), TileSectionType.getFromName("CENTER")).getType());
     }
 
     @Test
@@ -60,10 +61,10 @@ final class GameSetTileMediatorTest {
         mediator.rotateTileClockwise(tileMap.getX());
         assertEquals(1, tileMap.getX().getRotationCount());
         final Pair<MutableTile, Map<GameSet, Set<TileSection>>> tile2 = new TileBuilder(TileType.CITY_EDGE)
-                .city(Set.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN,
-                        TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT))
-                .field(Set.of(TileSection.UP_RIGHT, TileSection.UP_CENTER, TileSection.UP_LEFT,
-                        TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN, TileSection.CENTER))
+                .city(Set.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN"),
+                        TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT")))
+                .field(Set.of(TileSectionType.getFromName("UP_RIGHT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_LEFT"),
+                        TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN"), TileSectionType.getFromName("CENTER")))
                 .build();
 
         for (final var entry : tile2.getY().entrySet()) {

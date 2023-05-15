@@ -5,11 +5,11 @@ import it.unibo.caesena.utils.StringUtil;
 
 /**
  * {@inheritDoc}
- * Implementation of the {@link it.unibo.caesena.model.player.Player} interface.
+ * Implementation of the {@link it.unibo.caesena.model.player.PlayerInGame} interface.
  */
-public final class PlayerImpl implements MutablePlayer {
+public final class PlayerInGameImpl implements MutablePlayerInGame {
 
-    private final String name;
+    private final Player player;
     private final Color color;
     private int score;
 
@@ -19,8 +19,8 @@ public final class PlayerImpl implements MutablePlayer {
      * @param name of the player
      * @param color of the player
      */
-    public PlayerImpl(final String name, final Color color) {
-        this.name = name;
+    public PlayerInGameImpl(final Player player, final Color color) {
+        this.player = player;
         this.color = color;
         this.score = 0;
     }
@@ -30,7 +30,7 @@ public final class PlayerImpl implements MutablePlayer {
      */
     @Override
     public String getName() {
-        return this.name;
+        return this.player.getName();
     }
 
     /**
@@ -68,10 +68,7 @@ public final class PlayerImpl implements MutablePlayer {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
+        return this.player.hashCode();
     }
 
     /**
@@ -89,8 +86,8 @@ public final class PlayerImpl implements MutablePlayer {
             return false;
         }
 
-        final PlayerImpl other = (PlayerImpl) obj;
-        return name.equals(other.getName());
+        final PlayerInGameImpl other = (PlayerInGameImpl) obj;
+        return this.player.getName().equals(other.getName());
     }
 
     /**

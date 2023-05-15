@@ -14,6 +14,7 @@ import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 
@@ -22,20 +23,20 @@ import it.unibo.caesena.utils.Pair;
  */
 public class GameSetTileMediatorImpl implements GameSetTileMediator {
 
-    private static final Map<Direction, Pair<List<TileSection>, List<TileSection>>> NEIGHBOUR_TILES_CHECK = new HashMap<>(
+    private static final Map<Direction, Pair<List<TileSectionType>, List<TileSectionType>>> NEIGHBOUR_TILES_CHECK = new HashMap<>(
             Map.of(
                     Direction.UP,
-                    new Pair<>(List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT),
-                            List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT)),
+                    new Pair<>(List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT")),
+                            List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT"))),
                     Direction.DOWN,
-                    new Pair<>(List.of(TileSection.UP_LEFT, TileSection.UP_CENTER, TileSection.UP_RIGHT),
-                            List.of(TileSection.DOWN_LEFT, TileSection.DOWN_CENTER, TileSection.DOWN_RIGHT)),
+                    new Pair<>(List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT")),
+                            List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT"))),
                     Direction.LEFT,
-                    new Pair<>(List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN),
-                            List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN)),
+                    new Pair<>(List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")),
+                            List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN"))),
                     Direction.RIGHT,
-                    new Pair<>(List.of(TileSection.LEFT_UP, TileSection.LEFT_CENTER, TileSection.LEFT_DOWN),
-                            List.of(TileSection.RIGHT_UP, TileSection.RIGHT_CENTER, TileSection.RIGHT_DOWN))));
+                    new Pair<>(List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN")),
+                            List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")))));
     private final Map<GameSet, Map<MutableTile, Set<TileSection>>> crossReferences;
     private final GameSetFactory gameSetFactory;
 
@@ -154,7 +155,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
         final Set<GameSet> fieldsNearCity = new HashSet<>();
 
         for (final var entry : getTilesFromGameSet(gameSet).entrySet()) {
-            for (final var tileSection : TileSection.values()) {
+            for (final var tileSection : TileSectionType.values) {
                 final GameSet fieldGameSet = getGameSetInSection(entry.getKey(), tileSection);
 
                 if (fieldGameSet.getType().equals(GameSetType.FIELD)
@@ -191,9 +192,9 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
      * @param gameSet the GameSet to check if it's near
      * @return whether or not the specific section in a MutableTile is near a certain GameSet
      */
-    private boolean isSectionNearToGameset(final MutableTile tile, final TileSection tileSection, final GameSet gameSet) {
-        return getGameSetInSection(tile, TileSection.next(tileSection)).equals(gameSet)
-                || getGameSetInSection(tile, TileSection.previous(tileSection)).equals(gameSet);
+    private boolean isSectionNearToGameset(final MutableTile tile, final TileSectionType tileSection, final GameSet gameSet) {
+        return getGameSetInSection(tile, TileSectionType.next(tileSection)).equals(gameSet)
+                || getGameSetInSection(tile, TileSectionType.previous(tileSection)).equals(gameSet);
     }
 
     /**

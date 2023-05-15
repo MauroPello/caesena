@@ -1,7 +1,7 @@
 package it.unibo.caesena.model.meeple;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
@@ -46,7 +46,7 @@ public interface Meeple {
      *
      * @return the player that owns the meeple.
      */
-    Player getOwner();
+    PlayerInGame getOwner();
 
     /**
      * Gets the type of the meeple.

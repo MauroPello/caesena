@@ -19,7 +19,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityEdge();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityEdge(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_EDGE_ROAD.
@@ -28,7 +28,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityEdgeRoad();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityEdgeRoad(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_LARGE.
@@ -37,7 +37,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityLarge();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityLarge(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_LARGE_ROAD.
@@ -46,7 +46,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityLargeRoad();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityLargeRoad(TileType type);
 
     /**
      * Creates a MutableTile with type CITY.
@@ -55,7 +55,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCity();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCity(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_SIDE_DOUBLE_NEXT.
@@ -64,7 +64,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideDoubleNext();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideDoubleNext(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_SIDE_DOUBLE.
@@ -73,7 +73,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideDouble();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideDouble(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_SIDE_JUNCTION.
@@ -82,7 +82,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideJunction();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideJunction(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_SIDE.
@@ -91,7 +91,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySide();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySide(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_SIDE_ROAD.
@@ -100,7 +100,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideRoad();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideRoad(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_SIDE_TURN_LEFT.
@@ -109,7 +109,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideTurnLeft();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideTurnLeft(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_SIDE_TURN_RIGHT.
@@ -118,7 +118,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideTurnRight();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCitySideTurnRight(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_TUBE.
@@ -127,7 +127,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityTube();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityTube(TileType type);
 
     /**
      * Creates a MutableTile with type MONASTERY.
@@ -136,7 +136,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createMonastery();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createMonastery(TileType type);
 
     /**
      * Creates a MutableTile with type MONASTERY_ROAD.
@@ -145,7 +145,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createMonasteryRoad();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createMonasteryRoad(TileType type);
 
     /**
      * Creates a MutableTile with type ROAD_JUNCTION_LARGE.
@@ -154,7 +154,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createRoadJunctionLarge();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createRoadJunctionLarge(TileType type);
 
     /**
      * Creates a MutableTile with type ROAD_JUNCTION_SMALL.
@@ -163,7 +163,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createRoadJunctionSmall();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createRoadJunctionSmall(TileType type);
 
     /**
      * Creates a MutableTile with type ROAD_STRAIGHT.
@@ -172,7 +172,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createRoadStraight();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createRoadStraight(TileType type);
 
     /**
      * Creates a MutableTile with type ROAD_TURN.
@@ -181,7 +181,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createRoadTurn();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createRoadTurn(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_EDGE_PENNANT.
@@ -190,7 +190,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityEdgePennant();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityEdgePennant(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_EDGE_ROAD_PENNANT.
@@ -199,7 +199,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityEdgeRoadPennant();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityEdgeRoadPennant(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_LARGE_PENNANT.
@@ -208,7 +208,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityLargePennant();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityLargePennant(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_LARGE_ROAD_PENNANT.
@@ -217,7 +217,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityLargeRoadPennant();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityLargeRoadPennant(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_PENNANT.
@@ -226,7 +226,7 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityPennant();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityPennant(TileType type);
 
     /**
      * Creates a MutableTile with type CITY_TUBE_PENNANT.
@@ -235,5 +235,5 @@ public interface TileFactory {
      *         containing a set of tileSections for every gameSet inside the newly
      *         created tile
      */
-    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityTubePennant();
+    Pair<MutableTile, Map<GameSet, Set<TileSection>>> createCityTubePennant(TileType type);
 }

@@ -17,13 +17,14 @@ import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
-import it.unibo.caesena.model.player.MutablePlayer;
-import it.unibo.caesena.model.player.Player;
-import it.unibo.caesena.model.player.PlayerImpl;
+import it.unibo.caesena.model.player.MutablePlayerInGame;
+import it.unibo.caesena.model.player.PlayerInGame;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
@@ -41,7 +42,7 @@ public final class ControllerImpl implements Controller {
     private final List<UserInterface> userInterfaces;
     private GameSetTileMediator mediator;
     private List<MutableMeeple> meeples;
-    private List<MutablePlayer> players;
+    private List<MutablePlayerInGame> players;
     private List<MutableTile> tiles;
     private Optional<MutableTile> currentTile;
     private boolean gameOver;
@@ -61,8 +62,8 @@ public final class ControllerImpl implements Controller {
     @Override
     public void startGame() {
         if (!players.isEmpty()) {
-            if (players.stream().map(Player::getName).collect(Collectors.toSet()).size() == players.size()
-                && players.stream().map(Player::getColor).collect(Collectors.toSet()).size() == players.size()) {
+            if (players.stream().map(PlayerInGame::getName).collect(Collectors.toSet()).size() == players.size()
+                && players.stream().map(PlayerInGame::getColor).collect(Collectors.toSet()).size() == players.size()) {
                 Collections.shuffle(players);
                 drawNewTile();
                 this.placeCurrentTile(new Pair<>(0, 0));
@@ -103,7 +104,7 @@ public final class ControllerImpl implements Controller {
             .toList();
         for (final var nearTile : placedTiles) {
             if (areTilesNear(currentTile.get(), nearTile)) {
-                GameSet centerGameset = mediator.getGameSetInSection(nearTile, TileSection.CENTER);
+                GameSet centerGameset = mediator.getGameSetInSection(nearTile, TileSectionType.getFromName("CENTER"));
                 if (centerGameset.getType().equals(GameSetType.MONASTERY)) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
@@ -111,7 +112,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
 
-                centerGameset = mediator.getGameSetInSection(currentTile.get(), TileSection.CENTER);
+                centerGameset = mediator.getGameSetInSection(currentTile.get(), TileSectionType.getFromName("CENTER"));
                 if (centerGameset.getType().equals(GameSetType.MONASTERY)) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
@@ -171,7 +172,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void addPlayer(final String name, final Color color) {
-        final MutablePlayer newPlayer = new PlayerImpl(name, color);
+        final MutablePlayerInGame newPlayer = new PlayerInGameImpl(name, color);
         players.add(newPlayer);
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
             meeples.add(new MeepleImpl(newPlayer));
@@ -182,7 +183,7 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Player> getCurrentPlayer() {
+    public Optional<PlayerInGame> getCurrentPlayer() {
         return this.players.isEmpty() ? Optional.empty()
             : Optional.of(this.players.get(this.turn % this.players.size()));
     }
@@ -191,7 +192,7 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public List<Player> getPlayers() {
+    public List<PlayerInGame> getPlayers() {
         return Collections.unmodifiableList(players);
     }
 
@@ -312,7 +313,7 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public List<Meeple> getPlayerMeeples(final Player player) {
+    public List<Meeple> getPlayerMeeples(final PlayerInGame player) {
         return new ArrayList<Meeple>(meeples.stream()
             .filter(m -> m.getOwner().equals(player))
             .toList());

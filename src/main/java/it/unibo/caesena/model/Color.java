@@ -109,9 +109,7 @@ public class Color {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + red;
-        result = prime * result + green;
-        result = prime * result + blue;
+        result = prime * result + ((hex == null) ? 0 : hex.hashCode());
         return result;
     }
 
@@ -131,8 +129,6 @@ public class Color {
         }
 
         final Color other = (Color) obj;
-        return other.getRed() == this.getRed()
-            && other.getGreen() == this.getGreen()
-            && other.getBlue() == this.getBlue();
+        return other.getHex() == this.getHex();
     }
 }

@@ -35,7 +35,7 @@ public final class TileBuilder {
      * @param sections to be marked as cities
      * @return the builder itself
      */
-    public TileBuilder city(final Set<TileSection> sections) {
+    public TileBuilder city(final Set<TileSectionType> sections) {
         gameSets.put(this.factory.createCitySet(), sections);
         return this;
     }
@@ -46,7 +46,7 @@ public final class TileBuilder {
      * @param sections to be marked as roads
      * @return the builder itself
      */
-    public TileBuilder road(final Set<TileSection> sections) {
+    public TileBuilder road(final Set<TileSectionType> sections) {
         gameSets.put(this.factory.createRoadSet(), sections);
         return this;
     }
@@ -57,7 +57,7 @@ public final class TileBuilder {
      * @param sections to be marked as fields
      * @return the builder itself
      */
-    public TileBuilder field(final Set<TileSection> sections) {
+    public TileBuilder field(final Set<TileSectionType> sections) {
         gameSets.put(this.factory.createFieldSet(), sections);
         return this;
     }
@@ -68,7 +68,7 @@ public final class TileBuilder {
      * @param sections to be marked as monasteries
      * @return the builder itself
      */
-    public TileBuilder monastery(final Set<TileSection> sections) {
+    public TileBuilder monastery(final Set<TileSectionType> sections) {
         gameSets.put(this.factory.createMonasterySet(), sections);
         return this;
     }
@@ -79,7 +79,7 @@ public final class TileBuilder {
      * @param sections to be marked as junctions
      * @return the builder itself
      */
-    public TileBuilder junction(final Set<TileSection> sections) {
+    public TileBuilder junction(final Set<TileSectionType> sections) {
         final GameSet junctionGameSet = this.factory.createJunctionSet();
         junctionGameSet.close();
         gameSets.put(junctionGameSet, sections);
@@ -92,7 +92,7 @@ public final class TileBuilder {
      * @param sections to be marked as closed
      * @return the builder itself
      */
-    public TileBuilder close(final Set<TileSection> sections) {
+    public TileBuilder close(final Set<TileSectionType> sections) {
         sections.forEach(tile::closeSection);
         return this;
     }

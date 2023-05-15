@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.scene.GameScene;
@@ -46,7 +46,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
      */
     @Override
     public void toggleComponents() {
-        final Player currentPlayer = gameScene.getUserInterface().getController().getCurrentPlayer().get();
+        final PlayerInGame currentPlayer = gameScene.getUserInterface().getController().getCurrentPlayer().get();
         final Optional<Meeple> remainingMeeples = gameScene.getUserInterface().getController()
                 .getPlayerMeeples(currentPlayer)
                 .stream()

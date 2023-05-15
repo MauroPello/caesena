@@ -6,7 +6,7 @@ import java.util.Optional;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
@@ -75,14 +75,14 @@ public interface Controller {
      *
      * @return the current player
      */
-    Optional<Player> getCurrentPlayer();
+    Optional<PlayerInGame> getCurrentPlayer();
 
     /**
      * Gets a list of all the players.
      *
      * @return the list of players
      */
-    List<Player> getPlayers();
+    List<PlayerInGame> getPlayers();
 
     /**
      * Returns the current tile drawn in the current turn.
@@ -157,7 +157,7 @@ public interface Controller {
      * @param player player that owns the meeples
      * @return the list of meeple that belogn to the player
      */
-    List<Meeple> getPlayerMeeples(Player player);
+    List<Meeple> getPlayerMeeples(PlayerInGame player);
 
     /**
      * Gets the list of all the meeples of all the players.

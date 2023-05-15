@@ -1,7 +1,5 @@
 package it.unibo.caesena.model.tile;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import it.unibo.caesena.utils.Pair;
@@ -11,8 +9,9 @@ import it.unibo.caesena.utils.StringUtil;
  * A class representing a simple Tile.
  */
 public final class TileImpl implements MutableTile {
+
     private static final int MAX_ROTATIONS = 4;
-    private final Map<TileSection, Boolean> sections;
+
     private final TileType type;
 
     private Optional<Pair<Integer, Integer>> currentPosition;
@@ -29,10 +28,6 @@ public final class TileImpl implements MutableTile {
         this.rotationCount = 0;
 
         this.currentPosition = Optional.empty();
-        this.sections = new HashMap<>();
-        for (final var section : TileSection.values()) {
-            this.sections.put(section, false);
-        }
     }
 
     /**
@@ -71,22 +66,6 @@ public final class TileImpl implements MutableTile {
      * {@inheritDoc}
      */
     @Override
-    public void closeSection(final TileSection section) {
-        this.sections.put(section, true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSectionClosed(final TileSection section) {
-        return this.sections.get(section);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public TileType getTileType() {
         return this.type;
     }
@@ -105,5 +84,17 @@ public final class TileImpl implements MutableTile {
     @Override
     public int getRotationCount() {
         return this.rotationCount;
+    }
+
+    @Override
+    public boolean isSectionClosed(TileSection section) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isSectionClosed'");
+    }
+
+    @Override
+    public void closeSection(TileSection section) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'closeSection'");
     }
 }

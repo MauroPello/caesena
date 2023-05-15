@@ -13,6 +13,7 @@ import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
 
 final class TileTest {
@@ -38,18 +39,18 @@ final class TileTest {
 
     @Test
     void testSectionClose() {
-        final var section = TileSection.UP_CENTER;
+        final var section = TileSectionType.getFromName("UP_CENTER");
         tile.closeSection(section);
         assertTrue(tile.isSectionClosed(section));
-        final var section2 = TileSection.UP_CENTER;
+        final var section2 = TileSectionType.getFromName("UP_CENTER");
         assertTrue(tile.isSectionClosed(section2));
     }
 
     @Test
     void testSectionShift() {
-        TileSection section = TileSection.UP_LEFT;
-        assertEquals(TileSection.LEFT_UP, TileSection.previous(section));
-        section = TileSection.LEFT_UP;
-        assertEquals(TileSection.UP_LEFT, TileSection.next(section));
+        TileSectionType section = TileSectionType.getFromName("UP_LEFT");
+        assertEquals(TileSectionType.getFromName("LEFT_UP"), TileSectionType.previous(section));
+        section = TileSectionType.getFromName("LEFT_UP");
+        assertEquals(TileSectionType.getFromName("UP_LEFT"), TileSectionType.next(section));
     }
 }

@@ -6,17 +6,18 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.player.PlayerImpl;
+import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.utils.StringUtil;
 
 final class ToStringBuilderTest {
 
     private static final Color PLAYER_COLOR = new Color(50, 50, 50);
-    private static PlayerImpl player;
+    private static PlayerInGameImpl player;
 
     @BeforeAll
     static void init() {
-        player = new PlayerImpl("Giocatore1", PLAYER_COLOR);
+        player = new PlayerInGameImpl(new Player("Giocatore1"), PLAYER_COLOR);
     }
 
     @Test

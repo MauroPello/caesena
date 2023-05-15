@@ -1,31 +1,37 @@
 package it.unibo.caesena.model.player;
 
-import it.unibo.caesena.model.Color;
+public class Player {
 
-/**
- * This interface models a player. It needs to have a Name, a Color and a
- * current score.
- */
-public interface Player {
+    private final String name;
 
-    /**
-     * Gets the name of the player.
-     *
-     * @return the name of the player
-     */
-    String getName();
+    public Player(final String name) {
+        this.name = name;
+    }
 
-    /**
-     * Gets the color of the player.
-     *
-     * @return the color of the player
-     */
-    Color getColor();
+    public String getName() {
+        return this.name;
+    }
 
-    /**
-     * Gets the current score of the player.
-     *
-     * @return the current score of the player
-     */
-    int getScore();
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final Player other = (Player) obj;
+        return name.equals(other.getName());
+    }
+
 }

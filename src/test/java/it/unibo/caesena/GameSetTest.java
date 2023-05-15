@@ -4,8 +4,9 @@ import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.meeple.MeepleType;
-import it.unibo.caesena.model.player.MutablePlayer;
-import it.unibo.caesena.model.player.PlayerImpl;
+import it.unibo.caesena.model.player.MutablePlayerInGame;
+import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ final class GameSetTest {
     private static GameSet gamesetField;
     private static GameSet gamesetToClose;
     private static MutableMeeple meepleTest;
-    private static MutablePlayer owner;
+    private static MutablePlayerInGame owner;
 
     @BeforeAll
     static void init() {
@@ -40,7 +41,7 @@ final class GameSetTest {
         gamesetCity = gamesetFactory.createCitySet();
         gamesetCity2 = gamesetFactory.createCitySet();
         gamesetField = gamesetFactory.createFieldSet();
-        owner = new PlayerImpl("Giocatore1", PLAYER_COLOR);
+        owner = new PlayerInGameImpl(new Player("Giocatore1"), PLAYER_COLOR);
         meepleTest = new MeepleImpl(new MeepleType("Normal", 1), owner);
     }
 

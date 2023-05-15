@@ -3,7 +3,7 @@ package it.unibo.caesena.model.meeple;
 import java.util.Optional;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.player.Player;
+import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.Pair;
@@ -16,18 +16,17 @@ import it.unibo.caesena.utils.StringUtil;
  */
 public class MeepleImpl implements MutableMeeple {
 
-    private static final int STRENGTH = 1;
     private final MeepleType type;
-    private final Player owner;
+    private final PlayerInGame owner;
 
     private Optional<Pair<Tile, TileSection>> position;
 
     /**
-     * Public constructor that accepts as argument the {@link it.unibo.caesena.model.player.Player} that owns the meeple.
+     * Public constructor that accepts as argument the {@link it.unibo.caesena.model.player.PlayerInGame} that owns the meeple.
      *
      * @param owner the player that owns the meeple
      */
-    public MeepleImpl(final MeepleType type, final Player owner) {
+    public MeepleImpl(final MeepleType type, final PlayerInGame owner) {
         this.position = Optional.empty();
         this.owner = owner;
         this.type = type;
@@ -38,14 +37,14 @@ public class MeepleImpl implements MutableMeeple {
      */
     @Override
     public int getStrength() {
-        return MeepleImpl.STRENGTH;
+        return this.type.getStrength();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Player getOwner() {
+    public PlayerInGame getOwner() {
         return this.owner;
     }
 

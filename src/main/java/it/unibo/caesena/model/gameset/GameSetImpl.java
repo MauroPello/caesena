@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.unibo.caesena.model.meeple.MutableMeeple;
-import it.unibo.caesena.model.player.MutablePlayer;
+import it.unibo.caesena.model.player.MutablePlayerInGame;
 import it.unibo.caesena.utils.StringUtil;
 
 /**
@@ -17,7 +17,6 @@ import it.unibo.caesena.utils.StringUtil;
 public final class GameSetImpl implements GameSet {
 
     private final GameSetType type;
-    private final List<MutableMeeple> meeples;
 
     private int points;
     private boolean closed;
@@ -30,20 +29,6 @@ public final class GameSetImpl implements GameSet {
     public GameSetImpl(final GameSetType type) {
         this.type = type;
         this.points = type.getStartingPoints();
-        this.meeples = new ArrayList<>();
-        this.closed = false;
-    }
-
-    /**
-     * Class second constructor.
-     *
-     * @param type type of GameSet
-     * @param meeples to put in GameSet
-     */
-    public GameSetImpl(final GameSetType type, final List<MutableMeeple> meeples) {
-        this.type = type;
-        this.points = type.getStartingPoints();
-        this.meeples = new ArrayList<>(meeples);
         this.closed = false;
     }
 
@@ -73,10 +58,10 @@ public final class GameSetImpl implements GameSet {
         }
 
         if (!this.isMeepleFree()) {
-            final Map<MutablePlayer, Integer> playerMeepleStrength = new HashMap<>();
+            final Map<MutablePlayerInGame, Integer> playerMeepleStrength = new HashMap<>();
 
             for (final MutableMeeple meeple : meeples) {
-                final MutablePlayer currentPlayer = (MutablePlayer) meeple.getOwner();
+                final MutablePlayerInGame currentPlayer = (MutablePlayerInGame) meeple.getOwner();
 
                 if (!playerMeepleStrength.containsKey(currentPlayer)) {
                     playerMeepleStrength.put(currentPlayer, 0);
