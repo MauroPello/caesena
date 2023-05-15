@@ -14,10 +14,12 @@ import it.unibo.caesena.utils.StringUtil;
  *
  * A class representing a normal {@link it.unibo.caesena.model.meeple.Meeple} with strength always equal to 1.
  */
-public class NormalMeeple implements MutableMeeple {
+public class MeepleImpl implements MutableMeeple {
 
     private static final int STRENGTH = 1;
+    private final MeepleType type;
     private final Player owner;
+
     private Optional<Pair<Tile, TileSection>> position;
 
     /**
@@ -25,9 +27,10 @@ public class NormalMeeple implements MutableMeeple {
      *
      * @param owner the player that owns the meeple
      */
-    public NormalMeeple(final Player owner) {
-        this.owner = owner;
+    public MeepleImpl(final MeepleType type, final Player owner) {
         this.position = Optional.empty();
+        this.owner = owner;
+        this.type = type;
     }
 
     /**
@@ -35,7 +38,7 @@ public class NormalMeeple implements MutableMeeple {
      */
     @Override
     public int getStrength() {
-        return NormalMeeple.STRENGTH;
+        return MeepleImpl.STRENGTH;
     }
 
     /**
@@ -92,5 +95,13 @@ public class NormalMeeple implements MutableMeeple {
     @Override
     public Color getColor() {
         return this.owner.getColor();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public MeepleType getType() {
+        return this.type;
     }
 }

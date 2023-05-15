@@ -47,4 +47,11 @@ public interface Meeple {
      * @return the player that owns the meeple.
      */
     Player getOwner();
+
+    /**
+     * Gets the type of the meeple.
+     *
+     * @return the type of the meeple.
+     */
+    MeepleType getType();
 }

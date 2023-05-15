@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.meeple.MutableMeeple;
-import it.unibo.caesena.model.meeple.NormalMeeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
+import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.player.MutablePlayer;
 import it.unibo.caesena.model.player.PlayerImpl;
 import it.unibo.caesena.model.tile.Tile;
@@ -25,7 +26,7 @@ final class NormalMeepleTest {
     @BeforeAll
     static void init() {
         owner = new PlayerImpl("Giocatore1", PLAYER_COLOR);
-        meeple = new NormalMeeple(owner);
+        meeple = new MeepleImpl(new MeepleType("Normal", 1), owner);
     }
 
     @Test

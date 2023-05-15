@@ -2,7 +2,8 @@ package it.unibo.caesena;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.meeple.MutableMeeple;
-import it.unibo.caesena.model.meeple.NormalMeeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
+import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.player.MutablePlayer;
 import it.unibo.caesena.model.player.PlayerImpl;
 
@@ -40,7 +41,7 @@ final class GameSetTest {
         gamesetCity2 = gamesetFactory.createCitySet();
         gamesetField = gamesetFactory.createFieldSet();
         owner = new PlayerImpl("Giocatore1", PLAYER_COLOR);
-        meepleTest = new NormalMeeple(owner);
+        meepleTest = new MeepleImpl(new MeepleType("Normal", 1), owner);
     }
 
     @Test

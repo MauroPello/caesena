@@ -149,7 +149,7 @@ public class SectionButton implements BasicComponent<JButton> {
     private String getLabelFromSection(final TileSection section) {
         final Controller controller = this.gameScene.getUserInterface().getController();
         final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
-        return String.valueOf(gameSet.getType().name().toCharArray()[0]);
+        return String.valueOf(gameSet.getType().getName().toCharArray()[0]);
     }
 
 }

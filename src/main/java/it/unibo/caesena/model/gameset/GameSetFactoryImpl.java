@@ -10,47 +10,6 @@ import it.unibo.caesena.model.meeple.MutableMeeple;
  * Implementation of the GameSetFactory interface.
  */
 public final class GameSetFactoryImpl implements GameSetFactory {
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GameSet createCitySet() {
-        return new GameSetImpl(GameSetType.CITY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GameSet createMonasterySet() {
-        return new GameSetImpl(GameSetType.MONASTERY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GameSet createRoadSet() {
-        return new GameSetImpl(GameSetType.ROAD);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GameSet createFieldSet() {
-        return new GameSetImpl(GameSetType.FIELD);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GameSet createJunctionSet() {
-        return new GameSetImpl(GameSetType.JUNCTION);
-    }
-
     /**
      * {@inheritDoc}
      */

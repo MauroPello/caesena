@@ -8,9 +8,21 @@ import it.unibo.caesena.utils.StringUtil;
  * can be easily to convert this color as a {@link java.awt.Color}.
  */
 public class Color {
-    private final int red;
-    private final int green;
-    private final int blue;
+
+    private String hex;
+    private String name;
+    private int red;
+    private int green;
+    private int blue;
+
+    /**
+     * Class constructor.
+     *
+     * @param hex   the color as hex
+     */
+    public Color(final String hex) {
+        this.hex = hex;
+    }
 
     /**
      * Class constructor.
@@ -24,6 +36,24 @@ public class Color {
         this.red = red;
         this.green = green;
         this.blue = blue;
+    }
+
+    /**
+     * Gets the hex of the color.
+     *
+     * @return the hex of the color
+     */
+    public String getHex() {
+        return this.hex;
+    }
+
+    /**
+     * Gets the display name of the color.
+     *
+     * @return the display name of the color
+     */
+    public String getName() {
+        return this.name;
     }
 
     /**

@@ -16,7 +16,7 @@ import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MutableMeeple;
-import it.unibo.caesena.model.meeple.NormalMeeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.player.MutablePlayer;
 import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerImpl;
@@ -174,7 +174,7 @@ public final class ControllerImpl implements Controller {
         final MutablePlayer newPlayer = new PlayerImpl(name, color);
         players.add(newPlayer);
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
-            meeples.add(new NormalMeeple(newPlayer));
+            meeples.add(new MeepleImpl(newPlayer));
         }
     }
 
