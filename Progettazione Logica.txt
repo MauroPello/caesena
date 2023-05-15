@@ -1,6 +1,6 @@
 Player(\underline{PlayerID}, Name);
 
-Follows({FollowerID}, {FollowedID});
+Follows(\underline{FollowerID}, \underline{FollowedID});
 FK: FollowerID REFERENCES Player(PlayerID)
 FK: FollowedID REFERENCES Player(PlayerID)
 
@@ -14,7 +14,7 @@ FK: Player REFERENCES Player(PlayerID)
 FK: Game REFERENCES Game(GameID)
 FK: ColorID REFERENCES Color(HEX)
 
-Game_Expansion({GameExpansionID}, ExpansionID*, GameID*)
+Game_Expansion(\underline{ExpansionID}, \underline{GameID})
 FK: GameID REFERENCES Game(GameID)
 FK: ExpansionID REFERENCES Expansion(ExpansionID)
 
@@ -23,10 +23,10 @@ Expansion(\underline{ExpansionID}, Name);
 Meeple(\underline{MeepleID}, Name, Strength, ExpansionID);
 FK: ExpansionID REFERENCES Expansion(ExpansionID)
 
-MeepleInGame(\underline{MeepleInGameID}, PlayerID, GameID, Meeple, Placed);
+MeepleInGame(\underline{MeepleInGameID}, PlayerID, GameID, MeepleID, Placed);
 FK: PlayerID REFERENCES PlayerInGame(PlayerID)
 FK: GameID REFERENCES PlayerInGame(GameID)
-FK: Meeple REFERENCES Meeple(MeepleID)
+FK: MeepleID REFERENCES Meeple(MeepleID)
 
 GameSetInGame(\underline{GameSetInGameID}, GameSetID, GameID, Points, Closed);
 FK: GameSetID REFERENCES GameSet(GameSetID)
@@ -37,20 +37,22 @@ FK: ExpansionID REFERENCES Expansion(ExpansionID)
 
 TileSection(\underline{Name});
 
-TileSectionInGame(Closed,\underline{TileSectionID}, GameSetID, MeepleInGameID*);
+TileSectionInGame(\underline{TileSectionID}, \underline{TileInGameID}, GameSetID, MeepleInGameID*, Closed);
 FK: TileSectionID REFERENCES TileSection(Name)
+FK: TileInGameID REFERENCES TileInGame(TileInGameID)
 FK: MeepleInGameID REFERENCES MeepleInGame(MeepleInGameID)
 FK: GameSetID REFERENCES GameSet(GameSetID)
 
-TileInGame(\underline{Order}, TileID, RotationCount, HorizontalPosition, VerticalPosition);
+TileInGame(\underline{Order}, \underline{GameID}, TileID, RotationCount, HorizontalPosition, VerticalPosition);
 FK: TileID REFERENCES Tile(TileID)
+FK: GameID REFERENCES Game(GameID)
 
 Tile(\underline{TileID}, Name, ExpansionID);
 FK: ExpansionID REFERENCES Expansion(ExpansionID)
 
 Region(\underline{RegionID}, Continent, Section);
 
-Server(\underline{ServerID}, Region, Active, MaxGames);
-
+Server(\underline{ServerID}, RegionID, Active, MaxGames);
+FK: RegionID REFERENCES Region(RegionID)
 
 min-card(PlayerInGame, Game) diventerà 0-N al posto di 1-N
