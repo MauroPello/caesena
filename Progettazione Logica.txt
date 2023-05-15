@@ -28,22 +28,21 @@ FK: PlayerID REFERENCES PlayerInGame(PlayerID)
 FK: GameID REFERENCES PlayerInGame(GameID)
 FK: MeepleID REFERENCES Meeple(MeepleID)
 
-GameSetInGame(\underline{GameSetInGameID}, GameSetID, GameID, Points, Closed);
+GameSetInGame(\underline{GameSetInGameID}, GameSetID, Points, Closed);
 FK: GameSetID REFERENCES GameSet(GameSetID)
-FK: GameID REFERENCES Game(GameID)
 
 GameSet(\underline{GameSetID}, StartingPoints, EndgameRatio, ExpansionID);
 FK: ExpansionID REFERENCES Expansion(ExpansionID)
 
 TileSection(\underline{Name});
 
-TileSectionInGame(\underline{TileSectionID}, \underline{TileInGameID}, GameSetID, MeepleInGameID*, Closed);
+TileSectionInGame(\underline{TileSectionID}, \underline{TileInGameID}, GameSetInGameID, MeepleInGameID*, Closed);
 FK: TileSectionID REFERENCES TileSection(Name)
 FK: TileInGameID REFERENCES TileInGame(TileInGameID)
 FK: MeepleInGameID REFERENCES MeepleInGame(MeepleInGameID)
-FK: GameSetID REFERENCES GameSet(GameSetID)
+FK: GameSetInGameID REFERENCES GameSetInGame(GameSetInGameID)
 
-TileInGame(\underline{Order}, \underline{GameID}, TileID, RotationCount, HorizontalPosition, VerticalPosition);
+TileInGame(\underline{Order}, \underline{GameID}, TileID, RotationCount, XCoordinate, YCoordinate);
 FK: TileID REFERENCES Tile(TileID)
 FK: GameID REFERENCES Game(GameID)
 
