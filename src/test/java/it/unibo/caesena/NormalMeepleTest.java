@@ -18,6 +18,7 @@ import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileFactoryWithBuilder;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileSectionType;
+import it.unibo.caesena.model.tile.TileType;
 
 final class NormalMeepleTest {
 
@@ -42,9 +43,9 @@ final class NormalMeepleTest {
 
     @Test
     void testPlace() {
-        final Tile tile = new TileFactoryWithBuilder().createCity().getX();
+        final Tile tile = new TileType("CITY").createTile(new TileFactoryWithBuilder()).getX();
         assertFalse(meeple.isPlaced());
-        meeple.place(tile, TileSectionType.getFromName("CENTER"));
+        // TODO meeple.place(tile, TileSectionType.getFromName("CENTER"));
 
         assertTrue(meeple.isPlaced());
 

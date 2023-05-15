@@ -22,7 +22,7 @@ public final class TileFactoryWithBuilder implements TileFactory {
      */
     private void addPennantToGameSet(final Map<GameSet, Set<TileSection>> gameSets, final TileSectionType section) {
         for (final var entry : gameSets.entrySet()) {
-            if (entry.getValue().contains(section)) {
+            if (entry.getValue().stream().map(TileSection::getType).anyMatch(s -> s.equals(section))) {
                 entry.getKey().addPoints(PENNANT_POINTS);
                 return;
             }

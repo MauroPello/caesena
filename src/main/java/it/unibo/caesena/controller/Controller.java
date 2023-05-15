@@ -9,6 +9,7 @@ import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
+import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
 
@@ -149,7 +150,7 @@ public interface Controller {
      * @param section section on which the tile should be placed
      * @return true if placement is valid, false otherwise
      */
-    Optional<Meeple> placeMeeple(TileSection section);
+    Optional<Meeple> placeMeeple(TileSectionType section);
 
     /**
      * Gets the list of meeples that belong to a passed player.

@@ -2,6 +2,7 @@ package it.unibo.caesena.model.tile;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.Map;
 
 import it.unibo.caesena.model.gameset.GameSet;
@@ -29,6 +30,7 @@ public final class TileBuilder {
         this.tile = new TileImpl(type);
     }
 
+    // TODO COMPLETARE LA CREAZIONE DELLE TILESECTION
     /**
      * Marks the passed sections inside the tile as cities.
      *
@@ -36,7 +38,7 @@ public final class TileBuilder {
      * @return the builder itself
      */
     public TileBuilder city(final Set<TileSectionType> sections) {
-        gameSets.put(this.factory.createCitySet(), sections);
+        gameSets.put(this.factory.createCitySet(), sections.stream().map(s -> new TileSection(s)).collect(Collectors.toSet()));
         return this;
     }
 
@@ -47,7 +49,7 @@ public final class TileBuilder {
      * @return the builder itself
      */
     public TileBuilder road(final Set<TileSectionType> sections) {
-        gameSets.put(this.factory.createRoadSet(), sections);
+        gameSets.put(this.factory.createRoadSet(), sections.stream().map(s -> new TileSection(s)).collect(Collectors.toSet()));
         return this;
     }
 
@@ -58,7 +60,7 @@ public final class TileBuilder {
      * @return the builder itself
      */
     public TileBuilder field(final Set<TileSectionType> sections) {
-        gameSets.put(this.factory.createFieldSet(), sections);
+        gameSets.put(this.factory.createFieldSet(), sections.stream().map(s -> new TileSection(s)).collect(Collectors.toSet()));
         return this;
     }
 
@@ -69,7 +71,7 @@ public final class TileBuilder {
      * @return the builder itself
      */
     public TileBuilder monastery(final Set<TileSectionType> sections) {
-        gameSets.put(this.factory.createMonasterySet(), sections);
+        gameSets.put(this.factory.createMonasterySet(), sections.stream().map(s -> new TileSection(s)).collect(Collectors.toSet()));
         return this;
     }
 
@@ -82,7 +84,7 @@ public final class TileBuilder {
     public TileBuilder junction(final Set<TileSectionType> sections) {
         final GameSet junctionGameSet = this.factory.createJunctionSet();
         junctionGameSet.close();
-        gameSets.put(junctionGameSet, sections);
+        gameSets.put(junctionGameSet, sections.stream().map(s -> new TileSection(s)).collect(Collectors.toSet()));
         return this;
     }
 
@@ -93,7 +95,7 @@ public final class TileBuilder {
      * @return the builder itself
      */
     public TileBuilder close(final Set<TileSectionType> sections) {
-        sections.forEach(tile::closeSection);
+        // TODO sections.forEach(tile::closeSection);
         return this;
     }
 

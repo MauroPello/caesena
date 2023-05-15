@@ -147,7 +147,7 @@ public class SectionButton implements BasicComponent<JButton> {
      * @param section from which extrapolate the label
      * @return the label rappresenting the given section
      */
-    private String getLabelFromSection(final TileSection section) {
+    private String getLabelFromSection(final TileSectionType section) {
         final Controller controller = this.gameScene.getUserInterface().getController();
         final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
         return String.valueOf(gameSet.getType().getName().toCharArray()[0]);

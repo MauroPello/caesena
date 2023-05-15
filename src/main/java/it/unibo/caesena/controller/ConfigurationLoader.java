@@ -57,7 +57,7 @@ public class ConfigurationLoader {
                 final JSONObject object = (JSONObject) array.get(i);
                 for (final var key : object.keySet()) {
                     for (int j = 0; j < Integer.parseInt(object.get(key).toString()); j++) {
-                        final var tileMap = TileType.valueOf(key.toString()).createTile(factory);
+                        final var tileMap = new TileType(key.toString()).createTile(factory);
                         tileMap.getY().forEach((k, v) -> mediator.addSections(k, tileMap.getX(), v));
                         tiles.add(tileMap.getX());
                     }
@@ -67,7 +67,7 @@ public class ConfigurationLoader {
             Collections.shuffle(tiles);
 
             for (int i = 0; i < tiles.size(); i++) {
-                if (tiles.get(i).getTileType().equals(TileType.valueOf(jsonObject.get("Starting Tile").toString()))) {
+                if (tiles.get(i).getTileType().equals(new TileType(jsonObject.get("Starting Tile").toString()))) {
                     final MutableTile firstTile = tiles.get(i);
                     final MutableTile currentTile = tiles.get(0);
                     tiles.set(i, currentTile);

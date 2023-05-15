@@ -30,13 +30,13 @@ final class GameSetTileMediatorTest {
     @BeforeAll
     static void init() {
         mediator = new GameSetTileMediatorImpl(new GameSetFactoryImpl());
-        tileMap = new TileFactoryWithBuilder().createCityEdge();
+        final var tileMap = new TileType("CITY_EDGE").createTile(new TileFactoryWithBuilder());
         tileMap.getY().forEach((k, v) -> mediator.addSections(k, tileMap.getX(), v));
     }
 
     @Test
     void testGetGameSetInSection() {
-        assertEquals(GameSetType.FIELD, mediator.getGameSetInSection(tileMap.getX(), TileSectionType.getFromName("CENTER")).getType());
+        assertEquals(GameSetType.getFromName("FIELD"), mediator.getGameSetInSection(tileMap.getX(), TileSectionType.getFromName("CENTER")).getType());
     }
 
     @Test
@@ -60,7 +60,7 @@ final class GameSetTileMediatorTest {
     void testRotateTileClockwise() {
         mediator.rotateTileClockwise(tileMap.getX());
         assertEquals(1, tileMap.getX().getRotationCount());
-        final Pair<MutableTile, Map<GameSet, Set<TileSection>>> tile2 = new TileBuilder(TileType.CITY_EDGE)
+        final Pair<MutableTile, Map<GameSet, Set<TileSection>>> tile2 = new TileBuilder(tileMap.getX().getTileType())
                 .city(Set.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN"),
                         TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT")))
                 .field(Set.of(TileSectionType.getFromName("UP_RIGHT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_LEFT"),

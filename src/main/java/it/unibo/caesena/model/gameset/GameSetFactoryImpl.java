@@ -16,7 +16,7 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createCitySet() {
-        return new GameSetImpl(GameSetType.CITY);
+        return new GameSetImpl(GameSetType.getFromName("CITY"));
     }
 
     /**
@@ -24,7 +24,7 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createMonasterySet() {
-        return new GameSetImpl(GameSetType.MONASTERY);
+        return new GameSetImpl(GameSetType.getFromName("MONASTERY"));
     }
 
     /**
@@ -32,7 +32,7 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createRoadSet() {
-        return new GameSetImpl(GameSetType.ROAD);
+        return new GameSetImpl(GameSetType.getFromName("ROAD"));
     }
 
     /**
@@ -40,7 +40,7 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createFieldSet() {
-        return new GameSetImpl(GameSetType.FIELD);
+        return new GameSetImpl(GameSetType.getFromName("FIELD"));
     }
 
     /**
@@ -48,7 +48,7 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createJunctionSet() {
-        return new GameSetImpl(GameSetType.JUNCTION);
+        return new GameSetImpl(GameSetType.getFromName("JUNCTION"));
     }
 
     /**
@@ -56,7 +56,6 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createJoinedSet(final GameSet gs1, final GameSet gs2) {
-
         if (gs1.getType().equals(gs2.getType())) {
             if (gs1.isClosed() || gs2.isClosed()) {
                 throw new IllegalStateException("Only not closed GameSets can be joined!");
@@ -65,7 +64,8 @@ public final class GameSetFactoryImpl implements GameSetFactory {
             final int points = gs1.getPoints() + gs2.getPoints();
             final List<MutableMeeple> meeples = gs1.getMeeples();
             meeples.addAll(gs2.getMeeples());
-            final GameSet joinedGameset = new GameSetImpl(gs1.getType(), meeples);
+            final GameSet joinedGameset = new GameSetImpl(gs1.getType());
+            meeples.forEach(joinedGameset::addMeeple);
             joinedGameset.setPoints(points);
 
             return joinedGameset;

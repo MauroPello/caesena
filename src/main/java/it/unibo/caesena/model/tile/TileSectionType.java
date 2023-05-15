@@ -90,6 +90,6 @@ public class TileSectionType {
     }
 
     public static TileSectionType getFromName(final String name) {
-        return TileSectionType.values.stream().filter(s -> s.getName().equals(name)).findFirst().get();
+        return values.stream().filter(s -> s.getName().equals(name)).findFirst().get();
     }
 }

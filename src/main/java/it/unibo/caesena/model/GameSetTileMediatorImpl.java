@@ -77,7 +77,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     private boolean tilesMatch(final Pair<Integer, Integer> position, final MutableTile t1, final MutableTile t2) {
         for (final var entry : NEIGHBOUR_TILES_CHECK.entrySet()) {
             if (Direction.match(entry.getKey(), position, t2.getPosition().get())) {
-                for (int i = 0; i < TileSection.getSectionsPerSide(); i++) {
+                for (int i = 0; i < TileSectionType.getSectionsPerSide(); i++) {
                     final TileSection t1Section = entry.getValue().getY().get(i);
                     final TileSection t2Section = entry.getValue().getX().get(i);
 
@@ -124,7 +124,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
     public void joinTiles(final MutableTile t1, final MutableTile t2) {
         for (final var entry : NEIGHBOUR_TILES_CHECK.entrySet()) {
             if (Direction.match(entry.getKey(), t1.getPosition().get(), t2.getPosition().get())) {
-                for (int i = 0; i < TileSection.getSectionsPerSide(); i++) {
+                for (int i = 0; i < TileSectionType.getSectionsPerSide(); i++) {
                     final TileSection t1Section = entry.getValue().getY().get(i);
                     final TileSection t2Section = entry.getValue().getX().get(i);
 
@@ -158,7 +158,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
             for (final var tileSection : TileSectionType.values) {
                 final GameSet fieldGameSet = getGameSetInSection(entry.getKey(), tileSection);
 
-                if (fieldGameSet.getType().equals(GameSetType.FIELD)
+                if (fieldGameSet.getType().equals(GameSetType.getFromName("FIELD"))
                         && isSectionNearToGameset(entry.getKey(), tileSection, gameSet)) {
                     fieldsNearCity.add(fieldGameSet);
                 }

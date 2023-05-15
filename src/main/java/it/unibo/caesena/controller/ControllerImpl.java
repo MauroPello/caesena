@@ -17,7 +17,9 @@ import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
+import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.player.MutablePlayerInGame;
+import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.tile.MutableTile;
@@ -105,7 +107,7 @@ public final class ControllerImpl implements Controller {
         for (final var nearTile : placedTiles) {
             if (areTilesNear(currentTile.get(), nearTile)) {
                 GameSet centerGameset = mediator.getGameSetInSection(nearTile, TileSectionType.getFromName("CENTER"));
-                if (centerGameset.getType().equals(GameSetType.MONASTERY)) {
+                if (centerGameset.getType().equals(GameSetType.getFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
                         centerGameset.close();
@@ -113,7 +115,7 @@ public final class ControllerImpl implements Controller {
                 }
 
                 centerGameset = mediator.getGameSetInSection(currentTile.get(), TileSectionType.getFromName("CENTER"));
-                if (centerGameset.getType().equals(GameSetType.MONASTERY)) {
+                if (centerGameset.getType().equals(GameSetType.getFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
                         centerGameset.close();
@@ -134,7 +136,7 @@ public final class ControllerImpl implements Controller {
      */
     private void endGame() {
         final Set<GameSet> fieldsToClose = mediator.getAllGameSets().stream()
-            .filter(c -> c.getType().equals(GameSetType.CITY))
+            .filter(c -> c.getType().equals(GameSetType.getFromName("CITY")))
             .filter(GameSet::isClosed)
             .flatMap(c -> mediator.getFieldGameSetsNearGameSet(c).stream())
             .peek(f -> f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD))
@@ -172,10 +174,10 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void addPlayer(final String name, final Color color) {
-        final MutablePlayerInGame newPlayer = new PlayerInGameImpl(name, color);
+        final MutablePlayerInGame newPlayer = new PlayerInGameImpl(new Player(name), color);
         players.add(newPlayer);
         for (int i = 0; i < MEEPLES_PER_PLAYER; i++) {
-            meeples.add(new MeepleImpl(newPlayer));
+            meeples.add(new MeepleImpl(MeepleType.getFromName("Normal"), newPlayer));
         }
     }
 
@@ -294,7 +296,7 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Meeple> placeMeeple(final TileSection section) {
+    public Optional<Meeple> placeMeeple(final TileSectionType section) {
         final Optional<MutableMeeple> currentMeeple = this.meeples.stream()
             .filter(m -> m.getOwner().equals(this.getCurrentPlayer().get()))
             .filter(m -> !m.isPlaced())
@@ -380,11 +382,11 @@ public final class ControllerImpl implements Controller {
      * @return true if the gameset is closed, false otherwise
      */
     private boolean isGameSetClosed(final GameSet gameSet) {
-        if (gameSet.getType().equals(GameSetType.FIELD)) {
+        if (gameSet.getType().equals(GameSetType.getFromName("FIELD"))) {
             return false;
         }
 
-        if (gameSet.getType().equals(GameSetType.MONASTERY)) {
+        if (gameSet.getType().equals(GameSetType.getFromName("MONASTERY"))) {
             return gameSet.getPoints() == POINTS_CLOSED_MONASTERY;
         }
 

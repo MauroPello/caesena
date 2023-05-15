@@ -37,7 +37,7 @@ public final class GameSetImpl implements GameSet {
      */
     @Override
     public void addMeeple(final MutableMeeple meeple) {
-        this.meeples.add(meeple);
+        // TODO this.meeples.add(meeple);
     }
 
     /**
@@ -45,7 +45,8 @@ public final class GameSetImpl implements GameSet {
      */
     @Override
     public boolean isMeepleFree() {
-        return this.meeples.isEmpty();
+        // TODO return this.meeples.isEmpty();
+        return false;
     }
 
     /**
@@ -60,7 +61,8 @@ public final class GameSetImpl implements GameSet {
         if (!this.isMeepleFree()) {
             final Map<MutablePlayerInGame, Integer> playerMeepleStrength = new HashMap<>();
 
-            for (final MutableMeeple meeple : meeples) {
+            // TODO
+            for (final MutableMeeple meeple : new ArrayList<MutableMeeple>()) {
                 final MutablePlayerInGame currentPlayer = (MutablePlayerInGame) meeple.getOwner();
 
                 if (!playerMeepleStrength.containsKey(currentPlayer)) {
@@ -80,7 +82,7 @@ public final class GameSetImpl implements GameSet {
         }
 
         this.closed = true;
-        meeples.forEach(m -> m.remove());
+        // TODO meeples.forEach(m -> m.remove());
         return true;
 
     }
@@ -138,7 +140,8 @@ public final class GameSetImpl implements GameSet {
      */
     @Override
     public List<MutableMeeple> getMeeples() {
-        return new ArrayList<>(this.meeples);
+        // TODO return new ArrayList<>(this.meeples);
+        return new ArrayList<>();
     }
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.components.meeple.MeepleImage;
@@ -68,7 +69,7 @@ public class TileImage {
 
         try {
             if (shouldUpdateImage()) {
-                final BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
+                final BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().getName() + ".png",
                         List.of("tiles"));
                 temporaryImage = Thumbnails.of(imageName).size(width, height).rotate(tile.getRotationCount() * 90)
                         .asBufferedImage();
@@ -97,7 +98,7 @@ public class TileImage {
     public BufferedImage getAsBufferedImageWithoutMeeple(final int width, final int height) {
         BufferedImage image;
         try {
-            final BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().name() + ".png",
+            final BufferedImage imageName = ResourceUtil.getBufferedImage(tile.getTileType().getName() + ".png",
                     List.of("tiles"));
             image = Thumbnails.of(imageName).size(width, height).rotate(tile.getRotationCount() * 90).asBufferedImage();
             return image;
@@ -155,20 +156,45 @@ public class TileImage {
         final int closePadding = max / 10;
         final int farPadding = max / 5;
         final int centralPadding = max / 2;
-        return switch (meepleImage.get().getSection()) {
-            case CENTER -> new Pair<Integer, Integer>(centralPadding, centralPadding);
-            case DOWN_CENTER -> new Pair<Integer, Integer>(centralPadding, max - closePadding);
-            case DOWN_LEFT -> new Pair<Integer, Integer>(farPadding, max - closePadding);
-            case DOWN_RIGHT -> new Pair<Integer, Integer>(max - farPadding, max - closePadding);
-            case LEFT_CENTER -> new Pair<Integer, Integer>(closePadding, centralPadding);
-            case LEFT_DOWN -> new Pair<Integer, Integer>(closePadding, max - farPadding);
-            case LEFT_UP -> new Pair<Integer, Integer>(closePadding, farPadding);
-            case RIGHT_CENTER -> new Pair<Integer, Integer>(max - closePadding, centralPadding);
-            case RIGHT_DOWN -> new Pair<Integer, Integer>(max - closePadding, max - farPadding);
-            case RIGHT_UP -> new Pair<Integer, Integer>(max - closePadding, farPadding);
-            case UP_CENTER -> new Pair<Integer, Integer>(centralPadding, closePadding);
-            case UP_LEFT -> new Pair<Integer, Integer>(farPadding, closePadding);
-            case UP_RIGHT -> new Pair<Integer, Integer>(max - farPadding, closePadding);
-        };
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("CENTER"))) {
+            return new Pair<Integer, Integer>(centralPadding, centralPadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("DOWN_CENTER"))) {
+            return new Pair<Integer, Integer>(centralPadding, max - closePadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("DOWN_LEFT"))) {
+            return new Pair<Integer, Integer>(farPadding, max - closePadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("DOWN_RIGHT"))) {
+            return new Pair<Integer, Integer>(max - farPadding, max - closePadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("LEFT_CENTER"))) {
+            return new Pair<Integer, Integer>(closePadding, centralPadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("LEFT_DOWN"))) {
+            return new Pair<Integer, Integer>(closePadding, max - farPadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("LEFT_UP"))) {
+            return new Pair<Integer, Integer>(closePadding, farPadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("RIGHT_CENTER"))) {
+            return new Pair<Integer, Integer>(max - closePadding, centralPadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("RIGHT_DOWN"))) {
+            return new Pair<Integer, Integer>(max - closePadding, max - farPadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("RIGHT_UP"))) {
+            return new Pair<Integer, Integer>(max - closePadding, farPadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("UP_CENTER"))) {
+            return new Pair<Integer, Integer>(centralPadding, closePadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("UP_LEFT"))) {
+            return new Pair<Integer, Integer>(farPadding, closePadding);
+        }
+        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("UP_RIGHT"))) {
+            return new Pair<Integer, Integer>(max - farPadding, closePadding);
+        }
+        throw new IllegalStateException("Section is a known section or is null");
     }
 }
