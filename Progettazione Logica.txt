@@ -1,0 +1,56 @@
+Player(\underline{PlayerID}, Name);
+
+Follows({FollowerID}, {FollowedID});
+FK: FollowerID REFERENCES Player(PlayerID)
+FK: FollowedID REFERENCES Player(PlayerID)
+
+Color(\underline{HEX}, Red, Green, Blue, Name);
+
+Game(\underline{GameID}, ServerID, Concluded);
+FK: ServerID REFERENCES Server(ServerID)
+
+PlayerInGame(\underline{Player},\underline{Game}, ColorID, Score, Current, Order);
+FK: Player REFERENCES Player(PlayerID)
+FK: Game REFERENCES Game(GameID)
+FK: ColorID REFERENCES Color(HEX)
+
+Game_Expansion({GameExpansionID}, ExpansionID*, GameID*)
+FK: GameID REFERENCES Game(GameID)
+FK: ExpansionID REFERENCES Expansion(ExpansionID)
+
+Expansion(\underline{ExpansionID}, Name);
+
+Meeple(\underline{MeepleID}, Name, Strength, ExpansionID);
+FK: ExpansionID REFERENCES Expansion(ExpansionID)
+
+MeepleInGame(\underline{MeepleInGameID}, PlayerID, GameID, Meeple, Placed);
+FK: PlayerID REFERENCES PlayerInGame(PlayerID)
+FK: GameID REFERENCES PlayerInGame(GameID)
+FK: Meeple REFERENCES Meeple(MeepleID)
+
+GameSetInGame(\underline{GameSetInGameID}, GameSetID, GameID, Points, Closed);
+FK: GameSetID REFERENCES GameSet(GameSetID)
+FK: GameID REFERENCES Game(GameID)
+
+GameSet(\underline{GameSetID}, StartingPoints, EndgameRatio, ExpansionID);
+FK: ExpansionID REFERENCES Expansion(ExpansionID)
+
+TileSection(\underline{Name});
+
+TileSectionInGame(Closed,\underline{TileSectionID}, GameSetID, MeepleInGameID*);
+FK: TileSectionID REFERENCES TileSection(Name)
+FK: MeepleInGameID REFERENCES MeepleInGame(MeepleInGameID)
+FK: GameSetID REFERENCES GameSet(GameSetID)
+
+TileInGame(\underline{Order}, TileID, RotationCount, HorizontalPosition, VerticalPosition);
+FK: TileID REFERENCES Tile(TileID)
+
+Tile(\underline{TileID}, Name, ExpansionID);
+FK: ExpansionID REFERENCES Expansion(ExpansionID)
+
+Region(\underline{RegionID}, Continent, Section);
+
+Server(\underline{ServerID}, Region, Active, MaxGames);
+
+
+min-card(PlayerInGame, Game) diventerà 0-N al posto di 1-N
