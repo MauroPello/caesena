@@ -34,10 +34,10 @@ FK: GameSetTypeName REFERENCES GameSetType(Name)
 GameSetType(\underline{Name}, StartingPoints, EndgameRatio, ExpansionName);
 FK: ExpansionName REFERENCES Expansion(Name)
 
-TileSection(\underline{Name});
+TileSectionType(\underline{Name});
 
-TileSectionInGame(\underline{TileSectionName}, \underline{TileID}, GameID, GameSetID, MeepleID*, Closed);
-FK: TileSectionName REFERENCES TileSection(Name)
+TileSection(\underline{TileSectionTypeName}, \underline{TileID}, GameID, GameSetID, MeepleID*, Closed);
+FK: TileSectionTypeName REFERENCES TileSectionType(Name)
 FK: TileID REFERENCES Tile(Order)
 FK: GameID REFERENCES Tile(GameID)
 FK: MeepleID REFERENCES Meeple(MeepleID)
@@ -56,3 +56,4 @@ Server(\underline{ServerID}, RegionID, Active, MaxGames);
 FK: RegionID REFERENCES Region(RegionID)
 
 min-card(PlayerInGame, Game) diventerà 0-N al posto di 1-N
+mettiamo la tileSection in meeple?
