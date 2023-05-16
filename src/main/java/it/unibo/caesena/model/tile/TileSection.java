@@ -32,6 +32,10 @@ public class TileSection {
         return this.gameSet;
     }
 
+    public MutableMeeple getMeeple() {
+        return this.meeple;
+    }
+
     public void close() {
         this.closed = true;
     }

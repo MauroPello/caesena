@@ -5,18 +5,39 @@ import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.StringUtil;
 
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
 /**
  * {@inheritDoc}
  *
  * A class representing a normal {@link it.unibo.caesena.model.meeple.Meeple} with strength always equal to 1.
  */
+@Entity(name = "Meeples")
+@Table(name = "Meeples")
+@Access(AccessType.FIELD)
 public class MeepleImpl implements MutableMeeple {
 
-    // private final int id;
-    private final MeepleType type;
-    private final PlayerInGame owner;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private boolean placed;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_MeepleType")
+    private final MeepleType type;
+    @ManyToOne
+    @JoinColumn(name = "fk_PlayerInGame")
+    private final PlayerInGame owner;
+    @ManyToOne
+    @JoinColumn(name = "fk_TileSection")
     private TileSection section;
 
     /**
@@ -27,6 +48,7 @@ public class MeepleImpl implements MutableMeeple {
     public MeepleImpl(final MeepleType type, final PlayerInGame owner) {
         this.owner = owner;
         this.type = type;
+        this.placed = false;
     }
 
     /**

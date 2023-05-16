@@ -20,4 +20,20 @@ public class Expansion {
         this.gameSetTypes = gameSetTypes;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public List<TileType> getTileTypes() {
+        return tileTypes;
+    }
+
+    public List<MeepleType> getMeepleTypes() {
+        return meepleTypes;
+    }
+
+    public List<GameSetType> getGameSetTypes() {
+        return gameSetTypes;
+    }
+
 }

@@ -6,4 +6,8 @@ public class CardinalPoint {
     public CardinalPoint(String point) {
         this.point = point;
     }
+
+    public String getPoint() {
+        return point;
+    }
 }

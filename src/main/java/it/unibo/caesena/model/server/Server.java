@@ -18,4 +18,24 @@ public class Server {
         this.maxGames = maxGames;
         this.games = games;
     }
+
+    public int getServerID() {
+        return serverID;
+    }
+
+    public int getRegionID() {
+        return regionID;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public int getMaxGames() {
+        return maxGames;
+    }
+
+    public List<Game> getGames() {
+        return games;
+    }
 }

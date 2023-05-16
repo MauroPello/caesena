@@ -22,6 +22,18 @@ public final class PlayerInGameImpl implements MutablePlayerInGame {
     private int score;
     private int order;
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean isCurrent() {
+        return current;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
     /**
      * Class constructor.
      *

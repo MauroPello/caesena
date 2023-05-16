@@ -34,6 +34,10 @@ public final class TileImpl implements MutableTile {
         this.currentPosition = null;
     }
 
+    public int getOrder() {
+        return order;
+    }
+
     /**
      * {@inheritDoc}
      */

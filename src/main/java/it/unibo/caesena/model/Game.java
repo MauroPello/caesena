@@ -15,7 +15,6 @@ import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.model.tile.MutableTile;
-import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -225,5 +224,41 @@ public class Game {
 
     public void drawNewTile() {
 
+    }
+
+    public static Map<Direction, Pair<List<TileSectionType>, List<TileSectionType>>> getNeighbourTilesCheck() {
+        return NEIGHBOUR_TILES_CHECK;
+    }
+
+    public static int getPointsClosedCityNearbyField() {
+        return POINTS_CLOSED_CITY_NEARBY_FIELD;
+    }
+
+    public static int getPointsTileNearbyMonastery() {
+        return POINTS_TILE_NEARBY_MONASTERY;
+    }
+
+    public static int getPointsClosedMonastery() {
+        return POINTS_CLOSED_MONASTERY;
+    }
+
+    public static int getMeeplesPerPlayer() {
+        return MEEPLES_PER_PLAYER;
+    }
+
+    public List<Expansion> getExpansions() {
+        return expansions;
+    }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public boolean isConcluded() {
+        return concluded;
     }
 }

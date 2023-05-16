@@ -6,4 +6,8 @@ public class Continent {
     public Continent(String continentName) {
         this.continentName = continentName;
     }
+
+    public String getContinentName() {
+        return continentName;
+    }
 }
