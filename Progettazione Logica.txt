@@ -1,53 +1,54 @@
-Player(\underline{PlayerID}, Name);
+Player(\underline{Name});
 
-Follows(\underline{FollowerID}, \underline{FollowedID});
-FK: FollowerID REFERENCES Player(PlayerID)
-FK: FollowedID REFERENCES Player(PlayerID)
+Follows(\underline{FollowerName}, \underline{FollowedName});
+FK: FollowerName REFERENCES Player(Name)
+FK: FollowedName REFERENCES Player(Name)
 
 Color(\underline{HEX}, Red, Green, Blue, Name);
 
 Game(\underline{GameID}, ServerID, Concluded);
 FK: ServerID REFERENCES Server(ServerID)
 
-PlayerInGame(\underline{Player},\underline{Game}, ColorID, Score, Current, Order);
-FK: Player REFERENCES Player(PlayerID)
-FK: Game REFERENCES Game(GameID)
+PlayerInGame(\underline{PlayerName},\underline{GameID}, ColorID, Score, Current, Order);
+FK: PlayerName REFERENCES Player(Name)
+FK: GameID REFERENCES Game(GameID)
 FK: ColorID REFERENCES Color(HEX)
 
-Game_Expansion(\underline{ExpansionID}, \underline{GameID})
+Game_Expansion(\underline{ExpansionName}, \underline{GameID})
 FK: GameID REFERENCES Game(GameID)
-FK: ExpansionID REFERENCES Expansion(ExpansionID)
+FK: ExpansionName REFERENCES Expansion(Name)
 
-Expansion(\underline{ExpansionID}, Name);
+Expansion(\underline{Name});
 
-Meeple(\underline{MeepleID}, Name, Strength, ExpansionID);
-FK: ExpansionID REFERENCES Expansion(ExpansionID)
+MeepleType(\underline{Name}, Strength, ExpansionName);
+FK: ExpansionName REFERENCES Expansion(Name)
 
-MeepleInGame(\underline{MeepleInGameID}, PlayerID, GameID, MeepleID, Placed);
-FK: PlayerID REFERENCES PlayerInGame(PlayerID)
+Meeple(\underline{MeepleID}, PlayerName, GameID, MeepleTypeName, Placed);
+FK: PlayerName REFERENCES PlayerInGame(PlayerName)
 FK: GameID REFERENCES PlayerInGame(GameID)
-FK: MeepleID REFERENCES Meeple(MeepleID)
+FK: MeepleTypeName REFERENCES MeepleType(Name)
 
-GameSetInGame(\underline{GameSetInGameID}, GameSetID, Points, Closed);
-FK: GameSetID REFERENCES GameSet(GameSetID)
+GameSet(\underline{GameSetID}, GameSetTypeName, Points, Closed);
+FK: GameSetTypeName REFERENCES GameSetType(Name)
 
-GameSet(\underline{GameSetID}, StartingPoints, EndgameRatio, ExpansionID);
-FK: ExpansionID REFERENCES Expansion(ExpansionID)
+GameSetType(\underline{Name}, StartingPoints, EndgameRatio, ExpansionName);
+FK: ExpansionName REFERENCES Expansion(Name)
 
 TileSection(\underline{Name});
 
-TileSectionInGame(\underline{TileSectionID}, \underline{TileInGameID}, GameSetInGameID, MeepleInGameID*, Closed);
-FK: TileSectionID REFERENCES TileSection(Name)
-FK: TileInGameID REFERENCES TileInGame(TileInGameID)
-FK: MeepleInGameID REFERENCES MeepleInGame(MeepleInGameID)
-FK: GameSetInGameID REFERENCES GameSetInGame(GameSetInGameID)
+TileSectionInGame(\underline{TileSectionName}, \underline{TileID}, GameID, GameSetID, MeepleID*, Closed);
+FK: TileSectionName REFERENCES TileSection(Name)
+FK: TileID REFERENCES Tile(Order)
+FK: GameID REFERENCES Tile(GameID)
+FK: MeepleID REFERENCES Meeple(MeepleID)
+FK: GameSet REFERENCES GameSet(GameSetID)
 
-TileInGame(\underline{Order}, \underline{GameID}, TileID, RotationCount, XCoordinate, YCoordinate);
-FK: TileID REFERENCES Tile(TileID)
+Tile(\underline{Order}, \underline{GameID}, TileTypeName, RotationCount, XCoordinate, YCoordinate);
+FK: TileTypeName REFERENCES TileType(Name)
 FK: GameID REFERENCES Game(GameID)
 
-Tile(\underline{TileID}, Name, ExpansionID);
-FK: ExpansionID REFERENCES Expansion(ExpansionID)
+TileType(\underline{Name}, ExpansionName);
+FK: ExpansionName REFERENCES Expansion(Name)
 
 Region(\underline{RegionID}, Continent, Section);
 
