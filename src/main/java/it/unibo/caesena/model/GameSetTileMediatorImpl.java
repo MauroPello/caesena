@@ -23,20 +23,6 @@ import it.unibo.caesena.utils.Pair;
  */
 public class GameSetTileMediatorImpl implements GameSetTileMediator {
 
-    private static final Map<Direction, Pair<List<TileSectionType>, List<TileSectionType>>> NEIGHBOUR_TILES_CHECK = new HashMap<>(
-            Map.of(
-                    Direction.UP,
-                    new Pair<>(List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT")),
-                            List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT"))),
-                    Direction.DOWN,
-                    new Pair<>(List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT")),
-                            List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT"))),
-                    Direction.LEFT,
-                    new Pair<>(List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")),
-                            List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN"))),
-                    Direction.RIGHT,
-                    new Pair<>(List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN")),
-                            List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")))));
     private final Map<GameSet, Map<MutableTile, Set<TileSection>>> crossReferences;
     private final GameSetFactory gameSetFactory;
 
@@ -177,7 +163,7 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
             if (entry.getValue().containsKey(tile)) {
                 final var sections = entry.getValue().get(tile);
                 entry.getValue().put(tile, new HashSet<>(
-                        sections.stream().map(TileSection::rotateClockwise).toList()));
+                        sections.stream().map(TileSectionType::rotateClockwise).toList()));
             }
         }
         tile.rotate();
@@ -244,7 +230,8 @@ public class GameSetTileMediatorImpl implements GameSetTileMediator {
         }
 
         gameSet.addMeeple(meeple);
-        meeple.place(tile, tileSection);
+        meeple.place();
+        //TODO
         return true;
     }
 }

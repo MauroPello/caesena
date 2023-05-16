@@ -236,7 +236,6 @@ public class GUI implements UserInterface {
 
         if (result == JOptionPane.YES_OPTION) {
             this.forceScenesReset = true;
-            this.controller.ifPresent(Controller::resetGame);
         }
     }
 

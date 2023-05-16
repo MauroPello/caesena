@@ -23,14 +23,6 @@ public interface Controller {
     void joinGame(int gameId);
 
     /**
-     * Resets the game to its initial state.
-     * It calls updateUserInterfaces() is called so that any changes made will be
-     * reflected
-     * on screen for all users who have joined the game session thus far (if any).
-     */
-    void resetGame();
-
-    /**
      * Ends the current turn and starts the next one.
      * It checks if any of the gamesets should be closed, and closes them if they
      * are.
@@ -147,14 +139,6 @@ public interface Controller {
      * @return true if placement is valid, false otherwise
      */
     Optional<Meeple> placeMeeple(TileSectionType section);
-
-    /**
-     * Gets the list of meeples that belong to a passed player.
-     *
-     * @param player player that owns the meeples
-     * @return the list of meeple that belogn to the player
-     */
-    List<Meeple> getPlayerMeeples(PlayerInGame player);
 
     /**
      * Gets the list of all the meeples of all the players.

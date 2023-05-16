@@ -1,6 +1,10 @@
 package it.unibo.caesena.model.player;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import it.unibo.caesena.model.Color;
+import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.utils.StringUtil;
 
 /**
@@ -12,7 +16,7 @@ public final class PlayerInGameImpl implements MutablePlayerInGame {
     private final Player player;
     // private final Game game;
     private final Color color;
-    // TODO private final Set<Meeple> meeples;
+    private final Set<MutableMeeple> meeples;
 
     private boolean current;
     private int score;
@@ -28,6 +32,11 @@ public final class PlayerInGameImpl implements MutablePlayerInGame {
         this.player = player;
         this.color = color;
         this.score = 0;
+        this.meeples = new HashSet<>();
+    }
+
+    public Set<MutableMeeple> getMeeples() {
+        return this.meeples;
     }
 
     /**

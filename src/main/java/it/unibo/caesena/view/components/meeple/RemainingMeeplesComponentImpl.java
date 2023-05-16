@@ -61,7 +61,7 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
-            controller.getPlayers().forEach(p -> meeples.put(p, controller.getPlayerMeeples(p).stream()
+            controller.getPlayers().forEach(p -> meeples.put(p, p.getMeeples().stream()
                 .map(m -> new MeepleImage(m, p.getColor().asSwingColor())).toList()));
             update();
         }
