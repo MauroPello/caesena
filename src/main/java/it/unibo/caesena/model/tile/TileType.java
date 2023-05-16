@@ -16,6 +16,7 @@ public class TileType {
 
     private final String name;
     // private final Expansion expansion;
+    // private final int quantity;
 
     public TileType(final String name) {
         this.name = name;

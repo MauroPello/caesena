@@ -10,6 +10,7 @@ public class MeepleType {
     private final String name;
     private final int strength;
     // private final Expansion expansion;
+    // private final int quantity;
 
     /**
      * Class constructor.
