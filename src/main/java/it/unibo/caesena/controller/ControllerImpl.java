@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.Game;
-import it.unibo.caesena.model.GameSetTileMediator;
-import it.unibo.caesena.model.GameSetTileMediatorImpl;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.gameset.GameSetType;
@@ -51,7 +49,6 @@ public final class ControllerImpl implements Controller {
     private final CriteriaBuilder criteriaBuilder;
     private final Session session;
 
-    private GameSetTileMediator mediator;
     private List<Color> playerColors;
     private List<Player> players;
     private Game game;
@@ -112,7 +109,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void endTurn() {
-        mediator.getGameSetsInTile(game.getCurrentTile()).stream()
+        game.getGameSetsInTile(game.getCurrentTile()).stream()
                 .filter(this::isGameSetClosed)
                 .forEach(GameSet::close);
 
@@ -121,7 +118,7 @@ public final class ControllerImpl implements Controller {
             .toList();
         for (final var nearTile : placedTiles) {
             if (areTilesNear(game.getCurrentTile(), nearTile)) {
-                GameSet centerGameset = mediator.getGameSetInSection(nearTile, TileSectionType.getFromName("CENTER"));
+                GameSet centerGameset = game.getGameSetInSectionType(nearTile, TileSectionType.getFromName("CENTER"));
                 if (centerGameset.getType().equals(GameSetType.getFromName("MONASTERY"))) {
                     centerGameset.addPoints(Game.POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
@@ -129,7 +126,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
 
-                centerGameset = mediator.getGameSetInSection(game.getCurrentTile(), TileSectionType.getFromName("CENTER"));
+                centerGameset = game.getGameSetInSectionType(game.getCurrentTile(), TileSectionType.getFromName("CENTER"));
                 if (centerGameset.getType().equals(GameSetType.getFromName("MONASTERY"))) {
                     centerGameset.addPoints(Game.POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
@@ -149,15 +146,15 @@ public final class ControllerImpl implements Controller {
      * players with meeples in surrounding fields.
      */
     private void endGame() {
-        final Set<GameSet> fieldsToClose = mediator.getAllGameSets().stream()
+        final Set<GameSet> fieldsToClose = game.getAllGameSets().stream()
             .filter(c -> c.getType().equals(GameSetType.getFromName("CITY")))
             .filter(GameSet::isClosed)
-            .flatMap(c -> mediator.getFieldGameSetsNearGameSet(c).stream())
+            .flatMap(c -> game.getFieldGameSetsNearGameSet(c).stream())
             .peek(f -> f.addPoints(Game.POINTS_CLOSED_CITY_NEARBY_FIELD))
             .collect(Collectors.toSet());
         fieldsToClose.forEach(GameSet::close);
 
-        mediator.getAllGameSets().stream()
+        game.getAllGameSets().stream()
             .filter(x -> !x.isClosed())
             .forEach(g -> {
                 g.setPoints(g.getPoints() / g.getType().getEndGameRatio());
@@ -227,7 +224,7 @@ public final class ControllerImpl implements Controller {
         this.game.getCurrentTile().setPosition(position);
 
         if (getPlacedTiles().size() > 1) {
-            mediator.getTileNeighbours(position).forEach(n -> mediator.joinTiles(game.getCurrentTile(), n));
+            game.getTileNeighbours(position).forEach(n -> game.joinTiles(game.getCurrentTile(), n));
         }
 
         updateUserInterfaces();
@@ -239,7 +236,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void rotateCurrentTile() {
-        this.mediator.rotateTileClockwise(game.getCurrentTile());
+        this.game.rotateTileClockwise(game.getCurrentTile());
         updateUserInterfaces();
     }
 
@@ -269,7 +266,7 @@ public final class ControllerImpl implements Controller {
             return true;
         }
 
-        return mediator.isPositionValid(position, game.getCurrentTile());
+        return game.isPositionValid(position, game.getCurrentTile());
     }
 
     /**
@@ -297,7 +294,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public GameSet getCurrentTileGameSetInSection(final TileSectionType section) {
-        return mediator.getGameSetInSection(game.getCurrentTile(), section);
+        return game.getGameSetInSectionType(game.getCurrentTile(), section);
     }
 
     /**
@@ -309,7 +306,7 @@ public final class ControllerImpl implements Controller {
             .filter(m -> !m.isPlaced())
             .findFirst();
 
-        if (currentMeeple.isPresent() && !mediator.placeMeeple(currentMeeple.get(), game.getCurrentTile(), section)) {
+        if (currentMeeple.isPresent() && !game.placeMeeple(currentMeeple.get(), game.getCurrentTile(), section)) {
             updateUserInterfaces();
             return Optional.empty();
         }
@@ -385,8 +382,8 @@ public final class ControllerImpl implements Controller {
             return gameSet.getPoints() == Game.POINTS_CLOSED_MONASTERY;
         }
 
-        return mediator.getTilesFromGameSet(gameSet).entrySet().stream()
-                .allMatch(p -> p.getValue().stream().allMatch(s -> p.getKey().isSectionClosed(s)));
+        return game.getTilesFromGameSet(gameSet).stream()
+                .allMatch(t -> t.getSections().stream().allMatch(TileSection::isClosed));
     }
 
     /**
@@ -434,7 +431,7 @@ public final class ControllerImpl implements Controller {
         boolean outcome = false;
         for (int i = 0; i < 4; i++) {
             for (final Tile tile : getPlacedTiles()) {
-                final int numberOfNeighbours = mediator.getTileNeighbours(tile.getPosition().get()).size();
+                final int numberOfNeighbours = game.getTileNeighbours(tile.getPosition().get()).size();
                 if (numberOfNeighbours <= 3) {
                     final Set<Pair<Integer, Integer>> emptyPositions = this
                             .getEmptyNeighbouringPositions(tile.getPosition().get());
@@ -445,7 +442,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
             }
-            this.mediator.rotateTileClockwise(game.getCurrentTile());
+            this.game.rotateTileClockwise(game.getCurrentTile());
         }
         return outcome;
     }

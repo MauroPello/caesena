@@ -1,5 +1,6 @@
 package it.unibo.caesena.model.tile;
 
+import java.util.List;
 import java.util.Optional;
 
 import it.unibo.caesena.utils.Pair;
@@ -99,5 +100,11 @@ public final class TileImpl implements MutableTile {
     public void closeSection(TileSection section) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'closeSection'");
+    }
+
+    @Override
+    public List<TileSection> getSections() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSections'");
     }
 }

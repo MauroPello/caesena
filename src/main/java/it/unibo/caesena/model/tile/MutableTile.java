@@ -1,5 +1,8 @@
 package it.unibo.caesena.model.tile;
 
+
+import java.util.List;
+
 import it.unibo.caesena.utils.Pair;
 
 /**
@@ -26,5 +29,12 @@ public interface MutableTile extends Tile {
      * Rotates the tile.
      */
     void rotate();
+
+    /**
+     * Closes the provided section in the tile.
+     *
+     * @param section the section to close
+     */
+    List<TileSection> getSections();
 
 }

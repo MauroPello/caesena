@@ -28,6 +28,10 @@ public class TileSection {
         return this.tile;
     }
 
+    public GameSet getGameSet() {
+        return this.gameSet;
+    }
+
     public void close() {
         this.closed = true;
     }
