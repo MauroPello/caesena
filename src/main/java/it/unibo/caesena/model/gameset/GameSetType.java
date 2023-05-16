@@ -14,6 +14,7 @@ public class GameSetType {
     private final String name;
     private final int startingPoints;
     private final int endGameRatio;
+    // private final Expansion expansion;
 
     /**
      * Class constructor.

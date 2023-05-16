@@ -16,7 +16,9 @@ import it.unibo.caesena.utils.StringUtil;
  */
 public final class GameSetImpl implements GameSet {
 
+    // private final int id;
     private final GameSetType type;
+    // TODO private final Set<TileSection> sections;
 
     private int points;
     private boolean closed;

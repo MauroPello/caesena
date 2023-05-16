@@ -10,8 +10,13 @@ import it.unibo.caesena.utils.StringUtil;
 public final class PlayerInGameImpl implements MutablePlayerInGame {
 
     private final Player player;
+    // private final Game game;
     private final Color color;
+    // TODO private final Set<Meeple> meeples;
+
+    private boolean current;
     private int score;
+    private int order;
 
     /**
      * Class constructor.

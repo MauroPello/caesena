@@ -15,6 +15,7 @@ import it.unibo.caesena.utils.StringUtil;
 public class TileType {
 
     private final String name;
+    // private final Expansion expansion;
 
     public TileType(final String name) {
         this.name = name;

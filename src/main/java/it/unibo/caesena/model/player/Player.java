@@ -1,8 +1,13 @@
 package it.unibo.caesena.model.player;
 
+import java.util.List;
+
 public class Player {
 
     private final String name;
+    // private final List<Player> followers;
+    // private final List<Player> following;
+    // TODO private final List<PlayerInGame> playersInGame;
 
     public Player(final String name) {
         this.name = name;

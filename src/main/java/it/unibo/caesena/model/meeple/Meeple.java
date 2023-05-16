@@ -2,9 +2,6 @@ package it.unibo.caesena.model.meeple;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.player.PlayerInGame;
-import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.utils.Pair;
 
 /**
  * An interface defining a Meeple.
@@ -17,15 +14,6 @@ public interface Meeple {
      * @return the meeple strength.
      */
     int getStrength();
-
-    /**
-     * Gets the current position for the meeple, namely the
-     * {@link it.unibo.caesena.model.tile.Tile} and
-     * {@link it.unibo.caesena.model.tile.TileSection} it's placed on.
-     *
-     * @return the current position for the meeple.
-     */
-    Pair<Tile, TileSection> getPosition();
 
     /**
      * Gets whether or not the meeple is currently placed.

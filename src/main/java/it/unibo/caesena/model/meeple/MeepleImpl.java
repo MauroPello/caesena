@@ -1,12 +1,8 @@
 package it.unibo.caesena.model.meeple;
 
-import java.util.Optional;
-
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.player.PlayerInGame;
-import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
 /**
@@ -16,10 +12,12 @@ import it.unibo.caesena.utils.StringUtil;
  */
 public class MeepleImpl implements MutableMeeple {
 
+    // private final int id;
     private final MeepleType type;
     private final PlayerInGame owner;
 
-    private Optional<Pair<Tile, TileSection>> position;
+    private boolean placed;
+    // TODO private TileSection section;
 
     /**
      * Public constructor that accepts as argument the {@link it.unibo.caesena.model.player.PlayerInGame} that owns the meeple.
@@ -27,7 +25,6 @@ public class MeepleImpl implements MutableMeeple {
      * @param owner the player that owns the meeple
      */
     public MeepleImpl(final MeepleType type, final PlayerInGame owner) {
-        this.position = Optional.empty();
         this.owner = owner;
         this.type = type;
     }
@@ -52,8 +49,8 @@ public class MeepleImpl implements MutableMeeple {
      * {@inheritDoc}
      */
     @Override
-    public void place(final Tile tile, final TileSection tileSection) {
-        this.position = Optional.of(new Pair<>(tile, tileSection));
+    public void place() {
+        this.placed = true;
     }
 
     /**
@@ -61,15 +58,7 @@ public class MeepleImpl implements MutableMeeple {
      */
     @Override
     public void remove() {
-        this.position = Optional.empty();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Pair<Tile, TileSection> getPosition() {
-        return this.position.get();
+        this.placed = false;
     }
 
     /**
@@ -77,7 +66,7 @@ public class MeepleImpl implements MutableMeeple {
      */
     @Override
     public boolean isPlaced() {
-        return this.position.isPresent();
+        return this.placed;
     }
 
     /**

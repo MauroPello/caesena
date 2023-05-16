@@ -13,9 +13,12 @@ public final class TileImpl implements MutableTile {
     private static final int MAX_ROTATIONS = 4;
 
     private final TileType type;
+    // private final Game game;
+    // TODO private final Set<TileSection> sections;
 
-    private Optional<Pair<Integer, Integer>> currentPosition;
+    private Pair<Integer, Integer> currentPosition;
     private int rotationCount;
+    private int order;
 
     /**
      * Public constructor that accepts a TileType for the Tile to be created.
@@ -27,7 +30,7 @@ public final class TileImpl implements MutableTile {
         this.type = type;
         this.rotationCount = 0;
 
-        this.currentPosition = Optional.empty();
+        this.currentPosition = null;
     }
 
     /**
@@ -35,7 +38,7 @@ public final class TileImpl implements MutableTile {
      */
     @Override
     public Optional<Pair<Integer, Integer>> getPosition() {
-        return this.currentPosition;
+        return Optional.ofNullable(this.currentPosition);
     }
 
     /**
@@ -43,7 +46,7 @@ public final class TileImpl implements MutableTile {
      */
     @Override
     public void setPosition(final Pair<Integer, Integer> position) {
-        this.currentPosition = Optional.of(position);
+        this.currentPosition = position;
     }
 
     /**
@@ -51,7 +54,7 @@ public final class TileImpl implements MutableTile {
      */
     @Override
     public boolean isPlaced() {
-        return this.currentPosition.isPresent();
+        return this.currentPosition == null;
     }
 
     /**
