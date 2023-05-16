@@ -4,18 +4,42 @@ import java.util.HashSet;
 import java.util.Set;
 
 import it.unibo.caesena.model.Color;
+import it.unibo.caesena.model.Game;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.utils.StringUtil;
+
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 /**
  * {@inheritDoc}
  * Implementation of the {@link it.unibo.caesena.model.player.PlayerInGame} interface.
  */
+@Entity(name = "PlayersInGame")
+@Table(name = "PlayersInGame")
+@Access(AccessType.FIELD)
 public final class PlayerInGameImpl implements MutablePlayerInGame {
 
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "fk_player")
     private final Player player;
-    // private final Game game;
+    @Id
+    @OneToOne
+    @JoinColumn(name = "fk_game")
+    private Game game;
+    @ManyToOne
+    @JoinColumn(name = "fk_color")
     private final Color color;
+    @OneToMany
+    @JoinColumn(name = "fk_gamer")
     private final Set<MutableMeeple> meeples;
 
     private boolean current;

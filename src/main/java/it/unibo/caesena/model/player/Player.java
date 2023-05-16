@@ -3,12 +3,31 @@ package it.unibo.caesena.model.player;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity(name = "Players")
+@Table(name = "Players")
+@Access(AccessType.FIELD)
 public class Player {
 
+    @Id
     private final String name;
+    @ManyToMany
+    @JoinColumn(name = "fk_follower")
     private final List<Player> followers;
+    @ManyToMany
+    @JoinColumn(name = "fk_following")
     private final List<Player> following;
-    // TODO private final List<PlayerInGame> playersInGame;
+    @OneToMany
+    @JoinColumn(name = "fk_players_in_game")
+    private List<PlayerInGame> playersInGame;
 
     public Player(final String name) {
         this.name = name;
