@@ -9,6 +9,7 @@ import it.unibo.caesena.model.tile.Tile;
 public class Game {
     private final int gameID;
     private final Server server;
+    //private final List<Game> games;
     private final List<Expansion> expansions;
     private final List<Tile> tiles;
     private final List<PlayerInGame> playersInGame;
