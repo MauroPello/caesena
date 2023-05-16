@@ -65,8 +65,8 @@ public final class ControllerImpl implements Controller {
         Properties properties = new Properties();
         properties.setProperty("connection.driver_class", "com.mysql.jdbc.Driver");
         properties.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/caesena");
-        properties.setProperty("hibernate.connection.username", "pello");
-        properties.setProperty("hibernate.connection.password", "1234");
+        properties.setProperty("hibernate.connection.username", "caesena");
+        properties.setProperty("hibernate.connection.password", "caesena");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         properties.setProperty("hibernate.hbm2ddl.auto", "create");
         properties.setProperty("hibernate.show_sql", "true");
