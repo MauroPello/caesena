@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,13 @@ import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
+import jakarta.persistence.criteria.CriteriaBuilder;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 /**
  * {@inheritDoc}
@@ -37,11 +45,16 @@ import it.unibo.caesena.view.UserInterface;
  * Implementation of the Controller interface.
  */
 public final class ControllerImpl implements Controller {
+
     private static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
     private static final int POINTS_TILE_NEARBY_MONASTERY = 1;
     private static final int POINTS_CLOSED_MONASTERY = 9;
     private static final int MEEPLES_PER_PLAYER = 8;
+
     private final List<UserInterface> userInterfaces;
+    private final CriteriaBuilder criteriaBuilder;
+    private final Session session;
+
     private GameSetTileMediator mediator;
     private List<MutableMeeple> meeples;
     private List<MutablePlayerInGame> players;
@@ -55,7 +68,30 @@ public final class ControllerImpl implements Controller {
      */
     public ControllerImpl() {
         this.userInterfaces = new ArrayList<>();
+        Properties properties = new Properties();
+        properties.setProperty("connection.driver_class", "com.mysql.jdbc.Driver");
+        properties.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/caesena");
+        properties.setProperty("hibernate.connection.username", "caesena");
+        properties.setProperty("hibernate.connection.password", "caesena");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        properties.setProperty("hibernate.show_sql", "true");
+
+        Configuration configuration = new Configuration();
+        // TODO configuration.addAnnotatedClass(lab.model.Student.class);
+        configuration.setProperties(properties);
+
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+            .applySettings(properties).build();
+
+        this.session = configuration.buildSessionFactory(serviceRegistry).openSession();
+        this.criteriaBuilder = this.session.getCriteriaBuilder();
+
         resetGame();
+    }
+
+    public void close() {
+        this.session.close();
     }
 
     /**

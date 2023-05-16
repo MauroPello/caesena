@@ -33,6 +33,9 @@ dependencies {
 
     // for image manipulation
     implementation("net.coobird:thumbnailator:0.4.6")
+
+    // for hibernate
+    implementation("org.hibernate:hibernate-core:6.2.2.Final")
 }
 
 application {
