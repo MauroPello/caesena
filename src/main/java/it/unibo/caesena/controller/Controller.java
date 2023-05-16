@@ -8,7 +8,6 @@ import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
@@ -19,12 +18,9 @@ import it.unibo.caesena.view.UserInterface;
  */
 public interface Controller {
 
-    /**
-     * Strats the game, if all the players have different names and colors.
-     * It shuffles the players, draws the first tile and places it on the board at
-     * position (0,0).
-     */
-    void startGame();
+    void createNewGame();
+
+    void joinGame(int gameId);
 
     /**
      * Resets the game to its initial state.
@@ -142,7 +138,7 @@ public interface Controller {
      * @param section the section of the game board to check for a gameset
      * @return the gameset in the section
      */
-    GameSet getCurrentTileGameSetInSection(TileSection section);
+    GameSet getCurrentTileGameSetInSection(TileSectionType section);
 
     /**
      * Places a meeple of the current player on the current tile at the given section.

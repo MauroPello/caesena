@@ -77,7 +77,7 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
                     new Color(color.getRed(), color.getGreen(), color.getBlue()));
             }
 
-            userInterface.getController().startGame();
+            userInterface.getController().createNewGame();
         });
         final JPanel startGamePanel = new JPanel();
         startGamePanel.setOpaque(false);

@@ -9,9 +9,9 @@ import it.unibo.caesena.model.meeple.MutableMeeple;
 public class TileSection {
 
     private final TileSectionType type;
-    // private final MutableTile tile;
-    // private final GameSet gameSet;
 
+    private MutableTile tile;
+    private GameSet gameSet;
     private MutableMeeple meeple;
     private boolean closed;
 
@@ -22,6 +22,10 @@ public class TileSection {
 
     public TileSectionType getType() {
         return this.type;
+    }
+
+    public MutableTile getTile() {
+        return this.tile;
     }
 
     public void close() {

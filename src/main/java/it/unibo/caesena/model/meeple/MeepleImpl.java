@@ -17,7 +17,7 @@ public class MeepleImpl implements MutableMeeple {
     private final PlayerInGame owner;
 
     private boolean placed;
-    // TODO private TileSection section;
+    private TileSection section;
 
     /**
      * Public constructor that accepts as argument the {@link it.unibo.caesena.model.player.PlayerInGame} that owns the meeple.
@@ -91,5 +91,10 @@ public class MeepleImpl implements MutableMeeple {
     @Override
     public MeepleType getType() {
         return this.type;
+    }
+
+    @Override
+    public TileSection getPosition() {
+        return this.section;
     }
 }

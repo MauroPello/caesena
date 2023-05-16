@@ -10,7 +10,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.controller.Controller;
 
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.view.BasicComponent;
 import it.unibo.caesena.view.scene.GameScene;

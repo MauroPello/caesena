@@ -275,7 +275,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
                 tileButton.lock();
             }
             final Optional<Meeple> meepleInTile = placedMeeples.stream()
-                .filter(m -> m.getPosition().getX().equals(tile))
+                .filter(m -> m.getPosition().getTile().equals(tile))
                 .findFirst();
             if (meepleInTile.isPresent()) {
                 tileButton.setMeeple(meepleInTile.get());

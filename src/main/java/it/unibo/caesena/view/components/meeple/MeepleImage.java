@@ -47,7 +47,7 @@ public class MeepleImage {
      * @return the meeple associeted with the image
      */
     public TileSection getSection() {
-        return this.meeple.getPosition().getY();
+        return this.meeple.getPosition();
     }
 
     /**

@@ -98,7 +98,7 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void startGame() {
+    public void createNewGame() {
         if (!players.isEmpty()) {
             if (players.stream().map(PlayerInGame::getName).collect(Collectors.toSet()).size() == players.size()
                 && players.stream().map(PlayerInGame::getColor).collect(Collectors.toSet()).size() == players.size()) {
@@ -324,7 +324,7 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public GameSet getCurrentTileGameSetInSection(final TileSection section) {
+    public GameSet getCurrentTileGameSetInSection(final TileSectionType section) {
         return mediator.getGameSetInSection(currentTile.get(), section);
     }
 
@@ -505,6 +505,12 @@ public final class ControllerImpl implements Controller {
     @Override
     public boolean hasGameStarted() {
         return !getPlacedTiles().isEmpty();
+    }
+
+    @Override
+    public void joinGame(int gameId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'joinGame'");
     }
 
 }
