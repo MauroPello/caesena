@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -18,17 +17,19 @@ import jakarta.persistence.Table;
 @Table(name = "Servers")
 @Access(AccessType.FIELD)
 public class Server {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final int serverID;
+
     @ManyToOne
-    @JoinColumn(name = "fk_region")
     private final Region region;
+
+    @OneToMany(mappedBy = "server")
+    private final List<Game> games;
+
     private final boolean active;
     private final int maxGames;
-    @OneToMany
-    @JoinColumn(name = "fk_game")
-    private final List<Game> games;
 
     public Server(int serverID, Region region, boolean active, int maxGames, List<Game> games) {
         this.serverID = serverID;

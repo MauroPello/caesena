@@ -19,14 +19,16 @@ public class Player {
 
     @Id
     private final String name;
+
     @ManyToMany
     @JoinColumn(name = "fk_follower")
     private final List<Player> followers;
+
     @ManyToMany
     @JoinColumn(name = "fk_following")
     private final List<Player> following;
-    @OneToMany
-    @JoinColumn(name = "fk_players_in_game")
+
+    @OneToMany(mappedBy = "player")
     private List<PlayerInGameImpl> playersInGame;
 
     public Player(final String name) {

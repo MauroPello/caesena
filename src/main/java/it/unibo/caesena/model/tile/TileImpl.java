@@ -29,7 +29,7 @@ public final class TileImpl implements MutableTile {
     private static final int MAX_ROTATIONS = 4;
 
     @Id
-    private int order;
+    private int tileOrder;
 
     @ManyToOne
     private final TileType type;
@@ -60,8 +60,8 @@ public final class TileImpl implements MutableTile {
         this.currentPosition = null;
     }
 
-    public int getOrder() {
-        return order;
+    public int getTileOrder() {
+        return tileOrder;
     }
 
     /**

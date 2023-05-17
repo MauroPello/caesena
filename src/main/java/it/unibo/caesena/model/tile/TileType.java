@@ -28,13 +28,17 @@ import jakarta.persistence.Table;
  @Table(name = "TileTypes")
  @Access(AccessType.FIELD)
 public class TileType {
+
     @Id
     private final String name;
+
     @ManyToOne
     private Expansion expansion;
-    private int quantity;
+
     @OneToMany (mappedBy = "type")
     private List<TileImpl> tiles;
+
+    private int quantity;
 
     public TileType(final String name) {
         this.name = name;

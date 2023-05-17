@@ -13,7 +13,6 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -46,7 +45,7 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
 
     private boolean current;
     private int score;
-    private int order;
+    private int playerOrder;
 
     public Player getPlayer() {
         return player;
@@ -56,8 +55,8 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
         return current;
     }
 
-    public int getOrder() {
-        return order;
+    public int getPlayerOrder() {
+        return playerOrder;
     }
 
     /**

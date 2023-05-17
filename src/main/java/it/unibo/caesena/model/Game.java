@@ -64,7 +64,6 @@ public class Game {
     private List<TileImpl> tiles;
 
     @ManyToOne
-    @JoinColumn(name = "fk_server")
     private Server server;
 
     private boolean concluded;
