@@ -30,7 +30,7 @@ dependencies {
 
     // for hibernate
     implementation("mysql:mysql-connector-java:8.0.29")
-    implementation("org.hibernate:hibernate-core:6.1.7.Final")
+    implementation("org.hibernate:hibernate-core:6.2.2.Final")
 }
 
 application {
