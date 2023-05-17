@@ -23,16 +23,16 @@ public class Server {
     private final int serverID;
     @ManyToOne
     @JoinColumn(name = "fk_region")
-    private final int regionID;
+    private final Region region;
     private final boolean active;
     private final int maxGames;
     @OneToMany
     @JoinColumn(name = "fk_game")
     private final List<Game> games;
 
-    public Server(int serverID, int regionID, boolean active, int maxGames, List<Game> games) {
+    public Server(int serverID, Region region, boolean active, int maxGames, List<Game> games) {
         this.serverID = serverID;
-        this.regionID = regionID;
+        this.region = region;
         this.active = active;
         this.maxGames = maxGames;
         this.games = games;
@@ -40,10 +40,6 @@ public class Server {
 
     public int getServerID() {
         return serverID;
-    }
-
-    public int getRegionID() {
-        return regionID;
     }
 
     public boolean isActive() {
@@ -56,5 +52,9 @@ public class Server {
 
     public List<Game> getGames() {
         return games;
+    }
+
+    public Region getRegion() {
+        return region;
     }
 }

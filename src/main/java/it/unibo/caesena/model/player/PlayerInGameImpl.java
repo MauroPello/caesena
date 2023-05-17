@@ -29,7 +29,7 @@ public final class PlayerInGameImpl implements MutablePlayerInGame {
     @Id
     @ManyToOne
     @JoinColumn(name = "fk_player")
-    private final Player player;
+    private Player player;
     @Id
     @ManyToOne
     @JoinColumn(name = "fk_game")

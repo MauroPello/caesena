@@ -1,7 +1,6 @@
 package it.unibo.caesena.model.meeple;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.StringUtil;
@@ -35,15 +34,16 @@ public class MeepleImpl implements MutableMeeple {
     @JoinColumn(name = "fk_meeple_type")
     private final MeepleType type;
     @ManyToOne
-    @JoinColumn(name = "fk_player", referencedColumnName = "playerID")
-    @JoinColumn(name = "fk_game", referencedColumnName = "gameID")
+    @JoinColumn(name = "fk_", referencedColumnName = "fk_player")
+    @JoinColumn(name = "fk_game", referencedColumnName = "fk_game")
     private final PlayerInGameImpl owner;
     @ManyToOne
-    @JoinColumn(name = "fk_tile_section")
+    @JoinColumn(name = "fk_type", referencedColumnName = "fk_type")
+    @JoinColumn(name = "fk_tile", referencedColumnName = "fk_tile")
     private TileSection section;
 
     /**
-     * Public constructor that accepts as argument the {@link it.unibo.caesena.model.player.PlayerInGame} that owns the meeple.
+     * Public constructor that accepts as argument the {@link it.unibo.caesena.model.player.PlayerInGameImpl} that owns the meeple.
      *
      * @param owner the player that owns the meeple
      */
@@ -65,7 +65,7 @@ public class MeepleImpl implements MutableMeeple {
      * {@inheritDoc}
      */
     @Override
-    public PlayerInGame getOwner() {
+    public PlayerInGameImpl getOwner() {
         return this.owner;
     }
 

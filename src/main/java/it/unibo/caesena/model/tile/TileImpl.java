@@ -31,7 +31,6 @@ public final class TileImpl implements MutableTile {
     @ManyToOne
     @JoinColumn(name = "fk_tile_type")
     private final TileType type;
-    @Id
     @ManyToOne
     @JoinColumn(name = "fk_game", referencedColumnName = "gameID")
     private Game game;

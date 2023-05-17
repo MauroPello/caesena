@@ -12,7 +12,7 @@ import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.player.Player;
-import it.unibo.caesena.model.player.PlayerInGame;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileImpl;
@@ -53,7 +53,7 @@ public class Game {
     private int gameID;
     @OneToMany
     @JoinColumn(name = "fk_player_in_game")
-    private List<PlayerInGame> playersInGame;
+    private List<PlayerInGameImpl> playersInGame;
     @ManyToMany
     @JoinColumn(name = "fk_expansion")
     private List<Expansion> expansions;
@@ -247,11 +247,11 @@ public class Game {
         return null;
     }
 
-    public PlayerInGame getCurrentPlayer() {
+    public PlayerInGameImpl getCurrentPlayer() {
         return null;
     }
 
-    public List<PlayerInGame> getPlayersInGame() {
+    public List<PlayerInGameImpl> getPlayersInGame() {
         return playersInGame;
     }
 

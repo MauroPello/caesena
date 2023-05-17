@@ -27,7 +27,7 @@ public class Player {
     private final List<Player> following;
     @OneToMany
     @JoinColumn(name = "fk_players_in_game")
-    private List<PlayerInGame> playersInGame;
+    private List<PlayerInGameImpl> playersInGame;
 
     public Player(final String name) {
         this.name = name;
