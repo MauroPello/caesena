@@ -155,4 +155,6 @@ public interface Controller {
      * @param userInterface the user interface to add
      */
     void addUserInterface(UserInterface userInterface);
+
+    public void close();
 }

@@ -37,6 +37,7 @@ import jakarta.persistence.Transient;
 @Table(name = "Games")
 @Access(AccessType.FIELD)
 public class Game {
+
     @Transient
     private Map<Direction, Pair<List<TileSectionType>, List<TileSectionType>>> NEIGHBOUR_TILES_CHECK;
     @Transient
@@ -51,15 +52,17 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int gameID;
-    @OneToMany
-    @JoinColumn(name = "fk_player_in_game")
+
+    @OneToMany(mappedBy = "game")
     private List<PlayerInGameImpl> playersInGame;
+
     @ManyToMany
     @JoinColumn(name = "fk_expansion")
     private List<Expansion> expansions;
-    @OneToMany
-    @JoinColumn(name = "fk_tile")
+
+    @OneToMany(mappedBy = "game")
     private List<TileImpl> tiles;
+
     @ManyToOne
     @JoinColumn(name = "fk_server")
     private Server server;

@@ -19,7 +19,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -33,18 +32,19 @@ import jakarta.persistence.Table;
 @Table(name = "GameSets")
 @Access(AccessType.FIELD)
 public final class GameSetImpl implements GameSet {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "fk_game_set_type")
     private GameSetType type;
-    @OneToMany
-    @JoinColumn(name = "fk_sections")
+
+    @OneToMany(mappedBy = "gameSet")
     private Set<TileSection> sections;
 
-    private int points;
     private boolean closed;
+    private int points;
 
     /**
      * Class constructor.

@@ -8,6 +8,7 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -20,15 +21,21 @@ import jakarta.persistence.Transient;
 @Table(name = "GameSetTypes")
 @Access(AccessType.FIELD)
 public class GameSetType {
+
     @Transient
     public static List<GameSetType> values = new ArrayList<>();
+
     @Id
     private final String name;
+
+    @OneToMany(mappedBy = "type")
+    private List<GameSetImpl> gameSets;
+
+    @ManyToOne
+    private Expansion expansion;
+
     private final int startingPoints;
     private final int endGameRatio;
-    private Expansion expansion;
-    @OneToMany(mappedBy = "type")
-    private List<GameSet> gameSets;
 
     /**
      * Class constructor.

@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -27,20 +28,20 @@ public class MeepleImpl implements MutableMeeple {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private boolean placed;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "fk_meeple_type")
+    @JoinColumn(name = "fk_meeple_type", referencedColumnName = "name")
     private final MeepleType type;
 
     @ManyToOne
+    @JoinColumn(name = "fk_owner", referencedColumnName = "id")
     private final PlayerInGameImpl owner;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_type", referencedColumnName = "fk_type")
-    @JoinColumn(name = "fk_tile", referencedColumnName = "fk_tile")
+    @OneToOne
     private TileSection section;
+
+    private boolean placed;
 
     /**
      * Public constructor that accepts as argument the {@link it.unibo.caesena.model.player.PlayerInGameImpl} that owns the meeple.
@@ -119,6 +120,7 @@ public class MeepleImpl implements MutableMeeple {
 
     @Override
     public TileSection getPosition() {
-        return this.section;
+        // return this.section;
+        return null;
     }
 }

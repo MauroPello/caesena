@@ -23,12 +23,15 @@ public class MeepleType {
 
     @Id
     private final String name;
-    private final int strength;
+
     @ManyToOne
     private final Expansion expansion;
-    private final int quantity;
+
     @OneToMany(mappedBy = "type")
-    private List<Meeple> meeples;
+    private List<MeepleImpl> meeples;
+
+    private final int quantity;
+    private final int strength;
 
     /**
      * Class constructor.

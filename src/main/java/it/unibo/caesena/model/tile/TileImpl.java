@@ -11,7 +11,6 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -25,27 +24,28 @@ import jakarta.persistence.Transient;
 @Table(name = "Tiles")
 @Access(AccessType.FIELD)
 public final class TileImpl implements MutableTile {
+
     @Transient
     private static final int MAX_ROTATIONS = 4;
 
+    @Id
+    private int order;
+
     @ManyToOne
-    @JoinColumn(name = "fk_tile_type")
     private final TileType type;
+
     @ManyToOne
-    @JoinColumn(name = "fk_game", referencedColumnName = "gameID")
     private Game game;
-    @OneToMany
-    @JoinColumn(name = "fk_section")
+
+    @OneToMany(mappedBy = "tile")
     private Set<TileSection> sections;
 
-    @Transient
-    private Pair<Integer, Integer> currentPosition;
+    private int rotationCount;
     private int xCoordinate;
     private int yCoordinate;
 
-    private int rotationCount;
-    @Id
-    private int order;
+    @Transient
+    private Pair<Integer, Integer> currentPosition;
 
     /**
      * Public constructor that accepts a TileType for the Tile to be created.

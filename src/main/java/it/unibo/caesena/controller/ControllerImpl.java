@@ -38,6 +38,7 @@ import it.unibo.caesena.view.UserInterface;
 import jakarta.persistence.criteria.CriteriaBuilder;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
@@ -51,6 +52,7 @@ public final class ControllerImpl implements Controller {
 
     private final List<UserInterface> userInterfaces;
     private final CriteriaBuilder criteriaBuilder;
+    private final SessionFactory sessionFactory;
     private final Session session;
 
     private List<Color> playerColors;
@@ -68,16 +70,16 @@ public final class ControllerImpl implements Controller {
         properties.setProperty("hibernate.connection.username", "caesena");
         properties.setProperty("hibernate.connection.password", "caesena");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
         properties.setProperty("hibernate.show_sql", "true");
 
         Configuration configuration = new Configuration();
+        configuration.addAnnotatedClass(Player.class);
         configuration.addAnnotatedClass(MeepleImpl.class);
         configuration.addAnnotatedClass(MeepleType.class);
         configuration.addAnnotatedClass(GameSetImpl.class);
         configuration.addAnnotatedClass(GameSetType.class);
         configuration.addAnnotatedClass(PlayerInGameImpl.class);
-        configuration.addAnnotatedClass(Player.class);
         configuration.addAnnotatedClass(CardinalPoint.class);
         configuration.addAnnotatedClass(Continent.class);
         configuration.addAnnotatedClass(Region.class);
@@ -94,15 +96,21 @@ public final class ControllerImpl implements Controller {
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
             .applySettings(properties).build();
 
-        this.session = configuration.buildSessionFactory(serviceRegistry).openSession();
+        this.sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+        this.session = sessionFactory.openSession();
         this.criteriaBuilder = this.session.getCriteriaBuilder();
 
         this.playerColors = new ArrayList<>();
         this.players = new ArrayList<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void close() {
         this.session.close();
+        this.sessionFactory.close();
     }
 
     /**

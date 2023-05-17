@@ -256,6 +256,7 @@ public class GUI implements UserInterface {
     @Override
     public void exit() {
         this.controller.ifPresent(Controller::exitGame);
+        this.controller.ifPresent(Controller::close);
         Runtime.getRuntime().exit(0);
     }
 

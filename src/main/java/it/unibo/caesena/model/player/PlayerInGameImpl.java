@@ -1,5 +1,6 @@
 package it.unibo.caesena.model.player;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,19 +25,22 @@ import jakarta.persistence.Table;
 @Entity(name = "PlayersInGame")
 @Table(name = "PlayersInGame")
 @Access(AccessType.FIELD)
-public final class PlayerInGameImpl implements MutablePlayerInGame {
+public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable {
 
     @Id
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "fk_player")
+    // @JoinColumn(name = "fk_player")
     private Player player;
-    @Id
+
     @ManyToOne
-    @JoinColumn(name = "fk_game")
     private Game game;
+
     @ManyToOne
-    @JoinColumn(name = "fk_color")
+    // @JoinColumn(name = "fk_color")
     private final Color color;
+
     @OneToMany(mappedBy = "owner")
     private final Set<MeepleImpl> meeples;
 
