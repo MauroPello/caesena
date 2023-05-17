@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 @Access(AccessType.FIELD)
 public class Region {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int regionID;
     @ManyToOne
     @JoinColumn(name = "fk_continent")

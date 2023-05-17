@@ -34,7 +34,7 @@ import jakarta.persistence.Table;
 @Access(AccessType.FIELD)
 public final class GameSetImpl implements GameSet {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
     @JoinColumn(name = "fk_game_set_type")

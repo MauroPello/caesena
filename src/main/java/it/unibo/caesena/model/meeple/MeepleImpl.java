@@ -26,7 +26,7 @@ import jakarta.persistence.Table;
 public class MeepleImpl implements MutableMeeple {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private boolean placed;
 

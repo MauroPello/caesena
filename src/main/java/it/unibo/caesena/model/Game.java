@@ -49,7 +49,7 @@ public class Game {
     public static final int MEEPLES_PER_PLAYER = 8;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int gameID;
     @OneToMany
     @JoinColumn(name = "fk_player_in_game")

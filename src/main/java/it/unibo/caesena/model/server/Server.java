@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 @Access(AccessType.FIELD)
 public class Server {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final int serverID;
     @ManyToOne
     @JoinColumn(name = "fk_region")
