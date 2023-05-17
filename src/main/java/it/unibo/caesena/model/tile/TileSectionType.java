@@ -18,8 +18,7 @@ import jakarta.persistence.Transient;
 public class TileSectionType {
     @Id
     private final String name;
-    @OneToMany
-    @JoinColumn(name = "fk_tile_section")
+    @OneToMany(mappedBy = "type")
     private List<TileSection> tileSections;
 
     public TileSectionType(final String name) {

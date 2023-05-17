@@ -21,6 +21,9 @@ public class Region {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int regionID;
     @ManyToOne
+    @JoinColumn(name = "fk_cardinal_point")
+    private CardinalPoint cardinalPoint;
+    @ManyToOne
     @JoinColumn(name = "fk_continent")
     private Continent continent;
     @OneToMany

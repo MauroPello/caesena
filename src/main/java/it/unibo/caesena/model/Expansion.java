@@ -9,7 +9,6 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -19,14 +18,11 @@ import jakarta.persistence.Table;
 public class Expansion {
     @Id
     private final String name;
-    @OneToMany
-    @JoinColumn(name = "fk_tile_types")
+    @OneToMany(mappedBy = "expansion")
     private final List<TileType> tileTypes;
-    @OneToMany
-    @JoinColumn(name = "fk_meeple_types")
+    @OneToMany(mappedBy = "expansion")
     private final List<MeepleType> meepleTypes;
-    @OneToMany
-    @JoinColumn(name = "fk_game_set_types")
+    @OneToMany(mappedBy = "expansion")
     private final List<GameSetType> gameSetTypes;
 
     public Expansion(String name, List<TileType> tileTypes, List<MeepleType> meepleTypes,
