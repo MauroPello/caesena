@@ -16,8 +16,10 @@ import jakarta.persistence.Table;
 @Table(name = "Colors")
 @Access(AccessType.FIELD)
 public class Color {
+
     @Id
     private String hex;
+
     private String name;
     private int red;
     private int green;

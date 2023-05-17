@@ -16,12 +16,16 @@ import jakarta.persistence.Table;
 @Table(name = "Expansions")
 @Access(AccessType.FIELD)
 public class Expansion {
+
     @Id
     private final String name;
+
     @OneToMany(mappedBy = "expansion")
     private final List<TileType> tileTypes;
+
     @OneToMany(mappedBy = "expansion")
     private final List<MeepleType> meepleTypes;
+
     @OneToMany(mappedBy = "expansion")
     private final List<GameSetType> gameSetTypes;
 

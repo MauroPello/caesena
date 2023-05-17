@@ -31,11 +31,9 @@ public class MeepleImpl implements MutableMeeple {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "fk_meeple_type", referencedColumnName = "name")
     private final MeepleType type;
 
     @ManyToOne
-    @JoinColumn(name = "fk_owner", referencedColumnName = "id")
     private final PlayerInGameImpl owner;
 
     @OneToOne

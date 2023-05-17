@@ -14,8 +14,10 @@ import jakarta.persistence.Table;
 @Table(name = "TileSectionTypes")
 @Access(AccessType.FIELD)
 public class TileSectionType {
+
     @Id
     private final String name;
+
     @OneToMany(mappedBy = "type")
     private List<TileSection> tileSections;
 

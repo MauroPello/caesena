@@ -27,17 +27,14 @@ import jakarta.persistence.Table;
 public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable {
 
     @Id
-    private Long id;
-
     @ManyToOne
-    // @JoinColumn(name = "fk_player")
     private Player player;
 
+    @Id
     @ManyToOne
     private Game game;
 
     @ManyToOne
-    // @JoinColumn(name = "fk_color")
     private final Color color;
 
     @OneToMany(mappedBy = "owner")
