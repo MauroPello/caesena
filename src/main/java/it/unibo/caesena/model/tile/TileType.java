@@ -13,20 +13,20 @@ import it.unibo.caesena.utils.StringUtil;
 
 
 import jakarta.persistence.Access;
- import jakarta.persistence.AccessType;
- import jakarta.persistence.Entity;
- import jakarta.persistence.Id;
- import jakarta.persistence.ManyToOne;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
- /**
-  * Class representing the different types of Tiles that can be created.
-  */
- @Entity(name = "TileTypes")
- @Table(name = "TileTypes")
- @Access(AccessType.FIELD)
+/**
+ * Class representing the different types of Tiles that can be created.
+*/
+@Entity(name = "TileTypes")
+@Table(name = "TileTypes")
+@Access(AccessType.FIELD)
 public class TileType {
 
     @Id

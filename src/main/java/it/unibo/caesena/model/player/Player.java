@@ -7,7 +7,6 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -21,12 +20,7 @@ public class Player {
     private final String name;
 
     @ManyToMany
-    @JoinColumn(name = "fk_follower")
     private final List<Player> followers;
-
-    @ManyToMany
-    @JoinColumn(name = "fk_following")
-    private final List<Player> following;
 
     @OneToMany(mappedBy = "player")
     private List<PlayerInGameImpl> playersInGame;
@@ -34,16 +28,16 @@ public class Player {
     public Player(final String name) {
         this.name = name;
         this.followers = new ArrayList<>();
-        this.following = new ArrayList<>();
+        // this.following = new ArrayList<>();
     }
 
     public List<Player> getFollowers() {
         return followers;
     }
 
-    public List<Player> getFollowing() {
-        return following;
-    }
+    // public List<Player> getFollowing() {
+    //     return following;
+    // }
 
     public String getName() {
         return this.name;
