@@ -2,23 +2,49 @@ package it.unibo.caesena.model.tile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import it.unibo.caesena.model.Game;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
 
 /**
  * A class representing a simple Tile.
  */
+@Entity(name = "Tiles")
+@Table(name = "Tiles")
+@Access(AccessType.FIELD)
 public final class TileImpl implements MutableTile {
-
+    @Transient
     private static final int MAX_ROTATIONS = 4;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_tile_type")
     private final TileType type;
-    // private final Game game;
-    // TODO private final Set<TileSection> sections;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "fk_game", referencedColumnName = "gameID")
+    private Game game;
+    @OneToMany
+    @JoinColumn(name = "fk_section")
+    private Set<TileSection> sections;
 
     private Pair<Integer, Integer> currentPosition;
+    //private int xCoordinate;
+    //private int yCoordinate;
+
     private int rotationCount;
+    @Id
     private int order;
 
     /**

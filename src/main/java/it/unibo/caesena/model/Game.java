@@ -15,13 +15,59 @@ import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.model.tile.MutableTile;
+import it.unibo.caesena.model.tile.TileImpl;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 
-public class Game {
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
-    private static final Map<Direction, Pair<List<TileSectionType>, List<TileSectionType>>> NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
+@Entity(name = "Games")
+@Table(name = "Games")
+@Access(AccessType.FIELD)
+public class Game {
+    @Transient
+    private final Map<Direction, Pair<List<TileSectionType>, List<TileSectionType>>> NEIGHBOUR_TILES_CHECK;
+    @Transient
+    public static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
+    @Transient
+    public static final int POINTS_TILE_NEARBY_MONASTERY = 1;
+    @Transient
+    public static final int POINTS_CLOSED_MONASTERY = 9;
+    @Transient
+    public static final int MEEPLES_PER_PLAYER = 8;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int gameID;
+    @OneToMany
+    @JoinColumn(name = "fk_player_in_game")
+    private List<PlayerInGame> playersInGame;
+    @ManyToMany
+    @JoinColumn(name = "fk_expansion")
+    private List<Expansion> expansions;
+    @OneToMany
+    @JoinColumn(name = "fk_tile")
+    private List<TileImpl> tiles;
+    @ManyToOne
+    @JoinColumn(name = "fk_server")
+    private Server server;
+
+    private boolean concluded;
+
+    public Game() {
+        NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
             Direction.UP,
             new Pair<>(List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT")),
                 List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT"))),
@@ -34,24 +80,23 @@ public class Game {
             Direction.RIGHT,
             new Pair<>(List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN")),
                 List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")))));
-    public static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
-    public static final int POINTS_TILE_NEARBY_MONASTERY = 1;
-    public static final int POINTS_CLOSED_MONASTERY = 9;
-    public static final int MEEPLES_PER_PLAYER = 8;
-
-    private List<PlayerInGame> playersInGame;
-    private List<Expansion> expansions;
-    private List<MutableTile> tiles;
-    private Server server;
-    private int gameID;
-
-    private boolean concluded;
-
-    public Game() {
     }
 
     public Game(final List<Player> players, final List<Color> colors) {
         // TODO crea playersingame
+        NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
+            Direction.UP,
+            new Pair<>(List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT")),
+                List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT"))),
+            Direction.DOWN,
+            new Pair<>(List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT")),
+                List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT"))),
+            Direction.LEFT,
+            new Pair<>(List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")),
+                List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN"))),
+            Direction.RIGHT,
+            new Pair<>(List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN")),
+                List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")))));
     }
 
     /**
@@ -210,7 +255,7 @@ public class Game {
         return playersInGame;
     }
 
-    public List<MutableTile> getTiles() {
+    public List<TileImpl> getTiles() {
         return this.tiles;
     }
 
@@ -224,26 +269,6 @@ public class Game {
 
     public void drawNewTile() {
 
-    }
-
-    public static Map<Direction, Pair<List<TileSectionType>, List<TileSectionType>>> getNeighbourTilesCheck() {
-        return NEIGHBOUR_TILES_CHECK;
-    }
-
-    public static int getPointsClosedCityNearbyField() {
-        return POINTS_CLOSED_CITY_NEARBY_FIELD;
-    }
-
-    public static int getPointsTileNearbyMonastery() {
-        return POINTS_TILE_NEARBY_MONASTERY;
-    }
-
-    public static int getPointsClosedMonastery() {
-        return POINTS_CLOSED_MONASTERY;
-    }
-
-    public static int getMeeplesPerPlayer() {
-        return MEEPLES_PER_PLAYER;
     }
 
     public List<Expansion> getExpansions() {

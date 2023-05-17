@@ -1,14 +1,22 @@
 package it.unibo.caesena.model;
 
 import it.unibo.caesena.utils.StringUtil;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * This class contains the concept of color.
  * It's meant to be indipendent from any GUI framework, but for this project it
  * can be easily to convert this color as a {@link java.awt.Color}.
  */
+@Entity(name = "Colors")
+@Table(name = "Colors")
+@Access(AccessType.FIELD)
 public class Color {
-
+    @Id
     private String hex;
     private String name;
     private int red;

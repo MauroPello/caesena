@@ -5,7 +5,7 @@ import java.util.Set;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.Game;
-import it.unibo.caesena.model.meeple.MutableMeeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.utils.StringUtil;
 
 import jakarta.persistence.Access;
@@ -15,7 +15,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -32,15 +31,15 @@ public final class PlayerInGameImpl implements MutablePlayerInGame {
     @JoinColumn(name = "fk_player")
     private final Player player;
     @Id
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fk_game")
     private Game game;
     @ManyToOne
     @JoinColumn(name = "fk_color")
     private final Color color;
     @OneToMany
-    @JoinColumn(name = "fk_gamer")
-    private final Set<MutableMeeple> meeples;
+    @JoinColumn(name = "fk_meeple")
+    private final Set<MeepleImpl> meeples;
 
     private boolean current;
     private int score;
@@ -71,7 +70,7 @@ public final class PlayerInGameImpl implements MutablePlayerInGame {
         this.meeples = new HashSet<>();
     }
 
-    public Set<MutableMeeple> getMeeples() {
+    public Set<MeepleImpl> getMeeples() {
         return this.meeples;
     }
 

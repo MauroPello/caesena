@@ -3,10 +3,26 @@ package it.unibo.caesena.model.tile;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileSectionType {
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
+@Entity(name = "TileSectionTypes")
+@Table(name = "TileSectionTypes")
+@Access(AccessType.FIELD)
+public class TileSectionType {
+    @Transient
     public static List<TileSectionType> values = new ArrayList<>();
+    @Id
     private final String name;
+    @OneToMany
+    @JoinColumn(name = "fk_tile_section")
+    private List<TileSection> tileSections;
 
     public TileSectionType(final String name) {
         this.name = name;

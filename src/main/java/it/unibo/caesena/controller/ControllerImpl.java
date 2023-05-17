@@ -133,7 +133,7 @@ public final class ControllerImpl implements Controller {
                 .filter(this::isGameSetClosed)
                 .forEach(GameSet::close);
 
-        final List<MutableTile> placedTiles = game.getTiles().stream()
+        final List<TileImpl> placedTiles = game.getTiles().stream()
             .filter(MutableTile::isPlaced)
             .toList();
         for (final var nearTile : placedTiles) {
@@ -322,7 +322,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public Optional<Meeple> placeMeeple(final TileSectionType section) {
-        final Optional<MutableMeeple> currentMeeple = game.getCurrentPlayer().getMeeples().stream()
+        final Optional<MeepleImpl> currentMeeple = game.getCurrentPlayer().getMeeples().stream()
             .filter(m -> !m.isPlaced())
             .findFirst();
 

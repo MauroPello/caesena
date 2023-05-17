@@ -5,16 +5,9 @@ import java.util.List;
 import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.tile.TileType;
-
-import it.unibo.caesena.model.Game;
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 

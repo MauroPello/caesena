@@ -3,7 +3,7 @@ package it.unibo.caesena.model.player;
 import java.util.Set;
 
 import it.unibo.caesena.model.Color;
-import it.unibo.caesena.model.meeple.MutableMeeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 
 /**
  * This interface models a player. It needs to have a Name, a Color and a
@@ -32,5 +32,5 @@ public interface PlayerInGame {
      */
     int getScore();
 
-    public Set<MutableMeeple> getMeeples();
+    public Set<MeepleImpl> getMeeples();
 }

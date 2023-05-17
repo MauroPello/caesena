@@ -5,18 +5,34 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
+import it.unibo.caesena.model.Expansion;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 
-/**
- * Class representing the different types of Tiles that can be created.
- */
-public class TileType {
 
+import jakarta.persistence.Access;
+ import jakarta.persistence.AccessType;
+ import jakarta.persistence.Entity;
+ import jakarta.persistence.Id;
+ import jakarta.persistence.JoinColumn;
+ import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+
+ /**
+  * Class representing the different types of Tiles that can be created.
+  */
+ @Entity(name = "TileTypes")
+ @Table(name = "TileTypes")
+ @Access(AccessType.FIELD)
+public class TileType {
+    @Id
     private final String name;
-    // private final Expansion expansion;
-    // private final int quantity;
+    @ManyToOne
+    @JoinColumn(name = "fk_expansion")
+    private Expansion expansion;
+    private int quantity;
 
     public TileType(final String name) {
         this.name = name;

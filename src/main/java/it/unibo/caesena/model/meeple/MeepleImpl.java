@@ -2,6 +2,7 @@ package it.unibo.caesena.model.meeple;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.player.PlayerInGame;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.StringUtil;
 
@@ -31,13 +32,14 @@ public class MeepleImpl implements MutableMeeple {
     private boolean placed;
 
     @ManyToOne
-    @JoinColumn(name = "fk_MeepleType")
+    @JoinColumn(name = "fk_meeple_type")
     private final MeepleType type;
     @ManyToOne
-    @JoinColumn(name = "fk_PlayerInGame")
-    private final PlayerInGame owner;
+    @JoinColumn(name = "fk_player", referencedColumnName = "playerID")
+    @JoinColumn(name = "fk_game", referencedColumnName = "gameID")
+    private final PlayerInGameImpl owner;
     @ManyToOne
-    @JoinColumn(name = "fk_TileSection")
+    @JoinColumn(name = "fk_tile_section")
     private TileSection section;
 
     /**
@@ -45,7 +47,7 @@ public class MeepleImpl implements MutableMeeple {
      *
      * @param owner the player that owns the meeple
      */
-    public MeepleImpl(final MeepleType type, final PlayerInGame owner) {
+    public MeepleImpl(final MeepleType type, final PlayerInGameImpl owner) {
         this.owner = owner;
         this.type = type;
         this.placed = false;

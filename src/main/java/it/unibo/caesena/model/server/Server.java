@@ -27,7 +27,7 @@ public class Server {
     private final boolean active;
     private final int maxGames;
     @OneToMany
-    @JoinColumn(name = "fk_region")
+    @JoinColumn(name = "fk_game")
     private final List<Game> games;
 
     public Server(int serverID, int regionID, boolean active, int maxGames, List<Game> games) {

@@ -4,21 +4,44 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.player.MutablePlayerInGame;
+import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.StringUtil;
+
+
+import it.unibo.caesena.model.gameset.GameSetImpl;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 /**
  * {@inheritDoc}
  *
  * Implementation of the GameSet interface.
  */
+@Entity(name = "GameSets")
+@Table(name = "GameSets")
+@Access(AccessType.FIELD)
 public final class GameSetImpl implements GameSet {
-
-    // private final int id;
-    private final GameSetType type;
-    // TODO private final Set<TileSection> sections;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @ManyToOne
+    @JoinColumn(name = "fk_game_set_type")
+    private GameSetType type;
+    @OneToMany
+    @JoinColumn(name = "fk_sections")
+    private Set<TileSection> sections;
 
     private int points;
     private boolean closed;
