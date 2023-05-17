@@ -26,7 +26,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -57,7 +56,6 @@ public class Game {
     private List<PlayerInGameImpl> playersInGame;
 
     @ManyToMany
-    @JoinColumn(name = "fk_expansion")
     private List<Expansion> expansions;
 
     @OneToMany(mappedBy = "game")

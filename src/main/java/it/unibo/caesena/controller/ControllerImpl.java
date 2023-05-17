@@ -16,7 +16,6 @@ import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetImpl;
 import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.player.Player;
@@ -70,7 +69,7 @@ public final class ControllerImpl implements Controller {
         properties.setProperty("hibernate.connection.username", "caesena");
         properties.setProperty("hibernate.connection.password", "caesena");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
         properties.setProperty("hibernate.show_sql", "true");
 
         Configuration configuration = new Configuration();
