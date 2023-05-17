@@ -37,8 +37,7 @@ public final class PlayerInGameImpl implements MutablePlayerInGame {
     @ManyToOne
     @JoinColumn(name = "fk_color")
     private final Color color;
-    @OneToMany
-    @JoinColumn(name = "fk_meeple")
+    @OneToMany(mappedBy = "owner")
     private final Set<MeepleImpl> meeples;
 
     private boolean current;

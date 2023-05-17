@@ -8,6 +8,8 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -22,6 +24,8 @@ public class MeepleType {
     @Id
     private final String name;
     private final int strength;
+    @ManyToOne
+    @JoinColumn(name = "fk_expansion")
     private final Expansion expansion;
     private final int quantity;
 

@@ -38,9 +38,10 @@ public final class TileImpl implements MutableTile {
     @JoinColumn(name = "fk_section")
     private Set<TileSection> sections;
 
+    @Transient
     private Pair<Integer, Integer> currentPosition;
-    //private int xCoordinate;
-    //private int yCoordinate;
+    private int xCoordinate;
+    private int yCoordinate;
 
     private int rotationCount;
     @Id
@@ -77,6 +78,8 @@ public final class TileImpl implements MutableTile {
     @Override
     public void setPosition(final Pair<Integer, Integer> position) {
         this.currentPosition = position;
+        this.xCoordinate = position.getX();
+        this.yCoordinate = position.getY();
     }
 
     /**

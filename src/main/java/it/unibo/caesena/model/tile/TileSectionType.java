@@ -16,8 +16,6 @@ import jakarta.persistence.Transient;
 @Table(name = "TileSectionTypes")
 @Access(AccessType.FIELD)
 public class TileSectionType {
-    @Transient
-    public static List<TileSectionType> values = new ArrayList<>();
     @Id
     private final String name;
     @OneToMany
@@ -27,7 +25,6 @@ public class TileSectionType {
     public TileSectionType(final String name) {
         this.name = name;
         // TODO add in order
-        TileSectionType.values.add(this);
     }
 
     public String getName() {
@@ -58,20 +55,21 @@ public class TileSectionType {
         if (section.equals(centerSection)) {
             return section;
         }
+        return null;
+        //TODO
+        // int index = Math.floorMod(values.indexOf(section) + offset, values.size());
+        // if (offset > 0 && (values.get(index).equals(centerSection)
+        //         || values.indexOf(section) < values.indexOf(centerSection)
+        //         && values.indexOf(section) + offset >= values.indexOf(centerSection))) {
+        //     index = Math.floorMod(index + 1, values.size());
+        // }
+        // if (offset < 0 && (values.get(index).equals(centerSection)
+        //         || values.indexOf(section) > values.indexOf(centerSection)
+        //         && values.indexOf(section) + offset <= values.indexOf(centerSection))) {
+        //     index = Math.floorMod(index - 1, values.size());
+        // }
 
-        int index = Math.floorMod(values.indexOf(section) + offset, values.size());
-        if (offset > 0 && (values.get(index).equals(centerSection)
-                || values.indexOf(section) < values.indexOf(centerSection)
-                && values.indexOf(section) + offset >= values.indexOf(centerSection))) {
-            index = Math.floorMod(index + 1, values.size());
-        }
-        if (offset < 0 && (values.get(index).equals(centerSection)
-                || values.indexOf(section) > values.indexOf(centerSection)
-                && values.indexOf(section) + offset <= values.indexOf(centerSection))) {
-            index = Math.floorMod(index - 1, values.size());
-        }
-
-        return values.get(index);
+        // return values.get(index);
     }
 
     /**
@@ -106,6 +104,7 @@ public class TileSectionType {
     }
 
     public static TileSectionType getFromName(final String name) {
-        return values.stream().filter(s -> s.getName().equals(name)).findFirst().get();
+        // TODO
+        return null;
     }
 }

@@ -33,10 +33,10 @@ public class MeepleImpl implements MutableMeeple {
     @ManyToOne
     @JoinColumn(name = "fk_meeple_type")
     private final MeepleType type;
+
     @ManyToOne
-    @JoinColumn(name = "fk_", referencedColumnName = "fk_player")
-    @JoinColumn(name = "fk_game", referencedColumnName = "fk_game")
     private final PlayerInGameImpl owner;
+
     @ManyToOne
     @JoinColumn(name = "fk_type", referencedColumnName = "fk_type")
     @JoinColumn(name = "fk_tile", referencedColumnName = "fk_tile")

@@ -5,6 +5,8 @@ import java.util.List;
 import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.tile.TileType;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -13,6 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity(name = "Expansions")
 @Table(name = "Expansions")
+@Access(AccessType.FIELD)
 public class Expansion {
     @Id
     private final String name;
