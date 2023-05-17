@@ -9,7 +9,7 @@ Colors(\underline{HEX}, Red, Green, Blue, Name);
 Games(\underline{GameID}, ServerID, Concluded);
 FK: ServerID REFERENCES Servers(ServerID)
 
-PlayersInGame(\underline{PlayerName},\underline{GameID}, ColorID, Score, Current, Order);
+PlayersInGame(\underline{PlayerName},\underline{GameID}, ColorID, Score, Current, PlayerOrder);
 FK: PlayerName REFERENCES Players(Name)
 FK: GameID REFERENCES Games(GameID)
 FK: ColorID REFERENCES Colors(HEX)
@@ -38,12 +38,12 @@ TileSectionTypes(\underline{Name});
 
 TileSections(\underline{TileSectionTypeName}, \underline{TileID}, GameID, GameSetID, MeepleID*, Closed);
 FK: TileSectionTypeName REFERENCES TileSectionTypes(Name)
-FK: TileID REFERENCES Tiles(Order)
+FK: TileID REFERENCES Tiles(TileOrder)
 FK: GameID REFERENCES Tiles(GameID)
 FK: MeepleID REFERENCES Meeples(MeepleID)
 FK: GameSets REFERENCES GameSets(GameSetID)
 
-Tiles(\underline{Order}, \underline{GameID}, TileTypeName, RotationCount, XCoordinate, YCoordinate);
+Tiles(\underline{TileOrder}, \underline{GameID}, TileTypeName, RotationCount, XCoordinate, YCoordinate);
 FK: TileTypeName REFERENCES TileTypes(Name)
 FK: GameID REFERENCES Games(GameID)
 
@@ -51,10 +51,10 @@ TileTypes(\underline{Name}, ExpansionName);
 FK: ExpansionName REFERENCES Expansions(Name)
 
 Regions(\underline{RegionID}, Continent, CardinalPoint*);
-FK: Continent REFERENCES Continents(Name)
+FK: Continent REFERENCES Continents(ContinentName)
 FK: CardinalPoint REFERENCES CardinalPoints(Point)
 
-Continents(\underline{Name})
+Continents(\underline{ContinentName})
 
 CardinalPoints(\underline{Point})
 
