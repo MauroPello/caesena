@@ -24,10 +24,22 @@ public class TileTypeConfiguration {
     @ManyToOne
     private GameSetType gameSetType;
 
+    private boolean closed;
+
+    private boolean pennant;
+
     public TileTypeConfiguration() {}
 
     public TileType getTileType() {
         return tileType;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public boolean hasPennant() {
+        return pennant;
     }
 
     public TileSectionType getTileSectionType() {
@@ -69,5 +81,5 @@ public class TileTypeConfiguration {
         return true;
     }
 
-    
+
 }

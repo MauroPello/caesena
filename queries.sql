@@ -112,6 +112,66 @@ VALUES ('DOWN_RIGHT');
 INSERT INTO caesena.TileSectionTypes (name)
 VALUES ('CENTER');
 
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'RIGHT_CENTER',
+    t.previous_name = 'UP_RIGHT'
+WHERE t.name LIKE 'RIGHT#_UP' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'RIGHT_UP',
+    t.previous_name = 'UP_CENTER'
+WHERE t.name LIKE 'UP#_RIGHT' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'LEFT_UP',
+    t.previous_name = 'LEFT_DOWN'
+WHERE t.name LIKE 'LEFT#_CENTER' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'LEFT_DOWN',
+    t.previous_name = 'DOWN_CENTER'
+WHERE t.name LIKE 'DOWN#_LEFT' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'DOWN_CENTER',
+    t.previous_name = 'RIGHT_DOWN'
+WHERE t.name LIKE 'DOWN#_RIGHT' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'DOWN_RIGHT',
+    t.previous_name = 'RIGHT_CENTER'
+WHERE t.name LIKE 'RIGHT#_DOWN' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'UP_CENTER',
+    t.previous_name = 'LEFT_UP'
+WHERE t.name LIKE 'UP#_LEFT' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'UP_LEFT',
+    t.previous_name = 'LEFT_CENTER'
+WHERE t.name LIKE 'LEFT#_UP' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'DOWN_LEFT',
+    t.previous_name = 'DOWN_RIGHT'
+WHERE t.name LIKE 'DOWN#_CENTER' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'UP_RIGHT',
+    t.previous_name = 'UP_LEFT'
+WHERE t.name LIKE 'UP#_CENTER' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'RIGHT_DOWN',
+    t.previous_name = 'RIGHT_UP'
+WHERE t.name LIKE 'RIGHT#_CENTER' ESCAPE '#';
+
+UPDATE caesena.TileSectionTypes t
+SET t.next_name     = 'LEFT_CENTER',
+    t.previous_name = 'DOWN_LEFT'
+WHERE t.name LIKE 'LEFT#_DOWN' ESCAPE '#';
+
 -- TileTypes
 INSERT INTO caesena.TileTypes (quantity, expansion_name, name)
 VALUES (3, 'Basic', 'CITY_EDGE');
