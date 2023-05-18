@@ -38,6 +38,8 @@ public class TileSection implements Serializable {
 
     private boolean closed;
 
+    public TileSection() {}
+
     public TileSection(final TileImpl tile, final TileSectionType type) {
         this.closed = false;
         this.tile = tile;

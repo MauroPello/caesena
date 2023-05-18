@@ -31,6 +31,7 @@ import it.unibo.caesena.model.tile.TileImpl;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.model.tile.TileType;
+import it.unibo.caesena.model.tile.TileTypeConfiguration;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
@@ -88,6 +89,7 @@ public final class ControllerImpl implements Controller {
         configuration.addAnnotatedClass(TileType.class);
         configuration.addAnnotatedClass(TileSection.class);
         configuration.addAnnotatedClass(TileSectionType.class);
+        configuration.addAnnotatedClass(TileTypeConfiguration.class);
         configuration.addAnnotatedClass(Color.class);
         configuration.addAnnotatedClass(Expansion.class);
         configuration.addAnnotatedClass(Game.class);

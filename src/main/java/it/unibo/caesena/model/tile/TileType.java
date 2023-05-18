@@ -35,7 +35,7 @@ public class TileType {
     @ManyToOne
     private Expansion expansion;
 
-    @OneToMany (mappedBy = "type")
+    @OneToMany(mappedBy = "type")
     private List<TileImpl> tiles;
 
     private int quantity;

@@ -31,15 +31,17 @@ public class MeepleImpl implements MutableMeeple {
     private Long id;
 
     @ManyToOne
-    private final MeepleType type;
+    private MeepleType type;
 
     @ManyToOne
-    private final PlayerInGameImpl owner;
+    private PlayerInGameImpl owner;
 
     @OneToOne
     private TileSection section;
 
     private boolean placed;
+
+    public MeepleImpl() {}
 
     /**
      * Public constructor that accepts as argument the {@link it.unibo.caesena.model.player.PlayerInGameImpl} that owns the meeple.

@@ -79,9 +79,11 @@ public class Game {
     private boolean concluded;
 
     @Transient
-    private final Session session;
+    private Session session;
     @Transient
-    private final CriteriaBuilder criteriaBuilder;
+    private CriteriaBuilder criteriaBuilder;
+
+    public Game() {}
 
     public Game(final Session session, final List<Player> players, final List<Color> colors) {
         this.session = session;

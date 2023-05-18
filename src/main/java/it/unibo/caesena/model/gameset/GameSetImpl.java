@@ -39,6 +39,8 @@ public final class GameSetImpl implements GameSet {
     private boolean closed;
     private int points;
 
+    public GameSetImpl() {}
+
     /**
      * Class constructor.
      *

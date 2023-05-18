@@ -17,13 +17,15 @@ import jakarta.persistence.Table;
 public class Player {
 
     @Id
-    private final String name;
+    private String name;
 
     @ManyToMany
-    private final List<Player> followers;
+    private List<Player> followers;
 
     @OneToMany(mappedBy = "player")
     private List<PlayerInGameImpl> playersInGame;
+
+    public Player() {}
 
     public Player(final String name) {
         this.name = name;

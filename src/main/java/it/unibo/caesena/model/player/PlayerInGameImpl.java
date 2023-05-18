@@ -35,14 +35,16 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
     private Game game;
 
     @ManyToOne
-    private final Color color;
+    private Color color;
 
     @OneToMany(mappedBy = "owner")
-    private final Set<MeepleImpl> meeples;
+    private Set<MeepleImpl> meeples;
 
     private boolean current;
     private int playerOrder;
     private int score;
+
+    public PlayerInGameImpl() {}
 
     /**
      * Class constructor.
