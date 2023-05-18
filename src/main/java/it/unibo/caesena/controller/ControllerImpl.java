@@ -518,8 +518,11 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public List<Color> getDefaultColors() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDefaultColors'");
+        session.beginTransaction();
+        CriteriaQuery<Color> query = criteriaBuilder.createQuery(Color.class);
+        List<Color> colors = session.createQuery(query.select(query.from(Color.class))).getResultList();
+        session.getTransaction().commit();
+        return colors;
     }
 
 }
