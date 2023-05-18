@@ -18,24 +18,18 @@ import jakarta.persistence.Table;
 public class Expansion {
 
     @Id
-    private final String name;
+    private String name;
 
     @OneToMany(mappedBy = "expansion")
-    private final List<TileType> tileTypes;
+    private List<TileType> tileTypes;
 
     @OneToMany(mappedBy = "expansion")
-    private final List<MeepleType> meepleTypes;
+    private List<MeepleType> meepleTypes;
 
     @OneToMany(mappedBy = "expansion")
-    private final List<GameSetType> gameSetTypes;
+    private List<GameSetType> gameSetTypes;
 
-    public Expansion(String name, List<TileType> tileTypes, List<MeepleType> meepleTypes,
-            List<GameSetType> gameSetTypes) {
-        this.name = name;
-        this.tileTypes = tileTypes;
-        this.meepleTypes = meepleTypes;
-        this.gameSetTypes = gameSetTypes;
-    }
+    public Expansion() {}
 
     public String getName() {
         return name;

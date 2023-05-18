@@ -15,14 +15,12 @@ import jakarta.persistence.Table;
 public class TileSectionType {
 
     @Id
-    private final String name;
+    private String name;
 
     @OneToMany(mappedBy = "type")
     private List<TileSection> tileSections;
 
-    public TileSectionType(final String name) {
-        this.name = name;
-    }
+    public TileSectionType() {}
 
     public String getName() {
         return this.name;

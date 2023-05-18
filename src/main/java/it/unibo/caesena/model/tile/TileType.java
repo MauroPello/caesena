@@ -30,7 +30,7 @@ import jakarta.persistence.Table;
 public class TileType {
 
     @Id
-    private final String name;
+    private String name;
 
     @ManyToOne
     private Expansion expansion;
@@ -40,9 +40,7 @@ public class TileType {
 
     private int quantity;
 
-    public TileType(final String name) {
-        this.name = name;
-    }
+    public TileType() {}
 
     public String getName() {
         return this.name;

@@ -22,16 +22,16 @@ public class MeepleType {
     public static List<MeepleType> values = new ArrayList<>();
 
     @Id
-    private final String name;
+    private String name;
 
     @ManyToOne
-    private final Expansion expansion;
+    private Expansion expansion;
 
     @OneToMany(mappedBy = "type")
     private List<MeepleImpl> meeples;
 
-    private final int quantity;
-    private final int strength;
+    private int quantity;
+    private int strength;
 
     /**
      * Class constructor.
@@ -39,13 +39,7 @@ public class MeepleType {
      * @param name of the meeple type
      * @param strength of the meeple type
      */
-    public MeepleType(final String name, final int strength, final Expansion expansion, final int quantity) {
-        this.strength = strength;
-        this.name = name;
-        this.expansion = expansion;
-        this.quantity = quantity;
-        MeepleType.values.add(this);
-    }
+    public MeepleType() {}
 
     /**
      *
@@ -67,19 +61,7 @@ public class MeepleType {
      *
      * @return strength of a the meeple.
      */
-    public Expansion getExpansion() {
-        return this.expansion;
-    }
-
-        /**
-     *
-     * @return strength of a the meeple.
-     */
     public int getQuantity() {
         return this.quantity;
-    }
-
-    public static MeepleType getFromName(final String name) {
-        return values.stream().filter(s -> s.getName().equals(name)).findFirst().get();
     }
 }

@@ -14,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeListener;
 
-import it.unibo.caesena.model.Color;
 import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.UserInterface;
 import it.unibo.caesena.view.components.common.NumericUpDown;
@@ -70,12 +69,13 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         final JButton startButton = new JButton(LocaleHelper.getStartGameText());
         startButton.setFont(GUI.MEDIUM_BOLD_FONT);
         startButton.addActionListener((e) -> {
-            for (final var playerInput : this.playerInputs) {
-                final var player = playerInput.getPlayerData();
-                final var color = player.getY();
-                userInterface.getController().addPlayer(player.getX(),
-                    new Color(color.getRed(), color.getGreen(), color.getBlue()));
-            }
+            // TODO cambiare come si scegliere un colore
+            // for (final var playerInput : this.playerInputs) {
+                // final var player = playerInput.getPlayerData();
+                // final var color = player.getY();
+                // userInterface.getController().addPlayer(player.getX(),
+                    // new Color(color.getRed(), color.getGreen(), color.getBlue()));
+            // }
 
             userInterface.getController().createNewGame();
         });

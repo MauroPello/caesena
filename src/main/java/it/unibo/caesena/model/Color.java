@@ -27,26 +27,9 @@ public class Color {
 
     /**
      * Class constructor.
-     *
-     * @param hex   the color as hex
-     */
-    public Color(final String hex) {
-        this.hex = hex;
-    }
-
-    /**
-     * Class constructor.
      * It required the RGB values of the color.
-     *
-     * @param red   the red component of the color
-     * @param green the green component of the color
-     * @param blue  the blue component of the color
      */
-    public Color(final int red, final int green, final int blue) {
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-    }
+    public Color() {}
 
     /**
      * Gets the hex of the color.
@@ -108,8 +91,8 @@ public class Color {
     @Override
     public String toString() {
         return new StringUtil.ToStringBuilder()
-                .addFromObjectGetters(this)
-                .build();
+            .addFromObjectGetters(this)
+            .build();
     }
 
     /**
