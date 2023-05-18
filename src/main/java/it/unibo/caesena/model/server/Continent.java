@@ -15,14 +15,12 @@ import jakarta.persistence.Table;
 public class Continent {
 
     @Id
-    private final String continentName;
+    private String continentName;
 
     @OneToMany(mappedBy = "continent")
     private List<Region> regions;
 
-    public Continent(String continentName) {
-        this.continentName = continentName;
-    }
+    public Continent() {}
 
     public String getContinentName() {
         return continentName;

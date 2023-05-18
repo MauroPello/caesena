@@ -30,10 +30,7 @@ public class Region {
     @OneToMany(mappedBy = "region")
     private List<Server> Servers;
 
-    public Region(int regionID, Continent continent) {
-        this.regionID = regionID;
-        this.continent = continent;
-    }
+    public Region() {}
 
     public int getRegionID() {
         return regionID;

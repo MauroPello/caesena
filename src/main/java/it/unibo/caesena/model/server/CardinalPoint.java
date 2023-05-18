@@ -15,14 +15,12 @@ import jakarta.persistence.Table;
 public class CardinalPoint {
 
     @Id
-    private final String point;
+    private String point;
 
     @OneToMany(mappedBy = "cardinalPoint")
     private List<Region> regions;
 
-    public CardinalPoint(String point) {
-        this.point = point;
-    }
+    public CardinalPoint() {}
 
     public String getPoint() {
         return point;

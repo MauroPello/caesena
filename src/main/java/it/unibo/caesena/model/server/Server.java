@@ -20,24 +20,18 @@ public class Server {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final int serverID;
+    private int serverID;
 
     @ManyToOne
-    private final Region region;
+    private Region region;
 
     @OneToMany(mappedBy = "server")
-    private final List<Game> games;
+    private List<Game> games;
 
-    private final boolean active;
-    private final int maxGames;
+    private boolean active;
+    private int maxGames;
 
-    public Server(int serverID, Region region, boolean active, int maxGames, List<Game> games) {
-        this.serverID = serverID;
-        this.region = region;
-        this.active = active;
-        this.maxGames = maxGames;
-        this.games = games;
-    }
+    public Server() {}
 
     public int getServerID() {
         return serverID;
@@ -49,10 +43,6 @@ public class Server {
 
     public int getMaxGames() {
         return maxGames;
-    }
-
-    public List<Game> getGames() {
-        return games;
     }
 
     public Region getRegion() {
