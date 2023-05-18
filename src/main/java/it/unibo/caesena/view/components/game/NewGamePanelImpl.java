@@ -33,10 +33,12 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
     private final JPanel playersPanel;
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
+    private final UserInterface userInterface;
 
     private Optional<ChangeListener> playersNumChangeListener;
 
     public NewGamePanelImpl(final UserInterface userInterface) {
+        this.userInterface = userInterface;
         this.mainPanel = new JPanel();
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         this.mainPanel.setOpaque(false);
@@ -69,13 +71,10 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         final JButton startButton = new JButton(LocaleHelper.getStartGameText());
         startButton.setFont(GUI.MEDIUM_BOLD_FONT);
         startButton.addActionListener((e) -> {
-            // TODO cambiare come si scegliere un colore
-            // for (final var playerInput : this.playerInputs) {
-                // final var player = playerInput.getPlayerData();
-                // final var color = player.getY();
-                // userInterface.getController().addPlayer(player.getX(),
-                    // new Color(color.getRed(), color.getGreen(), color.getBlue()));
-            // }
+            for (final var playerInput : this.playerInputs) {
+                final var player = playerInput.getPlayerData();
+                userInterface.getController().addPlayer(player.getX(), player.getY());
+            }
 
             userInterface.getController().createNewGame();
         });
@@ -139,7 +138,7 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
      * Adds a new player input to be filled.
      */
     private void addPlayerInput() {
-        final PlayerInput<JPanel> playerPanel = new PlayerInputImpl();
+        final PlayerInput<JPanel> playerPanel = new PlayerInputImpl(userInterface.getController().getDefaultColors());
         playerPanel.setPlayerImageSize(playerInputImageSize);
         playerPanel.getComponent().setOpaque(false);
 

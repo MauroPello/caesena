@@ -240,7 +240,7 @@ INSERT INTO caesena.Colors (blue, green, red, hex, name)
 VALUES (31, 51, 95, '5F331F', 'Brown');
 
 INSERT INTO caesena.Colors (blue, green, red, hex, name)
-VALUES (79, 75, 100, 'FFC0CB', 'Pink');
+VALUES (203, 192, 255, 'FFC0CB', 'Pink');
 
 INSERT INTO caesena.Colors (blue, green, red, hex, name)
 VALUES (0, 102, 255, 'FF6600', 'Orange');

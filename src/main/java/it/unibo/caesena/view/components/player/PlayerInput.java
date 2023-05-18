@@ -1,7 +1,6 @@
 package it.unibo.caesena.view.components.player;
 
-import java.awt.Color;
-
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.BasicComponent;
 

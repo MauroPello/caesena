@@ -1,15 +1,13 @@
 package it.unibo.caesena.view.components.player;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JDialog;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,6 +15,7 @@ import javax.swing.JTextField;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.model.Color;
 import it.unibo.caesena.view.LocaleHelper;
 
 /**
@@ -25,20 +24,19 @@ import it.unibo.caesena.view.LocaleHelper;
  */
 public final class PlayerInputImpl implements PlayerInput<JPanel> {
 
-    private static final Color DEFAULT_COLOR = Color.WHITE;
     private static final int TEXT_FIELD_COLUMNS = 5;
     private final PlayerImage<JPanel> playerImage;
-    private final JColorChooser playerColorChooser;
-    private final JDialog playerColorDialog;
+    private final JComboBox<String> playerColorChooser;
+    private final List<Color> defaultColors;
     private final JTextField playerName;
     private final JPanel mainPanel;
-    private Color currentColor;
 
     /**
      * Public constructor that sets up the components and places them.
      */
-    public PlayerInputImpl() {
+    public PlayerInputImpl(final List<Color> defaultColors) {
         this.mainPanel = new JPanel();
+        this.defaultColors = defaultColors;
 
         final JLabel nameLabel = new JLabel(LocaleHelper.getNameText());
         nameLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
@@ -50,28 +48,17 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
         colorLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
 
         this.playerImage = new PlayerImageImpl();
-        setCurrentColor(DEFAULT_COLOR);
+        this.playerImage.getComponent().setOpaque(false);
 
-        this.playerColorChooser = new JColorChooser();
-        this.playerColorChooser.setPreviewPanel(new JPanel());
-        for (final var chooserPanel : playerColorChooser.getChooserPanels()) {
-            if (!chooserPanel.getDisplayName().equals(LocaleHelper.getSwatchesColorPanelName())
-                    && !"RGB".equals(chooserPanel.getDisplayName())) {
-                this.playerColorChooser.removeChooserPanel(chooserPanel);
+        this.playerColorChooser = new JComboBox<>();
+        defaultColors.forEach(c -> playerColorChooser.addItem(c.getName()));
+        this.playerColorChooser.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                playerImage.setColor(defaultColors.get(playerColorChooser.getSelectedIndex()).asSwingColor());
             }
-        }
-
+        });
+        this.playerColorChooser.setSelectedIndex(0);
         this.playerColorChooser.setFont(GUI.MEDIUM_BOLD_FONT);
-        this.playerColorDialog = JColorChooser.createDialog(this.mainPanel, LocaleHelper.getPickColorDialogTitle(), true,
-                this.playerColorChooser,
-                (e) -> setCurrentColor(this.playerColorChooser.getColor()),
-                (e) -> setCurrentColor(DEFAULT_COLOR));
-        setFontForAllComponents(playerColorDialog, GUI.SMALL_NORMAL_FONT);
-        this.playerColorDialog.pack();
-
-        final JButton playerColorButton = new JButton(LocaleHelper.getPickColorText());
-        playerColorButton.setFont(GUI.MEDIUM_BOLD_FONT);
-        playerColorButton.addActionListener((e) -> this.playerColorDialog.setVisible(true));
 
         this.mainPanel.setLayout(new GridBagLayout());
 
@@ -93,22 +80,7 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
         colorPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
                 GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
         this.mainPanel.add(colorPanel);
-        this.mainPanel.add(playerColorButton);
-    }
-
-    /**
-     * Sets the same font for all the components placed in the provided container.
-     *
-     * @param container of which components fonts should be set
-     * @param font      to set
-     */
-    private void setFontForAllComponents(final Container container, final Font font) {
-        for (final var component : container.getComponents()) {
-            component.setFont(font);
-            if (component instanceof Container) {
-                setFontForAllComponents((Container) component, font);
-            }
-        }
+        this.mainPanel.add(playerColorChooser);
     }
 
     /**
@@ -120,21 +92,11 @@ public final class PlayerInputImpl implements PlayerInput<JPanel> {
     }
 
     /**
-     * Sets the current color selected by the player.
-     *
-     * @param color to set.
-     */
-    private void setCurrentColor(final Color color) {
-        this.playerImage.setColor(color);
-        this.currentColor = color;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public Pair<String, Color> getPlayerData() {
-        return new Pair<>(playerName.getText(), currentColor);
+        return new Pair<>(playerName.getText(), defaultColors.get(playerColorChooser.getSelectedIndex()));
     }
 
     /**
