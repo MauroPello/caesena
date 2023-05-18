@@ -35,6 +35,7 @@ import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -101,6 +102,18 @@ public final class ControllerImpl implements Controller {
 
         this.playerColors = new ArrayList<>();
         this.players = new ArrayList<>();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<TileSectionType> getAllTileSectionTypes() {
+        session.beginTransaction();
+        CriteriaQuery<TileSectionType> query = criteriaBuilder.createQuery(TileSectionType.class);
+        List<TileSectionType> students = session.createQuery(query.select(query.from(TileSectionType.class))).getResultList();
+        session.getTransaction().commit();
+        return students;
     }
 
     /**

@@ -157,4 +157,6 @@ public interface Controller {
     void addUserInterface(UserInterface userInterface);
 
     public void close();
+
+    public List<TileSectionType> getAllTileSectionTypes();
 }

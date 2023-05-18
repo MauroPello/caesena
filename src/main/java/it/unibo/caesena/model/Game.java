@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.hibernate.Session;
+
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.MutableMeeple;
@@ -31,6 +33,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
 
 @Entity(name = "Games")
 @Table(name = "Games")
@@ -66,7 +70,14 @@ public class Game {
 
     private boolean concluded;
 
-    public Game() {
+    @Transient
+    private final Session session;
+    @Transient
+    private final CriteriaBuilder criteriaBuilder;
+
+    public Game(final Session session) {
+        this.session = session;
+        this.criteriaBuilder = this.session.getCriteriaBuilder();
         // NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
         //     Direction.UP,
         //     new Pair<>(List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT")),
@@ -82,7 +93,9 @@ public class Game {
         //         List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")))));
     }
 
-    public Game(final List<Player> players, final List<Color> colors) {
+    public Game(final Session session, final List<Player> players, final List<Color> colors) {
+        this.session = session;
+        this.criteriaBuilder = this.session.getCriteriaBuilder();
         // TODO crea playersingame
         // NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
         //     Direction.UP,

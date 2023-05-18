@@ -137,10 +137,9 @@ class SectionSelectorComponentImpl implements SectionSelectorComponent<JPanel> {
      * Populates the list of section buttons for each possible section.
      */
     private void populateSectionButtons() {
-        // TODO
-        // for (final var section : TileSectionType.values) {
-        //     createButton(section);
-        // }
+        for (final var section : gameScene.getUserInterface().getController().getAllTileSectionTypes()) {
+            createButton(section);
+        }
     }
 
     /**
