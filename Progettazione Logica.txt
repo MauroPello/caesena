@@ -50,6 +50,11 @@ FK: GameID REFERENCES Games(GameID)
 TileTypes(\underline{Name}, ExpansionName);
 FK: ExpansionName REFERENCES Expansions(Name)
 
+TileTypeConfiguration(\underline{TileSectionName}, \underline{TileTypeName}, GameSetType)
+FK: TileSectionName REFERENCES TileSections(Name)
+FK: TileTypeName REFERENCES TileTypes(Name)
+FK: GameSetType REFERENCES GameSetTypes(Name)
+
 Regions(\underline{RegionID}, Continent, CardinalPoint*);
 FK: Continent REFERENCES Continents(ContinentName)
 FK: CardinalPoint REFERENCES CardinalPoints(Point)
