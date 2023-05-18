@@ -1,6 +1,5 @@
 package it.unibo.caesena.model.tile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Access;
@@ -23,7 +22,6 @@ public class TileSectionType {
 
     public TileSectionType(final String name) {
         this.name = name;
-        // TODO add in order
     }
 
     public String getName() {
@@ -50,12 +48,12 @@ public class TileSectionType {
      * @return the tile section shifted by the provided offset
      */
     private static TileSectionType shiftAroundBorders(final TileSectionType section, final int offset) {
-        TileSectionType centerSection = getFromName("CENTER");
-        if (section.equals(centerSection)) {
-            return section;
-        }
         return null;
         //TODO
+        // TileSectionType centerSection = getFromName("CENTER");
+        // if (section.equals(centerSection)) {
+            // return section;
+        // }
         // int index = Math.floorMod(values.indexOf(section) + offset, values.size());
         // if (offset > 0 && (values.get(index).equals(centerSection)
         //         || values.indexOf(section) < values.indexOf(centerSection)
@@ -102,8 +100,8 @@ public class TileSectionType {
         return shiftAroundBorders(section, -1);
     }
 
+    // TODO REMOVE
     public static TileSectionType getFromName(final String name) {
-        // TODO
         return null;
     }
 }

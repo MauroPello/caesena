@@ -57,8 +57,7 @@ public class TileSection implements Serializable {
     }
 
     public MutableMeeple getMeeple() {
-        // return this.meeple;
-        return null;
+        return this.meeple;
     }
 
     public void close() {

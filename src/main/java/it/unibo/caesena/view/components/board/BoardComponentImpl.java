@@ -249,7 +249,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
                 .map(x -> x.getKey())
                 .findFirst();
         if (searchedTileButton.isEmpty()) {
-            foundTileButton = new TileButtonImpl(getTileButtonActionListener());
+            foundTileButton = new TileButtonImpl(getTileButtonActionListener(), gameScene.getUserInterface().getController().getAllTileSectionTypes());
             allTileButtons.put(foundTileButton, coordinates);
         } else {
             foundTileButton = searchedTileButton.get();

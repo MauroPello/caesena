@@ -48,6 +48,10 @@ public class TileType {
         return this.name;
     }
 
+    public int getQuantity() {
+        return this.quantity;
+    }
+
     /**
      * Creates a new tile from the name of the enum on which it's called.
      * It uses {@link java.lang.reflect} to call the proper method inside the

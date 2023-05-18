@@ -40,11 +40,8 @@ public final class TileImpl implements MutableTile {
     private Set<TileSection> sections;
 
     private int rotationCount;
-    private int xCoordinate;
-    private int yCoordinate;
-
-    @Transient
-    private Pair<Integer, Integer> currentPosition;
+    private Integer xCoordinate;
+    private Integer yCoordinate;
 
     /**
      * Public constructor that accepts a TileType for the Tile to be created.
@@ -55,8 +52,8 @@ public final class TileImpl implements MutableTile {
     public TileImpl(final TileType type) {
         this.type = type;
         this.rotationCount = 0;
-
-        this.currentPosition = null;
+        this.xCoordinate = null;
+        this.yCoordinate = null;
     }
 
     public int getTileOrder() {
@@ -68,7 +65,7 @@ public final class TileImpl implements MutableTile {
      */
     @Override
     public Optional<Pair<Integer, Integer>> getPosition() {
-        return Optional.ofNullable(this.currentPosition);
+        return Optional.ofNullable(isPlaced() ? new Pair<>(xCoordinate, yCoordinate) : null);
     }
 
     /**
@@ -76,7 +73,6 @@ public final class TileImpl implements MutableTile {
      */
     @Override
     public void setPosition(final Pair<Integer, Integer> position) {
-        this.currentPosition = position;
         this.xCoordinate = position.getX();
         this.yCoordinate = position.getY();
     }
@@ -86,7 +82,7 @@ public final class TileImpl implements MutableTile {
      */
     @Override
     public boolean isPlaced() {
-        return this.currentPosition == null;
+        return xCoordinate != null && yCoordinate != null;
     }
 
     /**

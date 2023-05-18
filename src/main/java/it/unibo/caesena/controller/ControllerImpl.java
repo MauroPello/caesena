@@ -111,9 +111,17 @@ public final class ControllerImpl implements Controller {
     public List<TileSectionType> getAllTileSectionTypes() {
         session.beginTransaction();
         CriteriaQuery<TileSectionType> query = criteriaBuilder.createQuery(TileSectionType.class);
-        List<TileSectionType> students = session.createQuery(query.select(query.from(TileSectionType.class))).getResultList();
+        List<TileSectionType> tileSectionTypes = session.createQuery(query.select(query.from(TileSectionType.class))).getResultList();
         session.getTransaction().commit();
-        return students;
+        return tileSectionTypes;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TileSectionType getTileSectionTypeFromName(final String name) {
+        return game.getTileSectionTypeFromName(name);
     }
 
     /**
@@ -158,7 +166,7 @@ public final class ControllerImpl implements Controller {
             .toList();
         for (final var nearTile : placedTiles) {
             if (areTilesNear(game.getCurrentTile(), nearTile)) {
-                GameSet centerGameset = game.getGameSetInSectionType(nearTile, TileSectionType.getFromName("CENTER"));
+                GameSet centerGameset = game.getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(GameSetType.getFromName("MONASTERY"))) {
                     centerGameset.addPoints(Game.POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
@@ -166,7 +174,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
 
-                centerGameset = game.getGameSetInSectionType(game.getCurrentTile(), TileSectionType.getFromName("CENTER"));
+                centerGameset = game.getGameSetInSectionType(game.getCurrentTile(), getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(GameSetType.getFromName("MONASTERY"))) {
                     centerGameset.addPoints(Game.POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {

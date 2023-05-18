@@ -99,7 +99,7 @@ public class GameScene implements Scene<JPanel> {
     private void generateCurrentTileImage() {
         final Tile currentTile = userInterface.getController().getCurrentTile().get();
         if (currentTileImage.isEmpty() || !currentTile.equals(currentTileImage.get().getTile())) {
-            this.currentTileImage = Optional.of(new TileImage(currentTile));
+            this.currentTileImage = Optional.of(new TileImage(currentTile, userInterface.getController().getAllTileSectionTypes()));
         }
     }
 

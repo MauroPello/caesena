@@ -34,7 +34,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 
 @Entity(name = "Games")
 @Table(name = "Games")
@@ -78,39 +77,43 @@ public class Game {
     public Game(final Session session) {
         this.session = session;
         this.criteriaBuilder = this.session.getCriteriaBuilder();
-        // NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
-        //     Direction.UP,
-        //     new Pair<>(List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT")),
-        //         List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT"))),
-        //     Direction.DOWN,
-        //     new Pair<>(List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT")),
-        //         List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT"))),
-        //     Direction.LEFT,
-        //     new Pair<>(List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")),
-        //         List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN"))),
-        //     Direction.RIGHT,
-        //     new Pair<>(List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN")),
-        //         List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")))));
+        NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
+            Direction.UP,
+            new Pair<>(List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT")),
+                List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT"))),
+            Direction.DOWN,
+            new Pair<>(List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT")),
+                List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT"))),
+            Direction.LEFT,
+            new Pair<>(List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")),
+                List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN"))),
+            Direction.RIGHT,
+            new Pair<>(List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN")),
+                List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")))));
     }
 
     public Game(final Session session, final List<Player> players, final List<Color> colors) {
         this.session = session;
         this.criteriaBuilder = this.session.getCriteriaBuilder();
         // TODO crea playersingame
-        // NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
-        //     Direction.UP,
-        //     new Pair<>(List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT")),
-        //         List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT"))),
-        //     Direction.DOWN,
-        //     new Pair<>(List.of(TileSectionType.getFromName("UP_LEFT"), TileSectionType.getFromName("UP_CENTER"), TileSectionType.getFromName("UP_RIGHT")),
-        //         List.of(TileSectionType.getFromName("DOWN_LEFT"), TileSectionType.getFromName("DOWN_CENTER"), TileSectionType.getFromName("DOWN_RIGHT"))),
-        //     Direction.LEFT,
-        //     new Pair<>(List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")),
-        //         List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN"))),
-        //     Direction.RIGHT,
-        //     new Pair<>(List.of(TileSectionType.getFromName("LEFT_UP"), TileSectionType.getFromName("LEFT_CENTER"), TileSectionType.getFromName("LEFT_DOWN")),
-        //         List.of(TileSectionType.getFromName("RIGHT_UP"), TileSectionType.getFromName("RIGHT_CENTER"), TileSectionType.getFromName("RIGHT_DOWN")))));
+        NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
+            Direction.UP,
+            new Pair<>(List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT")),
+                List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT"))),
+            Direction.DOWN,
+            new Pair<>(List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT")),
+                List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT"))),
+            Direction.LEFT,
+            new Pair<>(List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")),
+                List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN"))),
+            Direction.RIGHT,
+            new Pair<>(List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN")),
+                List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")))));
     }
+    // TODO
+    // private void createTiles() {
+
+    // }
 
     /**
      * Gets whether or not two tiles match and can be placed next to each other.
@@ -141,6 +144,13 @@ public class Game {
     public GameSet getGameSetInSectionType(final MutableTile tile, final TileSectionType tileSection) {
         return tile.getSections().stream().filter(s -> s.getType().equals(tileSection))
             .findFirst().get().getGameSet();
+    }
+
+    public TileSectionType getTileSectionTypeFromName(final String name) {
+        session.beginTransaction();
+        TileSectionType tileSectionType = session.get(TileSectionType.class, name);
+        session.getTransaction().commit();
+        return tileSectionType;
     }
 
     /**

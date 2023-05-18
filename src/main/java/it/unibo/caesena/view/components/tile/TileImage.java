@@ -24,14 +24,16 @@ public class TileImage {
     private BufferedImage temporaryImage;
     private boolean somethingChanged;
     private Optional<MeepleImage> meepleImage;
+    private final List<TileSectionType> tileSectionTypes;
 
     /**
      * Class contructor.
      *
      * @param tile of which to manage the image
      */
-    public TileImage(final Tile tile) {
+    public TileImage(final Tile tile, final List<TileSectionType> tileSectionTypes) {
         this.somethingChanged = true;
+        this.tileSectionTypes = tileSectionTypes;
         this.tile = tile;
         this.meepleImage = Optional.empty();
     }
@@ -156,44 +158,48 @@ public class TileImage {
         final int closePadding = max / 10;
         final int farPadding = max / 5;
         final int centralPadding = max / 2;
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("CENTER"))) {
-            return new Pair<Integer, Integer>(centralPadding, centralPadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("DOWN_CENTER"))) {
-            return new Pair<Integer, Integer>(centralPadding, max - closePadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("DOWN_LEFT"))) {
-            return new Pair<Integer, Integer>(farPadding, max - closePadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("DOWN_RIGHT"))) {
-            return new Pair<Integer, Integer>(max - farPadding, max - closePadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("LEFT_CENTER"))) {
-            return new Pair<Integer, Integer>(closePadding, centralPadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("LEFT_DOWN"))) {
-            return new Pair<Integer, Integer>(closePadding, max - farPadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("LEFT_UP"))) {
-            return new Pair<Integer, Integer>(closePadding, farPadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("RIGHT_CENTER"))) {
-            return new Pair<Integer, Integer>(max - closePadding, centralPadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("RIGHT_DOWN"))) {
-            return new Pair<Integer, Integer>(max - closePadding, max - farPadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("RIGHT_UP"))) {
-            return new Pair<Integer, Integer>(max - closePadding, farPadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("UP_CENTER"))) {
-            return new Pair<Integer, Integer>(centralPadding, closePadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("UP_LEFT"))) {
-            return new Pair<Integer, Integer>(farPadding, closePadding);
-        }
-        if (meepleImage.get().getSection().equals(TileSectionType.getFromName("UP_RIGHT"))) {
-            return new Pair<Integer, Integer>(max - farPadding, closePadding);
+        for (var type : tileSectionTypes) {
+            if (type.equals(meepleImage.get().getSection())) {
+                if (type.getName().equals("CENTER")) {
+                    return new Pair<Integer, Integer>(centralPadding, centralPadding);
+                }
+                if (type.getName().equals("DOWN_CENTER")) {
+                    return new Pair<Integer, Integer>(centralPadding, max - closePadding);
+                }
+                if (type.getName().equals("DOWN_LEFT")) {
+                    return new Pair<Integer, Integer>(farPadding, max - closePadding);
+                }
+                if (type.getName().equals("DOWN_RIGHT")) {
+                    return new Pair<Integer, Integer>(max - farPadding, max - closePadding);
+                }
+                if (type.getName().equals("LEFT_CENTER")) {
+                    return new Pair<Integer, Integer>(closePadding, centralPadding);
+                }
+                if (type.getName().equals("LEFT_DOWN")) {
+                    return new Pair<Integer, Integer>(closePadding, max - farPadding);
+                }
+                if (type.getName().equals("LEFT_UP")) {
+                    return new Pair<Integer, Integer>(closePadding, farPadding);
+                }
+                if (type.getName().equals("RIGHT_CENTER")) {
+                    return new Pair<Integer, Integer>(max - closePadding, centralPadding);
+                }
+                if (type.getName().equals("RIGHT_DOWN")) {
+                    return new Pair<Integer, Integer>(max - closePadding, max - farPadding);
+                }
+                if (type.getName().equals("RIGHT_UP")) {
+                    return new Pair<Integer, Integer>(max - closePadding, farPadding);
+                }
+                if (type.getName().equals("UP_CENTER")) {
+                    return new Pair<Integer, Integer>(centralPadding, closePadding);
+                }
+                if (type.getName().equals("UP_LEFT")) {
+                    return new Pair<Integer, Integer>(farPadding, closePadding);
+                }
+                if (type.getName().equals("UP_RIGHT")) {
+                    return new Pair<Integer, Integer>(max - farPadding, closePadding);
+                }
+            }
         }
         throw new IllegalStateException("Section is a known section or is null");
     }

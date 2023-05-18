@@ -159,4 +159,6 @@ public interface Controller {
     public void close();
 
     public List<TileSectionType> getAllTileSectionTypes();
+
+    public TileSectionType getTileSectionTypeFromName(String name);
 }

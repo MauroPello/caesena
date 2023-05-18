@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.scene.GameScene;
@@ -164,43 +165,44 @@ class SectionSelectorComponentImpl implements SectionSelectorComponent<JPanel> {
      * @return the coordinates at which place a tile button section based on a given section
      */
     private Pair<Integer, Integer> getCoordinates(final TileSectionType section) {
-        if (section.equals(TileSectionType.getFromName("CENTER"))) {
+        Controller controller = gameScene.getUserInterface().getController();
+        if (section.equals(controller.getTileSectionTypeFromName("CENTER"))) {
             return new Pair<>(2, 2);
         }
-        if (section.equals(TileSectionType.getFromName("DOWN_CENTER"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("DOWN_CENTER"))) {
             return new Pair<>(2, 4);
         }
-        if (section.equals(TileSectionType.getFromName("DOWN_LEFT"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("DOWN_LEFT"))) {
             return new Pair<>(1, 4);
         }
-        if (section.equals(TileSectionType.getFromName("DOWN_RIGHT"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("DOWN_RIGHT"))) {
             return new Pair<>(3, 4);
         }
-        if (section.equals(TileSectionType.getFromName("LEFT_CENTER"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("LEFT_CENTER"))) {
             return new Pair<>(0, 2);
         }
-        if (section.equals(TileSectionType.getFromName("LEFT_DOWN"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("LEFT_DOWN"))) {
             return new Pair<>(0, 3);
         }
-        if (section.equals(TileSectionType.getFromName("LEFT_UP"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("LEFT_UP"))) {
             return new Pair<>(0, 1);
         }
-        if (section.equals(TileSectionType.getFromName("RIGHT_CENTER"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("RIGHT_CENTER"))) {
             return new Pair<>(4, 2);
         }
-        if (section.equals(TileSectionType.getFromName("RIGHT_DOWN"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("RIGHT_DOWN"))) {
             return new Pair<>(4, 3);
         }
-        if (section.equals(TileSectionType.getFromName("RIGHT_UP"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("RIGHT_UP"))) {
             return new Pair<>(4, 1);
         }
-        if (section.equals(TileSectionType.getFromName("UP_CENTER"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("UP_CENTER"))) {
             return new Pair<>(2, 0);
         }
-        if (section.equals(TileSectionType.getFromName("UP_LEFT"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("UP_LEFT"))) {
             return new Pair<>(1, 0);
         }
-        if (section.equals(TileSectionType.getFromName("UP_RIGHT"))) {
+        if (section.equals(controller.getTileSectionTypeFromName("UP_RIGHT"))) {
             return new Pair<>(3, 0);
         }
         throw new IllegalStateException("Section is a known section or is null");
