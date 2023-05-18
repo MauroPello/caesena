@@ -21,7 +21,7 @@ import jakarta.persistence.Table;
 public class GameSetType {
 
     @Id
-    private final String name;
+    private String name;
 
     @OneToMany(mappedBy = "type")
     private List<GameSetImpl> gameSets;
@@ -29,8 +29,8 @@ public class GameSetType {
     @ManyToOne
     private Expansion expansion;
 
-    private final int startingPoints;
-    private final int endGameRatio;
+    private int startingPoints;
+    private int endGameRatio;
 
     /**
      * Class constructor.
@@ -38,11 +38,7 @@ public class GameSetType {
      * @param startingPoints points related to GameSet initialization.
      * @param endGameRatio ratio of related points at the end of the game
      */
-    public GameSetType(final String name, final int startingPoints, final int endGameRatio) {
-        this.startingPoints = startingPoints;
-        this.endGameRatio = endGameRatio;
-        this.name = name;
-    }
+    public GameSetType() {}
 
     /**
      *

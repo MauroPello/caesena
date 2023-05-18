@@ -163,8 +163,8 @@ public class Game {
      * @return whether or not the specific section in a MutableTile is near a certain GameSet
      */
     private boolean isSectionNearToGameset(final MutableTile tile, final TileSectionType tileSection, final GameSet gameSet) {
-        return getGameSetInSectionType(tile, TileSectionType.next(tileSection)).equals(gameSet)
-                || getGameSetInSectionType(tile, TileSectionType.previous(tileSection)).equals(gameSet);
+        return getGameSetInSectionType(tile, tileSection.getNext()).equals(gameSet)
+                || getGameSetInSectionType(tile, tileSection.getPrevious()).equals(gameSet);
     }
 
     public List<GameSetImpl> getAllGameSets() {

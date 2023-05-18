@@ -22,10 +22,10 @@ public class TileSectionType {
     private List<TileSection> tileSections;
 
     @OneToOne
-    private TileSection preceeds;
+    private TileSectionType next;
 
     @OneToOne
-    private TileSection follows;
+    private TileSectionType previous;
 
     public TileSectionType() {}
 
@@ -91,8 +91,8 @@ public class TileSectionType {
      * @param section the section to be shifted
      * @return the provided section shifted
      */
-    public static TileSectionType next(final TileSectionType section) {
-        return shiftAroundBorders(section, 1);
+    public TileSectionType getNext() {
+        return this.next;
     }
 
     /**
@@ -101,8 +101,8 @@ public class TileSectionType {
      * @param section the section to be shifted
      * @return the provided section shifted
      */
-    public static TileSectionType previous(final TileSectionType section) {
-        return shiftAroundBorders(section, -1);
+    public TileSectionType getPrevious() {
+        return this.previous;
     }
 
     // TODO REMOVE
