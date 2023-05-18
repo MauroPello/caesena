@@ -23,7 +23,7 @@ public interface MutableTile extends Tile {
      *
      * @param section the section to close
      */
-    void closeSection(TileSection section);
+    void closeSection(TileSectionType section);
 
     /**
      * Rotates the tile.

@@ -1,6 +1,5 @@
 package it.unibo.caesena.model.gameset;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.caesena.model.Expansion;
@@ -11,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 /**
  * This is an enum class that allows us to identify the various
@@ -21,9 +19,6 @@ import jakarta.persistence.Transient;
 @Table(name = "GameSetTypes")
 @Access(AccessType.FIELD)
 public class GameSetType {
-
-    @Transient
-    public static List<GameSetType> values = new ArrayList<>();
 
     @Id
     private final String name;
@@ -47,7 +42,6 @@ public class GameSetType {
         this.startingPoints = startingPoints;
         this.endGameRatio = endGameRatio;
         this.name = name;
-        GameSetType.values.add(this);
     }
 
     /**
@@ -72,9 +66,5 @@ public class GameSetType {
      */
     public int getEndGameRatio() {
         return this.endGameRatio;
-    }
-
-    public static GameSetType getFromName(final String name) {
-        return values.stream().filter(s -> s.getName().equals(name)).findFirst().get();
     }
 }

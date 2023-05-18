@@ -132,13 +132,13 @@ public final class TileImpl implements MutableTile {
     }
 
     @Override
-    public boolean isSectionClosed(TileSection section) {
+    public boolean isSectionClosed(TileSectionType section) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isSectionClosed'");
     }
 
     @Override
-    public void closeSection(TileSection section) {
+    public void closeSection(TileSectionType section) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'closeSection'");
     }

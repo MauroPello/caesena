@@ -29,7 +29,7 @@ public interface Tile {
      * @param section the provided section
      * @return whether or not the provided section in the tile is closed.
      */
-    boolean isSectionClosed(TileSection section);
+    boolean isSectionClosed(TileSectionType section);
 
     /**
      * Gets the rotation count.

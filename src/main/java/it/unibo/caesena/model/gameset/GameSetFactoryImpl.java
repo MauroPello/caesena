@@ -11,12 +11,14 @@ import it.unibo.caesena.model.meeple.MutableMeeple;
  */
 public final class GameSetFactoryImpl implements GameSetFactory {
 
+    //TODO
     /**
      * {@inheritDoc}
      */
     @Override
     public GameSet createCitySet() {
-        return new GameSetImpl(GameSetType.getFromName("CITY"));
+        // return new GameSetImpl(GameSetType.getFromName("CITY"));
+        return null;
     }
 
     /**
@@ -24,7 +26,8 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createMonasterySet() {
-        return new GameSetImpl(GameSetType.getFromName("MONASTERY"));
+        // return new GameSetImpl(GameSetType.getFromName("MONASTERY"));
+        return null;
     }
 
     /**
@@ -32,7 +35,8 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createRoadSet() {
-        return new GameSetImpl(GameSetType.getFromName("ROAD"));
+        // return new GameSetImpl(GameSetType.getFromName("ROAD"));
+        return null;
     }
 
     /**
@@ -40,7 +44,8 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createFieldSet() {
-        return new GameSetImpl(GameSetType.getFromName("FIELD"));
+        // return new GameSetImpl(GameSetType.getFromName("FIELD"));
+        return null;
     }
 
     /**
@@ -48,14 +53,15 @@ public final class GameSetFactoryImpl implements GameSetFactory {
      */
     @Override
     public GameSet createJunctionSet() {
-        return new GameSetImpl(GameSetType.getFromName("JUNCTION"));
+        // return new GameSetImpl(GameSetType.getFromName("JUNCTION"));
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public GameSet createJoinedSet(final GameSet gs1, final GameSet gs2) {
+    public GameSetImpl createJoinedSet(final GameSet gs1, final GameSet gs2) {
         if (gs1.getType().equals(gs2.getType())) {
             if (gs1.isClosed() || gs2.isClosed()) {
                 throw new IllegalStateException("Only not closed GameSets can be joined!");
@@ -64,7 +70,7 @@ public final class GameSetFactoryImpl implements GameSetFactory {
             final int points = gs1.getPoints() + gs2.getPoints();
             final List<MutableMeeple> meeples = gs1.getMeeples();
             meeples.addAll(gs2.getMeeples());
-            final GameSet joinedGameset = new GameSetImpl(gs1.getType());
+            final GameSetImpl joinedGameset = new GameSetImpl(gs1.getType());
             meeples.forEach(joinedGameset::addMeeple);
             joinedGameset.setPoints(points);
 

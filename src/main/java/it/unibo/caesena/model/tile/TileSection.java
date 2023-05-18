@@ -1,6 +1,5 @@
 package it.unibo.caesena.model.tile;
 
-import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetImpl;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.meeple.MutableMeeple;
@@ -25,7 +24,7 @@ public class TileSection implements Serializable {
 
     @Id
     @ManyToOne
-    private final TileSectionType type;
+    private TileSectionType type;
 
     @Id
     @ManyToOne
@@ -48,12 +47,20 @@ public class TileSection implements Serializable {
         return this.type;
     }
 
+    public void setType(final TileSectionType tileSectionType) {
+        this.type = tileSectionType;
+    }
+
     public MutableTile getTile() {
         return this.tile;
     }
 
-    public GameSet getGameSet() {
+    public GameSetImpl getGameSet() {
         return this.gameSet;
+    }
+
+    public void setGameSet(final GameSetImpl gameSet) {
+        this.gameSet = gameSet;
     }
 
     public MutableMeeple getMeeple() {

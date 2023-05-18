@@ -162,8 +162,8 @@ public final class ControllerImpl implements Controller {
             .toList();
         for (final var nearTile : placedTiles) {
             if (areTilesNear(game.getCurrentTile(), nearTile)) {
-                GameSet centerGameset = game.getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
-                if (centerGameset.getType().equals(GameSetType.getFromName("MONASTERY"))) {
+                GameSetImpl centerGameset = game.getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
+                if (centerGameset.getType().equals(game.getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(Game.POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
                         centerGameset.close();
@@ -171,7 +171,7 @@ public final class ControllerImpl implements Controller {
                 }
 
                 centerGameset = game.getGameSetInSectionType(game.getCurrentTile(), getTileSectionTypeFromName("CENTER"));
-                if (centerGameset.getType().equals(GameSetType.getFromName("MONASTERY"))) {
+                if (centerGameset.getType().equals(game.getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(Game.POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
                         centerGameset.close();
@@ -191,8 +191,8 @@ public final class ControllerImpl implements Controller {
      */
     private void endGame() {
         final Set<GameSet> fieldsToClose = game.getAllGameSets().stream()
-            .filter(c -> c.getType().equals(GameSetType.getFromName("CITY")))
-            .filter(GameSet::isClosed)
+            .filter(c -> c.getType().equals(game.getGameSetTypeFromName("CITY")))
+            .filter(GameSetImpl::isClosed)
             .flatMap(c -> game.getFieldGameSetsNearGameSet(c).stream())
             .peek(f -> f.addPoints(Game.POINTS_CLOSED_CITY_NEARBY_FIELD))
             .collect(Collectors.toSet());
@@ -417,12 +417,12 @@ public final class ControllerImpl implements Controller {
      * @param gameSet to be verified as closed
      * @return true if the gameset is closed, false otherwise
      */
-    private boolean isGameSetClosed(final GameSet gameSet) {
-        if (gameSet.getType().equals(GameSetType.getFromName("FIELD"))) {
+    private boolean isGameSetClosed(final GameSetImpl gameSet) {
+        if (gameSet.getType().equals(game.getGameSetTypeFromName("FIELD"))) {
             return false;
         }
 
-        if (gameSet.getType().equals(GameSetType.getFromName("MONASTERY"))) {
+        if (gameSet.getType().equals(game.getGameSetTypeFromName("MONASTERY"))) {
             return gameSet.getPoints() == Game.POINTS_CLOSED_MONASTERY;
         }
 

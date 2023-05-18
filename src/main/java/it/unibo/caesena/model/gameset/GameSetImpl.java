@@ -57,6 +57,10 @@ public final class GameSetImpl implements GameSet {
         this.closed = false;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
     /**
      * {@inheritDoc}
      */
