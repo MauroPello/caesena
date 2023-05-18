@@ -131,6 +131,7 @@ public final class ControllerImpl implements Controller {
         this.sessionFactory.close();
     }
 
+
     /**
      * {@inheritDoc}
      */
@@ -222,7 +223,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public boolean isGameOver() {
-        return this.game.isOver();
+        return this.game != null && this.game.isOver();
     }
 
     /**
@@ -506,13 +507,19 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public boolean hasGameStarted() {
-        return !getPlacedTiles().isEmpty();
+        return this.game != null && !getPlacedTiles().isEmpty();
     }
 
     @Override
     public void joinGame(int gameId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'joinGame'");
+    }
+
+    @Override
+    public List<Color> getDefaultColors() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDefaultColors'");
     }
 
 }

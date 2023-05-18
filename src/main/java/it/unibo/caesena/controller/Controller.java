@@ -161,4 +161,6 @@ public interface Controller {
     public List<TileSectionType> getAllTileSectionTypes();
 
     public TileSectionType getTileSectionTypeFromName(String name);
+
+    public List<Color> getDefaultColors();
 }
