@@ -25,4 +25,30 @@ public class Continent {
     public String getContinentName() {
         return continentName;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((continentName == null) ? 0 : continentName.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Continent other = (Continent) obj;
+        if (continentName == null) {
+            if (other.continentName != null)
+                return false;
+        } else if (!continentName.equals(other.continentName))
+            return false;
+        return true;
+    }
+    
 }

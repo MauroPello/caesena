@@ -152,4 +152,6 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
     public Color getColor() {
         return this.color;
     }
+
+    
 }

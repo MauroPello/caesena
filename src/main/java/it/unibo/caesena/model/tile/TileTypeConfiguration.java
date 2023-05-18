@@ -37,4 +37,37 @@ public class TileTypeConfiguration {
     public GameSetType getGameSetType() {
         return gameSetType;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((tileType == null) ? 0 : tileType.hashCode());
+        result = prime * result + ((tileSectionType == null) ? 0 : tileSectionType.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        TileTypeConfiguration other = (TileTypeConfiguration) obj;
+        if (tileType == null) {
+            if (other.tileType != null)
+                return false;
+        } else if (!tileType.equals(other.tileType))
+            return false;
+        if (tileSectionType == null) {
+            if (other.tileSectionType != null)
+                return false;
+        } else if (!tileSectionType.equals(other.tileSectionType))
+            return false;
+        return true;
+    }
+
+    
 }

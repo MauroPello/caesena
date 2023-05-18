@@ -134,4 +134,28 @@ public final class TileImpl implements MutableTile {
     public List<TileSection> getSections() {
         return this.sections;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + tileOrder;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        TileImpl other = (TileImpl) obj;
+        if (tileOrder != other.tileOrder)
+            return false;
+        return true;
+    }
+
+    
 }

@@ -95,9 +95,6 @@ public class Color {
             .build();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -106,22 +103,22 @@ public class Color {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
-
-        final Color other = (Color) obj;
-        return other.getHex() == this.getHex();
+        Color other = (Color) obj;
+        if (hex == null) {
+            if (other.hex != null)
+                return false;
+        } else if (!hex.equals(other.hex))
+            return false;
+        return true;
     }
+
+   
 }
