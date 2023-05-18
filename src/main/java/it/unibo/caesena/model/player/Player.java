@@ -28,16 +28,11 @@ public class Player {
     public Player(final String name) {
         this.name = name;
         this.followers = new ArrayList<>();
-        // this.following = new ArrayList<>();
     }
 
     public List<Player> getFollowers() {
         return followers;
     }
-
-    // public List<Player> getFollowing() {
-    //     return following;
-    // }
 
     public String getName() {
         return this.name;

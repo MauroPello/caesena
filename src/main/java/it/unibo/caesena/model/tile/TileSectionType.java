@@ -7,6 +7,7 @@ import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity(name = "TileSectionTypes")
@@ -19,6 +20,12 @@ public class TileSectionType {
 
     @OneToMany(mappedBy = "type")
     private List<TileSection> tileSections;
+
+    @OneToOne
+    private TileSection preceeds;
+
+    @OneToOne
+    private TileSection follows;
 
     public TileSectionType() {}
 
