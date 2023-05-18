@@ -70,7 +70,7 @@ public final class ControllerImpl implements Controller {
         properties.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/caesena");
         properties.setProperty("hibernate.connection.username", "caesena");
         properties.setProperty("hibernate.connection.password", "caesena");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         // properties.setProperty("hibernate.hbm2ddl.auto", "create");
         // properties.setProperty("hibernate.show_sql", "true");
 
