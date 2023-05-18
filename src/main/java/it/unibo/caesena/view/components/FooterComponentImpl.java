@@ -315,7 +315,7 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         meepleComponent.update();
         leaderboard.update();
         playerImageComponent.setColor(userInterface.getController().getCurrentPlayer().get().getColor().asSwingColor());
-        playerNameLabel.setText(userInterface.getController().getCurrentPlayer().get().getName());
+        playerNameLabel.setText(userInterface.getController().getCurrentPlayer().get().getPlayer().getName());
         remainingTilesLabel.setText(
                 LocaleHelper.getRemainingTilesText() + userInterface.getController().getNotPlacedTiles().size());
         if (tileImage.get().getTile().isPlaced()) {

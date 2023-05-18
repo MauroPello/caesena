@@ -2,6 +2,7 @@ package it.unibo.caesena.model.meeple;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
+import it.unibo.caesena.model.player.MutablePlayerInGame;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.StringUtil;
 
@@ -63,7 +64,7 @@ public class MeepleImpl implements MutableMeeple {
      * {@inheritDoc}
      */
     @Override
-    public PlayerInGameImpl getOwner() {
+    public MutablePlayerInGame getOwner() {
         return this.owner;
     }
 

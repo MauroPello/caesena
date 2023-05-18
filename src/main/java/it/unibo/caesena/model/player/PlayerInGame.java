@@ -11,12 +11,11 @@ import it.unibo.caesena.model.meeple.MeepleImpl;
  */
 public interface PlayerInGame {
 
-    /**
-     * Gets the name of the player.
-     *
-     * @return the name of the player
-     */
-    String getName();
+    Player getPlayer();
+
+    boolean isCurrent();
+
+    int getPlayerOrder();
 
     /**
      * Gets the color of the player.
@@ -32,5 +31,5 @@ public interface PlayerInGame {
      */
     int getScore();
 
-    public Set<MeepleImpl> getMeeples();
+    Set<MeepleImpl> getMeeples();
 }

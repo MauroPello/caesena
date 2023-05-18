@@ -140,7 +140,7 @@ public class GameOverScene implements Scene<JPanel> {
 
             final JLabel volataileLabel = new JLabel();
             volataileLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
-            volataileLabel.setText(LocaleHelper.getNameText() + player.getName() + " " + LocaleHelper.getScoreText()
+            volataileLabel.setText(LocaleHelper.getNameText() + player.getPlayer().getName() + " " + LocaleHelper.getScoreText()
                     + player.getScore());
             volatailePanel.add(volataileLabel);
 

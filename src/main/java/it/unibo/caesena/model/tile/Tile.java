@@ -1,5 +1,6 @@
 package it.unibo.caesena.model.tile;
 
+import java.util.List;
 import java.util.Optional;
 
 import it.unibo.caesena.utils.Pair;
@@ -24,14 +25,6 @@ public interface Tile {
     boolean isPlaced();
 
     /**
-     * Gets whether or not the provided section in the tile is closed.
-     *
-     * @param section the provided section
-     * @return whether or not the provided section in the tile is closed.
-     */
-    boolean isSectionClosed(TileSectionType section);
-
-    /**
      * Gets the rotation count.
      *
      * @return the rotation count.
@@ -44,4 +37,11 @@ public interface Tile {
      * @return the TileType of the tile.
      */
     TileType getTileType();
+
+    public List<TileSection> getSections();
+
+    public boolean isCurrent();
+
+    public int getTileOrder();
+
 }

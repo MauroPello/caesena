@@ -1,8 +1,5 @@
 package it.unibo.caesena.model.tile;
 
-
-import java.util.List;
-
 import it.unibo.caesena.utils.Pair;
 
 /**
@@ -19,22 +16,10 @@ public interface MutableTile extends Tile {
     void setPosition(Pair<Integer, Integer> position);
 
     /**
-     * Closes the provided section in the tile.
-     *
-     * @param section the section to close
-     */
-    void closeSection(TileSectionType section);
-
-    /**
      * Rotates the tile.
      */
     void rotate();
 
-    /**
-     * Closes the provided section in the tile.
-     *
-     * @param section the section to close
-     */
-    List<TileSection> getSections();
+    public void setCurrent(boolean current);
 
 }

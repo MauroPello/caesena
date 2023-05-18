@@ -2,7 +2,6 @@ package it.unibo.caesena.model.tile;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import it.unibo.caesena.model.Game;
 import it.unibo.caesena.utils.Pair;
@@ -38,7 +37,7 @@ public final class TileImpl implements MutableTile {
     private TileType type;
 
     @OneToMany(mappedBy = "tile")
-    private Set<TileSection> sections;
+    private List<TileSection> sections;
 
     private boolean current;
     private int rotationCount;
@@ -132,20 +131,7 @@ public final class TileImpl implements MutableTile {
     }
 
     @Override
-    public boolean isSectionClosed(TileSectionType section) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isSectionClosed'");
-    }
-
-    @Override
-    public void closeSection(TileSectionType section) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'closeSection'");
-    }
-
-    @Override
     public List<TileSection> getSections() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSections'");
+        return this.sections;
     }
 }

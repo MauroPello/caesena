@@ -1,28 +1,11 @@
 package it.unibo.caesena.model.gameset;
 
-import java.util.List;
-
-import it.unibo.caesena.model.meeple.MutableMeeple;
-
 /**
  * An interface defining a GameSet.
  * Defines a set of tiles containing roads, towns, monasteries, and fields,
  * each of which contains a score and, optionally, meeples.
  */
 public interface GameSet {
-
-    /**
-     * Adds a meeple to the current gameset.
-     *
-     * @param meeple meeple to be placed.
-     */
-    void addMeeple(MutableMeeple meeple);
-
-    /**
-     *
-     * @return Returns true if meeples are present, false otherwise.
-     */
-    boolean isMeepleFree();
 
     /**
      * After checking that the gameset has not already been closed and that meeples are present in it,
@@ -66,11 +49,5 @@ public interface GameSet {
      * @param points added with those already present.
      */
     void addPoints(int points);
-
-    /**
-     *
-     * @return list of meeples in current GameSet.
-     */
-    List<MutableMeeple> getMeeples();
 
 }

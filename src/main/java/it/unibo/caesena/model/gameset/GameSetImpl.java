@@ -1,16 +1,9 @@
 package it.unibo.caesena.model.gameset;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import it.unibo.caesena.model.meeple.MutableMeeple;
-import it.unibo.caesena.model.player.MutablePlayerInGame;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.StringUtil;
-
 
 import it.unibo.caesena.model.gameset.GameSetImpl;
 import jakarta.persistence.Access;
@@ -65,53 +58,36 @@ public final class GameSetImpl implements GameSet {
      * {@inheritDoc}
      */
     @Override
-    public void addMeeple(final MutableMeeple meeple) {
-        // TODO this.meeples.add(meeple);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isMeepleFree() {
-        // TODO return this.meeples.isEmpty();
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean close() {
         if (this.isClosed()) {
             return false;
         }
 
-        if (!this.isMeepleFree()) {
-            final Map<MutablePlayerInGame, Integer> playerMeepleStrength = new HashMap<>();
+        // TODO
+        // if (!this.isMeepleFree()) {
+        //     final Map<MutablePlayerInGame, Integer> playerMeepleStrength = new HashMap<>();
 
-            // TODO
-            for (final MutableMeeple meeple : new ArrayList<MutableMeeple>()) {
-                final MutablePlayerInGame currentPlayer = (MutablePlayerInGame) meeple.getOwner();
+        //     for (final MutableMeeple meeple : new ArrayList<MutableMeeple>()) {
+        //         final MutablePlayerInGame currentPlayer = (MutablePlayerInGame) meeple.getOwner();
 
-                if (!playerMeepleStrength.containsKey(currentPlayer)) {
-                    playerMeepleStrength.put(currentPlayer, 0);
-                }
-                playerMeepleStrength.put(currentPlayer,
-                        playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
+        //         if (!playerMeepleStrength.containsKey(currentPlayer)) {
+        //             playerMeepleStrength.put(currentPlayer, 0);
+        //         }
+        //         playerMeepleStrength.put(currentPlayer,
+        //                 playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
 
-            }
+        //     }
 
-            final int maxMeepleStrength = playerMeepleStrength.values().stream()
-                    .mapToInt(x -> x).max().getAsInt();
+        //     final int maxMeepleStrength = playerMeepleStrength.values().stream()
+        //             .mapToInt(x -> x).max().getAsInt();
 
-            playerMeepleStrength.entrySet().stream()
-                    .filter(e -> e.getValue().equals(maxMeepleStrength))
-                    .forEach(e -> e.getKey().addScore(this.getPoints()));
-        }
+        //     playerMeepleStrength.entrySet().stream()
+        //             .filter(e -> e.getValue().equals(maxMeepleStrength))
+        //             .forEach(e -> e.getKey().addScore(this.getPoints()));
+        // }
 
-        this.closed = true;
-        // TODO meeples.forEach(m -> m.remove());
+        // this.closed = true;
+        // meeples.forEach(m -> m.remove());
         return true;
 
     }
@@ -162,15 +138,6 @@ public final class GameSetImpl implements GameSet {
     @Override
     public void addPoints(final int points) {
         this.points += points;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<MutableMeeple> getMeeples() {
-        // TODO return new ArrayList<>(this.meeples);
-        return new ArrayList<>();
     }
 
 }

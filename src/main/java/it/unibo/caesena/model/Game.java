@@ -103,7 +103,7 @@ public class Game {
         this.playersInGame = new ArrayList<>();
         session.beginTransaction();
         for (int i = 0; i < players.size(); i++) {
-            final PlayerInGameImpl player = new PlayerInGameImpl(players.get(i), colors.get(i));
+            final PlayerInGameImpl player = new PlayerInGameImpl(players.get(i), colors.get(i), 0);
             playersInGame.add(player);
             session.persist(player);
         }
@@ -192,13 +192,13 @@ public class Game {
     }
 
     public boolean placeMeeple(final MutableMeeple meeple, final MutableTile tile, final TileSectionType tileSection) {
-        final GameSet gameSet = getGameSetInSectionType(tile, tileSection);
-        if (meeple.isPlaced() || !gameSet.isMeepleFree()) {
-            return false;
-        }
+        // final GameSet gameSet = getGameSetInSectionType(tile, tileSection);
+        // if (meeple.isPlaced() || !gameSet.isMeepleFree()) {
+        //     return false;
+        // }
 
-        gameSet.addMeeple(meeple);
-        meeple.place();
+        // gameSet.addMeeple(meeple);
+        // meeple.place();
         //TODO
         return true;
     }
@@ -274,8 +274,8 @@ public class Game {
                     final TileSectionType t1SectionType = entry.getValue().getY().get(i);
                     final TileSectionType t2SectionType = entry.getValue().getX().get(i);
 
-                    t1.closeSection(t1SectionType);
-                    t2.closeSection(t2SectionType);
+                    // t1.closeSection(t1SectionType);
+                    // t2.closeSection(t2SectionType);
 
                     final GameSetImpl t1GameSet = getGameSetInSectionType(t1, t1SectionType);
                     final GameSetImpl t2GameSet = getGameSetInSectionType(t2, t2SectionType);

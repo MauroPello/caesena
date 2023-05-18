@@ -50,35 +50,32 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
      * @param name of the player
      * @param color of the player
      */
-    public PlayerInGameImpl(final Player player, final Color color) {
+    public PlayerInGameImpl(final Player player, final Color color, final int playerOrder) {
         this.player = player;
+        this.playerOrder = playerOrder;
         this.color = color;
         this.score = 0;
         this.meeples = new HashSet<>();
     }
 
+    @Override
     public Player getPlayer() {
         return player;
     }
 
+    @Override
     public boolean isCurrent() {
         return current;
     }
 
+    @Override
     public int getPlayerOrder() {
         return playerOrder;
     }
 
+    @Override
     public Set<MeepleImpl> getMeeples() {
         return this.meeples;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName() {
-        return this.player.getName();
     }
 
     /**
@@ -134,8 +131,8 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
             return false;
         }
 
-        final PlayerInGameImpl other = (PlayerInGameImpl) obj;
-        return this.player.getName().equals(other.getName());
+        final PlayerInGame other = (PlayerInGame) obj;
+        return this.player.getName().equals(other.getPlayer().getName());
     }
 
     /**

@@ -105,7 +105,7 @@ public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPan
             playerColorPanel.setColor(player.getColor().asSwingColor());
             playerColorPanel.forceSize(playerImageSize);
 
-            final JLabel playerLabel = new JLabel(player.getName() + " " + player.getScore());
+            final JLabel playerLabel = new JLabel(player.getPlayer().getName() + " " + player.getScore());
             playerLabel.setFont(GUI.SMALL_NORMAL_FONT);
             playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 

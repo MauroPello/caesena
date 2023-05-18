@@ -38,9 +38,10 @@ public class TileSection implements Serializable {
 
     private boolean closed;
 
-    public TileSection(final TileSectionType type) {
-        this.type = type;
+    public TileSection(final TileImpl tile, final TileSectionType type) {
         this.closed = false;
+        this.tile = tile;
+        this.type = type;
     }
 
     public TileSectionType getType() {
@@ -65,6 +66,10 @@ public class TileSection implements Serializable {
 
     public MutableMeeple getMeeple() {
         return this.meeple;
+    }
+
+    public void setMeeple(final MeepleImpl meeple) {
+        this.meeple = meeple;
     }
 
     public void close() {
