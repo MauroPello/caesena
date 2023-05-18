@@ -14,6 +14,9 @@ import jakarta.persistence.Table;
 public class TileTypeConfiguration {
 
     @Id
+    private int id;
+
+    @Id
     @ManyToOne
     private TileType tileType;
 
