@@ -30,18 +30,22 @@ public final class TileImpl implements MutableTile {
     @Id
     private int tileOrder;
 
-    @ManyToOne
-    private final TileType type;
-
+    @Id
     @ManyToOne
     private Game game;
+
+    @ManyToOne
+    private TileType type;
 
     @OneToMany(mappedBy = "tile")
     private Set<TileSection> sections;
 
+    private boolean current;
     private int rotationCount;
     private Integer xCoordinate;
     private Integer yCoordinate;
+
+    public TileImpl() {}
 
     /**
      * Public constructor that accepts a TileType for the Tile to be created.
@@ -49,15 +53,25 @@ public final class TileImpl implements MutableTile {
      *
      * @param type of Tile just created
      */
-    public TileImpl(final TileType type) {
+    public TileImpl(final int tileOrder, final Game game, final TileType type) {
         this.type = type;
+        this.tileOrder = tileOrder;
         this.rotationCount = 0;
         this.xCoordinate = null;
         this.yCoordinate = null;
+        this.current = false;
+    }
+
+    public void setCurrent(final boolean current) {
+        this.current = current;
+    }
+
+    public boolean isCurrent() {
+        return this.current;
     }
 
     public int getTileOrder() {
-        return tileOrder;
+        return this.tileOrder;
     }
 
     /**

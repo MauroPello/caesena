@@ -27,7 +27,7 @@ public final class TileBuilder {
     public TileBuilder(final TileType type) {
         this.factory = new GameSetFactoryImpl();
         this.gameSets = new HashMap<>();
-        this.tile = new TileImpl(type);
+        this.tile = new TileImpl();
     }
 
     // TODO COMPLETARE LA CREAZIONE DELLE TILESECTION

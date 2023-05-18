@@ -41,20 +41,8 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
     private final Set<MeepleImpl> meeples;
 
     private boolean current;
-    private int score;
     private int playerOrder;
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public boolean isCurrent() {
-        return current;
-    }
-
-    public int getPlayerOrder() {
-        return playerOrder;
-    }
+    private int score;
 
     /**
      * Class constructor.
@@ -67,6 +55,18 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
         this.color = color;
         this.score = 0;
         this.meeples = new HashSet<>();
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean isCurrent() {
+        return current;
+    }
+
+    public int getPlayerOrder() {
+        return playerOrder;
     }
 
     public Set<MeepleImpl> getMeeples() {

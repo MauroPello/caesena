@@ -12,12 +12,14 @@ import org.hibernate.Session;
 
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetType;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileImpl;
+import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -34,6 +36,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 @Entity(name = "Games")
 @Table(name = "Games")
@@ -74,28 +78,9 @@ public class Game {
     @Transient
     private final CriteriaBuilder criteriaBuilder;
 
-    public Game(final Session session) {
-        this.session = session;
-        this.criteriaBuilder = this.session.getCriteriaBuilder();
-        NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
-            Direction.UP,
-            new Pair<>(List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT")),
-                List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT"))),
-            Direction.DOWN,
-            new Pair<>(List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT")),
-                List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT"))),
-            Direction.LEFT,
-            new Pair<>(List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")),
-                List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN"))),
-            Direction.RIGHT,
-            new Pair<>(List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN")),
-                List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")))));
-    }
-
     public Game(final Session session, final List<Player> players, final List<Color> colors) {
         this.session = session;
         this.criteriaBuilder = this.session.getCriteriaBuilder();
-        // TODO crea playersingame
         NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
             Direction.UP,
             new Pair<>(List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT")),
@@ -109,11 +94,14 @@ public class Game {
             Direction.RIGHT,
             new Pair<>(List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN")),
                 List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")))));
-    }
-    // TODO
-    // private void createTiles() {
 
-    // }
+        // TODO createPlayers
+        createTiles();
+    }
+
+    private void createTiles() {
+
+    }
 
     /**
      * Gets whether or not two tiles match and can be placed next to each other.
@@ -167,9 +155,8 @@ public class Game {
                 || getGameSetInSectionType(tile, TileSectionType.previous(tileSection)).equals(gameSet);
     }
 
-    public Set<GameSet> getAllGameSets() {
-        // return crossReferences.keySet();
-        return null;
+    public List<GameSet> getAllGameSets() {
+        return tiles.stream().flatMap(t -> t.getSections().stream()).map(TileSection::getGameSet).toList();
     }
 
     public Set<MutableTile> getTilesFromGameSet(final GameSet gameSet) {
@@ -223,16 +210,19 @@ public class Game {
         tile.rotate();
     }
 
-    public Set<TileSectionType> getTileSectionTypes() {
-        // TODO
-        return null;
+    public List<TileSectionType> getAllTileSectionTypes() {
+        session.beginTransaction();
+        CriteriaQuery<TileSectionType> query = criteriaBuilder.createQuery(TileSectionType.class);
+        List<TileSectionType> tileSectionTypes = session.createQuery(query.select(query.from(TileSectionType.class))).getResultList();
+        session.getTransaction().commit();
+        return tileSectionTypes;
     }
 
     public Set<GameSet> getFieldGameSetsNearGameSet(final GameSet gameSet) {
         final Set<GameSet> fieldsNearCity = new HashSet<>();
 
         for (final var tile : getTilesFromGameSet(gameSet)) {
-            for (final var tileSection : getTileSectionTypes()) {
+            for (final var tileSection : getAllTileSectionTypes()) {
                 final GameSet fieldGameSet = getGameSetInSectionType(tile, tileSection);
 
                 if (fieldGameSet.getType().equals(GameSetType.getFromName("FIELD"))
@@ -271,12 +261,12 @@ public class Game {
         }
     }
 
-    public MutableTile getCurrentTile() {
-        return null;
+    public TileImpl getCurrentTile() {
+        return tiles.stream().filter(TileImpl::isCurrent).findFirst().get();
     }
 
     public PlayerInGameImpl getCurrentPlayer() {
-        return null;
+        return playersInGame.stream().filter(PlayerInGameImpl::isCurrent).findFirst().get();
     }
 
     public List<PlayerInGameImpl> getPlayersInGame() {
@@ -291,12 +281,26 @@ public class Game {
         return this.concluded;
     }
 
-    public List<MutableMeeple> getMeeples() {
-        return null;
+    public List<MeepleImpl> getMeeples() {
+        return playersInGame.stream().flatMap(p -> p.getMeeples().stream()).toList();
     }
 
     public void drawNewTile() {
-
+        session.beginTransaction();
+        TileImpl currentTile = getCurrentTile();
+        currentTile.setCurrent(false);
+        CriteriaQuery<TileImpl> query = criteriaBuilder.createQuery(TileImpl.class);
+        Root<TileImpl> root = query.from(TileImpl.class);
+        List<TileImpl> tiles = session.createQuery(query.select(root)
+            .where(criteriaBuilder.equal(root.get("tileOrder"), currentTile.getTileOrder() + 1))
+            .where(criteriaBuilder.equal(root.get("game"), gameID)))
+            .getResultList();
+        if (tiles.isEmpty()) {
+            // TODO end game
+        } else {
+            tiles.get(0).setCurrent(true);
+        }
+        session.getTransaction().commit();
     }
 
     public List<Expansion> getExpansions() {

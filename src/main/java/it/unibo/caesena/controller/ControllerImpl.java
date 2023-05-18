@@ -109,11 +109,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public List<TileSectionType> getAllTileSectionTypes() {
-        session.beginTransaction();
-        CriteriaQuery<TileSectionType> query = criteriaBuilder.createQuery(TileSectionType.class);
-        List<TileSectionType> tileSectionTypes = session.createQuery(query.select(query.from(TileSectionType.class))).getResultList();
-        session.getTransaction().commit();
-        return tileSectionTypes;
+        return game.getAllTileSectionTypes();
     }
 
     /**
