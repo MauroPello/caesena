@@ -65,5 +65,9 @@ public class Region {
             return false;
         return true;
     }
-    
+
+    @Override
+    public String toString() {
+        return continent.getContinentName() + "-" + cardinalPoint.getPoint();
+    }
 }

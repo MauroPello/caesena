@@ -86,7 +86,7 @@ public class Game {
 
     public Game() {}
 
-    public Game(final Session session, final List<Player> players, final List<Color> colors) {
+    public Game(final Session session, final List<Player> players, final List<Color> colors, final Server server) {
         this.session = session;
         this.cb = this.session.getCriteriaBuilder();
         NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
@@ -103,6 +103,7 @@ public class Game {
             new Pair<>(List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN")),
                 List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")))));
 
+        this.server = server;
         this.playersInGame = new ArrayList<>();
         List<Integer> indexes = new ArrayList<Integer>(IntStream.range(0, players.size()).boxed().toList());
         Collections.shuffle(indexes);

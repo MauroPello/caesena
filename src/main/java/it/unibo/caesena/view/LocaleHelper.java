@@ -127,6 +127,15 @@ public final class LocaleHelper {
     }
 
     /**
+     * Gets the text for the word "servers" according to the current Locale.
+     *
+     * @return the word "servers" according to the current Locale
+     */
+    public static String getServersText() {
+        return getResourceBundle().getString("servers") + ": ";
+    }
+
+    /**
      * Gets the text for the sentence "start game" according to the current Locale.
      *
      * @return the sentence "start game" according to the current Locale

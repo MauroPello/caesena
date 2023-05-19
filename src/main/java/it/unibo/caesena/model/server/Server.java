@@ -71,5 +71,8 @@ public class Server {
         return true;
     }
 
-    
+    @Override
+    public String toString() {
+        return region.toString() + " #" + serverID;
+    }
 }

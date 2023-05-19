@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,6 +21,9 @@ import it.unibo.caesena.view.components.common.NumericUpDown;
 import it.unibo.caesena.view.components.common.NumericUpDownImpl;
 import it.unibo.caesena.view.components.player.PlayerInput;
 import it.unibo.caesena.view.components.player.PlayerInputImpl;
+import it.unibo.caesena.model.Color;
+import it.unibo.caesena.model.server.Server;
+import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.GUI;
 
 public class NewGamePanelImpl implements NewGamePanel<JPanel> {
@@ -34,6 +38,7 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
     private final UserInterface userInterface;
+    private final JComboBox<String> serverChooser;
 
     private Optional<ChangeListener> playersNumChangeListener;
 
@@ -56,6 +61,16 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         playersNumPanel.add(playersNum.getComponent());
 
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel serversLabel = new JLabel(LocaleHelper.getServersText());
+        serversLabel.setFont(GUI.BIG_BOLD_FONT);
+        playersNumPanel.add(serversLabel);
+        this.serverChooser = new JComboBox<>();
+        // TODO Togliere commenti
+        // final List<Server> servers = userInterface.getController().getAvailableServers();
+        // servers.forEach(s -> serverChooser.addItem(s.toString()));
+        // this.serverChooser.setSelectedIndex(0);
+        this.serverChooser.setFont(GUI.MEDIUM_BOLD_FONT);
+        playersNumPanel.add(serverChooser);
         this.mainPanel.add(playersNumPanel);
 
         this.playersPanel = new JPanel();
@@ -71,12 +86,11 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         final JButton startButton = new JButton(LocaleHelper.getStartGameText());
         startButton.setFont(GUI.MEDIUM_BOLD_FONT);
         startButton.addActionListener((e) -> {
-            for (final var playerInput : this.playerInputs) {
-                final var player = playerInput.getPlayerData();
-                userInterface.getController().addPlayer(player.getX(), player.getY());
-            }
-
-            userInterface.getController().createNewGame();
+            final List<Pair<String, Color>> playersData = playerInputs.stream().map(PlayerInput::getPlayerData).toList();
+            // TODO Togliere commenti
+            // userInterface.getController().createNewGame(servers.get(serverChooser.getSelectedIndex()),
+                // playersData.stream().map(Pair::getX).toList(),
+                // playersData.stream().map(Pair::getY).toList());
         });
         final JPanel startGamePanel = new JPanel();
         startGamePanel.setOpaque(false);
