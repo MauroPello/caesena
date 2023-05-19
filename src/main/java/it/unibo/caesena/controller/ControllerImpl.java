@@ -165,7 +165,7 @@ public final class ControllerImpl implements Controller {
             .toList();
         for (final var nearTile : placedTiles) {
             if (areTilesNear(game.getCurrentTile(), nearTile)) {
-                GameSetImpl centerGameset = game.getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
+                GameSet centerGameset = game.getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(game.getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(Game.POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
@@ -420,7 +420,7 @@ public final class ControllerImpl implements Controller {
      * @param gameSet to be verified as closed
      * @return true if the gameset is closed, false otherwise
      */
-    private boolean isGameSetClosed(final GameSetImpl gameSet) {
+    private boolean isGameSetClosed(final GameSet gameSet) {
         if (gameSet.getType().equals(game.getGameSetTypeFromName("FIELD"))) {
             return false;
         }

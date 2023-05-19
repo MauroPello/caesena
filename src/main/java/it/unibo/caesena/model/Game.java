@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 import org.hibernate.Session;
 
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.model.gameset.GameSetFactoryImpl;
 import it.unibo.caesena.model.gameset.GameSetImpl;
 import it.unibo.caesena.model.gameset.GameSetType;
 import it.unibo.caesena.model.meeple.MeepleImpl;
@@ -312,7 +311,10 @@ public class Game {
                         List<TileSection> tileSections2 = getTileSectionsFromGameSet(t2GameSet);
 
                         session.beginTransaction();
-                        final GameSetImpl joinedGameSet = new GameSetFactoryImpl().createJoinedSet(t1GameSet, t2GameSet);
+                        // TODO [PELLO] controllare unione dei gameset
+                        final int points = t1GameSet.getPoints() + t2GameSet.getPoints();
+                        final GameSetImpl joinedGameSet = new GameSetImpl(t1GameSet.getType());
+                        joinedGameSet.setPoints(points);
                         tileSections1.forEach(s -> s.setGameSet(joinedGameSet));
                         tileSections2.forEach(s -> s.setGameSet(joinedGameSet));
                         t1Section.setGameSet(joinedGameSet);
