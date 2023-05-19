@@ -50,4 +50,5 @@ public interface GameSet {
      */
     void addPoints(int points);
 
+    public Long getId();
 }
