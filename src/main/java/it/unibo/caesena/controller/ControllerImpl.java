@@ -2,12 +2,15 @@ package it.unibo.caesena.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.Expansion;
@@ -35,6 +38,7 @@ import it.unibo.caesena.model.tile.TileTypeConfiguration;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
+import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -137,26 +141,36 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void createNewGame(List<Player> players , List<Color> colors) {
-        if (!players.isEmpty()) {
-            if (players.stream().collect(Collectors.toSet()).size() == players.size() && players.stream().collect(Collectors.toSet()).size() == players.size()) {
-                session.beginTransaction();
-                var availableServers = getAvailableServers();
-                session.getTransaction().commit();
-                this.game = new Game(session, players, colors, availableServers.get(0));
-
-                // TODO [SPEZ] capire se ha senso
-                session.beginTransaction();
-                session.persist(this.game);
-                session.getTransaction().commit();
-
-                drawNewTile();
-                this.placeCurrentTile(new Pair<>(0, 0));
-                drawNewTile();
-                updateUserInterfaces();
-            } else {
-                this.players = new ArrayList<>();
+    public void createNewGame(Server server, List<Pair<String, Color>> playersData) {
+        if (players.stream().collect(Collectors.toSet()).size() == players.size() && players.stream().collect(Collectors.toSet()).size() == players.size()) {
+            this.game = new Game(session, server);
+            Map<Player, Color> playersMap = new HashMap<>();
+            session.beginTransaction();
+            for (var playerData : playersData) {
+                final Player player = new Player(playerData.getX());
+                playersMap.put(player, playerData.getY());
+                session.persist(player);
             }
+            var keys = new ArrayList<>(playersMap.keySet());
+            Collections.shuffle(keys);
+            List<PlayerInGameImpl> playersInGame = new ArrayList<>();
+            int i = 0;
+            for (var key : keys) {
+                final PlayerInGameImpl playerInGame = new PlayerInGameImpl(key, playersMap.get(key), i++, game);
+                // TODO [PELLO] controllare se sono necessarie le 2 righe sotto
+                playersInGame.add(playerInGame);
+                session.persist(playerInGame);
+            }
+            this.game.setPlayers(playersInGame);
+            session.persist(this.game);
+            session.getTransaction().commit();
+
+            drawNewTile();
+            this.placeCurrentTile(new Pair<>(0, 0));
+            drawNewTile();
+            updateUserInterfaces();
+        } else {
+            this.players = new ArrayList<>();
         }
     }
 
@@ -550,12 +564,7 @@ public final class ControllerImpl implements Controller {
     @Override
     public void joinGame(int gameId) {
         // TODO [SPEZ] controllare se va e se non serve fare altro
-        session.beginTransaction();
-        CriteriaQuery<Game> cq = criteriaBuilder.createQuery(Game.class);
-        Root<Game> root = cq.from(Game.class);
-        cq.select(root);
-        cq.where(criteriaBuilder.equal(root.get("gameID"), gameId));
-        this.game = session.createQuery(cq).getSingleResult();
+        this.game = session.get(Game.class, gameId);
     }
 
     @Override
@@ -569,32 +578,21 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public List<Server> getAvailableServers() {
+        //TODO [SPEZ] Farlo con Criteria queries, non cosi` a mano che fa schifo
 
-        //TODO [SPEZ] oooooo porcodiooooooo non vaaaaaaaa
-        session.beginTransaction();
-        CriteriaBuilder qb = session.getCriteriaBuilder();
-        CriteriaQuery<Server> query = qb.createQuery(Server.class);
-        Root<Server> rootServer = query.from(Server.class);
-        query.select(rootServer);
-        query.where(criteriaBuilder.isTrue(rootServer.get("active")));
-        List<Server> availableServers = session.createQuery(query).getResultList();
+        List<Server> availableServers = new ArrayList<>();
+        @SuppressWarnings("deprecation")
+        Query query=session.createQuery("from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
+        availableServers = query.getResultList();
 
-        // Root<Game> rootGame = query.from(Game.class);
-        // query.from(Server.class);
-        // query.from(Game.class);
-        // CriteriaQuery<Game> subquery = criteriaBuilder.createQuery(Game.class);
-        //     query.select(rootServer)
-        //     .where(criteriaBuilder.equal(rootServer.get("active"), true))
-        //     .where(criteriaBuilder.greaterThan(rootServer.get("maxGames"),
-        //         criteriaBuilder
-        //         .count(
-        //             query.subquery(Game.class)
-        //             .select(rootGame)
-        //             .where(criteriaBuilder.equal(rootGame.get("server").get("serverID")
-        //                 , rootServer.get("serverID")))
-        //             .getSelection()
-        // )))).
-        session.getTransaction().commit();
+        // session.beginTransaction();
+        // CriteriaBuilder qb = session.getCriteriaBuilder();
+        // CriteriaQuery<Server> query = qb.createQuery(Server.class);
+        // Root<Server> rootServer = query.from(Server.class);
+        // query.select(rootServer);
+        // query.where(criteriaBuilder.isTrue(rootServer.get("active")));
+        // List<Server> availableServers = session.createQuery(query).getResultList();
+        // session.getTransaction().commit();
         return availableServers;
     }
 

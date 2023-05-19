@@ -65,10 +65,9 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         serversLabel.setFont(GUI.BIG_BOLD_FONT);
         playersNumPanel.add(serversLabel);
         this.serverChooser = new JComboBox<>();
-        // TODO Togliere commenti
-        // final List<Server> servers = userInterface.getController().getAvailableServers();
-        // servers.forEach(s -> serverChooser.addItem(s.toString()));
-        // this.serverChooser.setSelectedIndex(0);
+        final List<Server> servers = userInterface.getController().getAvailableServers();
+        servers.forEach(s -> serverChooser.addItem(s.toString()));
+        this.serverChooser.setSelectedIndex(0);
         this.serverChooser.setFont(GUI.MEDIUM_BOLD_FONT);
         playersNumPanel.add(serverChooser);
         this.mainPanel.add(playersNumPanel);
@@ -88,9 +87,8 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         startButton.addActionListener((e) -> {
             final List<Pair<String, Color>> playersData = playerInputs.stream().map(PlayerInput::getPlayerData).toList();
             // TODO Togliere commenti
-            // userInterface.getController().createNewGame(servers.get(serverChooser.getSelectedIndex()),
-                // playersData.stream().map(Pair::getX).toList(),
-                // playersData.stream().map(Pair::getY).toList());
+            userInterface.getController().createNewGame(servers.get(serverChooser.getSelectedIndex()),
+                playersData);
         });
         final JPanel startGamePanel = new JPanel();
         startGamePanel.setOpaque(false);

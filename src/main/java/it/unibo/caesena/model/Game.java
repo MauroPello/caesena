@@ -86,7 +86,7 @@ public class Game {
 
     public Game() {}
 
-    public Game(final Session session, final List<Player> players, final List<Color> colors, final Server server) {
+    public Game(final Session session, final Server server) {
         this.session = session;
         this.cb = this.session.getCriteriaBuilder();
         NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
@@ -104,23 +104,17 @@ public class Game {
                 List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")))));
 
         this.server = server;
-        this.playersInGame = new ArrayList<>();
-        List<Integer> indexes = new ArrayList<Integer>(IntStream.range(0, players.size()).boxed().toList());
-        Collections.shuffle(indexes);
-        session.beginTransaction();
-        for (int i = 0; i < indexes.size(); i++) {
-            Integer index = indexes.get(i);
-            final PlayerInGameImpl player = new PlayerInGameImpl(players.get(index), colors.get(index), index, this);
-            // TODO [PELLO] controllare se sono necessarie le 2 righe sotto
-            playersInGame.add(player);
-            session.persist(player);
-        }
-        session.getTransaction().commit();
-        createTiles();
+        // createTiles();
     }
+
+    public void setPlayers(final List<PlayerInGameImpl> playersInGame) {
+        this.playersInGame = playersInGame;
+    }
+
 
     private void createTiles() {
         // TODO [PELLO]
+        // ciao si sono davide immagino tu debba fare delle transaction quindi l'ho tolto dal costruttore, avrebbe messo public?
     }
 
     /**

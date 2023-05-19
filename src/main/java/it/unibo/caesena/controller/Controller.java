@@ -6,7 +6,6 @@ import java.util.Optional;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.Meeple;
-import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.model.tile.Tile;
@@ -20,7 +19,7 @@ import it.unibo.caesena.view.UserInterface;
  */
 public interface Controller {
 
-    void createNewGame(List<Player> players , List<Color> colors);
+    void createNewGame(Server server, List<Pair<String, Color>> playersData);
 
     void joinGame(int gameId);
 
