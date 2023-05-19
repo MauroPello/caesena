@@ -248,7 +248,7 @@ public class Game {
     public void rotateTileClockwise(final MutableTile tile) {
         final List<TileSection> tileSections = tile.getSections();
         for (final var tileSection : tileSections) {
-            tileSection.setType(TileSectionType.rotateClockwise(tileSection.getType()));
+            tileSection.setType(tileSection.getType().rotateClockwise());
         }
 
         // TODO [PELLO] controllare se funziona

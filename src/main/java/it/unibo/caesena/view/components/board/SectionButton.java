@@ -46,9 +46,10 @@ public class SectionButton implements BasicComponent<JButton> {
 
         this.gameScene = gameScene;
         this.section = section;
+        // TODO [SPEZ]
         // final Controller controller = gameScene.getUserInterface().getController();
         // final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
-        // TODO this.toBeDrawn = gameSet.isMeepleFree() && !gameSet.isClosed();
+        // this.toBeDrawn = gameSet.isMeepleFree() && !gameSet.isClosed();
         this.toBeDrawn = true;
         if (this.toBeDrawn) {
             selected = false;

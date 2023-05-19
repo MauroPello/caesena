@@ -158,7 +158,7 @@ public final class ControllerImpl implements Controller {
     public void endTurn() {
         game.getGameSetsInTile(game.getCurrentTile()).stream()
                 .filter(this::isGameSetClosed)
-                .forEach(GameSet::close);
+                .forEach(this::closeGameSet);
 
         final List<TileImpl> placedTiles = game.getTiles().stream()
             .filter(MutableTile::isPlaced)
@@ -169,7 +169,7 @@ public final class ControllerImpl implements Controller {
                 if (centerGameset.getType().equals(game.getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(Game.POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
-                        centerGameset.close();
+                        closeGameSet(centerGameset);
                     }
                 }
 
@@ -177,7 +177,7 @@ public final class ControllerImpl implements Controller {
                 if (centerGameset.getType().equals(game.getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(Game.POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
-                        centerGameset.close();
+                        closeGameSet(centerGameset);
                     }
                 }
             }
@@ -199,13 +199,13 @@ public final class ControllerImpl implements Controller {
             .flatMap(c -> game.getFieldGameSetsNearGameSet(c).stream())
             .peek(f -> f.addPoints(Game.POINTS_CLOSED_CITY_NEARBY_FIELD))
             .collect(Collectors.toSet());
-        fieldsToClose.forEach(GameSet::close);
+        fieldsToClose.forEach(this::closeGameSet);
 
         game.getAllGameSets().stream()
             .filter(x -> !x.isClosed())
             .forEach(g -> {
-                g.setPoints(g.getPoints() / g.getType().getEndGameRatio());
-                g.close();
+                g.setPoints(g.getPoints() / g.getType().getEndGameRatio()); // TODO [SPEZ] spostare dentro closeGameSet in if game ended
+                closeGameSet(g);
             });
 
         updateUserInterfaces();
@@ -433,6 +433,34 @@ public final class ControllerImpl implements Controller {
                 .allMatch(t -> t.getSections().stream().allMatch(TileSection::isClosed));
     }
 
+    private void closeGameSet(final GameSet gameSet) {
+        gameSet.close();
+        // TODO [SPEZ]
+        // if (!this.isMeepleFree()) {
+        //     final Map<MutablePlayerInGame, Integer> playerMeepleStrength = new HashMap<>();
+
+        //     for (final MutableMeeple meeple : new ArrayList<MutableMeeple>()) {
+        //         final MutablePlayerInGame currentPlayer = (MutablePlayerInGame) meeple.getOwner();
+
+        //         if (!playerMeepleStrength.containsKey(currentPlayer)) {
+        //             playerMeepleStrength.put(currentPlayer, 0);
+        //         }
+        //         playerMeepleStrength.put(currentPlayer,
+        //                 playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
+
+        //     }
+
+        //     final int maxMeepleStrength = playerMeepleStrength.values().stream()
+        //             .mapToInt(x -> x).max().getAsInt();
+
+        //     playerMeepleStrength.entrySet().stream()
+        //             .filter(e -> e.getValue().equals(maxMeepleStrength))
+        //             .forEach(e -> e.getKey().addScore(this.getPoints()));
+        // }
+
+        // meeples.forEach(m -> m.remove());
+    }
+
     /**
      * Checks to see if a given position is occupied by any other tile.
      *
@@ -512,8 +540,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void joinGame(int gameId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'joinGame'");
+        // TODO [SPEZ]
     }
 
     @Override

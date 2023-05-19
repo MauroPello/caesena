@@ -52,26 +52,11 @@ public class TileSectionType {
      * @param offset how many times should the section be shifted and in which direction
      * @return the tile section shifted by the provided offset
      */
-    private static TileSectionType shiftAroundBorders(final TileSectionType section, final int offset) {
-        return null;
-        //TODO
-        // TileSectionType centerSection = getFromName("CENTER");
-        // if (section.equals(centerSection)) {
-            // return section;
-        // }
-        // int index = Math.floorMod(values.indexOf(section) + offset, values.size());
-        // if (offset > 0 && (values.get(index).equals(centerSection)
-        //         || values.indexOf(section) < values.indexOf(centerSection)
-        //         && values.indexOf(section) + offset >= values.indexOf(centerSection))) {
-        //     index = Math.floorMod(index + 1, values.size());
-        // }
-        // if (offset < 0 && (values.get(index).equals(centerSection)
-        //         || values.indexOf(section) > values.indexOf(centerSection)
-        //         && values.indexOf(section) + offset <= values.indexOf(centerSection))) {
-        //     index = Math.floorMod(index - 1, values.size());
-        // }
-
-        // return values.get(index);
+    private TileSectionType shiftAroundBorders(final int offset) {
+        if (offset == 0 || (offset > 0 && next == null) || (offset < 0 && previous == null)) {
+            return this;
+        }
+        return offset > 0 ? next.shiftAroundBorders(offset - 1) : previous.shiftAroundBorders(offset + 1);
     }
 
     /**
@@ -81,8 +66,8 @@ public class TileSectionType {
      * @param section the section to be rotated
      * @return the provided section rotated
      */
-    public static TileSectionType rotateClockwise(final TileSectionType section) {
-        return shiftAroundBorders(section, getSectionsPerSide());
+    public TileSectionType rotateClockwise() {
+        return shiftAroundBorders(getSectionsPerSide());
     }
 
     /**
@@ -103,11 +88,6 @@ public class TileSectionType {
      */
     public TileSectionType getPrevious() {
         return this.previous;
-    }
-
-    // TODO REMOVE
-    public static TileSectionType getFromName(final String name) {
-        return null;
     }
 
     @Override
@@ -134,5 +114,5 @@ public class TileSectionType {
             return false;
         return true;
     }
-    
+
 }

@@ -65,33 +65,8 @@ public final class GameSetImpl implements GameSet {
             return false;
         }
 
-        // TODO
-        // if (!this.isMeepleFree()) {
-        //     final Map<MutablePlayerInGame, Integer> playerMeepleStrength = new HashMap<>();
-
-        //     for (final MutableMeeple meeple : new ArrayList<MutableMeeple>()) {
-        //         final MutablePlayerInGame currentPlayer = (MutablePlayerInGame) meeple.getOwner();
-
-        //         if (!playerMeepleStrength.containsKey(currentPlayer)) {
-        //             playerMeepleStrength.put(currentPlayer, 0);
-        //         }
-        //         playerMeepleStrength.put(currentPlayer,
-        //                 playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
-
-        //     }
-
-        //     final int maxMeepleStrength = playerMeepleStrength.values().stream()
-        //             .mapToInt(x -> x).max().getAsInt();
-
-        //     playerMeepleStrength.entrySet().stream()
-        //             .filter(e -> e.getValue().equals(maxMeepleStrength))
-        //             .forEach(e -> e.getKey().addScore(this.getPoints()));
-        // }
-
-        // this.closed = true;
-        // meeples.forEach(m -> m.remove());
+        this.closed = true;
         return true;
-
     }
 
     /**
