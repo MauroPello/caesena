@@ -110,7 +110,7 @@ public class Game {
         session.beginTransaction();
         for (int i = 0; i < indexes.size(); i++) {
             Integer index = indexes.get(i);
-            final PlayerInGameImpl player = new PlayerInGameImpl(players.get(index), colors.get(index), index);
+            final PlayerInGameImpl player = new PlayerInGameImpl(players.get(index), colors.get(index), index, this);
             // TODO [PELLO] controllare se sono necessarie le 2 righe sotto
             playersInGame.add(player);
             session.persist(player);

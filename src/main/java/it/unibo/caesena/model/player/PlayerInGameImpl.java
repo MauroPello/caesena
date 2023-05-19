@@ -52,12 +52,13 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
      * @param name of the player
      * @param color of the player
      */
-    public PlayerInGameImpl(final Player player, final Color color, final int playerOrder) {
+    public PlayerInGameImpl(final Player player, final Color color, final int playerOrder, final Game game) {
         this.player = player;
         this.playerOrder = playerOrder;
         this.color = color;
         this.score = 0;
         this.meeples = new HashSet<>();
+        this.game = game;
     }
 
     @Override
@@ -153,5 +154,5 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
         return this.color;
     }
 
-    
+
 }

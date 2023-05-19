@@ -6,7 +6,9 @@ import java.util.Optional;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGame;
+import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
@@ -18,7 +20,7 @@ import it.unibo.caesena.view.UserInterface;
  */
 public interface Controller {
 
-    void createNewGame();
+    void createNewGame(List<Player> players , List<Color> colors);
 
     void joinGame(int gameId);
 
@@ -163,4 +165,6 @@ public interface Controller {
     public TileSectionType getTileSectionTypeFromName(String name);
 
     public List<Color> getDefaultColors();
+
+    List<Server> getAvailableServers();
 }

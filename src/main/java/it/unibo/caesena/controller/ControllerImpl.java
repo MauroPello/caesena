@@ -37,6 +37,7 @@ import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -136,11 +137,19 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void createNewGame() {
+    public void createNewGame(List<Player> players , List<Color> colors) {
         if (!players.isEmpty()) {
-            if (players.stream().map(Player::getName).collect(Collectors.toSet()).size() == players.size()
-                && playerColors.stream().collect(Collectors.toSet()).size() == players.size()) {
-                Collections.shuffle(players);
+            if (players.stream().collect(Collectors.toSet()).size() == players.size() && players.stream().collect(Collectors.toSet()).size() == players.size()) {
+                session.beginTransaction();
+                var availableServers = getAvailableServers();
+                session.getTransaction().commit();
+                this.game = new Game(session, players, colors, availableServers.get(0));
+
+                // TODO [SPEZ] capire se ha senso
+                session.beginTransaction();
+                session.persist(this.game);
+                session.getTransaction().commit();
+
                 drawNewTile();
                 this.placeCurrentTile(new Pair<>(0, 0));
                 drawNewTile();
@@ -540,7 +549,13 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void joinGame(int gameId) {
-        // TODO [SPEZ]
+        // TODO [SPEZ] controllare se va e se non serve fare altro
+        session.beginTransaction();
+        CriteriaQuery<Game> cq = criteriaBuilder.createQuery(Game.class);
+        Root<Game> root = cq.from(Game.class);
+        cq.select(root);
+        cq.where(criteriaBuilder.equal(root.get("gameID"), gameId));
+        this.game = session.createQuery(cq).getSingleResult();
     }
 
     @Override
@@ -550,6 +565,37 @@ public final class ControllerImpl implements Controller {
         List<Color> colors = session.createQuery(query.select(query.from(Color.class))).getResultList();
         session.getTransaction().commit();
         return colors;
+    }
+
+    @Override
+    public List<Server> getAvailableServers() {
+
+        //TODO [SPEZ] oooooo porcodiooooooo non vaaaaaaaa
+        session.beginTransaction();
+        CriteriaBuilder qb = session.getCriteriaBuilder();
+        CriteriaQuery<Server> query = qb.createQuery(Server.class);
+        Root<Server> rootServer = query.from(Server.class);
+        query.select(rootServer);
+        query.where(criteriaBuilder.isTrue(rootServer.get("active")));
+        List<Server> availableServers = session.createQuery(query).getResultList();
+
+        // Root<Game> rootGame = query.from(Game.class);
+        // query.from(Server.class);
+        // query.from(Game.class);
+        // CriteriaQuery<Game> subquery = criteriaBuilder.createQuery(Game.class);
+        //     query.select(rootServer)
+        //     .where(criteriaBuilder.equal(rootServer.get("active"), true))
+        //     .where(criteriaBuilder.greaterThan(rootServer.get("maxGames"),
+        //         criteriaBuilder
+        //         .count(
+        //             query.subquery(Game.class)
+        //             .select(rootGame)
+        //             .where(criteriaBuilder.equal(rootGame.get("server").get("serverID")
+        //                 , rootServer.get("serverID")))
+        //             .getSelection()
+        // )))).
+        session.getTransaction().commit();
+        return availableServers;
     }
 
 }
