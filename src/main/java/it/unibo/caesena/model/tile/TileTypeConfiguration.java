@@ -33,6 +33,10 @@ public class TileTypeConfiguration {
 
     public TileTypeConfiguration() {}
 
+    public int getId() {
+        return this.id;
+    }
+
     public TileType getTileType() {
         return tileType;
     }

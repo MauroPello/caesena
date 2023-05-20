@@ -62,6 +62,7 @@ public final class ControllerImpl implements Controller {
     public static final int POINTS_TILE_NEARBY_MONASTERY = 1;
     public static final int POINTS_CLOSED_MONASTERY = 9;
     public static final int MEEPLES_PER_PLAYER = 8;
+    public static final int PENNANT_POINTS = 2;
 
     private final List<UserInterface> userInterfaces;
     private final CriteriaBuilder cb;
@@ -345,6 +346,42 @@ public final class ControllerImpl implements Controller {
 
     private void createTiles() {
         // TODO [PELLO]
+        this.session.beginTransaction();
+        CriteriaQuery<TileTypeConfiguration> query = cb.createQuery(TileTypeConfiguration.class);
+        Root<TileTypeConfiguration> root = query.from(TileTypeConfiguration.class);
+        List<TileTypeConfiguration> tileTypeConfigurations = session.createQuery(query.select(root)
+            .orderBy(cb.desc(root.get("tileType")), cb.desc(root.get("id"))))
+            .getResultList();
+
+        int currentId = -1;
+        List<TileImpl> tiles = new ArrayList<>();
+        List<GameSetImpl> gameSets = new ArrayList<>();
+        List<TileSection> tileSections = new ArrayList<>();
+        for (int i = 0; i < tileTypeConfigurations.size(); i++) {
+            // cambio di gameSet
+            if (tileTypeConfigurations.get(i).getId() != currentId) {
+                currentId = tileTypeConfigurations.get(i).getId();
+                gameSets.add(new GameSetImpl(tileTypeConfigurations.get(i).getGameSetType()));
+            }
+            // cambio di Tile
+            if (tiles.isEmpty() || tileTypeConfigurations.get(i).getTileType() != tiles.get(tiles.size()-1).getTileType()) {
+                tiles.add(new TileImpl(tiles.size(), game, tileTypeConfigurations.get(i).getTileType()));
+            }
+
+            if (tileTypeConfigurations.get(i).hasPennant()) {
+                gameSets.get(gameSets.size()-1).addPoints(PENNANT_POINTS);
+            }
+            final TileSection tileSection = new TileSection(tiles.get(tiles.size()-1),
+                tileTypeConfigurations.get(i).getTileSectionType(), gameSets.get(gameSets.size()-1));
+            if (tileTypeConfigurations.get(i).isClosed()) {
+                tileSection.close();
+            }
+            tileSections.add(tileSection);
+        }
+        tiles.forEach(session::persist);
+        gameSets.forEach(session::persist);
+        tileSections.forEach(session::persist);
+        this.session.getTransaction().commit();
     }
 
 

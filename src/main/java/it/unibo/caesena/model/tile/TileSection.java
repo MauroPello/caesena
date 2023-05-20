@@ -40,9 +40,10 @@ public class TileSection implements Serializable {
 
     public TileSection() {}
 
-    public TileSection(final TileImpl tile, final TileSectionType type) {
+    public TileSection(final TileImpl tile, final TileSectionType type, final GameSetImpl gameSet) {
         this.closed = false;
         this.tile = tile;
+        this.gameSet = gameSet;
         this.type = type;
     }
 
