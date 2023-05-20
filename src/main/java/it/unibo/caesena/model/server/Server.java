@@ -5,6 +5,7 @@ import java.util.List;
 import it.unibo.caesena.model.Game;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class Server {
     @ManyToOne
     private Region region;
 
-    @OneToMany(mappedBy = "server")
+    @OneToMany(mappedBy = "server", cascade = CascadeType.ALL)
     private List<Game> games;
 
     private boolean active;
