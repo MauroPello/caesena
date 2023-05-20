@@ -53,14 +53,6 @@ public interface Controller {
     boolean hasGameStarted();
 
     /**
-     * Adds a player to the game.
-     *
-     * @param name  name of the player to add
-     * @param color color of the player to add
-     */
-    void addPlayer(String name, Color color);
-
-    /**
      * Gets the player playing in the current turn.
      *
      * @return the current player

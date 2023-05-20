@@ -86,7 +86,6 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         startButton.setFont(GUI.MEDIUM_BOLD_FONT);
         startButton.addActionListener((e) -> {
             final List<Pair<String, Color>> playersData = playerInputs.stream().map(PlayerInput::getPlayerData).toList();
-            // TODO Togliere commenti
             userInterface.getController().createNewGame(servers.get(serverChooser.getSelectedIndex()),
                 playersData);
         });

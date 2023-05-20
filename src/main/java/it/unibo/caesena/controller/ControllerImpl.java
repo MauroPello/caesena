@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import it.unibo.caesena.model.Color;
@@ -39,7 +38,6 @@ import it.unibo.caesena.model.tile.TileTypeConfiguration;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
-import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
@@ -65,14 +63,11 @@ public final class ControllerImpl implements Controller {
     public static final int POINTS_CLOSED_MONASTERY = 9;
     public static final int MEEPLES_PER_PLAYER = 8;
 
-
     private final List<UserInterface> userInterfaces;
-    private final CriteriaBuilder criteriaBuilder;
+    private final CriteriaBuilder cb;
     private final SessionFactory sessionFactory;
     private final Session session;
 
-    private List<Color> playerColors;
-    private List<Player> players;
     private Game game;
 
     /**
@@ -115,10 +110,21 @@ public final class ControllerImpl implements Controller {
 
         this.sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         this.session = sessionFactory.openSession();
-        this.criteriaBuilder = this.session.getCriteriaBuilder();
+        this.cb = this.session.getCriteriaBuilder();
 
-        this.playerColors = new ArrayList<>();
-        this.players = new ArrayList<>();
+        NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
+            Direction.UP,
+            new Pair<>(List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT")),
+                List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT"))),
+            Direction.DOWN,
+            new Pair<>(List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT")),
+                List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT"))),
+            Direction.LEFT,
+            new Pair<>(List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")),
+                List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN"))),
+            Direction.RIGHT,
+            new Pair<>(List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN")),
+                List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")))));
     }
 
     /**
@@ -126,53 +132,34 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void createNewGame(Server server, List<Pair<String, Color>> playersData) {
-        if (players.stream().collect(Collectors.toSet()).size() == players.size() && players.stream().collect(Collectors.toSet()).size() == players.size()) {
-            this.game = new Game(session, server);
-            session.persist(this.game);
-            Map<Player, Color> playersMap = new HashMap<>();
+        if (playersData.stream().map(Pair::getX).collect(Collectors.toSet()).size() == playersData.size()
+            && playersData.stream().map(Pair::getY).collect(Collectors.toSet()).size() == playersData.size()) {
             session.beginTransaction();
-            for (var playerData : playersData) {
-                final Player player = new Player(playerData.getX());
-                playersMap.put(player, playerData.getY());
-                session.persist(player);
-            }
-            var keys = new ArrayList<>(playersMap.keySet());
-            Collections.shuffle(keys);
+            this.game = new Game(session, server);
+            // TODO VEDERE SE È NECESSARIO
+            session.persist(this.game);
+
+            playersData = new ArrayList<>(playersData);
+            Collections.shuffle(playersData);
             List<PlayerInGameImpl> playersInGame = new ArrayList<>();
-            int i = 0;
-            for (var key : keys) {
-                final PlayerInGameImpl playerInGame = new PlayerInGameImpl(key, playersMap.get(key), i++, game);
+            for (int i = 0; i < playersData.size(); i++) {
+                final Player player = new Player(playersData.get(i).getX());
+                final PlayerInGameImpl playerInGame = new PlayerInGameImpl(player, playersData.get(i).getY(), i, game);
                 // TODO [PELLO] controllare se sono necessarie le 2 righe sotto
                 playersInGame.add(playerInGame);
+                session.persist(player);
                 session.persist(playerInGame);
             }
             // a meno che non lo faccia gia da solo forse mmmm
             this.game.setPlayers(playersInGame);
             session.getTransaction().commit();
 
-
-            NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
-                Direction.UP,
-                new Pair<>(List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT")),
-                    List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT"))),
-                Direction.DOWN,
-                new Pair<>(List.of(getTileSectionTypeFromName("UP_LEFT"), getTileSectionTypeFromName("UP_CENTER"), getTileSectionTypeFromName("UP_RIGHT")),
-                    List.of(getTileSectionTypeFromName("DOWN_LEFT"), getTileSectionTypeFromName("DOWN_CENTER"), getTileSectionTypeFromName("DOWN_RIGHT"))),
-                Direction.LEFT,
-                new Pair<>(List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")),
-                    List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN"))),
-                Direction.RIGHT,
-                new Pair<>(List.of(getTileSectionTypeFromName("LEFT_UP"), getTileSectionTypeFromName("LEFT_CENTER"), getTileSectionTypeFromName("LEFT_DOWN")),
-                    List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")))));
-
             createTiles();
-            
+
             drawNewTile();
             this.placeCurrentTile(new Pair<>(0, 0));
             drawNewTile();
             updateUserInterfaces();
-        } else {
-            this.players = new ArrayList<>();
         }
     }
 
@@ -183,7 +170,7 @@ public final class ControllerImpl implements Controller {
     @Override
     public List<TileSectionType> getAllTileSectionTypes() {
         session.beginTransaction();
-        CriteriaQuery<TileSectionType> query = criteriaBuilder.createQuery(TileSectionType.class);
+        CriteriaQuery<TileSectionType> query = cb.createQuery(TileSectionType.class);
         List<TileSectionType> tileSectionTypes = session.createQuery(query.select(query.from(TileSectionType.class))).getResultList();
         session.getTransaction().commit();
         return tileSectionTypes;
@@ -202,10 +189,10 @@ public final class ControllerImpl implements Controller {
 
     private List<TileSection> getTileSectionsFromGameSet(final GameSet gameSet) {
         session.beginTransaction();
-        CriteriaQuery<TileSection> query = criteriaBuilder.createQuery(TileSection.class);
+        CriteriaQuery<TileSection> query = cb.createQuery(TileSection.class);
         Root<TileSection> root = query.from(TileSection.class);
         List<TileSection> tileSections = session.createQuery(query.select(root)
-            .where(criteriaBuilder.equal(root.get("gameSet_id"), gameSet.getId())))
+            .where(cb.equal(root.get("gameSet_id"), gameSet.getId())))
             .getResultList();
         session.getTransaction().commit();
         return tileSections;
@@ -214,7 +201,7 @@ public final class ControllerImpl implements Controller {
     public List<TileImpl> getTilesFromGameSet(final GameSet gameSet) {
         // TODO [PELLO] controllare che funzioni
         session.beginTransaction();
-        CriteriaQuery<TileImpl> query = criteriaBuilder.createQuery(TileImpl.class);
+        CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
         // Root<TileSection> rootSection = query.from(TileSection.class);
         Root<TileImpl> rootTile = query.from(TileImpl.class);
 
@@ -223,10 +210,10 @@ public final class ControllerImpl implements Controller {
             // criteriaBuilder.equal(rootSection.get("tile_game_gameID"), rootTile.get("game_gameID")));
 
         List<TileImpl> tiles = session.createQuery(query.select(rootTile)
-            .where(criteriaBuilder.and(
-                criteriaBuilder.equal(join.get("tile_tileOrder"), join.get("tileOrder")),
-                criteriaBuilder.equal(join.get("tile_game_gameID"), join.get("game_gameID")),
-                criteriaBuilder.equal(join.get("gameSet_id"), gameSet.getId()))))
+            .where(cb.and(
+                cb.equal(join.get("tile_tileOrder"), join.get("tileOrder")),
+                cb.equal(join.get("tile_game_gameID"), join.get("game_gameID")),
+                cb.equal(join.get("gameSet_id"), gameSet.getId()))))
             .getResultList();
         session.getTransaction().commit();
         return tiles;
@@ -451,6 +438,7 @@ public final class ControllerImpl implements Controller {
                 closeGameSet(g);
             });
 
+        game.end();
         updateUserInterfaces();
     }
 
@@ -467,15 +455,6 @@ public final class ControllerImpl implements Controller {
     @Override
     public boolean isGameOver() {
         return this.game != null && this.game.isOver();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void addPlayer(final String name, final Color color) {
-        this.players.add(new Player(name));
-        this.playerColors.add(color);
     }
 
     /**
@@ -645,18 +624,18 @@ public final class ControllerImpl implements Controller {
             session.beginTransaction();
             TileImpl currentTile = game.getCurrentTile();
             currentTile.setCurrent(false);
-            CriteriaQuery<TileImpl> query = criteriaBuilder.createQuery(TileImpl.class);
+            CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
             Root<TileImpl> root = query.from(TileImpl.class);
             List<TileImpl> tiles = session.createQuery(query.select(root)
-                .where(criteriaBuilder.equal(root.get("tileOrder"), currentTile.getTileOrder() + 1))
-                .where(criteriaBuilder.equal(root.get("game"), this.game.getGameID())))
+                .where(cb.equal(root.get("tileOrder"), currentTile.getTileOrder() + 1))
+                .where(cb.equal(root.get("game"), this.game.getGameID())))
                 .getResultList();
             if (tiles.size() == 0) {
                 tiles.get(0).setCurrent(true);
             }
             session.getTransaction().commit();
             if (tiles.isEmpty()) {
-                game.end();
+                endGame();
             }
         }
     }
@@ -805,7 +784,7 @@ public final class ControllerImpl implements Controller {
     @Override
     public List<Color> getDefaultColors() {
         session.beginTransaction();
-        CriteriaQuery<Color> query = criteriaBuilder.createQuery(Color.class);
+        CriteriaQuery<Color> query = cb.createQuery(Color.class);
         List<Color> colors = session.createQuery(query.select(query.from(Color.class))).getResultList();
         session.getTransaction().commit();
         return colors;
@@ -815,19 +794,18 @@ public final class ControllerImpl implements Controller {
     public List<Server> getAvailableServers() {
         //TODO [SPEZ] Farlo con Criteria queries, non cosi` a mano che fa schifo
 
-        List<Server> availableServers = new ArrayList<>();
-        @SuppressWarnings("deprecation")
-        Query query=session.createQuery("from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
-        availableServers = query.getResultList();
+        // List<Server> availableServers = new ArrayList<>();
+        // @SuppressWarnings("deprecation")
+        // Query query=session.createQuery("from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
+        // availableServers = query.getResultList();
 
-        // session.beginTransaction();
-        // CriteriaBuilder qb = session.getCriteriaBuilder();
-        // CriteriaQuery<Server> query = qb.createQuery(Server.class);
-        // Root<Server> rootServer = query.from(Server.class);
-        // query.select(rootServer);
-        // query.where(criteriaBuilder.isTrue(rootServer.get("active")));
-        // List<Server> availableServers = session.createQuery(query).getResultList();
-        // session.getTransaction().commit();
+        session.beginTransaction();
+        CriteriaQuery<Server> query = cb.createQuery(Server.class);
+        Root<Server> rootServer = query.from(Server.class);
+        query.select(rootServer);
+        query.where(cb.isTrue(rootServer.get("active")));
+        List<Server> availableServers = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
         return availableServers;
     }
 
