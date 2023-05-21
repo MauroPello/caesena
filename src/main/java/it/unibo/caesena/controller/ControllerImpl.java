@@ -148,7 +148,7 @@ public final class ControllerImpl implements Controller {
                 final PlayerInGameImpl playerInGame = new PlayerInGameImpl(player, playersData.get(i).getY(), i, game);
                 // TODO [PELLO] controllare se sono necessarie le 2 righe sotto
                 playersInGame.add(playerInGame);
-                session.persist(player);
+                session.merge(player);
                 session.persist(playerInGame);
             }
             // a meno che non lo faccia gia da solo forse mmmm
