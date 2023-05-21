@@ -528,7 +528,11 @@ public final class ControllerImpl implements Controller {
             return false;
         }
 
-        this.getCurrentTile().get().setPosition(position);
+        final MutableTile currentTile = this.getCurrentTile().get();
+        currentTile.setPosition(position);
+        session.beginTransaction();
+        session.merge(currentTile);
+        session.getTransaction().commit();
 
         if (getPlacedTiles().size() > 1) {
             getTileNeighbours(position).forEach(n -> joinTiles(getCurrentTile().get(), n));
@@ -623,6 +627,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public Optional<Meeple> placeMeeple(final TileSectionType section) {
+        // TODO cambiare in modo che prendi in input il meeple da piazzare
         final Optional<MeepleImpl> currentMeeple = game.getCurrentPlayer().getMeeples().stream()
             .filter(m -> !m.isPlaced())
             .findFirst();
