@@ -38,6 +38,7 @@ import it.unibo.caesena.model.tile.TileTypeConfiguration;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
+import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
@@ -135,24 +136,22 @@ public final class ControllerImpl implements Controller {
     public void createNewGame(Server server, List<Pair<String, Color>> playersData) {
         if (playersData.stream().map(Pair::getX).collect(Collectors.toSet()).size() == playersData.size()
             && playersData.stream().map(Pair::getY).collect(Collectors.toSet()).size() == playersData.size()) {
-            session.beginTransaction();
             this.game = new Game(session, server);
-            // TODO VEDERE SE È NECESSARIO
-            session.persist(this.game);
-
             playersData = new ArrayList<>(playersData);
             Collections.shuffle(playersData);
             List<PlayerInGameImpl> playersInGame = new ArrayList<>();
+
             for (int i = 0; i < playersData.size(); i++) {
                 final Player player = new Player(playersData.get(i).getX());
                 final PlayerInGameImpl playerInGame = new PlayerInGameImpl(player, playersData.get(i).getY(), i, game);
-                // TODO [PELLO] controllare se sono necessarie le 2 righe sotto
                 playersInGame.add(playerInGame);
-                session.merge(player);
-                session.persist(playerInGame);
             }
-            // a meno che non lo faccia gia da solo forse mmmm
             this.game.setPlayers(playersInGame);
+
+            session.beginTransaction();
+            session.persist(this.game);
+            playersInGame.forEach(p -> session.merge(p.getPlayer()));
+            playersInGame.forEach(session::merge);
             session.getTransaction().commit();
 
             createTiles();
@@ -164,7 +163,6 @@ public final class ControllerImpl implements Controller {
         }
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -172,7 +170,8 @@ public final class ControllerImpl implements Controller {
     public List<TileSectionType> getAllTileSectionTypes() {
         session.beginTransaction();
         CriteriaQuery<TileSectionType> query = cb.createQuery(TileSectionType.class);
-        List<TileSectionType> tileSectionTypes = session.createQuery(query.select(query.from(TileSectionType.class))).getResultList();
+        query.select(query.from(TileSectionType.class));
+        List<TileSectionType> tileSectionTypes = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return tileSectionTypes;
     }
@@ -192,9 +191,8 @@ public final class ControllerImpl implements Controller {
         session.beginTransaction();
         CriteriaQuery<TileSection> query = cb.createQuery(TileSection.class);
         Root<TileSection> root = query.from(TileSection.class);
-        List<TileSection> tileSections = session.createQuery(query.select(root)
-            .where(cb.equal(root.get("gameSet_id"), gameSet.getId())))
-            .getResultList();
+        query.select(root).where(cb.equal(root.get("gameSet"), gameSet));
+        List<TileSection> tileSections = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return tileSections;
     }
@@ -221,6 +219,7 @@ public final class ControllerImpl implements Controller {
     }
 
     public List<GameSetImpl> getGameSetsInTile(final MutableTile tile) {
+        // TODO con query
         return tile.getSections().stream().map(TileSection::getGameSet).toList();
     }
 
@@ -234,22 +233,21 @@ public final class ControllerImpl implements Controller {
         final var neighboursDirections = Stream.of(Direction.values())
             .map(d -> new Pair<Integer, Integer>(position.getX() + d.getX(), position.getY() + d.getY()))
             .toList();
-        List<TileImpl> tiles = game.getTiles();
-        return tiles.stream()
-            .filter(MutableTile::isPlaced)
+        return getPlacedTiles().stream()
             .filter(t -> neighboursDirections.contains(t.getPosition().get()))
             .collect(Collectors.toSet());
     }
 
     public void rotateTileClockwise(final MutableTile tile) {
+        // TODO TENERE AGGIORNATE LE SECTIONS
         final List<TileSection> tileSections = tile.getSections();
         for (final var tileSection : tileSections) {
             tileSection.setType(tileSection.getType().rotateClockwise());
         }
-
-        // TODO [PELLO] controllare se funziona
-        session.beginTransaction();
         tile.rotate();
+
+        session.beginTransaction();
+        session.merge(tile);
         tileSections.forEach(session::merge);
         session.getTransaction().commit();
     }
@@ -279,6 +277,7 @@ public final class ControllerImpl implements Controller {
     }
 
     private TileSection getTileSectionFromTile(final MutableTile tile, final TileSectionType tileSectionType) {
+        // TODO con query
         return tile.getSections().stream().filter(s -> s.getType().equals(tileSectionType)).findFirst().get();
     }
 
@@ -298,8 +297,6 @@ public final class ControllerImpl implements Controller {
                         List<TileSection> tileSections1 = getTileSectionsFromGameSet(t1GameSet);
                         List<TileSection> tileSections2 = getTileSectionsFromGameSet(t2GameSet);
 
-                        session.beginTransaction();
-                        // TODO [PELLO] controllare unione dei gameset
                         final int points = t1GameSet.getPoints() + t2GameSet.getPoints();
                         final GameSetImpl joinedGameSet = new GameSetImpl(t1GameSet.getType());
                         joinedGameSet.setPoints(points);
@@ -308,7 +305,7 @@ public final class ControllerImpl implements Controller {
                         t1Section.setGameSet(joinedGameSet);
                         t2Section.setGameSet(joinedGameSet);
 
-                        // TODO [PELLO] vedere se necessario
+                        session.beginTransaction();
                         session.merge(t1Section);
                         session.merge(t2Section);
                         tileSections1.forEach(session::merge);
@@ -344,7 +341,8 @@ public final class ControllerImpl implements Controller {
     }
 
     private void createTiles() {
-        // TODO [PELLO]
+        // TODO ESPANSIONI
+        // TODO STARTING TILE?
         this.session.beginTransaction();
         CriteriaQuery<TileTypeConfiguration> query = cb.createQuery(TileTypeConfiguration.class);
         Root<TileTypeConfiguration> root = query.from(TileTypeConfiguration.class);
@@ -377,7 +375,6 @@ public final class ControllerImpl implements Controller {
             }
             tileSections.add(tileSection);
         }
-        // TODO to be removed
         tiles.get(0).setCurrent(true);
         tiles.forEach(game::addTile);
         tiles.forEach(session::persist);
@@ -385,8 +382,6 @@ public final class ControllerImpl implements Controller {
         tileSections.forEach(session::persist);
         this.session.getTransaction().commit();
     }
-
-
 
     public GameSet getGameSetInSectionType(final MutableTile tile, final TileSectionType tileSection) {
         // TODO [PELLO] con query
@@ -429,14 +424,14 @@ public final class ControllerImpl implements Controller {
             .filter(this::isGameSetClosed)
             .forEach(this::closeGameSet);
 
-        final List<TileImpl> placedTiles = game.getTiles().stream()
-            .filter(MutableTile::isPlaced)
-            .toList();
-        for (final var nearTile : placedTiles) {
+        for (final var nearTile : getPlacedTiles()) {
             if (areTilesNear(getCurrentTile().get(), nearTile)) {
                 GameSet centerGameset = getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
+                    session.beginTransaction();
+                    session.merge(centerGameset);
+                    session.getTransaction().commit();
                     if (isGameSetClosed(centerGameset)) {
                         closeGameSet(centerGameset);
                     }
@@ -445,6 +440,9 @@ public final class ControllerImpl implements Controller {
                 centerGameset = getGameSetInSectionType(getCurrentTile().get(), getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
+                    session.beginTransaction();
+                    session.merge(centerGameset);
+                    session.getTransaction().commit();
                     if (isGameSetClosed(centerGameset)) {
                         closeGameSet(centerGameset);
                     }
@@ -501,6 +499,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public Optional<PlayerInGame> getCurrentPlayer() {
+        // TODO spostartlo via dal game
         return Optional.ofNullable(game.getCurrentPlayer());
     }
 
@@ -642,6 +641,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public List<Meeple> getMeeples() {
+        // TODO spostartlo via dal game
         return new ArrayList<>(game.getMeeples());
     }
 
@@ -714,6 +714,7 @@ public final class ControllerImpl implements Controller {
             return gameSet.getPoints() == POINTS_CLOSED_MONASTERY;
         }
 
+        // TODO con query
         return getTilesFromGameSet(gameSet).stream()
                 .allMatch(t -> t.getSections().stream().allMatch(TileSection::isClosed));
     }
@@ -842,19 +843,8 @@ public final class ControllerImpl implements Controller {
     public List<Server> getAvailableServers() {
         //TODO [SPEZ] Farlo con Criteria queries, non cosi` a mano che fa schifo
 
-        // List<Server> availableServers = new ArrayList<>();
-        // @SuppressWarnings("deprecation")
-        // Query query=session.createQuery("from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
-        // availableServers = query.getResultList();
-
-        session.beginTransaction();
-        CriteriaQuery<Server> query = cb.createQuery(Server.class);
-        Root<Server> rootServer = query.from(Server.class);
-        query.select(rootServer);
-        query.where(cb.isTrue(rootServer.get("active")));
-        List<Server> availableServers = session.createQuery(query).getResultList();
-        session.getTransaction().commit();
-        return availableServers;
+        Query query = session.createQuery("from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
+        return query.getResultList();
     }
 
 }
