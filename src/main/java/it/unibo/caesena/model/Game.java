@@ -1,5 +1,6 @@
 package it.unibo.caesena.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -51,6 +52,7 @@ public class Game {
     public Game(final Session session, final Server server) {
         this.concluded = false;
         this.server = server;
+        this.tiles = new ArrayList<>();
     }
 
     public void setPlayers(final List<PlayerInGameImpl> playersInGame) {
@@ -60,6 +62,10 @@ public class Game {
     public List<GameSetImpl> getAllGameSets() {
         // TODO [PELLO] con query
         return tiles.stream().flatMap(t -> t.getSections().stream()).map(TileSection::getGameSet).toList();
+    }
+
+    public void addTile(final TileImpl tile) {
+        this.tiles.add(tile);
     }
 
     public boolean placeMeeple(final MutableMeeple meeple, final MutableTile tile, final TileSectionType tileSection) {

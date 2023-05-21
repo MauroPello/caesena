@@ -378,6 +378,9 @@ public final class ControllerImpl implements Controller {
             }
             tileSections.add(tileSection);
         }
+        // TODO to be removed
+        tiles.get(0).setCurrent(true);
+        tiles.forEach(game::addTile);
         tiles.forEach(session::persist);
         gameSets.forEach(session::persist);
         tileSections.forEach(session::persist);
@@ -665,7 +668,7 @@ public final class ControllerImpl implements Controller {
             Root<TileImpl> root = query.from(TileImpl.class);
             List<TileImpl> tiles = session.createQuery(query.select(root)
                 .where(cb.equal(root.get("tileOrder"), currentTile.getTileOrder() + 1))
-                .where(cb.equal(root.get("game"), this.game.getGameID())))
+                .where(cb.equal(root.get("game"), this.game)))
                 .getResultList();
             if (tiles.size() == 0) {
                 tiles.get(0).setCurrent(true);

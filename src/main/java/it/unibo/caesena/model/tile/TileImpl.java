@@ -59,6 +59,7 @@ public final class TileImpl implements MutableTile {
         this.xCoordinate = null;
         this.yCoordinate = null;
         this.current = false;
+        this.game = game;
     }
 
     public void setCurrent(final boolean current) {
@@ -157,5 +158,5 @@ public final class TileImpl implements MutableTile {
         return true;
     }
 
-    
+
 }
