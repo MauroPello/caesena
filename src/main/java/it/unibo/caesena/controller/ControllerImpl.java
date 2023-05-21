@@ -343,7 +343,6 @@ public final class ControllerImpl implements Controller {
         this.sessionFactory.close();
     }
 
-
     private void createTiles() {
         // TODO [PELLO]
         this.session.beginTransaction();
@@ -426,7 +425,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void endTurn() {
-        getGameSetsInTile(game.getCurrentTile()).stream()
+        getGameSetsInTile(getCurrentTile().get()).stream()
             .filter(this::isGameSetClosed)
             .forEach(this::closeGameSet);
 
@@ -434,7 +433,7 @@ public final class ControllerImpl implements Controller {
             .filter(MutableTile::isPlaced)
             .toList();
         for (final var nearTile : placedTiles) {
-            if (areTilesNear(game.getCurrentTile(), nearTile)) {
+            if (areTilesNear(getCurrentTile().get(), nearTile)) {
                 GameSet centerGameset = getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
@@ -443,7 +442,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
 
-                centerGameset = getGameSetInSectionType(game.getCurrentTile(), getTileSectionTypeFromName("CENTER"));
+                centerGameset = getGameSetInSectionType(getCurrentTile().get(), getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     if (isGameSetClosed(centerGameset)) {
@@ -517,8 +516,8 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Tile> getCurrentTile() {
-        return Optional.ofNullable(game.getCurrentTile());
+    public Optional<TileImpl> getCurrentTile() {
+        return getPlacedTiles().stream().filter(t -> t.isCurrent()).findFirst();
     }
 
     /**
@@ -530,10 +529,10 @@ public final class ControllerImpl implements Controller {
             return false;
         }
 
-        this.game.getCurrentTile().setPosition(position);
+        this.getCurrentTile().get().setPosition(position);
 
         if (getPlacedTiles().size() > 1) {
-            getTileNeighbours(position).forEach(n -> joinTiles(game.getCurrentTile(), n));
+            getTileNeighbours(position).forEach(n -> joinTiles(getCurrentTile().get(), n));
         }
 
         updateUserInterfaces();
@@ -545,7 +544,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void rotateCurrentTile() {
-        this.rotateTileClockwise(game.getCurrentTile());
+        this.rotateTileClockwise(getCurrentTile().get());
         updateUserInterfaces();
     }
 
@@ -575,27 +574,41 @@ public final class ControllerImpl implements Controller {
             return true;
         }
 
-        return isPositionValid(position, game.getCurrentTile());
+        return isPositionValid(position, getCurrentTile().get());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Tile> getPlacedTiles() {
-        return new ArrayList<Tile>(game.getTiles().stream()
-            .filter(Tile::isPlaced)
-            .toList());
+    public List<TileImpl> getPlacedTiles() {
+        session.beginTransaction();
+        CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
+        Root<TileImpl> root = query.from(TileImpl.class);
+        query.select(root);
+        query.where(cb.isNotNull(root.get("xCoordinate")));
+        query.where(cb.isNotNull(root.get("yCoordinate")));
+        query.where(cb.equal(root.get("game"), this.game));
+        List<TileImpl> tiles = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return tiles;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Tile> getNotPlacedTiles() {
-        return new ArrayList<Tile>(game.getTiles().stream()
-            .filter(x -> !x.isPlaced())
-            .toList());
+    public List<TileImpl> getNotPlacedTiles() {
+        session.beginTransaction();
+        CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
+        Root<TileImpl> root = query.from(TileImpl.class);
+        query.select(root);
+        query.where(cb.isNull(root.get("xCoordinate")));
+        query.where(cb.isNull(root.get("yCoordinate")));
+        query.where(cb.equal(root.get("game"), this.game));
+        List<TileImpl> tiles = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return tiles;
     }
 
     /**
@@ -603,7 +616,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public GameSet getCurrentTileGameSetInSection(final TileSectionType section) {
-        return getGameSetInSectionType(game.getCurrentTile(), section);
+        return getGameSetInSectionType(getCurrentTile().get(), section);
     }
 
     /**
@@ -615,7 +628,7 @@ public final class ControllerImpl implements Controller {
             .filter(m -> !m.isPlaced())
             .findFirst();
 
-        if (currentMeeple.isPresent() && !game.placeMeeple(currentMeeple.get(), game.getCurrentTile(), section)) {
+        if (currentMeeple.isPresent() && !game.placeMeeple(currentMeeple.get(), getCurrentTile().get(), section)) {
             updateUserInterfaces();
             return Optional.empty();
         }
@@ -661,8 +674,8 @@ public final class ControllerImpl implements Controller {
         if (getNotPlacedTiles().isEmpty()) {
             endGame();
         } else {
+            MutableTile currentTile = getCurrentTile().get();
             session.beginTransaction();
-            TileImpl currentTile = game.getCurrentTile();
             currentTile.setCurrent(false);
             CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
             Root<TileImpl> root = query.from(TileImpl.class);
@@ -670,13 +683,8 @@ public final class ControllerImpl implements Controller {
                 .where(cb.equal(root.get("tileOrder"), currentTile.getTileOrder() + 1))
                 .where(cb.equal(root.get("game"), this.game)))
                 .getResultList();
-            if (tiles.size() == 0) {
-                tiles.get(0).setCurrent(true);
-            }
+            tiles.get(0).setCurrent(true);
             session.getTransaction().commit();
-            if (tiles.isEmpty()) {
-                endGame();
-            }
         }
     }
 
@@ -794,7 +802,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
             }
-            this.rotateTileClockwise(game.getCurrentTile());
+            this.rotateTileClockwise(getCurrentTile().get());
         }
         return outcome;
     }

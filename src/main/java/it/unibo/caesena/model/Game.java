@@ -80,10 +80,6 @@ public class Game {
         return true;
     }
 
-    public TileImpl getCurrentTile() {
-        return tiles.stream().filter(TileImpl::isCurrent).findFirst().get();
-    }
-
     public PlayerInGameImpl getCurrentPlayer() {
         return playersInGame.stream().filter(PlayerInGameImpl::isCurrent).findFirst().get();
     }

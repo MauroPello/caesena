@@ -8,7 +8,7 @@ import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.server.Server;
-import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileImpl;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
@@ -71,7 +71,7 @@ public interface Controller {
      *
      * @return the current tile
      */
-    Optional<Tile> getCurrentTile();
+    Optional<TileImpl> getCurrentTile();
 
     /**
      * Places the current tile at the passed position on the board.
@@ -108,14 +108,14 @@ public interface Controller {
      *
      * @return the list of placed tiles
      */
-    List<Tile> getPlacedTiles();
+    List<TileImpl> getPlacedTiles();
 
     /**
      * Returns a list of all the tiles that haven't been placed on the board yet.
      *
      * @return the list of not placed tiles
      */
-    List<Tile> getNotPlacedTiles();
+    List<TileImpl> getNotPlacedTiles();
 
     /**
      * Gets the GameSet that is in the section of the current tile.

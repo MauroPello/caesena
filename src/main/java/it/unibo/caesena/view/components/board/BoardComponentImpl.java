@@ -267,8 +267,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
         final List<Meeple> placedMeeples = controller.getMeeples().stream()
             .filter(Meeple::isPlaced)
             .toList();
-        final List<Tile> placedTiles = controller.getPlacedTiles();
-        for (final var tile : placedTiles) {
+        for (final var tile : controller.getPlacedTiles()) {
             final TileButton<JButton> tileButton = findTileButton(tile);
             if (!tileButton.isLocked()) {
                 tileButton.addTile(tile);
