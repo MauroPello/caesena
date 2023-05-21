@@ -22,4 +22,6 @@ public interface MutableTile extends Tile {
 
     public void setCurrent(boolean current);
 
+    public void setOrder(int order);
+
 }

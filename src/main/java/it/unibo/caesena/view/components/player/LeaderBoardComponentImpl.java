@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.caesena.model.player.PlayerInGame;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.UserInterface;
@@ -95,7 +95,7 @@ public final class LeaderBoardComponentImpl implements LeaderBoardComponent<JPan
         playersPanel.revalidate();
         playersPanel.repaint();
 
-        final List<PlayerInGame> players = userInterface.getController().getPlayers().stream()
+        final List<PlayerInGameImpl> players = userInterface.getController().getPlayers().stream()
                 .sorted((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore())).toList();
 
         for (final var player : players) {

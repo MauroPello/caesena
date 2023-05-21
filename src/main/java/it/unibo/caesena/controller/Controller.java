@@ -6,7 +6,7 @@ import java.util.Optional;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.MeepleImpl;
-import it.unibo.caesena.model.player.PlayerInGame;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.model.tile.TileImpl;
 import it.unibo.caesena.model.tile.TileSectionType;
@@ -57,14 +57,14 @@ public interface Controller {
      *
      * @return the current player
      */
-    Optional<PlayerInGame> getCurrentPlayer();
+    Optional<PlayerInGameImpl> getCurrentPlayer();
 
     /**
      * Gets a list of all the players.
      *
      * @return the list of players
      */
-    List<PlayerInGame> getPlayers();
+    List<PlayerInGameImpl> getPlayers();
 
     /**
      * Returns the current tile drawn in the current turn.

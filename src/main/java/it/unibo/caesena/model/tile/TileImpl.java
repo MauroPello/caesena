@@ -62,6 +62,10 @@ public final class TileImpl implements MutableTile {
         this.game = game;
     }
 
+    public void setOrder(final int order) {
+       this.tileOrder = order;
+    }
+
     public void setCurrent(final boolean current) {
         this.current = current;
     }

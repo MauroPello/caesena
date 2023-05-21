@@ -3,6 +3,7 @@ package it.unibo.caesena.model.tile;
 import it.unibo.caesena.model.gameset.GameSetImpl;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.meeple.MutableMeeple;
+import it.unibo.caesena.utils.StringUtil;
 
 import java.io.Serializable;
 
