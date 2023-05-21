@@ -535,8 +535,8 @@ public final class ControllerImpl implements Controller {
         }
 
         final MutableTile currentTile = this.getCurrentTile().get();
-        currentTile.setPosition(position);
         session.beginTransaction();
+        currentTile.setPosition(position);
         session.merge(currentTile);
         session.getTransaction().commit();
 
@@ -595,9 +595,9 @@ public final class ControllerImpl implements Controller {
         CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
         Root<TileImpl> root = query.from(TileImpl.class);
         query.select(root);
-        query.where(cb.isNotNull(root.get("xCoordinate")));
-        query.where(cb.isNotNull(root.get("yCoordinate")));
-        query.where(cb.equal(root.get("game"), this.game));
+        query.where(cb.and(cb.isNotNull(root.get("xCoordinate"))),
+            cb.isNotNull(root.get("yCoordinate")),
+            cb.equal(root.get("game"), this.game));
         List<TileImpl> tiles = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return tiles;
@@ -612,9 +612,9 @@ public final class ControllerImpl implements Controller {
         CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
         Root<TileImpl> root = query.from(TileImpl.class);
         query.select(root);
-        query.where(cb.isNull(root.get("xCoordinate")));
-        query.where(cb.isNull(root.get("yCoordinate")));
-        query.where(cb.equal(root.get("game"), this.game));
+        query.where(cb.and(cb.isNull(root.get("xCoordinate"))),
+            cb.isNull(root.get("yCoordinate")),
+            cb.equal(root.get("game"), this.game));
         List<TileImpl> tiles = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return tiles;
