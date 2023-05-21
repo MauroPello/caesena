@@ -107,9 +107,9 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
     public void endTurn() {
         if (this.getSectionSelector().isSectionSelected()) {
             final var section = this.getSectionSelector().getSelectedSection().get();
-            final var meeple = this.gameScene.getUserInterface().getController().placeMeeple(section);
-            if (meeple.isPresent()) {
-                this.board.getCurrentTileButton().setMeeple(meeple.get());
+            if (gameScene.getUserInterface().getController().placeMeeple(section)) {
+                // TODO
+                // this.board.getCurrentTileButton().setMeeple(meeple.get());
             } else {
                 throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
             }

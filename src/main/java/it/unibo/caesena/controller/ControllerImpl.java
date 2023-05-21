@@ -18,7 +18,6 @@ import it.unibo.caesena.model.Game;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetImpl;
 import it.unibo.caesena.model.gameset.GameSetType;
-import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.player.Player;
@@ -345,7 +344,6 @@ public final class ControllerImpl implements Controller {
 
     private void createTiles() {
         // TODO ESPANSIONI
-        // TODO STARTING TILE?
         this.session.beginTransaction();
         CriteriaQuery<TileTypeConfiguration> query = cb.createQuery(TileTypeConfiguration.class);
         Root<TileTypeConfiguration> root = query.from(TileTypeConfiguration.class);
@@ -358,25 +356,28 @@ public final class ControllerImpl implements Controller {
         List<GameSetImpl> gameSets = new ArrayList<>();
         List<TileSection> tileSections = new ArrayList<>();
         for (int i = 0; i < tileTypeConfigurations.size(); i++) {
-            // cambio di gameSet
-            if (tileTypeConfigurations.get(i).getId() != currentId) {
-                currentId = tileTypeConfigurations.get(i).getId();
-                gameSets.add(new GameSetImpl(tileTypeConfigurations.get(i).getGameSetType()));
-            }
-            // cambio di Tile
-            if (tiles.isEmpty() || tileTypeConfigurations.get(i).getTileType() != tiles.get(tiles.size()-1).getTileType()) {
-                tiles.add(new TileImpl(tiles.size(), game, tileTypeConfigurations.get(i).getTileType()));
-            }
+            final TileTypeConfiguration tileTypeConfiguration = tileTypeConfigurations.get(i);
+            for (int j = 0; j < tileTypeConfiguration.getTileType().getQuantity(); j++) {
+                // cambio di gameSet
+                if (tileTypeConfiguration.getId() != currentId) {
+                    currentId = tileTypeConfiguration.getId();
+                    gameSets.add(new GameSetImpl(tileTypeConfiguration.getGameSetType()));
+                }
+                // cambio di Tile
+                if (tiles.isEmpty() || tileTypeConfiguration.getTileType() != tiles.get(tiles.size()-1).getTileType()) {
+                    tiles.add(new TileImpl(tiles.size(), game, tileTypeConfiguration.getTileType()));
+                }
 
-            if (tileTypeConfigurations.get(i).hasPennant()) {
-                gameSets.get(gameSets.size()-1).addPoints(PENNANT_POINTS);
+                if (tileTypeConfiguration.hasPennant()) {
+                    gameSets.get(gameSets.size()-1).addPoints(PENNANT_POINTS);
+                }
+                final TileSection tileSection = new TileSection(tiles.get(tiles.size()-1),
+                    tileTypeConfiguration.getTileSectionType(), gameSets.get(gameSets.size()-1));
+                if (tileTypeConfiguration.isClosed()) {
+                    tileSection.close();
+                }
+                tileSections.add(tileSection);
             }
-            final TileSection tileSection = new TileSection(tiles.get(tiles.size()-1),
-                tileTypeConfigurations.get(i).getTileSectionType(), gameSets.get(gameSets.size()-1));
-            if (tileTypeConfigurations.get(i).isClosed()) {
-                tileSection.close();
-            }
-            tileSections.add(tileSection);
         }
         tiles.get(0).setCurrent(true);
         tiles.forEach(session::persist);
@@ -463,11 +464,16 @@ public final class ControllerImpl implements Controller {
      */
     private void endGame() {
         // TODO
-        final List<GameSet> allGameSets = null;
+        session.beginTransaction();
+        CriteriaQuery<GameSetImpl> query = cb.createQuery(GameSetImpl.class);
+        Root<GameSetImpl> root = query.from(GameSetImpl.class);
+        query.select(root);
+        List<GameSetImpl> allGameSets = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
 
         final Set<GameSet> fieldsToClose = allGameSets.stream()
             .filter(c -> c.getType().equals(getGameSetTypeFromName("CITY")))
-            .filter(GameSet::isClosed)
+            .filter(GameSetImpl::isClosed)
             .flatMap(c -> getFieldGameSetsNearGameSet(c).stream())
             .peek(f -> f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD))
             .collect(Collectors.toSet());
@@ -643,7 +649,7 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Meeple> placeMeeple(final TileSectionType section) {
+    public boolean placeMeeple(final TileSectionType section) {
         // TODO cambiare in modo che prendi in input il meeple da piazzare
         // final Optional<MeepleImpl> currentMeeple = game.getCurrentPlayer().getMeeples().stream()
         //     .filter(m -> !m.isPlaced())
@@ -655,7 +661,7 @@ public final class ControllerImpl implements Controller {
         // }
 
         updateUserInterfaces();
-        return Optional.empty();
+        return true;
         // return currentMeeple.isPresent() ? Optional.of(currentMeeple.get()) : Optional.empty();
     }
 
@@ -663,9 +669,15 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public List<Meeple> getMeeples() {
-        // TODO
-        return new ArrayList<>();
+    public List<MeepleImpl> getMeeples() {
+        session.beginTransaction();
+        CriteriaQuery<MeepleImpl> query = cb.createQuery(MeepleImpl.class);
+        Root<MeepleImpl> root = query.from(MeepleImpl.class);
+        query.select(root);
+        query.where(cb.equal(root.get("owner.game"), this.game));
+        List<MeepleImpl> meeples = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return meeples;
     }
 
     /**

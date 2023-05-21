@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.model.tile.TileImpl;
@@ -131,14 +131,14 @@ public interface Controller {
      * @param section section on which the tile should be placed
      * @return true if placement is valid, false otherwise
      */
-    Optional<Meeple> placeMeeple(TileSectionType section);
+    boolean placeMeeple(TileSectionType section);
 
     /**
      * Gets the list of all the meeples of all the players.
      *
      * @return the list of all the meeples of all the players
      */
-    List<Meeple> getMeeples();
+    List<MeepleImpl> getMeeples();
 
     /**
      * Adds a user interface to the list of user interfaces.
