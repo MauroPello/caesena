@@ -139,7 +139,6 @@ public final class ControllerImpl implements Controller {
             this.game = new Game(session, server);
             playersData = new ArrayList<>(playersData);
             Collections.shuffle(playersData);
-            List<PlayerInGameImpl> playersInGame = new ArrayList<>();
 
             session.beginTransaction();
             session.persist(this.game);
@@ -155,9 +154,7 @@ public final class ControllerImpl implements Controller {
                     playerInGame.setCurrent(true);
                 }
                 session.persist(playerInGame);
-                playersInGame.add(playerInGame);
             }
-            this.game.setPlayers(playersInGame);
             session.getTransaction().commit();
 
             createTiles();
@@ -382,7 +379,6 @@ public final class ControllerImpl implements Controller {
             tileSections.add(tileSection);
         }
         tiles.get(0).setCurrent(true);
-        tiles.forEach(game::addTile);
         tiles.forEach(session::persist);
         gameSets.forEach(session::persist);
         tileSections.forEach(session::persist);
@@ -466,22 +462,28 @@ public final class ControllerImpl implements Controller {
      * players with meeples in surrounding fields.
      */
     private void endGame() {
-        final Set<GameSet> fieldsToClose = game.getAllGameSets().stream()
+        // TODO
+        final List<GameSet> allGameSets = null;
+
+        final Set<GameSet> fieldsToClose = allGameSets.stream()
             .filter(c -> c.getType().equals(getGameSetTypeFromName("CITY")))
-            .filter(GameSetImpl::isClosed)
+            .filter(GameSet::isClosed)
             .flatMap(c -> getFieldGameSetsNearGameSet(c).stream())
             .peek(f -> f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD))
             .collect(Collectors.toSet());
         fieldsToClose.forEach(this::closeGameSet);
 
-        game.getAllGameSets().stream()
+        allGameSets.stream()
             .filter(x -> !x.isClosed())
             .forEach(g -> {
                 g.setPoints(g.getPoints() / g.getType().getEndGameRatio()); // TODO [SPEZ] spostare dentro closeGameSet in if game ended
                 closeGameSet(g);
             });
 
-        game.end();
+        session.beginTransaction();
+        game.setConcluded(true);
+        session.merge(game);
+        session.getTransaction().commit();
         updateUserInterfaces();
     }
 
@@ -505,8 +507,8 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public Optional<PlayerInGame> getCurrentPlayer() {
-        // TODO spostartlo via dal game
-        return Optional.ofNullable(game.getCurrentPlayer());
+        // TODO
+        return Optional.ofNullable(null);
     }
 
     /**
@@ -514,7 +516,8 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public List<PlayerInGame> getPlayers() {
-        return Collections.unmodifiableList(game.getPlayersInGame());
+        // TODO
+        return null;
     }
 
     /**
@@ -642,17 +645,18 @@ public final class ControllerImpl implements Controller {
     @Override
     public Optional<Meeple> placeMeeple(final TileSectionType section) {
         // TODO cambiare in modo che prendi in input il meeple da piazzare
-        final Optional<MeepleImpl> currentMeeple = game.getCurrentPlayer().getMeeples().stream()
-            .filter(m -> !m.isPlaced())
-            .findFirst();
+        // final Optional<MeepleImpl> currentMeeple = game.getCurrentPlayer().getMeeples().stream()
+        //     .filter(m -> !m.isPlaced())
+        //     .findFirst();
 
-        if (currentMeeple.isPresent() && !game.placeMeeple(currentMeeple.get(), getCurrentTile().get(), section)) {
-            updateUserInterfaces();
-            return Optional.empty();
-        }
+        // if (currentMeeple.isPresent() && !game.placeMeeple(currentMeeple.get(), getCurrentTile().get(), section)) {
+        //     updateUserInterfaces();
+        //     return Optional.empty();
+        // }
 
         updateUserInterfaces();
-        return currentMeeple.isPresent() ? Optional.of(currentMeeple.get()) : Optional.empty();
+        return Optional.empty();
+        // return currentMeeple.isPresent() ? Optional.of(currentMeeple.get()) : Optional.empty();
     }
 
     /**
@@ -660,8 +664,8 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public List<Meeple> getMeeples() {
-        // TODO spostartlo via dal game
-        return new ArrayList<>(game.getMeeples());
+        // TODO
+        return new ArrayList<>();
     }
 
     /**
