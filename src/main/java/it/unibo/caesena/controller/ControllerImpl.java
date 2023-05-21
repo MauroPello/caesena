@@ -129,6 +129,17 @@ public final class ControllerImpl implements Controller {
                 List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"), getTileSectionTypeFromName("RIGHT_DOWN")))));
     }
 
+    private Player createPlayer(final String name) {
+        session.beginTransaction();
+        Player player = session.get(Player.class, name);
+        if (player == null) {
+            player = new Player(name);
+            session.persist(player);
+        }
+        session.getTransaction().commit();
+        return player;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -142,16 +153,17 @@ public final class ControllerImpl implements Controller {
             List<PlayerInGameImpl> playersInGame = new ArrayList<>();
 
             for (int i = 0; i < playersData.size(); i++) {
-                final Player player = new Player(playersData.get(i).getX());
-                final PlayerInGameImpl playerInGame = new PlayerInGameImpl(player, playersData.get(i).getY(), i, game);
+                final PlayerInGameImpl playerInGame = new PlayerInGameImpl(createPlayer(playersData.get(i).getX()), playersData.get(i).getY(), i, game);
+                if (i == 0) {
+                    playerInGame.setCurrent(true);
+                }
                 playersInGame.add(playerInGame);
             }
-            this.game.setPlayers(playersInGame);
 
             session.beginTransaction();
             session.persist(this.game);
-            playersInGame.forEach(p -> session.merge(p.getPlayer()));
             playersInGame.forEach(session::merge);
+            this.game.setPlayers(playersInGame);
             session.getTransaction().commit();
 
             createTiles();

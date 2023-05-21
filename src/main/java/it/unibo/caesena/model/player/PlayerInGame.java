@@ -15,6 +15,8 @@ public interface PlayerInGame {
 
     boolean isCurrent();
 
+    void setCurrent(boolean current);
+
     int getPlayerOrder();
 
     /**
