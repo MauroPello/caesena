@@ -522,7 +522,15 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public Optional<TileImpl> getCurrentTile() {
-        return getPlacedTiles().stream().filter(t -> t.isCurrent()).findFirst();
+        session.beginTransaction();
+        CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
+        Root<TileImpl> root = query.from(TileImpl.class);
+        query.select(root);
+        query.where(cb.and(cb.isTrue(root.get("current")),
+            cb.equal(root.get("game"), this.game)));
+        List<TileImpl> tiles = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return Optional.ofNullable(tiles.size() == 1 ? tiles.get(0) : null);
     }
 
     /**
