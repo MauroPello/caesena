@@ -45,7 +45,7 @@ VALUES ('Central', 'Oceania');
 
 -- Servers
 INSERT INTO caesena.Servers (active, maxGames, region_regionID)
-VALUES (true, 16, 2);
+VALUES (true, 512, 2);
 
 INSERT INTO caesena.Servers (active, maxGames, region_regionID)
 VALUES (false, 4, 2);
