@@ -767,7 +767,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public boolean placeMeeple(final TileSectionType section) {
-        // TODO scegliere come vogliamo piazzare i meeple (uno a caso o permettiamo di scegliere?)
+        // TODO [SPEZ] piazzare i meeple scegliendone uno a caso o far decidere l'utente?
         // final Optional<MeepleImpl> currentMeeple = game.getCurrentPlayer().getMeeples().stream()
         //     .filter(m -> !m.isPlaced())
         //     .findFirst();
@@ -991,6 +991,7 @@ public final class ControllerImpl implements Controller {
         session.beginTransaction();
         this.game = session.get(Game.class, gameId);
         session.getTransaction().commit();
+        updateUserInterfaces();
     }
 
     @Override

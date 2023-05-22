@@ -107,7 +107,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
     public void endTurn() {
         if (this.getSectionSelector().isSectionSelected()) {
             final var section = this.getSectionSelector().getSelectedSection().get();
-            // TODO scegliere come vogliamo piazzare i meeple (uno a caso o permettiamo di scegliere?)
+            // TODO [SPEZ] piazzare i meeple scegliendone uno a caso o far decidere l'utente?
             if (gameScene.getUserInterface().getController().placeMeeple(section)) {
                 // this.board.getCurrentTileButton().setMeeple(meeple.get());
             } else {
