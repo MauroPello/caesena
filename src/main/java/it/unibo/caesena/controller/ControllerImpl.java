@@ -287,8 +287,8 @@ public final class ControllerImpl implements Controller {
         CriteriaQuery<TileSection> query = cb.createQuery(TileSection.class);
         Root<TileSection> root = query.from(TileSection.class);
         query.select(root);
-        query.where(cb.equal(root.get("tile"), tile));
-        query.where(cb.equal(root.get("type"), tileSectionType));
+        query.where(cb.and(cb.equal(root.get("tile"), tile),
+            cb.equal(root.get("type"), tileSectionType)));
         List<TileSection> tileSections = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return tileSections.get(0);
@@ -500,6 +500,18 @@ public final class ControllerImpl implements Controller {
         }
 
         drawNewTile();
+        PlayerInGameImpl currentPlayer = getCurrentPlayer().get();
+        session.beginTransaction();
+        currentPlayer.setCurrent(false);
+        CriteriaQuery<PlayerInGameImpl> query = cb.createQuery(PlayerInGameImpl.class);
+        Root<PlayerInGameImpl> root = query.from(PlayerInGameImpl.class);
+        List<PlayerInGameImpl> players = session.createQuery(query.select(root)
+            .where(cb.equal(root.get("game"), this.game))).getResultList();
+        session.createQuery(query.select(root).where(cb.and(
+            cb.equal(root.get("game"), this.game)),
+            cb.equal(root.get("playerOrder"), (currentPlayer.getPlayerOrder()+1) % players.size())))
+            .getResultList().get(0).setCurrent(true);
+        session.getTransaction().commit();
         updateUserInterfaces();
     }
 
@@ -765,20 +777,21 @@ public final class ControllerImpl implements Controller {
      * Draws a new tile from the list of not placed tiles.
      */
     private void drawNewTile() {
-        if (getNotPlacedTiles().isEmpty()) {
-            endGame();
-        } else {
-            MutableTile currentTile = getCurrentTile().get();
-            session.beginTransaction();
-            currentTile.setCurrent(false);
-            CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
-            Root<TileImpl> root = query.from(TileImpl.class);
-            List<TileImpl> tiles = session.createQuery(query.select(root)
-                .where(cb.and(cb.equal(root.get("tileOrder"), currentTile.getTileOrder() + 1),
-                    cb.equal(root.get("game"), this.game))))
-                .getResultList();
+        MutableTile currentTile = getCurrentTile().get();
+        session.beginTransaction();
+        currentTile.setCurrent(false);
+        CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
+        Root<TileImpl> root = query.from(TileImpl.class);
+        List<TileImpl> tiles = session.createQuery(query.select(root)
+            .where(cb.and(cb.equal(root.get("game"), this.game)),
+                cb.equal(root.get("tileOrder"), currentTile.getTileOrder()+1)))
+            .getResultList();
+        if (tiles.size() == 1) {
             tiles.get(0).setCurrent(true);
-            session.getTransaction().commit();
+        }
+        session.getTransaction().commit();
+        if (tiles.isEmpty()) {
+            endGame();
         }
     }
 
@@ -821,7 +834,9 @@ public final class ControllerImpl implements Controller {
     }
 
     private void closeGameSet(final GameSet gameSet) {
+        session.beginTransaction();
         gameSet.close();
+        session.getTransaction().commit();
         // TODO [SPEZ] chiusura del GameSet
         // if (!this.isMeepleFree()) {
         //     final Map<MutablePlayerInGame, Integer> playerMeepleStrength = new HashMap<>();
@@ -927,8 +942,9 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void joinGame(int gameId) {
-        // TODO [SPEZ] controllare se va e se non serve la transazione
+        session.beginTransaction();
         this.game = session.get(Game.class, gameId);
+        session.getTransaction().commit();
     }
 
     @Override
