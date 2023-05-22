@@ -242,15 +242,18 @@ public final class ControllerImpl implements Controller {
         query.select(root);
         query.where(cb.equal(root.get("tile"), tile));
         List<TileSection> tileSections = session.createQuery(query).getResultList();
+        tileSections.forEach(session::remove);
         session.getTransaction().commit();
-        for (final var tileSection : tileSections) {
+
+        final List<TileSection> newSections = new ArrayList<>(tileSections);
+        for (final var tileSection : newSections) {
             tileSection.setType(tileSection.getType().rotateClockwise());
         }
         tile.rotate();
 
         session.beginTransaction();
         session.merge(tile);
-        tileSections.forEach(session::merge);
+        newSections.forEach(session::persist);
         session.getTransaction().commit();
     }
 

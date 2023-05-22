@@ -84,7 +84,6 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
 
         this.tileImage = Optional.empty();
         this.tileImagePanel = new JPanel() {
-
             @Override
             public Dimension getMaximumSize() {
                 return getPreferredSize();
@@ -122,7 +121,6 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         this.tileImagePanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
         this.rotateButton = new JButton() {
-
             @Override
             public Dimension getMaximumSize() {
                 return getPreferredSize();
@@ -152,12 +150,9 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         this.rotateButton.setOpaque(false);
         this.rotateButton.setBorderPainted(false);
         this.rotateButton.addActionListener((e) -> {
-            System.out.println("cial");
             if (tileImage.isPresent()) {
-                System.out.println("cial2");
                 gameScene.removePlacedTile();
                 userInterface.getController().rotateCurrentTile();
-                System.out.println("cial3");
                 tileImagePanel.repaint();
             }
         });
@@ -204,6 +199,15 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         innerPanel.add(tilesLeaderboardPanel);
         innerPanel.add(rotateButton);
         innerPanel.add(tileImagePanel);
+        final JButton btn = new JButton("Rotate");
+        btn.addActionListener((e) -> {
+            if (tileImage.isPresent()) {
+                gameScene.removePlacedTile();
+                userInterface.getController().rotateCurrentTile();
+                tileImagePanel.repaint();
+            }
+        });
+        innerPanel.add(btn);
         innerPanel.setOpaque(false);
         this.mainPanel.add(innerPanel, BorderLayout.CENTER);
 
