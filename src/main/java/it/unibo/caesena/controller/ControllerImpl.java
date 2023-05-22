@@ -260,6 +260,7 @@ public final class ControllerImpl implements Controller {
     public GameSetType getGameSetTypeFromName(final String name) {
         session.beginTransaction();
         GameSetType gameSetType = session.get(GameSetType.class, name);
+        session.clear();
         session.getTransaction().commit();
         return gameSetType;
     }
@@ -318,6 +319,7 @@ public final class ControllerImpl implements Controller {
                         t2Section.setGameSet(joinedGameSet);
 
                         session.beginTransaction();
+                        session.persist(joinedGameSet);
                         session.merge(t1Section);
                         session.merge(t2Section);
                         tileSections1.forEach(session::merge);
@@ -466,12 +468,13 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void endTurn() {
-        getGameSetsInTile(getCurrentTile().get()).stream()
+        final TileImpl currentTile = getCurrentTile().get();
+        getGameSetsInTile(currentTile).stream()
             .filter(this::isGameSetClosed)
             .forEach(this::closeGameSet);
 
         for (final var nearTile : getPlacedTiles()) {
-            if (areTilesNear(getCurrentTile().get(), nearTile)) {
+            if (areTilesNear(currentTile, nearTile)) {
                 GameSet centerGameset = getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
@@ -483,7 +486,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
 
-                centerGameset = getGameSetInSectionType(getCurrentTile().get(), getTileSectionTypeFromName("CENTER"));
+                centerGameset = getGameSetInSectionType(currentTile, getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     session.beginTransaction();
