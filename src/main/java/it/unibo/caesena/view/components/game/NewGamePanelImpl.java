@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,7 +39,6 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
     private final UserInterface userInterface;
-    private final JComboBox<String> serverChooser;
 
     private Optional<ChangeListener> playersNumChangeListener;
 
@@ -61,16 +61,32 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         playersNumPanel.add(playersNum.getComponent());
 
         playersNumPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        final JLabel serversLabel = new JLabel(LocaleHelper.getServersText());
+        final JLabel serversLabel = new JLabel(LocaleHelper.getServerText());
         serversLabel.setFont(GUI.BIG_BOLD_FONT);
         playersNumPanel.add(serversLabel);
-        this.serverChooser = new JComboBox<>();
+        final JComboBox<String> serverChooser = new JComboBox<>();
         final List<Server> servers = userInterface.getController().getAvailableServers();
         servers.forEach(s -> serverChooser.addItem(s.toString()));
-        this.serverChooser.setSelectedIndex(0);
-        this.serverChooser.setFont(GUI.MEDIUM_BOLD_FONT);
+        serverChooser.setSelectedIndex(0);
+        serverChooser.setFont(GUI.MEDIUM_BOLD_FONT);
         playersNumPanel.add(serverChooser);
         this.mainPanel.add(playersNumPanel);
+
+        final JPanel expansions = new JPanel();
+        expansions.setOpaque(false);
+        final JLabel expansionsJLabel = new JLabel(LocaleHelper.getExpansionsText());
+        expansionsJLabel.setFont(GUI.BIG_BOLD_FONT);
+        expansions.add(expansionsJLabel);
+        final List<JCheckBox> checkBoxes = userInterface.getController().getAllExpansions().stream()
+            .map(e -> {
+                final JCheckBox checkBox = new JCheckBox(e.getName());
+                checkBox.setOpaque(false);
+                checkBox.setFont(GUI.MEDIUM_BOLD_FONT);
+                expansions.add(checkBox);
+                return checkBox;
+            }).toList();
+        expansions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.mainPanel.add(expansions);
 
         this.playersPanel = new JPanel();
         this.playersPanel.setLayout(new BoxLayout(this.playersPanel, BoxLayout.Y_AXIS));
@@ -87,7 +103,7 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         startButton.addActionListener((e) -> {
             final List<Pair<String, Color>> playersData = playerInputs.stream().map(PlayerInput::getPlayerData).toList();
             userInterface.getController().createNewGame(servers.get(serverChooser.getSelectedIndex()),
-                playersData, userInterface.getController().getAllExpansions());
+                playersData, checkBoxes.stream().filter(JCheckBox::isSelected).map(JCheckBox::getText).toList());
         });
         final JPanel startGamePanel = new JPanel();
         startGamePanel.setOpaque(false);

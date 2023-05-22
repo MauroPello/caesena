@@ -55,6 +55,7 @@ import org.hibernate.service.ServiceRegistry;
 public final class ControllerImpl implements Controller {
 
     private Map<Direction, Pair<List<TileSectionType>, List<TileSectionType>>> NEIGHBOUR_TILES_CHECK;
+    public static final String BASIC_EXPANSION_NAME = "Basic";
     public static final int POINTS_CLOSED_CITY_NEARBY_FIELD = 3;
     public static final int POINTS_TILE_NEARBY_MONASTERY = 1;
     public static final int POINTS_CLOSED_MONASTERY = 9;
@@ -129,9 +130,22 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void createNewGame(Server server, List<Pair<String, Color>> playersData, List<Expansion> expansions) {
+    public void createNewGame(Server server, List<Pair<String, Color>> playersData, List<String> expansionNames) {
         if (playersData.stream().map(Pair::getX).collect(Collectors.toSet()).size() == playersData.size()
             && playersData.stream().map(Pair::getY).collect(Collectors.toSet()).size() == playersData.size()) {
+            expansionNames = new ArrayList<>(expansionNames);
+            expansionNames.add(BASIC_EXPANSION_NAME);
+            session.beginTransaction();
+            CriteriaQuery<Expansion> query = cb.createQuery(Expansion.class);
+            Root<Expansion> root = query.from(Expansion.class);
+            query.select(root);
+            query.where(root.get("name").in(expansionNames));
+            List<Expansion> expansions = session.createQuery(query).getResultList();
+            session.getTransaction().commit();
+            if (expansions.isEmpty() || playersData.isEmpty()) {
+                return;
+            }
+
             this.game = new Game(session, server);
             playersData = new ArrayList<>(playersData);
             Collections.shuffle(playersData);
@@ -154,7 +168,7 @@ public final class ControllerImpl implements Controller {
             session.getTransaction().commit();
 
             createTiles(expansions);
-            createMeeples();
+            createMeeples(expansions);
 
             drawNewTile();
             this.placeCurrentTile(new Pair<>(0, 0));
@@ -173,6 +187,7 @@ public final class ControllerImpl implements Controller {
         query.select(query.from(Expansion.class));
         List<Expansion> expansions = session.createQuery(query).getResultList();
         session.getTransaction().commit();
+        expansions.removeIf(e -> e.getName().equals(BASIC_EXPANSION_NAME));
         return expansions;
     }
 
@@ -366,8 +381,27 @@ public final class ControllerImpl implements Controller {
         this.sessionFactory.close();
     }
 
-    private void createMeeples() {
-        // TODO [SPEZ]
+    private void createMeeples(final List<Expansion> expansions) {
+        this.session.beginTransaction();
+        CriteriaQuery<MeepleType> query = cb.createQuery(MeepleType.class);
+        Root<MeepleType> root = query.from(MeepleType.class);
+        List<MeepleType> meepleTypes = session.createQuery(query.select(root)
+            .where(root.get("expansion").in(expansions)))
+            .getResultList();
+        this.session.getTransaction().commit();
+
+        final List<MeepleImpl> meeples = new ArrayList<>();
+        for (final var meepleType : meepleTypes) {
+            for (final var player : getPlayers()) {
+                for (int i = 0; i < meepleType.getQuantity(); i++) {
+                    meeples.add(new MeepleImpl(meepleType, player));
+                }
+            }
+        }
+
+        this.session.beginTransaction();
+        meeples.forEach(session::persist);
+        this.session.getTransaction().commit();
     }
 
     private void createTiles(final List<Expansion> expansions) {
@@ -974,6 +1008,18 @@ public final class ControllerImpl implements Controller {
 
         Query query = session.createQuery("from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
         return query.getResultList();
+    }
+
+    @Override
+    public List<MeepleImpl> getPlayerMeeples(PlayerInGameImpl player) {
+        session.beginTransaction();
+        CriteriaQuery<MeepleImpl> query = cb.createQuery(MeepleImpl.class);
+        Root<MeepleImpl> root = query.from(MeepleImpl.class);
+        query.select(root);
+        query.where(cb.equal(root.get("owner"), player));
+        List<MeepleImpl> meeples = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return meeples;
     }
 
 }

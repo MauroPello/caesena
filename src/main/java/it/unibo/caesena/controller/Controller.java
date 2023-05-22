@@ -20,7 +20,7 @@ import it.unibo.caesena.view.UserInterface;
  */
 public interface Controller {
 
-    void createNewGame(Server server, List<Pair<String, Color>> playersData, List<Expansion> expansions);
+    void createNewGame(Server server, List<Pair<String, Color>> playersData, List<String> expansionNames);
 
     void joinGame(int gameId);
 
@@ -140,6 +140,13 @@ public interface Controller {
      * @return the list of all the meeples of all the players
      */
     List<MeepleImpl> getMeeples();
+
+    /**
+     * Gets the list of all the meeples of all the players.
+     *
+     * @return the list of all the meeples of all the players
+     */
+    List<MeepleImpl> getPlayerMeeples(PlayerInGameImpl player);
 
     /**
      * Adds a user interface to the list of user interfaces.

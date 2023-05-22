@@ -127,12 +127,21 @@ public final class LocaleHelper {
     }
 
     /**
-     * Gets the text for the word "servers" according to the current Locale.
+     * Gets the text for the word "server" according to the current Locale.
      *
-     * @return the word "servers" according to the current Locale
+     * @return the word "server" according to the current Locale
      */
-    public static String getServersText() {
-        return getResourceBundle().getString("servers") + ": ";
+    public static String getServerText() {
+        return getResourceBundle().getString("server") + ": ";
+    }
+
+    /**
+     * Gets the text for the word "expansions" according to the current Locale.
+     *
+     * @return the word "expansions" according to the current Locale
+     */
+    public static String getExpansionsText() {
+        return getResourceBundle().getString("expansions") + ": ";
     }
 
     /**
