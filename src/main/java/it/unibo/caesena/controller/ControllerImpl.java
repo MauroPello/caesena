@@ -155,6 +155,7 @@ public final class ControllerImpl implements Controller {
             session.getTransaction().commit();
 
             createTiles();
+            createMeeples();
 
             drawNewTile();
             this.placeCurrentTile(new Pair<>(0, 0));
@@ -346,6 +347,10 @@ public final class ControllerImpl implements Controller {
     public void close() {
         this.session.close();
         this.sessionFactory.close();
+    }
+
+    private void createMeeples() {
+        // TODO [SPEZ]
     }
 
     private void createTiles() {
