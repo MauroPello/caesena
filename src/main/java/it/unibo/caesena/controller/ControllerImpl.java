@@ -766,18 +766,15 @@ public final class ControllerImpl implements Controller {
             endGame();
         } else {
             MutableTile currentTile = getCurrentTile().get();
-            currentTile.setCurrent(false);
             session.beginTransaction();
-            session.merge(currentTile);
-            // TODO far diventare una query di update direttamente
+            currentTile.setCurrent(false);
             CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
             Root<TileImpl> root = query.from(TileImpl.class);
             List<TileImpl> tiles = session.createQuery(query.select(root)
-                .where(cb.equal(root.get("tileOrder"), currentTile.getTileOrder() + 1))
-                .where(cb.equal(root.get("game"), this.game)))
+                .where(cb.and(cb.equal(root.get("tileOrder"), currentTile.getTileOrder() + 1),
+                    cb.equal(root.get("game"), this.game))))
                 .getResultList();
             tiles.get(0).setCurrent(true);
-            session.merge(tiles.get(0));
             session.getTransaction().commit();
         }
     }

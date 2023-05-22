@@ -199,15 +199,6 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         innerPanel.add(tilesLeaderboardPanel);
         innerPanel.add(rotateButton);
         innerPanel.add(tileImagePanel);
-        final JButton btn = new JButton("Rotate");
-        btn.addActionListener((e) -> {
-            if (tileImage.isPresent()) {
-                gameScene.removePlacedTile();
-                userInterface.getController().rotateCurrentTile();
-                tileImagePanel.repaint();
-            }
-        });
-        innerPanel.add(btn);
         innerPanel.setOpaque(false);
         this.mainPanel.add(innerPanel, BorderLayout.CENTER);
 
