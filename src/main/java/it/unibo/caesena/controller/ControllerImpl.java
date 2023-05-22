@@ -354,38 +354,53 @@ public final class ControllerImpl implements Controller {
         CriteriaQuery<TileTypeConfiguration> query = cb.createQuery(TileTypeConfiguration.class);
         Root<TileTypeConfiguration> root = query.from(TileTypeConfiguration.class);
         List<TileTypeConfiguration> tileTypeConfigurations = session.createQuery(query.select(root)
-            .orderBy(cb.desc(root.get("tileType")), cb.desc(root.get("id"))))
+            .orderBy(cb.asc(root.get("tileType")), cb.desc(root.get("id"))))
             .getResultList();
         this.session.getTransaction().commit();
 
         int currentId = -1;
+        int tilesQuantity = 0;
+        int tileSectionsNum = getAllTileSectionTypes().size();
         List<TileImpl> tiles = new ArrayList<>();
         List<GameSetImpl> gameSets = new ArrayList<>();
         List<TileSection> tileSections = new ArrayList<>();
         for (int i = 0; i < tileTypeConfigurations.size(); i++) {
             final TileTypeConfiguration tileTypeConfiguration = tileTypeConfigurations.get(i);
-            // TODO [PELLO] generarne tante quante quantity
-            // for (int j = 0; j < tileTypeConfiguration.getTileType().getQuantity(); j++) {
-                // cambio di gameSet
-                if (tileTypeConfiguration.getId() != currentId) {
-                    currentId = tileTypeConfiguration.getId();
-                    gameSets.add(new GameSetImpl(tileTypeConfiguration.getGameSetType()));
-                }
-                // cambio di Tile
+            // cambio di Tile (finite le tile section della vecchia tile)
+            if (i % tileSectionsNum == 0) {
+                // se abbiamo appena cambiato tipo di tile si riparte da zero con il conteggio di esse
                 if (tiles.isEmpty() || tileTypeConfiguration.getTileType() != tiles.get(tiles.size()-1).getTileType()) {
-                    tiles.add(new TileImpl(tiles.size(), game, tileTypeConfiguration.getTileType()));
+                    tilesQuantity = 0;
                 }
 
-                if (tileTypeConfiguration.hasPennant()) {
-                    gameSets.get(gameSets.size()-1).addPoints(PENNANT_POINTS);
+                tiles.add(new TileImpl(tiles.size(), game, tileTypeConfiguration.getTileType()));
+                tilesQuantity++;
+                currentId = -1;
+            }
+
+            // cambio di gameSet
+            if (tileTypeConfiguration.getId() != currentId) {
+                currentId = tileTypeConfiguration.getId();
+                gameSets.add(new GameSetImpl(tileTypeConfiguration.getGameSetType()));
+            }
+
+            if (tileTypeConfiguration.hasPennant()) {
+                gameSets.get(gameSets.size()-1).addPoints(PENNANT_POINTS);
+            }
+            final TileSection tileSection = new TileSection(tiles.get(tiles.size()-1),
+                tileTypeConfiguration.getTileSectionType(), gameSets.get(gameSets.size()-1));
+            if (tileTypeConfiguration.isClosed()) {
+                tileSection.close();
+            }
+            tileSections.add(tileSection);
+
+            // se era l'ultima tile section di quella tile
+            if ((i % tileSectionsNum) == tileSectionsNum - 1) {
+                // se non abbiamo finito di generare quel tipo di tile
+                if (tilesQuantity < tileTypeConfiguration.getTileType().getQuantity()) {
+                    i -= tileSectionsNum;
                 }
-                final TileSection tileSection = new TileSection(tiles.get(tiles.size()-1),
-                    tileTypeConfiguration.getTileSectionType(), gameSets.get(gameSets.size()-1));
-                if (tileTypeConfiguration.isClosed()) {
-                    tileSection.close();
-                }
-                tileSections.add(tileSection);
-            // }
+            }
         }
         Collections.shuffle(tiles);
         for (int i = 0; i < tiles.size(); i++) {

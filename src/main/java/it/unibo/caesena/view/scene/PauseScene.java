@@ -70,7 +70,7 @@ public class PauseScene implements Scene<JPanel> {
         backToStartMenuButton.setFont(GUI.MEDIUM_BOLD_FONT);
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backToStartMenuButton.addActionListener((e) -> {
-            userInterface.showBackTostartSceneDialog();
+            userInterface.showBackToStartSceneDialog();
         });
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
