@@ -129,8 +129,7 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void createNewGame(Server server, List<Pair<String, Color>> playersData) {
-        // TODO considerare le espansioni (dovrebbero essere passate in input)
+    public void createNewGame(Server server, List<Pair<String, Color>> playersData, List<Expansion> expansions) {
         if (playersData.stream().map(Pair::getX).collect(Collectors.toSet()).size() == playersData.size()
             && playersData.stream().map(Pair::getY).collect(Collectors.toSet()).size() == playersData.size()) {
             this.game = new Game(session, server);
@@ -154,7 +153,7 @@ public final class ControllerImpl implements Controller {
             }
             session.getTransaction().commit();
 
-            createTiles();
+            createTiles(expansions);
             createMeeples();
 
             drawNewTile();
@@ -162,6 +161,19 @@ public final class ControllerImpl implements Controller {
             drawNewTile();
             updateUserInterfaces();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Expansion> getAllExpansions() {
+        session.beginTransaction();
+        CriteriaQuery<Expansion> query = cb.createQuery(Expansion.class);
+        query.select(query.from(Expansion.class));
+        List<Expansion> expansions = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return expansions;
     }
 
     /**
@@ -358,13 +370,13 @@ public final class ControllerImpl implements Controller {
         // TODO [SPEZ]
     }
 
-    private void createTiles() {
-        // TODO considerare le espansioni
+    private void createTiles(final List<Expansion> expansions) {
         this.session.beginTransaction();
         CriteriaQuery<TileTypeConfiguration> query = cb.createQuery(TileTypeConfiguration.class);
         Root<TileTypeConfiguration> root = query.from(TileTypeConfiguration.class);
         List<TileTypeConfiguration> tileTypeConfigurations = session.createQuery(query.select(root)
-            .orderBy(cb.asc(root.get("tileType")), cb.desc(root.get("id"))))
+            .where(root.get("tileType").get("expansion").in(expansions))
+            .orderBy(cb.asc(root.get("tileType")), cb.asc(root.get("id"))))
             .getResultList();
         this.session.getTransaction().commit();
 

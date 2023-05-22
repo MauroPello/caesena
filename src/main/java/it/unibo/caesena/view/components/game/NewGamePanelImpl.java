@@ -87,7 +87,7 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         startButton.addActionListener((e) -> {
             final List<Pair<String, Color>> playersData = playerInputs.stream().map(PlayerInput::getPlayerData).toList();
             userInterface.getController().createNewGame(servers.get(serverChooser.getSelectedIndex()),
-                playersData);
+                playersData, userInterface.getController().getAllExpansions());
         });
         final JPanel startGamePanel = new JPanel();
         startGamePanel.setOpaque(false);
