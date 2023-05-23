@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -264,17 +264,16 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
      */
     public void updateMapContent() {
         final Controller controller = this.gameScene.getUserInterface().getController();
-        final List<Meeple> placedMeeples = controller.getMeeples().stream()
-            .filter(Meeple::isPlaced)
+        final List<MeepleImpl> placedMeeples = controller.getMeeples().stream()
+            .filter(MeepleImpl::isPlaced)
             .toList();
-        final List<Tile> placedTiles = controller.getPlacedTiles();
-        for (final var tile : placedTiles) {
+        for (final var tile : controller.getPlacedTiles()) {
             final TileButton<JButton> tileButton = findTileButton(tile);
             if (!tileButton.isLocked()) {
                 tileButton.addTile(tile);
                 tileButton.lock();
             }
-            final Optional<Meeple> meepleInTile = placedMeeples.stream()
+            final Optional<MeepleImpl> meepleInTile = placedMeeples.stream()
                 .filter(m -> m.getPosition().getTile().equals(tile))
                 .findFirst();
             if (meepleInTile.isPresent()) {

@@ -59,6 +59,7 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
         this.score = 0;
         this.meeples = new HashSet<>();
         this.game = game;
+        this.current = false;
     }
 
     @Override
@@ -69,6 +70,11 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
     @Override
     public boolean isCurrent() {
         return current;
+    }
+
+    @Override
+    public void setCurrent(final boolean current) {
+        this.current = current;
     }
 
     @Override

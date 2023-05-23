@@ -3,15 +3,9 @@ package it.unibo.caesena.model;
 import java.util.List;
 import org.hibernate.Session;
 
-import it.unibo.caesena.model.gameset.GameSetImpl;
-import it.unibo.caesena.model.meeple.MeepleImpl;
-import it.unibo.caesena.model.meeple.MutableMeeple;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.server.Server;
-import it.unibo.caesena.model.tile.MutableTile;
 import it.unibo.caesena.model.tile.TileImpl;
-import it.unibo.caesena.model.tile.TileSection;
-import it.unibo.caesena.model.tile.TileSectionType;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
@@ -53,53 +47,16 @@ public class Game {
         this.server = server;
     }
 
-    public void setPlayers(final List<PlayerInGameImpl> playersInGame) {
-        this.playersInGame = playersInGame;
-    }
-
-    public List<GameSetImpl> getAllGameSets() {
-        // TODO [PELLO] con query
-        return tiles.stream().flatMap(t -> t.getSections().stream()).map(TileSection::getGameSet).toList();
-    }
-
-    public boolean placeMeeple(final MutableMeeple meeple, final MutableTile tile, final TileSectionType tileSection) {
-        // TODO [PELLO]
-        // final GameSet gameSet = getGameSetInSectionType(tile, tileSection);
-        // if (meeple.isPlaced() || !gameSet.isMeepleFree()) {
-        //     return false;
-        // }
-
-        // gameSet.addMeeple(meeple);
-        // meeple.place();
-        return true;
-    }
-
-    public TileImpl getCurrentTile() {
-        return tiles.stream().filter(TileImpl::isCurrent).findFirst().get();
-    }
-
-    public PlayerInGameImpl getCurrentPlayer() {
-        return playersInGame.stream().filter(PlayerInGameImpl::isCurrent).findFirst().get();
-    }
-
-    public List<PlayerInGameImpl> getPlayersInGame() {
-        return playersInGame;
-    }
-
-    public List<TileImpl> getTiles() {
-        return this.tiles;
-    }
-
     public boolean isOver() {
         return this.concluded;
     }
 
-    public List<MeepleImpl> getMeeples() {
-        return playersInGame.stream().flatMap(p -> p.getMeeples().stream()).toList();
+    public void setConcluded(final boolean concluded) {
+        this.concluded = concluded;
     }
 
-    public void end() {
-        // TODO [PELLO]
+    public List<PlayerInGameImpl> getPlayersInGame() {
+        return playersInGame;
     }
 
     public List<Expansion> getExpansions() {

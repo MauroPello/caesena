@@ -5,12 +5,13 @@ import java.util.Optional;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.Game;
+import it.unibo.caesena.model.Expansion;
 import it.unibo.caesena.model.gameset.GameSet;
-import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.player.Player;
-import it.unibo.caesena.model.player.PlayerInGame;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.server.Server;
-import it.unibo.caesena.model.tile.Tile;
+import it.unibo.caesena.model.tile.TileImpl;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
@@ -21,7 +22,7 @@ import it.unibo.caesena.view.UserInterface;
  */
 public interface Controller {
 
-    void createNewGame(Server server, List<Pair<String, Color>> playersData);
+    void createNewGame(Server server, List<Pair<String, Color>> playersData, List<String> expansionNames);
 
     void joinGame(int gameId);
 
@@ -59,21 +60,21 @@ public interface Controller {
      *
      * @return the current player
      */
-    Optional<PlayerInGame> getCurrentPlayer();
+    Optional<PlayerInGameImpl> getCurrentPlayer();
 
     /**
      * Gets a list of all the players.
      *
      * @return the list of players
      */
-    List<PlayerInGame> getPlayers();
+    List<PlayerInGameImpl> getPlayers();
 
     /**
      * Returns the current tile drawn in the current turn.
      *
      * @return the current tile
      */
-    Optional<Tile> getCurrentTile();
+    Optional<TileImpl> getCurrentTile();
 
     /**
      * Places the current tile at the passed position on the board.
@@ -110,14 +111,14 @@ public interface Controller {
      *
      * @return the list of placed tiles
      */
-    List<Tile> getPlacedTiles();
+    List<TileImpl> getPlacedTiles();
 
     /**
      * Returns a list of all the tiles that haven't been placed on the board yet.
      *
      * @return the list of not placed tiles
      */
-    List<Tile> getNotPlacedTiles();
+    List<TileImpl> getNotPlacedTiles();
 
     /**
      * Gets the GameSet that is in the section of the current tile.
@@ -133,14 +134,21 @@ public interface Controller {
      * @param section section on which the tile should be placed
      * @return true if placement is valid, false otherwise
      */
-    Optional<Meeple> placeMeeple(TileSectionType section);
+    boolean placeMeeple(TileSectionType section);
 
     /**
      * Gets the list of all the meeples of all the players.
      *
      * @return the list of all the meeples of all the players
      */
-    List<Meeple> getMeeples();
+    List<MeepleImpl> getMeeples();
+
+    /**
+     * Gets the list of all the meeples of all the players.
+     *
+     * @return the list of all the meeples of all the players
+     */
+    List<MeepleImpl> getPlayerMeeples(PlayerInGameImpl player);
 
     /**
      * Adds a user interface to the list of user interfaces.
@@ -162,4 +170,10 @@ public interface Controller {
     List<Server> getAvailableServers();
 
     List<Game> getOpenGames(Player player);
+
+    List<Expansion> getAllExpansions();
+
+    List<Player> getAllPlayers();
+
+    Player getPlayerByID(String source);
 }

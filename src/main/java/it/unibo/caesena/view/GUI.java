@@ -230,12 +230,13 @@ public class GUI implements UserInterface {
     /**
      * Shows the back to startScene dialog.
      */
-    public void showBackTostartSceneDialog() {
+    public void showBackToStartSceneDialog() {
         final int result = JOptionPane.showConfirmDialog(this.mainFrame, LocaleHelper.getConfirmBackToStartMenuText(),
                 LocaleHelper.getBackToStartMenuText(), JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
-            this.forceScenesReset = true;
+            resetScenes();
+            showStartScene();
         }
     }
 

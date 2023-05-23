@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
@@ -85,7 +84,6 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
 
         this.tileImage = Optional.empty();
         this.tileImagePanel = new JPanel() {
-
             @Override
             public Dimension getMaximumSize() {
                 return getPreferredSize();
@@ -123,7 +121,6 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         this.tileImagePanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
         this.rotateButton = new JButton() {
-
             @Override
             public Dimension getMaximumSize() {
                 return getPreferredSize();
@@ -152,6 +149,13 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         this.rotateButton.setContentAreaFilled(false);
         this.rotateButton.setOpaque(false);
         this.rotateButton.setBorderPainted(false);
+        this.rotateButton.addActionListener((e) -> {
+            if (tileImage.isPresent()) {
+                gameScene.removePlacedTile();
+                userInterface.getController().rotateCurrentTile();
+                tileImagePanel.repaint();
+            }
+        });
 
         this.playerNameMeeplesPanel = new JPanel();
         playerNameMeeplesPanel.setLayout(new GridBagLayout());
@@ -199,8 +203,6 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         this.mainPanel.add(innerPanel, BorderLayout.CENTER);
 
         innerPanel.setVisible(true);
-
-        rotateButton.addActionListener(rotateButtonEventListener());
 
         this.mainPanel.addComponentListener(new ComponentAdapter() {
             @Override
@@ -268,20 +270,6 @@ public class FooterComponentImpl implements FooterComponent<JPanel> {
         } else {
             spacerPanel.setVisible(false);
         }
-    }
-
-    /**
-     * allows to rotate the current tileImage and his image.
-     * @return ActionListener that allows to rotate the current tileImage and his image
-     */
-    private ActionListener rotateButtonEventListener() {
-        return (e) -> {
-            if (tileImage.isPresent()) {
-                gameScene.removePlacedTile();
-                userInterface.getController().rotateCurrentTile();
-                tileImagePanel.repaint();
-            }
-        };
     }
 
     /**

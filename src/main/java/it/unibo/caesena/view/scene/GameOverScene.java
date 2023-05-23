@@ -77,7 +77,7 @@ public class GameOverScene implements Scene<JPanel> {
 
         final JButton backToStartMenuButton = new JButton(LocaleHelper.getBackToStartMenuText());
         backToStartMenuButton.setFont(GUI.MEDIUM_BOLD_FONT);
-        backToStartMenuButton.addActionListener(e -> userInterface.showBackTostartSceneDialog());
+        backToStartMenuButton.addActionListener(e -> userInterface.showBackToStartSceneDialog());
         backToStartMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPanel.add(backToStartMenuButton);
 
