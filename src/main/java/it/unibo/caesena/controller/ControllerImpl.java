@@ -1023,11 +1023,10 @@ public final class ControllerImpl implements Controller {
     }
 
     public List<Game> getOpenGames(Player player) {
-        Player playerProva = session.get(Player.class, "nome");
         session.beginTransaction();
         CriteriaQuery<PlayerInGameImpl> query = this.cb.createQuery(PlayerInGameImpl.class);
         Root<PlayerInGameImpl> pigRoot = query.from(PlayerInGameImpl.class);
-        query.where(cb.equal(pigRoot.get("player"), playerProva));
+        query.where(cb.equal(pigRoot.get("player"), player));
         List<PlayerInGameImpl> playersInGame = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return playersInGame.stream().map(p -> p.getGame()).toList();
@@ -1056,7 +1055,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public Player getPlayerByID(String playerID) {
-        return (Player) session.get("player", playerID);
+        return (Player) session.get(Player.class, playerID);
     }
 
 
