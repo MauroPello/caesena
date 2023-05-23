@@ -38,6 +38,7 @@ import it.unibo.caesena.model.tile.TileTypeConfiguration;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
+import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
@@ -831,19 +832,31 @@ public final class ControllerImpl implements Controller {
     public List<Server> getAvailableServers() {
         //TODO [SPEZ] Farlo con Criteria queries, non cosi` a mano che fa schifo
 
-        // List<Server> availableServers = new ArrayList<>();
-        // @SuppressWarnings("deprecation")
-        // Query query=session.createQuery("from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
-        // availableServers = query.getResultList();
+        List<Server> availableServers = new ArrayList<>();
+        @SuppressWarnings("deprecation")
+        Query query = session.createQuery("from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
+        availableServers = query.getResultList();
 
-        session.beginTransaction();
-        CriteriaQuery<Server> query = cb.createQuery(Server.class);
-        Root<Server> rootServer = query.from(Server.class);
-        query.select(rootServer);
-        query.where(cb.isTrue(rootServer.get("active")));
-        List<Server> availableServers = session.createQuery(query).getResultList();
-        session.getTransaction().commit();
+        // session.beginTransaction();
+        //
+        // Root<Server> rootServer = query.from(Server.class);
+        // query.select(rootServer);
+        // query.where(cb.isTrue(rootServer.get("active")));
+        // List<Server> availableServers = session.createQuery(query).getResultList();
+        // session.getTransaction().commit();
         return availableServers;
+    }
+
+    @Override
+    public List<Game> getOpenGames(Player player) {
+        Player playerProva = session.get(Player.class, "nome");
+        session.beginTransaction();
+        CriteriaQuery<PlayerInGameImpl> query = this.cb.createQuery(PlayerInGameImpl.class);
+        Root<PlayerInGameImpl> pigRoot = query.from(PlayerInGameImpl.class);
+        query.where(cb.equal(pigRoot.get("player"), playerProva));
+        List<PlayerInGameImpl> playersInGame = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return playersInGame.stream().map(p -> p.getGame()).toList();
     }
 
 }

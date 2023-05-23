@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.caesena.model.Color;
+import it.unibo.caesena.model.Game;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGame;
 import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.model.tile.Tile;
@@ -158,4 +160,6 @@ public interface Controller {
     public List<Color> getDefaultColors();
 
     List<Server> getAvailableServers();
+
+    List<Game> getOpenGames(Player player);
 }
