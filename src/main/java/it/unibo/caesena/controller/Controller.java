@@ -150,6 +150,8 @@ public interface Controller {
      */
     List<MeepleImpl> getPlayerMeeples(PlayerInGameImpl player);
 
+    List<MeepleImpl> getUnplacedPlayerMeeples(PlayerInGameImpl player);
+
     /**
      * Adds a user interface to the list of user interfaces.
      * This means that more that one user interface can be used at the same time.
@@ -176,6 +178,4 @@ public interface Controller {
     List<Player> getAllPlayers();
 
     Player getPlayerByID(String source);
-
-    Optional<MeepleImpl> getCurrentMeeple();
 }

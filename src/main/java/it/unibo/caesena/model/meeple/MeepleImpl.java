@@ -3,6 +3,7 @@ package it.unibo.caesena.model.meeple;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.player.MutablePlayerInGame;
+import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.StringUtil;
 
@@ -74,7 +75,8 @@ public class MeepleImpl implements MutableMeeple {
      * {@inheritDoc}
      */
     @Override
-    public void place() {
+    public void place(TileSection section) {
+        this.section = section;
         this.placed = true;
     }
 
@@ -120,8 +122,7 @@ public class MeepleImpl implements MutableMeeple {
 
     @Override
     public TileSection getPosition() {
-        // return this.section;
-        return null;
+        return this.section;
     }
 
     @Override

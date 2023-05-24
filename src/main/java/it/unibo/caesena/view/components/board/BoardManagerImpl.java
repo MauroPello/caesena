@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.utils.ResourceUtil;
+import it.unibo.caesena.view.UserInterface;
 import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 import it.unibo.caesena.view.scene.GameScene;
 
@@ -45,8 +46,9 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
      */
     @Override
     public void toggleComponents() {
-        final Optional<MeepleImpl> remainingMeeple = gameScene.getUserInterface().getController().getCurrentMeeple();
-        if (remainingMeeple.isPresent()) {
+        final UserInterface ui = gameScene.getUserInterface();
+        final List<MeepleImpl> remainingMeeple = ui.getController().getUnplacedPlayerMeeples(ui.getController().getCurrentPlayer().get());
+        if (!remainingMeeple.isEmpty()) {
             showingBoard = !showingBoard;
             update();
         }
