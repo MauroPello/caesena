@@ -8,13 +8,14 @@ import java.util.List;
 import javax.swing.GrayFilter;
 
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.utils.ResourceUtil;
 
 /**
  * This class rappresents the image of the meeples.
  */
 public class MeepleImage {
-    private final Meeple meeple;
+    private final MeepleImpl meeple;
     private final Image normalImage;
     private final Image blurredImage;
 
@@ -24,7 +25,7 @@ public class MeepleImage {
      * @param meeple corrispondig to the image
      * @param color  color of the player that owns the meeple
      */
-    public MeepleImage(final Meeple meeple, final Color color) {
+    public MeepleImage(final MeepleImpl meeple, final Color color) {
         this.meeple = meeple;
         final BufferedImage image = ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple"));
         this.normalImage = colorAllPixels(image, color);
@@ -36,7 +37,7 @@ public class MeepleImage {
      *
      * @return the meeple associeted with the image
      */
-    public Meeple getMeeple() {
+    public MeepleImpl getMeeple() {
         return this.meeple;
     }
 

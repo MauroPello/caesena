@@ -49,7 +49,7 @@ public class SectionButton implements BasicComponent<JButton> {
         final Controller controller = gameScene.getUserInterface().getController();
         final GameSet gameSet = controller.getCurrentTileGameSetInSection(section);
         // TODO [SPEZ] fare una funzione per vedere se un GameSet è meepleFree
-        this.toBeDrawn = /*gameSet.isMeepleFree() &&*/ !gameSet.isClosed();
+        this.toBeDrawn = controller.isGameSetFree(gameSet) && !gameSet.isClosed();
         if (this.toBeDrawn) {
             selected = false;
             final String buttonLabel = getLabelFromSection(section);

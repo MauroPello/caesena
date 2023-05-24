@@ -13,8 +13,10 @@ import javax.swing.border.LineBorder;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileSectionType;
+import it.unibo.caesena.view.UserInterface;
 
 /**
  * {@inheritDoc}
@@ -26,15 +28,17 @@ public class TileButtonImpl implements TileButton<JButton> {
     private final MouseAdapter mouseAdapter;
     private final JButton button;
     private Optional<TileImage> tileImage;
-    private Optional<Meeple> meeple;
+    private Optional<MeepleImpl> meeple;
     private boolean locked;
     private final List<TileSectionType> tileSectionTypes;
+    private final UserInterface ui;
 
     /**
      * Class constructor.
      * @param onClickActionListener action listener that specifies what to do in case of a click
      */
-    public TileButtonImpl(final ActionListener onClickActionListener, final List<TileSectionType> tileSectionTypes) {
+    public TileButtonImpl(final ActionListener onClickActionListener, final List<TileSectionType> tileSectionTypes, UserInterface ui) {
+        this.ui = ui;
         this.tileSectionTypes = tileSectionTypes;
         this.locked = false;
         this.tileImage = Optional.empty();
@@ -86,7 +90,7 @@ public class TileButtonImpl implements TileButton<JButton> {
      */
     @Override
     public void addTile(final Tile tile) {
-        this.tileImage = Optional.of(new TileImage(tile, tileSectionTypes));
+        this.tileImage = Optional.of(new TileImage(tile, tileSectionTypes, ui));
         this.button.repaint();
     }
 
@@ -154,7 +158,7 @@ public class TileButtonImpl implements TileButton<JButton> {
      * {@inheritDoc}
      */
     @Override
-    public void setMeeple(final Meeple meeple) {
+    public void setMeeple(final MeepleImpl meeple) {
         this.meeple = Optional.of(meeple);
         this.tileImage.get().addMeeple(meeple);
         this.button.repaint();
@@ -181,7 +185,7 @@ public class TileButtonImpl implements TileButton<JButton> {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Meeple> getMeeple() {
+    public Optional<MeepleImpl> getMeeple() {
         return this.meeple;
     }
 

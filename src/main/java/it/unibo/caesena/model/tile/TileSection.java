@@ -1,10 +1,12 @@
 package it.unibo.caesena.model.tile;
 
 import it.unibo.caesena.model.gameset.GameSetImpl;
+import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.meeple.MutableMeeple;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -67,8 +69,8 @@ public class TileSection implements Serializable {
         this.gameSet = gameSet;
     }
 
-    public MutableMeeple getMeeple() {
-        return this.meeple;
+    public Optional<MeepleImpl> getMeeple() {
+        return this.meeple == null ? Optional.empty() : Optional.of(this.meeple);
     }
 
     public void setMeeple(final MeepleImpl meeple) {

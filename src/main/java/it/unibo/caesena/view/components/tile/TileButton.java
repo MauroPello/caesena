@@ -3,6 +3,7 @@ package it.unibo.caesena.view.components.tile;
 import java.util.Optional;
 
 import it.unibo.caesena.model.meeple.Meeple;
+import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.view.BasicComponent;
 
@@ -59,14 +60,14 @@ public interface TileButton<X> extends BasicComponent<X> {
      *
      * @return a Optional containing the meeple
      */
-    Optional<Meeple> getMeeple();
+    Optional<MeepleImpl> getMeeple();
 
     /**
      * Sets the meeple.
      *
      * @param meeple to be set
      */
-    void setMeeple(Meeple meeple);
+    void setMeeple(MeepleImpl meeple);
 
     /**
      * Unsets the meeple.

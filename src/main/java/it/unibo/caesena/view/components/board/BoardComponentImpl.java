@@ -249,7 +249,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
                 .map(x -> x.getKey())
                 .findFirst();
         if (searchedTileButton.isEmpty()) {
-            foundTileButton = new TileButtonImpl(getTileButtonActionListener(), gameScene.getUserInterface().getController().getAllTileSectionTypes());
+            foundTileButton = new TileButtonImpl(getTileButtonActionListener(), gameScene.getUserInterface().getController().getAllTileSectionTypes(), gameScene.getUserInterface());
             allTileButtons.put(foundTileButton, coordinates);
         } else {
             foundTileButton = searchedTileButton.get();
@@ -264,9 +264,6 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
      */
     public void updateMapContent() {
         final Controller controller = this.gameScene.getUserInterface().getController();
-        final List<MeepleImpl> placedMeeples = controller.getMeeples().stream()
-            .filter(MeepleImpl::isPlaced)
-            .toList();
         for (final var tile : controller.getPlacedTiles()) {
             final TileButton<JButton> tileButton = findTileButton(tile);
             if (!tileButton.isLocked()) {
@@ -275,9 +272,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
             }
             // TODO [SPEZ] fare una funzione dal controller che passando un meeple
             // restituisce la TileSection sulla quale è piazzato
-            final Optional<MeepleImpl> meepleInTile = placedMeeples.stream()
-                // .filter(m -> m.getPosition().getTile().equals(tile))
-                .findFirst();
+            final Optional<MeepleImpl> meepleInTile = controller.getMeepleFromTile(tile);
             if (meepleInTile.isPresent()) {
                 tileButton.setMeeple(meepleInTile.get());
             } else if (tileButton.getMeeple().isPresent()) {

@@ -12,14 +12,17 @@ import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.server.Server;
+import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileImpl;
+import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
 
 /**
  * The controller is one of the components of the MVC architetture.
- * Its job is to interface the model with the view, it controlls the flow of the game.
+ * Its job is to interface the model with the view, it controlls the flow of the
+ * game.
  */
 public interface Controller {
 
@@ -130,7 +133,8 @@ public interface Controller {
     GameSet getCurrentTileGameSetInSection(TileSectionType section);
 
     /**
-     * Places a meeple of the current player on the current tile at the given section.
+     * Places a meeple of the current player on the current tile at the given
+     * section.
      *
      * @param section section on which the tile should be placed
      * @return true if placement is valid, false otherwise
@@ -181,4 +185,10 @@ public interface Controller {
     Player getPlayerByID(String source);
 
     List<MeepleType> getMeepleTypesForPlayer(PlayerInGameImpl player);
+
+    boolean isGameSetFree(GameSet gameset);
+
+    Optional<TileSection> getTileSectionFromMeeple(MeepleImpl meeple);
+
+    Optional<MeepleImpl> getMeepleFromTile(Tile tile);
 }

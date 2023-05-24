@@ -1,5 +1,6 @@
 package it.unibo.caesena.model.tile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,6 +61,7 @@ public final class TileImpl implements MutableTile {
         this.yCoordinate = null;
         this.current = false;
         this.game = game;
+        this.sections = new ArrayList<>();
     }
 
     public void setOrder(final int order) {
