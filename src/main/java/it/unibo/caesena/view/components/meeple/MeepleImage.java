@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.swing.GrayFilter;
 
-import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.utils.ResourceUtil;
 

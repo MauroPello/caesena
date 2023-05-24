@@ -780,7 +780,6 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public Optional<MeepleImpl> placeMeeple(final TileSectionType sectionType, final MeepleType meepleType) {
-        // TODO [SPEZ] da verificare se c'e gia un altro nel gameset
         TileImpl tile = this.getCurrentTile().get();
         MeepleImpl choosenMeeple = this.getUnplacedPlayerMeeples(this.getCurrentPlayer().get()).get(0);
         TileSection choosenTileSection = this.getTileSectionFromTile(tile, sectionType);

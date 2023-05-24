@@ -5,10 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.ResourceUtil;
@@ -27,7 +25,6 @@ public class TileImage {
     private BufferedImage temporaryImage;
     private boolean somethingChanged;
     private Optional<MeepleImage> meepleImage;
-    private final List<TileSectionType> tileSectionTypes;
     private final UserInterface ui;
 
     /**
@@ -35,9 +32,8 @@ public class TileImage {
      *
      * @param tile of which to manage the image
      */
-    public TileImage(final Tile tile, final List<TileSectionType> tileSectionTypes, UserInterface ui) {
+    public TileImage(final Tile tile, UserInterface ui) {
         this.somethingChanged = true;
-        this.tileSectionTypes = tileSectionTypes;
         this.tile = tile;
         this.meepleImage = Optional.empty();
         this.ui = ui;
@@ -167,11 +163,6 @@ public class TileImage {
 
             TileSectionType type = ui.getController().getTileSectionFromMeeple(meepleImage.get().getMeeple()).get()
                     .getType();
-            // for (var type : tileSectionTypes) {
-            // // TODO [SPEZ] fare una funzione dal controller che passando un meeple
-            // // restituisce la TileSection sulla quale è piazzato
-            // // if (type.equals(meepleImage.get().getSection())) {
-            // if (type.equals()) {
             if (type.getName().equals("CENTER")) {
                 return new Pair<Integer, Integer>(centralPadding, centralPadding);
             }

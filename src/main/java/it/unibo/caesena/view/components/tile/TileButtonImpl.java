@@ -5,17 +5,14 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileSectionType;
 import it.unibo.caesena.view.UserInterface;
 
 /**
@@ -30,16 +27,14 @@ public class TileButtonImpl implements TileButton<JButton> {
     private Optional<TileImage> tileImage;
     private Optional<MeepleImpl> meeple;
     private boolean locked;
-    private final List<TileSectionType> tileSectionTypes;
     private final UserInterface ui;
 
     /**
      * Class constructor.
      * @param onClickActionListener action listener that specifies what to do in case of a click
      */
-    public TileButtonImpl(final ActionListener onClickActionListener, final List<TileSectionType> tileSectionTypes, UserInterface ui) {
+    public TileButtonImpl(final ActionListener onClickActionListener, UserInterface ui) {
         this.ui = ui;
-        this.tileSectionTypes = tileSectionTypes;
         this.locked = false;
         this.tileImage = Optional.empty();
         this.meeple = Optional.empty();
@@ -90,7 +85,7 @@ public class TileButtonImpl implements TileButton<JButton> {
      */
     @Override
     public void addTile(final Tile tile) {
-        this.tileImage = Optional.of(new TileImage(tile, tileSectionTypes, ui));
+        this.tileImage = Optional.of(new TileImage(tile, ui));
         this.button.repaint();
     }
 

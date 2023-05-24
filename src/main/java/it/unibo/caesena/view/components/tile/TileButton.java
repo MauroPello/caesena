@@ -2,7 +2,6 @@ package it.unibo.caesena.view.components.tile;
 
 import java.util.Optional;
 
-import it.unibo.caesena.model.meeple.Meeple;
 import it.unibo.caesena.model.meeple.MeepleImpl;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.view.BasicComponent;
