@@ -781,18 +781,19 @@ public final class ControllerImpl implements Controller {
     @Override
     public Optional<MeepleImpl> placeMeeple(final TileSectionType sectionType, final MeepleType meepleType) {
         TileImpl tile = this.getCurrentTile().get();
-        MeepleImpl choosenMeeple = this.getUnplacedPlayerMeeples(this.getCurrentPlayer().get()).get(0);
+        Optional<MeepleImpl> choosenMeeple = this.getUnplacedPlayerMeeples(this.getCurrentPlayer().get())
+            .stream().filter(m -> m.getType().equals(meepleType)).findFirst();
         TileSection choosenTileSection = this.getTileSectionFromTile(tile, sectionType);
-        if (this.isGameSetFree(choosenTileSection.getGameSet())) {
+        if (choosenMeeple.isPresent() && this.isGameSetFree(choosenTileSection.getGameSet())) {
             session.beginTransaction();
-            choosenMeeple.setPlaced(true);
-            MeepleImpl mergedMeeple = session.merge(choosenMeeple);
-            choosenTileSection.setMeeple(mergedMeeple);
+            choosenMeeple.get().setPlaced(true);
+            session.merge(choosenMeeple.get());
+            choosenTileSection.setMeeple(choosenMeeple.get());
             session.merge(choosenTileSection);
             session.getTransaction().commit();
 
             updateUserInterfaces();
-            return Optional.of(mergedMeeple);
+            return choosenMeeple;
         }
         return Optional.empty();
     }
