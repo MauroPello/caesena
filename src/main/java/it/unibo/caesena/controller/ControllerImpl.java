@@ -333,9 +333,9 @@ public final class ControllerImpl implements Controller {
         query.select(root);
         query.where(cb.and(cb.equal(root.get("tile"), tile),
                 cb.equal(root.get("type"), tileSectionType)));
-        List<TileSection> tileSections = session.createQuery(query).getResultList();
+        TileSection tileSection = session.createQuery(query).getSingleResult();
         session.getTransaction().commit();
-        return tileSections.get(0);
+        return tileSection;
     }
 
     public void joinTiles(final MutableTile t1, final MutableTile t2) {
@@ -496,14 +496,14 @@ public final class ControllerImpl implements Controller {
 
     public GameSet getGameSetInSectionType(final MutableTile tile, final TileSectionType tileSectionType) {
         this.session.beginTransaction();
-        CriteriaQuery<TileSection> query = cb.createQuery(TileSection.class);
+        CriteriaQuery<GameSetImpl> query = cb.createQuery(GameSetImpl.class);
         Root<TileSection> root = query.from(TileSection.class);
-        query.select(root);
+        query.select(root.get("gameSet"));
         query.where(cb.and(cb.equal(root.get("type"), tileSectionType),
                 cb.equal(root.get("tile"), tile)));
-        List<TileSection> tileSections = session.createQuery(query).getResultList();
+        GameSetImpl gameSet = session.createQuery(query).getSingleResult();
         this.session.getTransaction().commit();
-        return tileSections.get(0).getGameSet();
+        return gameSet;
     }
 
     /**
@@ -575,10 +575,10 @@ public final class ControllerImpl implements Controller {
         Root<PlayerInGameImpl> root = query.from(PlayerInGameImpl.class);
         List<PlayerInGameImpl> players = session.createQuery(query.select(root)
                 .where(cb.equal(root.get("game"), this.game))).getResultList();
-        currentPlayer = Optional.of(session.createQuery(query.select(root).where(cb.and(
+        currentPlayer = Optional.ofNullable(session.createQuery(query.select(root).where(cb.and(
                 cb.equal(root.get("game"), this.game)),
                 cb.equal(root.get("playerOrder"), (getCurrentPlayer().get().getPlayerOrder() + 1) % players.size())))
-                .getResultList().get(0));
+                .getSingleResultOrNull());
         currentPlayer.get().setCurrent(true);
         session.getTransaction().commit();
         updateUserInterfaces();
@@ -804,8 +804,7 @@ public final class ControllerImpl implements Controller {
             CriteriaQuery<TileSection> query = cb.createQuery(TileSection.class);
             Root<TileSection> root = query.from(TileSection.class);
             query.select(root);
-            query.where(
-                    cb.equal(root.get("meeple"), meeple));
+            query.where(cb.equal(root.get("meeple"), meeple));
             TileSection tileSection = session.createQuery(query).getSingleResult();
             session.getTransaction().commit();
             return Optional.of(tileSection);
@@ -885,17 +884,13 @@ public final class ControllerImpl implements Controller {
         getCurrentTile().get().setCurrent(false);
         CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
         Root<TileImpl> root = query.from(TileImpl.class);
-        List<TileImpl> tiles = session.createQuery(query.select(root)
+        currentTile = Optional.ofNullable(session.createQuery(query.select(root)
                 .where(cb.and(cb.equal(root.get("game"), this.game)),
-                        cb.equal(root.get("tileOrder"), getCurrentTile().get().getTileOrder() + 1)))
-                .getResultList();
-        if (tiles.size() == 1) {
-            tiles.get(0).setCurrent(true);
-            currentTile = Optional.of(tiles.get(0));
-        }
+                    cb.equal(root.get("tileOrder"), getCurrentTile().get().getTileOrder() + 1)))
+                .getSingleResultOrNull());
+        currentTile.ifPresent(t -> t.setCurrent(true));
         session.getTransaction().commit();
-        if (tiles.isEmpty()) {
-            currentTile = Optional.empty();
+        if (currentTile.isEmpty()) {
             endGame();
         }
     }
