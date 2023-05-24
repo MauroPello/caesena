@@ -68,6 +68,8 @@ public final class ControllerImpl implements Controller {
     private final Session session;
 
     private Game game;
+    private Optional<TileImpl> currentTile;
+    private Optional<PlayerInGameImpl> currentPlayer;
 
     /**
      * Class constructor.
@@ -136,6 +138,8 @@ public final class ControllerImpl implements Controller {
                                 getTileSectionTypeFromName("LEFT_DOWN")),
                         List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"),
                                 getTileSectionTypeFromName("RIGHT_DOWN")))));
+        this.currentPlayer = Optional.empty();
+        this.currentTile = Optional.empty();
     }
 
     /**
@@ -174,6 +178,7 @@ public final class ControllerImpl implements Controller {
                 final PlayerInGameImpl playerInGame = new PlayerInGameImpl(player, playersData.get(i).getY(), i, game);
                 if (i == 0) {
                     playerInGame.setCurrent(true);
+                    currentPlayer = Optional.of(playerInGame);
                 }
                 session.persist(playerInGame);
             }
@@ -480,6 +485,7 @@ public final class ControllerImpl implements Controller {
             tiles.get(i).setOrder(i);
         }
         tiles.get(0).setCurrent(true);
+        currentTile = Optional.of(tiles.get(0));
 
         this.session.beginTransaction();
         tiles.forEach(session::persist);
@@ -563,17 +569,17 @@ public final class ControllerImpl implements Controller {
         }
 
         drawNewTile();
-        PlayerInGameImpl currentPlayer = getCurrentPlayer().get();
         session.beginTransaction();
-        currentPlayer.setCurrent(false);
+        getCurrentPlayer().get().setCurrent(false);
         CriteriaQuery<PlayerInGameImpl> query = cb.createQuery(PlayerInGameImpl.class);
         Root<PlayerInGameImpl> root = query.from(PlayerInGameImpl.class);
         List<PlayerInGameImpl> players = session.createQuery(query.select(root)
                 .where(cb.equal(root.get("game"), this.game))).getResultList();
-        session.createQuery(query.select(root).where(cb.and(
+        currentPlayer = Optional.of(session.createQuery(query.select(root).where(cb.and(
                 cb.equal(root.get("game"), this.game)),
-                cb.equal(root.get("playerOrder"), (currentPlayer.getPlayerOrder() + 1) % players.size())))
-                .getResultList().get(0).setCurrent(true);
+                cb.equal(root.get("playerOrder"), (getCurrentPlayer().get().getPlayerOrder() + 1) % players.size())))
+                .getResultList().get(0));
+        currentPlayer.get().setCurrent(true);
         session.getTransaction().commit();
         updateUserInterfaces();
     }
@@ -640,15 +646,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public Optional<PlayerInGameImpl> getCurrentPlayer() {
-        session.beginTransaction();
-        CriteriaQuery<PlayerInGameImpl> query = cb.createQuery(PlayerInGameImpl.class);
-        Root<PlayerInGameImpl> root = query.from(PlayerInGameImpl.class);
-        query.select(root);
-        query.where(cb.and(cb.isTrue(root.get("current")),
-                cb.equal(root.get("game"), this.game)));
-        List<PlayerInGameImpl> players = session.createQuery(query).getResultList();
-        session.getTransaction().commit();
-        return Optional.ofNullable(players.size() == 1 ? players.get(0) : null);
+        return currentPlayer;
     }
 
     /**
@@ -671,15 +669,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public Optional<TileImpl> getCurrentTile() {
-        session.beginTransaction();
-        CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
-        Root<TileImpl> root = query.from(TileImpl.class);
-        query.select(root);
-        query.where(cb.and(cb.isTrue(root.get("current")),
-                cb.equal(root.get("game"), this.game)));
-        List<TileImpl> tiles = session.createQuery(query).getResultList();
-        session.getTransaction().commit();
-        return Optional.ofNullable(tiles.size() == 1 ? tiles.get(0) : null);
+        return currentTile;
     }
 
     /**
@@ -890,20 +880,21 @@ public final class ControllerImpl implements Controller {
      * Draws a new tile from the list of not placed tiles.
      */
     private void drawNewTile() {
-        MutableTile currentTile = getCurrentTile().get();
         session.beginTransaction();
-        currentTile.setCurrent(false);
+        getCurrentTile().get().setCurrent(false);
         CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
         Root<TileImpl> root = query.from(TileImpl.class);
         List<TileImpl> tiles = session.createQuery(query.select(root)
                 .where(cb.and(cb.equal(root.get("game"), this.game)),
-                        cb.equal(root.get("tileOrder"), currentTile.getTileOrder() + 1)))
+                        cb.equal(root.get("tileOrder"), getCurrentTile().get().getTileOrder() + 1)))
                 .getResultList();
         if (tiles.size() == 1) {
             tiles.get(0).setCurrent(true);
+            currentTile = Optional.of(tiles.get(0));
         }
         session.getTransaction().commit();
         if (tiles.isEmpty()) {
+            currentTile = Optional.empty();
             endGame();
         }
     }
