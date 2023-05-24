@@ -2,7 +2,6 @@ package it.unibo.caesena.model.meeple;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.player.MutablePlayerInGame;
-import it.unibo.caesena.model.tile.TileSection;
 
 /**
  * An interface defining a Meeple.
@@ -43,11 +42,4 @@ public interface Meeple {
      * @return the type of the meeple.
      */
     MeepleType getType();
-
-    /**
-     * Gets the type of the meeple.
-     *
-     * @return the type of the meeple.
-     */
-    TileSection getPosition();
 }

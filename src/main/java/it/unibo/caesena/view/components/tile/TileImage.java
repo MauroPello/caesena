@@ -159,7 +159,10 @@ public class TileImage {
         final int farPadding = max / 5;
         final int centralPadding = max / 2;
         for (var type : tileSectionTypes) {
-            if (type.equals(meepleImage.get().getSection())) {
+            // fare una funzione dal controller che passando un meeple
+            // restituisce la tile section sulla quale è piazzato
+            // if (type.equals(meepleImage.get().getSection())) {
+            if (type.equals(null)) {
                 if (type.getName().equals("CENTER")) {
                     return new Pair<Integer, Integer>(centralPadding, centralPadding);
                 }

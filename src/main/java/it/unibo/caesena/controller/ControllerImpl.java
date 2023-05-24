@@ -593,11 +593,16 @@ public final class ControllerImpl implements Controller {
         session.getTransaction().commit();
 
         final Set<GameSet> fieldsToClose = allGameSets.stream()
-                .filter(c -> c.getType().equals(getGameSetTypeFromName("CITY")))
-                .filter(GameSetImpl::isClosed)
-                .flatMap(c -> getFieldGameSetsNearGameSet(c).stream())
-                .peek(f -> f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD))
-                .collect(Collectors.toSet());
+            .filter(c -> c.getType().equals(getGameSetTypeFromName("CITY")))
+            .filter(GameSetImpl::isClosed)
+            .flatMap(c -> getFieldGameSetsNearGameSet(c).stream())
+            .peek(f -> {
+                f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD);
+                session.beginTransaction();
+                session.merge(f);
+                session.getTransaction().commit();
+            })
+            .collect(Collectors.toSet());
         fieldsToClose.forEach(this::closeGameSet);
 
         allGameSets.stream()
@@ -797,7 +802,7 @@ public final class ControllerImpl implements Controller {
                         cb.equal(TileSectionRoot.get("type"), sectionType),
                         cb.equal(TileSectionRoot.get("tile"), tile)));
         TileSection choosenTileSection = session.createQuery(tileSectionQuery).getResultList().get(0);
-        choosenMeeple.place(choosenTileSection);
+        choosenMeeple.setPlaced(true);
         MeepleImpl mergedMeeple = session.merge(choosenMeeple);
         choosenTileSection.setMeeple(mergedMeeple);
         session.merge(choosenTileSection);

@@ -33,7 +33,7 @@ public class TileSection implements Serializable {
     @ManyToOne
     private GameSetImpl gameSet;
 
-    @OneToOne(mappedBy = "section", optional = true)
+    @OneToOne(optional = true)
     private MeepleImpl meeple;
 
     private boolean closed;

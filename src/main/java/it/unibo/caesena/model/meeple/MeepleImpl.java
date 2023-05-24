@@ -3,8 +3,6 @@ package it.unibo.caesena.model.meeple;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.player.MutablePlayerInGame;
-import it.unibo.caesena.model.tile.Tile;
-import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.utils.StringUtil;
 
 import jakarta.persistence.Access;
@@ -14,7 +12,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -36,9 +33,6 @@ public class MeepleImpl implements MutableMeeple {
 
     @ManyToOne
     private PlayerInGameImpl owner;
-
-    @OneToOne
-    private TileSection section;
 
     private boolean placed;
 
@@ -75,17 +69,8 @@ public class MeepleImpl implements MutableMeeple {
      * {@inheritDoc}
      */
     @Override
-    public void place(TileSection section) {
-        this.section = section;
-        this.placed = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void remove() {
-        this.placed = false;
+    public void setPlaced(final boolean placed) {
+        this.placed = placed;
     }
 
     /**
@@ -121,11 +106,6 @@ public class MeepleImpl implements MutableMeeple {
     }
 
     @Override
-    public TileSection getPosition() {
-        return this.section;
-    }
-
-    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -149,6 +129,5 @@ public class MeepleImpl implements MutableMeeple {
             return false;
         return true;
     }
-
 
 }
