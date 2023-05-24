@@ -766,20 +766,25 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public boolean placeMeeple(final TileSectionType section) {
-        // TODO [SPEZ] piazzare i meeple scegliendone uno a caso o far decidere l'utente?
-        // final Optional<MeepleImpl> currentMeeple = game.getCurrentPlayer().getMeeples().stream()
-        //     .filter(m -> !m.isPlaced())
-        //     .findFirst();
-
-        // if (currentMeeple.isPresent() && !game.placeMeeple(currentMeeple.get(), getCurrentTile().get(), section)) {
-        //     updateUserInterfaces();
-        //     return Optional.empty();
-        // }
+    public boolean placeMeeple(final TileSectionType sectionType) {
+        // TODO [SPEZ]
+        TileImpl tile = this.getCurrentTile().get();
+        MeepleImpl choosenMeeple = this.getCurrentMeeple().get();
+        session.beginTransaction();
+        CriteriaQuery<TileSection> tileSectionQuery = cb.createQuery(TileSection.class);
+        Root<TileSection> TileSectionRoot = tileSectionQuery.from(TileSection.class);
+        tileSectionQuery.select(TileSectionRoot);
+        tileSectionQuery.where(cb.equal(TileSectionRoot.get("type"), sectionType));
+        tileSectionQuery.where(cb.equal(TileSectionRoot.get("tile"), tile));
+        TileSection choosenTileSection = session.createQuery(tileSectionQuery).getResultList().get(0);
+        session.getTransaction().commit();
+        choosenMeeple.place();
+        MeepleImpl mergedMeeple = session.merge(choosenMeeple);
+        choosenTileSection.setMeeple(mergedMeeple);
+        session.merge(choosenTileSection);
 
         updateUserInterfaces();
         return true;
-        // return currentMeeple.isPresent() ? Optional.of(currentMeeple.get()) : Optional.empty();
     }
 
     /**
@@ -1056,6 +1061,19 @@ public final class ControllerImpl implements Controller {
     @Override
     public Player getPlayerByID(String playerID) {
         return (Player) session.get(Player.class, playerID);
+    }
+
+    @Override
+    public Optional<MeepleImpl> getCurrentMeeple() {
+        session.beginTransaction();
+        CriteriaQuery<MeepleImpl> meepleQuery = cb.createQuery(MeepleImpl.class);
+        Root<MeepleImpl> meepleRoot = meepleQuery.from(MeepleImpl.class);
+        meepleQuery.select(meepleRoot);
+        meepleQuery.where(cb.equal(meepleRoot.get("owner").get("game"), this.game));
+        meepleQuery.where(cb.isFalse(meepleRoot.get("placed")));
+        MeepleImpl choosenMeeple = session.createQuery(meepleQuery).getResultList().get(0);
+        session.getTransaction().commit();
+        return choosenMeeple == null ? Optional.empty() : Optional.of(choosenMeeple);
     }
 
 

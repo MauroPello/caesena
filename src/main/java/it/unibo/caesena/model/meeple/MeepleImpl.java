@@ -149,5 +149,5 @@ public class MeepleImpl implements MutableMeeple {
         return true;
     }
 
-    
+
 }

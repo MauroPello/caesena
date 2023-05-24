@@ -176,4 +176,6 @@ public interface Controller {
     List<Player> getAllPlayers();
 
     Player getPlayerByID(String source);
+
+    Optional<MeepleImpl> getCurrentMeeple();
 }

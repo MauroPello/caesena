@@ -37,11 +37,12 @@ public class GameListPanelImpl implements GameListPanel<JPanel> {
 
         final JComboBox<String> playerChooser = new JComboBox<>();
         final List<Player> players = userInterface.getController().getAllPlayers();
-        players.forEach(s -> playerChooser.addItem(s.getName()));
-        playerChooser.setSelectedIndex(0);
-        playerChooser.setFont(GUI.MEDIUM_BOLD_FONT);
-        mainPanel.add(playerChooser);
-
+        if(!players.isEmpty()) {
+            players.forEach(s -> playerChooser.addItem(s.getName()));
+            playerChooser.setSelectedIndex(0);
+            playerChooser.setFont(GUI.MEDIUM_BOLD_FONT);
+            mainPanel.add(playerChooser);
+        }
         Object[] header = { "Game ID", "Players", "Remaining Tiles", "Server" };
         gameList = new DefaultTableModel(header, 0);
         JTable gameListTable = new JTable(gameList);
@@ -109,10 +110,6 @@ public class GameListPanelImpl implements GameListPanel<JPanel> {
             this.mainPanel.repaint();
             this.mainPanel.revalidate();
         }
-    }
-
-    private Object getGameList() {
-        return null;
     }
 
 }
