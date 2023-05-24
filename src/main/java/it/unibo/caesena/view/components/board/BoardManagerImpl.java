@@ -105,9 +105,9 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
     public void endTurn() {
         if (this.getSectionSelector().isSectionSelected()) {
             final var section = this.getSectionSelector().getSelectedSection().get();
-            // TODO [PELLO] piazzare i meeple scegliendone uno a caso o far decidere l'utente?
-            if (gameScene.getUserInterface().getController().placeMeeple(section)) {
-                // this.board.getCurrentTileButton().setMeeple(meeple.get());
+            final Optional<MeepleImpl> meeple = gameScene.getUserInterface().getController().placeMeeple(section, gameScene.getMeepleType());
+            if (meeple.isPresent()) {
+                this.board.getCurrentTileButton().setMeeple(meeple.get());
             } else {
                 throw new IllegalStateException("Tried to add meeple but gameSet already had at least one");
             }

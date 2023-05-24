@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.swing.JPanel;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
@@ -31,6 +32,7 @@ public class GameScene implements Scene<JPanel> {
     private final FooterComponent<JPanel> footer;
     private final SidebarComponent<JPanel> sidebar;
     private Optional<TileImage> currentTileImage;
+    private MeepleType meepleType;
 
     /**
      * Public constructor that sets up the components and places them.
@@ -90,6 +92,14 @@ public class GameScene implements Scene<JPanel> {
         }
 
         this.mainPanel.setVisible(visible);
+    }
+
+    public void setMeepleType(final MeepleType meepleType) {
+        this.meepleType = meepleType;
+    }
+
+    public MeepleType getMeepleType() {
+        return this.meepleType;
     }
 
     /**
@@ -239,6 +249,7 @@ public class GameScene implements Scene<JPanel> {
         this.generateCurrentTileImage();
         this.boardManager.update();
         this.footer.update();
+        this.sidebar.update();
     }
 
     /**

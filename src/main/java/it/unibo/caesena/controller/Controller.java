@@ -8,6 +8,7 @@ import it.unibo.caesena.model.Game;
 import it.unibo.caesena.model.Expansion;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.MeepleImpl;
+import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.server.Server;
@@ -134,7 +135,7 @@ public interface Controller {
      * @param section section on which the tile should be placed
      * @return true if placement is valid, false otherwise
      */
-    boolean placeMeeple(TileSectionType section);
+    Optional<MeepleImpl> placeMeeple(TileSectionType section, MeepleType meepleType);
 
     /**
      * Gets the list of all the meeples of all the players.
@@ -178,4 +179,6 @@ public interface Controller {
     List<Player> getAllPlayers();
 
     Player getPlayerByID(String source);
+
+    List<MeepleType> getMeepleTypesForPlayer(PlayerInGameImpl player);
 }

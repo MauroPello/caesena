@@ -789,7 +789,7 @@ public final class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public boolean placeMeeple(final TileSectionType sectionType) {
+    public Optional<MeepleImpl> placeMeeple(final TileSectionType sectionType, final MeepleType meepleType) {
         // TODO [SPEZ]
         TileImpl tile = this.getCurrentTile().get();
         MeepleImpl choosenMeeple = this.getUnplacedPlayerMeeples(this.getCurrentPlayer().get()).get(0);
@@ -809,7 +809,7 @@ public final class ControllerImpl implements Controller {
         session.getTransaction().commit();
 
         updateUserInterfaces();
-        return true;
+        return Optional.of(mergedMeeple);
     }
 
     /**
@@ -1102,6 +1102,19 @@ public final class ControllerImpl implements Controller {
     @Override
     public Player getPlayerByID(String playerID) {
         return (Player) session.get(Player.class, playerID);
+    }
+
+    @Override
+    public List<MeepleType> getMeepleTypesForPlayer(PlayerInGameImpl player) {
+        session.beginTransaction();
+        CriteriaQuery<MeepleType> query = cb.createQuery(MeepleType.class);
+        Root<MeepleImpl> root = query.from(MeepleImpl.class);
+        query.select(root.get("type"));
+        query.where(cb.and(cb.isFalse(root.get("placed")),
+            cb.equal(root.get("owner"), player)));
+        List<MeepleType> meepleTypes = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return meepleTypes;
     }
 
 }

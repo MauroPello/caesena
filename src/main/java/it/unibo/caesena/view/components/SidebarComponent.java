@@ -1,7 +1,7 @@
 package it.unibo.caesena.view.components;
 
 
-import it.unibo.caesena.view.BasicComponent;
+import it.unibo.caesena.view.UpdatableComponent;
 
 /**
  * This interface rappresents a sidebar to be used in Scene.
@@ -12,6 +12,6 @@ import it.unibo.caesena.view.BasicComponent;
  *
  * @param <X> the type of the GUI component
  */
-public interface SidebarComponent<X> extends BasicComponent<X> {
+public interface SidebarComponent<X> extends UpdatableComponent<X> {
 
 }

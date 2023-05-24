@@ -5,6 +5,9 @@ import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -12,10 +15,12 @@ import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.controller.Controller;
+import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
@@ -43,6 +48,8 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
     private final JButton discardTileButton;
     private final JButton endTurnButton;
     private final JPanelWithBackgroundImage mainPanel;
+    private final JComboBox<String> meepleTypeChooser;
+    private List<MeepleType> meepleTypes;
 
     /**
      * Class constructor.
@@ -144,6 +151,21 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
         actionsPanel.add(placeTileButton);
         discardTileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(discardTileButton);
+        this.meepleTypeChooser = new JComboBox<>();
+        this.meepleTypeChooser.setVisible(false);
+        this.meepleTypes = new ArrayList<>();
+        meepleTypeChooser.setFont(GUI.MEDIUM_BOLD_FONT);
+        meepleTypeChooser.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent arg0) {
+                final int index = meepleTypeChooser.getSelectedIndex();
+                if (index >= 0 && index < meepleTypes.size()) {
+                    gameScene.setMeepleType(meepleTypes.get(index));
+                }
+            }
+        });
+        meepleTypeChooser.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionsPanel.add(meepleTypeChooser);
         toggleBoardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(toggleBoardButton);
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -206,6 +228,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
             if (this.gameScene.placeTile()) {
                 placeTileButton.setVisible(false);
                 toggleBoardButton.setVisible(true);
+                meepleTypeChooser.setVisible(true);
                 endTurnButton.setVisible(true);
                 discardTileButton.setVisible(false);
             }
@@ -220,6 +243,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
         return (e) -> {
             placeTileButton.setVisible(true);
             toggleBoardButton.setVisible(false);
+            meepleTypeChooser.setVisible(false);
             toggleBoardButton.setEnabled(true);
             toggleBoardButton.setText(LocaleHelper.getPlaceMeepleText());
             endTurnButton.setVisible(false);
@@ -356,6 +380,19 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
      */
     @Override
     public void setVisible(final boolean visible) {
+        if (visible) {
+            update();
+        }
         this.mainPanel.setVisible(visible);
+    }
+
+    @Override
+    public void update() {
+        meepleTypeChooser.removeAllItems();
+        this.meepleTypes = controller.getMeepleTypesForPlayer(controller.getCurrentPlayer().get());
+        meepleTypes.forEach(m -> meepleTypeChooser.addItem(m.getName()));
+        if (!this.meepleTypes.isEmpty()) {
+            meepleTypeChooser.setSelectedIndex(0);
+        }
     }
 }
