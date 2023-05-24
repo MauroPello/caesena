@@ -273,8 +273,10 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
                 tileButton.addTile(tile);
                 tileButton.lock();
             }
+            // TODO [SPEZ] fare una funzione dal controller che passando un meeple
+            // restituisce la TileSection sulla quale è piazzato
             final Optional<MeepleImpl> meepleInTile = placedMeeples.stream()
-                .filter(m -> m.getPosition().getTile().equals(tile))
+                // .filter(m -> m.getPosition().getTile().equals(tile))
                 .findFirst();
             if (meepleInTile.isPresent()) {
                 tileButton.setMeeple(meepleInTile.get());
