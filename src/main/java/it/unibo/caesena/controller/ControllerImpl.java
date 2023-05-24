@@ -187,7 +187,6 @@ public final class ControllerImpl implements Controller {
             createTiles(expansions);
             createMeeples(expansions);
 
-            drawNewTile();
             this.placeCurrentTile(new Pair<>(0, 0));
             drawNewTile();
             updateUserInterfaces();
