@@ -12,7 +12,6 @@ import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.server.Server;
-import it.unibo.caesena.model.tile.Tile;
 import it.unibo.caesena.model.tile.TileImpl;
 import it.unibo.caesena.model.tile.TileSection;
 import it.unibo.caesena.model.tile.TileSectionType;
@@ -190,5 +189,5 @@ public interface Controller {
 
     Optional<TileSection> getTileSectionFromMeeple(MeepleImpl meeple);
 
-    Optional<MeepleImpl> getMeepleFromTile(Tile tile);
+    Optional<MeepleImpl> getMeepleOnTile(TileImpl tile);
 }

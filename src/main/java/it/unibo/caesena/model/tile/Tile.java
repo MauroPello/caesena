@@ -1,6 +1,5 @@
 package it.unibo.caesena.model.tile;
 
-import java.util.List;
 import java.util.Optional;
 
 import it.unibo.caesena.utils.Pair;
@@ -37,8 +36,6 @@ public interface Tile {
      * @return the TileType of the tile.
      */
     TileType getTileType();
-
-    public List<TileSection> getSections();
 
     public boolean isCurrent();
 

@@ -1,6 +1,5 @@
 package it.unibo.caesena.model.tile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +60,6 @@ public final class TileImpl implements MutableTile {
         this.yCoordinate = null;
         this.current = false;
         this.game = game;
-        this.sections = new ArrayList<>();
     }
 
     public void setOrder(final int order) {
@@ -135,11 +133,6 @@ public final class TileImpl implements MutableTile {
     @Override
     public int getRotationCount() {
         return this.rotationCount;
-    }
-
-    @Override
-    public List<TileSection> getSections() {
-        return this.sections;
     }
 
     @Override

@@ -270,7 +270,7 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
                 tileButton.addTile(tile);
                 tileButton.lock();
             }
-            final Optional<MeepleImpl> meepleInTile = controller.getMeepleFromTile(tile);
+            final Optional<MeepleImpl> meepleInTile = controller.getMeepleOnTile(tile);
             if (meepleInTile.isPresent()) {
                 tileButton.setMeeple(meepleInTile.get());
             } else if (tileButton.getMeeple().isPresent()) {

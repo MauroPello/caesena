@@ -814,13 +814,15 @@ public final class ControllerImpl implements Controller {
     }
 
     @Override
-    public Optional<MeepleImpl> getMeepleFromTile(Tile tile) {
-        var section = tile.getSections().stream().filter(s -> s.getMeeple().isPresent()).findFirst();
-        if (section.isPresent()) {
-            return section.get().getMeeple();
-        } else {
-            return Optional.empty();
-        }
+    public Optional<MeepleImpl> getMeepleOnTile(TileImpl tile) {
+        session.beginTransaction();
+        CriteriaQuery<MeepleImpl> query = cb.createQuery(MeepleImpl.class);
+        Root<TileSection> root = query.from(TileSection.class);
+        query.select(root.get("meeple"));
+        query.where(cb.equal(root.get("tile"), tile));
+        MeepleImpl meeple = session.createQuery(query).getSingleResultOrNull();
+        session.getTransaction().commit();
+        return Optional.ofNullable(meeple);
     }
 
     @Override
