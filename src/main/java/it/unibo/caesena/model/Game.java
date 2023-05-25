@@ -47,10 +47,6 @@ public class Game {
         this.server = server;
     }
 
-    public boolean isOver() {
-        return this.concluded;
-    }
-
     public void setConcluded(final boolean concluded) {
         this.concluded = concluded;
     }

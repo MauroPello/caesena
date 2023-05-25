@@ -536,13 +536,12 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public void endTurn() {
-        final TileImpl currentTile = getCurrentTile().get();
-        getGameSetsInTile(currentTile).stream()
+        getGameSetsInTile(getCurrentTile().get()).stream()
                 .filter(this::isGameSetClosed)
                 .forEach(this::closeGameSet);
 
         for (final var nearTile : getPlacedTiles()) {
-            if (areTilesNear(currentTile, nearTile)) {
+            if (areTilesNear(getCurrentTile().get(), nearTile)) {
                 GameSet centerGameset = getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
@@ -554,7 +553,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
 
-                centerGameset = getGameSetInSectionType(currentTile, getTileSectionTypeFromName("CENTER"));
+                centerGameset = getGameSetInSectionType(getCurrentTile().get(), getTileSectionTypeFromName("CENTER"));
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     session.beginTransaction();
@@ -567,19 +566,19 @@ public final class ControllerImpl implements Controller {
             }
         }
 
-        drawNewTile();
         session.beginTransaction();
         getCurrentPlayer().get().setCurrent(false);
         CriteriaQuery<PlayerInGameImpl> query = cb.createQuery(PlayerInGameImpl.class);
         Root<PlayerInGameImpl> root = query.from(PlayerInGameImpl.class);
-        List<PlayerInGameImpl> players = session.createQuery(query.select(root)
-                .where(cb.equal(root.get("game"), this.game))).getResultList();
+        final int playersNum = session.createQuery(query.select(root)
+                .where(cb.equal(root.get("game"), this.game))).getResultList().size();
         currentPlayer = Optional.ofNullable(session.createQuery(query.select(root).where(cb.and(
                 cb.equal(root.get("game"), this.game)),
-                cb.equal(root.get("playerOrder"), (getCurrentPlayer().get().getPlayerOrder() + 1) % players.size())))
+                cb.equal(root.get("playerOrder"), (getCurrentPlayer().get().getPlayerOrder() + 1) % playersNum)))
                 .getSingleResultOrNull());
-        currentPlayer.get().setCurrent(true);
+        getCurrentPlayer().get().setCurrent(true);
         session.getTransaction().commit();
+        drawNewTile();
         updateUserInterfaces();
     }
 
@@ -610,18 +609,14 @@ public final class ControllerImpl implements Controller {
                 .collect(Collectors.toSet());
         fieldsToClose.forEach(this::closeGameSet);
 
-        allGameSets.stream()
-                .filter(x -> !x.isClosed())
-                .forEach(g -> {
-                    g.setPoints(g.getPoints() / g.getType().getEndGameRatio()); // TODO [SPEZ] spostare dentro
-                                                                                // closeGameSet in if game ended
-                    closeGameSet(g);
-                });
-
         session.beginTransaction();
         game.setConcluded(true);
         session.merge(game);
         session.getTransaction().commit();
+
+        allGameSets.stream()
+            .filter(x -> !x.isClosed())
+            .forEach(this::closeGameSet);
         updateUserInterfaces();
     }
 
@@ -637,7 +632,7 @@ public final class ControllerImpl implements Controller {
      */
     @Override
     public boolean isGameOver() {
-        return this.game != null && this.game.isOver();
+        return this.game != null && this.game.isConcluded();
     }
 
     /**
@@ -784,13 +779,13 @@ public final class ControllerImpl implements Controller {
             .stream().filter(m -> m.getType().equals(meepleType)).findFirst();
         TileSection choosenTileSection = this.getTileSectionFromTile(tile, sectionType);
         if (choosenMeeple.isPresent() && this.isGameSetFree(choosenTileSection.getGameSet())) {
-            session.beginTransaction();
             choosenMeeple.get().setPlaced(true);
-            session.merge(choosenMeeple.get());
             choosenTileSection.setMeeple(choosenMeeple.get());
+
+            session.beginTransaction();
+            session.merge(choosenMeeple.get());
             session.merge(choosenTileSection);
             session.getTransaction().commit();
-
             updateUserInterfaces();
             return choosenMeeple;
         }
@@ -934,35 +929,46 @@ public final class ControllerImpl implements Controller {
     }
 
     private void closeGameSet(final GameSet gameSet) {
+        if (isGameOver()) {
+            gameSet.setPoints(gameSet.getPoints() / gameSet.getType().getEndGameRatio());
+        }
+        gameSet.close();
+        session.beginTransaction();
+        session.merge(gameSet);
+        session.getTransaction().commit();
+
         final Map<PlayerInGameImpl, Integer> playerMeepleStrength = new HashMap<>();
         List<MeepleImpl> meeplesInGameSet = this.getMeeplesFromGameSet(gameSet);
         if(!meeplesInGameSet.isEmpty()){
-
             for (var meeple : meeplesInGameSet) {
                 final PlayerInGameImpl currentPlayer = (PlayerInGameImpl) meeple.getOwner();
-
                 if (!playerMeepleStrength.containsKey(currentPlayer)) {
                     playerMeepleStrength.put(currentPlayer, 0);
                 }
                 playerMeepleStrength.put(currentPlayer,
-                        playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
+                    playerMeepleStrength.get(currentPlayer) + meeple.getStrength());
             }
+
             final int maxMeepleStrength = playerMeepleStrength.values().stream()
                 .mapToInt(x -> x).max().getAsInt();
 
             playerMeepleStrength.entrySet().stream()
-                    .filter(e -> e.getValue().equals(maxMeepleStrength))
-                    .forEach(e -> e.getKey().addScore(gameSet.getPoints()));
+                .filter(e -> e.getValue().equals(maxMeepleStrength))
+                .forEach(e -> {
+                    e.getKey().addScore(gameSet.getPoints());
+                    session.beginTransaction();
+                    session.merge(e.getKey());
+                    session.getTransaction().commit();
+                });
         }
 
+        final List<TileSection> tileSections = meeplesInGameSet.stream()
+            .map(m -> getTileSectionFromMeeple(m).get()).toList();
+        tileSections.forEach(t -> t.setMeeple(null));
         meeplesInGameSet.forEach(m -> m.setPlaced(false));
-        gameSet.close();
         session.beginTransaction();
-        session.merge(gameSet);
-        for (MeepleImpl meeple : meeplesInGameSet) {
-            session.merge(meeple);
-            session.merge(meeple.getOwner());
-        }
+        meeplesInGameSet.forEach(session::merge);
+        tileSections.forEach(session::merge);
         session.getTransaction().commit();
     }
 
