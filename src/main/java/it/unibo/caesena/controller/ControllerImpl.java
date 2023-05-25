@@ -47,11 +47,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-/**
- * {@inheritDoc}
- *
- * Implementation of the Controller interface.
- */
 public final class ControllerImpl implements Controller {
 
     private Map<Direction, Pair<List<TileSectionType>, List<TileSectionType>>> NEIGHBOUR_TILES_CHECK;
@@ -71,9 +66,6 @@ public final class ControllerImpl implements Controller {
     private Optional<TileImpl> currentTile;
     private Optional<PlayerInGameImpl> currentPlayer;
 
-    /**
-     * Class constructor.
-     */
     public ControllerImpl() {
         this.userInterfaces = new ArrayList<>();
         Properties properties = new Properties();
@@ -142,9 +134,6 @@ public final class ControllerImpl implements Controller {
         this.currentTile = Optional.empty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void createNewGame(Server server, List<Pair<String, Color>> playersData, List<String> expansionNames) {
         if (playersData.stream().map(Pair::getX).collect(Collectors.toSet()).size() == playersData.size()
@@ -193,9 +182,6 @@ public final class ControllerImpl implements Controller {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<Expansion> getAllExpansions() {
         session.beginTransaction();
@@ -207,9 +193,6 @@ public final class ControllerImpl implements Controller {
         return expansions;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<TileSectionType> getAllTileSectionTypes() {
         session.beginTransaction();
@@ -220,9 +203,6 @@ public final class ControllerImpl implements Controller {
         return tileSectionTypes;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TileSectionType getTileSectionTypeFromName(final String name) {
         session.beginTransaction();
@@ -239,29 +219,6 @@ public final class ControllerImpl implements Controller {
         List<TileSection> tileSections = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return tileSections;
-    }
-
-    public List<TileImpl> getTilesFromGameSet(final GameSet gameSet) {
-        session.beginTransaction();
-        CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
-        Root<TileSection> root = query.from(TileSection.class);
-        query.select(root.get("tile"));
-        query.where(cb.and(cb.equal(root.get("gameSet"), gameSet)),
-                cb.equal(root.get("tile").get("game"), game));
-        List<TileImpl> tiles = session.createQuery(query).getResultList();
-        session.getTransaction().commit();
-        return tiles;
-    }
-
-    public List<GameSetImpl> getGameSetsInTile(final MutableTile tile) {
-        session.beginTransaction();
-        CriteriaQuery<GameSetImpl> query = cb.createQuery(GameSetImpl.class);
-        Root<TileSection> root = query.from(TileSection.class);
-        query.select(root.get("gameSet"));
-        query.where(cb.equal(root.get("tile"), tile));
-        List<GameSetImpl> gameSets = session.createQuery(query).getResultList();
-        session.getTransaction().commit();
-        return gameSets;
     }
 
     public boolean isPositionValid(final Pair<Integer, Integer> position, final MutableTile tile) {
@@ -310,13 +267,15 @@ public final class ControllerImpl implements Controller {
 
     public Set<GameSet> getFieldGameSetsNearGameSet(final GameSet gameSet) {
         final Set<GameSet> fieldsNearCity = new HashSet<>();
+        final Set<MutableTile> tiles = getTileSectionsFromGameSet(gameSet).stream()
+            .map(TileSection::getTile).collect(Collectors.toSet());
 
-        for (final var tile : getTilesFromGameSet(gameSet)) {
+        for (final var tile : tiles) {
             for (final var tileSectionType : getAllTileSectionTypes()) {
                 final GameSet fieldGameSet = getGameSetInSectionType(tile, tileSectionType);
 
                 if (fieldGameSet.getType().equals(getGameSetTypeFromName("FIELD"))
-                        && isSectionNearToGameset(tile, tileSectionType, gameSet)) {
+                        && isSectionNearToGameset(getTileSectionFromTile(tile, tileSectionType), gameSet)) {
                     fieldsNearCity.add(fieldGameSet);
                 }
             }
@@ -374,26 +333,11 @@ public final class ControllerImpl implements Controller {
         }
     }
 
-    /**
-     *
-     * Gets whether or not the specific section in a MutableTile is near a certain
-     * GameSet.
-     *
-     * @param tile        the tile that contains the specific section
-     * @param tileSection the section to add to the gameSet
-     * @param gameSet     the GameSet to check if it's near
-     * @return whether or not the specific section in a MutableTile is near a
-     *         certain GameSet
-     */
-    private boolean isSectionNearToGameset(final MutableTile tile, final TileSectionType tileSection,
-            final GameSet gameSet) {
-        return getGameSetInSectionType(tile, tileSection.getNext()).equals(gameSet)
-                || getGameSetInSectionType(tile, tileSection.getPrevious()).equals(gameSet);
+    private boolean isSectionNearToGameset(final TileSection tileSection, final GameSet gameSet) {
+        return getGameSetInSectionType(tileSection.getTile(), tileSection.getType().getNext()).equals(gameSet)
+            || getGameSetInSectionType(tileSection.getTile(), tileSection.getType().getPrevious()).equals(gameSet);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void close() {
         this.session.close();
@@ -505,14 +449,6 @@ public final class ControllerImpl implements Controller {
         return gameSet;
     }
 
-    /**
-     * Gets whether or not two tiles match and can be placed next to each other.
-     *
-     * @param position the position to use if <code>t1</code> is not placed
-     * @param t1       one of two tile to check
-     * @param t2       one of two tile to check
-     * @return whether or not two tiles match and can be placed next to each other
-     */
     private boolean tilesMatch(final Pair<Integer, Integer> position, final MutableTile t1, final MutableTile t2) {
         for (final var entry : NEIGHBOUR_TILES_CHECK.entrySet()) {
             if (Direction.match(entry.getKey(), position, t2.getPosition().get())) {
@@ -531,14 +467,18 @@ public final class ControllerImpl implements Controller {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void endTurn() {
-        getGameSetsInTile(getCurrentTile().get()).stream()
-                .filter(this::isGameSetClosed)
-                .forEach(this::closeGameSet);
+        session.beginTransaction();
+        CriteriaQuery<GameSetImpl> query = cb.createQuery(GameSetImpl.class);
+        Root<TileSection> root = query.from(TileSection.class);
+        query.select(root.get("gameSet"));
+        query.where(cb.equal(root.get("tile"), getCurrentTile().get()));
+        List<GameSetImpl> gameSets = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        gameSets.stream()
+            .filter(this::isGameSetClosed)
+            .forEach(this::closeGameSet);
 
         for (final var nearTile : getPlacedTiles()) {
             if (areTilesNear(getCurrentTile().get(), nearTile)) {
@@ -568,13 +508,13 @@ public final class ControllerImpl implements Controller {
 
         session.beginTransaction();
         getCurrentPlayer().get().setCurrent(false);
-        CriteriaQuery<PlayerInGameImpl> query = cb.createQuery(PlayerInGameImpl.class);
-        Root<PlayerInGameImpl> root = query.from(PlayerInGameImpl.class);
-        final int playersNum = session.createQuery(query.select(root)
-                .where(cb.equal(root.get("game"), this.game))).getResultList().size();
-        currentPlayer = Optional.ofNullable(session.createQuery(query.select(root).where(cb.and(
-                cb.equal(root.get("game"), this.game)),
-                cb.equal(root.get("playerOrder"), (getCurrentPlayer().get().getPlayerOrder() + 1) % playersNum)))
+        CriteriaQuery<PlayerInGameImpl> queryPlayer = cb.createQuery(PlayerInGameImpl.class);
+        Root<PlayerInGameImpl> rootPlayer = queryPlayer.from(PlayerInGameImpl.class);
+        final int playersNum = session.createQuery(queryPlayer.select(rootPlayer)
+                .where(cb.equal(rootPlayer.get("game"), this.game))).getResultList().size();
+        currentPlayer = Optional.ofNullable(session.createQuery(queryPlayer.select(rootPlayer).where(cb.and(
+                cb.equal(rootPlayer.get("game"), this.game)),
+                cb.equal(rootPlayer.get("playerOrder"), (getCurrentPlayer().get().getPlayerOrder() + 1) % playersNum)))
                 .getSingleResultOrNull());
         getCurrentPlayer().get().setCurrent(true);
         session.getTransaction().commit();
@@ -582,11 +522,6 @@ public final class ControllerImpl implements Controller {
         updateUserInterfaces();
     }
 
-    /**
-     * Ends the game.
-     * Its checks if there are closed cities, in which case it assings points to
-     * players with meeples in surrounding fields.
-     */
     private void endGame() {
         session.beginTransaction();
         CriteriaQuery<GameSetImpl> query = cb.createQuery(GameSetImpl.class);
@@ -620,32 +555,20 @@ public final class ControllerImpl implements Controller {
         updateUserInterfaces();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void exitGame() {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isGameOver() {
         return this.game != null && this.game.isConcluded();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Optional<PlayerInGameImpl> getCurrentPlayer() {
         return currentPlayer;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<PlayerInGameImpl> getPlayers() {
         session.beginTransaction();
@@ -658,17 +581,11 @@ public final class ControllerImpl implements Controller {
         return players;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Optional<TileImpl> getCurrentTile() {
         return currentTile;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean placeCurrentTile(final Pair<Integer, Integer> position) {
         if (!isPositionValidForCurrentTile(position)) {
@@ -689,19 +606,12 @@ public final class ControllerImpl implements Controller {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void rotateCurrentTile() {
         this.rotateTileClockwise(getCurrentTile().get());
         updateUserInterfaces();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     */
     @Override
     public boolean discardCurrentTile() {
         if (this.isCurrentTilePlaceable()) {
@@ -712,9 +622,6 @@ public final class ControllerImpl implements Controller {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isPositionValidForCurrentTile(final Pair<Integer, Integer> position) {
         if (isPositionOccupied(position)) {
@@ -727,9 +634,6 @@ public final class ControllerImpl implements Controller {
         return isPositionValid(position, getCurrentTile().get());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<TileImpl> getPlacedTiles() {
         session.beginTransaction();
@@ -744,9 +648,6 @@ public final class ControllerImpl implements Controller {
         return tiles;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<TileImpl> getNotPlacedTiles() {
         session.beginTransaction();
@@ -761,17 +662,11 @@ public final class ControllerImpl implements Controller {
         return tiles;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public GameSet getCurrentTileGameSetInSection(final TileSectionType section) {
         return getGameSetInSectionType(getCurrentTile().get(), section);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Optional<MeepleImpl> placeMeeple(final TileSectionType sectionType, final MeepleType meepleType) {
         TileImpl tile = this.getCurrentTile().get();
@@ -821,59 +716,30 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public boolean isGameSetFree(GameSet gameset) {
+        // TODO lo teniamo?
         session.beginTransaction();
         CriteriaQuery<TileSection> query = cb.createQuery(TileSection.class);
         Root<TileSection> root = query.from(TileSection.class);
         query.select(root);
-        query.where(
-                cb.and(
-                        cb.equal(root.get("gameSet"), gameset),
-                        cb.isTrue(root.get("meeple").get("placed"))));
+        query.where(cb.and(cb.equal(root.get("gameSet"), gameset),
+            cb.isTrue(root.get("meeple").get("placed"))));
         List<TileSection> tileSectionList = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return tileSectionList.isEmpty();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<MeepleImpl> getMeeples() {
-        session.beginTransaction();
-        CriteriaQuery<MeepleImpl> query = cb.createQuery(MeepleImpl.class);
-        Root<MeepleImpl> root = query.from(MeepleImpl.class);
-        query.select(root);
-        query.where(cb.equal(root.get("owner").get("game"), this.game));
-        List<MeepleImpl> meeples = session.createQuery(query).getResultList();
-        session.getTransaction().commit();
-        return meeples;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void addUserInterface(final UserInterface userInterface) {
         this.userInterfaces.add(userInterface);
         userInterface.update();
     }
 
-    /**
-     * Checks if two tile are next to eachother in any direction.
-     *
-     * @param t1 the first tile
-     * @param t2 the second tile
-     * @return true if the two tiles are next to each other, false otherwise
-     */
     private boolean areTilesNear(final MutableTile t1, final MutableTile t2) {
         return Math.abs(t1.getPosition().get().getX() - t2.getPosition().get().getX()) <= 1
                 && Math.abs(t1.getPosition().get().getY() - t2.getPosition().get().getY()) <= 1
                 && !t1.getPosition().get().equals(t2.getPosition().get());
     }
 
-    /**
-     * Draws a new tile from the list of not placed tiles.
-     */
     private void drawNewTile() {
         session.beginTransaction();
         getCurrentTile().get().setCurrent(false);
@@ -890,23 +756,6 @@ public final class ControllerImpl implements Controller {
         }
     }
 
-    /**
-     * Checks if a given GameSet is closed.
-     * A GameSet is considered closed if all the tiles that partake in it complete a
-     * full structure together.
-     * As an example, we can take two tiles next to each other where the matching
-     * side has a single city piece.
-     * In that case, we would have closed(or completed) a city gameset(or
-     * structure).
-     * In other words, if there is no way to make a gameset(or structure) bigger by
-     * adding a new tile, it can be considered a closed gameset.
-     * A special case are monasteries that are considered closed if the eight
-     * surrounding positions contain a tile.
-     * Another special case are fields that can't be closed.
-     *
-     * @param gameSet to be verified as closed
-     * @return true if the gameset is closed, false otherwise
-     */
     private boolean isGameSetClosed(final GameSet gameSet) {
         if (gameSet.getType().equals(getGameSetTypeFromName("FIELD"))) {
             return false;
@@ -976,21 +825,13 @@ public final class ControllerImpl implements Controller {
         session.beginTransaction();
         CriteriaQuery<TileSection> query = this.cb.createQuery(TileSection.class);
         Root<TileSection> root = query.from(TileSection.class);
-        query.where(
-            cb.and(
-                cb.equal(root.get("gameSet"), gameSet),
-                cb.isNotNull(root.get("meeple"))));
+        query.where(cb.and(cb.isNotNull(root.get("meeple")),
+            cb.equal(root.get("gameSet"), gameSet)));
         List<TileSection> tileSections = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return tileSections.stream().map(t -> t.getMeeple().get()).toList();
     }
 
-    /**
-     * Checks to see if a given position is occupied by any other tile.
-     *
-     * @param position to check if occupied
-     * @return true if the provided position is occupied, false otherwise
-     */
     private boolean isPositionOccupied(final Pair<Integer, Integer> position) {
         for (final Tile tile : getPlacedTiles()) {
             if (tile.getPosition().get().equals(position)) {
@@ -1000,13 +841,6 @@ public final class ControllerImpl implements Controller {
         return false;
     }
 
-    /**
-     * Gets a set of all the empty neighbouring positions to the given position.
-     *
-     * @param position at which to check for empty neighbour
-     * @return A set of positions that are empty and neighbouring to the given
-     *         position
-     */
     private Set<Pair<Integer, Integer>> getEmptyNeighbouringPositions(final Pair<Integer, Integer> position) {
         final Set<Pair<Integer, Integer>> neighbouringPositions = new HashSet<>();
         for (final var direction : Direction.values()) {
@@ -1019,13 +853,6 @@ public final class ControllerImpl implements Controller {
         return neighbouringPositions;
     }
 
-    /**
-     * Checks if the current tile is placeable.
-     * A tile can not be placeable if there aren't any possible way to place it
-     * next to other tile, in any orientation.
-     *
-     * @return true if the current tile can be placed on the board, false otherwise
-     */
     private boolean isCurrentTilePlaceable() {
         boolean outcome = false;
         for (int i = 0; i < 4; i++) {
@@ -1046,16 +873,10 @@ public final class ControllerImpl implements Controller {
         return outcome;
     }
 
-    /**
-     * Updates all of the user interfaces.
-     */
     private void updateUserInterfaces() {
         this.userInterfaces.forEach(UserInterface::update);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean hasGameStarted() {
         return this.game != null && !getPlacedTiles().isEmpty();
@@ -1122,6 +943,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public List<MeepleImpl> getUnplacedPlayerMeeples(PlayerInGameImpl player) {
+        // TODO lo teniamo?
         session.beginTransaction();
         CriteriaQuery<MeepleImpl> query = cb.createQuery(MeepleImpl.class);
         Root<MeepleImpl> root = query.from(MeepleImpl.class);
@@ -1145,7 +967,10 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public Player getPlayerByID(String playerID) {
-        return (Player) session.get(Player.class, playerID);
+        session.beginTransaction();
+        Player player = session.get(Player.class, playerID);
+        session.getTransaction().commit();
+        return player;
     }
 
     @Override
