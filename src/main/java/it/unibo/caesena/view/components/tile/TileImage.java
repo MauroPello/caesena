@@ -76,7 +76,7 @@ public class TileImage {
                         List.of("tiles"));
                 temporaryImage = Thumbnails.of(imageName).size(width, height).rotate(tile.getRotationCount() * 90)
                         .asBufferedImage();
-                if (meepleImage.isPresent()) {
+                if (meepleImage.isPresent() && meepleImage.get().getMeeple().isPlaced()) {
                     temporaryImage = getTileImageWithMeeple(temporaryImage);
                 }
             }

@@ -190,4 +190,6 @@ public interface Controller {
     Optional<TileSection> getTileSectionFromMeeple(MeepleImpl meeple);
 
     Optional<MeepleImpl> getMeepleOnTile(TileImpl tile);
+
+    List<MeepleImpl> getMeeplesFromGameSet(GameSet gameSet);
 }

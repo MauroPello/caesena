@@ -934,35 +934,49 @@ public final class ControllerImpl implements Controller {
     }
 
     private void closeGameSet(final GameSet gameSet) {
-        session.beginTransaction();
+        final Map<PlayerInGameImpl, Integer> playerMeepleStrength = new HashMap<>();
+        List<MeepleImpl> meeplesInGameSet = this.getMeeplesFromGameSet(gameSet);
+        if(!meeplesInGameSet.isEmpty()){
+
+            for (var meeple : meeplesInGameSet) {
+                final PlayerInGameImpl currentPlayer = (PlayerInGameImpl) meeple.getOwner();
+
+                if (!playerMeepleStrength.containsKey(currentPlayer)) {
+                    playerMeepleStrength.put(currentPlayer, 0);
+                }
+                playerMeepleStrength.put(currentPlayer,
+                        playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
+            }
+            final int maxMeepleStrength = playerMeepleStrength.values().stream()
+                .mapToInt(x -> x).max().getAsInt();
+
+            playerMeepleStrength.entrySet().stream()
+                    .filter(e -> e.getValue().equals(maxMeepleStrength))
+                    .forEach(e -> e.getKey().addScore(gameSet.getPoints()));
+        }
+
+        meeplesInGameSet.forEach(m -> m.setPlaced(false));
         gameSet.close();
+        session.beginTransaction();
+        session.merge(gameSet);
+        for (MeepleImpl meeple : meeplesInGameSet) {
+            session.merge(meeple);
+            session.merge(meeple.getOwner());
+        }
         session.getTransaction().commit();
-        // TODO [SPEZ] chiusura del GameSet
-        // if (!this.isMeepleFree()) {
-        // final Map<MutablePlayerInGame, Integer> playerMeepleStrength = new
-        // HashMap<>();
+    }
 
-        // for (final MutableMeeple meeple : new ArrayList<MutableMeeple>()) {
-        // final MutablePlayerInGame currentPlayer = (MutablePlayerInGame)
-        // meeple.getOwner();
-
-        // if (!playerMeepleStrength.containsKey(currentPlayer)) {
-        // playerMeepleStrength.put(currentPlayer, 0);
-        // }
-        // playerMeepleStrength.put(currentPlayer,
-        // playerMeepleStrength.get(currentPlayer) + 1 * meeple.getStrength());
-
-        // }
-
-        // final int maxMeepleStrength = playerMeepleStrength.values().stream()
-        // .mapToInt(x -> x).max().getAsInt();
-
-        // playerMeepleStrength.entrySet().stream()
-        // .filter(e -> e.getValue().equals(maxMeepleStrength))
-        // .forEach(e -> e.getKey().addScore(this.getPoints()));
-        // }
-
-        // meeples.forEach(m -> m.remove());dd
+    public List<MeepleImpl> getMeeplesFromGameSet(GameSet gameSet) {
+        session.beginTransaction();
+        CriteriaQuery<TileSection> query = this.cb.createQuery(TileSection.class);
+        Root<TileSection> root = query.from(TileSection.class);
+        query.where(
+            cb.and(
+                cb.equal(root.get("gameSet"), gameSet),
+                cb.isNotNull(root.get("meeple"))));
+        List<TileSection> tileSections = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return tileSections.stream().map(t -> t.getMeeple().get()).toList();
     }
 
     /**
