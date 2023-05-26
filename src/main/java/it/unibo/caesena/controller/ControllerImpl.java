@@ -889,6 +889,7 @@ public final class ControllerImpl implements Controller {
     @Override
     public void joinGame(int gameId) {
         // TODO da testare
+        // TODO settare la currentTile e il currentPlayer
         session.beginTransaction();
         this.game = session.get(Game.class, gameId);
         session.getTransaction().commit();
