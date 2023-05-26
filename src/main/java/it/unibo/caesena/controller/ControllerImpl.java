@@ -743,13 +743,17 @@ public final class ControllerImpl implements Controller {
     private void drawNewTile() {
         session.beginTransaction();
         getCurrentTile().get().setCurrent(false);
+        session.merge(getCurrentTile().get());
         CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
         Root<TileImpl> root = query.from(TileImpl.class);
         currentTile = Optional.ofNullable(session.createQuery(query.select(root)
                 .where(cb.and(cb.equal(root.get("game"), this.game)),
                     cb.equal(root.get("tileOrder"), getCurrentTile().get().getTileOrder() + 1)))
                 .getSingleResultOrNull());
-        currentTile.ifPresent(t -> t.setCurrent(true));
+        if (currentTile.isPresent()) {
+            currentTile.get().setCurrent(true);
+            session.merge(currentTile.get());
+        }
         session.getTransaction().commit();
         if (currentTile.isEmpty()) {
             endGame();
