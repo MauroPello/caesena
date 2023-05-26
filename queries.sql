@@ -257,19 +257,19 @@ VALUES (1, 2, 'Big meeples', 'Big');
 
 -- GameSetTypes
 INSERT INTO caesena.GameSetTypes (endGameRatio, startingPoints, expansion_name, name)
-VALUES (1, 1, 'Basic', 'Monastery');
+VALUES (1, 1, 'Basic', 'MONASTERY');
 
 INSERT INTO caesena.GameSetTypes (endGameRatio, startingPoints, expansion_name, name)
-VALUES (1, 1, 'Basic', 'Road');
+VALUES (1, 1, 'Basic', 'ROAD');
 
 INSERT INTO caesena.GameSetTypes (endGameRatio, startingPoints, expansion_name, name)
-VALUES (1, 0, 'Basic', 'Field');
+VALUES (1, 0, 'Basic', 'FIELD');
 
 INSERT INTO caesena.GameSetTypes (endGameRatio, startingPoints, expansion_name, name)
-VALUES (1, 0, 'Basic', 'Junction');
+VALUES (1, 0, 'Basic', 'JUNCTION');
 
 INSERT INTO caesena.GameSetTypes (endGameRatio, startingPoints, expansion_name, name)
-VALUES (2, 2, 'Basic', 'City');
+VALUES (2, 2, 'Basic', 'CITY');
 
 -- Colors
 INSERT INTO caesena.Colors (blue, green, red, hex, name)

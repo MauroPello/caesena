@@ -272,7 +272,7 @@ public final class ControllerImpl implements Controller {
 
         for (final var tile : tiles) {
             for (final var tileSectionType : getAllTileSectionTypes()) {
-                final GameSet fieldGameSet = getGameSetInSectionType(tile, tileSectionType);
+                final GameSet fieldGameSet = getTileSectionFromTile(tile, tileSectionType).getGameSet();
 
                 if (fieldGameSet.getType().equals(getGameSetTypeFromName("FIELD"))
                         && isSectionNearToGameset(getTileSectionFromTile(tile, tileSectionType), gameSet)) {
@@ -290,7 +290,7 @@ public final class ControllerImpl implements Controller {
         Root<TileSection> root = query.from(TileSection.class);
         query.select(root);
         query.where(cb.and(cb.equal(root.get("tile"), tile),
-                cb.equal(root.get("type"), tileSectionType)));
+            cb.equal(root.get("type"), tileSectionType)));
         TileSection tileSection = session.createQuery(query).getSingleResult();
         session.getTransaction().commit();
         return tileSection;
@@ -334,8 +334,21 @@ public final class ControllerImpl implements Controller {
     }
 
     private boolean isSectionNearToGameset(final TileSection tileSection, final GameSet gameSet) {
-        return getGameSetInSectionType(tileSection.getTile(), tileSection.getType().getNext()).equals(gameSet)
-            || getGameSetInSectionType(tileSection.getTile(), tileSection.getType().getPrevious()).equals(gameSet);
+        final Set<TileSectionType> tileSectionTypes = new HashSet<>();
+        if (tileSection.getType().equals(getTileSectionTypeFromName("CENTER"))) {
+            // se la tileSection da controllare è il CENTRO allora
+            // bisogna vedere se una delle TileSection al bordo contiene il gameSet
+            tileSectionTypes.addAll(getAllTileSectionTypes());
+            tileSectionTypes.remove(getTileSectionTypeFromName("CENTER"));
+        } else {
+            // se la tileSection da controllare non è al CENTRO allora è sicuramente vicina al centro
+            tileSectionTypes.add(getTileSectionTypeFromName("CENTER"));
+            // bisogna controllare anche le tile section adiacenti
+            tileSectionTypes.add(tileSection.getType().getNext());
+            tileSectionTypes.add(tileSection.getType().getPrevious());
+        }
+        return tileSectionTypes.stream()
+            .anyMatch(s -> getTileSectionFromTile(tileSection.getTile(), s).getGameSet().equals(gameSet));
     }
 
     @Override
@@ -437,18 +450,6 @@ public final class ControllerImpl implements Controller {
         this.session.getTransaction().commit();
     }
 
-    public GameSet getGameSetInSectionType(final MutableTile tile, final TileSectionType tileSectionType) {
-        this.session.beginTransaction();
-        CriteriaQuery<GameSetImpl> query = cb.createQuery(GameSetImpl.class);
-        Root<TileSection> root = query.from(TileSection.class);
-        query.select(root.get("gameSet"));
-        query.where(cb.and(cb.equal(root.get("type"), tileSectionType),
-                cb.equal(root.get("tile"), tile)));
-        GameSetImpl gameSet = session.createQuery(query).getSingleResult();
-        this.session.getTransaction().commit();
-        return gameSet;
-    }
-
     private boolean tilesMatch(final Pair<Integer, Integer> position, final MutableTile t1, final MutableTile t2) {
         for (final var entry : NEIGHBOUR_TILES_CHECK.entrySet()) {
             if (Direction.match(entry.getKey(), position, t2.getPosition().get())) {
@@ -456,8 +457,8 @@ public final class ControllerImpl implements Controller {
                     final TileSectionType t1Section = entry.getValue().getY().get(i);
                     final TileSectionType t2Section = entry.getValue().getX().get(i);
 
-                    if (!getGameSetInSectionType(t1, t1Section).getType()
-                            .equals(getGameSetInSectionType(t2, t2Section).getType())) {
+                    if (!getTileSectionFromTile(t1, t1Section).getGameSet().getType()
+                            .equals(getTileSectionFromTile(t2, t2Section).getGameSet().getType())) {
                         return false;
                     }
                 }
@@ -482,7 +483,7 @@ public final class ControllerImpl implements Controller {
 
         for (final var nearTile : getPlacedTiles()) {
             if (areTilesNear(getCurrentTile().get(), nearTile)) {
-                GameSet centerGameset = getGameSetInSectionType(nearTile, getTileSectionTypeFromName("CENTER"));
+                GameSet centerGameset = getTileSectionFromTile(nearTile, getTileSectionTypeFromName("CENTER")).getGameSet();
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     session.beginTransaction();
@@ -493,7 +494,7 @@ public final class ControllerImpl implements Controller {
                     }
                 }
 
-                centerGameset = getGameSetInSectionType(getCurrentTile().get(), getTileSectionTypeFromName("CENTER"));
+                centerGameset = getTileSectionFromTile(getCurrentTile().get(), getTileSectionTypeFromName("CENTER")).getGameSet();
                 if (centerGameset.getType().equals(getGameSetTypeFromName("MONASTERY"))) {
                     centerGameset.addPoints(POINTS_TILE_NEARBY_MONASTERY);
                     session.beginTransaction();
@@ -531,18 +532,17 @@ public final class ControllerImpl implements Controller {
         List<GameSetImpl> allGameSets = session.createQuery(query).getResultList();
         session.getTransaction().commit();
 
-        final Set<GameSet> fieldsToClose = allGameSets.stream()
-                .filter(c -> c.getType().equals(getGameSetTypeFromName("CITY")))
-                .filter(GameSetImpl::isClosed)
-                .flatMap(c -> getFieldGameSetsNearGameSet(c).stream())
-                .peek(f -> {
-                    f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD);
-                    session.beginTransaction();
-                    session.merge(f);
-                    session.getTransaction().commit();
-                })
-                .collect(Collectors.toSet());
-        fieldsToClose.forEach(this::closeGameSet);
+        final List<GameSet> fieldsToClose = allGameSets.stream()
+            .filter(c -> c.getType().equals(getGameSetTypeFromName("CITY")))
+            .filter(GameSetImpl::isClosed)
+            .flatMap(c -> getFieldGameSetsNearGameSet(c).stream()).toList();
+        fieldsToClose.forEach(f -> {
+            f.addPoints(POINTS_CLOSED_CITY_NEARBY_FIELD);
+            session.beginTransaction();
+            session.merge(f);
+            session.getTransaction().commit();
+        });
+        fieldsToClose.stream().collect(Collectors.toSet()).forEach(this::closeGameSet);
 
         session.beginTransaction();
         game.setConcluded(true);
@@ -664,7 +664,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public GameSet getCurrentTileGameSetInSection(final TileSectionType section) {
-        return getGameSetInSectionType(getCurrentTile().get(), section);
+        return getTileSectionFromTile(getCurrentTile().get(), section).getGameSet();
     }
 
     @Override
@@ -884,6 +884,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void joinGame(int gameId) {
+        // TODO da testare
         session.beginTransaction();
         this.game = session.get(Game.class, gameId);
         session.getTransaction().commit();

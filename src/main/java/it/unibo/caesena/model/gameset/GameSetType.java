@@ -84,10 +84,9 @@ public class GameSetType {
         if (name == null) {
             if (other.name != null)
                 return false;
-        } else if (!name.equals(other.name))
+        } else if (!name.toUpperCase().equals(other.name.toUpperCase()))
             return false;
         return true;
     }
 
-    
 }
