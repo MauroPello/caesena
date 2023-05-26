@@ -307,118 +307,118 @@ VALUES (0, 102, 255, 'FF6600', 'Orange');
 
 -- TileTypeConfigurations
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, true, false, 'Field', 'CENTER', 'CITY_EDGE');
+VALUES (0, true, false, 'FIELD', 'CENTER', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'DOWN_CENTER', 'CITY_EDGE');
+VALUES (0, false, false, 'FIELD', 'DOWN_CENTER', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'DOWN_LEFT', 'CITY_EDGE');
+VALUES (0, false, false, 'FIELD', 'DOWN_LEFT', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'DOWN_RIGHT', 'CITY_EDGE');
+VALUES (0, false, false, 'FIELD', 'DOWN_RIGHT', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'LEFT_CENTER', 'CITY_EDGE');
+VALUES (0, false, false, 'FIELD', 'LEFT_CENTER', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'LEFT_DOWN', 'CITY_EDGE');
+VALUES (0, false, false, 'FIELD', 'LEFT_DOWN', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'LEFT_UP', 'CITY_EDGE');
+VALUES (0, false, false, 'FIELD', 'LEFT_UP', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'RIGHT_CENTER', 'CITY_EDGE');
+VALUES (1, false, false, 'CITY', 'RIGHT_CENTER', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'RIGHT_DOWN', 'CITY_EDGE');
+VALUES (1, false, false, 'CITY', 'RIGHT_DOWN', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'RIGHT_UP', 'CITY_EDGE');
+VALUES (1, false, false, 'CITY', 'RIGHT_UP', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'UP_CENTER', 'CITY_EDGE');
+VALUES (1, false, false, 'CITY', 'UP_CENTER', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'UP_LEFT', 'CITY_EDGE');
+VALUES (1, false, false, 'CITY', 'UP_LEFT', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'UP_RIGHT', 'CITY_EDGE');
+VALUES (1, false, false, 'CITY', 'UP_RIGHT', 'CITY_EDGE');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, true, false, 'Field', 'CENTER', 'CITY_EDGE_PENNANT');
+VALUES (0, true, false, 'FIELD', 'CENTER', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'DOWN_CENTER', 'CITY_EDGE_PENNANT');
+VALUES (0, false, false, 'FIELD', 'DOWN_CENTER', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'DOWN_LEFT', 'CITY_EDGE_PENNANT');
+VALUES (0, false, false, 'FIELD', 'DOWN_LEFT', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'DOWN_RIGHT', 'CITY_EDGE_PENNANT');
+VALUES (0, false, false, 'FIELD', 'DOWN_RIGHT', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'LEFT_CENTER', 'CITY_EDGE_PENNANT');
+VALUES (0, false, false, 'FIELD', 'LEFT_CENTER', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'LEFT_DOWN', 'CITY_EDGE_PENNANT');
+VALUES (0, false, false, 'FIELD', 'LEFT_DOWN', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Field', 'LEFT_UP', 'CITY_EDGE_PENNANT');
+VALUES (0, false, false, 'FIELD', 'LEFT_UP', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'RIGHT_CENTER', 'CITY_EDGE_PENNANT');
+VALUES (1, false, false, 'CITY', 'RIGHT_CENTER', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'RIGHT_DOWN', 'CITY_EDGE_PENNANT');
+VALUES (1, false, false, 'CITY', 'RIGHT_DOWN', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'RIGHT_UP', 'CITY_EDGE_PENNANT');
+VALUES (1, false, false, 'CITY', 'RIGHT_UP', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'UP_CENTER', 'CITY_EDGE_PENNANT');
+VALUES (1, false, false, 'CITY', 'UP_CENTER', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'City', 'UP_LEFT', 'CITY_EDGE_PENNANT');
+VALUES (1, false, false, 'CITY', 'UP_LEFT', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, true, 'City', 'UP_RIGHT', 'CITY_EDGE_PENNANT');
+VALUES (1, false, true, 'CITY', 'UP_RIGHT', 'CITY_EDGE_PENNANT');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, true, false, 'Road', 'CENTER', 'CITY_EDGE_ROAD');
+VALUES (0, true, false, 'ROAD', 'CENTER', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Road', 'DOWN_CENTER', 'CITY_EDGE_ROAD');
+VALUES (0, false, false, 'ROAD', 'DOWN_CENTER', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'Field', 'DOWN_LEFT', 'CITY_EDGE_ROAD');
+VALUES (1, false, false, 'FIELD', 'DOWN_LEFT', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (2, false, false, 'Field', 'DOWN_RIGHT', 'CITY_EDGE_ROAD');
+VALUES (2, false, false, 'FIELD', 'DOWN_RIGHT', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (0, false, false, 'Road', 'LEFT_CENTER', 'CITY_EDGE_ROAD');
+VALUES (0, false, false, 'ROAD', 'LEFT_CENTER', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (1, false, false, 'Field', 'LEFT_DOWN', 'CITY_EDGE_ROAD');
+VALUES (1, false, false, 'FIELD', 'LEFT_DOWN', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (2, false, false, 'Field', 'LEFT_UP', 'CITY_EDGE_ROAD');
+VALUES (2, false, false, 'FIELD', 'LEFT_UP', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (3, false, false, 'City', 'RIGHT_CENTER', 'CITY_EDGE_ROAD');
+VALUES (3, false, false, 'CITY', 'RIGHT_CENTER', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (3, false, false, 'City', 'RIGHT_DOWN', 'CITY_EDGE_ROAD');
+VALUES (3, false, false, 'CITY', 'RIGHT_DOWN', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (3, false, false, 'City', 'RIGHT_UP', 'CITY_EDGE_ROAD');
+VALUES (3, false, false, 'CITY', 'RIGHT_UP', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (3, false, false, 'City', 'UP_CENTER', 'CITY_EDGE_ROAD');
+VALUES (3, false, false, 'CITY', 'UP_CENTER', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (3, false, false, 'City', 'UP_LEFT', 'CITY_EDGE_ROAD');
+VALUES (3, false, false, 'CITY', 'UP_LEFT', 'CITY_EDGE_ROAD');
 
 INSERT INTO caesena.TileTypeConfigurations (id, closed,pennant, gameSetType_name, tileSectionType_name, tileType_name)
-VALUES (3, false, false, 'City', 'UP_RIGHT', 'CITY_EDGE_ROAD');
+VALUES (3, false, false, 'CITY', 'UP_RIGHT', 'CITY_EDGE_ROAD');
