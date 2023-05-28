@@ -509,6 +509,7 @@ public final class ControllerImpl implements Controller {
 
         session.beginTransaction();
         getCurrentPlayer().get().setCurrent(false);
+        session.merge(getCurrentPlayer().get());
         CriteriaQuery<PlayerInGameImpl> queryPlayer = cb.createQuery(PlayerInGameImpl.class);
         Root<PlayerInGameImpl> rootPlayer = queryPlayer.from(PlayerInGameImpl.class);
         final int playersNum = session.createQuery(queryPlayer.select(rootPlayer)
@@ -518,6 +519,7 @@ public final class ControllerImpl implements Controller {
                 cb.equal(rootPlayer.get("playerOrder"), (getCurrentPlayer().get().getPlayerOrder() + 1) % playersNum)))
                 .getSingleResultOrNull());
         getCurrentPlayer().get().setCurrent(true);
+        session.merge(getCurrentPlayer().get());
         session.getTransaction().commit();
         drawNewTile();
         updateUserInterfaces();
@@ -893,6 +895,30 @@ public final class ControllerImpl implements Controller {
         session.beginTransaction();
         this.game = session.get(Game.class, gameId);
         session.getTransaction().commit();
+
+        //funziona eh, però da gay un po' (più che altro, non esplode se non è uno solo)
+        //this.currentPlayer = game.getPlayersInGame().stream().filter(p -> p.isCurrent()).findFirst();
+
+        session.beginTransaction();
+        CriteriaQuery<PlayerInGameImpl> playerQuery = cb.createQuery(PlayerInGameImpl.class);
+        Root<PlayerInGameImpl> playerRoot = playerQuery.from(PlayerInGameImpl.class);
+        playerQuery.select(playerRoot);
+        playerQuery.where(cb.and(
+            cb.isTrue(playerRoot.get("current")),
+            cb.equal(playerRoot.get("game"), this.game)));
+        currentPlayer = Optional.of(session.createQuery(playerQuery).getSingleResult());
+        session.getTransaction().commit();
+
+        session.beginTransaction();
+        CriteriaQuery<TileImpl> tileQuery = cb.createQuery(TileImpl.class);
+        Root<TileImpl> tileRoot = tileQuery.from(TileImpl.class);
+        tileQuery.select(tileRoot);
+        tileQuery.where(cb.and(
+            cb.isTrue(tileRoot.get("current")),
+            cb.equal(tileRoot.get("game"), this.game)));
+        currentTile = Optional.of(session.createQuery(tileQuery).getSingleResult());
+        session.getTransaction().commit();
+
         updateUserInterfaces();
     }
 

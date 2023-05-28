@@ -381,6 +381,18 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
+            if(this.controller.getCurrentTile().isPresent() && this.controller.getCurrentTile().get().isPlaced()) {
+                toggleBoardButton.setVisible(true);
+                endTurnButton.setVisible(true);
+                discardTileButton.setVisible(false);
+                placeTileButton.setVisible(false);
+            }
+            else{
+                toggleBoardButton.setVisible(false);
+                endTurnButton.setVisible(false);
+                discardTileButton.setVisible(true);
+                placeTileButton.setVisible(true);
+            }
             update();
         }
         this.mainPanel.setVisible(visible);
