@@ -890,13 +890,11 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void joinGame(int gameId) {
-        // TODO da testare
-        // TODO settare la currentTile e il currentPlayer
         session.beginTransaction();
         this.game = session.get(Game.class, gameId);
         session.getTransaction().commit();
 
-        //funziona eh, però da gay un po' (più che altro, non esplode se non è uno solo)
+        // TODO cambiamo?
         //this.currentPlayer = game.getPlayersInGame().stream().filter(p -> p.isCurrent()).findFirst();
 
         session.beginTransaction();
@@ -935,12 +933,11 @@ public final class ControllerImpl implements Controller {
     public List<Server> getAvailableServers() {
         // TODO [SPEZ] Farlo con Criteria queries, non cosi` a mano che fa schifo
 
-        List<Server> availableServers = new ArrayList<>();
         @SuppressWarnings("deprecation")
         Query query = session.createQuery(
-                "from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
-        availableServers = query.getResultList();
-
+            "from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
+        @SuppressWarnings("unchecked")
+        List<Server> availableServers = query.getResultList();
         // session.beginTransaction();
         //
         // Root<Server> rootServer = query.from(Server.class);
