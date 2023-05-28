@@ -26,7 +26,11 @@ public class MeepleImage {
      */
     public MeepleImage(final MeepleImpl meeple, final Color color) {
         this.meeple = meeple;
-        final BufferedImage image = ResourceUtil.getBufferedImage("meepleBlank.png", List.of("meeple"));
+        String filename = "meepleBlank.png";
+        if (meeple.getStrength() == 2) {
+            filename = "meepleBigBlank.png";
+        }
+        final BufferedImage image = ResourceUtil.getBufferedImage(filename, List.of("meeple"));
         this.normalImage = colorAllPixels(image, color);
         this.blurredImage = GrayFilter.createDisabledImage(image);
     }
@@ -70,7 +74,7 @@ public class MeepleImage {
     public Image getNormalImage() {
         final BufferedImage outImage;
         outImage = new BufferedImage(this.normalImage.getWidth(null),
-        this.normalImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+                this.normalImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         outImage.getGraphics().drawImage(this.normalImage, 0, 0, null);
         return outImage;
     }
@@ -88,7 +92,11 @@ public class MeepleImage {
             for (int x = 0; x < image.getWidth(); x++) {
                 final int pixel = image.getRGB(x, y);
                 if (pixel == -1) {
-                    image.setRGB(x, y, Color.black.getRGB());
+                    if (color.getRGB() == Color.black.getRGB()) {
+                        image.setRGB(x, y, Color.white.getRGB());
+                    } else {
+                        image.setRGB(x, y, Color.black.getRGB());
+                    }
                 } else if (pixel != 0) {
                     image.setRGB(x, y, color.getRGB());
                 }
