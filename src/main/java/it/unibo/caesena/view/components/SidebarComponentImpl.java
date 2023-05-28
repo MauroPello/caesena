@@ -22,6 +22,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.controller.Controller;
 import it.unibo.caesena.model.meeple.MeepleType;
 import it.unibo.caesena.utils.Direction;
+import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.ResourceUtil;
 import it.unibo.caesena.view.GUI;
 import it.unibo.caesena.view.LocaleHelper;
@@ -44,7 +45,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
     private final JButton leftRowButton;
     private final JButton rightRowButton;
     private final JButton placeTileButton;
-    private final JButton toggleBoardButton;
+    private final JButton placeMeepleAndShowBoardButton;
     private final JButton discardTileButton;
     private final JButton endTurnButton;
     private final JPanelWithBackgroundImage mainPanel;
@@ -57,7 +58,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
      * @param gameScene the parent GameScene
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", justification = "This component will always need access to the GameScene "
-        + "he's placed in as it uses its methods and needs to send and retrieve information from it")
+            + "he's placed in as it uses its methods and needs to send and retrieve information from it")
     public SidebarComponentImpl(final GameScene gameScene) {
         this.mainPanel = new JPanelWithBackgroundImage(
                 ResourceUtil.getBufferedImage("background_Sidebar.jpg", List.of()), true);
@@ -71,14 +72,14 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
         leftRowButton = new JButton();
         rightRowButton = new JButton();
         placeTileButton = new JButton(LocaleHelper.getPlaceTileText());
-        toggleBoardButton = new JButton(LocaleHelper.getPlaceMeepleText());
+        placeMeepleAndShowBoardButton = new JButton(LocaleHelper.getPlaceMeepleText());
         discardTileButton = new JButton(LocaleHelper.getDiscardText());
         endTurnButton = new JButton(LocaleHelper.getEndTurnText());
 
         zoomInButton.setFont(GUI.MEDIUM_BOLD_FONT);
         zoomOutButton.setFont(GUI.MEDIUM_BOLD_FONT);
         placeTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
-        toggleBoardButton.setFont(GUI.MEDIUM_BOLD_FONT);
+        placeMeepleAndShowBoardButton.setFont(GUI.MEDIUM_BOLD_FONT);
         discardTileButton.setFont(GUI.MEDIUM_BOLD_FONT);
         endTurnButton.setFont(GUI.MEDIUM_BOLD_FONT);
 
@@ -107,16 +108,16 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
 
         final JPanel zoomPanel = new JPanel();
         zoomPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
-            GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+                GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
 
         final JPanel arrowsPanel = new JPanel();
         arrowsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
-            GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+                GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
 
         final JPanel centerArrowsPanel = new JPanel();
         final JPanel actionsPanel = new JPanel();
         actionsPanel.setBorder(BorderFactory.createEmptyBorder(GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING,
-            GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
+                GUI.DEFAULT_PADDING, GUI.DEFAULT_PADDING));
 
         zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.Y_AXIS));
         arrowsPanel.setLayout(new BoxLayout(arrowsPanel, BoxLayout.Y_AXIS));
@@ -166,8 +167,8 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
         });
         meepleTypeChooser.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(meepleTypeChooser);
-        toggleBoardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        actionsPanel.add(toggleBoardButton);
+        placeMeepleAndShowBoardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionsPanel.add(placeMeepleAndShowBoardButton);
         endTurnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionsPanel.add(endTurnButton);
 
@@ -175,7 +176,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
         innerPanel.add(arrowsPanel);
         innerPanel.add(actionsPanel);
 
-        toggleBoardButton.setVisible(false);
+        placeMeepleAndShowBoardButton.setVisible(false);
         endTurnButton.setVisible(false);
         innerPanel.setVisible(true);
 
@@ -188,7 +189,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
         downRowButton.addActionListener(moveDownEventListener());
         rightRowButton.addActionListener(moveRightEventListener());
         placeTileButton.addActionListener(placeTileEventListener());
-        toggleBoardButton.addActionListener(placeMeepleEventListener());
+        placeMeepleAndShowBoardButton.addActionListener(placeMeepleEventListener());
         endTurnButton.addActionListener(endTurnEventListener());
         discardTileButton.addActionListener(discardTileEventListener());
         this.mainPanel.setVisible(false);
@@ -199,35 +200,38 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
      */
     @Override
     @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This component will always be included in a bigger JPanel which"
-        + " has the responsibility of managing its graphical properties according to other components and the layout manager")
+            + " has the responsibility of managing its graphical properties according to other components and the layout manager")
     public JPanel getComponent() {
         return this.mainPanel;
     }
 
     /**
      * allows to switch from the board to the place meeple scene.
-     * @return ActionListener that allows to switch from the board to the place meeple scene
+     *
+     * @return ActionListener that allows to switch from the board to the place
+     *         meeple scene
      */
     private ActionListener placeMeepleEventListener() {
         return (e) -> {
             this.gameScene.toggleBoard();
             if (this.gameScene.isShowingBoard()) {
-                this.toggleBoardButton.setText(LocaleHelper.getPlaceMeepleText());
+                this.placeMeepleAndShowBoardButton.setText(LocaleHelper.getPlaceMeepleText());
             } else {
-                this.toggleBoardButton.setText(LocaleHelper.getShowBoardText());
+                this.placeMeepleAndShowBoardButton.setText(LocaleHelper.getShowBoardText());
             }
         };
     }
 
     /**
      * allows to place the current tile.
+     *
      * @return ActionListener that allows to place the current tile
      */
     private ActionListener placeTileEventListener() {
         return (e) -> {
             if (this.gameScene.placeTile()) {
                 placeTileButton.setVisible(false);
-                toggleBoardButton.setVisible(true);
+                placeMeepleAndShowBoardButton.setVisible(true);
                 meepleTypeChooser.setVisible(true);
                 endTurnButton.setVisible(true);
                 discardTileButton.setVisible(false);
@@ -237,15 +241,16 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
 
     /**
      * allows to end the turn of the current player.
+     *
      * @return ActionListener that allows to end the turn of the current player
      */
     private ActionListener endTurnEventListener() {
         return (e) -> {
             placeTileButton.setVisible(true);
-            toggleBoardButton.setVisible(false);
+            placeMeepleAndShowBoardButton.setVisible(false);
             meepleTypeChooser.setVisible(false);
-            toggleBoardButton.setEnabled(true);
-            toggleBoardButton.setText(LocaleHelper.getPlaceMeepleText());
+            placeMeepleAndShowBoardButton.setEnabled(true);
+            placeMeepleAndShowBoardButton.setText(LocaleHelper.getPlaceMeepleText());
             endTurnButton.setVisible(false);
             discardTileButton.setVisible(true);
             discardTileButton.setEnabled(true);
@@ -255,6 +260,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
 
     /**
      * allows to zoom in the BoardComponent.
+     *
      * @return ActionListener that allows to zoom in the BoardComponent
      */
     private ActionListener zoomInEventListener() {
@@ -268,9 +274,10 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
     }
 
     /**
-    * allows to zoom out the BoardComponent.
-    * @return ActionListener that allows to zoom out the BoardComponent
-    */
+     * allows to zoom out the BoardComponent.
+     *
+     * @return ActionListener that allows to zoom out the BoardComponent
+     */
     private ActionListener zoomOutEventListener() {
         return (e) -> {
             this.gameScene.zoomOut();
@@ -298,6 +305,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
 
     /**
      * get the correct the button by the direction.
+     *
      * @param direction
      * @return the JButton of the desired direction
      */
@@ -313,6 +321,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
 
     /**
      * allows to move up in the BoardComponent.
+     *
      * @return ActionListener that allows to move up the BoardComponent
      */
     private ActionListener moveUpEventListener() {
@@ -324,6 +333,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
 
     /**
      * allows to move left the BoardComponent.
+     *
      * @return ActionListener that allows to move left the BoardComponent
      */
     private ActionListener moveLeftEventListener() {
@@ -335,6 +345,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
 
     /**
      * allows to move down the BoardComponent.
+     *
      * @return ActionListener that allows to move down the BoardComponent
      */
     private ActionListener moveDownEventListener() {
@@ -346,6 +357,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
 
     /**
      * allows to move right the BoardComponent.
+     *
      * @return ActionListener that allows to move right the BoardComponent
      */
     private ActionListener moveRightEventListener() {
@@ -357,6 +369,7 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
 
     /**
      * allows to discard the current tile.
+     *
      * @return ActionListener that allows discard the current tile
      */
     private ActionListener discardTileEventListener() {
@@ -381,14 +394,15 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
-            if(this.controller.getCurrentTile().isPresent() && this.controller.getCurrentTile().get().isPlaced()) {
-                toggleBoardButton.setVisible(true);
+            if (this.controller.getCurrentTile().isPresent() && this.controller.getCurrentTile().get().isPlaced()
+                    && !this.controller.getCurrentTile().get().getPosition().get()
+                            .equals(new Pair<Integer, Integer>(0, 0))) {
+                placeMeepleAndShowBoardButton.setVisible(true);
                 endTurnButton.setVisible(true);
                 discardTileButton.setVisible(false);
                 placeTileButton.setVisible(false);
-            }
-            else{
-                toggleBoardButton.setVisible(false);
+            } else {
+                placeMeepleAndShowBoardButton.setVisible(false);
                 endTurnButton.setVisible(false);
                 discardTileButton.setVisible(true);
                 placeTileButton.setVisible(true);
