@@ -138,7 +138,7 @@ public class TileImage {
         final Graphics2D finalGraphics = image.createGraphics();
         finalGraphics.drawImage(image, 0, 0, null);
         if (this.meepleImage.isPresent()) {
-            final int meepleSize = (int) ((double) image.getHeight(null) / 2.5);
+            final int meepleSize = (int) ((double) image.getHeight(null) / 5);
             final Pair<Integer, Integer> meeplePosition = getMeeplePosition(image.getHeight(null) - meepleSize);
             finalGraphics.drawImage(meepleImage.get().getNormalImage(), meeplePosition.getX(), meeplePosition.getY(),
                     meepleSize, meepleSize, null);
