@@ -398,11 +398,13 @@ public class SidebarComponentImpl implements SidebarComponent<JPanel> {
                     && !this.controller.getCurrentTile().get().getPosition().get()
                             .equals(new Pair<Integer, Integer>(0, 0))) {
                 placeMeepleAndShowBoardButton.setVisible(true);
+                meepleTypeChooser.setVisible(true);
                 endTurnButton.setVisible(true);
                 discardTileButton.setVisible(false);
                 placeTileButton.setVisible(false);
             } else {
                 placeMeepleAndShowBoardButton.setVisible(false);
+                meepleTypeChooser.setVisible(false);
                 endTurnButton.setVisible(false);
                 discardTileButton.setVisible(true);
                 placeTileButton.setVisible(true);
