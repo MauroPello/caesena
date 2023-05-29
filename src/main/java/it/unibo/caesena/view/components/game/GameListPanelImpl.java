@@ -31,13 +31,8 @@ public class GameListPanelImpl implements GameListPanel<JPanel> {
 
         final JComboBox<String> playerChooser = new JComboBox<>();
         final List<Player> players = userInterface.getController().getAllPlayers();
-        if (!players.isEmpty()) {
-            players.forEach(s -> playerChooser.addItem(s.getName()));
-            playerChooser.setSelectedIndex(0);
-            playerChooser.setFont(GUI.MEDIUM_BOLD_FONT);
-            this.contentPanel.add(playerChooser);
-        }
-
+        players.forEach(s -> playerChooser.addItem(s.getName()));
+        playerChooser.setFont(GUI.MEDIUM_BOLD_FONT);
         playerChooser.addItemListener(new ItemListener() {
 
             @Override
@@ -47,6 +42,12 @@ public class GameListPanelImpl implements GameListPanel<JPanel> {
             }
 
         });
+        if (!players.isEmpty()) {
+            selectedPlayer = players.get(0);
+            playerChooser.setSelectedItem(selectedPlayer.getName());
+            update();
+        }
+        this.contentPanel.add(playerChooser);
         this.contentPanel.add(this.innerContentPanel);
         this.mainPanel.add(contentPanel);
         this.mainPanel.setVisible(false);

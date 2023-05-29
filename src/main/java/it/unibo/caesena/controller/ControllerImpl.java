@@ -413,9 +413,12 @@ public final class ControllerImpl implements Controller {
             // cambio di gameSet
             if (tileTypeConfiguration.getId() != currentId) {
                 currentId = tileTypeConfiguration.getId();
-                gameSets.add(new GameSetImpl(tileTypeConfiguration.getGameSetType()));
+                final GameSetImpl gameSet = new GameSetImpl(tileTypeConfiguration.getGameSetType());
+                if (gameSet.getType().equals(getGameSetTypeFromName("JUNCTION"))) {
+                    gameSet.close();
+                }
+                gameSets.add(gameSet);
             }
-
             if (tileTypeConfiguration.hasPennant()) {
                 gameSets.get(gameSets.size() - 1).addPoints(PENNANT_POINTS);
             }
