@@ -335,8 +335,7 @@ public final class ControllerImpl implements Controller {
             tileSectionTypes.addAll(getAllTileSectionTypes());
             tileSectionTypes.remove(getTileSectionTypeFromName("CENTER"));
         } else {
-            // se la tileSection da controllare non è al CENTRO allora è sicuramente vicina
-            // al centro
+            // se la tileSection da controllare non è al CENTRO allora gli è sicuramente vicina
             tileSectionTypes.add(getTileSectionTypeFromName("CENTER"));
             // bisogna controllare anche le tile section adiacenti
             tileSectionTypes.add(tileSection.getType().getNext());
@@ -396,7 +395,6 @@ public final class ControllerImpl implements Controller {
             // cambio di Tile (finite le tile section della vecchia tile)
             if (i % tileSectionsNum == 0) {
                 // se abbiamo appena cambiato tipo di tile si riparte da zero con il conteggio
-                // di esse
                 if (tiles.isEmpty()
                         || tileTypeConfiguration.getTileType() != tiles.get(tiles.size() - 1).getTileType()) {
                     tilesQuantity = 0;
@@ -577,7 +575,6 @@ public final class ControllerImpl implements Controller {
         PlayerInGameImpl player = session.createQuery(query).getSingleResult();
         session.getTransaction().commit();
         return Optional.of(player);
-        // return currentPlayer;
     }
 
     @Override
@@ -681,8 +678,8 @@ public final class ControllerImpl implements Controller {
     @Override
     public Optional<MeepleImpl> placeMeeple(final TileSectionType sectionType, final MeepleType meepleType) {
         TileImpl tile = this.getCurrentTile().get();
-        Optional<MeepleImpl> choosenMeeple = this.getUnplacedPlayerMeeples(this.getCurrentPlayer().get())
-                .stream().filter(m -> m.getType().equals(meepleType)).findFirst();
+        Optional<MeepleImpl> choosenMeeple = this.getPlayerMeeples(this.getCurrentPlayer().get())
+                .stream().filter(m -> !m.isPlaced() && m.getType().equals(meepleType)).findFirst();
         TileSection choosenTileSection = this.getTileSectionFromTile(tile, sectionType);
         if (choosenMeeple.isPresent() && this.isGameSetFree(choosenTileSection.getGameSet())) {
             choosenMeeple.get().setPlaced(true);
@@ -727,16 +724,7 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public boolean isGameSetFree(GameSet gameset) {
-        // TODO lo teniamo?
-        session.beginTransaction();
-        CriteriaQuery<TileSection> query = cb.createQuery(TileSection.class);
-        Root<TileSection> root = query.from(TileSection.class);
-        query.select(root);
-        query.where(cb.and(cb.equal(root.get("gameSet"), gameset),
-                cb.isTrue(root.get("meeple").get("placed"))));
-        List<TileSection> tileSectionList = session.createQuery(query).getResultList();
-        session.getTransaction().commit();
-        return tileSectionList.isEmpty();
+        return getMeeplesFromGameSet(gameset).isEmpty();
     }
 
     @Override
@@ -823,12 +811,6 @@ public final class ControllerImpl implements Controller {
                         e.getKey().addScore(gameSet.getPoints());
                     });
         }
-
-        // for (var player : this.getPlayers()) {
-        //     session.beginTransaction();
-        //     session.merge(player);
-        //     session.getTransaction().commit();
-        // }
 
         final List<TileSection> tileSections = meeplesInGameSet.stream()
                 .map(m -> getTileSectionFromMeeple(m).get()).toList();
@@ -956,21 +938,6 @@ public final class ControllerImpl implements Controller {
         Root<MeepleImpl> root = query.from(MeepleImpl.class);
         query.select(root);
         query.where(cb.equal(root.get("owner"), player));
-        List<MeepleImpl> meeples = session.createQuery(query).getResultList();
-        session.getTransaction().commit();
-        return meeples;
-    }
-
-    @Override
-    public List<MeepleImpl> getUnplacedPlayerMeeples(PlayerInGameImpl player) {
-        // TODO lo teniamo?
-        session.beginTransaction();
-        CriteriaQuery<MeepleImpl> query = cb.createQuery(MeepleImpl.class);
-        Root<MeepleImpl> root = query.from(MeepleImpl.class);
-        query.select(root);
-        query.where(cb.and(
-                cb.equal(root.get("owner"), player),
-                cb.isFalse(root.get("placed"))));
         List<MeepleImpl> meeples = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return meeples;

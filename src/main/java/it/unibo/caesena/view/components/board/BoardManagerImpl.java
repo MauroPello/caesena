@@ -47,8 +47,7 @@ public class BoardManagerImpl implements BoardManager<JPanel> {
     @Override
     public void toggleComponents() {
         final UserInterface ui = gameScene.getUserInterface();
-        final List<MeepleImpl> remainingMeeple = ui.getController().getUnplacedPlayerMeeples(ui.getController().getCurrentPlayer().get());
-        if (!remainingMeeple.isEmpty()) {
+        if (ui.getController().getPlayerMeeples(ui.getController().getCurrentPlayer().get()).stream().anyMatch(m -> !m.isPlaced())) {
             showingBoard = !showingBoard;
             update();
         }

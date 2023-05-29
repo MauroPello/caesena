@@ -202,8 +202,6 @@ public class TileImage {
             if (type.getName().equals("UP_RIGHT")) {
                 return new Pair<Integer, Integer>(max - farPadding, closePadding);
             }
-            // }
-            // }
         }
 
         throw new IllegalStateException("Section is a known section or is null");
