@@ -1,9 +1,5 @@
 Players(\underline{Name});
 
-Follows(\underline{FollowerName}, \underline{FollowedName});
-FK: FollowerName REFERENCES Players(Name)
-FK: FollowedName REFERENCES Players(Name)
-
 Colors(\underline{HEX}, Red, Green, Blue, Name);
 
 Games(\underline{GameID}, ServerID, Concluded);
@@ -14,13 +10,13 @@ FK: PlayerName REFERENCES Players(Name)
 FK: GameID REFERENCES Games(GameID)
 FK: ColorID REFERENCES Colors(HEX)
 
-Game_Expansion(\underline{ExpansionName}, \underline{GameID})
+Games_Expansions(\underline{ExpansionName}, \underline{GameID})
 FK: GameID REFERENCES Games(GameID)
 FK: ExpansionName REFERENCES Expansions(Name)
 
 Expansions(\underline{Name});
 
-MeepleTypes(\underline{Name}, Strength, ExpansionName);
+MeepleTypes(\underline{Name}, Quantity, Strength, ExpansionName);
 FK: ExpansionName REFERENCES Expansions(Name)
 
 Meeples(\underline{MeepleID}, PlayerName, GameID, MeepleTypeName, Placed);
@@ -34,26 +30,28 @@ FK: GameSetTypeName REFERENCES GameSetTypes(Name)
 GameSetTypes(\underline{Name}, StartingPoints, EndgameRatio, ExpansionName);
 FK: ExpansionName REFERENCES Expansions(Name)
 
-TileSectionTypes(\underline{Name});
+TileSectionTypes(\underline{Name}, Next, Previous);
+FK: Next REFERENCES TileSectionType(Name)
+FK: Previous REFERENCES TileSectionType(Name)
 
-TileSections(\underline{TileSectionTypeName}, \underline{TileID}, GameID, GameSetID, MeepleID*, Closed);
+TileSections(\underline{TileSectionTypeName}, \underline{TileOrder}, \underline{GameID}, GameSetID, MeepleID*, Closed);
 FK: TileSectionTypeName REFERENCES TileSectionTypes(Name)
-FK: TileID REFERENCES Tiles(TileOrder)
+FK: TileOrder REFERENCES Tiles(TileOrder)
 FK: GameID REFERENCES Tiles(GameID)
 FK: MeepleID REFERENCES Meeples(MeepleID)
-FK: GameSets REFERENCES GameSets(GameSetID)
+FK: GameSetID REFERENCES GameSets(GameSetID)
 
-Tiles(\underline{TileOrder}, \underline{GameID}, TileTypeName, RotationCount, XCoordinate, YCoordinate);
+Tiles(\underline{TileOrder}, \underline{GameID}, TileTypeName, RotationCount, XCoordinate, YCoordinate, Current);
 FK: TileTypeName REFERENCES TileTypes(Name)
 FK: GameID REFERENCES Games(GameID)
 
-TileTypes(\underline{Name}, ExpansionName);
+TileTypes(\underline{Name}, Quantity, ExpansionName);
 FK: ExpansionName REFERENCES Expansions(Name)
 
-TileTypeConfiguration(\underline{TileSectionName}, \underline{TileTypeName}, GameSetType)
+TileTypeConfiguration(\underline{ID}, \underline{TileSectionName}, \underline{TileTypeName}, GameSetTypeName, Closed, Pennant)
 FK: TileSectionName REFERENCES TileSections(Name)
 FK: TileTypeName REFERENCES TileTypes(Name)
-FK: GameSetType REFERENCES GameSetTypes(Name)
+FK: GameSetTypeName REFERENCES GameSetTypes(Name)
 
 Regions(\underline{RegionID}, Continent, CardinalPoint*);
 FK: Continent REFERENCES Continents(ContinentName)
@@ -66,9 +64,5 @@ CardinalPoints(\underline{Point})
 Servers(\underline{ServerID}, RegionID, Active, MaxGames);
 FK: RegionID REFERENCES Regions(RegionID)
 
-Precedes(\underline{Preceded}, \underline{Following});
-FK: Preceded REFERENCES TileSectionType(Name)
-FK: Following REFERENCES TileSectionType(Name)
 
 min-card(PlayersInGame, Games) diventerà 0-N al posto di 1-N
-mettiamo la TileSections in Meeples?
