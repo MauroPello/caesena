@@ -290,7 +290,8 @@ final class BoardComponentImpl implements BoardComponent<JPanel> {
             final TileButton<JButton> selectedTileButton = allTileButtons.keySet().stream()
                     .filter(b -> b.getComponent().equals(button)).findFirst().get();
             final Controller controller = this.gameScene.getUserInterface().getController();
-            if (controller.isPositionValidForCurrentTile(this.allTileButtons.get(selectedTileButton))) {
+            if (controller.isPositionValidForCurrentTile(this.allTileButtons.get(selectedTileButton))
+                && !controller.getCurrentTile().get().isPlaced()) {
                 getPlacedUnlockedTile().ifPresent(TileButton::removeTile);
                 selectedTileButton.setTileImage(gameScene.getCurrentTileImage());
             }
