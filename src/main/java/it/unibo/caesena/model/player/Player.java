@@ -1,13 +1,11 @@
 package it.unibo.caesena.model.player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -19,9 +17,6 @@ public class Player {
     @Id
     private String name;
 
-    @ManyToMany
-    private List<Player> followers;
-
     @OneToMany(mappedBy = "player")
     private List<PlayerInGameImpl> playersInGame;
 
@@ -29,11 +24,6 @@ public class Player {
 
     public Player(final String name) {
         this.name = name;
-        this.followers = new ArrayList<>();
-    }
-
-    public List<Player> getFollowers() {
-        return followers;
     }
 
     public String getName() {
