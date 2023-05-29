@@ -52,7 +52,9 @@ public class GameList implements BasicComponent<JPanel> {
             Server server = game.getServer();
             serverLabel.setText(server.toString());
             JLabel gameIDLabel = new JLabel(String.valueOf(game.getGameID()));
-            JLabel remainingTilesLabel = new JLabel("da fare ancora");
+            var tiles = this.ui.getController().getTilesFromGame(game);
+            String remainingTiles = tiles.stream().filter(t -> t.isPlaced()).count() + "/" + tiles.size();
+            JLabel remainingTilesLabel = new JLabel(remainingTiles);
             JButton joinButton = new JButton("join");
             joinButton.addActionListener(new ActionListener() {
 

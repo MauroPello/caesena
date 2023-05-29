@@ -64,7 +64,6 @@ public final class ControllerImpl implements Controller {
 
     private Game game;
     private Optional<TileImpl> currentTile;
-    private Optional<PlayerInGameImpl> currentPlayer;
 
     public ControllerImpl() {
         this.userInterfaces = new ArrayList<>();
@@ -130,7 +129,6 @@ public final class ControllerImpl implements Controller {
                                 getTileSectionTypeFromName("LEFT_DOWN")),
                         List.of(getTileSectionTypeFromName("RIGHT_UP"), getTileSectionTypeFromName("RIGHT_CENTER"),
                                 getTileSectionTypeFromName("RIGHT_DOWN")))));
-        this.currentPlayer = Optional.empty();
         this.currentTile = Optional.empty();
     }
 
@@ -167,7 +165,6 @@ public final class ControllerImpl implements Controller {
                 final PlayerInGameImpl playerInGame = new PlayerInGameImpl(player, playersData.get(i).getY(), i, game);
                 if (i == 0) {
                     playerInGame.setCurrent(true);
-                    currentPlayer = Optional.of(playerInGame);
                 }
                 session.persist(playerInGame);
             }
@@ -827,11 +824,11 @@ public final class ControllerImpl implements Controller {
                     });
         }
 
-        for (var player : this.getPlayers()) {
-            session.beginTransaction();
-            session.merge(player);
-            session.getTransaction().commit();
-        }
+        // for (var player : this.getPlayers()) {
+        //     session.beginTransaction();
+        //     session.merge(player);
+        //     session.getTransaction().commit();
+        // }
 
         final List<TileSection> tileSections = meeplesInGameSet.stream()
                 .map(m -> getTileSectionFromMeeple(m).get()).toList();
@@ -910,20 +907,6 @@ public final class ControllerImpl implements Controller {
         this.game = session.get(Game.class, gameId);
         session.getTransaction().commit();
 
-        // TODO cambiamo?
-        // this.currentPlayer = game.getPlayersInGame().stream().filter(p ->
-        // p.isCurrent()).findFirst();
-
-        session.beginTransaction();
-        CriteriaQuery<PlayerInGameImpl> playerQuery = cb.createQuery(PlayerInGameImpl.class);
-        Root<PlayerInGameImpl> playerRoot = playerQuery.from(PlayerInGameImpl.class);
-        playerQuery.select(playerRoot);
-        playerQuery.where(cb.and(
-                cb.isTrue(playerRoot.get("current")),
-                cb.equal(playerRoot.get("game"), this.game)));
-        currentPlayer = Optional.of(session.createQuery(playerQuery).getSingleResult());
-        session.getTransaction().commit();
-
         session.beginTransaction();
         CriteriaQuery<TileImpl> tileQuery = cb.createQuery(TileImpl.class);
         Root<TileImpl> tileRoot = tileQuery.from(TileImpl.class);
@@ -972,7 +955,7 @@ public final class ControllerImpl implements Controller {
         query.where(cb.equal(pigRoot.get("player"), player));
         List<PlayerInGameImpl> playersInGame = session.createQuery(query).getResultList();
         session.getTransaction().commit();
-        return playersInGame.stream().map(p -> p.getGame()).toList();
+        return playersInGame.stream().map(p -> p.getGame()).filter(g -> !g.isConcluded()).toList();
     }
 
     @Override
@@ -1030,6 +1013,18 @@ public final class ControllerImpl implements Controller {
         List<MeepleType> meepleTypes = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return meepleTypes;
+    }
+
+    @Override
+    public List<TileImpl> getTilesFromGame(Game game) {
+        session.beginTransaction();
+        CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
+        Root<TileImpl> root = query.from(TileImpl.class);
+        query.select(root);
+        query.where(cb.equal(root.get("game"), game));
+        List<TileImpl> tiles = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return tiles;
     }
 
 }

@@ -185,4 +185,6 @@ public interface Controller {
     Optional<MeepleImpl> getMeepleOnTile(TileImpl tile);
 
     List<MeepleImpl> getMeeplesFromGameSet(GameSet gameSet);
+
+    List<TileImpl> getTilesFromGame(Game game);
 }
