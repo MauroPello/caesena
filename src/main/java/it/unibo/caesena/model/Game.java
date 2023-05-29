@@ -42,8 +42,9 @@ public class Game {
 
     public Game() {}
 
-    public Game(final Session session, final Server server) {
+    public Game(final Session session, final Server server, final List<Expansion> expansions) {
         this.concluded = false;
+        this.expansions = expansions;
         this.server = server;
     }
 

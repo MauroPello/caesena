@@ -146,7 +146,7 @@ public final class ControllerImpl implements Controller {
                 return;
             }
 
-            this.game = new Game(session, server);
+            this.game = new Game(session, server, expansions);
             playersData = new ArrayList<>(playersData);
             Collections.shuffle(playersData);
 
