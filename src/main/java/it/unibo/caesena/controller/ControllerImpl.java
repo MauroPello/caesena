@@ -36,7 +36,6 @@ import it.unibo.caesena.model.tile.TileTypeConfiguration;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.view.UserInterface;
-import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -932,20 +931,11 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public List<Server> getAvailableServers() {
-        // TODO [SPEZ] Farlo con Criteria queries, non cosi` a mano che fa schifo
-
-        @SuppressWarnings("deprecation")
-        Query query = session.createQuery(
-                "from Servers s where s.active=true and s.maxGames>(select count(s) from Servers s, Games g where g.server=s)");
-        @SuppressWarnings("unchecked")
-        List<Server> availableServers = query.getResultList();
-        // session.beginTransaction();
-        //
-        // Root<Server> rootServer = query.from(Server.class);
-        // query.select(rootServer);
-        // query.where(cb.isTrue(rootServer.get("active")));
-        // List<Server> availableServers = session.createQuery(query).getResultList();
-        // session.getTransaction().commit();
+        session.beginTransaction();
+        List<Server> availableServers = session.createNativeQuery(
+            "SELECT * FROM Servers WHERE active=true AND maxGames>(SELECT COUNT(*) FROM Servers AS s, Games AS g WHERE g.server_serverID=s.serverID)",
+            Server.class).getResultList();
+        session.getTransaction().commit();
         return availableServers;
     }
 
