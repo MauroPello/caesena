@@ -2,9 +2,7 @@ package it.unibo.caesena.view.components.meeple;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -12,7 +10,7 @@ import javax.swing.JPanel;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.caesena.view.scene.GameScene;
 import it.unibo.caesena.controller.Controller;
-import it.unibo.caesena.model.player.PlayerInGame;
+import it.unibo.caesena.model.player.PlayerInGameImpl;
 
 /**
  * {@inheritDoc}
@@ -21,7 +19,6 @@ import it.unibo.caesena.model.player.PlayerInGame;
  * {@link javax.swing.JPanel}.
  */
 public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<JPanel> {
-    private final Map<PlayerInGame, List<MeepleImage>> meeples;
     private final Controller controller;
     private final JPanel allMeeplesPanel;
     private final JPanel mainPanel;
@@ -37,7 +34,6 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
         this.mainPanel.setOpaque(false);
 
         this.controller = gameScene.getUserInterface().getController();
-        this.meeples = new HashMap<>();
 
         this.allMeeplesPanel = new JPanel();
         this.allMeeplesPanel.setOpaque(false);
@@ -61,8 +57,6 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
     @Override
     public void setVisible(final boolean visible) {
         if (visible) {
-            controller.getPlayers().forEach(p -> meeples.put(p, controller.getPlayerMeeples(p).stream()
-                .map(m -> new MeepleImage(m, p.getColor().asSwingColor())).toList()));
             update();
         }
 
@@ -78,10 +72,11 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
         this.allMeeplesPanel.revalidate();
         this.allMeeplesPanel.repaint();
 
-
-        final PlayerInGame currentPlayer = controller.getCurrentPlayer().get();
-        this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.get(currentPlayer).size()));
-        for (final MeepleImage meeple : meeples.get(currentPlayer)) {
+        final PlayerInGameImpl currentPlayer = controller.getCurrentPlayer().get();
+        final List<MeepleImage> meeples = controller.getPlayerMeeples(currentPlayer).stream()
+            .map(m -> new MeepleImage(m, currentPlayer.getColor().asSwingColor())).toList();
+        this.allMeeplesPanel.setLayout(new GridLayout(1, meeples.size()));
+        for (final MeepleImage meeple : meeples) {
             final JPanel meeplePanel = new JPanel() {
                 @Override
                 protected void paintComponent(final Graphics graphics) {
@@ -96,6 +91,8 @@ public class RemainingMeeplesComponentImpl implements RemainingMeeplesComponent<
             meeplePanel.setOpaque(false);
             this.allMeeplesPanel.add(meeplePanel);
         }
+        this.allMeeplesPanel.revalidate();
+        this.allMeeplesPanel.repaint();
     }
 
     /**
