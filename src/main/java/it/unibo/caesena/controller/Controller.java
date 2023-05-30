@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.Game;
+import it.unibo.caesena.model.Statistic;
 import it.unibo.caesena.model.Expansion;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.meeple.MeepleImpl;
@@ -185,4 +186,7 @@ public interface Controller {
     List<MeepleImpl> getMeeplesFromGameSet(GameSet gameSet);
 
     List<TileImpl> getTilesFromGame(Game game);
+
+    List<Statistic> getStatistics();
+
 }

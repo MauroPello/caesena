@@ -29,8 +29,8 @@ import it.unibo.caesena.view.components.game.GameListPanel;
 import it.unibo.caesena.view.components.game.GameListPanelImpl;
 import it.unibo.caesena.view.components.game.NewGamePanel;
 import it.unibo.caesena.view.components.game.NewGamePanelImpl;
-import it.unibo.caesena.view.components.StatisticsPanel;
-import it.unibo.caesena.view.components.StatisticsPanelImpl;
+import it.unibo.caesena.view.components.statistics.StatisticsPanel;
+import it.unibo.caesena.view.components.statistics.StatisticsPanelImpl;
 import it.unibo.caesena.view.components.common.JPanelWithBackgroundImage;
 
 /**

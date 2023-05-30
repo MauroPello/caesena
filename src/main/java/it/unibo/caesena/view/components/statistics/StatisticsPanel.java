@@ -1,4 +1,4 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.statistics;
 
 import it.unibo.caesena.view.UpdatableComponent;
 

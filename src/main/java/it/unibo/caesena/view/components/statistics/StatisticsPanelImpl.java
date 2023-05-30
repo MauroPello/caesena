@@ -1,9 +1,12 @@
-package it.unibo.caesena.view.components;
+package it.unibo.caesena.view.components.statistics;
+
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import it.unibo.caesena.model.Statistic;
 import it.unibo.caesena.view.UserInterface;
 
 public class StatisticsPanelImpl implements StatisticsPanel<JPanel> {
@@ -25,7 +28,16 @@ public class StatisticsPanelImpl implements StatisticsPanel<JPanel> {
         contentScrollPane.setBorder(null);
         this.mainPanel.add(contentScrollPane);
 
+        List<Statistic> statistics = userInterface.getController().getStatistics();
+
+        for (var stat : statistics) {
+            final StatisticComponent statComp = new StatisticComponent(stat);
+            this.contentPanel.add(statComp.getComponent());
+        }
+
         this.mainPanel.setVisible(false);
+        this.mainPanel.validate();
+        this.mainPanel.repaint();
     }
 
     @Override

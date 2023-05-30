@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import it.unibo.caesena.model.Color;
 import it.unibo.caesena.model.Expansion;
 import it.unibo.caesena.model.Game;
+import it.unibo.caesena.model.Statistic;
 import it.unibo.caesena.model.gameset.GameSet;
 import it.unibo.caesena.model.gameset.GameSetImpl;
 import it.unibo.caesena.model.gameset.GameSetType;
@@ -983,6 +984,23 @@ public final class ControllerImpl implements Controller {
         List<TileImpl> tiles = session.createQuery(query).getResultList();
         session.getTransaction().commit();
         return tiles;
+    }
+
+    @Override
+    public List<Statistic> getStatistics() {
+        // Esempio
+        List<Statistic> statistics = new ArrayList<>();
+        Statistic prova = new Statistic("Giocatori più forti delo mundo");
+        prova.addHeader("Nome Giocatore", "Quantità di sgravate");
+        prova.addRow("davide", "troppe");
+        prova.addRow("pello", "0 fra");
+        statistics.add(prova);
+
+        Statistic prova2 = new Statistic("Boh fra");
+        prova2.addRow("aaaa", "sisis");
+        statistics.add(prova2);
+
+        return statistics;
     }
 
 }
