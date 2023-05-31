@@ -1,5 +1,5 @@
 -- [QUERY DA INSERIRE] OBIETTIVO: selezionare le regioni in ordine di punteggio medio più alto dei giocatori in partite concluse dentro quella regione
-SELECT R.*, AVG(P.score) AS AveragePlayerScore FROM ((Regions R INNER JOIN Servers S on R.regionID = S.region_regionID) INNER JOIN Games G ON S.serverID = G.server_serverID) INNER JOIN PlayersInGame P ON G.gameID = P.game_gameID
+SELECT R.regionID, AVG(P.score) AS AveragePlayerScore FROM ((Regions R INNER JOIN Servers S on R.regionID = S.region_regionID) INNER JOIN Games G ON S.serverID = G.server_serverID) INNER JOIN PlayersInGame P ON G.gameID = P.game_gameID
     WHERE G.concluded = TRUE GROUP BY R.regionID ORDER BY AveragePlayerScore DESC;
 
 -- [QUERY DA INSERIRE] OBIETTIVO: selezionare per ogni giocatore con quanti altri giocatori diversi ha giocato
