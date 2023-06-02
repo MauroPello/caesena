@@ -1,0 +1,89 @@
+\documentclass[italian, a4paper, 12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{subfiles}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{subfigure}
+\usepackage[nottoc]{tocbibind}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{lightgrey}{RGB}{245, 245, 245}
+\definecolor{deepgreen}{RGB}{0, 180, 0}
+\lstdefinestyle{json}{
+    columns=flexible,
+    breaklines=true,
+    breakatwhitespace=true,
+    backgroundcolor=\color{lightgrey},
+    string=[s]{"}{"},
+    stringstyle=\color{blue},
+    comment=[l]{:},
+    commentstyle=\color{black},
+    basicstyle=\ttfamily
+}
+
+\bibliographystyle{bib.bst}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle={Caesena}
+}
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+
+        \textbf{\Huge Caesena}
+
+        \vspace{1cm}
+
+        {\LARGE Progetto di "Programmazione ad Oggetti" Caesena}
+
+        \vfill
+
+        {\includegraphics[scale=.6]{images/caesena.png}}
+
+        \vfill
+
+        \textbf{\Large Mauro Pellonara, Alessandro Martini, Davide Speziali, Samuele Giancarli}
+
+        \vspace{1cm}
+
+        {\large Programmazione ad Oggetti}
+
+        \vspace{0.3cm}
+
+        {\large Università di Bologna}
+
+        \vspace{0.3cm}
+
+        {\large 09/04/2023}
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\subfile{content/01.analisi.tex}
+\clearpage
+\subfile{content/02.design.tex}
+\clearpage
+\subfile{content/03.sviluppo.tex}
+\clearpage
+\subfile{content/04.commenti_finali.tex}
+\clearpage
+\subfile{content/05.guida_utente.tex}
+\clearpage
+\subfile{content/06.esercitazioni_lab.tex}
+\clearpage
+\bibliography{content/main.bib}
+
+\end{document}
