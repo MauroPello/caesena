@@ -30,13 +30,13 @@ public class GameSetType {
     private Expansion expansion;
 
     private int startingPoints;
-    private int endGameRatio;
+    private int endgameRatio;
 
     /**
      * Class constructor.
      *
      * @param startingPoints points related to GameSet initialization.
-     * @param endGameRatio ratio of related points at the end of the game
+     * @param endgameRatio ratio of related points at the end of the game
      */
     public GameSetType() {}
 
@@ -60,8 +60,8 @@ public class GameSetType {
      *
      * @return division of points at the end of the game.
      */
-    public int getEndGameRatio() {
-        return this.endGameRatio;
+    public int getEndgameRatio() {
+        return this.endgameRatio;
     }
 
     @Override

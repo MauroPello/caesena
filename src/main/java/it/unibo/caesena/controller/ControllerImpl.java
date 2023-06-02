@@ -783,7 +783,7 @@ public final class ControllerImpl implements Controller {
 
     private void closeGameSet(final GameSet gameSet) {
         if (isGameOver()) {
-            gameSet.setPoints(gameSet.getPoints() / gameSet.getType().getEndGameRatio());
+            gameSet.setPoints(gameSet.getPoints() / gameSet.getType().getEndgameRatio());
         }
         gameSet.close();
         session.beginTransaction();

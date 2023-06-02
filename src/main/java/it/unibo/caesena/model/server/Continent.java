@@ -15,22 +15,22 @@ import jakarta.persistence.Table;
 public class Continent {
 
     @Id
-    private String continentName;
+    private String name;
 
     @OneToMany(mappedBy = "continent")
     private List<Region> regions;
 
     public Continent() {}
 
-    public String getContinentName() {
-        return continentName;
+    public String getName() {
+        return name;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((continentName == null) ? 0 : continentName.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -43,12 +43,12 @@ public class Continent {
         if (getClass() != obj.getClass())
             return false;
         Continent other = (Continent) obj;
-        if (continentName == null) {
-            if (other.continentName != null)
+        if (name == null) {
+            if (other.getName() != null)
                 return false;
-        } else if (!continentName.equals(other.continentName))
+        } else if (!name.equals(other.getName()))
             return false;
         return true;
     }
-    
+
 }

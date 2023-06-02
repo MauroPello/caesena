@@ -68,6 +68,6 @@ public class Region {
 
     @Override
     public String toString() {
-        return continent.getContinentName() + "-" + cardinalPoint.getPoint();
+        return continent.getName() + "-" + cardinalPoint.getPoint();
     }
 }
