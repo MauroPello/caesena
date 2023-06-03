@@ -19,18 +19,18 @@ Expansions(\underline{Name});
 MeepleTypes(\underline{Name}, Quantity, Strength, ExpansionName);
 FK: ExpansionName REFERENCES Expansions(Name)
 
-Meeples(\underline{MeepleID}, PlayerName, GameID, MeepleTypeName, Placed);
+Meeples(\underline{ID}, PlayerName, GameID, MeepleTypeName, Placed);
 FK: PlayerName REFERENCES PlayersInGame(PlayerName)
 FK: GameID REFERENCES PlayersInGame(GameID)
 FK: MeepleTypeName REFERENCES MeepleTypes(Name)
 
-GameSets(\underline{GameSetID}, GameSetTypeName, Points, Closed);
+GameSets(\underline{ID}, GameSetTypeName, Points, Closed);
 FK: GameSetTypeName REFERENCES GameSetTypes(Name)
 
 GameSetTypes(\underline{Name}, StartingPoints, EndgameRatio, ExpansionName);
 FK: ExpansionName REFERENCES Expansions(Name)
 
-TileSectionTypes(\underline{Name}, Next, Previous);
+TileSectionTypes(\underline{Name}, Next*, Previous*);
 FK: Next REFERENCES TileSectionType(Name)
 FK: Previous REFERENCES TileSectionType(Name)
 
@@ -38,26 +38,26 @@ TileSections(\underline{TileSectionTypeName}, \underline{TileOrder}, \underline{
 FK: TileSectionTypeName REFERENCES TileSectionTypes(Name)
 FK: TileOrder REFERENCES Tiles(TileOrder)
 FK: GameID REFERENCES Tiles(GameID)
-FK: MeepleID REFERENCES Meeples(MeepleID)
-FK: GameSetID REFERENCES GameSets(GameSetID)
+FK: MeepleID REFERENCES Meeples(ID)
+FK: GameSetID REFERENCES GameSets(ID)
 
-Tiles(\underline{TileOrder}, \underline{GameID}, TileTypeName, RotationCount, XCoordinate, YCoordinate, Current);
+Tiles(\underline{TileOrder}, \underline{GameID}, TileTypeName, RotationCount, XCoordinate*, YCoordinate*, Current);
 FK: TileTypeName REFERENCES TileTypes(Name)
 FK: GameID REFERENCES Games(GameID)
 
 TileTypes(\underline{Name}, Quantity, ExpansionName);
 FK: ExpansionName REFERENCES Expansions(Name)
 
-TileTypeConfiguration(\underline{ID}, \underline{TileSectionName}, \underline{TileTypeName}, GameSetTypeName, Closed, Pennant)
-FK: TileSectionName REFERENCES TileSections(Name)
+TileTypeConfigurations(\underline{ID}, \underline{TileSectionTypeName}, \underline{TileTypeName}, GameSetTypeName, Closed, Pennant)
+FK: TileSectionTypeName REFERENCES TileSectionTypes(Name)
 FK: TileTypeName REFERENCES TileTypes(Name)
 FK: GameSetTypeName REFERENCES GameSetTypes(Name)
 
-Regions(\underline{RegionID}, Continent, CardinalPoint*);
-FK: Continent REFERENCES Continents(ContinentName)
+Regions(\underline{RegionID}, ContinentName, CardinalPoint*);
+FK: ContinentName REFERENCES Continents(Name)
 FK: CardinalPoint REFERENCES CardinalPoints(Point)
 
-Continents(\underline{ContinentName})
+Continents(\underline{Name})
 
 CardinalPoints(\underline{Point})
 
