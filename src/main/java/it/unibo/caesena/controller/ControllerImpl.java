@@ -649,8 +649,8 @@ public final class ControllerImpl implements Controller {
         CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
         Root<TileImpl> root = query.from(TileImpl.class);
         query.select(root);
-        query.where(cb.and(cb.isNotNull(root.get("x_coordinate"))),
-                cb.isNotNull(root.get("y_coordinate")),
+        query.where(cb.and(cb.isNotNull(root.get("xCoordinate"))),
+                cb.isNotNull(root.get("yCoordinate")),
                 cb.equal(root.get("game"), this.game));
         List<TileImpl> tiles = session.createQuery(query).getResultList();
         session.getTransaction().commit();
@@ -663,8 +663,8 @@ public final class ControllerImpl implements Controller {
         CriteriaQuery<TileImpl> query = cb.createQuery(TileImpl.class);
         Root<TileImpl> root = query.from(TileImpl.class);
         query.select(root);
-        query.where(cb.and(cb.isNull(root.get("x_coordinate"))),
-                cb.isNull(root.get("y_coordinate")),
+        query.where(cb.and(cb.isNull(root.get("xCoordinate"))),
+                cb.isNull(root.get("yCoordinate")),
                 cb.equal(root.get("game"), this.game));
         List<TileImpl> tiles = session.createQuery(query).getResultList();
         session.getTransaction().commit();
