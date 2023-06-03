@@ -22,17 +22,18 @@ import jakarta.persistence.Table;
 public class GameSetType {
 
     @Id
+    @Column(nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "type")
     private List<GameSetImpl> gameSets;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Expansion expansion;
 
-    @Column(name = "starting_points")
+    @Column(name = "starting_points", nullable = false)
     private int startingPoints;
-    @Column(name = "endgame_ratio")
+    @Column(name = "endgame_ratio", nullable = false)
     private int endgameRatio;
 
     /**

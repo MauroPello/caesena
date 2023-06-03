@@ -8,6 +8,7 @@ import it.unibo.caesena.utils.StringUtil;
 import it.unibo.caesena.model.gameset.GameSetImpl;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,15 +29,19 @@ public final class GameSetImpl implements GameSet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private GameSetType type;
 
     @OneToMany(mappedBy = "gameset")
     private Set<TileSection> sections;
 
+    @Column(nullable = false)
     private boolean closed;
+
+    @Column(nullable = false)
     private int points;
 
     public GameSetImpl() {}

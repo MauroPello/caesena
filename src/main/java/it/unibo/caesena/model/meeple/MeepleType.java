@@ -6,6 +6,7 @@ import java.util.List;
 import it.unibo.caesena.model.Expansion;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -22,15 +23,19 @@ public class MeepleType {
     public static List<MeepleType> values = new ArrayList<>();
 
     @Id
+    @Column(nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Expansion expansion;
 
     @OneToMany(mappedBy = "type")
     private List<MeepleImpl> meeples;
 
+    @Column(nullable = false)
     private int quantity;
+
+    @Column(nullable = false)
     private int strength;
 
     /**

@@ -3,6 +3,7 @@ package it.unibo.caesena.model.tile;
 import it.unibo.caesena.model.gameset.GameSetType;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -15,21 +16,26 @@ import jakarta.persistence.Table;
 public class TileTypeConfiguration {
 
     @Id
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "tile_type_name")
     private TileType tileType;
 
     @Id
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "tile_section_type_name")
     private TileSectionType tileSectionType;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "gameset_type_name")
     private GameSetType gamesetType;
 
+    @Column(nullable = false)
     private boolean pennant;
+
+    @Column(nullable = false)
     private boolean closed;
+
+    @Column(nullable = false)
     private int id;
 
     public TileTypeConfiguration() {}

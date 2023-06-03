@@ -22,15 +22,16 @@ public class Server {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Region region;
 
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL)
     private List<Game> games;
 
-    @Column(name = "max_games")
+    @Column(name = "max_games", nullable = false)
     private int maxGames;
 
     private boolean active;

@@ -9,6 +9,7 @@ import it.unibo.caesena.model.tile.TileImpl;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private int id;
 
     @OneToMany(mappedBy = "game", cascade=CascadeType.ALL)
@@ -42,9 +44,10 @@ public class Game {
     @OneToMany(mappedBy = "game",cascade=CascadeType.ALL)
     private List<TileImpl> tiles;
 
-    @ManyToOne()
+    @ManyToOne(optional = false)
     private Server server;
 
+    @Column(nullable = false)
     private boolean concluded;
 
     public Game() {}

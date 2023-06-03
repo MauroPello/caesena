@@ -7,6 +7,7 @@ import it.unibo.caesena.utils.StringUtil;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,14 +27,16 @@ public class MeepleImpl implements MutableMeeple {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private MeepleType type;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private PlayerInGameImpl owner;
 
+    @Column(nullable = false)
     private boolean placed;
 
     public MeepleImpl() {}

@@ -28,23 +28,26 @@ import jakarta.persistence.Table;
 public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable {
 
     @Id
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Player player;
 
     @Id
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Game game;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Color color;
 
     @OneToMany(mappedBy = "owner")
     private Set<MeepleImpl> meeples;
 
-    @Column(name = "\"order\"")
+    @Column(name = "\"order\"", nullable = false)
     private int order;
 
+    @Column(nullable = false)
     private boolean current;
+
+    @Column(nullable = false)
     private int score;
 
     public PlayerInGameImpl() {}

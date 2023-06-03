@@ -28,20 +28,20 @@ public final class TileImpl implements MutableTile {
     private static final int MAX_ROTATIONS = 4;
 
     @Id
-    @Column(name = "\"order\"")
+    @Column(name = "\"order\"", nullable = false)
     private int order;
 
     @Id
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Game game;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private TileType type;
 
     @OneToMany(mappedBy = "tile")
     private List<TileSection> sections;
 
-    @Column(name = "rotation_count")
+    @Column(name = "rotation_count", nullable = false)
     private int rotationCount;
 
     @Column(name = "x_coordinate", nullable = true)
@@ -50,6 +50,7 @@ public final class TileImpl implements MutableTile {
     @Column(name = "y_coordinate", nullable = true)
     private Integer yCoordinate;
 
+    @Column(nullable = false)
     private boolean current;
 
     public TileImpl() {}
