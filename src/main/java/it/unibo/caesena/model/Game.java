@@ -13,29 +13,36 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity(name = "Games")
-@Table(name = "Games")
+@Entity(name = "games")
+@Table(name = "games")
 @Access(AccessType.FIELD)
 public class Game {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int gameID;
+    private int id;
 
     @OneToMany(mappedBy = "game", cascade=CascadeType.ALL)
     private List<PlayerInGameImpl> playersInGame;
 
     @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        joinColumns = { @JoinColumn(name = "game_id") },
+        inverseJoinColumns = { @JoinColumn(name = "expansion_name") }
+    )
     private List<Expansion> expansions;
 
     @OneToMany(mappedBy = "game",cascade=CascadeType.ALL)
     private List<TileImpl> tiles;
 
-    @ManyToOne
+    @ManyToOne()
     private Server server;
 
     private boolean concluded;
@@ -64,8 +71,8 @@ public class Game {
         return server;
     }
 
-    public int getGameID() {
-        return gameID;
+    public int getId() {
+        return id;
     }
 
     public boolean isConcluded() {
@@ -76,7 +83,7 @@ public class Game {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + gameID;
+        result = prime * result + id;
         return result;
     }
 
@@ -89,7 +96,7 @@ public class Game {
         if (getClass() != obj.getClass())
             return false;
         Game other = (Game) obj;
-        if (gameID != other.gameID)
+        if (id != other.id)
             return false;
         return true;
     }

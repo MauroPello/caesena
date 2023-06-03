@@ -51,7 +51,7 @@ public class GameList implements BasicComponent<JPanel> {
             JLabel serverLabel = new JLabel();
             Server server = game.getServer();
             serverLabel.setText(server.toString());
-            JLabel gameIDLabel = new JLabel(String.valueOf(game.getGameID()));
+            JLabel gameIDLabel = new JLabel(String.valueOf(game.getId()));
             var tiles = this.ui.getController().getTilesFromGame(game);
             String remainingTiles = tiles.stream().filter(t -> t.isPlaced()).count() + "/" + tiles.size();
             JLabel remainingTilesLabel = new JLabel(remainingTiles);
@@ -61,7 +61,7 @@ public class GameList implements BasicComponent<JPanel> {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
                     JButton selectedButton = (JButton) arg0.getSource();
-                    ui.getController().joinGame(gameButtonMap.get(selectedButton).getGameID());
+                    ui.getController().joinGame(gameButtonMap.get(selectedButton).getId());
                 }
 
             });

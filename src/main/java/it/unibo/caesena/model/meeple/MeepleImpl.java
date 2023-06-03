@@ -19,8 +19,8 @@ import jakarta.persistence.Table;
  *
  * A class representing a normal {@link it.unibo.caesena.model.meeple.Meeple} with strength always equal to 1.
  */
-@Entity(name = "Meeples")
-@Table(name = "Meeples")
+@Entity(name = "meeples")
+@Table(name = "meeples")
 @Access(AccessType.FIELD)
 public class MeepleImpl implements MutableMeeple {
 

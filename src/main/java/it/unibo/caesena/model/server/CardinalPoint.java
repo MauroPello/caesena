@@ -9,28 +9,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity(name = "CardinalPoints")
-@Table(name = "CardinalPoints")
+@Entity(name = "cardinal_points")
+@Table(name = "cardinal_points")
 @Access(AccessType.FIELD)
 public class CardinalPoint {
 
     @Id
-    private String point;
+    private String name;
 
     @OneToMany(mappedBy = "cardinalPoint")
     private List<Region> regions;
 
     public CardinalPoint() {}
 
-    public String getPoint() {
-        return point;
+    public String getName() {
+        return name;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((point == null) ? 0 : point.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -43,13 +43,12 @@ public class CardinalPoint {
         if (getClass() != obj.getClass())
             return false;
         CardinalPoint other = (CardinalPoint) obj;
-        if (point == null) {
-            if (other.point != null)
+        if (name == null) {
+            if (other.name != null)
                 return false;
-        } else if (!point.equals(other.point))
+        } else if (!name.equals(other.name))
             return false;
         return true;
     }
 
-    
 }

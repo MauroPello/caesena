@@ -12,8 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity(name = "Expansions")
-@Table(name = "Expansions")
+@Entity(name = "expansions")
+@Table(name = "expansions")
 @Access(AccessType.FIELD)
 public class Expansion {
 
@@ -72,5 +72,4 @@ public class Expansion {
         return true;
     }
 
-    
 }

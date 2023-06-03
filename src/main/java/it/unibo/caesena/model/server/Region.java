@@ -8,20 +8,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity(name = "Regions")
-@Table(name = "Regions")
+@Entity(name = "regions")
+@Table(name = "regions")
 @Access(AccessType.FIELD)
 public class Region {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int regionID;
+    private int id;
 
-    @ManyToOne
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "cardinal_point_name")
     private CardinalPoint cardinalPoint;
 
     @ManyToOne
@@ -32,8 +34,8 @@ public class Region {
 
     public Region() {}
 
-    public int getRegionID() {
-        return regionID;
+    public int getId() {
+        return id;
     }
 
     public Continent getContinent() {
@@ -48,7 +50,7 @@ public class Region {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + regionID;
+        result = prime * result + id;
         return result;
     }
 
@@ -61,13 +63,14 @@ public class Region {
         if (getClass() != obj.getClass())
             return false;
         Region other = (Region) obj;
-        if (regionID != other.regionID)
+        if (id != other.id)
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return continent.getName() + "-" + cardinalPoint.getPoint();
+        return continent.getName() + "-" + cardinalPoint.getName();
     }
+
 }

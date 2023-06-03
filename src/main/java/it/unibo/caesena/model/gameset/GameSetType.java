@@ -5,6 +5,7 @@ import java.util.List;
 import it.unibo.caesena.model.Expansion;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -15,8 +16,8 @@ import jakarta.persistence.Table;
  * This is an enum class that allows us to identify the various
  * types of gamesets and its relative initial and final scores.
  */
-@Entity(name = "GameSetTypes")
-@Table(name = "GameSetTypes")
+@Entity(name = "gameset_types")
+@Table(name = "gameset_types")
 @Access(AccessType.FIELD)
 public class GameSetType {
 
@@ -29,7 +30,9 @@ public class GameSetType {
     @ManyToOne
     private Expansion expansion;
 
+    @Column(name = "starting_points")
     private int startingPoints;
+    @Column(name = "endgame_ratio")
     private int endgameRatio;
 
     /**

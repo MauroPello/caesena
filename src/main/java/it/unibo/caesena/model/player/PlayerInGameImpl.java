@@ -11,6 +11,7 @@ import it.unibo.caesena.utils.StringUtil;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -21,8 +22,8 @@ import jakarta.persistence.Table;
  * {@inheritDoc}
  * Implementation of the {@link it.unibo.caesena.model.player.PlayerInGame} interface.
  */
-@Entity(name = "PlayersInGame")
-@Table(name = "PlayersInGame")
+@Entity(name = "players_in_game")
+@Table(name = "players_in_game")
 @Access(AccessType.FIELD)
 public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable {
 
@@ -40,8 +41,10 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
     @OneToMany(mappedBy = "owner")
     private Set<MeepleImpl> meeples;
 
+    @Column(name = "\"order\"")
+    private int order;
+
     private boolean current;
-    private int playerOrder;
     private int score;
 
     public PlayerInGameImpl() {}
@@ -54,7 +57,7 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
      */
     public PlayerInGameImpl(final Player player, final Color color, final int playerOrder, final Game game) {
         this.player = player;
-        this.playerOrder = playerOrder;
+        this.order = playerOrder;
         this.color = color;
         this.score = 0;
         this.meeples = new HashSet<>();
@@ -78,8 +81,8 @@ public final class PlayerInGameImpl implements MutablePlayerInGame, Serializable
     }
 
     @Override
-    public int getPlayerOrder() {
-        return playerOrder;
+    public int getOrder() {
+        return order;
     }
 
     @Override

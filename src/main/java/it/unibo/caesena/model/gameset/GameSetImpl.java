@@ -21,8 +21,8 @@ import jakarta.persistence.Table;
  *
  * Implementation of the GameSet interface.
  */
-@Entity(name = "GameSets")
-@Table(name = "GameSets")
+@Entity(name = "gamesets")
+@Table(name = "gamesets")
 @Access(AccessType.FIELD)
 public final class GameSetImpl implements GameSet {
 
@@ -33,7 +33,7 @@ public final class GameSetImpl implements GameSet {
     @ManyToOne
     private GameSetType type;
 
-    @OneToMany(mappedBy = "gameSet")
+    @OneToMany(mappedBy = "gameset")
     private Set<TileSection> sections;
 
     private boolean closed;

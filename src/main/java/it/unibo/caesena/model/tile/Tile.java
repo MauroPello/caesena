@@ -39,6 +39,6 @@ public interface Tile {
 
     public boolean isCurrent();
 
-    public int getTileOrder();
+    public int getOrder();
 
 }

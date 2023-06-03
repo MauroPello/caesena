@@ -17,8 +17,8 @@ import jakarta.persistence.Table;
 /**
  * Class representing the different possible portions of the sides of a Tile.
  */
-@Entity(name = "TileSections")
-@Table(name = "TileSections")
+@Entity(name = "tile_sections")
+@Table(name = "tile_sections")
 @Access(AccessType.FIELD)
 public class TileSection implements Serializable {
 
@@ -31,7 +31,7 @@ public class TileSection implements Serializable {
     private TileImpl tile;
 
     @ManyToOne
-    private GameSetImpl gameSet;
+    private GameSetImpl gameset;
 
     @OneToOne(optional = true)
     private MeepleImpl meeple;
@@ -43,7 +43,7 @@ public class TileSection implements Serializable {
     public TileSection(final TileImpl tile, final TileSectionType type, final GameSetImpl gameSet) {
         this.closed = false;
         this.tile = tile;
-        this.gameSet = gameSet;
+        this.gameset = gameSet;
         this.type = type;
     }
 
@@ -59,12 +59,12 @@ public class TileSection implements Serializable {
         return this.tile;
     }
 
-    public GameSetImpl getGameSet() {
-        return this.gameSet;
+    public GameSetImpl getGameset() {
+        return this.gameset;
     }
 
-    public void setGameSet(final GameSetImpl gameSet) {
-        this.gameSet = gameSet;
+    public void setGameset(final GameSetImpl gameSet) {
+        this.gameset = gameSet;
     }
 
     public Optional<MeepleImpl> getMeeple() {

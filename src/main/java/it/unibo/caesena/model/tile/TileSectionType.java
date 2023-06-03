@@ -10,8 +10,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@Entity(name = "TileSectionTypes")
-@Table(name = "TileSectionTypes")
+@Entity(name = "tile_section_types")
+@Table(name = "tile_section_types")
 @Access(AccessType.FIELD)
 public class TileSectionType {
 
@@ -21,10 +21,10 @@ public class TileSectionType {
     @OneToMany(mappedBy = "type")
     private List<TileSection> tileSections;
 
-    @OneToOne
+    @OneToOne(optional = true)
     private TileSectionType next;
 
-    @OneToOne
+    @OneToOne(optional = true)
     private TileSectionType previous;
 
     public TileSectionType() {}

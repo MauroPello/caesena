@@ -8,6 +8,7 @@ import it.unibo.caesena.utils.Pair;
 import it.unibo.caesena.utils.StringUtil;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -18,8 +19,8 @@ import jakarta.persistence.Transient;
 /**
  * A class representing a simple Tile.
  */
-@Entity(name = "Tiles")
-@Table(name = "Tiles")
+@Entity(name = "tiles")
+@Table(name = "tiles")
 @Access(AccessType.FIELD)
 public final class TileImpl implements MutableTile {
 
@@ -27,7 +28,8 @@ public final class TileImpl implements MutableTile {
     private static final int MAX_ROTATIONS = 4;
 
     @Id
-    private int tileOrder;
+    @Column(name = "\"order\"")
+    private int order;
 
     @Id
     @ManyToOne
@@ -39,10 +41,16 @@ public final class TileImpl implements MutableTile {
     @OneToMany(mappedBy = "tile")
     private List<TileSection> sections;
 
-    private boolean current;
+    @Column(name = "rotation_count")
     private int rotationCount;
+
+    @Column(name = "x_coordinate", nullable = true)
     private Integer xCoordinate;
+
+    @Column(name = "y_coordinate", nullable = true)
     private Integer yCoordinate;
+
+    private boolean current;
 
     public TileImpl() {}
 
@@ -54,7 +62,7 @@ public final class TileImpl implements MutableTile {
      */
     public TileImpl(final int tileOrder, final Game game, final TileType type) {
         this.type = type;
-        this.tileOrder = tileOrder;
+        this.order = tileOrder;
         this.rotationCount = 0;
         this.xCoordinate = null;
         this.yCoordinate = null;
@@ -63,7 +71,7 @@ public final class TileImpl implements MutableTile {
     }
 
     public void setOrder(final int order) {
-       this.tileOrder = order;
+       this.order = order;
     }
 
     public void setCurrent(final boolean current) {
@@ -74,8 +82,8 @@ public final class TileImpl implements MutableTile {
         return this.current;
     }
 
-    public int getTileOrder() {
-        return this.tileOrder;
+    public int getOrder() {
+        return this.order;
     }
 
     /**
@@ -139,7 +147,7 @@ public final class TileImpl implements MutableTile {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + tileOrder;
+        result = prime * result + order;
         return result;
     }
 
@@ -152,7 +160,7 @@ public final class TileImpl implements MutableTile {
         if (getClass() != obj.getClass())
             return false;
         TileImpl other = (TileImpl) obj;
-        if (tileOrder != other.tileOrder)
+        if (order != other.order)
             return false;
         return true;
     }

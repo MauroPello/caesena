@@ -13,8 +13,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-@Entity(name = "MeepleTypes")
-@Table(name = "MeepleTypes")
+@Entity(name = "meeple_types")
+@Table(name = "meeple_types")
 @Access(AccessType.FIELD)
 public class MeepleType {
 
@@ -90,5 +90,4 @@ public class MeepleType {
         return true;
     }
 
-    
 }

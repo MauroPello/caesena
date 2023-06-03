@@ -12,8 +12,8 @@ import jakarta.persistence.Table;
  * It's meant to be indipendent from any GUI framework, but for this project it
  * can be easily to convert this color as a {@link java.awt.Color}.
  */
-@Entity(name = "Colors")
-@Table(name = "Colors")
+@Entity(name = "colors")
+@Table(name = "colors")
 @Access(AccessType.FIELD)
 public class Color {
 
@@ -120,5 +120,4 @@ public class Color {
         return true;
     }
 
-   
 }

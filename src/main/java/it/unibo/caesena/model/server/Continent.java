@@ -9,8 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity(name = "Continents")
-@Table(name = "Continents")
+@Entity(name = "continents")
+@Table(name = "continents")
 @Access(AccessType.FIELD)
 public class Continent {
 

@@ -17,7 +17,7 @@ public interface PlayerInGame {
 
     void setCurrent(boolean current);
 
-    int getPlayerOrder();
+    int getOrder();
 
     /**
      * Gets the color of the player.

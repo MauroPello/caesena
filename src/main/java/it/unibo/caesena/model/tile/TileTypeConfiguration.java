@@ -5,31 +5,32 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity(name = "TileTypeConfigurations")
-@Table(name = "TileTypeConfigurations")
+@Entity(name = "tile_type_configurations")
+@Table(name = "tile_type_configurations")
 @Access(AccessType.FIELD)
 public class TileTypeConfiguration {
 
     @Id
-    private int id;
-
-    @Id
     @ManyToOne
+    @JoinColumn(name = "tile_type_name")
     private TileType tileType;
 
     @Id
     @ManyToOne
+    @JoinColumn(name = "tile_section_type_name")
     private TileSectionType tileSectionType;
 
     @ManyToOne
-    private GameSetType gameSetType;
-
-    private boolean closed;
+    @JoinColumn(name = "gameset_type_name")
+    private GameSetType gamesetType;
 
     private boolean pennant;
+    private boolean closed;
+    private int id;
 
     public TileTypeConfiguration() {}
 
@@ -53,8 +54,8 @@ public class TileTypeConfiguration {
         return tileSectionType;
     }
 
-    public GameSetType getGameSetType() {
-        return gameSetType;
+    public GameSetType getGamesetType() {
+        return gamesetType;
     }
 
     @Override

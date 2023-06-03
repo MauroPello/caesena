@@ -9,8 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@Entity(name = "Players")
-@Table(name = "Players")
+@Entity(name = "players")
+@Table(name = "players")
 @Access(AccessType.FIELD)
 public class Player {
 

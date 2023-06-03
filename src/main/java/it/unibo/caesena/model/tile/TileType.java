@@ -15,8 +15,8 @@ import jakarta.persistence.Table;
 /**
  * Class representing the different types of Tiles that can be created.
 */
-@Entity(name = "TileTypes")
-@Table(name = "TileTypes")
+@Entity(name = "tile_types")
+@Table(name = "tile_types")
 @Access(AccessType.FIELD)
 public class TileType {
 
