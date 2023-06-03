@@ -1,68 +1,68 @@
 players(\underline{name});
 
-colors(\underline{HEX}, red, green, blue, name);
+colors(\underline{hex}, red, green, blue, name);
 
-games(\underline{ID}, serverID, concluded);
-FK: serverID REFERENCES servers(ID)
+games(\underline{id}, server_id, concluded);
+FK: server_id REFERENCES servers(id)
 
-players_in_game(\underline{playerName},\underline{gameID}, colorHEX, score, current, playerOrder);
-FK: playerName REFERENCES players(name)
-FK: gameID REFERENCES games(ID)
-FK: colorHEX REFERENCES colors(HEX)
+players_in_game(\underline{player_name},\underline{game_id}, color_hex, score, current, player_order);
+FK: player_name REFERENCES players(name)
+FK: game_id REFERENCES games(id)
+FK: color_hex REFERENCES colors(hex)
 
-games_expansions(\underline{expansionName}, \underline{gameID})
-FK: gameID REFERENCES games(ID)
-FK: expansionName REFERENCES expansions(name)
+games_expansions(\underline{expansion_name}, \underline{game_id})
+FK: game_id REFERENCES games(id)
+FK: expansion_name REFERENCES expansions(name)
 
 expansions(\underline{name});
 
-meeple_types(\underline{name}, quantity, strength, expansionName);
-FK: expansionName REFERENCES expansions(name)
+meeple_types(\underline{name}, quantity, strength, expansion_name);
+FK: expansion_name REFERENCES expansions(name)
 
-meeples(\underline{ID}, playerName, gameID, meepleTypeName, placed);
-FK: playerName REFERENCES players_in_game(playerName)
-FK: gameID REFERENCES players_in_game(gameID)
-FK: meepleTypeName REFERENCES meeple_types(name)
+meeples(\underline{id}, owner_player_name, owner_game_id, type_name, placed);
+FK: owner_player_name REFERENCES players_in_game(player_name)
+FK: owner_game_id REFERENCES players_in_game(game_id)
+FK: type_name REFERENCES meeple_types(name)
 
-gamesets(\underline{ID}, gamesetTypeName, points, closed);
-FK: gamesetTypeName REFERENCES gameset_types(name)
+gamesets(\underline{id}, type_name, points, closed);
+FK: type_name REFERENCES gameset_types(name)
 
-gameset_types(\underline{name}, startingPoints, endgameRatio, expansionName);
-FK: expansionName REFERENCES expansions(name)
+gameset_types(\underline{name}, starting_points, endgame_ratio, expansion_name);
+FK: expansion_name REFERENCES expansions(name)
 
-tile_section_types(\underline{name}, next*, previous*);
-FK: next REFERENCES TileSectionType(name)
-FK: previous REFERENCES TileSectionType(name)
+tile_section_types(\underline{name}, next_name*, previous_name*);
+FK: next_name REFERENCES tile_section_types(name)
+FK: previous_name REFERENCES tile_section_types(name)
 
-tile_sections(\underline{tileSectionTypeName}, \underline{tileOrder}, \underline{gameID}, gamesetID, meepleID*, closed);
-FK: tileSectionTypeName REFERENCES tile_section_types(name)
-FK: tileOrder REFERENCES tiles(tileOrder)
-FK: gameID REFERENCES tiles(gameID)
-FK: meepleID REFERENCES meeples(ID)
-FK: gamesetID REFERENCES gamesets(ID)
+tile_sections(\underline{type_name}, \underline{tile_order}, \underline{tile_game_id}, gameset_id, meeple_id*, closed);
+FK: type_name REFERENCES tile_section_types(name)
+FK: tile_order REFERENCES tiles(tile_order)
+FK: tile_game_id REFERENCES tiles(game_id)
+FK: meeple_id REFERENCES meeples(id)
+FK: gameset_id REFERENCES gamesets(id)
 
-tiles(\underline{tileOrder}, \underline{gameID}, tileTypeName, rotationCount, xCoordinate*, yCoordinate*, current);
-FK: tileTypeName REFERENCES tile_types(name)
-FK: gameID REFERENCES games(ID)
+tiles(\underline{tile_order}, \underline{game_id}, type_name, rotation_count, x_coordinate*, y_coordinate*, current);
+FK: type_name REFERENCES tile_types(name)
+FK: game_id REFERENCES games(id)
 
-tile_types(\underline{name}, quantity, expansionName);
-FK: expansionName REFERENCES expansions(name)
+tile_types(\underline{name}, quantity, expansion_name);
+FK: expansion_name REFERENCES expansions(name)
 
-tile_type_configurations(\underline{ID}, \underline{tileSectionTypeName}, \underline{tileTypeName}, gamesetTypeName, closed, pennant)
-FK: tileSectionTypeName REFERENCES tile_section_types(name)
-FK: tileTypeName REFERENCES tile_types(name)
-FK: gamesetTypeName REFERENCES gameset_types(name)
+tile_type_configurations(id, \underline{tile_section_type_name}, \underline{tile_type_name}, gameset_type_name, closed, pennant)
+FK: tile_section_type_name REFERENCES tile_section_types(name)
+FK: tile_type_name REFERENCES tile_types(name)
+FK: gameset_type_name REFERENCES gameset_types(name)
 
-regions(\underline{ID}, continentName, cardinalPoint*);
-FK: continentName REFERENCES continents(name)
-FK: cardinalPoint REFERENCES cardinal_points(point)
+regions(\underline{ID}, continent_name, cardinal_point_name*);
+FK: continent_name REFERENCES continents(name)
+FK: cardinal_point_name REFERENCES cardinal_points(name)
 
 continents(\underline{name})
 
-cardinal_points(\underline{point})
+cardinal_points(\underline{name})
 
-servers(\underline{ID}, regionID, active, maxGames);
-FK: regionID REFERENCES regions(ID)
+servers(\underline{id}, region_id, active, max_games);
+FK: region_id REFERENCES regions(id)
 
 
 min-card(players_in_game, games) diventerà 0-N al posto di 1-N
