@@ -5,7 +5,7 @@ colors(\underline{hex}, red, green, blue, name);
 games(\underline{id}, server_id, concluded);
 FK: server_id REFERENCES servers(id)
 
-players_in_game(\underline{player_name},\underline{game_id}, color_hex, score, current, player_order);
+players_in_game(\underline{player_name},\underline{game_id}, color_hex, score, current, order);
 FK: player_name REFERENCES players(name)
 FK: game_id REFERENCES games(id)
 FK: color_hex REFERENCES colors(hex)
@@ -36,12 +36,12 @@ FK: previous_name REFERENCES tile_section_types(name)
 
 tile_sections(\underline{type_name}, \underline{tile_order}, \underline{tile_game_id}, gameset_id, meeple_id*, closed);
 FK: type_name REFERENCES tile_section_types(name)
-FK: tile_order REFERENCES tiles(tile_order)
+FK: tile_order REFERENCES tiles(order)
 FK: tile_game_id REFERENCES tiles(game_id)
 FK: meeple_id REFERENCES meeples(id)
 FK: gameset_id REFERENCES gamesets(id)
 
-tiles(\underline{tile_order}, \underline{game_id}, type_name, rotation_count, x_coordinate*, y_coordinate*, current);
+tiles(\underline{order}, \underline{game_id}, type_name, rotation_count, x_coordinate*, y_coordinate*, current);
 FK: type_name REFERENCES tile_types(name)
 FK: game_id REFERENCES games(id)
 
@@ -53,7 +53,7 @@ FK: tile_section_type_name REFERENCES tile_section_types(name)
 FK: tile_type_name REFERENCES tile_types(name)
 FK: gameset_type_name REFERENCES gameset_types(name)
 
-regions(\underline{ID}, continent_name, cardinal_point_name*);
+regions(\underline{id}, continent_name, cardinal_point_name*);
 FK: continent_name REFERENCES continents(name)
 FK: cardinal_point_name REFERENCES cardinal_points(name)
 
