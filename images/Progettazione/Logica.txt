@@ -63,6 +63,3 @@ cardinal_points(\underline{name})
 
 servers(\underline{id}, region_id, active, max_games);
 FK: region_id REFERENCES regions(id)
-
-
-min-card(players_in_game, games) diventerà 0-N al posto di 1-N
