@@ -1,6 +1,32 @@
 \section{Analisi dei requisiti}
 \subsection{Intervista}
-Per esempio: \cite{GitHub}.
+Si vuole realizzare la trasposizione videoludica del gioco da tavolo Carcassonne \cite{Carcassonne} nel quale i giocatori devono posizionare delle tessere per formare strutture e dei seguaci per realizzare dei punti. Chi alla fine della partita avrà totalizzato più punti verrà proclamato vincitore.
+\medskip
+
+Ogni giocatore sarà identificato univocamente dal nome, potrà partecipare a più partite diverse contemporeaneamente e avrà un colore e un punteggio distinto per ognuna di esse.
+\medskip
+
+Ogni partita dovrà permettere l'uso di più espansioni, ovvero insiemi di diverse tessere, strutture e seguaci. Inoltre, si potrà mettere in pausa una partita e riprenderla in un secondo momento.
+\medskip
+
+Le tessere hanno un ordine nella quale devono esse giocate e sono di diversi tipi, ogni tipo è contraddistinto dall'espansione alla quale appartiene e da quante tessere di quel tipo vanno usate in una partita. Inoltre, prima di essere posizionata sul campo ogni tessera può essere ruotata.
+\medskip
+
+All'interno di una tessera sono presenti più sezioni, contraddistinte dalla struttura e dall'eventuale seguace su di loro presente. Ognuna di queste dovrà poter essere considerata chiusa, ovvero combaciante con un'altra sezione di una tessera adiacente. È quindi necessario per ogni tessera definire un modo per poterla configurare alla sua creazione.
+\medskip
+
+Le strutture sono di diversi tipi e possono essere considerate chiuse e contenere dei punti. Ogni tipo è contraddistinto dall'espansione alla quale appartiene, da quanti punti contiene alla creazione una struttura di quel tipo e dal rapporto per cui dividere a fine partita i punti rimasti sulle strutture di quel tipo.
+\medskip
+
+I seguaci possono essere piazzati su una sezione di una tessera, sono di diversi tipi ed appartengono ad un giocatore. Ogni tipo è contraddistinto dalla propria forza, dall'espansione alla quale appartiene e da quanti seguaci di quel tipo vanno assegnati ad ogni giocatore.
+\medskip
+
+Ulteriormente, in vista della possibile aggiunta futura di una modalità online, bisognerà permettere ai giocatori di scegliere la regione e il server nella quale giocare. È quindi necessario tenere traccia di quante partite sono giocate su uno stesso server e se questo è acceso o spento.
+
+\begin{figure}[ht]
+    \centering\includegraphics[scale=1]{images/CittàMeeple.png}
+    \caption{Esempio di una struttura di tipo Città con sopra un seguace.}
+\end{figure}
 
 \subsection{Estrazione dei concetti principali}
 (rilevamento delle ambiguità con relative correzioni proposte e definizione delle specifiche in linguaggio naturale)
