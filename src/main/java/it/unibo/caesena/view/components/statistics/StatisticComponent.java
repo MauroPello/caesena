@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import it.unibo.caesena.model.Statistic;
 import it.unibo.caesena.view.BasicComponent;
+import it.unibo.caesena.view.GUI;
 
 import java.awt.*;
 import javax.swing.*;
@@ -17,28 +18,36 @@ public class StatisticComponent implements BasicComponent<JPanel>{
     private final JPanel tablePanel;
 
     public StatisticComponent(Statistic statistic) {
+
         this.mainPanel = new JPanel(new BorderLayout());
         this.tablePanel = new JPanel(new GridLayout(0,2));
         final JLabel title = new JLabel(statistic.getTitle());
+        title.setFont(GUI.BIG_NORMAL_FONT);
         mainPanel.setOpaque(false);
         this.mainPanel.add(title, BorderLayout.NORTH);
         this.mainPanel.add(tablePanel, BorderLayout.CENTER);
         if (statistic.getHeader().isPresent()) {
-            final JLabel name = new JLabel(statistic.getHeader().get().getX());
-            final JLabel value = new JLabel(statistic.getHeader().get().getY());
-            name.setBackground(Color.MAGENTA);
-            value.setBackground(Color.MAGENTA);
-            name.setOpaque(true);
-            value.setOpaque(true);
-            this.tablePanel.add(name);
-            this.tablePanel.add(value);
+            setColumnTitle(statistic.getHeader().get().getX());
+            setColumnTitle(statistic.getHeader().get().getY());
         }
         for (var row : statistic) {
-            final JLabel name = new JLabel(row.getX());
-            final JLabel value = new JLabel(row.getY());
-            this.tablePanel.add(name);
-            this.tablePanel.add(value);
+            setCell(row.getX());
+            setCell(row.getY());
         }
+    }
+
+    private void setColumnTitle(String name) {
+        final JLabel nameLabel = new JLabel(name);
+        nameLabel.setFont(GUI.MEDIUM_BOLD_FONT);
+        nameLabel.setBackground(Color.GREEN);
+        nameLabel.setOpaque(true);
+        this.tablePanel.add(nameLabel);
+    }
+
+    private void setCell(String name) {
+        final JLabel nameLabel = new JLabel(name);
+        nameLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
+        this.tablePanel.add(nameLabel);
     }
 
     @Override

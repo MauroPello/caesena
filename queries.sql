@@ -20,3 +20,20 @@ SELECT SQ.id, SQ.expansion_name, MAX(SQ.GamesCount) AS MaxGamesCount FROM (
         SELECT R.id, GE.expansion_name, COUNT(GE.expansion_name) AS GamesCount FROM ((regions R INNER JOIN servers S on R.id = S.region_id) INNER JOIN games G ON G.server_id = S.id) INNER JOIN games_expansions GE ON GE.game_id = G.id
         WHERE GE.expansion_name <> 'Basic' GROUP BY R.id, GE.expansion_name) AS SQ
     GROUP BY SQ.id ORDER BY SQ.id ASC;
+
+    
+-- [QUERY DA INSERIRE] OBIETTIVO: "probabilità statistica" di vincere a seconda del colore selezionato
+SELECT c.name, (SUM(CASE WHEN pig.Score = max_scores.max_score THEN 1 ELSE 0 END) / COUNT(*)) AS WinProbability
+FROM colors c
+JOIN players_in_game pig ON c.hex = pig.color_hex
+JOIN (
+    SELECT game_id, MAX(Score) AS max_score
+    FROM players_in_game
+    GROUP BY game_id
+) max_scores ON pig.game_id = max_scores.game_id
+JOIN games g ON pig.game_id = g.id
+WHERE g.concluded = true
+GROUP BY c.hex, c.name;
+
+
+-- [QUERY DA INSERIRE] OBIETTIVO: la quantita` totale di punti totalizzati per ogni gameset

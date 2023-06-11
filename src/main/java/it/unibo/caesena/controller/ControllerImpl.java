@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -36,7 +37,9 @@ import it.unibo.caesena.model.tile.TileType;
 import it.unibo.caesena.model.tile.TileTypeConfiguration;
 import it.unibo.caesena.utils.Direction;
 import it.unibo.caesena.utils.Pair;
+import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.UserInterface;
+import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -45,6 +48,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+
 import org.hibernate.service.ServiceRegistry;
 
 public final class ControllerImpl implements Controller {
@@ -336,7 +340,8 @@ public final class ControllerImpl implements Controller {
             tileSectionTypes.addAll(getAllTileSectionTypes());
             tileSectionTypes.remove(getTileSectionTypeFromName("CENTER"));
         } else {
-            // se la tileSection da controllare non è al CENTRO allora gli è sicuramente vicina
+            // se la tileSection da controllare non è al CENTRO allora gli è sicuramente
+            // vicina
             tileSectionTypes.add(getTileSectionTypeFromName("CENTER"));
             // bisogna controllare anche le tile section adiacenti
             tileSectionTypes.add(tileSection.getType().getNext());
@@ -916,8 +921,8 @@ public final class ControllerImpl implements Controller {
     public List<Server> getAvailableServers() {
         session.beginTransaction();
         List<Server> availableServers = session.createNativeQuery(
-            "SELECT * FROM servers WHERE active=true AND max_games>(SELECT COUNT(*) FROM servers AS s, games AS g WHERE g.server_ID=s.ID)",
-            Server.class).getResultList();
+                "SELECT * FROM servers WHERE active=true AND max_games>(SELECT COUNT(*) FROM servers AS s, games AS g WHERE g.server_ID=s.ID)",
+                Server.class).getResultList();
         session.getTransaction().commit();
         return availableServers;
     }
@@ -988,17 +993,43 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public List<Statistic> getStatistics() {
-        // Esempio
         List<Statistic> statistics = new ArrayList<>();
-        Statistic prova = new Statistic("Giocatori più forti delo mundo");
-        prova.addHeader("Nome Giocatore", "Quantità di sgravate");
-        prova.addRow("davide", "troppe");
-        prova.addRow("pello", "0 fra");
-        statistics.add(prova);
 
-        Statistic prova2 = new Statistic("Boh fra");
-        prova2.addRow("aaaa", "sisis");
-        statistics.add(prova2);
+        Statistic regionStatistic = new Statistic(LocaleHelper.getStatisticsTitleRegion());
+        Query q = session.getEntityManagerFactory().createEntityManager().createNativeQuery("SELECT R.id, AVG(P.score) AS AveragePlayerScore FROM ((regions R INNER JOIN servers S on R.id = S.region_id) INNER JOIN games G ON S.id = G.server_id) INNER JOIN players_in_game P ON G.id = P.game_id WHERE G.concluded = TRUE GROUP BY R.id ORDER BY AveragePlayerScore DESC;");
+        List<Object[]> rows = q.getResultList();
+        regionStatistic.addHeader(LocaleHelper.getStatisticsHeader1Region(), LocaleHelper.getStatisticsHeader2Region());
+        for (Object[] row : rows) {
+            regionStatistic.addRow(row[0].toString(), row[1].toString());
+        }
+        statistics.add(regionStatistic);
+
+        Statistic enemyStatistic = new Statistic(LocaleHelper.getStatisticsTitleEnemy());
+        q = session.getEntityManagerFactory().createEntityManager().createNativeQuery("SELECT P.player_name, (SELECT COUNT(DISTINCT P2.player_name) AS EnemiesCount FROM players_in_game P2 INNER JOIN games G2 on P2.game_id = G2.id WHERE G2.id IN (SELECT DISTINCT P3.game_id FROM players_in_game P3 WHERE P3.player_name = P.player_name) AND P2.player_name <> P.player_name) AS EnemiesCount FROM players_in_game P INNER JOIN games G on P.game_id = G.id GROUP BY P.player_name ORDER BY EnemiesCount DESC;");
+        rows = q.getResultList();
+        enemyStatistic.addHeader(LocaleHelper.getStatisticsHeader1Enemy(), LocaleHelper.getStatisticsHeader2Enemy());
+        for (Object[] row : rows) {
+            enemyStatistic.addRow(row[0].toString(), row[1].toString());
+        }
+        statistics.add(enemyStatistic);
+
+        Statistic expansionStatistic = new Statistic(LocaleHelper.getStatisticsTitleExpansion());
+        q = session.getEntityManagerFactory().createEntityManager().createNativeQuery("SELECT SQ.id, SQ.expansion_name FROM (SELECT R.id, GE.expansion_name, COUNT(GE.expansion_name) AS GamesCount FROM ((regions R INNER JOIN servers S on R.id = S.region_id) INNER JOIN games G ON G.server_id = S.id) INNER JOIN games_expansions GE ON GE.game_id = G.id WHERE GE.expansion_name <> 'Basic' GROUP BY R.id, GE.expansion_name) AS SQ GROUP BY SQ.id ORDER BY SQ.id ASC;");
+        rows = q.getResultList();
+        expansionStatistic.addHeader(LocaleHelper.getStatisticsHeader1Expansion(), LocaleHelper.getStatisticsHeader2Expansion());
+        for (Object[] row : rows) {
+            expansionStatistic.addRow(row[0].toString(), row[1].toString());
+        }
+        statistics.add(expansionStatistic);
+
+        Statistic colorStatistic = new Statistic(LocaleHelper.getStatisticsTitleColor());
+        q = session.getEntityManagerFactory().createEntityManager().createNativeQuery("SELECT c.name, (SUM(CASE WHEN pig.Score = max_scores.max_score THEN 1 ELSE 0 END) / COUNT(*)) AS WinProbability FROM colors c JOIN players_in_game pig ON c.hex = pig.color_hex JOIN (SELECT game_id, MAX(Score) AS max_score FROM players_in_game GROUP BY game_id) max_scores ON pig.game_id = max_scores.game_id JOIN games g ON pig.game_id = g.id WHERE g.concluded = true GROUP BY c.hex, c.name;");
+        rows = q.getResultList();
+        colorStatistic.addHeader(LocaleHelper.getStatisticsHeader1Color(), LocaleHelper.getStatisticsHeader2Color());
+        for (Object[] row : rows) {
+            colorStatistic.addRow(row[0].toString(), row[1].toString());
+        }
+        statistics.add(colorStatistic);
 
         return statistics;
     }

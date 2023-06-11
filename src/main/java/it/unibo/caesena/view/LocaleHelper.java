@@ -311,4 +311,52 @@ public final class LocaleHelper {
         return getResourceBundle().getString("leaderboardName");
     }
 
+	public static String getStatisticsTitleColor() {
+		return getResourceBundle().getString("statisticsTitleColor");
+	}
+
+	public static String getStatisticsHeader1Color() {
+		return getResourceBundle().getString("statisticsHeader1Color");
+	}
+
+	public static String getStatisticsHeader2Color() {
+        return getResourceBundle().getString("statisticsHeader2Color");
+	}
+
+    public static String getStatisticsTitleRegion() {
+        return getResourceBundle().getString("statisticsTitleRegion");
+    }
+
+	public static String getStatisticsHeader1Region() {
+		return getResourceBundle().getString("statisticsHeader1Region");
+	}
+
+	public static String getStatisticsHeader2Region() {
+		return getResourceBundle().getString("statisticsHeader2Region");
+	}
+
+	public static String getStatisticsTitleEnemy() {
+		return getResourceBundle().getString("statisticsTitleEnemy");
+	}
+
+	public static String getStatisticsHeader1Enemy() {
+		return getResourceBundle().getString("statisticsHeader1Enemy");
+	}
+
+	public static String getStatisticsHeader2Enemy() {
+		return getResourceBundle().getString("statisticsHeader2Enemy");
+	}
+
+	public static String getStatisticsTitleExpansion() {
+		return getResourceBundle().getString("statisticsTitleExpansion");
+	}
+
+	public static String getStatisticsHeader1Expansion() {
+		return getResourceBundle().getString("statisticsHeader1Expansion");
+	}
+
+	public static String getStatisticsHeader2Expansion() {
+		return getResourceBundle().getString("statisticsHeader2Expansion");
+	}
+
 }
