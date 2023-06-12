@@ -1,7 +1,5 @@
 package it.unibo.caesena.view.components.statistics;
 
-import javax.swing.JPanel;
-
 import it.unibo.caesena.model.Statistic;
 import it.unibo.caesena.view.BasicComponent;
 import it.unibo.caesena.view.GUI;
@@ -18,14 +16,13 @@ public class StatisticComponent implements BasicComponent<JPanel>{
     private final JPanel tablePanel;
 
     public StatisticComponent(Statistic statistic) {
-
-        this.mainPanel = new JPanel(new BorderLayout());
+        final JPanel contentPanel = new JPanel(new BorderLayout());
         this.tablePanel = new JPanel(new GridLayout(0,2));
         final JLabel title = new JLabel(statistic.getTitle());
         title.setFont(GUI.BIG_NORMAL_FONT);
-        mainPanel.setOpaque(false);
-        this.mainPanel.add(title, BorderLayout.NORTH);
-        this.mainPanel.add(tablePanel, BorderLayout.CENTER);
+        contentPanel.setOpaque(false);
+        contentPanel.add(title, BorderLayout.NORTH);
+        contentPanel.add(tablePanel, BorderLayout.CENTER);
         if (statistic.getHeader().isPresent()) {
             setColumnTitle(statistic.getHeader().get().getX());
             setColumnTitle(statistic.getHeader().get().getY());
@@ -34,6 +31,17 @@ public class StatisticComponent implements BasicComponent<JPanel>{
             setCell(row.getX());
             setCell(row.getY());
         }
+
+        final JScrollPane contentScrollPane = new JScrollPane(contentPanel);
+        contentScrollPane.setOpaque(false);
+        contentScrollPane.getViewport().setOpaque(false);
+        contentScrollPane.setAutoscrolls(true);
+        contentScrollPane.setBorder(null);
+
+        this.mainPanel = new JPanel();
+        this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
+        this.mainPanel.setOpaque(false);
+        this.mainPanel.add(contentScrollPane);
     }
 
     private void setColumnTitle(String name) {
@@ -52,17 +60,17 @@ public class StatisticComponent implements BasicComponent<JPanel>{
 
     @Override
     public boolean isVisible() {
-        return true;
+        return this.mainPanel.isVisible();
     }
 
     @Override
     public void setVisible(boolean visible) {
-
+        this.mainPanel.setVisible(visible);
     }
 
     @Override
     public JPanel getComponent() {
-        return mainPanel;
+        return this.mainPanel;
     }
 
 }
