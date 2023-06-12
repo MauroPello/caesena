@@ -21,7 +21,7 @@ SELECT SQ.id, SQ.expansion_name, MAX(SQ.GamesCount) AS MaxGamesCount FROM (
         WHERE GE.expansion_name <> 'Basic' GROUP BY R.id, GE.expansion_name) AS SQ
     GROUP BY SQ.id ORDER BY SQ.id ASC;
 
-    
+
 -- [QUERY DA INSERIRE] OBIETTIVO: "probabilità statistica" di vincere a seconda del colore selezionato
 SELECT c.name, (SUM(CASE WHEN pig.Score = max_scores.max_score THEN 1 ELSE 0 END) / COUNT(*)) AS WinProbability
 FROM colors c
@@ -36,4 +36,5 @@ WHERE g.concluded = true
 GROUP BY c.hex, c.name;
 
 
--- [QUERY DA INSERIRE] OBIETTIVO: la quantita` totale di punti totalizzati per ogni gameset
+-- [QUERY DA INSERIRE] OBIETTIVO: selezionare i server attivi che non hanno raggiunto il limite di partite
+SELECT * FROM servers AS s WHERE active=true AND max_games>(SELECT COUNT(*) FROM games AS g WHERE g.server_ID=s.ID)

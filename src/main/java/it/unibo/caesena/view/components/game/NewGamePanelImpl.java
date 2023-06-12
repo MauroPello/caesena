@@ -39,8 +39,11 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
     private final NumericUpDown<JSpinner> playersNum;
     private final int playerInputImageSize;
     private final UserInterface userInterface;
+    private final List<Server> servers;
+    private final JComboBox<String> serverChooser;
 
     private Optional<ChangeListener> playersNumChangeListener;
+    private final JPanel playersNumPanel;
 
     public NewGamePanelImpl(final UserInterface userInterface) {
         this.userInterface = userInterface;
@@ -50,7 +53,7 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
 
         this.playerInputs = new ArrayList<>();
 
-        final JPanel playersNumPanel = new JPanel();
+        playersNumPanel = new JPanel();
         playersNumPanel.setOpaque(false);
         final JLabel playersLabel = new JLabel(LocaleHelper.getPlayersText());
         playersLabel.setFont(GUI.BIG_BOLD_FONT);
@@ -64,13 +67,9 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         final JLabel serversLabel = new JLabel(LocaleHelper.getServerText());
         serversLabel.setFont(GUI.BIG_BOLD_FONT);
         playersNumPanel.add(serversLabel);
-        final JComboBox<String> serverChooser = new JComboBox<>();
-        final List<Server> servers = userInterface.getController().getAvailableServers();
-        servers.forEach(s -> serverChooser.addItem(s.toString()));
-        serverChooser.setSelectedIndex(0);
-        serverChooser.setFont(GUI.MEDIUM_BOLD_FONT);
-        playersNumPanel.add(serverChooser);
-        this.mainPanel.add(playersNumPanel);
+        servers = new ArrayList<>();
+        serverChooser = new JComboBox<>();
+        updateServerList();
 
         final JPanel expansions = new JPanel();
         expansions.setOpaque(false);
@@ -118,6 +117,16 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         }
 
         this.mainPanel.setVisible(false);
+    }
+
+    private void updateServerList() {
+        servers.clear();
+        servers.addAll(userInterface.getController().getAvailableServers());
+        servers.forEach(s -> serverChooser.addItem(s.toString()));
+        serverChooser.setSelectedIndex(0);
+        serverChooser.setFont(GUI.MEDIUM_BOLD_FONT);
+        playersNumPanel.add(serverChooser);
+        this.mainPanel.add(playersNumPanel);
     }
 
     @Override

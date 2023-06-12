@@ -1,13 +1,10 @@
 package it.unibo.caesena.model.player;
 
-import java.util.List;
-
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity(name = "players")
@@ -18,9 +15,6 @@ public class Player {
     @Id
     @Column(nullable = false)
     private String name;
-
-    @OneToMany(mappedBy = "player")
-    private List<PlayerInGameImpl> playersInGame;
 
     public Player() {}
 
