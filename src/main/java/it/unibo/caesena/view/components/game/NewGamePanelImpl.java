@@ -88,9 +88,9 @@ public class NewGamePanelImpl implements NewGamePanel<JPanel> {
         this.mainPanel.add(expansions);
 
         this.playersPanel = new JPanel();
+        this.playersPanel.setOpaque(false);
         this.playersPanel.setLayout(new BoxLayout(this.playersPanel, BoxLayout.Y_AXIS));
         final JScrollPane playersScrollPane = new JScrollPane(playersPanel);
-        playersPanel.setOpaque(false);
         playersScrollPane.setOpaque(false);
         playersScrollPane.getViewport().setOpaque(false);
         playersScrollPane.setAutoscrolls(true);
