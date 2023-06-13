@@ -43,7 +43,7 @@ public class GameList implements BasicComponent<JPanel> {
         for (Game game : games) {
 
             JLabel playersLabel = new JLabel();
-            List<PlayerInGameImpl> playersInGame = game.getPlayersInGame();
+            List<PlayerInGameImpl> playersInGame = ui.getController().getPlayersFromGame(game);
             String playersLabelText = playersInGame.stream()
                     .map(p -> p.getPlayer().getName())
                     .collect(Collectors.joining(", "));
@@ -53,7 +53,7 @@ public class GameList implements BasicComponent<JPanel> {
             serverLabel.setText(server.toString());
             JLabel gameIDLabel = new JLabel(String.valueOf(game.getId()));
             var tiles = this.ui.getController().getTilesFromGame(game);
-            String remainingTiles = tiles.stream().filter(t -> t.isPlaced()).count() + "/" + tiles.size();
+            String remainingTiles = tiles.stream().filter(t -> !t.isPlaced()).count() + "/" + tiles.size();
             JLabel remainingTilesLabel = new JLabel(remainingTiles);
             JButton joinButton = new JButton("join");
             joinButton.addActionListener(new ActionListener() {

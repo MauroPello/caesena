@@ -73,6 +73,8 @@ public interface Controller {
      */
     List<PlayerInGameImpl> getPlayers();
 
+    List<PlayerInGameImpl> getPlayersFromGame(Game game);
+
     /**
      * Returns the current tile drawn in the current turn.
      *
@@ -157,13 +159,13 @@ public interface Controller {
      */
     void addUserInterface(UserInterface userInterface);
 
-    public void close();
+    void close();
 
-    public List<TileSectionType> getAllTileSectionTypes();
+    List<TileSectionType> getAllTileSectionTypes();
 
-    public TileSectionType getTileSectionTypeFromName(String name);
+    TileSectionType getTileSectionTypeFromName(String name);
 
-    public List<Color> getDefaultColors();
+    List<Color> getDefaultColors();
 
     List<Server> getAvailableServers();
 
@@ -188,5 +190,7 @@ public interface Controller {
     List<TileImpl> getTilesFromGame(Game game);
 
     List<Statistic> getStatistics();
+
+
 
 }

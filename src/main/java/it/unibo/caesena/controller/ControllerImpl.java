@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -77,6 +76,7 @@ public final class ControllerImpl implements Controller {
         properties.setProperty("hibernate.connection.username", "caesena");
         properties.setProperty("hibernate.connection.password", "caesena");
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        // properties.setProperty("hibernate.show_sql", "true");
 
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(Player.class);
@@ -987,6 +987,7 @@ public final class ControllerImpl implements Controller {
         query.select(root);
         query.where(cb.equal(root.get("game"), game));
         List<TileImpl> tiles = session.createQuery(query).getResultList();
+        session.clear();
         session.getTransaction().commit();
         return tiles;
     }
@@ -1032,6 +1033,18 @@ public final class ControllerImpl implements Controller {
         statistics.add(colorStatistic);
 
         return statistics;
+    }
+
+    @Override
+    public List<PlayerInGameImpl> getPlayersFromGame(Game game) {
+        session.beginTransaction();
+        CriteriaQuery<PlayerInGameImpl> query = cb.createQuery(PlayerInGameImpl.class);
+        Root<PlayerInGameImpl> root = query.from(PlayerInGameImpl.class);
+        query.select(root);
+        query.where(cb.equal(root.get("game"), game));
+        List<PlayerInGameImpl> players = session.createQuery(query).getResultList();
+        session.getTransaction().commit();
+        return players;
     }
 
 }
