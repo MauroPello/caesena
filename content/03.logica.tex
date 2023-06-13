@@ -1,74 +1,74 @@
 \section{Progettazione logica}
 \subsection{Stima del volume dei dati}
-Supponendo che ogni giorno ci siano 10 partite alla quale partecipano ogni volta 4 giocatori diversi. Le partite vengono sempre concluse in giornata e prevedono mediamente 70 tessere l'una.
+Si suppone che siano state giocate 10 partite alla quale hanno partecipato ogni volta 4 giocatori diversi. Le partite sono state giocate solo con l'espansione base (8 seguaci per giocatore e 62 tessere totali).
 \medskip
 
 \centerline{\begin{tabular}{ |l|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Tipo} & \textbf{Volume} \\
 \hline
-Player & E & BOH \\
-Participation & R & BOH \\
-PlayerInGame & E & BOH \\
-Having & R & BOH \\
-Color & E & BOH \\
+Player & E & 40 \\
+Participation & R & 40 \\
+PlayerInGame & E & 40 \\
+Having & R & 40 \\
+Color & E & 10 \\
 \hline
-Meeple & E & BOH \\
-Owning & R & BOH \\
-Classification & R & BOH \\
-BasicMeeple & E & BOH \\
-ExpansionMeeple & E & BOH \\
-Using & R & BOH \\
+Meeple & E & 320 \\
+Owning & R & 320 \\
+Classification & R & 320 \\
+BasicMeeple & E & 1 \\
+ExpansionMeeple & E & 1 \\
+Using & R & 1 \\
 \hline
-GameSet & E & BOH \\
-Classification & R & BOH \\
-BasicGameSet & E & BOH \\
-ExpansionGameSet & E & BOH \\
-Using & R & BOH \\
+GameSet & E & 1.500 \\
+Classification & R & 1.500 \\
+BasicGameSet & E & 1 \\
+ExpansionGameSet & E & 0 \\
+Using & R & 0 \\
 \hline
-Game & E & BOH \\
-Participation & R & BOH \\
-Composition & R & BOH \\
-Hosting & R & BOH \\
-Using & R & BOH \\
-Expansion & E & BOH \\
+Game & E & 10 \\
+Participation & R & 40 \\
+Composition & R & 620 \\
+Hosting & R & 10 \\
+Using & R & 10 \\
 \hline
-Server & E & BOH \\
-Location & R & BOH \\
-Region & E & BOH \\
-Composition & R & BOH \\
-Continent & E & BOH \\
-Composition & R & BOH \\
-CardinalPoint & E & BOH \\
+Expansion & E & 4 \\
+\hline
+Server & E & 10 \\
+Location & R & 10 \\
+Region & E & 6 \\
+Composition & R & 6 \\
+Continent & E & 4 \\
+Composition & R & 6 \\
+CardinalPoint & E & 5 \\
 \hline
 \end{tabular}
 \begin{tabular}{ |l|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Tipo} & \textbf{Volume} \\
 \hline
-Tile & E & BOH \\
-Classification & R & BOH \\
-BasicTile & E & BOH \\
-ExpansionTile & E & BOH \\
-Using & R & BOH \\
-Composition & R & BOH \\
+Tile & E & 620 \\
+Classification & R & 620 \\
+BasicTile & E & 18 \\
+ExpansionTile & E & 7 \\
+Using & R & 7 \\
+Composition & R & 8.060 \\
 \hline
-Composition & R & BOH \\
-TileSection & E & BOH \\
-Composition & R & BOH \\
-Placement & R & BOH \\
-Classification & R & BOH \\
-TileSectionType & E & BOH \\
-Preceding & R & BOH \\
-Composition & R & BOH \\
+TileSection & E & 8.060 \\
+Composition & R & 8.060 \\
+Classification & R & 8.060 \\
+Placement & R & 200 \\
+TileSectionType & E & 13 \\
+Preceding & R & 12 \\
+Composition & R & 234 \\
 \hline
-TileTypeConfiguration & E & BOH \\
-Composition & R & BOH \\
-Description & R & BOH \\
+TileTypeConfiguration & E & 234 \\
+Composition & R & 234 \\
+Description & R & 234 \\
 \hline
 \end{tabular}}
 \subsection{Descrizione delle operazioni principali e stima della frequenza}
-Supponendo che ogni giorno ci siano 10 partite alla quale partecipano ogni volta 4 giocatori diversi. Le partite vengono sempre concluse in giornata e prevedono mediamente 70 tessere l'una.
+Si suppone che ogni giorno vengano giocate 10 partite alla quale partecipano ogni volta 4 giocatori diversi. Le partite vengono sempre concluse nell'arco della giornata e si prevede che mediamente vengono giocate 70 tessere a partite.
 \medskip
 
 \centerline{\begin{tabular}{ |c|l|c| }
