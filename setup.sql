@@ -22,13 +22,10 @@ INSERT INTO caesena.continents (name)
 VALUES ('Asia');
 
 INSERT INTO caesena.continents (name)
-VALUES ('North America');
+VALUES ('America');
 
 INSERT INTO caesena.continents (name)
 VALUES ('Oceania');
-
-INSERT INTO caesena.continents (name)
-VALUES ('South America');
 
 -- regions
 INSERT INTO caesena.regions (cardinal_point_name, continent_name)
@@ -38,10 +35,16 @@ INSERT INTO caesena.regions (cardinal_point_name, continent_name)
 VALUES ('WEST', 'Asia');
 
 INSERT INTO caesena.regions (cardinal_point_name, continent_name)
-VALUES ('EAST', 'North America');
+VALUES ('EAST', 'America');
 
 INSERT INTO caesena.regions (cardinal_point_name, continent_name)
-VALUES ('Central', 'Oceania');
+VALUES ('WEST', 'America');
+
+INSERT INTO caesena.regions (cardinal_point_name, continent_name)
+VALUES ('CENTRAL', 'Oceania');
+
+INSERT INTO caesena.regions (cardinal_point_name, continent_name)
+VALUES ('CENTRAL', 'Europe');
 
 -- servers
 INSERT INTO caesena.servers (active, max_games, region_id)
