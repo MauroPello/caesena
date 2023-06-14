@@ -921,7 +921,7 @@ public final class ControllerImpl implements Controller {
     public List<Server> getAvailableServers() {
         session.beginTransaction();
         List<Server> availableServers = session.createNativeQuery(
-                "SELECT * FROM servers AS s WHERE active=true AND max_games>(SELECT COUNT(*) FROM games AS g WHERE g.server_ID=s.ID)",
+                "SELECT * FROM servers AS s WHERE active=true AND max_games > (SELECT COUNT(*) FROM games AS g WHERE g.server_ID=s.ID AND g.concluded = FALSE)",
                 Server.class).getResultList();
         session.getTransaction().commit();
         return availableServers;
