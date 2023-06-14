@@ -236,7 +236,7 @@ SELECT *
 FROM servers AS s
 WHERE active=true AND max_games > (SELECT COUNT(*)
     FROM games AS g
-    WHERE g.server_ID=s.ID);
+    WHERE g.server_ID=s.ID AND g.concluded = FALSE);
 \end{lstlisting}
 
 \subsubsection*{OP3 - Visualizzare tutte le espansioni}
