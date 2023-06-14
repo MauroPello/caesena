@@ -37,4 +37,4 @@ GROUP BY c.hex, c.name;
 
 
 -- [QUERY DA INSERIRE] OBIETTIVO: selezionare i server attivi che non hanno raggiunto il limite di partite
-SELECT * FROM servers AS s WHERE active=true AND max_games>(SELECT COUNT(*) FROM games AS g WHERE g.server_ID=s.ID)
+SELECT * FROM servers AS s WHERE active=true AND max_games > (SELECT COUNT(*) FROM games AS g WHERE g.server_ID=s.ID AND g.concluded = FALSE)
