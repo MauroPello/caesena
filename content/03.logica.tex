@@ -85,33 +85,37 @@ Si suppone che ogni giorno vengano giocate 10 partite alla quale partecipano ogn
 \hline
 5 & Visualizzare tutti i colori & 40 al giorno \\
 \hline
-6 & Ruotare la tessera corrente & 300 al giorno \\
+6 & Visualizzare il giocatore corrente & 700 al giorno \\
 \hline
-7 & Piazzare la tessera corrente & 700 al giorno \\
+7 & Visualizzare la tessera corrente & 700 al giorno \\
 \hline
-8 & Piazzare o rimuovere un seguace su una sezione di una tessera & 350 al giorno \\
+8 & Ruotare la tessera corrente & 300 al giorno \\
 \hline
-9 & Visualizzare i seguaci disponibili & 700 al giorno \\
+9 & Piazzare la tessera corrente & 700 al giorno \\
 \hline
-10 & Assegnare dei punti ad un giocatore & 200 al giorno \\
+10 & Piazzare o rimuovere un seguace su una sezione di una tessera & 350 al giorno \\
 \hline
-11 & Aggiornare la tessera corrente & 700 al giorno \\
+11 & Visualizzare i seguaci disponibili ad un giocatore & 700 al giorno \\
 \hline
-12 & Aggiornare il giocatore corrente & 700 al giorno \\
+12 & Assegnare dei punti ad un giocatore & 200 al giorno \\
 \hline
-13 & Visualizzare le partire non concluse & 5 al giorno \\
+13 & Aggiornare la tessera corrente & 700 al giorno \\
 \hline
-14 & Visualizzare i giocatori di una partita & 70 al giorno \\
+14 & Aggiornare il giocatore corrente & 700 al giorno \\
 \hline
-15 & Visualizzare le tessere piazzate & 5 al giorno \\
+15 & Visualizzare le partire non concluse & 5 al giorno \\
 \hline
-16 & Visualizzare le regioni in ordine di punteggio medio dei giocatori & 2 al mese \\
+16 & Visualizzare i giocatori di una partita & 70 al giorno \\
 \hline
-17 & Mostrare per ogni giocatore il numero di avversari con cui ha giocato & 4 all'anno \\
+17 & Visualizzare le tessere piazzate in una partita & 5 al giorno \\
 \hline
-18 & Visualizzare per ogni regione l'espansione più giocata & 1 al mese \\
+18 & Visualizzare le regioni in ordine di punteggio medio dei giocatori & 2 al mese \\
 \hline
-19 & Mostrare per ogni colore la probabilità statistica di vincere & 1 al giorno \\
+19 & Mostrare per ogni giocatore il numero di avversari con cui ha giocato & 4 all'anno \\
+\hline
+20 & Visualizzare per ogni regione l'espansione più giocata & 1 al mese \\
+\hline
+21 & Mostrare per ogni colore la probabilità statistica di vincere & 1 al giorno \\
 \hline
 \end{tabular}}
 
@@ -193,78 +197,237 @@ servers(\textbf{id}, region\_id, active, max\_games)\newline
 FK: region\_id REFERENCES regions(id)
 
 \subsection{Schema relazionale finale}
-\begin{figure}[hb]
+\begin{figure}[ht]
     \centering\includegraphics[scale=0.06]{images/Progettazione/relazionale.png}
     \caption{Schema concettuale finale.}
 \end{figure}
 
 \subsection{Traduzione delle operazioni in query SQL}
 \subsubsection*{OP1 - Creare una nuova partita}
+Nel caso in cui i giocatori scelti non esistano nel database vengono creati tramite l'operazione 4. Viene poi creata la partita assieme ai vari players\_in\_game che avranno come game\_id l'id della partita appena creata. Vengono poi creati i seguaci, le strutture e le tessere con le relative sezioni in accordo con le espansioni selezionate alla creazione del gioco.
+\medskip
+
+\begin{lstlisting}[style=sql]
+    INSERT INTO games (concluded, server_id)
+    VALUES (FALSE, ?);
+
+    INSERT INTO players_in_game (current, `order`, score, game_id, player_name, color_hex)
+    VALUES (FALSE, ?, 0, ?, ?, ?);
+
+    INSERT INTO meeples (placed, owner_game_id, owner_player_name, type_name)
+    VALUES (FALSE, ?, ?, ?);
+
+    INSERT INTO gamesets (closed, points, type_name)
+    VALUES (FALSE, 0, ?);
+
+    INSERT INTO tiles (`order`, current, rotation_count, x_coordinate, y_coordinate, game_id, type_name)
+    VALUES (?, FALSE, 0, null, null, ?, ?);
+
+    INSERT INTO tile_sections (closed, type_name, tile_game_id, tile_order, gameset_id, meeple_id)
+    VALUES (FALSE, ?, ?, ?, ?, null);
+\end{lstlisting}
 
 \subsubsection*{OP2 - Visualizzare i server di gioco disponibili}
+Un server di gioco è disponibile solo se il numero di partite ancora in corso su quel server è inferiore al suo campo max\_games.
+\medskip
+
 \begin{lstlisting}[style=sql]
-    SELECT * FROM servers AS s WHERE active=true AND max_games > (SELECT COUNT(*) FROM games AS g WHERE g.server_ID=s.ID)
+SELECT *
+FROM servers AS s
+WHERE active=true AND max_games > (SELECT COUNT(*)
+    FROM games AS g
+    WHERE g.server_ID=s.ID);
 \end{lstlisting}
 
 \subsubsection*{OP3 - Visualizzare tutte le espansioni}
+\begin{lstlisting}[style=sql]
+    SELECT *
+    FROM expansions;
+\end{lstlisting}
 
 \subsubsection*{OP4 - Creare un nuovo giocatore}
+\begin{lstlisting}[style=sql]
+    INSERT INTO players (name)
+    VALUES (?);
+\end{lstlisting}
 
 \subsubsection*{OP5 - Visualizzare tutti i colori}
-
-\subsubsection*{OP6 - Ruotare la tessera corrente}
-
-\subsubsection*{OP7 - Piazzare la tessera corrente}
-
-\subsubsection*{OP8 - Piazzare o rimuovere un seguace su una sezione di una tessera}
-
-\subsubsection*{OP9 - Visualizzare i seguaci disponibili}
-
-\subsubsection*{OP10 - Assegnare dei punti ad un giocatore}
-
-\subsubsection*{OP11 - Aggiornare la tessera corrente}
-
-\subsubsection*{OP12 - Aggiornare il giocatore corrente}
-
-\subsubsection*{OP13 - Visualizzare le partire non concluse}
-
-\subsubsection*{OP14 - Visualizzare i giocatori di una partita}
-
-\subsubsection*{OP15 - Visualizzare le tessere piazzate}
-
-\subsubsection*{OP16 - Visualizzare le regioni in ordine di punteggio medio dei giocatori}
 \begin{lstlisting}[style=sql]
-    SELECT R.id, AVG(P.score) AS AveragePlayerScore FROM ((regions R INNER JOIN servers S on R.id = S.region_id) INNER JOIN games G ON S.id = G.server_id) INNER JOIN players_in_game P ON G.id = P.game_id
-    WHERE G.concluded = TRUE GROUP BY R.id ORDER BY AveragePlayerScore DESC;
+    SELECT *
+    FROM colors;
 \end{lstlisting}
 
-\subsubsection*{OP17 - Mostrare per ogni giocatore il numero di avversari con cui ha giocato}
+\subsubsection*{OP6 - Visualizzare il giocatore corrente}
 \begin{lstlisting}[style=sql]
-    SELECT P.player_name, (SELECT COUNT(DISTINCT P2.player_name) AS EnemiesCount FROM players_in_game P2 INNER JOIN games G2 on P2.game_id = G2.id
-    WHERE G2.id IN (SELECT DISTINCT P3.game_id FROM players_in_game P3 WHERE P3.player_name = P.player_name) AND P2.player_name <> P.player_name) AS EnemiesCount
-    FROM players_in_game P INNER JOIN games G on P.game_id = G.id
-    GROUP BY P.player_name ORDER BY EnemiesCount DESC;
-\end{lstlisting}
-
-\subsubsection*{OP18 - Visualizzare per ogni regione l'espansione più giocata}
-\begin{lstlisting}[style=sql]
-    SELECT SQ.id, SQ.expansion_name, MAX(SQ.GamesCount) AS MaxGamesCount FROM (
-        SELECT R.id, GE.expansion_name, COUNT(GE.expansion_name) AS GamesCount FROM ((regions R INNER JOIN servers S on R.id = S.region_id) INNER JOIN games G ON G.server_id = S.id) INNER JOIN games_expansions GE ON GE.game_id = G.id
-        WHERE GE.expansion_name <> 'Basic' GROUP BY R.id, GE.expansion_name) AS SQ
-    GROUP BY SQ.id ORDER BY SQ.id ASC;
-\end{lstlisting}
-
-\subsubsection*{OP19 - Mostrare per ogni colore la probabilità statistica di vincere}
-\begin{lstlisting}[style=sql]
-    SELECT c.name, (SUM(CASE WHEN pig.Score = max_scores.max_score THEN 1 ELSE 0 END) / COUNT(*)) AS WinProbability
-FROM colors c
-JOIN players_in_game pig ON c.hex = pig.color_hex
-JOIN (
-    SELECT game_id, MAX(Score) AS max_score
+    SELECT *
     FROM players_in_game
-    GROUP BY game_id
-) max_scores ON pig.game_id = max_scores.game_id
-JOIN games g ON pig.game_id = g.id
-WHERE g.concluded = true
+    WHERE game_id = ? AND current = TRUE;
+\end{lstlisting}
+
+\subsubsection*{OP7 - Visualizzare la tessera corrente}
+\begin{lstlisting}[style=sql]
+    SELECT *
+    FROM tiles
+    WHERE game_id = ? AND current = TRUE;
+\end{lstlisting}
+
+\subsubsection*{OP8 - Ruotare la tessera corrente}
+Per ruotare la tessera corrente bisogna cambiare il tipo delle sezioni ad essa associate, essendo queste parte della chiave si è costretti a rimuoverle per poi re-inserirle aggiornate. Va solo aggiornato l'attributo type\_name con il valore dell'attributo next\_name del tipo di sezione in questione, il resto rimane identico.
+\medskip
+
+\begin{lstlisting}[style=sql]
+    SELECT *
+    FROM tile_sections
+    WHERE tile_game_id = ? AND tile_order = ?;
+
+    DELETE
+    FROM tile_sections
+    WHERE tile_game_id = ? AND tile_order = ?;
+
+    -- Per ogni sezione di tile selezionata con la prima query
+    INSERT INTO tile_sections (closed, type_name, tile_game_id, tile_order, gameset_id, meeple_id)
+    VALUES (?, ?, ?, ?, ?, ?);
+\end{lstlisting}
+
+
+\subsubsection*{OP9 - Piazzare la tessera corrente}
+\begin{lstlisting}[style=sql]
+    UPDATE tiles
+    SET x_coordinate = ?,
+        y_coordinate = ?
+    WHERE game_id = ? AND current = TRUE;
+\end{lstlisting}
+
+\subsubsection*{OP10 - Piazzare o rimuovere un seguace su una sezione di una tessera}
+Nel caso della rimozione di un seguace è invece necessario impostare il relativo attributo placed a false. Inoltre, bisogna anche impostare a null l'attributo meeple\_id della sezione sulla quale era piazzato.
+\medskip
+
+\begin{lstlisting}[style=sql]
+    UPDATE meeples
+    SET placed = TRUE
+    WHERE id = ?;
+
+    UPDATE tile_sections
+    SET meeple_id = ?
+    WHERE type_name = ? AND tile_game_id = ? AND tile_order = ?;
+\end{lstlisting}
+
+\subsubsection*{OP11 - Visualizzare i seguaci disponibili ad un giocatore}
+Un seguace è disponibile ad un giocatore se non è piazzato.
+\medskip
+
+\begin{lstlisting}[style=sql]
+    SELECT *
+    FROM meeples
+    WHERE owner_player_name = ? AND owner_game_id = ? AND placed = FALSE;
+\end{lstlisting}
+
+\subsubsection*{OP12 - Assegnare dei punti ad un giocatore}
+\begin{lstlisting}[style=sql]
+    UPDATE players_in_game
+    SET score = ?
+    WHERE game_id = ? AND player_name = ?;
+\end{lstlisting}
+
+\subsubsection*{OP13 - Aggiornare la tessera corrente}
+Il valore della wildcard per l'attributo order della seconda query si ricava incrementando di 1 l'attributo order della tessera che era prima corrente.
+\medskip
+
+\begin{lstlisting}[style=sql]
+    UPDATE tiles
+    SET current = FALSE
+    WHERE game_id = ? AND current = TRUE;
+
+    UPDATE tiles
+    SET current = TRUE
+    WHERE game_id = ? AND order = ?;
+\end{lstlisting}
+
+\subsubsection*{OP14 - Aggiornare il giocatore corrente}
+Il valore della wildcard per l'attributo order della seconda query si ricava incrementando di 1 l'attributo order del giocatore che era prima corrente e applicandogli il modulo con il numero di giocatori della partita.
+\medskip
+
+\begin{lstlisting}[style=sql]
+    UPDATE players_in_game
+    SET current = FALSE
+    WHERE game_id = ? AND current = TRUE;
+
+    UPDATE players_in_game
+    SET current = TRUE
+    WHERE game_id = ? AND order = ?;
+\end{lstlisting}
+
+\subsubsection*{OP15 - Visualizzare le partire non concluse}
+\begin{lstlisting}[style=sql]
+    SELECT *
+    FROM games
+    WHERE concluded = FALSE;
+\end{lstlisting}
+
+\subsubsection*{OP16 - Visualizzare i giocatori di una partita}
+\begin{lstlisting}[style=sql]
+    SELECT *
+    FROM players_in_game
+    WHERE game_id = ?;
+\end{lstlisting}
+
+\subsubsection*{OP17 - Visualizzare le tessere piazzate in una partita}
+\begin{lstlisting}[style=sql]
+    SELECT *
+    FROM tiles
+    WHERE game_id = ? AND x_coordinate IS NOT NULL AND y_coordinate IS NOT NULL;
+\end{lstlisting}
+
+\subsubsection*{OP18 - Visualizzare le regioni in ordine di punteggio medio dei giocatori}
+In questo caso vengono considerate solo le partite concluse.
+\medskip
+
+\begin{lstlisting}[style=sql]
+SELECT R.id, AVG(P.score) AS AveragePlayerScore
+FROM ((regions R INNER JOIN servers S on R.id = S.region_id) INNER JOIN games G ON S.id = G.server_id) INNER JOIN players_in_game P ON G.id = P.game_id
+WHERE G.concluded = TRUE
+GROUP BY R.id
+ORDER BY AveragePlayerScore DESC;
+\end{lstlisting}
+
+\subsubsection*{OP19 - Mostrare per ogni giocatore il numero di avversari con cui ha giocato}
+Nella subquery per ogni giocatore si conta con quanti altri giocatori diversi e distinti ha giocato.
+\medskip
+
+\begin{lstlisting}[style=sql]
+SELECT P.player_name, (SELECT COUNT(DISTINCT P2.player_name) AS EnemiesCount
+    FROM players_in_game P2 INNER JOIN games G2 on P2.game_id = G2.id
+    WHERE G2.id IN (SELECT DISTINCT P3.game_id
+        FROM players_in_game P3
+        WHERE P3.player_name = P.player_name) AND P2.player_name <> P.player_name) AS EnemiesCount
+FROM players_in_game P INNER JOIN games G on P.game_id = G.id
+GROUP BY P.player_name
+ORDER BY EnemiesCount DESC;
+\end{lstlisting}
+
+\subsubsection*{OP20 - Visualizzare per ogni regione l'espansione più giocata}
+Per questa operazione si è deciso di non considerare l'espansione base in quanto viene usata in ogni partita. Nella subquery all'interno di ogni regione si conta in quante partite è stata usata ogni espansione. Nella query esterna si seleziona solo l'espansione più giocata per ogni regione.
+\medskip
+
+\begin{lstlisting}[style=sql]
+SELECT SQ.id, SQ.expansion_name, MAX(SQ.GamesCount) AS MaxGamesCount
+FROM (SELECT R.id, GE.expansion_name, COUNT(GE.expansion_name) AS GamesCount
+    FROM ((regions R INNER JOIN servers S on R.id = S.region_id) INNER JOIN games G ON G.server_id = S.id) INNER JOIN games_expansions GE ON GE.game_id = G.id
+    WHERE GE.expansion_name <> 'Basic'
+    GROUP BY R.id, GE.expansion_name) AS SQ
+GROUP BY SQ.id
+ORDER BY SQ.id ASC;
+\end{lstlisting}
+
+\subsubsection*{OP21 - Mostrare per ogni colore la probabilità statistica di vincere}
+TODO: Davide. Non so che hai usato lì nella select lol
+\medskip
+
+\begin{lstlisting}[style=sql]
+SELECT c.name, (SUM(CASE WHEN pig.Score = max_scores.max_score THEN 1 ELSE 0 END) / COUNT(*)) AS WinProbability
+FROM colors c JOIN players_in_game pig ON c.hex = pig.color_hex JOIN (SELECT game_id, MAX(Score) AS max_score
+FROM players_in_game
+GROUP BY game_id) max_scores ON pig.game_id = max_scores.game_id JOIN games g ON pig.game_id = g.id
+WHERE g.concluded = TRUE
 GROUP BY c.hex, c.name;
 \end{lstlisting}
