@@ -131,9 +131,37 @@ Si suppone che ogni giorno vengano giocate 10 partite alla quale partecipano ogn
 
 \medskip
 \subsubsection*{Eliminazione degli identificatori esterni}
+Nello schema E/R sono state eliminate le seguenti relazioni:
+\begin{itemize}
+    \item Participation, importando name da players in players\_in\_game
+    \item Participation, importando id da games in players\_in\_game
+    \item Having, importando hex da colors in players\_in\_game
+    \item Owning, importando player\_name e game\_id da players\_in\_game in meeples
+    \item Composition, importando name da continents in regions
+    \item Composition, importando name da cardinal\_points in regions
+    \item Location, importando id da regions in servers
+    \item Hosting, importando id da servers in games
+    \item Using, reificata importando id da games e name da expansions
+    \item Composition, importando id da games in tiles
+    \item Placement, importando id da meeples in tile\_sections
+    \item Composition, importando game\_id e order da tiles in tile\_sections
+    \item Composition, importando id da gamesets in tile\_sections
+    \item Preceding, importando name da tile\_section\_types in tile\_section\_types
+    \item Composition, importando name da tile\_section\_types in tile\_types\_configurations
+    \item Composition, importando name da gameset\_types in tile\_types\_configurations
+    \item Description, importando name da tile\_types in tile\_types\_configurations
+    \item Classification, importando name da meeple\_types in meeples
+    \item Classification, importando name da tile\_section\_types in tile\_sections
+    \item Classification, importando name da gameset\_types in gamesets
+    \item Classification, importando name da tile\_types in tiles
+    \item Using, importando name da expansions in tile\_types
+    \item Using, importando name da expansions in gameset\_types
+    \item Using, importando name da expansions in meeple\_types
+\end{itemize}
 
 \medskip
 \subsubsection*{Scelta delle chiavi primarie}
+La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nello schema. Da notare l'entità Tile che è identificata tramite l'id della partita e l'ordine preciso in cui viene giocata. Per quanto riguarda l'entità TileSection questa è invece identificata tramite la Tile e il TileSectionType che è univoco all'interno di una Tile. Infine, l'entità TileTypeConfiguration è identificata con il TileType, il TileSectionType e un id aggiuntivo usato per distinguere i vari insiemi di GameSetType uguali presenti su una Tile di quel TileType. Questo è obbligatorio in quanto su una stessa Tile potrebbero esserci due GameSet con stesso GameSetType da considerare separati.
 
 \subsection{Analisi delle ridondanze}
 
