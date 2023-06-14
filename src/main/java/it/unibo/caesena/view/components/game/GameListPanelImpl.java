@@ -75,30 +75,6 @@ public class GameListPanelImpl implements GameListPanel<JPanel> {
     @Override
     public void update() {
         if (selectedPlayer != null) {
-            // var games = this.ui.getController().getOpenGames(selectedPlayer);
-
-            // for (int i = 0; i < gameList.getRowCount(); i++) {
-            // gameList.removeRow(i);
-            // }
-
-            // for (Game game : games) {
-            // JPanel gameInfo = new JPanel();
-            // JLabel playersLabel = new JLabel();
-            // List<PlayerInGameImpl> playersInGame = game.getPlayersInGame();
-            // String playersLabelText = playersInGame.stream()
-            // .map(p -> p.getPlayer().getName())
-            // .collect(Collectors.joining(", "));
-            // playersLabel.setText(playersLabelText);
-            // JLabel serverLabel = new JLabel();
-            // Server server = game.getServer();
-            // serverLabel.setText(server.toString());
-
-            // gameInfo.add(playersLabel);
-            // gameInfo.add(serverLabel);
-            // Object[] data = { String.valueOf(game.getGameID()), playersLabelText, "Non
-            // l'ho fatto ancora",
-            // server.toString() };
-            // gameList.addRow(data);
             this.innerContentPanel.removeAll();
             this.innerContentPanel.add((new GameList(selectedPlayer, ui)).getComponent());
             this.mainPanel.repaint();

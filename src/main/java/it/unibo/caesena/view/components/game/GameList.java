@@ -5,6 +5,8 @@ import it.unibo.caesena.model.player.Player;
 import it.unibo.caesena.model.player.PlayerInGameImpl;
 import it.unibo.caesena.model.server.Server;
 import it.unibo.caesena.view.BasicComponent;
+import it.unibo.caesena.view.GUI;
+import it.unibo.caesena.view.LocaleHelper;
 import it.unibo.caesena.view.UserInterface;
 
 import java.awt.*;
@@ -32,13 +34,26 @@ public class GameList implements BasicComponent<JPanel> {
 
         var games = this.ui.getController().getOpenGames(this.player);
 
-        String[] header = { "Game ID", "Players", "Remaining Tiles", "Server", "" };
+        String[] header = { LocaleHelper.getGameListGameID(), LocaleHelper.getGameListPlayers(),
+                LocaleHelper.getGameListTiles(), LocaleHelper.getGameListServer(), "" };
 
-        this.mainPanel.add(new JLabel(header[0]));
-        this.mainPanel.add(new JLabel(header[1]));
-        this.mainPanel.add(new JLabel(header[2]));
-        this.mainPanel.add(new JLabel(header[3]));
-        this.mainPanel.add(new JLabel(header[4]));
+        JLabel header0 = new JLabel(header[0]);
+        JLabel header1 =new JLabel(header[1]);
+        JLabel header2 =new JLabel(header[2]);
+        JLabel header3 =new JLabel(header[3]);
+        JLabel header4 =new JLabel(header[4]);
+
+        header0.setFont(GUI.MEDIUM_BOLD_FONT);
+        header1.setFont(GUI.MEDIUM_BOLD_FONT);
+        header2.setFont(GUI.MEDIUM_BOLD_FONT);
+        header3.setFont(GUI.MEDIUM_BOLD_FONT);
+        header4.setFont(GUI.MEDIUM_BOLD_FONT);
+
+        this.mainPanel.add(header0);
+        this.mainPanel.add(header1);
+        this.mainPanel.add(header2);
+        this.mainPanel.add(header3);
+        this.mainPanel.add(header4);
 
         for (Game game : games) {
 
@@ -50,12 +65,12 @@ public class GameList implements BasicComponent<JPanel> {
             playersLabel.setText(playersLabelText);
             JLabel serverLabel = new JLabel();
             Server server = game.getServer();
-            serverLabel.setText(server.toString());
+            serverLabel.setText(server.getId()+"");
             JLabel gameIDLabel = new JLabel(String.valueOf(game.getId()));
             var tiles = this.ui.getController().getTilesFromGame(game);
             String remainingTiles = tiles.stream().filter(t -> !t.isPlaced()).count() + "/" + tiles.size();
             JLabel remainingTilesLabel = new JLabel(remainingTiles);
-            JButton joinButton = new JButton("join");
+            JButton joinButton = new JButton(LocaleHelper.getGameListJoin());
             joinButton.addActionListener(new ActionListener() {
 
                 @Override
@@ -66,6 +81,12 @@ public class GameList implements BasicComponent<JPanel> {
 
             });
             gameButtonMap.put(joinButton, game);
+
+            gameIDLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
+            playersLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
+            remainingTilesLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
+            serverLabel.setFont(GUI.MEDIUM_NORMAL_FONT);
+            joinButton.setFont(GUI.MEDIUM_NORMAL_FONT);
 
             this.mainPanel.add(gameIDLabel);
             this.mainPanel.add(playersLabel);

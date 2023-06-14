@@ -359,4 +359,24 @@ public final class LocaleHelper {
 		return getResourceBundle().getString("statisticsHeader2Expansion");
 	}
 
+    public static String getGameListGameID() {
+		return getResourceBundle().getString("gameListGameID");
+	}
+
+    public static String getGameListPlayers() {
+		return getResourceBundle().getString("gameListPlayers");
+	}
+
+    public static String getGameListTiles() {
+		return getResourceBundle().getString("gameListTiles");
+	}
+
+    public static String getGameListServer() {
+		return getResourceBundle().getString("gameListServer");
+	}
+
+    public static String getGameListJoin() {
+		return getResourceBundle().getString("gameListJoin");
+	}
+
 }
