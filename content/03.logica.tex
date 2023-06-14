@@ -60,11 +60,11 @@ Classification & R & 8.060 \\
 Placement & R & 200 \\
 TileSectionType & E & 13 \\
 Preceding & R & 12 \\
-Composition & R & 234 \\
+Composition & R & 325 \\
 \hline
-TileTypeConfiguration & E & 234 \\
-Composition & R & 234 \\
-Description & R & 234 \\
+TileTypeConfiguration & E & 325 \\
+Composition & R & 325 \\
+Description & R & 325 \\
 \hline
 \end{tabular}}
 \subsection{Descrizione delle operazioni principali e stima della frequenza}
@@ -272,7 +272,7 @@ WHERE active=true AND max_games > (SELECT COUNT(*)
 \end{lstlisting}
 
 \subsubsection*{OP8 - Ruotare la tessera corrente}
-Per ruotare la tessera corrente bisogna cambiare il tipo delle sezioni ad essa associate, essendo queste parte della chiave si è costretti a rimuoverle per poi re-inserirle aggiornate. Va solo aggiornato l'attributo type\_name con il valore dell'attributo next\_name del tipo di sezione in questione, il resto rimane identico.
+Per ruotare la tessera corrente bisogna cambiare il tipo delle sezioni ad essa associate, essendo queste parte della chiave si è costretti a rimuoverle per poi re-inserirle aggiornate. Per ogni sezione della tessera corrente bisogna solo aggiornare l'attributo type\_name con il valore dell'attributo next\_name del tipo della sezione in questione, il resto rimane invariato.
 \medskip
 
 \begin{lstlisting}[style=sql]
@@ -406,7 +406,7 @@ ORDER BY EnemiesCount DESC;
 \end{lstlisting}
 
 \subsubsection*{OP20 - Visualizzare per ogni regione l'espansione più giocata}
-Per questa operazione si è deciso di non considerare l'espansione base in quanto viene usata in ogni partita. Nella subquery all'interno di ogni regione si conta in quante partite è stata usata ogni espansione. Nella query esterna si seleziona solo l'espansione più giocata per ogni regione.
+Per questa operazione si è deciso di non considerare l'espansione base in quanto viene usata in ogni partita. Nella subquery per ogni regione si conta in quante partite è stata usata ogni espansione. Nella query esterna si seleziona solo l'espansione più giocata per ogni regione.
 \medskip
 
 \begin{lstlisting}[style=sql]
