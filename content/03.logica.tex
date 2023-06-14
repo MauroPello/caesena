@@ -20,10 +20,10 @@ BasicMeeple & E & 1 \\
 ExpansionMeeple & E & 1 \\
 Using & R & 1 \\
 \hline
-GameSet & E & 1.500 \\
+Gameset & E & 1.500 \\
 Classification & R & 1.500 \\
-BasicGameSet & E & 1 \\
-ExpansionGameSet & E & 0 \\
+BasicGameset & E & 1 \\
+ExpansionGameset & E & 0 \\
 Using & R & 0 \\
 \hline
 Game & E & 10 \\
@@ -124,12 +124,13 @@ Si suppone che ogni giorno vengano giocate 10 partite alla quale partecipano ogn
 
 \subsection{Raffinamento dello schema}
 \subsubsection*{Eliminazione delle gerarchie}
+Per l'eliminazione della gerarchia TileType si è scelto di rimuovere l'entità BasicTile e collassare verso l'alto l'entità ExpansionTile. Questo è stato possibile perché si è deciso di creare un'espansione base contenente tutti i TileType contenuti in BasicTile, rendendo quest'ultima entità inutile. La stessa strategia è stata adottata anche per le gerarchie MeepleType e GamesetType in quanto la situazione era la medesima.
 \medskip
 
 \subsubsection*{Eliminazione degli attributi compositi}
-(elimanzione dell'attributo composto Position e l'inserimento delle due coordinate)
-
+Nello schema l'entità Tile contiene l'attributo composito Position che è stato quindi diviso nelle sue sotto-componenti. Sarà poi compito dell'applicazione accertarsi che tali attributi siano coerenti l'uno con l'altro.
 \medskip
+
 \subsubsection*{Eliminazione degli identificatori esterni}
 Nello schema E/R sono state eliminate le seguenti relazioni:
 \begin{itemize}
@@ -162,7 +163,7 @@ In tile\_section\_types abbiamo scelto di importare due volte name da se stessa 
 
 \medskip
 \subsubsection*{Scelta delle chiavi primarie}
-La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nello schema. Da notare l'entità Tile che è identificata tramite l'id della partita e l'ordine preciso in cui viene giocata. Per quanto riguarda l'entità TileSection questa è invece identificata tramite la Tile e il TileSectionType che è univoco all'interno di una Tile. Infine, l'entità TileTypeConfiguration è identificata con il TileType, il TileSectionType e un id aggiuntivo usato per distinguere i vari insiemi di GameSetType uguali presenti su una Tile di quel TileType. Questo è obbligatorio in quanto su una stessa Tile potrebbero esserci due GameSet con stesso GameSetType da considerare separati.
+La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nello schema. Da notare l'entità Tile che è identificata tramite l'id della partita e l'ordine preciso in cui viene giocata. Per quanto riguarda l'entità TileSection questa è invece identificata tramite la Tile e il TileSectionType che è univoco all'interno di una Tile. Infine, l'entità TileTypeConfiguration è identificata con il TileType, il TileSectionType e un id aggiuntivo usato per distinguere i vari insiemi di GamesetType uguali presenti su una Tile di quel TileType. Questo è obbligatorio in quanto su una stessa Tile potrebbero esserci due Gameset con stesso GamesetType da considerare separati.
 
 \subsection{Analisi delle ridondanze}
 
