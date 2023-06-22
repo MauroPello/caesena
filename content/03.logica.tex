@@ -1,6 +1,6 @@
 \section{Progettazione logica}
 \subsection{Stima del volume dei dati}
-Si suppone che siano state giocate 10 partite alla quale hanno partecipato ogni volta 4 giocatori diversi. Le partite sono state giocate solo con l'espansione base (8 seguaci per giocatore e 62 tessere totali).
+Si suppone che siano state giocate 10 partite alla quale hanno partecipato ogni volta 4 giocatori diversi. Le partite sono state giocate senza espansioni aggiuntive, quindi ogni giocatore possiede 8 seguaci e in una partita vengono giocate 62 tessere.
 \medskip
 
 \centerline{\begin{tabular}{ |l|c|c| }
@@ -29,7 +29,7 @@ Using & R & 0 \\
 Game & E & 10 \\
 Participation & R & 40 \\
 Hosting & R & 10 \\
-Using & R & 10 \\
+Using & R & 0 \\
 \hline
 Expansion & E & 4 \\
 \hline
@@ -125,7 +125,7 @@ Si suppone che ogni giorno vengano giocate 10 partite alla quale partecipano ogn
 Di seguito sono presenti le tabelle che mostrano gli ingressi delle operazioni menzionate in precedenza. Inoltre, quando appropriato, sono stati inclusi gli schemi di navigazione corrispondenti. Per quanto riguarda il calcolo dei costi, si attribuisce un peso doppio agli accessi in scrittura rispetto a quelli in lettura.
 
 \subsubsection*{Operazione 1 - Creare una nuova partita}
-La creazione della partita richiede una grande quantità di altre operazioni contemporaneamente. Andremo successivamente nel dettaglio, per il momento segue la somma delle operazioni:
+La creazione della partita richiede una grande quantità di altre operazioni. Andremo successivamente nel dettaglio, per il momento segue la somma delle operazioni:
 \medskip
 
 \centerline{\begin{tabular}{ |c|l| }
@@ -636,7 +636,7 @@ Nello schema E/R sono state eliminate le seguenti relazioni:
 In tile\_section\_types abbiamo scelto di importare due volte name da se stessa per avere sia la successiva che la precedente TileSection.
 
 \subsubsection*{Scelta delle chiavi primarie}
-La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nello schema. Da notare l'entità Tile che è identificata tramite l'id della partita e l'ordine preciso in cui viene giocata. Per quanto riguarda l'entità TileSection questa è invece identificata tramite la Tile e il TileSectionType che è univoco all'interno di una Tile. Infine, l'entità TileTypeConfiguration è identificata con il TileType, il TileSectionType e un id aggiuntivo usato per distinguere i vari insiemi di GamesetType uguali presenti su una Tile di quel TileType. Questo è obbligatorio in quanto su una stessa Tile potrebbero esserci due Gameset con stesso GamesetType da considerare separati.
+La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nello schema. Da notare l'entità Tile che è identificata tramite l'id della partita e l'ordine preciso in cui viene giocata. Per quanto riguarda l'entità TileSection questa è invece identificata tramite la Tile e il TileSectionType che è univoco all'interno di una Tile. Infine, l'entità TileTypeConfiguration è identificata con il TileType, il TileSectionType e un id aggiuntivo usato per distinguere i vari insiemi di GamesetType uguali presenti sulla Tile di quel TileType. Questo è obbligatorio in quanto su una stessa Tile potrebbero esserci due Gameset da considerare separati con stesso GamesetType.
 
 \subsection{Analisi delle ridondanze}
 
@@ -1055,7 +1055,7 @@ ORDER BY SQ.id ASC;
 \end{lstlisting}
 
 \subsubsection*{OP21 - Mostrare per ogni colore la probabilità statistica di vincere}
-Viene effettutata una subquery per ricavare i vincitori delle partite e in questo modo tramite un raggruppamento e una somma vengono individuati i giocatori vincenti per ogni colore. Viene infine effettutata una divisione tra il numero dei vincenti e il totale delle tuple così da ottenere la probabilità di vincere sulla base del colore scelto.
+Viene effettutata una subquery per ricavare i vincitori delle partite e in questo modo tramite un raggruppamento e una somma viene individuato il numero di vincitori per ogni colore. Viene infine effettutata una divisione tra il numero dei vincitori e il totale delle tuple così da ottenere la probabilità di vincere sulla base del colore scelto.
 \medskip
 
 \begin{lstlisting}[style=sql]
