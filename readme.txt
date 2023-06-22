@@ -8,7 +8,7 @@ Per poter modificare questa configurazione è sufficiente cambiare le seguenti l
     properties.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/caesena");
     properties.setProperty("hibernate.connection.username", "caesena");
     properties.setProperty("hibernate.connection.password", "caesena");
-Queste si trovano nel metodo costruttore (linee 75-77) nel file ControllerImpl dentro la cartella src/main/java/it/unibo/caesena/controller.
+Queste si trovano nel metodo costruttore (linee 75-77) nel file ControllerImpl.java dentro la cartella src/main/java/it/unibo/caesena/controller.
 
 Nel caso si stia usando una macchina con sistema operativo Windows si esegua il seguente comando nel prompt per eseguire l'applicativo:
     gradlew.bat run
