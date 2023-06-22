@@ -235,11 +235,16 @@ servers(\textbf{id}, region\_id, active, max\_games)\newline
 FK: region\_id REFERENCES regions(id)
 
 \subsection{Schema relazionale finale}
+\clearpage
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.06]{images/Progettazione/relazionale.png}
-    \caption{Schema concettuale finale.}
+    \includegraphics[scale=0.175]{images/Progettazione/relazionale_left.png}
+\end{figure}
+\clearpage
+\begin{figure}[ht]
+    \includegraphics[width=1.247\textwidth, right]{images/Progettazione/relazionale_right.png}
 \end{figure}
 
+\clearpage
 \subsection{Traduzione delle operazioni in query SQL}
 \subsubsection*{OP1 - Creare una nuova partita}
 Nel caso in cui i giocatori scelti non esistano nel database vengono creati tramite l'operazione 4. Viene poi creata la partita assieme ai vari players\_in\_game che avranno come game\_id l'id della partita appena creata. Vengono poi creati i seguaci, le strutture e le tessere con le relative sezioni in accordo con le espansioni selezionate alla creazione del gioco.
