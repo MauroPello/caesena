@@ -1,25 +1,33 @@
 \section{Progettazione Concettuale}
 \subsection{Schema scheletro}
 Un giocatore deve poter giocare a più partite contemporaneamente, quindi una semplice associazione tra giocatore e partita non è sufficiente ed è necessario avere un'entità PlayerInGame che conterrà le informazioni del giocatore riguardanti una determinata partita. Inoltre, dovrà essere collegata con l'entità Color. Non potendo nella stessa partita avere più giocatori con lo stesso colore si è reso necessario evitare che esso fosse chiave primaria del giocatore.
-\begin{figure}[hb]
-    \centering\includegraphics[scale=0.24]{images/Progettazione/Concettuale/Scheletro1.png}
+
+\begin{figure}[ht]
+    \centering\includegraphics[scale=0.47]{images/Progettazione/Concettuale/Scheletro1.png}
     \caption{Schema scheletro riguandante giocatori, colori e game}
 \end{figure}
-\medskip
-Le entità Gameset, Tile e Meeple che sono rispettivamente legate ai concetti di struttura, tessere e seguace seguono un simile ragionamento riguardo al loro rapporto con una partita. Ognuna di queste entità ha un collegamento con il proprio "tipo": rispettivame le entità GamesetType, TileType e MeepleType. Per tutti e tre viene fatta la destizione tra le versioni presenti nel gioco base e quelle presenti nelle espansioni è quindi chiaramente presente una generelizzazione che si divide in Basic (BasicGameset, BasicTile, BasicMeeple) e in Expansion (ExpansionGameset, ExpansionTile, ExpansionMeeple). Quest'ultima deve ovviamente essere connessa all'espansione.
-\begin{figure}[hb]
-    \centering\includegraphics[scale=0.24]{images/Progettazione/Concettuale/Scheletro2.png}
+
+Le entità Gameset, Tile e Meeple che sono rispettivamente legate ai concetti di struttura, tessere e seguace seguono un simile ragionamento riguardo al loro rapporto con una partita. Ognuna di queste entità ha un collegamento con il proprio "tipo": rispettivame le entità GamesetType, TileType e MeepleType. Per tutti e tre viene fatta la destizione tra le versioni presenti nel gioco base e quelle presenti nelle espansioni è quindi chiaramente presente una generelizzazione che si divide in Basic (BasicGameset, BasicTile, BasicMeeple) e in Expansion (ExpansionGameset, ExpansionTile, ExpansionMeeple). Quest'ultima deve ovviamente essere connessa all'espansione. \textbf{[NON SI SPIeGANO COSA SONO LE TILESECTION] Su una TileSection può essere piazzato un Meeple.}
+\clearpage
+
+\begin{figure}[ht]
+    \centering\includegraphics[scale=0.4]{images/Progettazione/Concettuale/Scheletro2.png}
     \caption{Schema scheletro riguandante strutture, tessere, meeple e espansioni}
 \end{figure}
-\medskip
-È necessario un modo generare all'inizio della partita il corretto tipo di Tile, a questo scopo si utilizza l'entità TileTypeConfiguration. Esso, per ogni TileType, conterrà le informazioni riguardo i tipi di settori (entità TileSectionType) e al tipo di strutture (entità GamesetType) che dovranno essere presenti per tale tessera. Sulla base e GameSetType vengono poi creati Gameset che in combinazione con Tile e TileSectionType definiscono una TileSection. Su una TileSection può essere piazzato un Meeple.
-\begin{figure}[hb]
-    \centering\includegraphics[scale=0.24]{images/Progettazione/Concettuale/Scheletro3.png}
+
+È necessario un modo generare all'inizio della partita il corretto tipo di Tile, a questo scopo si utilizza l'entità TileTypeConfiguration. Esso, per ogni TileType, conterrà le informazioni riguardo i tipi di settori (entità TileSectionType) e al tipo di strutture (entità GamesetType) che dovranno essere presenti per tale tessera. Sulla base e GameSetType vengono poi creati Gameset che in combinazione con Tile e TileSectionType definiscono una TileSection.
+\clearpage
+
+\begin{figure}[ht]
+    \centering\includegraphics[scale=0.35]{images/Progettazione/Concettuale/Scheletro3.png}
     \caption{Schema scheletro riguandante la configurazione di tessere}
 \end{figure}
-Ogni partita deve essere ospitata all'interno di un Server e ogni Server deve far parte di una Region, che è a sua volta definita come la composizione tra un Continet e un punto CardinalPoint
-\begin{figure}[hb]
-    \centering\includegraphics[scale=0.24]{images/Progettazione/Concettuale/Scheletro3.png}
+
+
+Ogni partita deve essere ospitata all'interno di un Server e ogni Server deve far parte di una Region, che è a sua volta definita come la composizione tra un Continet e un punto CardinalPoint.
+
+\begin{figure}[ht]
+    \centering\includegraphics[scale=0.45]{images/Progettazione/Concettuale/Scheletro4.png}
     \caption{Schema scheletro riguandante la gestione dei server}
 \end{figure}
 
