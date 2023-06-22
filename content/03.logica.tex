@@ -1,6 +1,6 @@
 \section{Progettazione logica}
 \subsection{Stima del volume dei dati}
-Si suppone che siano state giocate 10 partite alla quale hanno partecipato ogni volta 4 giocatori diversi. Le partite sono state giocate senza espansioni aggiuntive, quindi ogni giocatore possiede 8 seguaci e in una partita vengono giocate 62 tessere.
+Si suppone che siano state giocate 10 partite alla quale hanno partecipato ogni volta 4 giocatori diversi. Le partite prevedono mediamente 70 tessere in totale e 8 seguaci per ogni giocatore.
 \medskip
 
 \centerline{\begin{tabular}{ |l|c|c| }
@@ -46,17 +46,17 @@ CardinalPoint & E & 5 \\
 \hline
 \textbf{Concetto} & \textbf{Tipo} & \textbf{Volume} \\
 \hline
-Tile & E & 620 \\
-Composition & R & 620 \\
-Classification & R & 620 \\
+Tile & E & 700 \\
+Composition & R & 700 \\
+Classification & R & 700 \\
 BasicTile & E & 18 \\
 ExpansionTile & E & 7 \\
 Using & R & 7 \\
 \hline
-TileSection & E & 8.060 \\
-Subdivision & R & 8.060 \\
-Location & R & 8.060 \\
-Classification & R & 8.060 \\
+TileSection & E & 9.100 \\
+Subdivision & R & 9.100 \\
+Location & R & 9.100 \\
+Classification & R & 9.100 \\
 Placement & R & 200 \\
 TileSectionType & E & 13 \\
 Preceding & R & 12 \\
@@ -319,9 +319,9 @@ Player & E & 1 & S \\
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-Color & E & 12 & L \\
+Color & E & 10 & L \\
 \hline
-& & \textbf{Totale:} 12L $\to$ 40 al giorno & \\
+& & \textbf{Totale:} 10L $\to$ 40 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -330,9 +330,9 @@ Color & E & 12 & L \\
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-PlayerInGame & E & 1 & L \\
+PlayerInGame & E & 4 & L \\
 \hline
-& & \textbf{Totale:} 1L $\to$ 700 al giorno & \\
+& & \textbf{Totale:} 4L $\to$ 700 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -341,9 +341,9 @@ PlayerInGame & E & 1 & L \\
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-Tile & E & 1 & L \\
+Tile & E & 70 & L \\
 \hline
-& & \textbf{Totale:} 1L $\to$ 700 al giorno & \\
+& & \textbf{Totale:} 70L $\to$ 700 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -370,16 +370,14 @@ TileSectionType & E & 12 & L \\
 \end{tabular}}
 
 \subsubsection*{Operazione 9 - Piazzare la tessera corrente}
-Piazzare la tessera corrente porta all'unione con le tessere circostanti, il che implica la modifica dei gameset presenti nelle section. In media sono presenti 2 tile attorno ad una tile appena piazzata, dunque, in media vengono uniti 12 gameset per piazzamento.
+Piazzare la tessera corrente porta all'unione con le tessere circostanti, il che implica la modifica dei gameset presenti nelle section. In media sono presenti 2 tile attorno ad una tile appena piazzata, dunque, in media vengono uniti 4 gameset per piazzamento.
 \medskip
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-Tile & E & 2 & L \\
-\hline
-Tile & E & 2 & S \\
+Tile & E & 1 & S \\
 \hline
 Subdivision & R & 12 & L \\
 \hline
@@ -387,11 +385,11 @@ TileSection & E & 12 & L\\
 \hline
 Location & R & 12 & S \\
 \hline
-Gameset & R & 12 & S \\
+Gameset & R & 4 & S \\
 \hline
-Classification(Gameset) & R & 12 & S \\
+Classification(Gameset) & R & 4 & S \\
 \hline
-& & \textbf{Totale:} 38S + 26L $\to$ 700 al giorno & \\
+& & \textbf{Totale:} 21S + 24L $\to$ 700 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -415,11 +413,11 @@ Placement & E & 1 & S \\
 \hline
 PlayerInGame & E & 1 & L \\
 \hline
-Owning & R & 1 & L \\
+Owning & R & 8 & L \\
 \hline
-Meeple & E & 1 & L \\
+Meeple & E & 8 & L \\
 \hline
-& & \textbf{Totale:} 3L $\to$ 700 al giorno & \\
+& & \textbf{Totale:} 17L $\to$ 700 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -478,13 +476,11 @@ Game & E & 10 & L \\
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-PlayerInGame & E & 40 & L \\
+PlayerInGame & E & 4 & L \\
 \hline
-Participation & R & 40 & L \\
+Participation & R & 4 & L \\
 \hline
-Game & E & 10 & L \\
-\hline
-& & \textbf{Totale:} 90L $\to$ 700 al giorno & \\
+& & \textbf{Totale:} 8L $\to$ 700 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -493,13 +489,11 @@ Game & E & 10 & L \\
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-Tile & E & 620 & L \\
+Tile & E & 70 & L \\
 \hline
-Composition & R & 620 & L \\
+Composition & R & 70 & L \\
 \hline
-Game & E & 10 & L \\
-\hline
-& & \textbf{Totale:} 1250L $\to$ 5 al giorno & \\
+& & \textbf{Totale:} 140L $\to$ 5 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -542,11 +536,13 @@ PlayerInGame & E & 40 & L \\
 \hline
 Player & E & 40 & L \\
 \hline
-Participation & R & 40 & L \\
+Participation(Player) & R & 40 & L \\
 \hline
 PlayerInGame & R & 40 & L \\
 \hline
-& & \textbf{Totale:} 120L $\to$ 4 all'anno & \\
+Participation(Game) & R & 40 & L \\
+\hline
+& & \textbf{Totale:} 160L $\to$ 4 all'anno & \\
 \hline
 \end{tabular}}
 
@@ -588,13 +584,13 @@ PlayerInGame & E & 40 & L \\
 \hline
 Participation & R & 40 & L \\
 \hline
-Game & E & 40 & L \\
+Game & E & 10 & L \\
 \hline
 Having & R & 40 & L \\
 \hline
 Color & E & 10 & L \\
 \hline
-& & \textbf{Totale:} 170L $\to$ 1 al giorno & \\
+& & \textbf{Totale:} 140L $\to$ 1 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -641,7 +637,7 @@ La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nell
 \subsection{Analisi delle ridondanze}
 
 \subsubsection*{Ridondanza riguardo al campo Placed in Meeple}
-Le operazioni 10 e 11 fanno uso del campo Placed in Meeple. Costituisce una ridondanza in quanto per verificare se un seguace è stato collocato su una sezione è sufficiente verificare se è presente l'associazione Placement. Nel caso dell'operazione 10, con ridondanza:
+Le operazioni 10 e 11 fanno uso del campo Placed in Meeple. Questo costituisce una ridondanza in quanto per verificare se un seguace è stato collocato su una sezione è sufficiente verificare se è presente l'associazione Placement. Nel caso dell'operazione 10, con ridondanza si ha:
 \medskip
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
@@ -659,7 +655,7 @@ Placement & E & 1 & S \\
 \end{tabular}}
 \medskip
 
-Mentre senza ridondanza abbiamo:
+Mentre senza ridondanza si ha:
 \medskip
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
@@ -720,22 +716,22 @@ Placement & E & 1 & L \\
 \end{tabular}}
 \medskip
 
-Si decide di prediligere l'utilizzo della ridondanza. In quanto l'operazione 11 è sempre utilizzata più spesso rispetto all'operazione 10.
+Si decide di prediligere l'utilizzo della ridondanza in quanto il costo totale dell'operazione 10 e 11 con ridondanza è minore rispetto a senza.
 \medskip
 
 \subsubsection*{Ridondanza riguardo al campo Concluded in Game}
-Il campo Concluded è utilizzato nell'operazione 15 e identificata una ridondanza in quando per dichiarare una partita conclusa è sufficiente verificare se tutte le tessere in essa sono state piazzate. Vediamo lo schema con la ridondanza:
+Il campo Concluded, utilizzato nell'operazione 15, è una ridondanza in quanto per dichiarare una partita conclusa è sufficiente verificare se tutte le relative tessere sono state piazzate. Vediamo lo schema con la ridondanza:
 \medskip
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-Game & E & 10 & L \\
+Game & E & 1 & L \\
 \hline
-& & \textbf{Totale:} 10L $\to$ 5 al giorno & \\
+& & \textbf{Totale:} 1L $\to$ 5 al giorno & \\
 \hline
-\multicolumn{4}{|l|}{\textbf{Costo Totale} = 10*5 = \textbf{50}} \\
+\multicolumn{4}{|l|}{\textbf{Costo Totale} = 1*5 = \textbf{5}} \\
 \hline
 \end{tabular}}
 \medskip
@@ -747,15 +743,15 @@ Senza ridondanza invece:
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-Game & E & 10 & L \\
+Game & E & 1 & L \\
 \hline
-Composition & R & 620 & L \\
+Composition & R & 70 & L \\
 \hline
-Tile & E & 620 & L \\
+Tile & E & 70 & L \\
 \hline
-& & \textbf{Totale:} 1250L $\to$ 5 al giorno & \\
+& & \textbf{Totale:} 141L $\to$ 5 al giorno & \\
 \hline
-\multicolumn{4}{|l|}{\textbf{Costo Totale} = 1250*5 = \textbf{6250}} \\
+\multicolumn{4}{|l|}{\textbf{Costo Totale} = 141*5 = \textbf{705}} \\
 \hline
 \end{tabular}}
 
