@@ -1008,7 +1008,7 @@ ORDER BY SQ.id ASC;
 \end{lstlisting}
 
 \subsubsection*{OP21 - Mostrare per ogni colore la probabilità statistica di vincere}
-TODO: Davide. Non so che hai usato lì nella select lol
+Viene effettutata una subquery per ricavare i vincitori delle partite e in questo modo tramite un raggruppamento e una somma vengono individuati i giocatori vincenti per ogni colore. Viene infine effettutata una divisione tra il numero dei vincenti e il totale delle tuple così da ottenere la probabilità di vincere sulla base del colore scelto.
 \medskip
 
 \begin{lstlisting}[style=sql]
