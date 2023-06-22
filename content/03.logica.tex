@@ -120,10 +120,9 @@ Si suppone che ogni giorno vengano giocate 10 partite alla quale partecipano ogn
 \hline
 \end{tabular}}
 
+\clearpage
 \subsection{Schemi di navigazione e tabelle degli accessi}
-
 Di seguito sono presenti le tabelle che mostrano gli ingressi delle operazioni menzionate in precedenza. Inoltre, quando appropriato, sono stati inclusi gli schemi di navigazione corrispondenti. Per quanto riguarda il calcolo dei costi, si attribuisce un peso doppio agli accessi in scrittura rispetto a quelli in lettura.
-\medskip
 
 \subsubsection*{Operazione 1 - Creare una nuova partita}
 La creazione della partita richiede una grande quantità di altre operazioni contemporaneamente. Andremo successivamente nel dettaglio, per il momento segue la somma delle operazioni:
@@ -271,13 +270,12 @@ Owning & R & 32 & S \\
 \hline
 \end{tabular}}
 
-
 \subsubsection*{Operazione 2 - Visualizzare i server di gioco disponibili}
 Per visualizzare i server di gioco disponibili dobbiamo verificare se la quantità di partite attualmente attive su quel server sono superiori all'attributo "MaxGamesCount".
 \medskip
 
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.47]{images/Progettazione/Logica/OP2-arrow.png}
+    \centering\includegraphics[scale=0.8]{images/Progettazione/Logica/OP2-arrow.png}
 \end{figure}
 
 \centerline{\begin{tabular}{ |c|c|l|c| }
@@ -506,6 +504,11 @@ Game & E & 10 & L \\
 \end{tabular}}
 
 \subsubsection*{Operazione 18 - Visualizzare le regioni in ordine di punteggio medio dei giocatori}
+
+\begin{figure}[ht]
+    \centering\includegraphics[scale=0.6]{images/Progettazione/Logica/OP18-arrow.png}
+\end{figure}
+
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
@@ -530,7 +533,7 @@ PlayerInGame & E & 40 & L \\
 
 \subsubsection*{Operazione 19 - Mostrare per ogni giocatore il numero di avversari con cui ha giocato}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.47]{images/Progettazione/Logica/OP19-arrow.png}
+    \centering\includegraphics[scale=0.7]{images/Progettazione/Logica/OP19-arrow.png}
 \end{figure}
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
@@ -548,7 +551,7 @@ PlayerInGame & R & 40 & L \\
 
 \subsubsection*{Operazione 20 - Visualizzare per ogni regione l'espansione più giocata}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.47]{images/Progettazione/Logica/OP20-arrow.png}
+    \centering\includegraphics[scale=0.7]{images/Progettazione/Logica/OP20-arrow.png}
 \end{figure}
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
@@ -574,7 +577,7 @@ Expansion & E & 4 & L \\
 
 \subsubsection*{Operazione 21 - Mostrare per ogni colore la probabilità statistica di vincere}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.47]{images/Progettazione/Logica/OP21-arrow.png}
+    \centering\includegraphics[scale=0.7]{images/Progettazione/Logica/OP21-arrow.png}
 \end{figure}
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
@@ -597,11 +600,9 @@ Color & E & 10 & L \\
 \subsection{Raffinamento dello schema}
 \subsubsection*{Eliminazione delle gerarchie}
 Per l'eliminazione della gerarchia TileType si è scelto di rimuovere l'entità BasicTile e collassare verso l'alto l'entità ExpansionTile. Questo è stato possibile perché si è deciso di creare un'espansione base contenente tutti i TileType contenuti in BasicTile, rendendo quest'ultima entità inutile. La stessa strategia è stata adottata anche per le gerarchie MeepleType e GamesetType in quanto la situazione era la medesima.
-\medskip
 
 \subsubsection*{Eliminazione degli attributi compositi}
 Nello schema l'entità Tile contiene l'attributo composito Position che è stato quindi diviso nelle sue sotto-componenti. Sarà poi compito dell'applicazione accertarsi che tali attributi siano coerenti l'uno con l'altro.
-\medskip
 
 \subsubsection*{Eliminazione degli identificatori esterni}
 Nello schema E/R sono state eliminate le seguenti relazioni:
@@ -633,7 +634,6 @@ Nello schema E/R sono state eliminate le seguenti relazioni:
 \end{itemize}
 In tile\_section\_types abbiamo scelto di importare due volte name da se stessa per avere sia la successiva che la precedente TileSection.
 
-\medskip
 \subsubsection*{Scelta delle chiavi primarie}
 La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nello schema. Da notare l'entità Tile che è identificata tramite l'id della partita e l'ordine preciso in cui viene giocata. Per quanto riguarda l'entità TileSection questa è invece identificata tramite la Tile e il TileSectionType che è univoco all'interno di una Tile. Infine, l'entità TileTypeConfiguration è identificata con il TileType, il TileSectionType e un id aggiuntivo usato per distinguere i vari insiemi di GamesetType uguali presenti su una Tile di quel TileType. Questo è obbligatorio in quanto su una stessa Tile potrebbero esserci due Gameset con stesso GamesetType da considerare separati.
 
