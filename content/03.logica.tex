@@ -150,7 +150,7 @@ Creare Meeple &  \\
 Prima della creazione di una partita è necessario verificare se i giocatori inseriti sono già presenti nel database. In media un giocatore su 4 è iscritto. Inoltre in media una partita è composta da 4 giocatori.
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -171,7 +171,7 @@ Game & R & 1 & S \\
 \end{tabular}}
 
 \subsubsection*{Operazione 1.2 - Selezione Server}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -187,7 +187,7 @@ Hosting & R & 1 & S \\
 In media nella creazione di una partita viene selezionata 1 espansione.
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -200,7 +200,7 @@ Using & R & 1 & S \\
 \end{tabular}}
 
 \subsubsection*{Operazione 1.4 - Creazione Tiles}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -250,7 +250,7 @@ Preceding & R & 12 & S \\
 Ricordiamo che in media in una partita sono presenti 4 giocatori, ogni giocatore ha 8 meeple a disposizione.
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -278,7 +278,7 @@ Per visualizzare i server di gioco disponibili dobbiamo verificare se la quantit
     \centering\includegraphics[scale=0.8]{images/Progettazione/Logica/OP2-arrow.png}
 \end{figure}
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -293,7 +293,7 @@ Server & E & 10 & L \\
 \end{tabular}}
 
 \subsubsection*{Operazione 3 - Visualizzare tutte le espansioni}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -304,7 +304,7 @@ Expansion & E & 4 & L \\
 \end{tabular}}
 
 \subsubsection*{Operazione 4 - Creare un nuovo giocatore}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -315,7 +315,7 @@ Player & E & 1 & S \\
 \end{tabular}}
 
 \subsubsection*{Operazione 5 - Visualizzare tutti i colori}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -326,7 +326,7 @@ Color & E & 12 & L \\
 \end{tabular}}
 
 \subsubsection*{Operazione 6 - Visualizzare il giocatore corrente}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -337,7 +337,7 @@ PlayerInGame & E & 1 & L \\
 \end{tabular}}
 
 \subsubsection*{Operazione 7 - Visualizzare la tessera corrente}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -351,7 +351,7 @@ Tile & E & 1 & L \\
 La rotazione di una tessera prevede che i rispettivi settori, tranne il centrale, cambino il proprio tipo.
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -373,7 +373,7 @@ TileSectionType & E & 12 & L \\
 Piazzare la tessera corrente porta all'unione con le tessere circostanti, il che implica la modifica dei gameset presenti nelle section. In media sono presenti 2 tile attorno ad una tile appena piazzata, dunque, in media vengono uniti 12 gameset per piazzamento.
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -396,7 +396,7 @@ Classification(Gameset) & R & 12 & S \\
 \end{tabular}}
 
 \subsubsection*{Operazione 10 - Piazzare o rimuovere un seguace su una sezione di una tessera}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -409,7 +409,7 @@ Placement & E & 1 & S \\
 \end{tabular}}
 
 \subsubsection*{Operazione 11 - Visualizzare i seguaci disponibili ad un giocatore}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -424,7 +424,7 @@ Meeple & E & 1 & L \\
 \end{tabular}}
 
 \subsubsection*{Operazione 12 - Assegnare dei punti ad un giocatore}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -438,7 +438,7 @@ PlayerInGame & E & 1 & S \\
 Aggiornare la tessera corrente implica modificare sia la Tile successiva che la corrente.
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -452,7 +452,7 @@ Tiles & E & 2 & S \\
 Aggiornare il giocatore corrente implica modificare sia il PlayerInGame successivo che il corrente.
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -463,7 +463,7 @@ PlayersInGame & E & 2 & S \\
 \end{tabular}}
 
 \subsubsection*{Operazione 15 - Visualizzare le partite non concluse}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -474,7 +474,7 @@ Game & E & 10 & L \\
 \end{tabular}}
 
 \subsubsection*{Operazione 16 - Visualizzare i giocatori di un partita}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -489,7 +489,7 @@ Game & E & 10 & L \\
 \end{tabular}}
 
 \subsubsection*{Operazione 17 - Visualizzare le tessere piazzate in una partita}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -508,7 +508,7 @@ Game & E & 10 & L \\
     \centering\includegraphics[scale=0.6]{images/Progettazione/Logica/OP18-arrow.png}
 \end{figure}
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -536,7 +536,7 @@ PlayerInGame & E & 40 & L \\
     \centering\includegraphics[scale=0.7]{images/Progettazione/Logica/OP19-arrow.png}
 \end{figure}
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -554,7 +554,7 @@ PlayerInGame & R & 40 & L \\
 \begin{figure}[ht]
     \centering\includegraphics[scale=0.7]{images/Progettazione/Logica/OP20-arrow.png}
 \end{figure}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -580,7 +580,7 @@ Expansion & E & 4 & L \\
 \begin{figure}[ht]
     \centering\includegraphics[scale=0.7]{images/Progettazione/Logica/OP21-arrow.png}
 \end{figure}
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -644,7 +644,7 @@ La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nell
 Le operazioni 10 e 11 fanno uso del campo Placed in Meeple. Costituisce una ridondanza in quanto per verificare se un seguace è stato collocato su un settore è sufficiente verificare se è presente l'associazione Placement. Nel caso dell'operazione 10, con ridondanza:
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -662,7 +662,7 @@ Placement & E & 1 & S \\
 Mentre senza ridondanza abbiamo:
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -680,7 +680,7 @@ Placement & E & 1 & S \\
 Potrebbe quindi sembrare che l'utilizzo della ridondanza sia svantaggioso. Per l'operazione 11 con ridondanza si ottiene:
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -699,7 +699,7 @@ Owning & E & 1 & L \\
 Senza la ridondanza:
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -724,7 +724,7 @@ Si decide di prediligere l'utilizzo della ridondanza. In quanto l'operazione 11 
 Il campo Concluded è utilizzato nell'operazione 15 e identificata una ridondanza in quando per dichiarare una partita conclusa è sufficiente verificare se tutte le tessere in essa sono state piazzate. Vediamo lo schema con la ridondanza:
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
@@ -740,7 +740,7 @@ Game & E & 10 & L \\
 Senza ridondanza invece:
 \medskip
 
-\centerline{\begin{tabular}{ |c|c|l|c| }
+\centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
