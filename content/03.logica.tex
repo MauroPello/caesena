@@ -122,6 +122,454 @@ Si suppone che ogni giorno vengano giocate 10 partite alla quale partecipano ogn
 
 \subsection{Schemi di navigazione e tabelle degli accessi}
 
+Di seguito sono presenti le tabelle che mostrano gli ingressi delle operazioni menzionate in precedenza. Inoltre, quando appropriato, sono stati inclusi gli schemi di navigazione corrispondenti. Per quanto riguarda il calcolo dei costi, si attribuisce un peso doppio agli accessi in scrittura rispetto a quelli in lettura.
+\medskip
+
+\subsubsection{Operazione 1 - Creare una nuova partita}
+    La creazione della partita richiede una grande quantità di altre operazioni contemporaneamente. Andremo successivamente nel dettaglio, per il momento segue la somma delle operazioni:
+    \medskip
+    \centerline{\begin{tabular}{ |c|l| }
+        \hline
+        \textbf{Operazione} & \textbf{Accessi} \\
+        \hline
+        Ricerca giocatori &  \\
+        \hline
+        Selezione Server &  \\
+        \hline
+        Selezione Expansion & \\
+        \hline
+        Creazione Tiles &  \\
+        \hline
+        Creare Meeple &  \\
+        \hline
+        & \textbf{Totale:} S + L $\to$ 10 al giorno \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 1.1 - Ricerca giocatori}
+    Prima della creazione di una partita è necessario verificare se i giocatori inseriti sono già presenti nel database. In media un giocatore su 4 è iscritto. Inoltre in media una partita è composta da 4 giocatori.
+    \medskip
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Player & E & 1 & S \\
+        \hline
+        Player & E & 3 & L \\
+        \hline
+        Participation(Player-PlayerInGame) & R & 4 & S \\
+        \hline
+        PlayerInGame & R & 4 & S \\
+        \hline
+        Participation(PlayerInGame-Game) & R & 4 & S \\
+        \hline
+        Game & R & 1 & S \\
+        \hline
+        & & \textbf{Totale:} 14S + 3L $\to$ 10 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 1.2 - Selezione Server}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Server & E & 1 & L \\
+        \hline
+        Hosting & R & 1 & S \\
+        \hline
+        & & \textbf{Totale:} 1S + 1L $\to$ 10 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 1.3 - Selezione Expansion}
+    In media nella creazione di una partita viene selezionata 1 espansione.
+    \medskip
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Expansion & E & 1 & L \\
+        \hline
+        Using & R & 1 & S \\
+        \hline
+        & & \textbf{Totale:} 1S + 1L $\to$ 10 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 1.4 - Creazione Tiles}
+    \medskip
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Expansion & E & 1 & L \\
+        \hline
+        Using(Expansion-ExpansionTile) & R & 5 & L \\
+        \hline
+        BasicTile & R & 17 & L \\
+        \hline
+        TileType & E & 22 & L \\
+        \hline
+        Classification(TileType-Tile) & R & 72 & S \\
+        \hline
+        Tile & E & 72 & S \\
+        \hline
+        Description & R & 325 & L \\
+        \hline
+        TileTypeConfiguration & E & 325 & L \\
+        \hline
+        Composition(TileTypeConfiguration-GamesetType) & R & 325 & L \\
+        \hline
+        GamesetType & E & 5 & L \\
+        \hline
+        Classification(GamesetType-Gameset) & R & 150 & S \\
+        \hline
+        Gameset & E & 150 & S \\
+        \hline
+        Composition(TileTypeConfiguration-TileSectionType) & R & 325 & L \\
+        \hline
+        TileSectionType & E & 13 & L \\
+        \hline
+        Classification(TileSectionType-TileSection) & R & 806 & S \\
+        \hline
+        Composition(TileSection-Gameset) & R & 806 & S \\
+        \hline
+        Composition(TileSection-Tile) & R & 806 & S \\
+        \hline
+        TileSection & E & 806 & S \\
+        \hline
+        Preceding & R & 12 & S \\
+        \hline
+        & & \textbf{Totale:}  2878S + 1363L $\to$ 10 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 1.5 - Creare Meeple}
+    Ricordiamo che in media in una partita sono presenti 4 giocatori, ogni giocatore ha 8 meeple a disposizione.
+    \medskip
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Expansion & E & 4 & L \\
+        \hline
+        Using & R & 1 & L \\
+        \hline
+        MeepleType & E & 2 & L \\
+        \hline
+        Classification & R & 32 & S \\
+        \hline
+        Meeple & E & 32 & S \\
+        \hline
+        Owning & R & 32 & S \\
+        \hline
+        & & \textbf{Totale:} 96S + 7L $\to$ 10 al giorno & \\
+        \hline
+    \end{tabular}}
+
+
+\subsubsection{Operazione 2 - Visualizzare i server di gioco disponibili}
+    Per visualizzare i server di gioco disponibili dobbiamo verificare se la quantità di partite attualmente attive su quel server sono superiori all'attributo "MaxGamesCount".
+    \medskip
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Game & E & 10 & L \\
+        \hline
+        Hosting & R & 10 & L \\
+        \hline
+        Server & E & 10 & L \\
+        & & \textbf{Totale:} 30L $\to$ 10 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 3 - Visualizzare tutte le espansioni}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Expansion & E & 4 & L \\
+        \hline
+        & & \textbf{Totale:} 4L $\to$ 10 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 4 - Creare un nuovo giocatore}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Player & E & 1 & S \\
+        \hline
+        & & \textbf{Totale:} 1S $\to$ 40 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 5 - Visualizzare tutti i colori}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Color & E & 12 & L \\
+        \hline
+        & & \textbf{Totale:} 12L $\to$ 40 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 6 - Visualizzare il giocatore corrente}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        PlayerInGame & E & 1 & L \\
+        \hline
+        & & \textbf{Totale:} 1L $\to$ 700 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 7 - Visualizzare la tessera corrente}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Tile & E & 1 & L \\
+        \hline
+        & & \textbf{Totale:} 1L $\to$ 700 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 8 - Ruotare la tessera corrente}
+    La rotazione di una tessera prevede che i rispettivi settori, tranne il centrale, cambino il proprio tipo.
+    \medskip
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Tile & E & 1 & L \\
+        \hline
+        Composition & R & 12 & L \\
+        \hline
+        TileSection & E & 12 & L \\
+        \hline
+        Classification & R & 12 & S \\
+        \hline
+        TileSectionType & E & 12 & L \\
+        \hline
+        & & \textbf{Totale:} 12S + 37L $\to$ 300 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 9 - Piazzare la tessera corrente}
+    Piazzare la tessera corrente porta all'unione con le tessere circostanti, il che implica la modifica dei gameset presenti nelle section. In media sono presenti 2 tile attorno ad una tile appena piazzata, dunque, in media vengono uniti 12 gameset per piazzamento.
+    \medskip
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Tile & E & 2 & L \\
+        \hline
+        Tile & E & 2 & S \\
+        \hline
+        Composition(Tile-TileSection) & R & 12 & L \\
+        \hline
+        TileSection & E & 12 & L\\
+        \hline
+        Composition(TileSection-Gameset) & R & 12 & S \\
+        \hline
+        Gameset & R & 12 & S \\
+        \hline
+        Classification(Gameset-GamesetType) & R & 12 & S \\
+        \hline
+        & & \textbf{Totale:} 38S + 26L $\to$ 700 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 10 - Piazzare o rimuovere un seguace su una sezione di una tessera}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Meeple & E & 1 & S \\
+        \hline
+        Placement & E & 1 & S \\
+        \hline
+        & & \textbf{Totale:} 2S $\to$ 350 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 11 - Visualizzare i seguaci disponibili ad un giocatore}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        PlayerInGame & E & 1 & L \\
+        \hline
+        Owning & R & 1 & L \\
+        \hline
+        Meeple & E & 1 & L \\
+        & & \textbf{Totale:} 3L $\to$ 700 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 12 - Assegnare dei punti ad un giocatore}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        PlayerInGame & E & 1 & S \\
+        \hline
+        & & \textbf{Totale:} 1S $\to$ 200 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 13 - Aggiornare la tessera corrente}
+    Aggiornare la tessera corrente implica modificare sia la Tile successiva che la corrente.
+    \medskip
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Tiles & E & 2 & S \\
+        \hline
+        & & \textbf{Totale:} 2S $\to$ 700 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 14 - Aggiornare il giocatore corrente}
+    Aggiornare il giocatore corrente implica modificare sia il PlayerInGame successivo che il corrente.
+    \medskip
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        PlayersInGame & E & 2 & S \\
+        \hline
+        & & \textbf{Totale:} 2S $\to$ 700 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 15 - Visualizzare le partite non concluse}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Game & E & 10 & L \\
+        \hline
+        & & \textbf{Totale:} 10L $\to$ 5 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 16 - Visualizzare i giocatori di un partita}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        PlayerInGame & E & 40 & L \\
+        \hline
+        Participation & R & 40 & L \\
+        \hline
+        Game & E & 10 & L \\
+        \hline
+        & & \textbf{Totale:} 90L $\to$ 700 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 17 - Visualizzare le tessere piazzate in una partita}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Tile & E & 620 & L \\
+        \hline
+        Composition & R & 620 & L \\
+        \hline
+        Game & E & 10 & L \\
+        \hline
+        & & \textbf{Totale:} 1250L $\to$ 5 al giorno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 18 - Visualizzare le regioni in ordine di punteggio medio dei giocatori}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        Region & E & 6 & L \\
+        \hline
+        Location & R & 10 & L \\
+        \hline
+        Server & E & 10 & L \\
+        \hline
+        Hosting & R & 10 & L \\
+        \hline
+        Game & E & 10 & L \\
+        \hline
+        Participation & R & 40 & L \\
+        \hline
+        PlayerInGame & E & 40 & L \\
+        \hline
+        & & \textbf{Totale:} 126L $\to$ 2 al mese & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 19 - Mostrare per ogni giocatore il numero di avversari con cui ha giocato}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Player & E & 40 & L \\
+        \hline
+        Participation(Player-PlayerInGame) & R & 40 & L \\
+        \hline
+        PlayerInGame & R & 40 & L \\
+        \hline
+        & & \textbf{Totale:} 120L $\to$ 4 all'anno & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 20 - Visualizzare per ogni regione l'espansione più giocata}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Region & E & 6 & L \\
+        \hline
+        Location & R & 10 & L \\
+        \hline
+        Server & E & 10 & L \\
+        \hline
+        Hosting & R & 10 & L \\
+        \hline
+        Game & E & 10 & L \\
+        \hline
+        Using & R & 10 & L \\
+        \hline
+        Expansion & E & 4 & L \\
+        \hline
+        & & \textbf{Totale:} 70L $\to$ 1 al mese & \\
+        \hline
+    \end{tabular}}
+
+\subsubsection{Operazione 21 - Mostrare per ogni colore la probabilità statistica di vincere}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        PlayerInGame & E & 40 & L \\
+        \hline
+        Participation & R & 40 & L \\
+        \hline
+        Game & E & 40 & L \\
+        \hline
+        Having & R & 40 & L \\
+        \hline
+        Color & E & 10 & L
+        & & \textbf{Totale:} 170L $\to$ 1 al giorno & \\
+        \hline
+    \end{tabular}}
+
+
 \subsection{Raffinamento dello schema}
 \subsubsection*{Eliminazione delle gerarchie}
 Per l'eliminazione della gerarchia TileType si è scelto di rimuovere l'entità BasicTile e collassare verso l'alto l'entità ExpansionTile. Questo è stato possibile perché si è deciso di creare un'espansione base contenente tutti i TileType contenuti in BasicTile, rendendo quest'ultima entità inutile. La stessa strategia è stata adottata anche per le gerarchie MeepleType e GamesetType in quanto la situazione era la medesima.
@@ -166,6 +614,103 @@ In tile\_section\_types abbiamo scelto di importare due volte name da se stessa 
 La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nello schema. Da notare l'entità Tile che è identificata tramite l'id della partita e l'ordine preciso in cui viene giocata. Per quanto riguarda l'entità TileSection questa è invece identificata tramite la Tile e il TileSectionType che è univoco all'interno di una Tile. Infine, l'entità TileTypeConfiguration è identificata con il TileType, il TileSectionType e un id aggiuntivo usato per distinguere i vari insiemi di GamesetType uguali presenti su una Tile di quel TileType. Questo è obbligatorio in quanto su una stessa Tile potrebbero esserci due Gameset con stesso GamesetType da considerare separati.
 
 \subsection{Analisi delle ridondanze}
+
+\subsubsection{Ridondanza riguardo al campo Placed in Meeple}
+Le operazioni 10 e 11 fanno uso del campo Placed in Meeple. Costituisce una ridondanza in quanto per verificare se un seguace è stato collocato su un settore è sufficiente verificare se è presente l'associazione Placement. Nel caso dell'operazione 10, con ridondanza:
+\centerline{\begin{tabular}{ |c|c|l|c| }
+    \hline
+    \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+    \hline
+    Meeple & E & 1 & S \\
+    \hline
+    Placement & E & 1 & S \\
+    \hline
+    & & \textbf{Totale:} 2S $\to$ 350 al giorno & \\
+    \hline
+    \multicolumn{3}{|l|}{\textbf{Costo Totale} = 2*2*350 = \textbf{1400}}
+    \hline
+\end{tabular}}
+Mentre senza ridondanza abbiamo:
+\centerline{\begin{tabular}{ |c|c|l|c| }
+    \hline
+    \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+    \hline
+    Meeple & E & 1 & L \\
+    \hline
+    Placement & E & 1 & S \\
+    \hline
+    & & \textbf{Totale:} 1L + 1S $\to$ 350 al giorno & \\
+    \hline
+    \multicolumn{3}{|l|}{\textbf{Costo Totale} = (1 + 2) * 350 = \textbf{1050}}
+    \hline
+\end{tabular}}
+Potrebbe quindi sembrare che l'utilizzo della ridondanza sia svantaggioso. Per l'operazione 11 con ridondanza si ottiene:
+\centerline{\begin{tabular}{ |c|c|l|c| }
+    \hline
+    \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+    \hline
+    PlayerInGame & E & 1 & L \\
+    \hline
+    Owning & R & 1 & L \\
+    \hline
+    Owning & E & 1 & L \\
+    & & \textbf{Totale:} 3L $\to$ 700 al giorno & \\
+    \hline
+    \multicolumn{3}{|l|}{\textbf{Costo Totale} = 3*700 = \textbf{2100}}
+    \hline
+\end{tabular}}
+Senza la ridondanza:
+\centerline{\begin{tabular}{ |c|c|l|c| }
+    \hline
+    \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+    \hline
+    PlayerInGame & E & 1 & L \\
+    \hline
+    Owning & R & 1 & L \\
+    \hline
+    Meeple & E & 1 & L \\
+    \hline
+    Placement & E & 1 & L \\
+    & & \textbf{Totale:} 4L $\to$ 700 al giorno & \\
+    \hline
+    \multicolumn{3}{|l|}{\textbf{Costo Totale} = 4*700 = \textbf{2800}}
+    \hline
+\end{tabular}}
+Si decide di prediligere l'utilizzo della ridondanza. In quanto l'operazione 11 è sempre utilizzata più spesso rispetto all'operazione 10.
+
+
+\subsubsection{Ridondanza riguardo al campo Concluded in Game}
+Il campo Concluded è utilizzato nell'operazione 15 e identificata una ridondanza in quando per dichiarare una partita conclusa è sufficiente verificare se tutte le tessere in essa sono state piazzate. Vediamo lo schema con la ridondanza:
+\subsubsection{Operazione 15 - Visualizzare le partite non concluse}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Game & E & 10 & L \\
+        \hline
+        & & \textbf{Totale:} 10L $\to$ 5 al giorno & \\
+        \hline
+        \multicolumn{3}{|l|}{\textbf{Costo Totale} = 10*5 = \textbf{50}}
+        \hline
+    \end{tabular}}
+Senza ridondanza invece:
+\subsubsection{Operazione 15 - Visualizzare le partite non concluse}
+    \centerline{\begin{tabular}{ |c|c|l|c| }
+        \hline
+        \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
+        \hline
+        Game & E & 10 & L \\
+        \hline
+        Composition & R & 620 & L \\
+        \hline
+        Tile & E & 620 & L \\
+        \hline
+        & & \textbf{Totale:} 1250L $\to$ 5 al giorno & \\
+        \hline
+        \multicolumn{3}{|l|}{\textbf{Costo Totale} = 1250*5 = \textbf{6250}}
+        \hline
+    \end{tabular}}
+
 
 \subsection{Traduzione di entità e associazioni in relazioni}
 \hspace{1.5em}players(\textbf{name})\newline
