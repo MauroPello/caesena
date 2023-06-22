@@ -15,7 +15,7 @@ Le tessere hanno un ordine preciso nella quale devono esse giocate e sono di div
 All'interno di una tessera sono presenti più sezioni, contraddistinte dalla struttura e dall'eventuale seguace su di loro presente. Ognuna di queste dovrà poter essere considerata chiusa, ovvero combaciante con un'altra sezione di una tessera adiacente. È quindi necessario per ogni tessera definire un modo per poterla configurare alla sua creazione.
 \medskip
 
-Le strutture sono di diversi tipi e possono contenere dei punti ed essere considerate chiuse. Ogni tipo è contraddistinto dall'espansione alla quale appartiene, da quanti punti una struttura di quel tipo contiene alla creazione e dal rapporto per cui dividere i punti rimasti a fine partita.
+Le strutture sono di diversi tipi e possono contenere dei punti ed essere considerate chiuse. Ogni tipo è contraddistinto dall'espansione alla quale appartiene, da quanti punti una struttura di quel tipo contiene alla creazione e dal numero per cui dividere i punti rimasti a fine partita.
 \medskip
 
 I seguaci possono essere piazzati su una sezione di una tessera, sono di diversi tipi ed appartengono ad un giocatore. Ogni tipo è contraddistinto dalla propria forza, dall'espansione alla quale appartiene e da quanti seguaci di quel tipo vanno assegnati ad ogni giocatore.
@@ -41,11 +41,11 @@ Espansione & Insieme di tessere, strutture e seguaci aggiuntivi & Expansion \\
 \hline
 Tessera & Elemento di gioco da piazziare a ogni turno della partita in modo tale che combaci con le tessere precedenti & Tassello, tile\\
 \hline
-Sezione & Parte di una tessera contenente strutture sulla quale è possibile piazzare seguaci & Section\\
+Sezione & Parte di una tessera contenente una struttura sulla quale è possibile piazzare un seguace & Section\\
 \hline
-Struttura & Componente di gioco che permette di ricevere punti in caso di presenza di seguace & Gameset\\
+Struttura & Componente di gioco che permette di ricevere punti in caso di presenza di un seguace & Gameset\\
 \hline
-Seguace & Componente di gioco posizionabile nelle strutture, alla chiusure di esse il seguace viene ridato al giocatore. Quest'ultimo riceve punteggio a seconda della struttura & Pedina, Meeple\\
+Seguace & Componente di gioco posizionabile nelle strutture, alla chiusure di esse il seguace viene restituito al giocatore & Pedina, Meeple\\
 \hline
 Server & Sistema o piattaforma che ospita le partite online & \\
 \hline
@@ -54,23 +54,31 @@ Regione & Area geografica o regionale nella quale giocare & Region, area \\
 \end{tabular}}
 \medskip
 
-Dopo aver letto e compreso i requisiti, si procede a scrivere un documento che riassuma tutte le idee e, in particolare, evidenzi i concetti principali eliminando eventuali le ambiguità.
-Ogni \textbf{\emph{giocatore}}, identificato univocamente con un nome, deve essere in grado di partecipare a più partite, anche contemporaneamente. Sono presenti informazioni legate al giocatore che valgono solo all'interno di una \textbf{\emph{partita}}, in particolar modo il punteggio e il colore identificativo, per questo motivo diventa necessario considerare l'esistenza di un \textbf{\emph{giocatore in partita}}.
+Dopo aver letto e compreso i requisiti, si procede a scrivere un documento che riassuma tutte le idee e, in particolare, evidenzi i concetti principali eliminando eventuali ambiguità.
 \medskip
 
-Inoltre per ogni partita bisogna salvare lo stato di completamento. Ogni partita può fare uso di diverse \textbf{\emph{espansioni}}, che definisco modifiche al gioco base e possono quindi contenere nuovi seguaci, nuove tessere e nuove strutture. Inoltre per ogni partita devono essere univocalmente presenti un determinato numero di seguaci, tessere e strutture, che non possono quindi esistere fuori dal contesto di una partita. Per ogni \textbf{\emph{seguace}} bisogna sapere il proprio giocatore, il tipo di seguace e se è correntemente piazzato all'interno di un settore.
+Ogni \textbf{\emph{giocatore}}, identificato univocamente con un nome, deve essere in grado di partecipare a più partite, anche contemporaneamente. Sono presenti informazioni legate al giocatore che valgono solo all'interno di una \textbf{\emph{partita}}, in particolar modo il punteggio e il \textbf{\emph{colore}}, per questo motivo diventa necessario considerare l'esistenza di un \textbf{\emph{giocatore in partita}}.
 \medskip
 
-Il \textbf{\emph{tipo di seguace}} esiste al di fuori del contesto della partita e determina, di un dato seguace, l'espansione di cui fa parte, la sua forza e la quantità di seguaci di suddetto tipo che vengono assegnati a ogni giocatore. Di ogni \textbf{\emph{tessera}} è necessario salvare il loro ordine all'interno della partita e il loro tipo.
+Inoltre per ogni partita bisogna salvarne lo stato di completamento. Ogni partita può fare uso di diverse \textbf{\emph{espansioni}}, che possono contenere nuovi seguaci, nuove tessere e nuove strutture. Inoltre per ogni partita devono essere univocalmente presenti un determinato numero di seguaci, tessere e strutture, che non possono quindi esistere fuori dal contesto di una partita.
 \medskip
 
-Il \textbf{\emph{tipo di tessera}} esiste al di fuori del contesto della partita e determina, sulla base di una determinata tessera, l'espansione di cui fa parte e la quantità di tessere di quel tipo che devono essere presenti in una partita. Ogni tessera è composta da diversi \textbf{\emph{settori}}, che devono contenere una \textbf{\emph{struttura}}. Ogni settore è ha un tipo e il \textbf{\emph{tipo di settore}} determina i settori circostanti. È anche necessario avere un \textbf{\emph{configuratore di tipo di tile}} che definisce la correlazione di un tipo di tile, il tipo dei sui settori e il tipo delle strutture presenti nei settori.
+Per ogni \textbf{\emph{seguace}} bisogna sapere il giocatore proprietario, il tipo di seguace e se è correntemente piazzato all'interno di una sezione.
 \medskip
 
-Di ogni struttura bisogna sapere se è chiusa o meno e il loro punteggio. Le strutture possono essere di diversi tipi e il \textbf{\emph{tipo di struttura}}, che esiste al di fuori del contesto di una partita, indica l'espansione alla quale appartiene, da quanti punti una struttura di quel tipo contiene alla creazione e dal rapporto per cui dividere i punti rimasti a fine partita.
+Il \textbf{\emph{tipo di seguace}} esiste al di fuori del contesto della partita e determina, di un dato seguace, l'espansione di cui fa parte, la sua forza e la quantità di seguaci di suddetto tipo che vanno assegnati a ogni giocatore.
 \medskip
 
-Le partite sono giocate all'interno di un \textbf{\emph{server}} e per ognuno si memorizza il loro stato(se attivo o meno), il numero massimo di partite giocabili. Per ogni server bisogna anche sapere la \textbf{\emph{regione}} in cui si trova, che è composta dal \textbf{\emph{continente}} e dal \textbf{\emph{punto cardinale}}.
+Di ogni \textbf{\emph{tessera}} è necessario salvare l'ordine all'interno della partita, la posizione sul tabellone e il tipo. Ulteriormente, una tessera è composta anche da diverse \textbf{\emph{sezioni}}. Ognuna di queste contiene una \textbf{\emph{struttura}} ed ha un certo \textbf{\emph{tipo di sezione}} che determina i settori circostanti. È anche necessario avere un \textbf{\emph{configuratore di tipo di tile}} che definisce la correlazione di un tipo di tile, il tipo delle sezioni e il tipo delle strutture presenti su di esse.
+\medskip
+
+Il \textbf{\emph{tipo di tessera}} esiste al di fuori del contesto della partita e determina, sulla base di una data tessera, l'espansione di cui fa parte e la quantità di tessere di quel tipo che devono essere presenti in una partita.
+\medskip
+
+Di ogni struttura bisogna sapere se è chiusa o meno e il punteggio. Le strutture possono essere di diversi tipi e il \textbf{\emph{tipo di struttura}}, che esiste al di fuori del contesto di una partita, indica l'espansione alla quale appartiene, quanti punti una struttura di quel tipo contiene alla creazione e il numero per cui dividere i punti rimasti a fine partita.
+\medskip
+
+Le partite sono giocate all'interno di un \textbf{\emph{server}} e per ognuno se ne memorizza lo stato (se è attivo o meno) e il numero massimo di partite giocabili. Per ogni server bisogna anche sapere la \textbf{\emph{regione}} in cui si trova, che è composta dal \textbf{\emph{continente}} e dal \textbf{\emph{punto cardinale}}.
 \medskip
 
 Segue per chiarezza quali elementi esistono nel contesto di una partita e quali invece sono universali:
@@ -79,31 +87,31 @@ Segue per chiarezza quali elementi esistono nel contesto di una partita e quali 
 \hline
 \textbf{Elemento} & \textbf{Univoco ad una partita} \\
 \hline
-Giocatore & No \\
+Struttuta & Si \\
 \hline
 Giocatore in partita & Si \\
 \hline
-Espansioni & No \\
-\hline
 Seguace & Si \\
-\hline
-Tipo di seguace & No \\
-\hline
-Tessera & Si \\
-\hline
-Tipo di tessera & No \\
-\hline
-Struttuta & Si \\
-\hline
-Tipo di struttura & No \\
 \hline
 Settore & Si \\
 \hline
+Tessera & Si \\
+\hline
+Giocatore & No \\
+\hline
+Espansioni & No \\
+\hline
+Tipo di seguace & No \\
+\hline
+Tipo di struttura & No \\
+\hline
+Tipo di tessera & No \\
+\hline
 Tipo di settore & No \\
 \hline
-Configuratore di tipo di tile & No \\
-\hline
 Server e regione & No \\
+\hline
+Configuratore di tipo di tile & No \\
 \hline
 \end{tabular}}
 \medskip
