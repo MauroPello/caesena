@@ -159,11 +159,11 @@ Player & E & 1 & S \\
 \hline
 Player & E & 3 & L \\
 \hline
-Participation(Player-PlayerInGame) & R & 4 & S \\
+Participation(Player) & R & 4 & S \\
 \hline
 PlayerInGame & R & 4 & S \\
 \hline
-Participation(PlayerInGame-Game) & R & 4 & S \\
+Participation(Game) & R & 4 & S \\
 \hline
 Game & R & 1 & S \\
 \hline
@@ -207,13 +207,13 @@ Using & R & 1 & S \\
 \hline
 Expansion & E & 1 & L \\
 \hline
-Using(Expansion-ExpansionTile) & R & 5 & L \\
+Using(ExpansionTile) & R & 5 & L \\
 \hline
 BasicTile & R & 17 & L \\
 \hline
 TileType & E & 22 & L \\
 \hline
-Classification(TileType-Tile) & R & 72 & S \\
+Classification(TileType) & R & 72 & S \\
 \hline
 Tile & E & 72 & S \\
 \hline
@@ -221,23 +221,23 @@ Description & R & 325 & L \\
 \hline
 TileTypeConfiguration & E & 325 & L \\
 \hline
-Composition(TileTypeConfiguration-GamesetType) & R & 325 & L \\
+Composition & R & 325 & L \\
 \hline
 GamesetType & E & 5 & L \\
 \hline
-Classification(GamesetType-Gameset) & R & 150 & S \\
+Classification(GamesetType) & R & 150 & S \\
 \hline
 Gameset & E & 150 & S \\
 \hline
-Composition(TileTypeConfiguration-TileSectionType) & R & 325 & L \\
+Regarding & R & 325 & L \\
 \hline
 TileSectionType & E & 13 & L \\
 \hline
-Classification(TileSectionType-TileSection) & R & 806 & S \\
+Classification(TileSectionType) & R & 806 & S \\
 \hline
-Composition(TileSection-Gameset) & R & 806 & S \\
+Location & R & 806 & S \\
 \hline
-Composition(TileSection-Tile) & R & 806 & S \\
+Subdivision & R & 806 & S \\
 \hline
 TileSection & E & 806 & S \\
 \hline
@@ -355,7 +355,7 @@ La rotazione di una tessera prevede che i rispettivi settori, tranne il centrale
 \hline
 Tile & E & 1 & L \\
 \hline
-Composition & R & 12 & L \\
+Subdivision & R & 12 & L \\
 \hline
 TileSection & E & 12 & L \\
 \hline
@@ -379,15 +379,15 @@ Tile & E & 2 & L \\
 \hline
 Tile & E & 2 & S \\
 \hline
-Composition(Tile-TileSection) & R & 12 & L \\
+Subdivision & R & 12 & L \\
 \hline
 TileSection & E & 12 & L\\
 \hline
-Composition(TileSection-Gameset) & R & 12 & S \\
+Location & R & 12 & S \\
 \hline
 Gameset & R & 12 & S \\
 \hline
-Classification(Gameset-GamesetType) & R & 12 & S \\
+Classification(Gameset) & R & 12 & S \\
 \hline
 & & \textbf{Totale:} 38S + 26L $\to$ 700 al giorno & \\
 \hline
@@ -531,7 +531,7 @@ PlayerInGame & E & 40 & L \\
 \hline
 Player & E & 40 & L \\
 \hline
-Participation(Player-PlayerInGame) & R & 40 & L \\
+Participation & R & 40 & L \\
 \hline
 PlayerInGame & R & 40 & L \\
 \hline
@@ -597,17 +597,17 @@ Nello schema E/R sono state eliminate le seguenti relazioni:
     \item Participation, importando id da games in players\_in\_game
     \item Having, importando hex da colors in players\_in\_game
     \item Owning, importando player\_name e game\_id da players\_in\_game in meeples
-    \item Composition, importando name da continents in regions
-    \item Composition, importando name da cardinal\_points in regions
+    \item Placement, importando name da continents in regions
+    \item Specifically, importando name da cardinal\_points in regions
     \item Location, importando id da regions in servers
     \item Hosting, importando id da servers in games
     \item Using, reificata importando id da games e name da expansions
     \item Composition, importando id da games in tiles
     \item Placement, importando id da meeples in tile\_sections
-    \item Composition, importando game\_id e order da tiles in tile\_sections
-    \item Composition, importando id da gamesets in tile\_sections
+    \item Subdivision, importando game\_id e order da tiles in tile\_sections
+    \item Location, importando id da gamesets in tile\_sections
     \item Preceding, importando name da tile\_section\_types in tile\_section\_types
-    \item Composition, importando name da tile\_section\_types in tile\_types\_configurations
+    \item Regarding, importando name da tile\_section\_types in tile\_types\_configurations
     \item Composition, importando name da gameset\_types in tile\_types\_configurations
     \item Description, importando name da tile\_types in tile\_types\_configurations
     \item Classification, importando name da meeple\_types in meeples
