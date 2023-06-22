@@ -117,7 +117,7 @@ public final class ControllerImpl implements Controller {
 
             for (var line : lines) {
                 this.session.beginTransaction();
-                this.session.createNativeQuery(line).executeUpdate();
+                this.session.createNativeQuery(line, String.class).executeUpdate();
                 this.session.getTransaction().commit();
             }
         }
