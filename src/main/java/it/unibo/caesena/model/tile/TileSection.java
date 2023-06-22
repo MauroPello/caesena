@@ -11,6 +11,7 @@ import jakarta.persistence.AccessType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -29,6 +30,8 @@ public class TileSection implements Serializable {
 
     @Id
     @ManyToOne(optional = false)
+    @JoinColumn(name = "tile_game_id", referencedColumnName = "game_id")
+    @JoinColumn(name = "tile_order", referencedColumnName = "order")
     private TileImpl tile;
 
     @ManyToOne(optional = false)

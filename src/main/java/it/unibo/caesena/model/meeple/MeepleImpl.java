@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -34,6 +35,8 @@ public class MeepleImpl implements MutableMeeple {
     private MeepleType type;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "owner_game_id", referencedColumnName = "game_id")
+    @JoinColumn(name = "owner_player_name", referencedColumnName = "player_name")
     private PlayerInGameImpl owner;
 
     @Column(nullable = false)
