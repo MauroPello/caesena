@@ -29,7 +29,7 @@ Using & R & 0 \\
 Game & E & 10 \\
 Participation & R & 40 \\
 Hosting & R & 10 \\
-Using & R & 0 \\
+Using & R & 10 \\
 \hline
 Expansion & E & 4 \\
 \hline
@@ -146,17 +146,12 @@ Creare Meeple &  \\
 \hline
 \end{tabular}}
 
-\subsubsection*{Operazione 1.1 - Ricerca giocatori}
-Prima della creazione di una partita è necessario verificare se i giocatori inseriti sono già presenti nel database. In media un giocatore su 4 è iscritto. Inoltre in media una partita è composta da 4 giocatori.
-\medskip
+\subsubsection*{Operazione 1.1 - Creazione PlayerInGame}
+Ad ogni partita partecipano 4 giocatori.
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
-\hline
-Player & E & 1 & S \\
-\hline
-Player & E & 3 & L \\
 \hline
 Participation(Player) & R & 4 & S \\
 \hline
@@ -164,9 +159,7 @@ PlayerInGame & R & 4 & S \\
 \hline
 Participation(Game) & R & 4 & S \\
 \hline
-Game & R & 1 & S \\
-\hline
-& & \textbf{Totale:} 14S + 3L $\to$ 10 al giorno & \\
+& & \textbf{Totale:} 12S $\to$ 10 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -175,11 +168,9 @@ Game & R & 1 & S \\
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-Server & E & 1 & L \\
-\hline
 Hosting & R & 1 & S \\
 \hline
-& & \textbf{Totale:} 1S + 1L $\to$ 10 al giorno & \\
+& & \textbf{Totale:} 1S $\to$ 10 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -191,11 +182,9 @@ In media nella creazione di una partita viene selezionata 1 espansione.
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-Expansion & E & 1 & L \\
-\hline
 Using & R & 1 & S \\
 \hline
-& & \textbf{Totale:} 1S + 1L $\to$ 10 al giorno & \\
+& & \textbf{Totale:} 1S $\to$ 10 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -204,17 +193,9 @@ Using & R & 1 & S \\
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
 \hline
-Expansion & E & 1 & L \\
+Classification(TileType) & R & 70 & S \\
 \hline
-Using(ExpansionTile) & R & 5 & L \\
-\hline
-BasicTile & R & 17 & L \\
-\hline
-TileType & E & 22 & L \\
-\hline
-Classification(TileType) & R & 72 & S \\
-\hline
-Tile & E & 72 & S \\
+Tile & E & 70 & S \\
 \hline
 Description & R & 325 & L \\
 \hline
@@ -222,43 +203,31 @@ TileTypeConfiguration & E & 325 & L \\
 \hline
 Composition & R & 325 & L \\
 \hline
-GamesetType & E & 5 & L \\
+Regarding & R & 325 & L \\
 \hline
 Classification(GamesetType) & R & 150 & S \\
 \hline
 Gameset & E & 150 & S \\
 \hline
-Regarding & R & 325 & L \\
+Classification(TileSectionType) & R & 910 & S \\
 \hline
-TileSectionType & E & 13 & L \\
+Location & R & 910 & S \\
 \hline
-Classification(TileSectionType) & R & 806 & S \\
+Subdivision & R & 910 & S \\
 \hline
-Location & R & 806 & S \\
+TileSection & E & 910 & S \\
 \hline
-Subdivision & R & 806 & S \\
-\hline
-TileSection & E & 806 & S \\
-\hline
-Preceding & R & 12 & S \\
-\hline
-& & \textbf{Totale:}  2878S + 1363L $\to$ 10 al giorno & \\
+& & \textbf{Totale:}  4080S + 1300L $\to$ 10 al giorno & \\
 \hline
 \end{tabular}}
 
 \subsubsection*{Operazione 1.5 - Creare Meeple}
-Ricordiamo che in media in una partita sono presenti 4 giocatori, ogni giocatore ha 8 meeple a disposizione.
+Ricordiamo che in una partita ogni giocatore ha 8 meeple a disposizione.
 \medskip
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
-\hline
-Expansion & E & 4 & L \\
-\hline
-Using & R & 1 & L \\
-\hline
-MeepleType & E & 2 & L \\
 \hline
 Classification & R & 32 & S \\
 \hline
@@ -266,7 +235,7 @@ Meeple & E & 32 & S \\
 \hline
 Owning & R & 32 & S \\
 \hline
-& & \textbf{Totale:} 96S + 7L $\to$ 10 al giorno & \\
+& & \textbf{Totale:} 96S $\to$ 10 al giorno & \\
 \hline
 \end{tabular}}
 
@@ -275,7 +244,7 @@ Per visualizzare i server di gioco disponibili dobbiamo verificare se la quantit
 \medskip
 
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.8]{images/Progettazione/Logica/OP2-arrow.png}
+    \centering\includegraphics[scale=0.9]{images/Progettazione/Logica/OP2-arrow.png}
 \end{figure}
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
@@ -499,7 +468,7 @@ Composition & R & 70 & L \\
 
 \subsubsection*{Operazione 18 - Visualizzare le regioni in ordine di punteggio medio dei giocatori}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.6]{images/Progettazione/Logica/OP18-arrow.png}
+    \centering\includegraphics[scale=0.75]{images/Progettazione/Logica/OP18-arrow.png}
 \end{figure}
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
@@ -524,10 +493,9 @@ PlayerInGame & E & 40 & L \\
 \hline
 \end{tabular}}
 
-\clearpage
 \subsubsection*{Operazione 19 - Mostrare per ogni giocatore il numero di avversari con cui ha giocato}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.7]{images/Progettazione/Logica/OP19-arrow.png}
+    \centering\includegraphics[scale=0.75]{images/Progettazione/Logica/OP19-arrow.png}
 \end{figure}
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
@@ -546,9 +514,10 @@ Participation(Game) & R & 40 & L \\
 \hline
 \end{tabular}}
 
+\clearpage
 \subsubsection*{Operazione 20 - Visualizzare per ogni regione l'espansione più giocata}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.7]{images/Progettazione/Logica/OP20-arrow.png}
+    \centering\includegraphics[scale=0.75]{images/Progettazione/Logica/OP20-arrow.png}
 \end{figure}
 \centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
@@ -574,7 +543,7 @@ Expansion & E & 4 & L \\
 
 \subsubsection*{Operazione 21 - Mostrare per ogni colore la probabilità statistica di vincere}
 \begin{figure}[ht]
-    \centering\includegraphics[scale=0.7]{images/Progettazione/Logica/OP21-arrow.png}
+    \centering\includegraphics[scale=0.75]{images/Progettazione/Logica/OP21-arrow.png}
 \end{figure}
 \centerline{\begin{tabular}{ |l|c|c|c| }
 \hline
@@ -674,7 +643,8 @@ Placement & E & 1 & S \\
 \medskip
 
 Potrebbe quindi sembrare che l'utilizzo della ridondanza sia svantaggioso.
-\clearpage
+\medskip
+
 Per l'operazione 11 con ridondanza si ottiene:
 
 \centerline{\begin{tabular}{ |l|c|c|c| }
