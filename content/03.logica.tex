@@ -628,6 +628,7 @@ La maggior parte delle chiavi primarie sono già evidenziate in modo chiaro nell
 
 \subsubsection*{Ridondanza riguardo al campo Placed in Meeple}
 Le operazioni 10 e 11 fanno uso del campo Placed in Meeple. Costituisce una ridondanza in quanto per verificare se un seguace è stato collocato su un settore è sufficiente verificare se è presente l'associazione Placement. Nel caso dell'operazione 10, con ridondanza:
+
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
@@ -643,6 +644,7 @@ Placement & E & 1 & S \\
 \end{tabular}}
 
 Mentre senza ridondanza abbiamo:
+
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
@@ -656,7 +658,9 @@ Placement & E & 1 & S \\
 \multicolumn{4}{|l|}{\textbf{Costo Totale} = (1 + 2) * 350 = \textbf{1050}} \\
 \hline
 \end{tabular}}
+
 Potrebbe quindi sembrare che l'utilizzo della ridondanza sia svantaggioso. Per l'operazione 11 con ridondanza si ottiene:
+
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
@@ -671,7 +675,9 @@ Owning & E & 1 & L \\
 \multicolumn{4}{|l|}{\textbf{Costo Totale} = 3*700 = \textbf{2100}} \\
 \hline
 \end{tabular}}
+
 Senza la ridondanza:
+
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
@@ -688,10 +694,12 @@ Placement & E & 1 & L \\
 \multicolumn{4}{|l|}{\textbf{Costo Totale} = 4*700 = \textbf{2800}} \\
 \hline
 \end{tabular}}
+
 Si decide di prediligere l'utilizzo della ridondanza. In quanto l'operazione 11 è sempre utilizzata più spesso rispetto all'operazione 10.
 
 \subsubsection*{Ridondanza riguardo al campo Concluded in Game}
 Il campo Concluded è utilizzato nell'operazione 15 e identificata una ridondanza in quando per dichiarare una partita conclusa è sufficiente verificare se tutte le tessere in essa sono state piazzate. Vediamo lo schema con la ridondanza:
+
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
@@ -703,7 +711,9 @@ Game & E & 10 & L \\
 \multicolumn{4}{|l|}{\textbf{Costo Totale} = 10*5 = \textbf{50}} \\
 \hline
 \end{tabular}}
+
 Senza ridondanza invece:
+
 \centerline{\begin{tabular}{ |c|c|l|c| }
 \hline
 \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accessi} & \textbf{Tipo} \\
