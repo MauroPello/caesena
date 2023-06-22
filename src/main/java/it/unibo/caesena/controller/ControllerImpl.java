@@ -1,6 +1,9 @@
 package it.unibo.caesena.controller;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -105,6 +108,19 @@ public final class ControllerImpl implements Controller {
         this.sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         this.session = sessionFactory.openSession();
         this.cb = this.session.getCriteriaBuilder();
+
+        if (this.session.get(TileSectionType.class, "DOWN_LEFT") == null) {
+            List<String> lines = new ArrayList<>();
+            try {
+                lines = Arrays.asList(new String(ClassLoader.getSystemResourceAsStream("it/unibo/caesena/data.sql").readAllBytes(), StandardCharsets.UTF_8).split("\n"));
+            } catch (IOException e) {}
+
+            for (var line : lines) {
+                this.session.beginTransaction();
+                this.session.createNativeQuery(line).executeUpdate();
+                this.session.getTransaction().commit();
+            }
+        }
 
         NEIGHBOUR_TILES_CHECK = new HashMap<>(Map.of(
                 Direction.UP,
